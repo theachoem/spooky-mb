@@ -1,8 +1,8 @@
+import 'package:spooky/theme/theme_config.dart';
 import 'package:stacked_services/stacked_services.dart';
-
-import 'core/locator.dart';
+import 'package:spooky/core/locator.dart';
 import 'package:flutter/material.dart';
-import 'core/route/router.gr.dart' as r;
+import 'package:spooky/core/route/router.gr.dart' as r;
 
 void main() {
   setupLocator();
@@ -21,6 +21,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: ThemeConfig.light().themeData,
+      darkTheme: ThemeConfig.dark().themeData,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
     );
