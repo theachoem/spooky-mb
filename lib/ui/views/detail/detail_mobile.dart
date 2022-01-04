@@ -1,10 +1,12 @@
 part of detail_view;
+
 class _DetailMobile extends StatelessWidget {
   final DetailViewModel viewModel;
-  _DetailMobile(this.viewModel);
+  const _DetailMobile(this.viewModel);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: Text('DetailMobile')),
     );
   }

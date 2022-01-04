@@ -17,17 +17,19 @@ import 'package:spooky/ui/views/setting/setting_view.dart';
       page: DetailView,
     ),
     MaterialRoute(
-      name: 'explore',
-      page: ExploreView,
-    ),
-    MaterialRoute(
-      name: 'home',
-      page: HomeView,
-      initial: true,
-    ),
-    MaterialRoute(
       name: 'main',
       page: MainView,
+      children: [
+        MaterialRoute(
+          name: 'explore',
+          page: ExploreView,
+        ),
+        MaterialRoute(
+          name: 'home',
+          page: HomeView,
+        ),
+      ],
+      initial: true,
     ),
   ],
 )

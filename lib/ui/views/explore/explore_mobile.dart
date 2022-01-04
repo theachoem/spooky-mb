@@ -1,10 +1,12 @@
 part of explore_view;
+
 class _ExploreMobile extends StatelessWidget {
   final ExploreViewModel viewModel;
-  _ExploreMobile(this.viewModel);
+  const _ExploreMobile(this.viewModel);
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: Text('ExploreMobile')),
     );
   }

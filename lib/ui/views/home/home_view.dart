@@ -19,7 +19,6 @@ class HomeView extends StatelessWidget {
       viewModelBuilder: () => HomeViewModel(),
       onModelReady: (model) {},
       builder: (context, model, child) {
-        print("REDJ");
         return ScreenTypeLayout(
           mobile: _HomeMobile(model),
           desktop: _HomeDesktop(model),

@@ -6,16 +6,16 @@ import 'package:spooky/core/route/router.gr.dart' as r;
 
 void main() {
   setupLocator();
-  runApp(MyApp());
+  runApp(App());
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({
+class App extends StatelessWidget {
+  App({
     Key? key,
   }) : super(key: key);
 
   final r.Router _appRouter = r.Router(
-    locator<NavigationService>().navigatorKey,
+    StackedService.navigatorKey,
   );
 
   @override
