@@ -80,70 +80,70 @@ class ConfigConstant {
   static const double objectHeight7 = 240.0;
 
   /// ```dart
-  /// radius = 4.0;
+  /// radius = 8.0;
   /// ```
-  static const double radius1 = 4.0;
+  static const double radius1 = 8.0;
 
   /// ```dart
-  /// radius1 = 10.0
+  /// radius1 = 16.0
   /// ```
-  static const double radius2 = 8.0;
+  static const double radius2 = 16.0;
 
   /// ```dart
-  /// circlarRadius1 = BorderRadius.circular(4.0)
+  /// circlarRadius1 = BorderRadius.circular(8.0)
   /// ```
-  static final BorderRadius circlarRadius1 = BorderRadius.circular(4.0);
+  static final BorderRadius circlarRadius1 = BorderRadius.circular(radius1);
 
   /// ```dart
-  /// circlarRadius2 = BorderRadius.circular(8.0)
+  /// circlarRadius2 = BorderRadius.circular(16.0)
   /// ```
-  static final BorderRadius circlarRadius2 = BorderRadius.circular(8.0);
+  static final BorderRadius circlarRadius2 = BorderRadius.circular(radius2);
 
   /// ```dart
   /// circlarRadiusTop1 = BorderRadius.vertical(
-  ///   top: Radius.circular(4.0),
+  ///   top: Radius.circular(8.0),
   /// );
   /// ```
   static const BorderRadius circlarRadiusTop1 = BorderRadius.vertical(
-    top: Radius.circular(4.0),
+    top: Radius.circular(radius1),
   );
 
   /// ```dart
   /// circlarRadiusTop2 = BorderRadius.vertical(
-  ///   top: Radius.circular(10.0),
+  ///   top: Radius.circular(16.0),
   /// );
   /// ```
   static const BorderRadius circlarRadiusTop2 = BorderRadius.vertical(
-    top: Radius.circular(8.0),
+    top: Radius.circular(radius2),
   );
 
   /// ```dart
   /// circlarRadiusBottom1 = BorderRadius.vertical(
-  ///   top: Radius.circular(4.0),
+  ///   top: Radius.circular(8.0),
   /// );
   /// ```
   static const BorderRadius circlarRadiusBottom1 = BorderRadius.vertical(
-    top: Radius.circular(4.0),
+    top: Radius.circular(radius1),
   );
 
   /// ```dart
   /// circlarRadiusBottom2 = BorderRadius.vertical(
-  ///   top: Radius.circular(8.0),
+  ///   top: Radius.circular(16.0),
   /// );
   /// ```
   static const BorderRadius circlarRadiusBottom2 = BorderRadius.vertical(
-    bottom: Radius.circular(8.0),
+    bottom: Radius.circular(radius2),
   );
 
   /// ```dart
   /// fadeDuration = const Duration(milliseconds: 250)
   /// ```
-  static const Duration fadeDuration = Duration(milliseconds: 250);
+  static const Duration fadeDuration = Duration(milliseconds: 200);
 
   /// ```dart
   /// duration = const Duration(milliseconds: 350)
   /// ```
-  static const Duration duration = Duration(milliseconds: 350);
+  static const Duration duration = Duration(milliseconds: 300);
 
   /// ```dartdart
   /// layoutPadding = const EdgeInsets.symmetric(
