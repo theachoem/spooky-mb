@@ -4,6 +4,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'setting_view_model.dart';
+
 part 'setting_mobile.dart';
 part 'setting_tablet.dart';
 part 'setting_desktop.dart';

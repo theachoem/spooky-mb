@@ -1,9 +1,12 @@
 library home_view;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'home_view_model.dart';
+import 'package:spooky/core/route/router.gr.dart' as r;
+
 part 'home_mobile.dart';
 part 'home_tablet.dart';
 part 'home_desktop.dart';

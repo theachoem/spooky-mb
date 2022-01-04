@@ -2,6 +2,7 @@ part of home_view;
 
 class _HomeMobile extends StatelessWidget {
   final HomeViewModel viewModel;
+
   const _HomeMobile(
     this.viewModel, {
     Key? key,
@@ -14,8 +15,15 @@ class _HomeMobile extends StatelessWidget {
         title: const Text('Mobile'),
         backgroundColor: Colors.black,
       ),
-      body: const Center(
-        child: Text("WOWOW"),
+      body: Center(
+        child: TextButton(
+          child: Text("Detail"),
+          onPressed: () {
+            context.router.push(
+              r.Detail(),
+            );
+          },
+        ),
       ),
     );
   }

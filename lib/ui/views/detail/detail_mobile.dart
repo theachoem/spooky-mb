@@ -6,8 +6,13 @@ class _DetailMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('DetailMobile')),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Detail"),
+      ),
+      body: const Center(
+        child: Text('DetailMobile'),
+      ),
     );
   }
 }
