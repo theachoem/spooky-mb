@@ -21,6 +21,8 @@ dependencies:
   get_it: ^7.2.0
   auto_route: ^3.2.1
   injectable: ^1.5.0
+  intl: ^0.17.0
+  easy_localization: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -36,6 +38,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/translations/
     - assets/fonts/Quicksand/OFL.txt
 
   fonts:

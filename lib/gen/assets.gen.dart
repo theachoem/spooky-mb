@@ -13,6 +13,16 @@ class $AssetsFontsGen {
   $AssetsFontsQuicksandGen get quicksand => const $AssetsFontsQuicksandGen();
 }
 
+class $AssetsTranslationsGen {
+  const $AssetsTranslationsGen();
+
+  /// File path: assets/translations/en.json
+  String get en => 'assets/translations/en.json';
+
+  /// File path: assets/translations/km.json
+  String get km => 'assets/translations/km.json';
+}
+
 class $AssetsFontsQuicksandGen {
   const $AssetsFontsQuicksandGen();
 
@@ -24,6 +34,7 @@ class Assets {
   Assets._();
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
 
 class AssetGenImage extends AssetImage {
