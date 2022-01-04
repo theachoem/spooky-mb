@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/theme_constant.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 
 class ThemeConfig {
   final bool isDarkMode;
@@ -10,30 +11,30 @@ class ThemeConfig {
   ThemeConfig.light() : isDarkMode = false;
 
   ThemeData get themeData {
-    final scheme = isDarkMode ? ThemeConstant.darkScheme : ThemeConstant.lightScheme;
+    final scheme = isDarkMode ? ThemeConstant.darkM3Color : ThemeConstant.lightM3Color;
     return ThemeData(
       primaryColor: scheme.primary,
       backgroundColor: scheme.background,
       scaffoldBackgroundColor: scheme.background,
-      colorScheme: scheme,
+      colorScheme: scheme.toColorScheme(),
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.surface,
+        backgroundColor: scheme.readOnly.surface2,
         centerTitle: false,
         elevation: 0.0,
-        iconTheme: IconThemeData(color: scheme.onSurface),
-        titleTextStyle: ThemeConstant.textTheme.headline6?.copyWith(color: scheme.onSurface),
         foregroundColor: scheme.onSurface,
+        iconTheme: IconThemeData(color: scheme.onSurface),
+        titleTextStyle: ThemeConstant.textThemeM3.toTextTheme().headline6?.copyWith(color: scheme.onSurface),
+      ),
+      tabBarTheme: TabBarTheme(),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: scheme.readOnly.surface2,
       ),
       splashColor: Colors.transparent,
       // splashFactory:
       // InkRipple.splashFactory, //
       // InkSplash.splashFactory,
       indicatorColor: scheme.onPrimary,
-      textTheme: ThemeConstant.textTheme.apply(
-        bodyColor: scheme.onSurface,
-        displayColor: scheme.onSurface.withOpacity(0.54),
-        decorationColor: scheme.onSurface.withOpacity(0.54),
-      ),
+      textTheme: buildTextTheme(scheme),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           backgroundColor: scheme.primary,
@@ -44,6 +45,15 @@ class ThemeConfig {
       cupertinoOverrideTheme: const CupertinoThemeData(
         textTheme: CupertinoTextThemeData(),
       ),
+    );
+  }
+
+  TextTheme buildTextTheme(M3Color scheme) {
+    final TextTheme theme = ThemeConstant.textThemeM3.toTextTheme();
+    return theme.apply(
+      bodyColor: scheme.onSurface,
+      displayColor: scheme.onSurface.withOpacity(0.54),
+      decorationColor: scheme.onSurface.withOpacity(0.54),
     );
   }
 }
