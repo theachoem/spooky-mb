@@ -1,6 +1,6 @@
 part of home_view;
 
-class _HomeMobile extends StatelessWidget {
+class _HomeMobile extends StatefulWidget {
   final HomeViewModel viewModel;
 
   const _HomeMobile(
@@ -9,21 +9,41 @@ class _HomeMobile extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<_HomeMobile> createState() => _HomeMobileState();
+}
+
+class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderStateMixin {
+  late TabController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = TabController(length: 12, vsync: this);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Mobile'),
-        backgroundColor: Colors.black,
+      body: CustomScrollView(
+        slivers: [
+          buildAppBar(),
+        ],
       ),
-      body: Center(
-        child: TextButton(
-          child: Text("Detail"),
-          onPressed: () {
-            context.router.push(
-              r.Detail(),
-            );
-          },
-        ),
+    );
+  }
+
+  Widget buildAppBar() {
+    return HomeAppBar(
+      title: "Hello Sothea 📝",
+      subtitle: "2021 - 100 Stories",
+      tabController: controller,
+      tabLabels: List.generate(
+        12,
+        (index) {
+          return DateFormatHelper.toNameOfMonth(context).format(
+            DateTime(2020, index + 1),
+          );
+        },
       ),
     );
   }

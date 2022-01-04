@@ -2,6 +2,10 @@ library home_view;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:spooky/ui/views/home/local_widgets/home_app_bar.dart';
+import 'package:spooky/ui/views/home/local_widgets/home_tab_bar.dart';
+import 'package:spooky/utils/helpers/app_helper.dart';
+import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'home_view_model.dart';
