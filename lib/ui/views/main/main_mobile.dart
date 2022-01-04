@@ -18,18 +18,32 @@ class _MainMobile extends StatelessWidget {
             opacity: animation,
             child: child,
           ),
-          bottomNavigationBar: BottomNavigationBar(
+          floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+          floatingActionButton: AnimatedShowHide(
+            shouldShow: tabsRouter.activeIndex == 0,
+            child: FloatingActionButton.extended(
+              onPressed: () {},
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              label: Text("Add"),
+              icon: Icon(Icons.edit),
+            ),
+          ),
+          bottomNavigationBar: SpBottomNavigationBar(
             currentIndex: tabsRouter.activeIndex,
             onTap: (int index) {
               tabsRouter.setActiveIndex(index);
             },
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
+            items: [
+              SpBottomNavigationBarItem(
+                activeIconData: Icons.home,
+                iconData: Icons.home_outlined,
                 label: "Home",
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.explore),
+              SpBottomNavigationBarItem(
+                activeIconData: Icons.explore,
+                iconData: Icons.explore_outlined,
                 label: "Explore",
               ),
             ],

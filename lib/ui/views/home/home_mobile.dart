@@ -22,14 +22,33 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          buildAppBar(),
-        ],
+      body: NestedScrollView(
+        headerSliverBuilder: headerSliverBuilder,
+        body: SpTabView(
+          controller: controller,
+          children: List.generate(
+            controller.length,
+            (index) {
+              return StoryList();
+            },
+          ),
+        ),
       ),
     );
+  }
+
+  List<Widget> headerSliverBuilder(context, scroll) {
+    return [
+      buildAppBar(),
+    ];
   }
 
   Widget buildAppBar() {

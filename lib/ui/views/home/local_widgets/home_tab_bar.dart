@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_tab_indicator.dart';
 
 class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
@@ -18,35 +19,44 @@ class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     TabController? tabController = controller ?? DefaultTabController.of(context);
-    Color indicatorColor = Theme.of(context).colorScheme.onSurface;
     return Container(
       padding: padding,
       height: height + padding.top + padding.bottom,
       child: SizedBox(
         height: height,
         width: double.infinity,
-        child: TabBar(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          controller: tabController,
-          isScrollable: true,
-          onTap: (index) {},
-          overlayColor: MaterialStateProperty.all(Colors.transparent),
-          indicatorColor: indicatorColor,
-          unselectedLabelColor: indicatorColor,
-          labelColor: Theme.of(context).colorScheme.surface,
-          labelStyle: Theme.of(context).textTheme.bodyText2,
-          indicator: SpTabIndicator(borderSide: BorderSide(width: height)),
-          tabs: List.generate(
-            tabs.length,
-            (index) {
-              final text = tabs[index];
-              return Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(text),
-              );
-            },
-          ),
+        child: buildTabBar(tabController, context),
+      ),
+    );
+  }
+
+  Widget buildTabBar(
+    TabController? tabController,
+    BuildContext context,
+  ) {
+    return TabBar(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      controller: tabController,
+      isScrollable: true,
+      onTap: (index) {},
+      overlayColor: MaterialStateProperty.all(Colors.transparent),
+      unselectedLabelColor: M3Color.of(context)?.primary,
+      labelColor: M3Color.of(context)?.onPrimary,
+      indicator: SpTabIndicator(
+        borderSide: BorderSide(
+          width: height,
+          color: M3Color.of(context)!.primary,
         ),
+      ),
+      tabs: List.generate(
+        tabs.length,
+        (index) {
+          final text = tabs[index];
+          return Container(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(text),
+          );
+        },
       ),
     );
   }

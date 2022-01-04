@@ -23,12 +23,22 @@ class ThemeConfig {
         elevation: 0.0,
         foregroundColor: scheme.onSurface,
         iconTheme: IconThemeData(color: scheme.onSurface),
-        titleTextStyle: ThemeConstant.textThemeM3.toTextTheme().headline6?.copyWith(color: scheme.onSurface),
+        titleTextStyle: ThemeConstant.textThemeM3.titleLarge.copyWith(color: scheme.onSurface),
       ),
-      tabBarTheme: TabBarTheme(),
-      bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: scheme.readOnly.surface2,
+      floatingActionButtonTheme: FloatingActionButtonThemeData(extendedTextStyle: ThemeConstant.textThemeM3.labelLarge),
+      tabBarTheme: TabBarTheme(
+        labelColor: scheme.primary,
+        unselectedLabelColor: scheme.onSurface,
+        labelStyle: ThemeConstant.textThemeM3.titleSmall,
+        unselectedLabelStyle: ThemeConstant.textThemeM3.titleSmall,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(
+            color: scheme.onPrimaryContainer,
+            width: 1,
+          ),
+        ),
       ),
+
       splashColor: Colors.transparent,
       // splashFactory:
       // InkRipple.splashFactory, //

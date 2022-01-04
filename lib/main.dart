@@ -39,13 +39,11 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> {
   late r.Router _appRouter;
-  late M3Color color;
   late M3TextTheme textTheme;
 
   @override
   void initState() {
     _appRouter = r.Router(StackedService.navigatorKey);
-    color = ThemeConstant.lightM3Color;
     textTheme = ThemeConstant.textThemeM3;
     super.initState();
   }

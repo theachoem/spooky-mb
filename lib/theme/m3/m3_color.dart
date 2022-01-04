@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/main.dart';
 import 'package:spooky/theme/m3/m3_read_only_color.dart';
+import 'package:spooky/theme/theme_constant.dart';
 export '../../utils/extension/color_extension.dart';
 
 class M3Color {
   static M3Color? of(BuildContext context) {
-    return App.of(context)?.color;
+    bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
+    return isDarkMode ? ThemeConstant.darkM3Color : ThemeConstant.lightM3Color;
   }
 
   M3ReadOnlyColor get readOnly => M3ReadOnlyColor(this);
