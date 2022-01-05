@@ -15,21 +15,23 @@ class SpPopButton extends StatelessWidget {
   Widget build(BuildContext context) {
     ModalRoute<Object?>? parentRoute = ModalRoute.of(context);
     bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
-    return SpIconButton(
-      icon: Icon(
-        useCloseButton ? Icons.close : (const BackButtonIcon() as Icon).icon,
-        color: color,
+    return Center(
+      child: SpIconButton(
+        icon: Icon(
+          useCloseButton ? Icons.close : (const BackButtonIcon() as Icon).icon,
+          color: color,
+        ),
+        tooltip: useCloseButton
+            ? MaterialLocalizations.of(context).closeButtonLabel
+            : MaterialLocalizations.of(context).backButtonTooltip,
+        onPressed: () {
+          if (onPressed != null) {
+            onPressed!();
+          } else {
+            Navigator.maybePop(context);
+          }
+        },
       ),
-      tooltip: useCloseButton
-          ? MaterialLocalizations.of(context).closeButtonLabel
-          : MaterialLocalizations.of(context).backButtonTooltip,
-      onPressed: () {
-        if (onPressed != null) {
-          onPressed!();
-        } else {
-          Navigator.maybePop(context);
-        }
-      },
     );
   }
 }

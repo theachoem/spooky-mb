@@ -40,6 +40,7 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
       locale: context.locale,
       theme: ThemeConfig.light().themeData,
       darkTheme: ThemeConfig.dark().themeData,
+      themeMode: ThemeMode.system,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       builder: (context, child) => AppBuilder(child: child),

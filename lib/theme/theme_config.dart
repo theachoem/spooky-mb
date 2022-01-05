@@ -12,7 +12,7 @@ class ThemeConfig {
   ThemeConfig.dark() : isDarkMode = true;
   ThemeConfig.light() : isDarkMode = false;
 
-  M3Color get _light => ThemeConstant.darkM3Color;
+  M3Color get _light => ThemeConstant.lightM3Color;
   M3Color get _dark => ThemeConstant.darkM3Color;
 
   ThemeData get themeData {
@@ -47,7 +47,7 @@ class ThemeConfig {
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: Color(0xFF323232),
-        contentTextStyle: m3TextTheme.bodyMedium,
+        contentTextStyle: m3TextTheme.bodyMedium.copyWith(color: _light.background),
         actionTextColor: _dark.primary,
         shape: RoundedRectangleBorder(
           borderRadius: ConfigConstant.circlarRadius1,

@@ -11,8 +11,8 @@ mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
     }
   }
 
-  void showSpMaterialBanner(String message) {
-    _state?.showMaterialBanner(
+  ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>? showSpMaterialBanner(String message) {
+    return _state?.showMaterialBanner(
       MaterialBanner(
         content: Text(message),
         actions: [
@@ -27,17 +27,9 @@ mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  void clearSpSnackBars() {
-    return _state?.clearSnackBars();
-  }
-
-  void hideSpCurrentMaterialBanner() {
-    return _state?.hideCurrentMaterialBanner();
-  }
-
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSpSnackBar(String message) {
     clearSpSnackBars();
-    scaffoldFeatureController = _state?.showSnackBar(
+    return _state?.showSnackBar(
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
@@ -48,6 +40,13 @@ mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
         ),
       ),
     );
-    return scaffoldFeatureController;
+  }
+
+  void clearSpSnackBars() {
+    return _state?.clearSnackBars();
+  }
+
+  void hideSpCurrentMaterialBanner() {
+    return _state?.hideCurrentMaterialBanner();
   }
 }
