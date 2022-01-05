@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SharePreferenceStorage {
-  String get key;
+  String get key => runtimeType.toString();
 
   Future<dynamic> read() async {
     final storage = await SharedPreferences.getInstance();

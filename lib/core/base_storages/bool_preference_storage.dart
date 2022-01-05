@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BoolPreferenceStorage {
-  String get key;
+  String get key => runtimeType.toString();
 
   Future<void> toggle() async {
     SharedPreferences _instance = await SharedPreferences.getInstance();

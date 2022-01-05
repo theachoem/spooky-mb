@@ -4,9 +4,10 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SecurePreferenceStorage {
+  String get key => runtimeType.toString();
+
   FlutterSecureStorage storage = FlutterSecureStorage();
   Future<SharedPreferences> get instance => SharedPreferences.getInstance();
-  String get key;
   Object? error;
 
   Future<T> sharePreference<T>(Future<T> Function(SharedPreferences) body) async {
