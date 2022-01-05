@@ -5,8 +5,8 @@ class AppConstant {
   static const String appName = 'Spooky';
 
   static const supportedLocales = [
-    Locale('en', 'US'),
-    Locale('de', 'DE'),
+    Locale('en'),
+    Locale('km'),
   ];
 
   static const fallbackLocale = Locale('en');
