@@ -10,6 +10,7 @@ class _MainMobile extends StatelessWidget {
       routes: const [
         r.Home(),
         r.Explore(),
+        r.Setting(),
       ],
       builder: (context, child, animation) {
         final TabsRouter tabsRouter = AutoTabsRouter.of(context);
@@ -18,11 +19,12 @@ class _MainMobile extends StatelessWidget {
             opacity: animation,
             child: child,
           ),
-          floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
-          floatingActionButton: AnimatedShowHide(
+          floatingActionButton: SpShowHideAnimator(
             shouldShow: tabsRouter.activeIndex == 0,
             child: FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () {
+                context.router.push(r.Detail());
+              },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
@@ -45,6 +47,11 @@ class _MainMobile extends StatelessWidget {
                 activeIconData: Icons.explore,
                 iconData: Icons.explore_outlined,
                 label: "Explore",
+              ),
+              SpBottomNavigationBarItem(
+                activeIconData: Icons.settings,
+                iconData: Icons.settings_outlined,
+                label: "Setting",
               ),
             ],
           ),

@@ -4,6 +4,8 @@ class ConfigConstant {
   ConfigConstant._internal();
   static const titleConstraints = BoxConstraints(minWidth: 80);
 
+  static const double sliverExpandedHeight = 200;
+
   /// ```dart
   /// margin0 = 4.0
   /// ```
@@ -136,12 +138,12 @@ class ConfigConstant {
   );
 
   /// ```dart
-  /// fadeDuration = const Duration(milliseconds: 250)
+  /// fadeDuration = const Duration(milliseconds: 200)
   /// ```
   static const Duration fadeDuration = Duration(milliseconds: 200);
 
   /// ```dart
-  /// duration = const Duration(milliseconds: 350)
+  /// duration = const Duration(milliseconds: 300)
   /// ```
   static const Duration duration = Duration(milliseconds: 300);
 

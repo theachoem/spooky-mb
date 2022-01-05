@@ -1,7 +1,26 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:stacked/stacked.dart';
 
 class DetailViewModel extends BaseViewModel {
-  DetailViewModel();
+  late QuillController controller;
+  late FocusNode focusNode;
+  late ScrollController scrollController;
+  late ValueNotifier<bool> readOnlyNotifier;
 
-  // Add ViewModel specific code here
+  DetailViewModel() {
+    controller = QuillController.basic();
+    focusNode = FocusNode();
+    scrollController = ScrollController();
+    readOnlyNotifier = ValueNotifier(true);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    focusNode.dispose();
+    scrollController.dispose();
+    readOnlyNotifier.dispose();
+    super.dispose();
+  }
 }

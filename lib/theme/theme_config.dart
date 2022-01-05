@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 
 class ThemeConfig {
   final bool isDarkMode;
@@ -10,46 +12,58 @@ class ThemeConfig {
   ThemeConfig.dark() : isDarkMode = true;
   ThemeConfig.light() : isDarkMode = false;
 
+  M3Color get _light => ThemeConstant.darkM3Color;
+  M3Color get _dark => ThemeConstant.darkM3Color;
+
   ThemeData get themeData {
-    final scheme = isDarkMode ? ThemeConstant.darkM3Color : ThemeConstant.lightM3Color;
+    M3Color m3Color = isDarkMode ? _dark : _light;
+    M3TextTheme m3TextTheme = buildTextTheme(m3Color);
     return ThemeData(
-      primaryColor: scheme.primary,
-      backgroundColor: scheme.background,
-      scaffoldBackgroundColor: scheme.background,
-      colorScheme: scheme.toColorScheme(),
+      primaryColor: m3Color.primary,
+      backgroundColor: m3Color.background,
+      scaffoldBackgroundColor: m3Color.background,
+      colorScheme: m3Color.toColorScheme(),
+      canvasColor: m3Color.readOnly.surface2,
       appBarTheme: AppBarTheme(
-        backgroundColor: scheme.readOnly.surface2,
+        backgroundColor: m3Color.readOnly.surface2,
         centerTitle: false,
         elevation: 0.0,
-        foregroundColor: scheme.onSurface,
-        iconTheme: IconThemeData(color: scheme.onSurface),
-        titleTextStyle: ThemeConstant.textThemeM3.titleLarge.copyWith(color: scheme.onSurface),
+        foregroundColor: m3Color.onSurface,
+        iconTheme: IconThemeData(color: m3Color.onSurface),
+        titleTextStyle: m3TextTheme.titleLarge.copyWith(color: m3Color.onSurface),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(extendedTextStyle: ThemeConstant.textThemeM3.labelLarge),
       tabBarTheme: TabBarTheme(
-        labelColor: scheme.primary,
-        unselectedLabelColor: scheme.onSurface,
-        labelStyle: ThemeConstant.textThemeM3.titleSmall,
-        unselectedLabelStyle: ThemeConstant.textThemeM3.titleSmall,
+        labelColor: m3Color.primary,
+        unselectedLabelColor: m3Color.onSurface,
+        labelStyle: m3TextTheme.titleSmall,
+        unselectedLabelStyle: m3TextTheme.titleSmall,
         indicator: UnderlineTabIndicator(
           borderSide: BorderSide(
-            color: scheme.onPrimaryContainer,
+            color: m3Color.onPrimaryContainer,
             width: 1,
           ),
         ),
       ),
-
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: Color(0xFF323232),
+        contentTextStyle: m3TextTheme.bodyMedium,
+        actionTextColor: _dark.primary,
+        shape: RoundedRectangleBorder(
+          borderRadius: ConfigConstant.circlarRadius1,
+        ),
+      ),
       splashColor: Colors.transparent,
       // splashFactory:
       // InkRipple.splashFactory, //
       // InkSplash.splashFactory,
-      indicatorColor: scheme.onPrimary,
-      textTheme: buildTextTheme(scheme),
+      indicatorColor: m3Color.onPrimary,
+      textTheme: m3TextTheme.toTextTheme(),
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          backgroundColor: scheme.primary,
-          onSurface: scheme.onSurface,
-          primary: scheme.onPrimary,
+          backgroundColor: m3Color.primary,
+          onSurface: m3Color.onSurface,
+          primary: m3Color.onPrimary,
         ),
       ),
       cupertinoOverrideTheme: const CupertinoThemeData(
@@ -58,12 +72,11 @@ class ThemeConfig {
     );
   }
 
-  TextTheme buildTextTheme(M3Color scheme) {
-    final TextTheme theme = ThemeConstant.textThemeM3.toTextTheme();
-    return theme.apply(
-      bodyColor: scheme.onSurface,
-      displayColor: scheme.onSurface.withOpacity(0.54),
-      decorationColor: scheme.onSurface.withOpacity(0.54),
+  M3TextTheme buildTextTheme(M3Color m3Color) {
+    return ThemeConstant.textThemeM3.apply(
+      bodyColor: m3Color.onSurface,
+      displayColor: m3Color.onSurface.withOpacity(0.54),
+      decorationColor: m3Color.onSurface.withOpacity(0.54),
     );
   }
 }

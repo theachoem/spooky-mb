@@ -8,10 +8,6 @@ import 'package:spooky/ui/views/setting/setting_view.dart';
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     MaterialRoute(
-      name: 'setting',
-      page: SettingView,
-    ),
-    MaterialRoute(
       name: 'detail',
       fullscreenDialog: true,
       page: DetailView,
@@ -21,12 +17,16 @@ import 'package:spooky/ui/views/setting/setting_view.dart';
       page: MainView,
       children: [
         MaterialRoute(
+          name: 'home',
+          page: HomeView,
+        ),
+        MaterialRoute(
           name: 'explore',
           page: ExploreView,
         ),
         MaterialRoute(
-          name: 'home',
-          page: HomeView,
+          name: 'setting',
+          page: SettingView,
         ),
       ],
       initial: true,
