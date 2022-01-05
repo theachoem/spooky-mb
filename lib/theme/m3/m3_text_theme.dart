@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/main.dart';
+import 'package:spooky/app.dart';
 
 class M3TextTheme {
   static M3TextTheme? of(BuildContext context) {
@@ -49,7 +49,58 @@ class M3TextTheme {
     required this.bodySmall,
   });
 
-  TextTheme toTextTheme() {
+  M3TextTheme apply({
+    String? fontFamily,
+    double fontSizeFactor = 1.0,
+    double fontSizeDelta = 0.0,
+    Color? displayColor,
+    Color? bodyColor,
+    TextDecoration? decoration,
+    Color? decorationColor,
+    TextDecorationStyle? decorationStyle,
+  }) {
+    TextStyle addition(TextStyle style) {
+      return style.apply(
+        color: displayColor,
+        decoration: decoration,
+        decorationColor: decorationColor,
+        decorationStyle: decorationStyle,
+        fontFamily: fontFamily,
+        fontSizeFactor: fontSizeFactor,
+        fontSizeDelta: fontSizeDelta,
+      );
+    }
+
+    return M3TextTheme(
+      fontFamilyFallback: fontFamilyFallback,
+      displayLarge: addition(displayLarge),
+      displayMedium: addition(displayMedium),
+      displaySmall: addition(displaySmall),
+      headlineLarge: addition(headlineLarge),
+      headlineMedium: addition(headlineMedium),
+      headlineSmall: addition(headlineSmall),
+      titleLarge: addition(titleLarge),
+      titleMedium: addition(titleMedium),
+      titleSmall: addition(titleSmall),
+      labelLarge: addition(labelLarge),
+      labelMedium: addition(labelMedium),
+      labelSmall: addition(labelSmall),
+      bodyLarge: addition(bodyLarge),
+      bodyMedium: addition(bodyMedium),
+      bodySmall: addition(bodySmall),
+    );
+  }
+
+  TextTheme toTextTheme({
+    String? fontFamily,
+    double fontSizeFactor = 1.0,
+    double fontSizeDelta = 0.0,
+    Color? displayColor,
+    Color? bodyColor,
+    TextDecoration? decoration,
+    Color? decorationColor,
+    TextDecorationStyle? decorationStyle,
+  }) {
     return TextTheme(
       headline1: TextStyle(
         fontSize: 98,
@@ -127,6 +178,15 @@ class M3TextTheme {
         letterSpacing: 1.5,
         fontFamilyFallback: fontFamilyFallback,
       ),
+    ).apply(
+      decoration: decoration ?? sample.decoration,
+      decorationColor: decorationColor ?? sample.decorationColor,
+      decorationStyle: decorationStyle ?? sample.decorationStyle,
+      fontFamily: fontFamily ?? sample.fontFamily,
+      fontSizeFactor: fontSizeFactor,
+      fontSizeDelta: fontSizeDelta,
     );
   }
+
+  TextStyle get sample => headlineLarge;
 }

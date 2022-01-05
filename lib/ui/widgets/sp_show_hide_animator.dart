@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
-class AnimatedShowHide extends StatelessWidget {
+class SpShowHideAnimator extends StatelessWidget {
   final Duration animationDuration;
   final Widget child;
   final Curve showCurve;
   final Curve hideCurve;
   final bool shouldShow;
 
-  const AnimatedShowHide({
+  const SpShowHideAnimator({
     Key? key,
     required this.child,
     this.animationDuration = ConfigConstant.fadeDuration,

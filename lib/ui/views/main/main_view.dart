@@ -2,7 +2,6 @@ library main_view;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/widgets/sp_bottom_navaigation_bar.dart';
 import 'package:spooky/ui/widgets/sp_show_hide_animator.dart';
 import 'package:stacked/stacked.dart';

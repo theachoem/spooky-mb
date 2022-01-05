@@ -9,6 +9,10 @@ class M3Color {
     return isDarkMode ? ThemeConstant.darkM3Color : ThemeConstant.lightM3Color;
   }
 
+  static Brightness keyboardAppearance(BuildContext context) {
+    return Theme.of(context).colorScheme.brightness == Brightness.dark ? Brightness.dark : Brightness.light;
+  }
+
   M3ReadOnlyColor get readOnly => M3ReadOnlyColor(this);
 
   final Brightness brightness;
