@@ -25,6 +25,7 @@ dependencies:
   easy_localization: ^3.0.0
   flutter_quill: ^3.0.4
   swipeable_page_route: ^0.2.4
+  flutter_secure_storage: ^5.0.2
 
 dev_dependencies:
   flutter_test:
