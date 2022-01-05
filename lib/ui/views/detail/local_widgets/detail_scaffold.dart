@@ -76,7 +76,7 @@ class _DetailScaffoldState extends State<DetailScaffold> {
           bottom: 0,
           right: 0,
           child: AnimatedContainer(
-            curve: Curves.linearToEaseOut,
+            curve: Curves.ease,
             duration: ConfigConstant.fadeDuration,
             transform: Matrix4.identity()..translate(-16.0, -bottom),
             child: FloatingActionButton.extended(
@@ -89,6 +89,9 @@ class _DetailScaffoldState extends State<DetailScaffold> {
                   Future.delayed(ConfigConstant.fadeDuration).then((value) {
                     App.of(context)?.showSpSnackBar("Saved");
                   });
+                } else {
+                  // clear to avoid snack bar on top of "SAVE" fab.
+                  App.of(context)?.clearSpSnackBars();
                 }
               },
               shape: RoundedRectangleBorder(
