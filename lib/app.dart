@@ -11,7 +11,10 @@ import 'package:spooky/core/route/router.gr.dart' as r;
 class App extends StatefulWidget {
   const App({
     Key? key,
+    required this.themeMode,
   }) : super(key: key);
+
+  final ThemeMode themeMode;
 
   static _AppState? of(BuildContext context) {
     return context.findAncestorStateOfType<_AppState>();
@@ -40,7 +43,7 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
       locale: context.locale,
       theme: ThemeConfig.light().themeData,
       darkTheme: ThemeConfig.dark().themeData,
-      themeMode: ThemeMode.system,
+      themeMode: widget.themeMode,
       routerDelegate: _appRouter.delegate(),
       routeInformationParser: _appRouter.defaultRouteParser(),
       builder: (context, child) => AppBuilder(child: child),

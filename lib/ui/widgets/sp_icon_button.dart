@@ -6,6 +6,7 @@ class SpIconButton extends StatelessWidget {
   final double size;
   final EdgeInsets padding;
   final String? tooltip;
+  final Color? backgroundColor;
 
   const SpIconButton({
     Key? key,
@@ -14,12 +15,14 @@ class SpIconButton extends StatelessWidget {
     this.size = 24.0,
     this.padding = const EdgeInsets.all(8),
     this.tooltip,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Widget button = Material(
-      type: MaterialType.transparency,
+      type: backgroundColor == null ? MaterialType.transparency : MaterialType.circle,
+      color: backgroundColor,
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,
