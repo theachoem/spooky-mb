@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_read_only_color.dart';
 import 'package:spooky/theme/theme_constant.dart';
-export '../../utils/extension/color_extension.dart';
+export '../../utils/extensions/color_extension.dart';
 
 class M3Color {
   static M3Color? of(BuildContext context) {
@@ -78,16 +78,16 @@ class M3Color {
   ColorScheme toColorScheme() {
     return ColorScheme(
       primary: primary,
-      primaryVariant: primary,
-      secondary: secondary,
-      secondaryVariant: secondary,
-      surface: surface,
-      background: background,
-      error: error,
+      primaryVariant: onPrimaryContainer,
       onPrimary: onPrimary,
+      secondary: secondary,
+      secondaryVariant: onSecondaryContainer,
       onSecondary: onSecondary,
+      surface: surface,
       onSurface: onSurface,
+      background: background,
       onBackground: onBackground,
+      error: error,
       onError: onError,
       brightness: brightness,
     );
