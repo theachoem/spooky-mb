@@ -28,6 +28,7 @@ dependencies:
   flutter_secure_storage: ^5.0.2
   adaptive_dialog: ^1.2.0
   json_annotation: ^4.4.0
+  path_provider: ^2.0.8
 
 dev_dependencies:
   flutter_test:

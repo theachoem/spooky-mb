@@ -8,6 +8,7 @@ class _DetailMobile extends StatelessWidget {
   editor.QuillController get controller => viewModel.controller;
   ScrollController get scrollController => viewModel.scrollController;
   ValueNotifier<bool> get readOnlyNotifier => viewModel.readOnlyNotifier;
+  TextEditingController get titleController => viewModel.titleController;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,21 @@ class _DetailMobile extends StatelessWidget {
       editorBuilder: (state) => buildEditor(state),
       toolbarBuilder: (state) => buildToolbar(state),
       readOnlyNotifier: readOnlyNotifier,
-      onSave: () async {},
+      onSave: () async {
+        final DateTime date = DateTime.now();
+        final story = StoryModel(
+          id: date.millisecondsSinceEpoch.toString(),
+          starred: false,
+          feeling: null,
+          title: titleController.text,
+          forDate: date,
+          createdAt: date,
+          updatedAt: date,
+          plainText: controller.document.toPlainText(),
+          document: controller.document.toDelta().toJson(),
+        );
+        print(jsonEncode(story.toJson()));
+      },
     );
   }
 
@@ -55,6 +70,7 @@ class _DetailMobile extends StatelessWidget {
           style: M3TextTheme.of(context)?.titleLarge,
           autofocus: false,
           readOnly: readOnlyNotifier.value,
+          controller: titleController,
           keyboardAppearance: M3Color.keyboardAppearance(context),
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 4.0),

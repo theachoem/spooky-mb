@@ -7,13 +7,14 @@ class DetailViewModel extends BaseViewModel {
   late FocusNode focusNode;
   late ScrollController scrollController;
   late ValueNotifier<bool> readOnlyNotifier;
+  late TextEditingController titleController;
 
   DetailViewModel() {
     controller = QuillController.basic();
     focusNode = FocusNode();
     scrollController = ScrollController();
     readOnlyNotifier = ValueNotifier(true);
-
+    titleController = TextEditingController();
     readOnlyNotifier.addListener(() {
       if (readOnlyNotifier.value) {
         focusNode.unfocus();
@@ -29,6 +30,7 @@ class DetailViewModel extends BaseViewModel {
     focusNode.dispose();
     scrollController.dispose();
     readOnlyNotifier.dispose();
+    titleController.dispose();
     super.dispose();
   }
 }
