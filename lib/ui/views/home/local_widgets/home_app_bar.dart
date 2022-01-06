@@ -1,8 +1,10 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_tab_bar.dart';
+import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
@@ -82,10 +84,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
     return Positioned(
       right: 0,
       child: SpIconButton(
-        icon: Icon(
-          Icons.dark_mode,
-          color: M3Color.of(context)?.primary,
-        ),
+        icon: getThemeModeIcon(),
         backgroundColor: M3Color.of(context)?.primaryContainer,
         onLongPress: () async {
           ThemeMode? result = await showConfirmationDialog(
@@ -102,6 +101,14 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
           InitialTheme.of(context)?.toggleThemeMode();
         },
       ),
+    );
+  }
+
+  Widget getThemeModeIcon() {
+    return SpAnimatedIcons(
+      firstChild: Icon(Icons.dark_mode, key: const ValueKey(Brightness.dark)),
+      secondChild: Icon(Icons.light_mode, key: const ValueKey(Brightness.light)),
+      showFirst: Theme.of(context).colorScheme.brightness == Brightness.dark,
     );
   }
 

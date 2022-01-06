@@ -20,7 +20,7 @@ class SpCrossFade extends StatelessWidget {
       secondChild: secondChild,
       sizeCurve: Curves.ease,
       crossFadeState: showFirst ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      duration: ConfigConstant.fadeDuration,
+      duration: ConfigConstant.duration * 10,
     );
   }
 }
