@@ -26,6 +26,7 @@ dependencies:
   flutter_quill: ^3.0.4
   swipeable_page_route: ^0.2.4
   flutter_secure_storage: ^5.0.2
+  adaptive_dialog: ^1.2.0
 
 dev_dependencies:
   flutter_test:

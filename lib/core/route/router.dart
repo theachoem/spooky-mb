@@ -9,7 +9,6 @@ import 'package:spooky/ui/views/setting/setting_view.dart';
   routes: <AutoRoute>[
     MaterialRoute(
       name: 'detail',
-      fullscreenDialog: true,
       page: DetailView,
     ),
     MaterialRoute(

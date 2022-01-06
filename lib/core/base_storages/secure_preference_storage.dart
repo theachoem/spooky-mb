@@ -63,7 +63,7 @@ abstract class SecurePreferenceStorage {
   }
 
   Future<void> writeMap(Map<dynamic, dynamic> map) async {
-    await this.write(jsonEncode(map));
+    await write(jsonEncode(map));
   }
 
   Future<Map<dynamic, dynamic>?> readMap() async {

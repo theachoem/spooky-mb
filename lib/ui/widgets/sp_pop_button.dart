@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 
 class SpPopButton extends StatelessWidget {
   const SpPopButton({
@@ -17,9 +18,9 @@ class SpPopButton extends StatelessWidget {
     bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
     return Center(
       child: SpIconButton(
-        icon: Icon(
-          useCloseButton ? Icons.close : (const BackButtonIcon() as Icon).icon,
-          color: color,
+        icon: IconTheme.merge(
+          data: IconThemeData(size: ConfigConstant.iconSize2, color: color),
+          child: useCloseButton ? Icon(Icons.close) : const BackButtonIcon(),
         ),
         tooltip: useCloseButton
             ? MaterialLocalizations.of(context).closeButtonLabel

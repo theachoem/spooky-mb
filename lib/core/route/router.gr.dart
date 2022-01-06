@@ -27,9 +27,7 @@ class Router extends _i6.RootStackRouter {
   final Map<String, _i6.PageFactory> pagesMap = {
     Detail.name: (routeData) {
       return _i6.MaterialPageX<dynamic>(
-          routeData: routeData,
-          child: const _i1.DetailView(),
-          fullscreenDialog: true);
+          routeData: routeData, child: const _i1.DetailView());
     },
     Main.name: (routeData) {
       return _i6.MaterialPageX<dynamic>(

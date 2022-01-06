@@ -10,7 +10,7 @@ abstract class ListPreferenceStorage<T> extends SharePreferenceStorage {
     String? value = await super.read();
     if (value == null) return null;
     try {
-      List<T> result = jsonDecode("$value");
+      List<T> result = jsonDecode(value);
       return result;
     } catch (e) {
       return null;

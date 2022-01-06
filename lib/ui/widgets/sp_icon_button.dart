@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 
 class SpIconButton extends StatelessWidget {
   final Widget icon;
   final VoidCallback onPressed;
+  final VoidCallback? onLongPress;
   final double size;
   final EdgeInsets padding;
   final String? tooltip;
@@ -12,6 +14,7 @@ class SpIconButton extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.onPressed,
+    this.onLongPress,
     this.size = 24.0,
     this.padding = const EdgeInsets.all(8),
     this.tooltip,
@@ -23,13 +26,9 @@ class SpIconButton extends StatelessWidget {
     Widget button = Material(
       type: backgroundColor == null ? MaterialType.transparency : MaterialType.circle,
       color: backgroundColor,
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onPressed,
-        child: Padding(
-          padding: padding,
-          child: icon,
-        ),
+      child: buildPlatformWrapper(
+        child: icon,
+        context: context,
       ),
     );
 
@@ -44,5 +43,36 @@ class SpIconButton extends StatelessWidget {
       padding: const EdgeInsets.all(4),
       child: button,
     );
+  }
+
+  Widget buildPlatformWrapper({
+    required Widget child,
+    required BuildContext context,
+  }) {
+    switch (Theme.of(context).platform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onPressed,
+          onLongPress: onLongPress,
+          child: Padding(
+            padding: padding,
+            child: icon,
+          ),
+        );
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return SpTapEffect(
+          onTap: onPressed,
+          onLongPressed: onLongPress,
+          child: Padding(
+            padding: padding,
+            child: icon,
+          ),
+        );
+    }
   }
 }

@@ -1,6 +1,6 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/storages/theme_mode_storage.dart';
-import 'package:spooky/main.dart';
+import 'package:spooky/initial_theme.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_tab_bar.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
@@ -72,21 +72,45 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
               ),
             ],
           ),
-          Positioned(
-            right: 0,
-            child: SpIconButton(
-              icon: Icon(
-                Icons.dark_mode,
-                color: M3Color.of(context)?.primary,
-              ),
-              backgroundColor: M3Color.of(context)?.primaryContainer,
-              onPressed: () {
-                InitialTheme.of(context)?.toggleThemeMode();
-              },
-            ),
-          )
+          buildThemeSwitcherButton()
         ],
       ),
     );
+  }
+
+  Widget buildThemeSwitcherButton() {
+    return Positioned(
+      right: 0,
+      child: SpIconButton(
+        icon: Icon(
+          Icons.dark_mode,
+          color: M3Color.of(context)?.primary,
+        ),
+        backgroundColor: M3Color.of(context)?.primaryContainer,
+        onLongPress: () async {
+          ThemeMode? result = await showConfirmationDialog(
+            context: context,
+            title: "Theme",
+            initialSelectedActionKey: InitialTheme.of(context)?.mode,
+            actions: themeModeActions,
+          );
+          if (result != null) {
+            InitialTheme.of(context)?.setThemeMode(result);
+          }
+        },
+        onPressed: () {
+          InitialTheme.of(context)?.toggleThemeMode();
+        },
+      ),
+    );
+  }
+
+  List<AlertDialogAction<ThemeMode>> get themeModeActions {
+    return ThemeMode.values.map((e) {
+      return AlertDialogAction(
+        key: e,
+        label: e.name.capitalize!,
+      );
+    }).toList();
   }
 }
