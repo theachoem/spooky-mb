@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
@@ -8,19 +9,23 @@ import 'package:spooky/utils/helpers/file_helper.dart';
 abstract class BaseFileManager with BaseFmConstructorMixin {
   Object? error;
   bool? success;
+  File? file;
+
+  MessageSummary? message;
 
   String get appPath => FileHelper.directory.absolute.path;
 
   Future<T?> beforeExec<T>(Future<T> Function() callback) async {
     success = false;
     error = null;
+    file = null;
     try {
       T result = await callback();
       success = true;
       error = null;
       return result;
     } catch (e) {
-      error = null;
+      error = e;
       success = false;
     }
   }
@@ -29,11 +34,15 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
   Future<void> write(BaseModel model) async {
     return beforeExec<void>(() async {
       Directory directory = await constructDirectory(model);
-      File file = await constructFile(model, directory);
+      File _file = await constructFile(model, directory);
 
-      await file.writeAsString(
+      file = await _file.writeAsString(
         AppHelper.prettifyJson(model.toJson()),
       );
     });
   }
+}
+
+class MessageSummary extends ErrorSummary {
+  MessageSummary(String message) : super(message);
 }

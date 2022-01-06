@@ -23,7 +23,7 @@ class _MainMobile extends StatelessWidget {
             shouldShow: tabsRouter.activeIndex == 0,
             child: FloatingActionButton.extended(
               onPressed: () {
-                context.router.push(const r.Detail());
+                context.router.push(r.Detail());
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),

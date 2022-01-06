@@ -1,10 +1,7 @@
 library detail_view;
 
-import 'dart:convert';
-
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -19,12 +16,17 @@ part 'detail_tablet.dart';
 part 'detail_desktop.dart';
 
 class DetailView extends StatelessWidget {
-  const DetailView({Key? key}) : super(key: key);
+  const DetailView({
+    Key? key,
+    this.story,
+  }) : super(key: key);
+
+  final StoryModel? story;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DetailViewModel>.reactive(
-      viewModelBuilder: () => DetailViewModel(),
+      viewModelBuilder: () => DetailViewModel(story),
       onModelReady: (model) {},
       builder: (context, model, child) {
         return ScreenTypeLayout(

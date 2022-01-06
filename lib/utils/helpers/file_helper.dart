@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:spooky/main.dart';
+import 'package:path/path.dart';
 
 class FileHelper {
   static Directory get directory => _directory!;
@@ -9,7 +10,7 @@ class FileHelper {
   static Directory get supportDirectory => _supportDirectory!;
   static Directory? _supportDirectory;
 
-  static initialFile() async {
+  static Future<void> initialFile() async {
     if (flutterTest) {
       _directory = Directory.current;
       _supportDirectory = Directory.current;
@@ -17,5 +18,9 @@ class FileHelper {
       _directory = await getApplicationDocumentsDirectory();
       _supportDirectory = await getApplicationSupportDirectory();
     }
+  }
+
+  static String fileName(String path) {
+    return basename(path);
   }
 }

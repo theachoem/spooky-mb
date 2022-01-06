@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
@@ -17,6 +19,7 @@ class DetailScaffold extends StatefulWidget {
     required this.editorBuilder,
     required this.toolbarBuilder,
     required this.readOnlyNotifier,
+    required this.hasChangeNotifer,
     required this.onSave,
   }) : super(key: key);
 
@@ -24,7 +27,8 @@ class DetailScaffold extends StatefulWidget {
   final Widget Function(GlobalKey<ScaffoldState>) editorBuilder;
   final Widget Function(GlobalKey<ScaffoldState>) toolbarBuilder;
   final ValueNotifier<bool> readOnlyNotifier;
-  final Future<void> Function() onSave;
+  final ValueNotifier<bool> hasChangeNotifer;
+  final Future<DocsManager> Function() onSave;
 
   @override
   State<DetailScaffold> createState() => _DetailScaffoldState();
@@ -138,35 +142,51 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
       child: ValueListenableBuilder<bool>(
         valueListenable: readOnlyAfterAnimatedNotifer,
         builder: (context, value, endWidget) {
-          return FloatingActionButton.extended(
-            backgroundColor: value ? M3Color.of(context)?.secondary : M3Color.of(context)?.primary,
-            foregroundColor: value ? M3Color.of(context)?.onSecondary : M3Color.of(context)?.onPrimary,
-            onPressed: () async {
-              widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
-              bool saving = widget.readOnlyNotifier.value;
-              if (saving) {
-                await widget.onSave();
-                Future.delayed(ConfigConstant.fadeDuration).then((value) {
-                  App.of(context)?.showSpSnackBar("Saved");
-                });
-              } else {
-                // clear to avoid snack bar on top of "SAVE" fab.
-                App.of(context)?.clearSpSnackBars();
-              }
-            },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            label: SpCrossFade(
-              firstChild: const Text("Edit"),
-              secondChild: const Text("Save"),
-              showFirst: value,
-            ),
-            icon: SpAnimatedIcons(
+          return ValueListenableBuilder<bool>(
+            valueListenable: widget.hasChangeNotifer,
+            child: SpAnimatedIcons(
               firstChild: const Icon(Icons.edit, key: ValueKey(Icons.edit)),
               secondChild: const Icon(Icons.save, key: ValueKey(Icons.save)),
               showFirst: value,
             ),
+            builder: (context, hasChange, icon) {
+              bool showFirst = !value && hasChange;
+              return FloatingActionButton.extended(
+                backgroundColor: showFirst ? M3Color.of(context)?.primary : M3Color.of(context)?.secondary,
+                foregroundColor: showFirst ? M3Color.of(context)?.onPrimary : M3Color.of(context)?.onSecondary,
+                onPressed: () async {
+                  widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
+                  bool saving = widget.readOnlyNotifier.value;
+                  if (saving) {
+                    DocsManager result = await widget.onSave();
+                    if (kDebugMode) {
+                      print(result.file?.absolute.path);
+                      print(result.success);
+                      print(result.error);
+                    }
+                    Future.delayed(ConfigConstant.fadeDuration).then((value) {
+                      if (result.success == true) {
+                        App.of(context)?.showSpSnackBar("Saved: ${result.message}");
+                      } else {
+                        App.of(context)?.showSpSnackBar("Error: ${result.message}");
+                      }
+                    });
+                  } else {
+                    // clear to avoid snack bar on top of "SAVE" fab.
+                    App.of(context)?.clearSpSnackBars();
+                  }
+                },
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                label: SpCrossFade(
+                  firstChild: const Text("Edit"),
+                  secondChild: const Text("Save"),
+                  showFirst: value,
+                ),
+                icon: icon,
+              );
+            },
           );
         },
       ),

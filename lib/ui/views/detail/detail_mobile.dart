@@ -9,6 +9,7 @@ class _DetailMobile extends StatelessWidget {
   ScrollController get scrollController => viewModel.scrollController;
   ValueNotifier<bool> get readOnlyNotifier => viewModel.readOnlyNotifier;
   TextEditingController get titleController => viewModel.titleController;
+  ValueNotifier<bool> get hasChangeNotifer => viewModel.hasChangeNotifer;
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +18,8 @@ class _DetailMobile extends StatelessWidget {
       editorBuilder: (state) => buildEditor(state),
       toolbarBuilder: (state) => buildToolbar(state),
       readOnlyNotifier: readOnlyNotifier,
-      onSave: () async {
-        final DateTime date = DateTime.now();
-        final story = StoryModel(
-          id: date.millisecondsSinceEpoch.toString(),
-          starred: false,
-          feeling: null,
-          title: titleController.text,
-          forDate: date,
-          createdAt: date,
-          updatedAt: date,
-          plainText: controller.document.toPlainText(),
-          document: controller.document.toDelta().toJson(),
-        );
-        print(jsonEncode(story.toJson()));
-      },
+      hasChangeNotifer: hasChangeNotifer,
+      onSave: () => viewModel.save(),
     );
   }
 

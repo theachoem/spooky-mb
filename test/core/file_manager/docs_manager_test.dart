@@ -11,12 +11,12 @@ void main() async {
   group('DocsManager', () {
     test('constructParentPath', () async {
       String path = manager.constructParentPath(StoryModel(
-        id: '1641474725533',
+        documentId: '1641474725533',
+        fileId: '2641474725533',
         starred: false,
         feeling: null,
         title: 'title',
         createdAt: DateTime(2022, 1, 7),
-        updatedAt: DateTime(2022, 1, 7),
         plainText: '',
         document: [],
       ));

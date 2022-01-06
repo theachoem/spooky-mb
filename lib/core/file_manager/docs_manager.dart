@@ -15,7 +15,7 @@ class DocsManager extends BaseFileManager {
     String? year = model.createdAt?.year.toString();
     String? month = DateFormatHelper.toNameOfMonth().format(model.createdAt!);
     String? day = model.createdAt!.day.toString();
-    return [appPath, parentPath, year, month, day, model.id].join("/");
+    return [appPath, parentPath, year, month, day, model.documentId].join("/");
   }
 
   Future<List<StoryModel>?> fetchAll({
