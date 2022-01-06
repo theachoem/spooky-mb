@@ -7,13 +7,11 @@ part 'story_model.g.dart';
 class StoryModel {
   final bool? starred;
   final String? feeling;
-  final StoryContentModel? lastStory;
   final List<StoryContentModel>? changes;
 
   StoryModel({
     this.starred,
     this.feeling,
-    this.lastStory,
     this.changes,
   });
 

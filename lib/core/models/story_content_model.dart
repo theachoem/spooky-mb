@@ -6,10 +6,12 @@ part 'story_content_model.g.dart';
 class StoryContentModel {
   // Returns JSON-serializable version of quill delta.
   final List<dynamic>? document;
+  final String? id;
   final String? title;
   final DateTime? createOn;
 
   StoryContentModel({
+    required this.id,
     required this.document,
     required this.title,
     required this.createOn,
