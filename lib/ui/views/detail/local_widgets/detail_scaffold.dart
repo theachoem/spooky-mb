@@ -61,15 +61,15 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
 
   AppBar buildAppBar() {
     return AppBar(
-      leading: SpPopButton(),
+      leading: const SpPopButton(),
       title: widget.titleBuilder(scaffoldkey),
       actions: [
         buildSpBottomSheetListener(
           builder: (context, isSpBottomSheetOpen, _) {
             return SpIconButton(
               icon: SpAnimatedIcons(
-                firstChild: Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
-                secondChild: Icon(Icons.clear, key: ValueKey(Icons.clear)),
+                firstChild: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
+                secondChild: const Icon(Icons.clear, key: ValueKey(Icons.clear)),
                 showFirst: !isSpBottomSheetOpen,
               ),
               onPressed: () {
@@ -123,7 +123,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
                 readOnlyAfterAnimatedNotifer.value = widget.readOnlyNotifier.value;
               });
             },
-            child: endWidget ?? SizedBox(),
+            child: endWidget ?? const SizedBox(),
           );
         },
       ),
@@ -155,13 +155,13 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
               borderRadius: BorderRadius.circular(16),
             ),
             label: SpCrossFade(
-              firstChild: Text("Edit"),
-              secondChild: Text("Save"),
+              firstChild: const Text("Edit"),
+              secondChild: const Text("Save"),
               showFirst: value,
             ),
             icon: SpAnimatedIcons(
-              firstChild: Icon(Icons.edit, key: ValueKey(Icons.edit)),
-              secondChild: Icon(Icons.save, key: ValueKey(Icons.save)),
+              firstChild: const Icon(Icons.edit, key: ValueKey(Icons.edit)),
+              secondChild: const Icon(Icons.save, key: ValueKey(Icons.save)),
               showFirst: value,
             ),
           );

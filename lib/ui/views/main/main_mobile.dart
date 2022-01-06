@@ -23,13 +23,13 @@ class _MainMobile extends StatelessWidget {
             shouldShow: tabsRouter.activeIndex == 0,
             child: FloatingActionButton.extended(
               onPressed: () {
-                context.router.push(r.Detail());
+                context.router.push(const r.Detail());
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
-              label: Text("Add"),
-              icon: Icon(Icons.edit),
+              label: const Text("Add"),
+              icon: const Icon(Icons.edit),
             ),
           ),
           bottomNavigationBar: SpBottomNavigationBar(

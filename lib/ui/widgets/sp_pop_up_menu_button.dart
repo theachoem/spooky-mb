@@ -60,7 +60,7 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
       if (childPosition!.dx >= screenSize.width / 2) {
         childPosition = Offset(screenSize.width, 0);
       } else {
-        childPosition = Offset(0, 0);
+        childPosition = const Offset(0, 0);
       }
     }
   }

@@ -20,7 +20,7 @@ class SpPopButton extends StatelessWidget {
       child: SpIconButton(
         icon: IconTheme.merge(
           data: IconThemeData(size: ConfigConstant.iconSize2, color: color),
-          child: useCloseButton ? Icon(Icons.close) : const BackButtonIcon(),
+          child: useCloseButton ? const Icon(Icons.close) : const BackButtonIcon(),
         ),
         tooltip: useCloseButton
             ? MaterialLocalizations.of(context).closeButtonLabel

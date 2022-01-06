@@ -145,7 +145,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
   Widget buildIcon(bool selected, SpBottomNavigationBarItem item, M3Color? m3Colors) {
     return Container(
       height: 32,
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: ConfigConstant.margin2 + ConfigConstant.margin0,
         vertical: ConfigConstant.margin0,
       ),

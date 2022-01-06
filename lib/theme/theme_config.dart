@@ -48,7 +48,7 @@ class ThemeConfig {
         ),
       ),
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: Color(0xFF323232),
+        backgroundColor: const Color(0xFF323232),
         contentTextStyle: m3TextTheme.bodyMedium.copyWith(color: _light.background),
         actionTextColor: _dark.primary,
         shape: RoundedRectangleBorder(

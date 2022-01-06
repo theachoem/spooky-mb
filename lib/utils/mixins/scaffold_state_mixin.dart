@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/utils/constants/config_constant.dart';
 
 mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   late ValueNotifier<bool> isSpBottomSheetOpenNotifer;
@@ -41,7 +40,7 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
           enableDrag: false,
           builder: (context) {
             return Column(
-              children: [
+              children: const [
                 ListTile(
                   title: Text("Titlel"),
                 )

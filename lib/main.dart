@@ -14,7 +14,7 @@ void main() async {
       supportedLocales: AppConstant.supportedLocales,
       fallbackLocale: AppConstant.fallbackLocale,
       path: 'assets/translations',
-      child: InitialTheme(),
+      child: const InitialTheme(),
     ),
   );
 }

@@ -39,7 +39,7 @@ class _DetailMobile extends StatelessWidget {
           autoFocus: false,
           readOnly: readOnlyNotifier.value,
           expands: false,
-          padding: EdgeInsets.all(ConfigConstant.margin2),
+          padding: const EdgeInsets.all(ConfigConstant.margin2),
           keyboardAppearance: M3Color.keyboardAppearance(context),
         );
       },
@@ -55,8 +55,8 @@ class _DetailMobile extends StatelessWidget {
           autofocus: false,
           readOnly: readOnlyNotifier.value,
           keyboardAppearance: M3Color.keyboardAppearance(context),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+          decoration: const InputDecoration(
+            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
             hintText: 'Title...',
             border: UnderlineInputBorder(
               borderSide: BorderSide.none,

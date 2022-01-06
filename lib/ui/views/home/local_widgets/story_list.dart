@@ -55,7 +55,7 @@ class StoryList extends StatelessWidget {
                 style: M3TextTheme.of(context)?.bodyMedium,
               ),
               ConfigConstant.sizedBoxH0,
-              SpChip(
+              const SpChip(
                 labelText: '3 Images',
                 avatar: CircleAvatar(
                   backgroundImage: NetworkImage('https://flutter.github.io/assets-for-api-docs/assets/widgets/owl.jpg'),
@@ -91,7 +91,7 @@ class StoryList extends StatelessWidget {
 
   Widget buildMonogram() {
     return Column(
-      children: [
+      children: const [
         ConfigConstant.sizedBoxH0,
         Text("Tue"),
         ConfigConstant.sizedBoxH0,
@@ -117,7 +117,7 @@ class SpChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SpTapEffect(
-      effects: [SpTapEffectType.scaleDown],
+      effects: const [SpTapEffectType.scaleDown],
       onTap: () {},
       child: Chip(
         label: Text(
@@ -131,7 +131,7 @@ class SpChip extends StatelessWidget {
             color: M3Color.of(context)!.outline,
           ),
         ),
-        padding: EdgeInsets.all(ConfigConstant.margin1),
+        padding: const EdgeInsets.all(ConfigConstant.margin1),
         avatar: avatar,
       ),
     );

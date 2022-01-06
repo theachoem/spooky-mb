@@ -40,6 +40,6 @@ class M3ReadOnlyColor {
     );
   }
 
-  Color? get black => Color(0xFF000000);
-  Color? get white => Color(0xFFFFFFFF);
+  Color? get black => const Color(0xFF000000);
+  Color? get white => const Color(0xFFFFFFFF);
 }

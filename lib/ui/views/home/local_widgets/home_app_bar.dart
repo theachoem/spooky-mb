@@ -47,7 +47,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
       ),
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.pin,
-        stretchModes: [
+        stretchModes: const [
           StretchMode.zoomBackground,
         ],
         background: buildBackground(),
@@ -107,8 +107,8 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
   Widget getThemeModeIcon() {
     return SpAnimatedIcons(
       duration: ConfigConstant.duration * 3,
-      firstChild: Icon(Icons.dark_mode, key: const ValueKey(Brightness.dark)),
-      secondChild: Icon(Icons.light_mode, key: const ValueKey(Brightness.light)),
+      firstChild: const Icon(Icons.dark_mode, key: ValueKey(Brightness.dark)),
+      secondChild: const Icon(Icons.light_mode, key: ValueKey(Brightness.light)),
       showFirst: Theme.of(context).colorScheme.brightness == Brightness.dark,
     );
   }

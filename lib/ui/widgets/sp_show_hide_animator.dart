@@ -23,7 +23,7 @@ class SpShowHideAnimator extends StatelessWidget {
       duration: animationDuration,
       switchInCurve: showCurve,
       switchOutCurve: hideCurve,
-      child: shouldShow ? child : Offstage(),
+      child: shouldShow ? child : const Offstage(),
       transitionBuilder: (child, animation) {
         return ScaleTransition(
           scale: animation,
