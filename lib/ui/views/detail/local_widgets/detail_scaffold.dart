@@ -1,41 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
+import 'package:spooky/ui/widgets/sp_icon_button.dart';
+import 'package:spooky/ui/widgets/sp_pop_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
+import 'package:spooky/utils/mixins/stateful_mixin.dart';
 
 class DetailScaffold extends StatefulWidget {
   const DetailScaffold({
     Key? key,
-    required this.appBar,
-    required this.editor,
-    required this.toolbar,
+    required this.titleBuilder,
+    required this.editorBuilder,
+    required this.toolbarBuilder,
     required this.readOnlyNotifier,
   }) : super(key: key);
 
-  final AppBar appBar;
-  final Widget editor;
-  final Widget toolbar;
+  final Widget Function(GlobalKey<ScaffoldState>) titleBuilder;
+  final Widget Function(GlobalKey<ScaffoldState>) editorBuilder;
+  final Widget Function(GlobalKey<ScaffoldState>) toolbarBuilder;
   final ValueNotifier<bool> readOnlyNotifier;
 
   @override
   State<DetailScaffold> createState() => _DetailScaffoldState();
 }
 
-class _DetailScaffoldState extends State<DetailScaffold> {
+class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin {
   @override
   Widget build(BuildContext context) {
-    EdgeInsets mediaQueryPadding = MediaQuery.of(context).padding;
     return Scaffold(
+      key: scaffoldkey,
       extendBody: true,
-      appBar: widget.appBar,
+      appBar: buildAppBar(),
       floatingActionButton: buildBypassFAB(),
       body: Stack(
         fit: StackFit.expand,
         children: [
           Column(
             children: [
-              Expanded(child: widget.editor),
+              Expanded(child: widget.editorBuilder(scaffoldkey)),
               buildAdditionBottomPadding(),
             ],
           ),
@@ -43,6 +48,29 @@ class _DetailScaffoldState extends State<DetailScaffold> {
           buildFloatActionButton(mediaQueryPadding),
         ],
       ),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      leading: SpPopButton(),
+      title: widget.titleBuilder(scaffoldkey),
+      actions: [
+        buildSpBottomSheetListener(
+          builder: (context, isSpBottomSheetOpen, _) {
+            return SpIconButton(
+              icon: SpAnimatedIcons(
+                firstChild: Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
+                secondChild: Icon(Icons.clear, key: ValueKey(Icons.clear)),
+                showFirst: !isSpBottomSheetOpen,
+              ),
+              onPressed: () {
+                showSpBottomSheet();
+              },
+            );
+          },
+        )
+      ],
     );
   }
 
@@ -102,9 +130,9 @@ class _DetailScaffoldState extends State<DetailScaffold> {
                 secondChild: Text("Save"),
                 showFirst: value,
               ),
-              icon: SpCrossFade(
-                firstChild: Icon(Icons.edit),
-                secondChild: Icon(Icons.save),
+              icon: SpAnimatedIcons(
+                firstChild: Icon(Icons.edit, key: ValueKey(Icons.edit)),
+                secondChild: Icon(Icons.save, key: ValueKey(Icons.save)),
                 showFirst: value,
               ),
             ),
@@ -127,7 +155,7 @@ class _DetailScaffoldState extends State<DetailScaffold> {
             bottom: mediaQueryPadding.bottom + ConfigConstant.margin0,
             top: ConfigConstant.margin0,
           ),
-          child: widget.toolbar,
+          child: widget.toolbarBuilder(scaffoldkey),
         ),
         builder: (context, value, child) {
           return IgnorePointer(

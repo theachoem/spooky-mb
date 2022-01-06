@@ -12,14 +12,14 @@ class _DetailMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DetailScaffold(
-      appBar: buildAppBar(context),
-      editor: buildEditor(context),
-      toolbar: buildToolbar(),
+      titleBuilder: (state) => buildTitle(state),
+      editorBuilder: (state) => buildEditor(state),
+      toolbarBuilder: (state) => buildToolbar(state),
       readOnlyNotifier: readOnlyNotifier,
     );
   }
 
-  editor.QuillToolbar buildToolbar() {
+  editor.QuillToolbar buildToolbar(GlobalKey<ScaffoldState> state) {
     return editor.QuillToolbar.basic(
       controller: controller,
       multiRowsDisplay: false,
@@ -27,7 +27,7 @@ class _DetailMobile extends StatelessWidget {
     );
   }
 
-  Widget buildEditor(BuildContext context) {
+  Widget buildEditor(GlobalKey<ScaffoldState> state) {
     return ValueListenableBuilder<bool>(
       valueListenable: readOnlyNotifier,
       builder: (context, value, child) {
@@ -46,49 +46,25 @@ class _DetailMobile extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBar(BuildContext context) {
-    return AppBar(
-      leading: SpPopButton(),
-      title: ValueListenableBuilder<bool>(
-        valueListenable: readOnlyNotifier,
-        builder: (context, value, child) {
-          return TextField(
-            style: M3TextTheme.of(context)?.titleLarge,
-            autofocus: false,
-            readOnly: readOnlyNotifier.value,
-            keyboardAppearance: M3Color.keyboardAppearance(context),
-            decoration: InputDecoration(
-              contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
-              hintText: 'Title...',
-              border: UnderlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.zero,
-              ),
+  Widget buildTitle(GlobalKey<ScaffoldState> state) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: readOnlyNotifier,
+      builder: (context, value, child) {
+        return TextField(
+          style: M3TextTheme.of(context)?.titleLarge,
+          autofocus: false,
+          readOnly: readOnlyNotifier.value,
+          keyboardAppearance: M3Color.keyboardAppearance(context),
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+            hintText: 'Title...',
+            border: UnderlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.zero,
             ),
-          );
-        },
-      ),
-      actions: [
-        SpPopupMenuButton(
-          fromAppBar: true,
-          items: [
-            SpPopMenuItem(
-              title: "Info",
-              onPressed: () {},
-            ),
-            SpPopMenuItem(
-              title: "Delete",
-              onPressed: () {},
-            ),
-          ],
-          builder: (callback) {
-            return SpIconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: callback,
-            );
-          },
-        ),
-      ],
+          ),
+        );
+      },
     );
   }
 }
