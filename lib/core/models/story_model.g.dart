@@ -11,9 +11,6 @@ StoryModel _$StoryModelFromJson(Map<String, dynamic> json) => StoryModel(
       starred: json['starred'] as bool?,
       feeling: json['feeling'] as String?,
       title: json['title'] as String?,
-      forDate: json['for_date'] == null
-          ? null
-          : DateTime.parse(json['for_date'] as String),
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -30,7 +27,6 @@ Map<String, dynamic> _$StoryModelToJson(StoryModel instance) =>
       'starred': instance.starred,
       'feeling': instance.feeling,
       'title': instance.title,
-      'for_date': instance.forDate?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'plain_text': instance.plainText,

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 class AppHelper {
   AppHelper._internal();
@@ -26,5 +27,11 @@ class AppHelper {
   static int? intFromBool(bool? value) {
     if (value == null) return 0;
     return value ? 1 : 0;
+  }
+
+  static String prettifyJson(Map<dynamic, dynamic> json) {
+    JsonEncoder encoder = JsonEncoder.withIndent("  ");
+    String prettyJson = encoder.convert(json);
+    return prettyJson;
   }
 }
