@@ -39,7 +39,9 @@ class DocsManager extends BaseFileManager {
       bool exists = await directory.exists();
       if (!exists) {
         directory.create(recursive: true);
+        return [];
       }
+
       if (kDebugMode) {
         print("fetchAll: $directory: $exists");
       }
@@ -57,7 +59,15 @@ class DocsManager extends BaseFileManager {
         List<String> base = e.absolute.path.replaceFirst(directory.absolute.path + "/", "").split("/");
         if (base.length >= 3 && base[2].endsWith(".json")) {
           String key = base[0] + "/" + base[1];
-          storiesPath[key] = base[2];
+
+          // override if base[2] is newer than storiesPath[key]
+          if (storiesPath.containsKey(key)) {
+            if (storiesPath[key]?.compareTo(base[2]) == -1) {
+              storiesPath[key] = base[2];
+            }
+          } else {
+            storiesPath[key] = base[2];
+          }
         }
       }
 

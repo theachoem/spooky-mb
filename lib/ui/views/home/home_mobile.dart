@@ -37,7 +37,10 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
           children: List.generate(
             controller.length,
             (index) {
-              return const StoryList();
+              return StoryList(
+                year: 2022,
+                month: index + 1,
+              );
             },
           ),
         ),

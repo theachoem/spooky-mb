@@ -25,31 +25,39 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
   late ValueNotifier<bool> hasChangeNotifer;
 
   DetailViewModel(this.currentStory) {
-    controller = QuillController.basic();
+    controller = currentStory?.document != null
+        ? QuillController(
+            document: Document.fromJson(currentStory!.document!),
+            selection: const TextSelection.collapsed(offset: 0),
+          )
+        : QuillController.basic();
     focusNode = FocusNode();
     scrollController = ScrollController();
     readOnlyNotifier = ValueNotifier(true);
-    hasChangeNotifer = ValueNotifier(hasChange);
-    titleController = TextEditingController();
+    hasChangeNotifer = ValueNotifier(flowType == DetailViewFlow.create);
+    titleController = TextEditingController(text: currentStory?.title);
     docsManager = DocsManager();
-    readOnlyNotifier.addListener(() {
-      if (readOnlyNotifier.value) {
-        focusNode.unfocus();
-      } else {
-        focusNode.requestFocus();
-      }
-      hasChangeNotifer.value = hasChange;
-    });
 
-    controller.addListener(() {
-      scheduleAction(() {
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      readOnlyNotifier.addListener(() {
+        if (readOnlyNotifier.value) {
+          focusNode.unfocus();
+        } else {
+          focusNode.requestFocus();
+        }
         hasChangeNotifer.value = hasChange;
       });
-    });
 
-    titleController.addListener(() {
-      scheduleAction(() {
-        hasChangeNotifer.value = hasChange;
+      controller.addListener(() {
+        scheduleAction(() {
+          hasChangeNotifer.value = hasChange;
+        });
+      });
+
+      titleController.addListener(() {
+        scheduleAction(() {
+          hasChangeNotifer.value = hasChange;
+        });
       });
     });
   }
