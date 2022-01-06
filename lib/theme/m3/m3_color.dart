@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_read_only_color.dart';
 import 'package:spooky/theme/theme_constant.dart';
+import 'package:spooky/utils/constants/util_colors_constant.dart';
 export '../../utils/extensions/color_extension.dart';
 
 class M3Color {
   static M3Color? of(BuildContext context) {
     bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
     return isDarkMode ? ThemeConstant.darkM3Color : ThemeConstant.lightM3Color;
+  }
+
+  static Map<int, Color> dayColorsOf(BuildContext context) {
+    bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
+    return isDarkMode ? colorsByDayDarkM3 : colorsByDayLightM3;
   }
 
   static Brightness keyboardAppearance(BuildContext context) {

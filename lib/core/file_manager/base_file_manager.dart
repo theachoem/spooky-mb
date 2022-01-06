@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
@@ -27,6 +27,9 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
     } catch (e) {
       error = e;
       success = false;
+      if (kDebugMode) {
+        rethrow;
+      }
     }
   }
 

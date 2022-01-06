@@ -1,3 +1,7 @@
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:spooky/core/file_manager/base_file_manager.dart';
 import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
@@ -23,7 +27,53 @@ class DocsManager extends BaseFileManager {
     required int month,
   }) async {
     return beforeExec<List<StoryModel>>(() async {
-      return [];
+      String? monthName = DateFormatHelper.toNameOfMonth().format(DateTime(year, month));
+      List<dynamic> path = [
+        appPath,
+        parentPath,
+        year,
+        monthName,
+      ];
+
+      Directory directory = Directory(path.join("/"));
+      bool exists = await directory.exists();
+      if (!exists) {
+        directory.create(recursive: true);
+      }
+      if (kDebugMode) {
+        print("fetchAll: $directory: $exists");
+      }
+
+      var result = directory.listSync(recursive: true);
+
+      //
+      // {
+      //   "7/1641494022922": "1641494022922.json"
+      //   "7/1641492326066": "1641492450608.json"
+      // }
+      Map<String, String> storiesPath = {};
+
+      for (FileSystemEntity e in result) {
+        List<String> base = e.absolute.path.replaceFirst(directory.absolute.path + "/", "").split("/");
+        if (base.length >= 3 && base[2].endsWith(".json")) {
+          String key = base[0] + "/" + base[1];
+          storiesPath[key] = base[2];
+        }
+      }
+
+      List<StoryModel> stories = [];
+
+      for (MapEntry<String, String> e in storiesPath.entries) {
+        File file = File(directory.absolute.path + "/" + e.key + "/" + e.value);
+        String result = await file.readAsString();
+        dynamic json = jsonDecode(result);
+        if (json is Map<String, dynamic>) {
+          StoryModel story = StoryModel.fromJson(json);
+          stories.add(story);
+        }
+      }
+
+      return stories;
     });
   }
 
