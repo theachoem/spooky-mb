@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/app.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 
 mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   late ValueNotifier<bool> isSpBottomSheetOpenNotifer;
@@ -30,9 +32,9 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  void showSpBottomSheet() async {
-    isSpBottomSheetOpenNotifer.value = !isSpBottomSheetOpenNotifer.value;
-    if (isSpBottomSheetOpenNotifer.value) {
+  void toggleSpBottomSheet() async {
+    App.of(context)?.clearSpSnackBars();
+    if (!isSpBottomSheetOpenNotifer.value) {
       persistentBottomSheetController = scaffoldkey.currentState?.showBottomSheet((context) {
         return BottomSheet(
           onClosing: () {},
@@ -52,5 +54,6 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
     } else {
       persistentBottomSheetController?.close();
     }
+    isSpBottomSheetOpenNotifer.value = !isSpBottomSheetOpenNotifer.value;
   }
 }

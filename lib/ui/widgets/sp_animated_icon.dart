@@ -27,8 +27,8 @@ class SpAnimatedIcons extends StatelessWidget {
       transitionBuilder: (child, animation) {
         return RotationTransition(
           turns: child.key == firstChild.key
-              ? Tween<double>(begin: 0.5, end: 0).animate(animation)
-              : Tween<double>(begin: 0.5, end: 1).animate(animation),
+              ? Tween<double>(begin: 0.25, end: 0).animate(animation)
+              : Tween<double>(begin: 0.75, end: 1).animate(animation),
           child: ScaleTransition(
             scale: animation,
             child: child,

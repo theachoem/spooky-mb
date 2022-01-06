@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
@@ -27,13 +28,14 @@ class DetailScaffold extends StatefulWidget {
   State<DetailScaffold> createState() => _DetailScaffoldState();
 }
 
-class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin {
+class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin, DetailViewMixn {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldkey,
       extendBody: true,
       appBar: buildAppBar(),
+      resizeToAvoidBottomInset: false,
       floatingActionButton: buildBypassFAB(),
       body: Stack(
         fit: StackFit.expand,
@@ -65,7 +67,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
                 showFirst: !isSpBottomSheetOpen,
               ),
               onPressed: () {
-                showSpBottomSheet();
+                toggleSpBottomSheet();
               },
             );
           },
@@ -96,49 +98,69 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
   }
 
   Widget buildFloatActionButton(EdgeInsets mediaQueryPadding) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: widget.readOnlyNotifier,
-      builder: (context, value, child) {
-        double bottom = (value ? 0 : kToolbarHeight) + mediaQueryPadding.bottom + 16.0;
-        return Positioned(
-          bottom: 0,
-          right: 0,
-          child: AnimatedContainer(
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: widget.readOnlyNotifier,
+        child: buildFabEndWidget(context),
+        builder: (context, value, endWidget) {
+          double bottom = (value ? 0 : kToolbarHeight) + mediaQueryPadding.bottom + 16.0;
+          double bottomOffset = mediaQueryData.viewInsets.bottom + mediaQueryPadding.bottom;
+          return AnimatedContainer(
             curve: Curves.ease,
-            duration: ConfigConstant.fadeDuration,
+            duration: ConfigConstant.duration,
             transform: Matrix4.identity()..translate(-16.0, -bottom),
-            child: FloatingActionButton.extended(
-              backgroundColor: value ? M3Color.of(context)?.secondary : M3Color.of(context)?.primary,
-              foregroundColor: value ? M3Color.of(context)?.onSecondary : M3Color.of(context)?.onPrimary,
-              onPressed: () {
-                widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
-                bool saving = widget.readOnlyNotifier.value;
-                if (saving) {
-                  Future.delayed(ConfigConstant.fadeDuration).then((value) {
-                    App.of(context)?.showSpSnackBar("Saved");
-                  });
-                } else {
-                  // clear to avoid snack bar on top of "SAVE" fab.
-                  App.of(context)?.clearSpSnackBars();
-                }
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              label: SpCrossFade(
-                firstChild: Text("Edit"),
-                secondChild: Text("Save"),
-                showFirst: value,
-              ),
-              icon: SpAnimatedIcons(
-                firstChild: Icon(Icons.edit, key: ValueKey(Icons.edit)),
-                secondChild: Icon(Icons.save, key: ValueKey(Icons.save)),
-                showFirst: value,
-              ),
+            padding: EdgeInsets.only(bottom: mediaQueryData.viewInsets.bottom == 0 ? 0 : bottomOffset),
+            onEnd: () {
+              Future.delayed(ConfigConstant.fadeDuration).then((value) {
+                readOnlyAfterAnimatedNotifer.value = widget.readOnlyNotifier.value;
+              });
+            },
+            child: endWidget ?? SizedBox(),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildFabEndWidget(BuildContext context) {
+    return SafeArea(
+      bottom: false,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: readOnlyAfterAnimatedNotifer,
+        builder: (context, value, endWidget) {
+          return FloatingActionButton.extended(
+            backgroundColor: value ? M3Color.of(context)?.secondary : M3Color.of(context)?.primary,
+            foregroundColor: value ? M3Color.of(context)?.onSecondary : M3Color.of(context)?.onPrimary,
+            onPressed: () {
+              widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
+              bool saving = widget.readOnlyNotifier.value;
+              if (saving) {
+                Future.delayed(ConfigConstant.fadeDuration).then((value) {
+                  App.of(context)?.showSpSnackBar("Saved");
+                });
+              } else {
+                // clear to avoid snack bar on top of "SAVE" fab.
+                App.of(context)?.clearSpSnackBars();
+              }
+            },
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
             ),
-          ),
-        );
-      },
+            label: SpCrossFade(
+              firstChild: Text("Edit"),
+              secondChild: Text("Save"),
+              showFirst: value,
+            ),
+            icon: SpAnimatedIcons(
+              firstChild: Icon(Icons.edit, key: ValueKey(Icons.edit)),
+              secondChild: Icon(Icons.save, key: ValueKey(Icons.save)),
+              showFirst: value,
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -149,10 +171,12 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
       right: 0,
       child: ValueListenableBuilder<bool>(
         valueListenable: widget.readOnlyNotifier,
-        child: Container(
+        child: AnimatedContainer(
+          curve: Curves.ease,
+          duration: ConfigConstant.duration * 2,
           color: M3Color.of(context)?.readOnly.surface2,
           padding: EdgeInsets.only(
-            bottom: mediaQueryPadding.bottom + ConfigConstant.margin0,
+            bottom: mediaQueryPadding.bottom + mediaQueryData.viewInsets.bottom + ConfigConstant.margin0,
             top: ConfigConstant.margin0,
           ),
           child: widget.toolbarBuilder(scaffoldkey),
@@ -163,8 +187,13 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
             child: AnimatedOpacity(
               opacity: value ? 0 : 1,
               duration: ConfigConstant.fadeDuration,
-              curve: Curves.fastOutSlowIn,
-              child: child,
+              curve: Curves.ease,
+              child: AnimatedContainer(
+                curve: Curves.ease,
+                duration: ConfigConstant.fadeDuration,
+                transform: Matrix4.identity()..translate(0.0, !value ? 0 : kToolbarHeight),
+                child: child,
+              ),
             ),
           );
         },

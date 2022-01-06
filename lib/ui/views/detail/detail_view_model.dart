@@ -13,6 +13,14 @@ class DetailViewModel extends BaseViewModel {
     focusNode = FocusNode();
     scrollController = ScrollController();
     readOnlyNotifier = ValueNotifier(true);
+
+    readOnlyNotifier.addListener(() {
+      if (readOnlyNotifier.value) {
+        focusNode.unfocus();
+      } else {
+        focusNode.requestFocus();
+      }
+    });
   }
 
   @override
