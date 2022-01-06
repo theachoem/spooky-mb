@@ -30,6 +30,12 @@ class DetailScaffold extends StatefulWidget {
 
 class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin, DetailViewMixn {
   @override
+  void initState() {
+    super.initState();
+    readOnlyAfterAnimatedNotifer = ValueNotifier(widget.readOnlyNotifier.value);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldkey,
