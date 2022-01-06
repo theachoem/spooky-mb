@@ -69,9 +69,24 @@ class _DetailMobile extends StatelessWidget {
         },
       ),
       actions: [
-        SpIconButton(
-          icon: Icon(Icons.more_vert),
-          onPressed: () {},
+        SpPopupMenuButton(
+          fromAppBar: true,
+          items: [
+            SpPopMenuItem(
+              title: "Info",
+              onPressed: () {},
+            ),
+            SpPopMenuItem(
+              title: "Delete",
+              onPressed: () {},
+            ),
+          ],
+          builder: (callback) {
+            return SpIconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: callback,
+            );
+          },
         ),
       ],
     );

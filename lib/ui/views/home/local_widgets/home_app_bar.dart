@@ -65,6 +65,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
                 widget.title,
                 style: textTheme.headline6?.copyWith(color: colorScheme.primary),
               ),
+              ConfigConstant.sizedBoxH0,
               Text(
                 widget.subtitle,
                 style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
