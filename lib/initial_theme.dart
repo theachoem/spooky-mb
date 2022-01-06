@@ -43,8 +43,8 @@ class _InitialThemeState extends State<InitialTheme> {
   void toggleThemeMode() {
     if (mode == ThemeMode.system) {
       Brightness? brightness = SchedulerBinding.instance?.window.platformBrightness;
-      bool _isDarkMode = brightness == Brightness.dark;
-      setThemeMode(_isDarkMode ? ThemeMode.light : ThemeMode.dark);
+      bool isDarkMode = brightness == Brightness.dark;
+      setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
     } else {
       setThemeMode(mode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
     }
