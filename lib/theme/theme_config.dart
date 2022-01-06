@@ -19,7 +19,7 @@ class ThemeConfig {
     M3Color m3Color = isDarkMode ? _dark : _light;
     M3TextTheme m3TextTheme = buildTextTheme(m3Color);
     return ThemeData(
-      platform: TargetPlatform.android,
+      // platform: TargetPlatform.android,
       primaryColor: m3Color.primary,
       backgroundColor: m3Color.background,
       scaffoldBackgroundColor: m3Color.background,
