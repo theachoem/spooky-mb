@@ -59,7 +59,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       tabLabels: List.generate(
         12,
         (index) {
-          return DateFormatHelper.toNameOfMonth(context).format(
+          return DateFormatHelper.toNameOfMonth().format(
             DateTime(2020, index + 1),
           );
         },
