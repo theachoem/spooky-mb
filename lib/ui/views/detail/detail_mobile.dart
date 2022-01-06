@@ -16,6 +16,7 @@ class _DetailMobile extends StatelessWidget {
       editorBuilder: (state) => buildEditor(state),
       toolbarBuilder: (state) => buildToolbar(state),
       readOnlyNotifier: readOnlyNotifier,
+      onSave: () async {},
     );
   }
 

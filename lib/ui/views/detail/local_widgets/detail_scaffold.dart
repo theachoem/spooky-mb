@@ -17,12 +17,14 @@ class DetailScaffold extends StatefulWidget {
     required this.editorBuilder,
     required this.toolbarBuilder,
     required this.readOnlyNotifier,
+    required this.onSave,
   }) : super(key: key);
 
   final Widget Function(GlobalKey<ScaffoldState>) titleBuilder;
   final Widget Function(GlobalKey<ScaffoldState>) editorBuilder;
   final Widget Function(GlobalKey<ScaffoldState>) toolbarBuilder;
   final ValueNotifier<bool> readOnlyNotifier;
+  final Future<void> Function() onSave;
 
   @override
   State<DetailScaffold> createState() => _DetailScaffoldState();
@@ -139,10 +141,11 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           return FloatingActionButton.extended(
             backgroundColor: value ? M3Color.of(context)?.secondary : M3Color.of(context)?.primary,
             foregroundColor: value ? M3Color.of(context)?.onSecondary : M3Color.of(context)?.onPrimary,
-            onPressed: () {
+            onPressed: () async {
               widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
               bool saving = widget.readOnlyNotifier.value;
               if (saving) {
+                await widget.onSave();
                 Future.delayed(ConfigConstant.fadeDuration).then((value) {
                   App.of(context)?.showSpSnackBar("Saved");
                 });
