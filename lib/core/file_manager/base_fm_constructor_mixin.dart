@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 
 enum FilePath { user, docs }
 
@@ -10,6 +11,7 @@ mixin BaseFmConstructorMixin<T> {
   String get parentPath => parentPathEnum.name;
   FilePath get parentPathEnum;
 
+  String get rootPath => FileHelper.directory.absolute.path + "/" + parentPath;
   String constructParentPath(BaseModel model);
 
   Future<Directory> constructDirectory(BaseModel story) async {

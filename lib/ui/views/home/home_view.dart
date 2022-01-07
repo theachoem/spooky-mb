@@ -17,14 +17,16 @@ class HomeView extends StatelessWidget {
   const HomeView({
     Key? key,
     required this.onTabChange,
+    required this.onYearChange,
   }) : super(key: key);
 
   final void Function(int index) onTabChange;
+  final void Function(int year) onYearChange;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
-      viewModelBuilder: () => HomeViewModel(onTabChange),
+      viewModelBuilder: () => HomeViewModel(onTabChange, onYearChange),
       onModelReady: (model) {},
       builder: (context, model, child) {
         return ScreenTypeLayout(

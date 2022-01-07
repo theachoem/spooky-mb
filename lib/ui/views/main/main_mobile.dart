@@ -8,7 +8,10 @@ class _MainMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return route.AutoTabsRouter(
       routes: [
-        route.Home(onTabChange: viewModel.onTabChange),
+        route.Home(
+          onTabChange: viewModel.onTabChange,
+          onYearChange: (int year) => viewModel.year = year,
+        ),
         route.Explore(),
         route.Setting(),
       ],

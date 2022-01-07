@@ -28,6 +28,7 @@ class DetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (story.flowType == DetailViewFlow.create) assert(story.pathDate != null);
     return ViewModelBuilder<DetailViewModel>.reactive(
       viewModelBuilder: () => DetailViewModel(story),
       onModelReady: (model) {},

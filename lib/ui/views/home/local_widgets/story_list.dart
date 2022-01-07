@@ -57,6 +57,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
   void didUpdateWidget(covariant StoryList oldWidget) {
     super.didUpdateWidget(oldWidget);
     setDayColors();
+    if (oldWidget.year != widget.year) load();
   }
 
   @override

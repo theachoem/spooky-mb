@@ -6,6 +6,7 @@ import 'package:spooky/core/file_manager/base_file_manager.dart';
 import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 
 class DocsManager extends BaseFileManager {
@@ -20,6 +21,24 @@ class DocsManager extends BaseFileManager {
     String? month = DateFormatHelper.toNameOfMonth().format(model.pathDate!);
     String? day = model.pathDate!.day.toString();
     return [appPath, parentPath, year, month, day, model.documentId].join("/");
+  }
+
+  int docsCount(int year) {
+    Directory root = Directory(rootPath + "/" + "$year");
+    if (root.existsSync()) {
+      List<FileSystemEntity> result = root.listSync(recursive: true);
+      Set<String> docs = {};
+
+      for (FileSystemEntity element in result) {
+        String path = element.absolute.path;
+        if (path.endsWith("." + AppConstant.documentExstension)) {
+          docs.add(path.split("/").reversed.toList()[1]);
+        }
+      }
+
+      return docs.length;
+    }
+    return 0;
   }
 
   Future<List<StoryModel>?> fetchAll({

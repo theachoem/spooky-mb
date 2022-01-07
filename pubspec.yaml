@@ -27,6 +27,8 @@ dependencies:
   json_annotation: ^4.4.0
   path_provider: ^2.0.8
   timezone: ^0.8.0
+  scroll_to_index: ^2.1.1
+  flutter_cupertino_datetime_picker: ^3.0.0
 
 dev_dependencies:
   flutter_test:

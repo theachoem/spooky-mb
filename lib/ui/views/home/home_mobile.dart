@@ -20,7 +20,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     super.initState();
     controller = TabController(length: 12, vsync: this);
     controller.addListener(() {
-      if (controller.animation!.value % 10 == controller.index) {
+      if (!controller.indexIsChanging) {
         widget.viewModel.onTabChange(controller.index + 1);
       }
     });
@@ -43,7 +43,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
             controller.length,
             (index) {
               return StoryList(
-                year: 2022,
+                year: widget.viewModel.year,
                 month: index + 1,
               );
             },
@@ -62,8 +62,9 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   Widget buildAppBar() {
     return HomeAppBar(
       title: "Hello Sothea 📝",
-      subtitle: "2021 - 100 Stories",
+      subtitle: "${widget.viewModel.year} - ${widget.viewModel.docsManager.docsCount(widget.viewModel.year)} Stories",
       tabController: controller,
+      viewModel: widget.viewModel,
       tabLabels: List.generate(
         12,
         (index) {
