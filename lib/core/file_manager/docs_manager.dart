@@ -75,16 +75,23 @@ class DocsManager extends BaseFileManager {
 
       for (MapEntry<String, String> e in storiesPath.entries) {
         File file = File(directory.absolute.path + "/" + e.key + "/" + e.value);
-        String result = await file.readAsString();
-        dynamic json = jsonDecode(result);
-        if (json is Map<String, dynamic>) {
-          StoryModel story = StoryModel.fromJson(json);
+        StoryModel? story = await fetchOne(file);
+        if (story != null) {
           stories.add(story);
         }
       }
 
       return stories;
     });
+  }
+
+  Future<StoryModel?> fetchOne(File file) async {
+    String result = await file.readAsString();
+    dynamic json = jsonDecode(result);
+    if (json is Map<String, dynamic>) {
+      StoryModel story = StoryModel.fromJson(json);
+      return story;
+    }
   }
 
   Future<List<StoryModel>?> fetchChangesHistory({

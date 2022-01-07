@@ -1,6 +1,9 @@
 library setting_view;
 
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:spooky/core/route/router.gr.dart' as r;
+import 'package:auto_route/auto_route.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'setting_view_model.dart';
@@ -16,9 +19,7 @@ class SettingView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<SettingViewModel>.reactive(
       viewModelBuilder: () => SettingViewModel(),
-      onModelReady: (model) {
-        // Do something once your model is initialized
-      },
+      onModelReady: (model) {},
       builder: (context, model, child) {
         return ScreenTypeLayout(
           mobile: _SettingMobile(model),

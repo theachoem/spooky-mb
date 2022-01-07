@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/models/base_model.dart';
+import 'package:spooky/utils/constants/app_constant.dart';
 
 enum FilePath { user, docs }
 
@@ -28,7 +29,7 @@ mixin BaseFmConstructorMixin<T> {
   }
 
   Future<File> constructFile(BaseModel model, Directory directory) async {
-    String fileName = model.objectId.toString() + ".json";
+    String fileName = model.objectId.toString() + "." + AppConstant.documentExstension;
     File file = File(directory.absolute.path + '/' + fileName);
     return file;
   }

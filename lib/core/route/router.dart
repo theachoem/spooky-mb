@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:flutter/material.dart';
 import 'package:spooky/ui/views/detail/detail_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/file_manager/file_manager_view.dart';
@@ -8,29 +9,33 @@ import 'package:spooky/ui/views/setting/setting_view.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
-    MaterialRoute(
+    AutoRoute(
       name: 'Detail',
       page: DetailView,
     ),
-    MaterialRoute(
+    AutoRoute(
+      name: "FileManager",
+      page: FileManagerView,
+    ),
+    AutoRoute(
+      name: "LicensePage",
+      page: LicensePage,
+    ),
+    AutoRoute(
       name: 'Main',
       page: MainView,
       children: [
-        MaterialRoute(
+        AutoRoute(
           name: 'Home',
           page: HomeView,
         ),
-        MaterialRoute(
+        AutoRoute(
           name: 'Explore',
           page: ExploreView,
         ),
-        MaterialRoute(
+        AutoRoute(
           name: 'Setting',
           page: SettingView,
-        ),
-        MaterialRoute(
-          name: "FileManager",
-          page: FileManagerView,
         ),
       ],
       initial: true,

@@ -6,8 +6,33 @@ class _SettingMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('SettingMobile')),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Setting"),
+      ),
+      body: ListView(
+        children: ListTile.divideTiles(
+          context: context,
+          tiles: [
+            ListTile(
+              leading: Icon(Icons.folder),
+              title: Text("File Explorer"),
+              onTap: () {
+                context.router.push(
+                  r.FileManager(directory: FileHelper.directory),
+                );
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.privacy_tip),
+              title: Text("Licenses"),
+              onTap: () {
+                context.router.push(r.LicensePage());
+              },
+            )
+          ],
+        ).toList(),
+      ),
     );
   }
 }
