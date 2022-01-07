@@ -30,15 +30,13 @@ class _MainMobile extends StatelessWidget {
             child: FloatingActionButton.extended(
               onPressed: () {
                 SpDatePicker.showDayPicker(context, viewModel.date, (date) async {
-                  await context.router
-                      .push(
-                    route.Detail(story: StoryModel.create(pathDate: date)),
-                  )
-                      .then((value) {
-                    if (value is StoryModel && value.documentId != null && viewModel.storyListReloader != null) {
+                  await context.router.push(route.Detail(story: StoryModel.create(pathDate: date))).then(
+                    (value) {
+                      // if (value is StoryModel && value.documentId != null && viewModel.storyListReloader != null) {
                       viewModel.storyListReloader!();
-                    }
-                  });
+                      // }
+                    },
+                  );
                 });
               },
               shape: RoundedRectangleBorder(

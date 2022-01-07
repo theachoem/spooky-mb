@@ -15,13 +15,25 @@ class _HomeMobile extends StatefulWidget {
 class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderStateMixin {
   late TabController controller;
 
+  // {
+  //   1: reloaderPage1(),
+  //   .
+  //   .
+  //   12: reloaderPage12(),
+  // }
+  Map<int, void Function()> listReloaderMap = {};
+
   @override
   void initState() {
     super.initState();
     controller = TabController(length: 12, vsync: this);
     controller.addListener(() {
       if (!controller.indexIsChanging) {
-        widget.viewModel.onTabChange(controller.index + 1);
+        int monthIndex = controller.index + 1;
+        widget.viewModel.onTabChange(monthIndex);
+        if (listReloaderMap.containsKey(monthIndex)) {
+          widget.viewModel.onListReloaderReady(listReloaderMap[monthIndex]!);
+        }
       }
     });
   }
@@ -45,7 +57,9 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
               return StoryList(
                 year: widget.viewModel.year,
                 month: index + 1,
-                onListReloaderReady: widget.viewModel.onListReloaderReady,
+                onListReloaderReady: (reloader) {
+                  listReloaderMap[index + 1] = reloader;
+                },
               );
             },
           ),

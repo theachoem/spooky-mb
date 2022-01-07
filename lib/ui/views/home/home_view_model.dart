@@ -11,7 +11,7 @@ class HomeViewModel extends IndexTrackingViewModel {
 
   final void Function(int index) onTabChange;
   final void Function(int year) onYearChange;
-  final void Function(void Function()) onListReloaderReady;
+  late final void Function(void Function()) onListReloaderReady;
   HomeViewModel(this.onTabChange, this.onYearChange, this.onListReloaderReady) {
     year = DateTime.now().year;
   }
