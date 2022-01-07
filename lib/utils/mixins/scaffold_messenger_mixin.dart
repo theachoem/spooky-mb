@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:stacked_services/stacked_services.dart';
+import 'package:spooky/app.dart';
 
 // only use in app.dart
 mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? scaffoldFeatureController;
-  BuildContext? get _context => StackedService.navigatorKey?.currentContext;
+  BuildContext? get _context => App.navigatorKey.currentContext;
   ScaffoldMessengerState? get _state {
     if (_context != null) {
       return ScaffoldMessenger.maybeOf(_context!);

@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/main.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class DateFormatHelper {
   static BuildContext? get _context {
     if (flutterTest) {
-      return StackedService.navigatorKey?.currentContext;
+      return App.navigatorKey.currentContext;
     }
   }
 

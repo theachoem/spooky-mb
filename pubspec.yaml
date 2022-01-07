@@ -15,12 +15,9 @@ dependencies:
 
   # mvvm
   stacked: ^2.2.7+1
-  stacked_services: ^0.8.16
   responsive_builder: ^0.4.1
   logger: ^1.1.0
-  get_it: ^7.2.0
   auto_route: ^3.2.1
-  injectable: ^1.5.0
   intl: ^0.17.0
   easy_localization: ^3.0.0
   flutter_quill: ^3.0.4
@@ -39,7 +36,6 @@ dev_dependencies:
   
   # mvvm
   flutter_lints: ^1.0.0
-  injectable_generator: ^1.5.2
   auto_route_generator: ^3.2.1
 
 flutter:

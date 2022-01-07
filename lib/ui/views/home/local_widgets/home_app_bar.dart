@@ -7,8 +7,8 @@ import 'package:spooky/ui/views/home/local_widgets/home_tab_bar.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
@@ -117,7 +117,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
     return ThemeMode.values.map((e) {
       return AlertDialogAction(
         key: e,
-        label: e.name.capitalize!,
+        label: e.name.capitalize,
       );
     }).toList();
   }
