@@ -15,10 +15,12 @@ class StoryList extends StatefulWidget {
     Key? key,
     required this.year,
     required this.month,
+    required this.onListReloaderReady,
   }) : super(key: key);
 
   final int year;
   final int month;
+  final void Function(void Function() callback) onListReloaderReady;
 
   @override
   State<StoryList> createState() => _StoryListState();
@@ -36,6 +38,8 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
 
     load();
     setDayColors();
+
+    widget.onListReloaderReady(load);
   }
 
   void setDayColors() {
@@ -175,17 +179,18 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
   }
 
   Widget buildMonogram(BuildContext context, StoryModel content) {
-    if (content.createdAt == null) return SizedBox.shrink();
+    DateTime? displayDate = content.pathDate ?? content.createdAt;
+    if (displayDate == null) return SizedBox.shrink();
     return Column(
       children: [
         ConfigConstant.sizedBoxH0,
-        Text(DateFormatHelper.toDay().format(content.createdAt!).toString()),
+        Text(DateFormatHelper.toDay().format(displayDate).toString()),
         ConfigConstant.sizedBoxH0,
         CircleAvatar(
           radius: 20,
-          backgroundColor: dayColors[content.createdAt!.day],
+          backgroundColor: dayColors[displayDate.weekday],
           foregroundColor: M3Color.of(context)?.onPrimary,
-          child: Text(content.createdAt!.day.toString()),
+          child: Text(displayDate.day.toString()),
         ),
       ],
     );

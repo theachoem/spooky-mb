@@ -1,6 +1,7 @@
 library detail_view;
 
 import 'package:flutter_quill/flutter_quill.dart' as editor;
+import 'package:spooky/core/route/router.dart' as route;
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -33,10 +34,16 @@ class DetailView extends StatelessWidget {
       viewModelBuilder: () => DetailViewModel(story),
       onModelReady: (model) {},
       builder: (context, model, child) {
-        return ScreenTypeLayout(
-          mobile: _DetailMobile(model),
-          desktop: _DetailDesktop(model),
-          tablet: _DetailTablet(model),
+        return WillPopScope(
+          onWillPop: () async {
+            context.router.popForced(model.currentStory);
+            return true;
+          },
+          child: ScreenTypeLayout(
+            mobile: _DetailMobile(model),
+            desktop: _DetailDesktop(model),
+            tablet: _DetailTablet(model),
+          ),
         );
       },
     );

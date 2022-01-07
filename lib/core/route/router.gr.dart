@@ -64,7 +64,8 @@ class AppRouter extends _i8.RootStackRouter {
           child: _i5.HomeView(
               key: args.key,
               onTabChange: args.onTabChange,
-              onYearChange: args.onYearChange));
+              onYearChange: args.onYearChange,
+              onListReloaderReady: args.onListReloaderReady));
     },
     Explore.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
@@ -197,20 +198,25 @@ class Home extends _i8.PageRouteInfo<HomeArgs> {
   Home(
       {_i3.Key? key,
       required void Function(int) onTabChange,
-      required void Function(int) onYearChange})
+      required void Function(int) onYearChange,
+      required void Function(void Function()) onListReloaderReady})
       : super(Home.name,
             path: 'home-view',
             args: HomeArgs(
                 key: key,
                 onTabChange: onTabChange,
-                onYearChange: onYearChange));
+                onYearChange: onYearChange,
+                onListReloaderReady: onListReloaderReady));
 
   static const String name = 'Home';
 }
 
 class HomeArgs {
   const HomeArgs(
-      {this.key, required this.onTabChange, required this.onYearChange});
+      {this.key,
+      required this.onTabChange,
+      required this.onYearChange,
+      required this.onListReloaderReady});
 
   final _i3.Key? key;
 
@@ -218,9 +224,11 @@ class HomeArgs {
 
   final void Function(int) onYearChange;
 
+  final void Function(void Function()) onListReloaderReady;
+
   @override
   String toString() {
-    return 'HomeArgs{key: $key, onTabChange: $onTabChange, onYearChange: $onYearChange}';
+    return 'HomeArgs{key: $key, onTabChange: $onTabChange, onYearChange: $onYearChange, onListReloaderReady: $onListReloaderReady}';
   }
 }
 

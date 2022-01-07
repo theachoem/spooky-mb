@@ -1,6 +1,8 @@
 import 'package:stacked/stacked.dart';
 
 class MainViewModel extends BaseViewModel {
+  void Function()? storyListReloader;
+
   late int year;
   late int month;
   late int day;

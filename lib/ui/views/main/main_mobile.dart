@@ -11,6 +11,9 @@ class _MainMobile extends StatelessWidget {
         route.Home(
           onTabChange: viewModel.onTabChange,
           onYearChange: (int year) => viewModel.year = year,
+          onListReloaderReady: (void Function() callback) {
+            viewModel.storyListReloader = callback;
+          },
         ),
         route.Explore(),
         route.Setting(),
@@ -26,9 +29,17 @@ class _MainMobile extends StatelessWidget {
             shouldShow: tabsRouter.activeIndex == 0,
             child: FloatingActionButton.extended(
               onPressed: () {
-                context.router.push(route.Detail(
-                  story: StoryModel.create(pathDate: viewModel.date),
-                ));
+                SpDatePicker.showDayPicker(context, viewModel.date, (date) async {
+                  await context.router
+                      .push(
+                    route.Detail(story: StoryModel.create(pathDate: date)),
+                  )
+                      .then((value) {
+                    if (value is StoryModel && value.documentId != null && viewModel.storyListReloader != null) {
+                      viewModel.storyListReloader!();
+                    }
+                  });
+                });
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),

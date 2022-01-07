@@ -45,6 +45,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
               return StoryList(
                 year: widget.viewModel.year,
                 month: index + 1,
+                onListReloaderReady: widget.viewModel.onListReloaderReady,
               );
             },
           ),

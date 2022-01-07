@@ -15,6 +15,7 @@ import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
+import 'package:spooky/utils/widgets/sp_date_picker.dart';
 
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
@@ -99,22 +100,10 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
 
                   if (selectedOption == null) return;
                   if (selectedOption == "create") {
-                    M3Color color = M3Color.of(context)!;
-                    DatePicker.showDatePicker(
-                      context,
-                      dateFormat: 'yyyy',
-                      pickerTheme: DateTimePickerTheme(
-                        backgroundColor: color.primary,
-                        itemTextStyle: TextStyle(fontFamilyFallback: M3TextTheme.of(context)?.fontFamilyFallback)
-                            .copyWith(color: color.onPrimary),
-                        cancelTextStyle: TextStyle().copyWith(color: color.onPrimary),
-                        confirmTextStyle: TextStyle().copyWith(color: color.onPrimary),
-                      ),
-                      onConfirm: (DateTime date, List<int> _) {
-                        int year = date.year;
-                        widget.viewModel.setYear(year);
-                      },
-                    );
+                    SpDatePicker.showYearPicker(context, (date) {
+                      int year = date.year;
+                      widget.viewModel.setYear(year);
+                    });
                   } else {
                     int? year = int.tryParse(selectedOption);
                     widget.viewModel.setYear(year);
