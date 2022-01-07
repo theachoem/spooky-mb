@@ -10,6 +10,7 @@ class _MainMobile extends StatelessWidget {
       routes: const [
         r.Home(),
         r.Explore(),
+        r.FileManager(),
         r.Setting(),
       ],
       builder: (context, child, animation) {
@@ -47,6 +48,11 @@ class _MainMobile extends StatelessWidget {
                 activeIconData: Icons.explore,
                 iconData: Icons.explore_outlined,
                 label: "Explore",
+              ),
+              SpBottomNavigationBarItem(
+                activeIconData: Icons.folder,
+                iconData: Icons.folder_open,
+                label: "File",
               ),
               SpBottomNavigationBarItem(
                 activeIconData: Icons.settings,
