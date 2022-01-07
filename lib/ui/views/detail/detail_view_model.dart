@@ -13,8 +13,7 @@ enum DetailViewFlow {
 }
 
 class DetailViewModel extends BaseViewModel with ScheduleMixin {
-  DetailViewFlow get flowType => currentStory != null ? DetailViewFlow.update : DetailViewFlow.create;
-  StoryModel? currentStory;
+  late StoryModel currentStory;
 
   late QuillController controller;
   late FocusNode focusNode;
@@ -24,40 +23,53 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
   late DocsManager docsManager;
   late ValueNotifier<bool> hasChangeNotifer;
 
+  bool get hasChange {
+    return StoryModel.hasChanges(buildStory(), currentStory);
+  }
+
+  QuillController _getDocumentController() {
+    if (currentStory.document != null) {
+      return QuillController(
+        document: Document.fromJson(currentStory.document!),
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+    } else {
+      return QuillController.basic();
+    }
+  }
+
   DetailViewModel(this.currentStory) {
-    controller = currentStory?.document != null
-        ? QuillController(
-            document: Document.fromJson(currentStory!.document!),
-            selection: const TextSelection.collapsed(offset: 0),
-          )
-        : QuillController.basic();
+    controller = _getDocumentController();
     focusNode = FocusNode();
     scrollController = ScrollController();
     readOnlyNotifier = ValueNotifier(true);
-    hasChangeNotifer = ValueNotifier(flowType == DetailViewFlow.create);
-    titleController = TextEditingController(text: currentStory?.title);
+    hasChangeNotifer = ValueNotifier(currentStory.flowType == DetailViewFlow.create);
+    titleController = TextEditingController(text: currentStory.title);
     docsManager = DocsManager();
-
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      readOnlyNotifier.addListener(() {
-        if (readOnlyNotifier.value) {
-          focusNode.unfocus();
-        } else {
-          focusNode.requestFocus();
-        }
+      _setListener();
+    });
+  }
+
+  void _setListener() {
+    readOnlyNotifier.addListener(() {
+      if (readOnlyNotifier.value) {
+        focusNode.unfocus();
+      } else {
+        focusNode.requestFocus();
+      }
+      hasChangeNotifer.value = hasChange;
+    });
+
+    controller.addListener(() {
+      scheduleAction(() {
         hasChangeNotifer.value = hasChange;
       });
+    });
 
-      controller.addListener(() {
-        scheduleAction(() {
-          hasChangeNotifer.value = hasChange;
-        });
-      });
-
-      titleController.addListener(() {
-        scheduleAction(() {
-          hasChangeNotifer.value = hasChange;
-        });
+    titleController.addListener(() {
+      scheduleAction(() {
+        hasChangeNotifer.value = hasChange;
       });
     });
   }
@@ -73,73 +85,60 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     super.dispose();
   }
 
+  Future<DocsManager> save() async {
+    StoryModel story = buildStory();
+    await _write(story);
+    if (docsManager.success == true) currentStory = story;
+    return docsManager;
+  }
+
+  @mustCallSuper
   StoryModel buildStory() {
-    DateTime date = DateTime.now();
+    DateTime now = DateTime.now();
     StoryModel story;
 
-    switch (flowType) {
+    switch (currentStory.flowType) {
       case DetailViewFlow.create:
-        story = buildStoryModel(date);
+        story = StoryModel(
+          documentId: now.millisecondsSinceEpoch.toString(),
+          fileId: now.millisecondsSinceEpoch.toString(),
+          starred: false,
+          feeling: null,
+          title: titleController.text,
+          createdAt: now,
+          pathDate: currentStory.pathDate ?? now,
+          plainText: controller.document.toPlainText(),
+          document: controller.document.toDelta().toJson(),
+        );
         break;
       case DetailViewFlow.update:
-        story = currentStory?.copyWith(
-              fileId: date.millisecondsSinceEpoch.toString(),
-              title: titleController.text,
-              createdAt: date,
-              updatedAt: date,
-              plainText: controller.document.toPlainText(),
-              document: controller.document.toDelta().toJson(),
-            ) ??
-            buildStoryModel(date);
+        // "update" mean that documentId != null
+        story = currentStory.copyWith(
+          fileId: now.millisecondsSinceEpoch.toString(),
+          title: titleController.text,
+          createdAt: now,
+          pathDate: currentStory.pathDate ?? now,
+          plainText: controller.document.toPlainText(),
+          document: controller.document.toDelta().toJson(),
+        );
         break;
     }
 
     return story;
   }
 
-  Future<DocsManager> save() async {
-    StoryModel story = buildStory();
-    await write(story);
-    if (docsManager.success == true) {
-      currentStory = story;
-    }
-    return docsManager;
-  }
-
-  bool get hasChange {
-    if (currentStory != null) {
-      return StoryModel.hasChanges(buildStory(), currentStory!);
-    } else {
-      return true;
-    }
-  }
-
-  Future<void> write(StoryModel story) async {
+  @mustCallSuper
+  Future<void> _write(StoryModel story) async {
     if (hasChange) {
+      assert(story.documentId != null);
+      assert(story.fileId != null);
+      assert(story.pathDate != null);
       await docsManager.write(story);
-      docsManager.success = true;
-      docsManager.message = MessageSummary(
-        docsManager.file != null ? FileHelper.fileName(docsManager.file!.path) : "Successfully!",
-      );
     } else {
       // set success to false,
       // otherwise if !hasChange, old success value will be used
       // which is wrong.
-      docsManager.success = false;
       docsManager.message = MessageSummary('Document has no changes');
     }
-  }
-
-  StoryModel buildStoryModel(DateTime date) {
-    return StoryModel(
-      documentId: date.millisecondsSinceEpoch.toString(),
-      fileId: date.millisecondsSinceEpoch.toString(),
-      starred: false,
-      feeling: null,
-      title: titleController.text,
-      createdAt: date,
-      plainText: controller.document.toPlainText(),
-      document: controller.document.toDelta().toJson(),
-    );
   }
 }

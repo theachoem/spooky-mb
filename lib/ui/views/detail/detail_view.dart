@@ -18,10 +18,13 @@ part 'detail_desktop.dart';
 class DetailView extends StatelessWidget {
   const DetailView({
     Key? key,
-    this.story,
+    required this.story,
   }) : super(key: key);
 
-  final StoryModel? story;
+  // if(story?.documentId != null)
+  //      flowType = DetailViewFlow.update
+  // else flowType = DetailViewFlow.create;
+  final StoryModel story;
 
   @override
   Widget build(BuildContext context) {

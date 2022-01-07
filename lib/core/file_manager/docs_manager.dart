@@ -16,9 +16,9 @@ class DocsManager extends BaseFileManager {
   @override
   String constructParentPath(BaseModel model) {
     model as StoryModel;
-    String? year = model.createdAt?.year.toString();
-    String? month = DateFormatHelper.toNameOfMonth().format(model.createdAt!);
-    String? day = model.createdAt!.day.toString();
+    String? year = model.pathDate?.year.toString();
+    String? month = DateFormatHelper.toNameOfMonth().format(model.pathDate!);
+    String? day = model.pathDate!.day.toString();
     return [appPath, parentPath, year, month, day, model.documentId].join("/");
   }
 

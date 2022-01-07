@@ -42,6 +42,11 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
       file = await _file.writeAsString(
         AppHelper.prettifyJson(model.toJson()),
       );
+
+      success = true;
+      message = MessageSummary(
+        file != null ? FileHelper.fileName(file!.path) : "Successfully!",
+      );
     });
   }
 }

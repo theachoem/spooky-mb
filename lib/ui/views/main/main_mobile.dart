@@ -8,7 +8,7 @@ class _MainMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return AutoTabsRouter(
       routes: [
-        r.Home(),
+        r.Home(onTabChange: viewModel.onTabChange),
         r.Explore(),
         r.Setting(),
       ],
@@ -23,7 +23,9 @@ class _MainMobile extends StatelessWidget {
             shouldShow: tabsRouter.activeIndex == 0,
             child: FloatingActionButton.extended(
               onPressed: () {
-                context.router.push(r.Detail());
+                context.router.push(r.Detail(
+                  story: StoryModel.create(pathDate: viewModel.date),
+                ));
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),

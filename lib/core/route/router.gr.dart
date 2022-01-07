@@ -30,8 +30,7 @@ class Router extends _i8.RootStackRouter {
   @override
   final Map<String, _i8.PageFactory> pagesMap = {
     Detail.name: (routeData) {
-      final args =
-          routeData.argsAs<DetailArgs>(orElse: () => const DetailArgs());
+      final args = routeData.argsAs<DetailArgs>();
       return _i8.MaterialPageX<dynamic>(
           routeData: routeData,
           child: _i1.DetailView(key: args.key, story: args.story));
@@ -59,8 +58,10 @@ class Router extends _i8.RootStackRouter {
           routeData: routeData, child: const _i4.MainView());
     },
     Home.name: (routeData) {
+      final args = routeData.argsAs<HomeArgs>();
       return _i8.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.HomeView());
+          routeData: routeData,
+          child: _i5.HomeView(key: args.key, onTabChange: args.onTabChange));
     },
     Explore.name: (routeData) {
       return _i8.MaterialPageX<dynamic>(
@@ -89,7 +90,7 @@ class Router extends _i8.RootStackRouter {
 /// generated route for
 /// [_i1.DetailView]
 class Detail extends _i8.PageRouteInfo<DetailArgs> {
-  Detail({_i3.Key? key, _i9.StoryModel? story})
+  Detail({_i3.Key? key, required _i9.StoryModel story})
       : super(Detail.name,
             path: '/detail-view', args: DetailArgs(key: key, story: story));
 
@@ -97,11 +98,11 @@ class Detail extends _i8.PageRouteInfo<DetailArgs> {
 }
 
 class DetailArgs {
-  const DetailArgs({this.key, this.story});
+  const DetailArgs({this.key, required this.story});
 
   final _i3.Key? key;
 
-  final _i9.StoryModel? story;
+  final _i9.StoryModel story;
 
   @override
   String toString() {
@@ -189,10 +190,26 @@ class Main extends _i8.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.HomeView]
-class Home extends _i8.PageRouteInfo<void> {
-  const Home() : super(Home.name, path: 'home-view');
+class Home extends _i8.PageRouteInfo<HomeArgs> {
+  Home({_i3.Key? key, required void Function(int) onTabChange})
+      : super(Home.name,
+            path: 'home-view',
+            args: HomeArgs(key: key, onTabChange: onTabChange));
 
   static const String name = 'Home';
+}
+
+class HomeArgs {
+  const HomeArgs({this.key, required this.onTabChange});
+
+  final _i3.Key? key;
+
+  final void Function(int) onTabChange;
+
+  @override
+  String toString() {
+    return 'HomeArgs{key: $key, onTabChange: $onTabChange}';
+  }
 }
 
 /// generated route for

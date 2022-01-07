@@ -16,12 +16,15 @@ part 'home_desktop.dart';
 class HomeView extends StatelessWidget {
   const HomeView({
     Key? key,
+    required this.onTabChange,
   }) : super(key: key);
+
+  final void Function(int index) onTabChange;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<HomeViewModel>.reactive(
-      viewModelBuilder: () => HomeViewModel(),
+      viewModelBuilder: () => HomeViewModel(onTabChange),
       onModelReady: (model) {},
       builder: (context, model, child) {
         return ScreenTypeLayout(

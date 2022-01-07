@@ -19,6 +19,11 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   void initState() {
     super.initState();
     controller = TabController(length: 12, vsync: this);
+    controller.addListener(() {
+      if (controller.animation!.value % 10 == controller.index) {
+        widget.viewModel.onTabChange(controller.index + 1);
+      }
+    });
   }
 
   @override

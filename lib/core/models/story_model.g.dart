@@ -15,6 +15,9 @@ StoryModel _$StoryModelFromJson(Map<String, dynamic> json) => StoryModel(
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
+      pathDate: json['path_date'] == null
+          ? null
+          : DateTime.parse(json['path_date'] as String),
       plainText: json['plain_text'] as String?,
       document: json['document'] as List<dynamic>?,
     );
@@ -26,6 +29,7 @@ Map<String, dynamic> _$StoryModelToJson(StoryModel instance) =>
       'starred': instance.starred,
       'feeling': instance.feeling,
       'title': instance.title,
+      'path_date': instance.pathDate?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
       'plain_text': instance.plainText,
       'document': instance.document,

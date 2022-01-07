@@ -16,7 +16,8 @@ void main() async {
         starred: false,
         feeling: null,
         title: 'title',
-        createdAt: DateTime(2022, 1, 7),
+        createdAt: null,
+        pathDate: DateTime(2022, 1, 7),
         plainText: '',
         document: [],
       ));
