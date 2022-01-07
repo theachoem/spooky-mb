@@ -39,7 +39,10 @@ class AppRouter extends _i8.RootStackRouter {
       final args = routeData.argsAs<FileManagerArgs>();
       return _i8.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i2.FileManagerView(key: args.key, directory: args.directory));
+          child: _i2.FileManagerView(
+              key: args.key,
+              directory: args.directory,
+              fileManagerFlow: args.fileManagerFlow));
     },
     LicensePage.name: (routeData) {
       final args = routeData.argsAs<LicensePageArgs>(
@@ -117,24 +120,35 @@ class DetailArgs {
 /// generated route for
 /// [_i2.FileManagerView]
 class FileManager extends _i8.PageRouteInfo<FileManagerArgs> {
-  FileManager({_i3.Key? key, required _i10.Directory directory})
+  FileManager(
+      {_i3.Key? key,
+      required _i10.Directory directory,
+      _i2.FileManagerFlow fileManagerFlow = _i2.FileManagerFlow.explore})
       : super(FileManager.name,
             path: '/file-manager-view',
-            args: FileManagerArgs(key: key, directory: directory));
+            args: FileManagerArgs(
+                key: key,
+                directory: directory,
+                fileManagerFlow: fileManagerFlow));
 
   static const String name = 'FileManager';
 }
 
 class FileManagerArgs {
-  const FileManagerArgs({this.key, required this.directory});
+  const FileManagerArgs(
+      {this.key,
+      required this.directory,
+      this.fileManagerFlow = _i2.FileManagerFlow.explore});
 
   final _i3.Key? key;
 
   final _i10.Directory directory;
 
+  final _i2.FileManagerFlow fileManagerFlow;
+
   @override
   String toString() {
-    return 'FileManagerArgs{key: $key, directory: $directory}';
+    return 'FileManagerArgs{key: $key, directory: $directory, fileManagerFlow: $fileManagerFlow}';
   }
 }
 

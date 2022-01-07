@@ -20,6 +20,7 @@ class _DetailMobile extends StatelessWidget {
       readOnlyNotifier: readOnlyNotifier,
       hasChangeNotifer: hasChangeNotifer,
       onSave: () => viewModel.save(),
+      viewModel: viewModel,
     );
   }
 

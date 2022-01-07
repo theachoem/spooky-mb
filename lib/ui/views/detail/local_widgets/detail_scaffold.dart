@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
+import 'package:spooky/ui/views/file_manager/file_manager_view.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
@@ -11,6 +15,7 @@ import 'package:spooky/ui/widgets/sp_pop_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
+import 'package:spooky/core/route/router.dart' as route;
 
 class DetailScaffold extends StatefulWidget {
   const DetailScaffold({
@@ -21,6 +26,7 @@ class DetailScaffold extends StatefulWidget {
     required this.readOnlyNotifier,
     required this.hasChangeNotifer,
     required this.onSave,
+    required this.viewModel,
   }) : super(key: key);
 
   final Widget Function(GlobalKey<ScaffoldState>) titleBuilder;
@@ -29,6 +35,7 @@ class DetailScaffold extends StatefulWidget {
   final ValueNotifier<bool> readOnlyNotifier;
   final ValueNotifier<bool> hasChangeNotifer;
   final Future<DocsManager> Function() onSave;
+  final DetailViewModel viewModel;
 
   @override
   State<DetailScaffold> createState() => _DetailScaffoldState();
@@ -227,6 +234,26 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           );
         },
       ),
+    );
+  }
+
+  @override
+  Widget buildSheet(BuildContext context) {
+    return Column(
+      children: ListTile.divideTiles(context: context, tiles: [
+        if (widget.viewModel.currentStory.documentId != null)
+          ListTile(
+            title: const Text("Changes History"),
+            leading: const Icon(Icons.history),
+            onTap: () async {
+              Directory directory = await DocsManager().constructDirectory(widget.viewModel.currentStory);
+              context.router.push(route.FileManager(
+                directory: directory,
+                fileManagerFlow: FileManagerFlow.viewChanges,
+              ));
+            },
+          ),
+      ]).toList(),
     );
   }
 }

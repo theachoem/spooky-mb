@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/models/story_model.dart';
 
 mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   late ValueNotifier<bool> isSpBottomSheetOpenNotifer;
@@ -31,6 +32,8 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
+  Widget buildSheet(BuildContext context);
+
   void toggleSpBottomSheet() async {
     App.of(context)?.clearSpSnackBars();
     if (!isSpBottomSheetOpenNotifer.value) {
@@ -39,13 +42,7 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
           onClosing: () {},
           enableDrag: false,
           builder: (context) {
-            return Column(
-              children: const [
-                ListTile(
-                  title: Text("Titlel"),
-                )
-              ],
-            );
+            return buildSheet(context);
           },
         );
       });

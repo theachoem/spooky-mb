@@ -53,4 +53,8 @@ class DateFormatHelper {
   static DateFormat timeFormat() {
     return DateFormat.jm(languageCode);
   }
+
+  static DateFormat dateTimeFormat() {
+    return DateFormat.yMEd(languageCode).addPattern("- " + DateFormat.jms().pattern!);
+  }
 }
