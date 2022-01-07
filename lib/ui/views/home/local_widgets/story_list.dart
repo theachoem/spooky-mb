@@ -25,7 +25,7 @@ class StoryList extends StatefulWidget {
   State<StoryList> createState() => _StoryListState();
 }
 
-class _StoryListState extends State<StoryList> {
+class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixin {
   final DocsManager docsManager = DocsManager();
   List<StoryModel>? stories;
 
@@ -62,6 +62,7 @@ class _StoryListState extends State<StoryList> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return RefreshIndicator(
       onRefresh: () => load(),
       child: Stack(
@@ -189,4 +190,7 @@ class _StoryListState extends State<StoryList> {
       ],
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
