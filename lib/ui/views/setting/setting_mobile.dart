@@ -19,7 +19,7 @@ class _SettingMobile extends StatelessWidget {
               title: Text("File Explorer"),
               onTap: () {
                 context.router.push(
-                  r.FileManager(directory: FileHelper.directory),
+                  route.FileManager(directory: FileHelper.directory),
                 );
               },
             ),
@@ -27,7 +27,7 @@ class _SettingMobile extends StatelessWidget {
               leading: Icon(Icons.privacy_tip),
               title: Text("Licenses"),
               onTap: () {
-                context.router.push(r.LicensePage());
+                context.router.push(route.LicensePage());
               },
             )
           ],

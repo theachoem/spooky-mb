@@ -3,7 +3,6 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/file_manager/base_file_manager.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 

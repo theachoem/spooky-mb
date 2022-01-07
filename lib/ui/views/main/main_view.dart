@@ -1,14 +1,13 @@
 library main_view;
 
-import 'package:auto_route/auto_route.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/route/router.dart' as route;
 import 'package:spooky/ui/widgets/sp_bottom_navaigation_bar.dart';
 import 'package:spooky/ui/widgets/sp_show_hide_animator.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'main_view_model.dart';
-import 'package:spooky/core/route/router.gr.dart' as r;
 
 part 'main_mobile.dart';
 part 'main_tablet.dart';

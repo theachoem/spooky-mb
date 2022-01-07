@@ -6,14 +6,14 @@ class _MainMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
+    return route.AutoTabsRouter(
       routes: [
-        r.Home(onTabChange: viewModel.onTabChange),
-        r.Explore(),
-        r.Setting(),
+        route.Home(onTabChange: viewModel.onTabChange),
+        route.Explore(),
+        route.Setting(),
       ],
       builder: (context, child, animation) {
-        final TabsRouter tabsRouter = AutoTabsRouter.of(context);
+        final route.TabsRouter tabsRouter = route.AutoTabsRouter.of(context);
         return Scaffold(
           body: FadeTransition(
             opacity: animation,
@@ -23,7 +23,7 @@ class _MainMobile extends StatelessWidget {
             shouldShow: tabsRouter.activeIndex == 0,
             child: FloatingActionButton.extended(
               onPressed: () {
-                context.router.push(r.Detail(
+                context.router.push(route.Detail(
                   story: StoryModel.create(pathDate: viewModel.date),
                 ));
               },

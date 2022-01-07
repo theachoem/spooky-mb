@@ -3,7 +3,7 @@ library explore_view;
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
-import 'explore_view_model.dart';
+import 'package:spooky/ui/views/explore/explore_view_model.dart';
 
 part 'explore_mobile.dart';
 part 'explore_tablet.dart';

@@ -29,8 +29,8 @@ Map<String, dynamic> _$StoryModelToJson(StoryModel instance) =>
       'starred': instance.starred,
       'feeling': instance.feeling,
       'title': instance.title,
-      'path_date': instance.pathDate?.toIso8601String(),
       'created_at': instance.createdAt?.toIso8601String(),
       'plain_text': instance.plainText,
+      'path_date': instance.pathDate?.toIso8601String(),
       'document': instance.document,
     };

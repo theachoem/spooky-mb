@@ -23,8 +23,8 @@ import '../../ui/views/main/main_view.dart' as _i4;
 import '../../ui/views/setting/setting_view.dart' as _i7;
 import '../models/story_model.dart' as _i9;
 
-class Router extends _i8.RootStackRouter {
-  Router([_i3.GlobalKey<_i3.NavigatorState>? navigatorKey])
+class AppRouter extends _i8.RootStackRouter {
+  AppRouter([_i3.GlobalKey<_i3.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override

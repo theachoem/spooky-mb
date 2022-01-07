@@ -47,7 +47,7 @@ class _FileManagerMobile extends StatelessWidget {
           if (extension == AppConstant.documentExstension) {
             StoryModel? content = await DocsManager().fetchOne(item);
             if (content != null) {
-              context.router.push(r.Detail(story: content));
+              context.router.push(route.Detail(story: content));
             }
           }
         }

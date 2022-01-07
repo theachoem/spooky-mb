@@ -1,4 +1,3 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -9,7 +8,7 @@ import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
-import 'package:spooky/core/route/router.gr.dart' as r;
+import 'package:spooky/core/route/router.dart' as route;
 
 class StoryList extends StatefulWidget {
   const StoryList({
@@ -82,7 +81,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
               final StoryModel content = stories![index];
               return SpTapEffect(
                 onTap: () {
-                  context.router.push(r.Detail(story: content));
+                  context.router.push(route.Detail(story: content));
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
