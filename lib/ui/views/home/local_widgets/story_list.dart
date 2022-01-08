@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
+import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_chip.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -15,14 +16,24 @@ class StoryList extends StatelessWidget {
     required this.onRefresh,
     required this.stories,
     this.emptyMessage = "",
+    this.onDelete,
+    this.onUnarchive,
+    this.itemPadding = const EdgeInsets.all(ConfigConstant.margin2),
   }) : super(key: key);
-  final Future<void> Function() onRefresh;
 
+  final Future<void> Function() onRefresh;
+  final Future<bool> Function(StoryModel story)? onDelete;
+  final Future<bool> Function(StoryModel story)? onUnarchive;
   final List<StoryModel>? stories;
   final String emptyMessage;
+  final EdgeInsets itemPadding;
 
   @override
   Widget build(BuildContext context) {
+    if (onDelete != null || onUnarchive != null) {
+      assert(onDelete != null);
+      assert(onUnarchive != null);
+    }
     Map<int, Color> dayColors = M3Color.dayColorsOf(context);
     return RefreshIndicator(
       onRefresh: onRefresh,
@@ -31,7 +42,7 @@ class StoryList extends StatelessWidget {
           ListView.separated(
             itemCount: stories?.length ?? 0,
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: ConfigConstant.layoutPadding,
+            padding: EdgeInsets.zero,
             separatorBuilder: (context, index) {
               return Divider(
                 indent: 16 + 20 + 16 + 4,
@@ -41,33 +52,56 @@ class StoryList extends StatelessWidget {
             },
             itemBuilder: (context, index) {
               final StoryModel content = stories![index];
-              return SpTapEffect(
-                onTap: () {
-                  route.Detail page = route.Detail(
-                    story: content.copyWith(
-                      documentId: content.documentId ?? StoryModel.documentIdFromDate(DateTime.now()),
-                      pathDate: content.pathDate ?? content.createdAt ?? DateTime.now(),
-                    ),
-                  );
-                  context.router.push(page).then(
-                    (value) {
-                      if (value is StoryModel && value.documentId != null) {
-                        onRefresh();
-                      }
-                    },
-                  );
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildMonogram(context, content, dayColors),
-                      ConfigConstant.sizedBoxW2,
-                      buildContent(context, content),
-                    ],
+              if (onDelete != null && onUnarchive != null) {
+                return Dismissible(
+                  key: ValueKey(content.documentId ?? index),
+                  background: buildDismissibleBackground(
+                    context: context,
+                    iconData: Icons.delete,
+                    alignment: Alignment.centerLeft,
+                    backgroundColor: M3Color.of(context).error,
+                    foregroundColor: M3Color.of(context).onError,
+                    label: "Delete",
                   ),
-                ),
+                  secondaryBackground: buildDismissibleBackground(
+                    context: context,
+                    iconData: Icons.unarchive,
+                    alignment: Alignment.centerRight,
+                    backgroundColor: M3Color.of(context).primary,
+                    foregroundColor: M3Color.of(context).onPrimary,
+                    label: "Unarchive",
+                  ),
+                  confirmDismiss: (direction) async {
+                    switch (direction) {
+                      case DismissDirection.startToEnd:
+                        if (onDelete != null) return onDelete!(content);
+                        return false;
+                      case DismissDirection.vertical:
+                        return false;
+                      case DismissDirection.horizontal:
+                        return false;
+                      case DismissDirection.endToStart:
+                        if (onDelete != null) return onUnarchive!(content);
+                        return false;
+                      case DismissDirection.up:
+                        return false;
+                      case DismissDirection.down:
+                        return false;
+                      case DismissDirection.none:
+                        return false;
+                    }
+                  },
+                  child: buildStoryTile(
+                    content,
+                    context,
+                    dayColors,
+                  ),
+                );
+              }
+              return buildStoryTile(
+                content,
+                context,
+                dayColors,
               );
             },
           ),
@@ -81,6 +115,84 @@ class StoryList extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildDismissibleBackground({
+    required BuildContext context,
+    required IconData iconData,
+    required String label,
+    Color? backgroundColor,
+    Color? foregroundColor,
+    Alignment alignment = Alignment.centerRight,
+  }) {
+    return Container(
+      alignment: alignment,
+      padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+      color: backgroundColor,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TweenAnimationBuilder<int>(
+            duration: ConfigConstant.duration,
+            tween: IntTween(begin: 0, end: 1),
+            builder: (context, value, child) {
+              return SpAnimatedIcons(
+                firstChild: Icon(
+                  iconData,
+                  size: ConfigConstant.iconSize3,
+                  color: foregroundColor,
+                  key: ValueKey(iconData),
+                ),
+                secondChild: Icon(
+                  Icons.swap_horiz,
+                  size: ConfigConstant.iconSize3,
+                  color: foregroundColor,
+                  key: ValueKey(Icons.swap_horiz),
+                ),
+                showFirst: value == 1,
+              );
+            },
+          ),
+          ConfigConstant.sizedBoxH0,
+          Text(
+            label,
+            style: TextStyle(color: foregroundColor),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildStoryTile(StoryModel content, BuildContext context, Map<int, Color> dayColors) {
+    return SpTapEffect(
+      onTap: () {
+        route.Detail page = route.Detail(
+          story: content.copyWith(
+            documentId: content.documentId ?? StoryModel.documentIdFromDate(DateTime.now()),
+            pathDate: content.pathDate ?? content.createdAt ?? DateTime.now(),
+          ),
+        );
+        context.router.push(page).then(
+          (value) {
+            if (value is StoryModel && value.documentId != null) {
+              onRefresh();
+            }
+          },
+        );
+      },
+      child: Padding(
+        padding: itemPadding,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildMonogram(context, content, dayColors),
+            ConfigConstant.sizedBoxW2,
+            buildContent(context, content),
+          ],
+        ),
       ),
     );
   }

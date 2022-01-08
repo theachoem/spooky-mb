@@ -16,6 +16,15 @@ class _ArchiveMobile extends StatelessWidget {
       body: StoryList(
         onRefresh: () => viewModel.load(),
         stories: viewModel.stories,
+        onDelete: (StoryModel story) {
+          return viewModel.delete(story);
+        },
+        onUnarchive: (StoryModel story) async {
+          var result = await viewModel.unachieveDocument(story);
+          print("RESULT: $result");
+          print("MSG: ${viewModel.archiveManager.error}");
+          return result;
+        },
       ),
     );
   }

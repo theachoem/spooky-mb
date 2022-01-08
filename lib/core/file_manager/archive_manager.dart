@@ -19,8 +19,7 @@ class ArchiveManager extends BaseFileManager with StoryQueryMixin {
 
   Future<void> achieveDocument(StoryModel story) async {
     if (!canAchieve(story)) {
-      success = false;
-      message = MessageSummary("Document is unable to achieve");
+      error = message = MessageSummary("Document is unable to achieve");
       return;
     }
 
@@ -33,17 +32,18 @@ class ArchiveManager extends BaseFileManager with StoryQueryMixin {
         String newPath = e.path.replaceAll(_docsManager.rootPath, achieveRootDir.absolute.path);
         File? file = await moveFile(e, newPath);
         if (file == null) break;
-        success = true;
         message = MessageSummary('Achieve success!');
       }
     }
   }
 
   Future<void> unachieveDocument(StoryModel story) async {
-    var storyParentPath = story.parentPath;
+    error = null;
+    file = null;
+
+    String? storyParentPath = story.parentPath;
     if (!canUnachieve(story) || storyParentPath == null) {
-      success = false;
-      message = MessageSummary("Document is unable to unachieve");
+      error = message = MessageSummary("Document is unable to unachieve");
       return;
     }
 
@@ -57,10 +57,10 @@ class ArchiveManager extends BaseFileManager with StoryQueryMixin {
         String newPath = e.path.replaceAll(achieveRootDir.absolute.path, _docsManager.rootPath);
         File? file = await moveFile(e, newPath);
         if (file == null) break;
-        success = true;
-        message = MessageSummary('Achieve success!');
       }
     }
+
+    message = MessageSummary('Achieve success!');
   }
 
   @override

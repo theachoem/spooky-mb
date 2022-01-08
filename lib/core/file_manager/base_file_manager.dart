@@ -8,7 +8,7 @@ import 'package:spooky/utils/helpers/file_helper.dart';
 // store as json
 abstract class BaseFileManager with BaseFmConstructorMixin {
   Object? error;
-  bool? success;
+  bool get success => error == null;
   File? file;
 
   MessageSummary? message;
@@ -16,17 +16,14 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
   String get appPath => FileHelper.directory.absolute.path;
 
   Future<T?> beforeExec<T>(Future<T> Function() callback) async {
-    success = false;
     error = null;
     file = null;
     try {
       T result = await callback();
-      success = true;
       error = null;
       return result;
     } catch (e) {
       error = e;
-      success = false;
       if (kDebugMode) {
         rethrow;
       }
@@ -51,7 +48,6 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
         AppHelper.prettifyJson(model.toJson()),
       );
 
-      success = true;
       message = MessageSummary(
         file != null ? FileHelper.fileName(file!.path) : "Successfully!",
       );
@@ -59,32 +55,23 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
   }
 
   Future<File?> moveFile(File sourceFile, String newPath) async {
-    await ensureDirExist(Directory(newPath));
-    try {
-      File newFile = await sourceFile.rename(newPath);
-      await sourceFile.absolute.parent.delete(recursive: true);
-      return newFile;
-    } on FileSystemException catch (e) {
-      if (kDebugMode) {
-        print("RENAME: osError: ${e.osError}");
-        print("RENAME: path: ${e.path}");
-        print("RENAME: message: ${e.message}");
-      }
-
+    return beforeExec<File?>(() async {
+      await ensureDirExist(Directory(newPath));
       try {
-        File newFile = await sourceFile.copy(newPath);
-        await sourceFile.delete();
+        File newFile = await sourceFile.rename(newPath);
+        await sourceFile.absolute.parent.delete(recursive: true);
         return newFile;
       } on FileSystemException catch (e) {
         if (kDebugMode) {
-          print("COPY: osError: ${e.osError}");
-          print("COPY: path: ${e.path}");
-          print("COPY: message: ${e.message}");
+          print("RENAME: osError: ${e.osError}");
+          print("RENAME: path: ${e.path}");
+          print("RENAME: message: ${e.message}");
         }
-        error = e;
-        message = MessageSummary(e.message);
+        File newFile = await sourceFile.copy(newPath);
+        await sourceFile.delete();
+        return newFile;
       }
-    }
+    });
   }
 }
 
