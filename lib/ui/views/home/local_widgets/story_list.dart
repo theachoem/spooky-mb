@@ -158,11 +158,11 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                     style: M3TextTheme.of(context)?.titleMedium,
                   ),
                 ),
-              if (content.plainText?.trim().isNotEmpty == true)
+              if (content.plainText != null && content.plainText!.trim().length > 1)
                 Container(
                   margin: const EdgeInsets.only(bottom: ConfigConstant.margin0),
                   child: Text(
-                    content.plainText ?? "content.plainText",
+                    content.plainText?.trim() ?? "content.plainText",
                     style: M3TextTheme.of(context)?.bodyMedium,
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
