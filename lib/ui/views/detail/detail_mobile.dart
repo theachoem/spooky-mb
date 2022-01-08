@@ -58,7 +58,7 @@ class _DetailMobile extends StatelessWidget {
       valueListenable: readOnlyNotifier,
       builder: (context, value, child) {
         return TextField(
-          style: M3TextTheme.of(context)?.titleLarge,
+          style: M3TextTheme.of(context).titleLarge,
           autofocus: false,
           readOnly: readOnlyNotifier.value,
           controller: titleController,

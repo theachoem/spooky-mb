@@ -91,7 +91,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
       right: 0,
       child: SpIconButton(
         icon: getThemeModeIcon(),
-        backgroundColor: M3Color.of(context)?.primaryContainer,
+        backgroundColor: M3Color.of(context).primaryContainer,
         onLongPress: () async {
           ThemeMode? result = await showConfirmationDialog(
             context: context,

@@ -5,7 +5,7 @@ import 'package:spooky/utils/constants/util_colors_constant.dart';
 export '../../utils/extensions/color_extension.dart';
 
 class M3Color {
-  static M3Color? of(BuildContext context) {
+  static M3Color of(BuildContext context) {
     bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
     return isDarkMode ? ThemeConstant.darkM3Color : ThemeConstant.lightM3Color;
   }

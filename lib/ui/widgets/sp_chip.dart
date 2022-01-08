@@ -22,13 +22,13 @@ class SpChip extends StatelessWidget {
       child: Chip(
         label: Text(
           labelText,
-          style: M3TextTheme.of(context)?.labelLarge,
+          style: M3TextTheme.of(context).labelLarge,
         ),
         backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
           borderRadius: ConfigConstant.circlarRadius1,
           side: BorderSide(
-            color: M3Color.of(context)!.outline,
+            color: M3Color.of(context).outline,
           ),
         ),
         padding: const EdgeInsets.all(ConfigConstant.margin1),

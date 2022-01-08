@@ -91,7 +91,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
             separatorBuilder: (context, index) {
               return Divider(
                 indent: 16 + 20 + 16 + 4,
-                color: M3Color.of(context)?.secondary.m3Opacity.opacity016,
+                color: M3Color.of(context).secondary.m3Opacity.opacity016,
                 height: 0,
               );
             },
@@ -130,7 +130,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
           Visibility(
             visible: stories != null && stories?.isEmpty == true,
             child: Container(
-              color: M3Color.of(context)?.background,
+              color: M3Color.of(context).background,
               alignment: Alignment.center,
               child: Text(
                 "Add to " + DateFormatHelper.toFullNameOfMonth().format(DateTime(widget.year, widget.month)),
@@ -155,7 +155,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                   margin: const EdgeInsets.only(bottom: ConfigConstant.margin0),
                   child: Text(
                     content.title ?? "content.title",
-                    style: M3TextTheme.of(context)?.titleMedium,
+                    style: M3TextTheme.of(context).titleMedium,
                   ),
                 ),
               if (content.plainText != null && content.plainText!.trim().length > 1)
@@ -163,7 +163,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                   margin: const EdgeInsets.only(bottom: ConfigConstant.margin0),
                   child: Text(
                     content.plainText?.trim() ?? "content.plainText",
-                    style: M3TextTheme.of(context)?.bodyMedium,
+                    style: M3TextTheme.of(context).bodyMedium,
                     maxLines: 5,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -193,12 +193,12 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
             Icon(
               Icons.favorite,
               size: ConfigConstant.iconSize1,
-              color: M3Color.of(context)?.error,
+              color: M3Color.of(context).error,
             ),
           ConfigConstant.sizedBoxW0,
           Text(
             DateFormatHelper.timeFormat().format(content.createdAt!),
-            style: M3TextTheme.of(context)?.bodySmall,
+            style: M3TextTheme.of(context).bodySmall,
           ),
         ],
       ),
@@ -217,8 +217,8 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
           radius: 20,
           backgroundColor: dayColors.keys.contains(displayDate.weekday)
               ? dayColors[displayDate.weekday]
-              : M3Color.of(context)?.primary,
-          foregroundColor: M3Color.of(context)?.onPrimary,
+              : M3Color.of(context).primary,
+          foregroundColor: M3Color.of(context).onPrimary,
           child: Text(displayDate.day.toString()),
         ),
       ],

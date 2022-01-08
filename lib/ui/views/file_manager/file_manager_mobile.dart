@@ -15,8 +15,8 @@ class _FileManagerMobile extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: showFirst ? M3Color.of(context)?.primary : M3Color.of(context)?.secondary,
-        foregroundColor: showFirst ? M3Color.of(context)?.onPrimary : M3Color.of(context)?.onSecondary,
+        backgroundColor: showFirst ? M3Color.of(context).primary : M3Color.of(context).secondary,
+        foregroundColor: showFirst ? M3Color.of(context).onPrimary : M3Color.of(context).onSecondary,
         onPressed: () async {
           viewModel.nextLayout();
         },
@@ -118,7 +118,7 @@ class _FileManagerMobile extends StatelessWidget {
             padding: const EdgeInsets.all(ConfigConstant.margin2),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              color: M3Color.of(context)?.primaryContainer,
+              color: M3Color.of(context).primaryContainer,
               borderRadius: BorderRadius.circular(ConfigConstant.radius1),
             ),
             child: Wrap(

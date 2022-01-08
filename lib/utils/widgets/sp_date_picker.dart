@@ -12,7 +12,7 @@ class SpDatePicker {
     DateTime? maxDateTime,
     String dateFormat = 'yyyy-MM-dd',
   }) {
-    M3Color color = M3Color.of(context)!;
+    M3Color color = M3Color.of(context);
     return DatePicker.showDatePicker(
       context,
       dateFormat: dateFormat,
@@ -22,7 +22,7 @@ class SpDatePicker {
       pickerTheme: DateTimePickerTheme(
         backgroundColor: color.primary,
         itemTextStyle: TextStyle(
-          fontFamilyFallback: M3TextTheme.of(context)?.fontFamilyFallback,
+          fontFamilyFallback: M3TextTheme.of(context).fontFamilyFallback,
         ).copyWith(color: color.onPrimary),
         cancelTextStyle: TextStyle().copyWith(color: color.onPrimary),
         confirmTextStyle: TextStyle().copyWith(color: color.onPrimary),
