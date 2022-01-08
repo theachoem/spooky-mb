@@ -7,8 +7,11 @@ class _SettingMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Setting"),
+      appBar: MorphingAppBar(
+        title: Text(
+          "Setting",
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
       ),
       body: ListView(
         children: ListTile.divideTiles(
@@ -24,12 +27,19 @@ class _SettingMobile extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: Icon(Icons.archive),
+              title: Text("Archive"),
+              onTap: () {
+                context.router.push(route.Archive());
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.privacy_tip),
               title: Text("Licenses"),
               onTap: () {
                 context.router.push(route.LicensePage());
               },
-            )
+            ),
           ],
         ).toList(),
       ),

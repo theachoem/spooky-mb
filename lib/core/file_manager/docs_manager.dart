@@ -1,15 +1,14 @@
-import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/file_manager/base_file_manager.dart';
 import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
+import 'package:spooky/core/file_manager/story_query_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 
-class DocsManager extends BaseFileManager {
+class DocsManager extends BaseFileManager with StoryQueryMixin {
   @override
   FilePath get parentPathEnum => FilePath.docs;
 
@@ -66,52 +65,9 @@ class DocsManager extends BaseFileManager {
       }
 
       var result = directory.listSync(recursive: true);
-
-      //
-      // {
-      //   "7/1641494022922": "1641494022922.json"
-      //   "7/1641492326066": "1641492450608.json"
-      // }
-      Map<String, String> storiesPath = {};
-
-      for (FileSystemEntity e in result) {
-        List<String> base = e.absolute.path.replaceFirst(directory.absolute.path + "/", "").split("/");
-        if (base.length >= 3 && base[2].endsWith(".json")) {
-          String key = base[0] + "/" + base[1];
-
-          // override if base[2] is newer than storiesPath[key]
-          if (storiesPath.containsKey(key)) {
-            if (storiesPath[key]?.compareTo(base[2]) == -1) {
-              storiesPath[key] = base[2];
-            }
-          } else {
-            storiesPath[key] = base[2];
-          }
-        }
-      }
-
-      List<StoryModel> stories = [];
-
-      for (MapEntry<String, String> e in storiesPath.entries) {
-        String parentPath = directory.absolute.path + "/" + e.key;
-        File file = File(parentPath + "/" + e.value);
-        StoryModel? story = await fetchOne(file);
-        if (story != null) {
-          stories.add(story);
-        }
-      }
-
+      var stories = entitiesToDocuments(result);
       return stories;
     });
-  }
-
-  Future<StoryModel?> fetchOne(File file) async {
-    String result = await file.readAsString();
-    dynamic json = jsonDecode(result);
-    if (json is Map<String, dynamic>) {
-      StoryModel story = StoryModel.fromJson(json).copyWith(parentPath: file.absolute.parent.path);
-      return story;
-    }
   }
 
   Future<List<StoryModel>?> fetchChangesHistory({

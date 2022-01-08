@@ -30,7 +30,7 @@ class StoryList extends StatelessWidget {
         children: [
           ListView.separated(
             itemCount: stories?.length ?? 0,
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: const AlwaysScrollableScrollPhysics(),
             padding: ConfigConstant.layoutPadding,
             separatorBuilder: (context, index) {
               return Divider(
@@ -71,12 +71,13 @@ class StoryList extends StatelessWidget {
               );
             },
           ),
-          Visibility(
-            visible: stories?.isEmpty == true,
-            child: Container(
-              color: M3Color.of(context).background,
-              alignment: Alignment.center,
-              child: Text(emptyMessage),
+          IgnorePointer(
+            child: Visibility(
+              visible: stories?.isEmpty == true,
+              child: Container(
+                alignment: Alignment.center,
+                child: Text(emptyMessage),
+              ),
             ),
           ),
         ],
