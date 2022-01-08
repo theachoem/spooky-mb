@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/archive_manager.dart';
 import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
+import 'package:spooky/core/file_manager/delete_manager.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
@@ -47,6 +48,7 @@ class DetailScaffold extends StatefulWidget {
 
 class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin, DetailViewMixn {
   final ArchiveManager archiveManager = ArchiveManager();
+  final DeleteManager deleteManager = DeleteManager();
 
   @override
   void initState() {
@@ -112,7 +114,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
                     context.router.pop(widget.viewModel.currentStory);
                   },
                 ),
-              if (!archiveManager.canAchieve(widget.viewModel.currentStory))
+              if (archiveManager.canUnachieve(widget.viewModel.currentStory))
                 SpPopMenuItem(
                   title: "Unachieve",
                   leadingIconData: Icons.unarchive,
@@ -124,12 +126,22 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
                     context.router.pop(widget.viewModel.currentStory);
                   },
                 ),
-              if (widget.viewModel.currentStory.documentId != null)
+              if (deleteManager.canDelete(widget.viewModel.currentStory))
                 SpPopMenuItem(
                   title: "Delete",
                   titleStyle: TextStyle(color: m3Color?.error),
                   leadingIconData: Icons.delete,
-                  onPressed: () async {},
+                  onPressed: () async {
+                    await deleteManager.delete(widget.viewModel.currentStory);
+                    if (deleteManager.success == true) {
+                      App.of(context)?.showSpSnackBar("Delete successfully!");
+                      context.router.pop(widget.viewModel.currentStory);
+                    } else {
+                      App.of(context)?.showSpSnackBar(
+                        deleteManager.error != null ? deleteManager.error.toString() : "Delete unsuccessfully",
+                      );
+                    }
+                  },
                 ),
             ],
             builder: (void Function() callback) {
