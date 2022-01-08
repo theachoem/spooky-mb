@@ -19,11 +19,15 @@ class SpPopupMenuButton extends StatefulWidget {
     required this.builder,
     this.fromAppBar = false,
     this.items = const [],
+    this.dx,
+    this.dy,
   }) : super(key: key);
 
   final bool fromAppBar;
   final Widget Function(void Function() callback) builder;
   final List<SpPopMenuItem> items;
+  final double? dx;
+  final double? dy;
 
   @override
   State<SpPopupMenuButton> createState() => _SpPopupMenuButtonState();
@@ -63,11 +67,17 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
       } else {
         childPosition = const Offset(0, 0);
       }
+    } else {
+      childPosition = Offset(widget.dx ?? childPosition!.dx, widget.dy ?? childPosition!.dy);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.fromAppBar) {
+      assert(widget.dx == null);
+      assert(widget.dy == null);
+    }
     return MeasureSize(
       onChange: (size) => childSize = size,
       child: GestureDetector(

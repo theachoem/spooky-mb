@@ -24,7 +24,7 @@ class FileManagerViewModel extends BaseViewModel {
       case FileManagerFlow.explore:
         return directory.absolute.path.split("/").last;
       case FileManagerFlow.viewChanges:
-        return "Change History";
+        return "Changes History";
     }
   }
 

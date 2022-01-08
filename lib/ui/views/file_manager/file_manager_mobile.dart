@@ -58,19 +58,52 @@ class _FileManagerMobile extends StatelessWidget {
       itemBuilder: (context, index) {
         FileSystemEntity item = viewModel.parents[index];
         String? extension = item is File ? item.path.split(".").last : null;
-        return ListTile(
-          title: buildEntityName(
-            item: item,
-            extension: extension,
-            showLine: false,
-          ),
-          subtitle: item is File ? Text(DateFormatHelper.dateTimeFormat().format(item.lastModifiedSync())) : null,
-          onTap: () {
-            onFilePressed(item, context, extension);
+
+        bool viewAble = item is File && item.path.endsWith(AppConstant.documentExstension);
+        return SpPopupMenuButton(
+          dx: MediaQuery.of(context).size.width,
+          items: [
+            SpPopMenuItem(
+              title: "View Story",
+              onPressed: () {
+                onEntityPressed(item, context, extension);
+              },
+            ),
+            SpPopMenuItem(
+              title: "View Raw",
+              onPressed: () {
+                context.router.push(route.FileViewer(file: item as File));
+              },
+            ),
+          ],
+          builder: (callback) {
+            return ListTile(
+              title: buildEntityName(
+                item: item,
+                extension: extension,
+                showLine: false,
+              ),
+              subtitle: buildEntitySubtitle(item),
+              onTap: () {
+                if (viewAble) {
+                  callback();
+                } else {
+                  onEntityPressed(item, context, extension);
+                }
+              },
+              trailing: viewAble ? Icon(Icons.more_vert) : null,
+            );
           },
         );
       },
     );
+  }
+
+  Widget? buildEntitySubtitle(FileSystemEntity item) {
+    if (item is File) {
+      String date = DateFormatHelper.dateTimeFormat().format(item.lastModifiedSync());
+      return Text("Created at $date");
+    }
   }
 
   Widget buildGridView(BuildContext context) {
@@ -92,13 +125,11 @@ class _FileManagerMobile extends StatelessWidget {
     );
   }
 
-  Future<void> onFilePressed(FileSystemEntity item, BuildContext context, String? extension) async {
+  Future<void> onEntityPressed(FileSystemEntity item, BuildContext context, String? extension) async {
     if (item is! File) {
-      context.router.pushNativeRoute(MaterialPageRoute(builder: (context) {
-        return FileManagerView(
-          directory: Directory(item.absolute.path),
-        );
-      }));
+      context.router.push(route.FileManager(
+        directory: Directory(item.absolute.path),
+      ));
     } else {
       if (extension == AppConstant.documentExstension) {
         StoryModel? content = await DocsManager().fetchOne(item);
@@ -111,7 +142,7 @@ class _FileManagerMobile extends StatelessWidget {
 
   Widget buildFileItem(FileSystemEntity item, BuildContext context, String? extension) {
     return SpTapEffect(
-      onTap: () => onFilePressed(item, context, extension),
+      onTap: () => onEntityPressed(item, context, extension),
       child: Stack(
         children: [
           Container(

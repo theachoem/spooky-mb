@@ -29,6 +29,8 @@ dependencies:
   timezone: ^0.8.0
   scroll_to_index: ^2.1.1
   flutter_cupertino_datetime_picker: ^3.0.0
+  injectable: ^1.5.0
+  stacked_services: ^0.8.16
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +41,7 @@ dev_dependencies:
   # mvvm
   flutter_lints: ^1.0.0
   auto_route_generator: ^3.2.1
+  injectable_generator: ^1.5.2
 
 flutter:
   uses-material-design: true

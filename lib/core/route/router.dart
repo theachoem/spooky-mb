@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/ui/views/detail/detail_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/file_manager/file_manager_view.dart';
+import 'package:spooky/ui/views/file_viewer/file_viewer_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
@@ -12,6 +13,10 @@ export 'package:auto_route/auto_route.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
+    MaterialRoute(
+      page: FileViewerView,
+      name: 'FileViewer',
+    ),
     AutoRoute(
       name: 'Detail',
       page: DetailView,
