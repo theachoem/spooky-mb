@@ -16,14 +16,44 @@ class _ArchiveMobile extends StatelessWidget {
       body: StoryList(
         onRefresh: () => viewModel.load(),
         stories: viewModel.stories,
-        onDelete: (StoryModel story) {
-          return viewModel.delete(story);
+        onDelete: (StoryModel story) async {
+          OkCancelResult result = await showOkCancelAlertDialog(
+            context: context,
+            title: "Are you sure to delete?",
+            message: "You can't undo this action",
+            okLabel: "Delete",
+            isDestructiveAction: true,
+          );
+          switch (result) {
+            case OkCancelResult.ok:
+              bool success = await viewModel.delete(story);
+              App.of(context)?.showSpSnackBar(success ? "Delete successfully!" : "Delete unsuccessfully!");
+              return success;
+            case OkCancelResult.cancel:
+              return false;
+          }
         },
         onUnarchive: (StoryModel story) async {
-          var result = await viewModel.unachieveDocument(story);
-          print("RESULT: $result");
-          print("MSG: ${viewModel.archiveManager.error}");
-          return result;
+          String? message;
+          if (story.pathDate != null || story.createdAt != null) {
+            message = DateFormatHelper.yM().format(story.pathDate ?? story.createdAt!);
+          }
+
+          OkCancelResult result = await showOkCancelAlertDialog(
+            context: context,
+            title: "Are you sure to unarchive?",
+            message: message != null ? "Document will be move to:\n" + message : null,
+            okLabel: "Unarchive",
+          );
+
+          switch (result) {
+            case OkCancelResult.ok:
+              bool success = await viewModel.unachieveDocument(story);
+              App.of(context)?.showSpSnackBar(success ? "Unarchive successfully!" : "Unarchive unsuccessfully!");
+              return success;
+            case OkCancelResult.cancel:
+              return false;
+          }
         },
       ),
     );

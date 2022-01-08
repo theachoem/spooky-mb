@@ -12,7 +12,7 @@ class DeleteManager extends BaseFileManager {
 
   Future<void> delete(StoryModel model) async {
     if (canDelete(model) && model.parentPath != null) {
-      beforeExec(() async {
+      await beforeExec(() async {
         Directory directory = Directory(model.parentPath!);
         if (await directory.exists()) {
           await directory.delete(recursive: true);
