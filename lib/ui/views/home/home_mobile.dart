@@ -52,7 +52,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
           children: List.generate(
             controller.length,
             (index) {
-              return StoryList(
+              return StoryListByMonth(
                 year: widget.viewModel.year,
                 month: index + 1,
                 onListReloaderReady: (reloader) {

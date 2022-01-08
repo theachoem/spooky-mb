@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -10,78 +9,23 @@ import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/core/route/router.dart' as route;
 
-class StoryList extends StatefulWidget {
+class StoryList extends StatelessWidget {
   const StoryList({
     Key? key,
-    required this.year,
-    required this.month,
-    required this.onListReloaderReady,
+    required this.onRefresh,
+    required this.stories,
+    this.emptyMessage = "",
   }) : super(key: key);
+  final Future<void> Function() onRefresh;
 
-  final int year;
-  final int month;
-  final void Function(void Function() callback) onListReloaderReady;
-
-  @override
-  State<StoryList> createState() => _StoryListState();
-}
-
-class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixin {
-  final DocsManager docsManager = DocsManager();
-  List<StoryModel>? stories;
-
-  late Map<int, Color> dayColors;
-
-  @override
-  void initState() {
-    super.initState();
-
-    load();
-    setDayColors();
-
-    widget.onListReloaderReady(load);
-  }
-
-  void setDayColors() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      dayColors = M3Color.dayColorsOf(context);
-    });
-  }
-
-  DateTime dateForCompare(StoryModel story) {
-    int? data = int.tryParse(story.documentId ?? "");
-    DateTime? dateFromId = data != null ? DateTime.fromMillisecondsSinceEpoch(data) : null;
-    return story.pathDate ?? story.createdAt ?? dateFromId ?? DateTime.now();
-  }
-
-  Future<void> load() async {
-    var result = await docsManager.fetchAll(year: widget.year, month: widget.month) ?? [];
-    if (result != stories) {
-      setState(() {
-        stories = result;
-        stories?.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
-      });
-    }
-  }
-
-  @override
-  void didUpdateWidget(covariant StoryList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    setDayColors();
-    if (oldWidget.year != widget.year) load();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    setDayColors();
-  }
+  final List<StoryModel>? stories;
+  final String emptyMessage;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    Map<int, Color> dayColors = M3Color.dayColorsOf(context);
     return RefreshIndicator(
-      onRefresh: () => load(),
+      onRefresh: onRefresh,
       child: Stack(
         children: [
           ListView.separated(
@@ -108,7 +52,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                   context.router.push(page).then(
                     (value) {
                       if (value is StoryModel && value.documentId != null) {
-                        load();
+                        onRefresh();
                       }
                     },
                   );
@@ -118,7 +62,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      buildMonogram(context, content),
+                      buildMonogram(context, content, dayColors),
                       ConfigConstant.sizedBoxW2,
                       buildContent(context, content),
                     ],
@@ -128,17 +72,35 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
             },
           ),
           Visibility(
-            visible: stories != null && stories?.isEmpty == true,
+            visible: stories?.isEmpty == true,
             child: Container(
               color: M3Color.of(context).background,
               alignment: Alignment.center,
-              child: Text(
-                "Add to " + DateFormatHelper.toFullNameOfMonth().format(DateTime(widget.year, widget.month)),
-              ),
+              child: Text(emptyMessage),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildMonogram(BuildContext context, StoryModel content, Map<int, Color> dayColors) {
+    DateTime? displayDate = content.pathDate ?? content.createdAt;
+    if (displayDate == null) return SizedBox.shrink();
+    return Column(
+      children: [
+        ConfigConstant.sizedBoxH0,
+        Text(DateFormatHelper.toDay().format(displayDate).toString()),
+        ConfigConstant.sizedBoxH0,
+        CircleAvatar(
+          radius: 20,
+          backgroundColor: dayColors.keys.contains(displayDate.weekday)
+              ? dayColors[displayDate.weekday]
+              : M3Color.of(context).primary,
+          foregroundColor: M3Color.of(context).onPrimary,
+          child: Text(displayDate.day.toString()),
+        ),
+      ],
     );
   }
 
@@ -204,27 +166,4 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
       ),
     );
   }
-
-  Widget buildMonogram(BuildContext context, StoryModel content) {
-    DateTime? displayDate = content.pathDate ?? content.createdAt;
-    if (displayDate == null) return SizedBox.shrink();
-    return Column(
-      children: [
-        ConfigConstant.sizedBoxH0,
-        Text(DateFormatHelper.toDay().format(displayDate).toString()),
-        ConfigConstant.sizedBoxH0,
-        CircleAvatar(
-          radius: 20,
-          backgroundColor: dayColors.keys.contains(displayDate.weekday)
-              ? dayColors[displayDate.weekday]
-              : M3Color.of(context).primary,
-          foregroundColor: M3Color.of(context).onPrimary,
-          child: Text(displayDate.day.toString()),
-        ),
-      ],
-    );
-  }
-
-  @override
-  bool get wantKeepAlive => true;
 }

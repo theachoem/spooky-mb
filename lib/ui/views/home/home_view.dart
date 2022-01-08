@@ -2,7 +2,7 @@ library home_view;
 
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_app_bar.dart';
-import 'package:spooky/ui/views/home/local_widgets/story_list.dart';
+import 'package:spooky/ui/views/home/local_widgets/story_list_by_month.dart';
 import 'package:spooky/ui/widgets/sp_tab_view.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:stacked/stacked.dart';
