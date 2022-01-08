@@ -1,8 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/base_file_manager.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 
@@ -84,11 +87,23 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     super.dispose();
   }
 
-  Future<DocsManager> save() async {
+  Future<void> save(BuildContext context) async {
     StoryModel story = buildStory();
     await _write(story);
     if (docsManager.success == true) currentStory = story;
-    return docsManager;
+
+    if (kDebugMode) {
+      print(docsManager.file?.absolute.path);
+      print(docsManager.success);
+      print(docsManager.error);
+    }
+    Future.delayed(ConfigConstant.fadeDuration).then((value) {
+      if (docsManager.success == true) {
+        App.of(context)?.showSpSnackBar("Saved: ${docsManager.message}");
+      } else {
+        App.of(context)?.showSpSnackBar("Error: ${docsManager.message}");
+      }
+    });
   }
 
   @mustCallSuper

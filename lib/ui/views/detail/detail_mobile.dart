@@ -19,7 +19,7 @@ class _DetailMobile extends StatelessWidget {
       toolbarBuilder: (state) => buildToolbar(state),
       readOnlyNotifier: readOnlyNotifier,
       hasChangeNotifer: hasChangeNotifer,
-      onSave: () => viewModel.save(),
+      onSave: (context) => viewModel.save(context),
       viewModel: viewModel,
     );
   }

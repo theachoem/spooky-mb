@@ -1,5 +1,6 @@
 library detail_view;
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:spooky/core/route/router.dart' as route;
 import 'package:responsive_builder/responsive_builder.dart';
@@ -36,7 +37,22 @@ class DetailView extends StatelessWidget {
       builder: (context, model, child) {
         return WillPopScope(
           onWillPop: () async {
-            context.router.popForced(model.currentStory);
+            if (model.hasChange) {
+              OkCancelResult result = await showOkCancelAlertDialog(
+                context: context,
+                title: "Do you want to save changes?",
+                isDestructiveAction: false,
+                barrierDismissible: true,
+              );
+              switch (result) {
+                case OkCancelResult.ok:
+                  await model.save(context);
+                  context.router.popForced(model.currentStory);
+                  return true;
+                case OkCancelResult.cancel:
+                  return false;
+              }
+            }
             return true;
           },
           child: ScreenTypeLayout(

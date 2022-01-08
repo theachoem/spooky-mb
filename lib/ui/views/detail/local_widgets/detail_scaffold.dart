@@ -39,7 +39,7 @@ class DetailScaffold extends StatefulWidget {
   final Widget Function(GlobalKey<ScaffoldState>) toolbarBuilder;
   final ValueNotifier<bool> readOnlyNotifier;
   final ValueNotifier<bool> hasChangeNotifer;
-  final Future<DocsManager> Function() onSave;
+  final Future<void> Function(BuildContext context) onSave;
   final DetailViewModel viewModel;
 
   @override
@@ -233,19 +233,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
                   widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
                   bool saving = widget.readOnlyNotifier.value;
                   if (saving) {
-                    DocsManager result = await widget.onSave();
-                    if (kDebugMode) {
-                      print(result.file?.absolute.path);
-                      print(result.success);
-                      print(result.error);
-                    }
-                    Future.delayed(ConfigConstant.fadeDuration).then((value) {
-                      if (result.success == true) {
-                        App.of(context)?.showSpSnackBar("Saved: ${result.message}");
-                      } else {
-                        App.of(context)?.showSpSnackBar("Error: ${result.message}");
-                      }
-                    });
+                    await widget.onSave(context);
                   } else {
                     // clear to avoid snack bar on top of "SAVE" fab.
                     App.of(context)?.clearSpSnackBars();
