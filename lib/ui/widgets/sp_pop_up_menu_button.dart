@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/utils/widgets/measure_size.dart';
 
@@ -76,9 +77,12 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
           showMenu(
             context: context,
             position: relativeRect!,
+            elevation: 2.0,
+            shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
             items: widget.items.map(
               (e) {
                 return PopupMenuItem(
+                  padding: EdgeInsets.zero,
                   child: ListTile(
                     title: Text(e.title),
                   ),

@@ -12,10 +12,12 @@ import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
+import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/core/route/router.dart' as route;
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DetailScaffold extends StatefulWidget {
   const DetailScaffold({
@@ -74,25 +76,32 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
     );
   }
 
-  AppBar buildAppBar() {
-    return AppBar(
+  MorphingAppBar buildAppBar() {
+    return MorphingAppBar(
       leading: const SpPopButton(),
       title: widget.titleBuilder(scaffoldkey),
       actions: [
-        buildSpBottomSheetListener(
-          builder: (context, isSpBottomSheetOpen, _) {
-            return SpIconButton(
-              icon: SpAnimatedIcons(
-                firstChild: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
-                secondChild: const Icon(Icons.clear, key: ValueKey(Icons.clear)),
-                showFirst: !isSpBottomSheetOpen,
-              ),
-              onPressed: () {
-                toggleSpBottomSheet();
+        SpPopupMenuButton(
+          fromAppBar: true,
+          items: [
+            SpPopMenuItem(
+              title: "Changes History",
+              onPressed: () async {
+                Directory directory = await DocsManager().constructDirectory(widget.viewModel.currentStory);
+                context.router.push(route.FileManager(
+                  directory: directory,
+                  fileManagerFlow: FileManagerFlow.viewChanges,
+                ));
               },
+            )
+          ],
+          builder: (void Function() callback) {
+            return SpIconButton(
+              icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
+              onPressed: callback,
             );
           },
-        )
+        ),
       ],
     );
   }
@@ -162,8 +171,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
             builder: (context, hasChange, icon) {
               bool showFirst = !value && hasChange;
               return FloatingActionButton.extended(
-                backgroundColor: showFirst ? M3Color.of(context)?.primary : M3Color.of(context)?.secondary,
-                foregroundColor: showFirst ? M3Color.of(context)?.onPrimary : M3Color.of(context)?.onSecondary,
+                backgroundColor: showFirst ? M3Color.of(context).primary : M3Color.of(context).secondary,
+                foregroundColor: showFirst ? M3Color.of(context).onPrimary : M3Color.of(context).onSecondary,
                 onPressed: () async {
                   widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
                   bool saving = widget.readOnlyNotifier.value;
@@ -213,7 +222,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
         child: AnimatedContainer(
           curve: Curves.ease,
           duration: ConfigConstant.duration * 2,
-          color: M3Color.of(context)?.readOnly.surface2,
+          color: M3Color.of(context).readOnly.surface2,
           padding: EdgeInsets.only(
             bottom: bottomHeight + keyboardHeight + ConfigConstant.margin0,
             top: ConfigConstant.margin0,
