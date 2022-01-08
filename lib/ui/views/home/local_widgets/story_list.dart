@@ -48,11 +48,18 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
     });
   }
 
+  DateTime dateForCompare(StoryModel story) {
+    int? data = int.tryParse(story.documentId ?? "");
+    DateTime? dateFromId = data != null ? DateTime.fromMillisecondsSinceEpoch(data) : null;
+    return story.pathDate ?? story.createdAt ?? dateFromId ?? DateTime.now();
+  }
+
   Future<void> load() async {
     var result = await docsManager.fetchAll(year: widget.year, month: widget.month) ?? [];
     if (result != stories) {
       setState(() {
         stories = result;
+        stories?.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
       });
     }
   }
