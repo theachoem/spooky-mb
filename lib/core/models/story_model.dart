@@ -74,6 +74,8 @@ class StoryModel extends BaseModel {
     return jsonEncode(json);
   }
 
+  static String documentIdFromDate(DateTime date) => date.millisecondsSinceEpoch.toString();
+
   static bool hasChanges(StoryModel m1, StoryModel m2) {
     return keepComparableKeys(m1) != keepComparableKeys(m2);
   }

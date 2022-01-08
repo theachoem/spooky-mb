@@ -99,7 +99,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     switch (currentStory.flowType) {
       case DetailViewFlow.create:
         story = StoryModel(
-          documentId: now.millisecondsSinceEpoch.toString(),
+          documentId: StoryModel.documentIdFromDate(now),
           fileId: now.millisecondsSinceEpoch.toString(),
           starred: false,
           feeling: null,

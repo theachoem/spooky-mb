@@ -99,7 +99,13 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
               final StoryModel content = stories![index];
               return SpTapEffect(
                 onTap: () {
-                  context.router.push(route.Detail(story: content));
+                  context.router.push(
+                    route.Detail(
+                      story: content.copyWith(
+                        documentId: content.documentId ?? StoryModel.documentIdFromDate(DateTime.now()),
+                      ),
+                    ),
+                  );
                 },
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
