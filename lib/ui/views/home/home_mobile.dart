@@ -28,12 +28,10 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     super.initState();
     controller = TabController(length: 12, vsync: this);
     controller.addListener(() {
-      if (!controller.indexIsChanging) {
-        int monthIndex = controller.index + 1;
-        widget.viewModel.onTabChange(monthIndex);
-        if (listReloaderMap.containsKey(monthIndex)) {
-          widget.viewModel.onListReloaderReady(listReloaderMap[monthIndex]!);
-        }
+      int monthIndex = controller.index + 1;
+      widget.viewModel.onTabChange(monthIndex);
+      if (listReloaderMap.containsKey(monthIndex)) {
+        widget.viewModel.onListReloaderReady(listReloaderMap[monthIndex]!);
       }
     });
   }

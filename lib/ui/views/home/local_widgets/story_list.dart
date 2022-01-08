@@ -103,7 +103,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
             },
           ),
           Visibility(
-            visible: stories != null && stories!.isEmpty,
+            visible: stories != null && stories?.isEmpty == true,
             child: Container(
               color: M3Color.of(context)?.background,
               alignment: Alignment.center,
@@ -118,7 +118,7 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
   }
 
   Widget buildContent(BuildContext context, StoryModel content) {
-    List<String> images = QuillHelper.imagesFromJson(content.document!);
+    List<String> images = QuillHelper.imagesFromJson(content.document ?? []);
     return Expanded(
       child: Stack(
         children: [
@@ -188,7 +188,9 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
         ConfigConstant.sizedBoxH0,
         CircleAvatar(
           radius: 20,
-          backgroundColor: dayColors[displayDate.weekday],
+          backgroundColor: dayColors.keys.contains(displayDate.weekday)
+              ? dayColors[displayDate.weekday]
+              : M3Color.of(context)?.primary,
           foregroundColor: M3Color.of(context)?.onPrimary,
           child: Text(displayDate.day.toString()),
         ),
