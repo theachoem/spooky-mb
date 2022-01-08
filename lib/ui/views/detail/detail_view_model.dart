@@ -5,6 +5,7 @@ import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/base_file_manager.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/notifications/app_notification.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
@@ -14,7 +15,7 @@ enum DetailViewFlow {
   update,
 }
 
-class DetailViewModel extends BaseViewModel with ScheduleMixin {
+class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver {
   late StoryModel currentStory;
 
   late QuillController controller;
@@ -51,6 +52,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _setListener();
     });
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   void _setListener() {
@@ -84,10 +86,11 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     readOnlyNotifier.dispose();
     titleController.dispose();
     hasChangeNotifer.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
-  Future<void> save(BuildContext context) async {
+  Future<void> _save() async {
     StoryModel story = buildStory();
     await _write(story);
     if (docsManager.success == true) currentStory = story;
@@ -97,6 +100,31 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
       print(docsManager.success);
       print(docsManager.error);
     }
+  }
+
+  Future<void> autosave() async {
+    if (hasChange) {
+      await _save();
+      Future.delayed(ConfigConstant.fadeDuration).then((value) {
+        if (docsManager.success == true) {
+          AppNotification().displayNotification(
+            plainTitle: "Document is saved",
+            plainBody: "Saved: ${docsManager.message}",
+            payload: currentStory,
+          );
+        } else {
+          AppNotification().displayNotification(
+            plainTitle: "Document isn't saved!",
+            plainBody: "Error: ${docsManager.message}",
+            payload: currentStory,
+          );
+        }
+      });
+    }
+  }
+
+  Future<void> save(BuildContext context) async {
+    await _save();
     Future.delayed(ConfigConstant.fadeDuration).then((value) {
       if (docsManager.success == true) {
         App.of(context)?.showSpSnackBar("Saved: ${docsManager.message}");
@@ -154,5 +182,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
       // which is wrong.
       docsManager.message = MessageSummary('Document has no changes');
     }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
+    if (shouldSaveInStates.contains(state)) autosave();
+    super.didChangeAppLifecycleState(state);
   }
 }
