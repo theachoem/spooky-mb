@@ -286,6 +286,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_app_name:
+    dependency: "direct dev"
+    description:
+      name: flutter_app_name
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.1"
   flutter_colorpicker:
     dependency: transitive
     description:
@@ -679,6 +686,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.11.1"
+  petitparser:
+    dependency: transitive
+    description:
+      name: petitparser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.4.0"
   photo_view:
     dependency: transitive
     description:
@@ -1097,6 +1111,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.0"
+  xml:
+    dependency: transitive
+    description:
+      name: xml
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.3.1"
   yaml:
     dependency: transitive
     description:
