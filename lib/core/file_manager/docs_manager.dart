@@ -121,4 +121,23 @@ class DocsManager extends BaseFileManager {
       return [];
     });
   }
+
+  @override
+  Future<void> write(BaseModel model) async {
+    if (model is StoryModel) {
+      if (model.documentId == null) {
+        message = MessageSummary("documentId is missing");
+        return;
+      }
+      if (model.createdAt == null) {
+        message = MessageSummary("createdAt is missing");
+        return;
+      }
+      if (model.pathDate == null) {
+        message = MessageSummary("pathDate is missing");
+        return;
+      }
+    }
+    return super.write(model);
+  }
 }
