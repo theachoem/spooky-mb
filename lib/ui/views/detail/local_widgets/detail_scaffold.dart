@@ -83,6 +83,61 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
   }
 
   MorphingAppBar buildAppBar() {
+    List<SpPopMenuItem> items = [
+      SpPopMenuItem(
+        title: "Changes History",
+        leadingIconData: Icons.history,
+        onPressed: () async {
+          Directory directory = await DocsManager().constructDirectory(widget.viewModel.currentStory);
+          context.router.push(route.FileManager(
+            directory: directory,
+            fileManagerFlow: FileManagerFlow.viewChanges,
+          ));
+        },
+      ),
+      if (archiveManager.canAchieve(widget.viewModel.currentStory))
+        SpPopMenuItem(
+          title: "Achieve",
+          leadingIconData: Icons.archive,
+          onPressed: () async {
+            await archiveManager.achieveDocument(widget.viewModel.currentStory);
+            if (archiveManager.message != null) {
+              App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
+            }
+            context.router.pop(widget.viewModel.currentStory);
+          },
+        ),
+      if (archiveManager.canUnachieve(widget.viewModel.currentStory))
+        SpPopMenuItem(
+          title: "Unachieve",
+          leadingIconData: Icons.unarchive,
+          onPressed: () async {
+            await archiveManager.unachieveDocument(widget.viewModel.currentStory);
+            if (archiveManager.message != null) {
+              App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
+            }
+            context.router.pop(widget.viewModel.currentStory);
+          },
+        ),
+      if (deleteManager.canDelete(widget.viewModel.currentStory))
+        SpPopMenuItem(
+          title: "Delete",
+          titleStyle: TextStyle(color: m3Color?.error),
+          leadingIconData: Icons.delete,
+          onPressed: () async {
+            await deleteManager.delete(widget.viewModel.currentStory);
+            if (deleteManager.success == true) {
+              App.of(context)?.showSpSnackBar("Delete successfully!");
+              context.router.pop(widget.viewModel.currentStory);
+            } else {
+              App.of(context)?.showSpSnackBar(
+                deleteManager.error != null ? deleteManager.error.toString() : "Delete unsuccessfully",
+              );
+            }
+          },
+        ),
+    ];
+
     return MorphingAppBar(
       leading: const SpPopButton(),
       title: widget.titleBuilder(scaffoldkey),
@@ -90,60 +145,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
         if (widget.viewModel.currentStory.documentId != null)
           SpPopupMenuButton(
             fromAppBar: true,
-            items: [
-              SpPopMenuItem(
-                title: "Changes History",
-                leadingIconData: Icons.history,
-                onPressed: () async {
-                  Directory directory = await DocsManager().constructDirectory(widget.viewModel.currentStory);
-                  context.router.push(route.FileManager(
-                    directory: directory,
-                    fileManagerFlow: FileManagerFlow.viewChanges,
-                  ));
-                },
-              ),
-              if (archiveManager.canAchieve(widget.viewModel.currentStory))
-                SpPopMenuItem(
-                  title: "Achieve",
-                  leadingIconData: Icons.archive,
-                  onPressed: () async {
-                    await archiveManager.achieveDocument(widget.viewModel.currentStory);
-                    if (archiveManager.message != null) {
-                      App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
-                    }
-                    context.router.pop(widget.viewModel.currentStory);
-                  },
-                ),
-              if (archiveManager.canUnachieve(widget.viewModel.currentStory))
-                SpPopMenuItem(
-                  title: "Unachieve",
-                  leadingIconData: Icons.unarchive,
-                  onPressed: () async {
-                    await archiveManager.unachieveDocument(widget.viewModel.currentStory);
-                    if (archiveManager.message != null) {
-                      App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
-                    }
-                    context.router.pop(widget.viewModel.currentStory);
-                  },
-                ),
-              if (deleteManager.canDelete(widget.viewModel.currentStory))
-                SpPopMenuItem(
-                  title: "Delete",
-                  titleStyle: TextStyle(color: m3Color?.error),
-                  leadingIconData: Icons.delete,
-                  onPressed: () async {
-                    await deleteManager.delete(widget.viewModel.currentStory);
-                    if (deleteManager.success == true) {
-                      App.of(context)?.showSpSnackBar("Delete successfully!");
-                      context.router.pop(widget.viewModel.currentStory);
-                    } else {
-                      App.of(context)?.showSpSnackBar(
-                        deleteManager.error != null ? deleteManager.error.toString() : "Delete unsuccessfully",
-                      );
-                    }
-                  },
-                ),
-            ],
+            items: items,
             builder: (void Function() callback) {
               return SpIconButton(
                 icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
@@ -179,6 +181,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
 
   Widget buildFloatActionButton(EdgeInsets mediaQueryPadding) {
     if (widget.viewModel.currentStory.flowType == DetailViewFlow.update &&
+        widget.viewModel.currentStory.filePath != null &&
         widget.viewModel.currentStory.filePath != FilePath.docs) {
       return SizedBox.shrink();
     }
