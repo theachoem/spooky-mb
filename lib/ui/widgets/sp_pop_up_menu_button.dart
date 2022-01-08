@@ -6,10 +6,14 @@ import 'package:spooky/utils/widgets/measure_size.dart';
 class SpPopMenuItem {
   final String title;
   final void Function() onPressed;
+  final TextStyle? titleStyle;
+  IconData? leadingIconData;
 
   SpPopMenuItem({
     required this.title,
     required this.onPressed,
+    this.titleStyle,
+    this.leadingIconData,
   });
 }
 
@@ -94,7 +98,17 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
                 return PopupMenuItem(
                   padding: EdgeInsets.zero,
                   child: ListTile(
-                    title: Text(e.title),
+                    leading: e.leadingIconData != null
+                        ? Icon(
+                            e.leadingIconData,
+                            color: e.titleStyle?.color,
+                          )
+                        : null,
+                    title: Text(
+                      e.title,
+                      style: e.titleStyle,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                   onTap: e.onPressed,
                 );

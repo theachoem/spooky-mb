@@ -15,12 +15,12 @@ class DocsManager extends BaseFileManager {
 
   /// eg. $appPath/$parentPathStr/2022/Jan/7/
   @override
-  String constructParentPath(BaseModel model) {
+  String constructParentPath(BaseModel model, [FilePath? customParentPath]) {
     model as StoryModel;
     String? year = model.pathDate?.year.toString();
     String? month = DateFormatHelper.toNameOfMonth().format(model.pathDate!);
     String? day = model.pathDate!.day.toString();
-    return [appPath, parentPath, year, month, day, model.documentId].join("/");
+    return [appPath, customParentPath?.name ?? parentPath, year, month, day, model.documentId].join("/");
   }
 
   int docsCount(int year) {
@@ -93,7 +93,8 @@ class DocsManager extends BaseFileManager {
       List<StoryModel> stories = [];
 
       for (MapEntry<String, String> e in storiesPath.entries) {
-        File file = File(directory.absolute.path + "/" + e.key + "/" + e.value);
+        String parentPath = directory.absolute.path + "/" + e.key;
+        File file = File(parentPath + "/" + e.value);
         StoryModel? story = await fetchOne(file);
         if (story != null) {
           stories.add(story);
@@ -108,7 +109,7 @@ class DocsManager extends BaseFileManager {
     String result = await file.readAsString();
     dynamic json = jsonDecode(result);
     if (json is Map<String, dynamic>) {
-      StoryModel story = StoryModel.fromJson(json);
+      StoryModel story = StoryModel.fromJson(json).copyWith(parentPath: file.absolute.parent.path);
       return story;
     }
   }

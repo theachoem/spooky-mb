@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 
 part 'story_model.g.dart';
 
@@ -22,6 +24,23 @@ class StoryModel extends BaseModel {
   // Returns JSON-serializable version of quill delta.
   final List<dynamic>? document;
 
+  @JsonKey(ignore: true)
+  final String? parentPath;
+
+  // /Users/../87B-E36A9EF0C9F1/Documents/docs/2022/Jan/8/1641634151020
+  // => FilePath.archive
+  FilePath? get filePath {
+    var result = parentPath?.replaceAll(FileHelper.directory.absolute.path + "/", "").split("/");
+
+    if ((result?.length ?? 0) >= 1) {
+      for (FilePath e in FilePath.values) {
+        if (e.name == result![0]) {
+          return e;
+        }
+      }
+    }
+  }
+
   StoryModel({
     required this.documentId,
     required this.fileId,
@@ -32,6 +51,7 @@ class StoryModel extends BaseModel {
     required this.pathDate,
     required this.plainText,
     required this.document,
+    this.parentPath,
   });
 
   DetailViewFlow get flowType => documentId != null ? DetailViewFlow.update : DetailViewFlow.create;
@@ -90,6 +110,7 @@ class StoryModel extends BaseModel {
     DateTime? pathDate,
     String? plainText,
     List<dynamic>? document,
+    String? parentPath,
   }) {
     return StoryModel(
       documentId: documentId ?? this.documentId,
@@ -101,6 +122,7 @@ class StoryModel extends BaseModel {
       pathDate: pathDate ?? this.pathDate,
       plainText: plainText ?? this.plainText,
       document: document ?? this.document,
+      parentPath: parentPath ?? this.parentPath,
     );
   }
 }

@@ -41,7 +41,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     controller = _getDocumentController();
     focusNode = FocusNode();
     scrollController = ScrollController();
-    readOnlyNotifier = ValueNotifier(true);
+    readOnlyNotifier = ValueNotifier(currentStory.flowType == DetailViewFlow.update);
     hasChangeNotifer = ValueNotifier(currentStory.flowType == DetailViewFlow.create);
     titleController = TextEditingController(text: currentStory.title);
     docsManager = DocsManager();

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/file_manager/archive_manager.dart';
+import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
@@ -44,6 +46,8 @@ class DetailScaffold extends StatefulWidget {
 }
 
 class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin, DetailViewMixn {
+  final ArchiveManager archiveManager = ArchiveManager();
+
   @override
   void initState() {
     super.initState();
@@ -81,27 +85,60 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
       leading: const SpPopButton(),
       title: widget.titleBuilder(scaffoldkey),
       actions: [
-        SpPopupMenuButton(
-          fromAppBar: true,
-          items: [
-            SpPopMenuItem(
-              title: "Changes History",
-              onPressed: () async {
-                Directory directory = await DocsManager().constructDirectory(widget.viewModel.currentStory);
-                context.router.push(route.FileManager(
-                  directory: directory,
-                  fileManagerFlow: FileManagerFlow.viewChanges,
-                ));
-              },
-            )
-          ],
-          builder: (void Function() callback) {
-            return SpIconButton(
-              icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
-              onPressed: callback,
-            );
-          },
-        ),
+        if (widget.viewModel.currentStory.documentId != null)
+          SpPopupMenuButton(
+            fromAppBar: true,
+            items: [
+              SpPopMenuItem(
+                title: "Changes History",
+                leadingIconData: Icons.history,
+                onPressed: () async {
+                  Directory directory = await DocsManager().constructDirectory(widget.viewModel.currentStory);
+                  context.router.push(route.FileManager(
+                    directory: directory,
+                    fileManagerFlow: FileManagerFlow.viewChanges,
+                  ));
+                },
+              ),
+              if (archiveManager.canAchieve(widget.viewModel.currentStory))
+                SpPopMenuItem(
+                  title: "Achieve",
+                  leadingIconData: Icons.archive,
+                  onPressed: () async {
+                    await archiveManager.achieveDocument(widget.viewModel.currentStory);
+                    if (archiveManager.message != null) {
+                      App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
+                    }
+                    context.router.pop(widget.viewModel.currentStory);
+                  },
+                ),
+              if (!archiveManager.canAchieve(widget.viewModel.currentStory))
+                SpPopMenuItem(
+                  title: "Unachieve",
+                  leadingIconData: Icons.unarchive,
+                  onPressed: () async {
+                    await archiveManager.unachieveDocument(widget.viewModel.currentStory);
+                    if (archiveManager.message != null) {
+                      App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
+                    }
+                    context.router.pop(widget.viewModel.currentStory);
+                  },
+                ),
+              if (widget.viewModel.currentStory.documentId != null)
+                SpPopMenuItem(
+                  title: "Delete",
+                  titleStyle: TextStyle(color: m3Color?.error),
+                  leadingIconData: Icons.delete,
+                  onPressed: () async {},
+                ),
+            ],
+            builder: (void Function() callback) {
+              return SpIconButton(
+                icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
+                onPressed: callback,
+              );
+            },
+          ),
       ],
     );
   }
@@ -129,6 +166,10 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
   }
 
   Widget buildFloatActionButton(EdgeInsets mediaQueryPadding) {
+    if (widget.viewModel.currentStory.flowType == DetailViewFlow.update &&
+        widget.viewModel.currentStory.filePath != FilePath.docs) {
+      return SizedBox.shrink();
+    }
     return Positioned(
       bottom: 0,
       right: 0,

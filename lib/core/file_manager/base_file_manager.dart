@@ -33,6 +33,14 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
     }
   }
 
+  Future<void> ensureDirExist(Directory directory) async {
+    Directory parent = directory.absolute.parent;
+    bool exists = await parent.exists();
+    if (!exists) {
+      await parent.create(recursive: true);
+    }
+  }
+
   /// eg. app_path/parent_path_str/object_id.json
   Future<void> write(BaseModel model) async {
     return beforeExec<void>(() async {
@@ -48,6 +56,35 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
         file != null ? FileHelper.fileName(file!.path) : "Successfully!",
       );
     });
+  }
+
+  Future<File?> moveFile(File sourceFile, String newPath) async {
+    await ensureDirExist(Directory(newPath));
+    try {
+      File newFile = await sourceFile.rename(newPath);
+      await sourceFile.absolute.parent.delete(recursive: true);
+      return newFile;
+    } on FileSystemException catch (e) {
+      if (kDebugMode) {
+        print("RENAME: osError: ${e.osError}");
+        print("RENAME: path: ${e.path}");
+        print("RENAME: message: ${e.message}");
+      }
+
+      try {
+        File newFile = await sourceFile.copy(newPath);
+        await sourceFile.delete();
+        return newFile;
+      } on FileSystemException catch (e) {
+        if (kDebugMode) {
+          print("COPY: osError: ${e.osError}");
+          print("COPY: path: ${e.path}");
+          print("COPY: message: ${e.message}");
+        }
+        error = e;
+        message = MessageSummary(e.message);
+      }
+    }
   }
 }
 
