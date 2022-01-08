@@ -65,6 +65,12 @@ class _StoryListState extends State<StoryList> with AutomaticKeepAliveClientMixi
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    setDayColors();
+  }
+
+  @override
   Widget build(BuildContext context) {
     super.build(context);
     return RefreshIndicator(
