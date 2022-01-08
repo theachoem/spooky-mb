@@ -14,4 +14,5 @@ mixin StatefulMixin<T extends StatefulWidget> on State<T> {
 
   double get statusBarHeight => mediaQueryPadding.top;
   double get bottomHeight => mediaQueryPadding.bottom;
+  double get keyboardHeight => mediaQueryData.viewInsets.bottom;
 }

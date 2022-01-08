@@ -61,7 +61,9 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
         children: [
           Column(
             children: [
-              Expanded(child: widget.editorBuilder(scaffoldkey)),
+              Expanded(
+                child: widget.editorBuilder(scaffoldkey),
+              ),
               buildAdditionBottomPadding(),
             ],
           ),
@@ -111,7 +113,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
     return ValueListenableBuilder<bool>(
       valueListenable: widget.readOnlyNotifier,
       builder: (context, value, child) {
-        return SizedBox(height: value ? 0 : ConfigConstant.objectHeight1 + 8.0);
+        double height = value ? 0 : ConfigConstant.objectHeight1 + bottomHeight;
+        return SizedBox(height: height + keyboardHeight);
       },
     );
   }
@@ -124,13 +127,13 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
         valueListenable: widget.readOnlyNotifier,
         child: buildFabEndWidget(context),
         builder: (context, value, endWidget) {
-          double bottom = (value ? 0 : kToolbarHeight) + mediaQueryPadding.bottom + 16.0;
-          double bottomOffset = mediaQueryData.viewInsets.bottom + mediaQueryPadding.bottom;
+          double bottom = (value ? 0 : kToolbarHeight) + bottomHeight + 16.0;
+          double bottomOffset = keyboardHeight + bottomHeight;
           return AnimatedContainer(
             curve: Curves.ease,
             duration: ConfigConstant.duration,
             transform: Matrix4.identity()..translate(-16.0, -bottom),
-            padding: EdgeInsets.only(bottom: mediaQueryData.viewInsets.bottom == 0 ? 0 : bottomOffset),
+            padding: EdgeInsets.only(bottom: keyboardHeight == 0 ? 0 : bottomOffset),
             onEnd: () {
               Future.delayed(ConfigConstant.fadeDuration).then((value) {
                 readOnlyAfterAnimatedNotifer.value = widget.readOnlyNotifier.value;
@@ -212,7 +215,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           duration: ConfigConstant.duration * 2,
           color: M3Color.of(context)?.readOnly.surface2,
           padding: EdgeInsets.only(
-            bottom: mediaQueryPadding.bottom + mediaQueryData.viewInsets.bottom + ConfigConstant.margin0,
+            bottom: bottomHeight + keyboardHeight + ConfigConstant.margin0,
             top: ConfigConstant.margin0,
           ),
           child: widget.toolbarBuilder(scaffoldkey),
