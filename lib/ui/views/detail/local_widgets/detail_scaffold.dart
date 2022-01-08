@@ -183,7 +183,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
     if (widget.viewModel.currentStory.flowType == DetailViewFlow.update &&
         widget.viewModel.currentStory.filePath != null &&
         widget.viewModel.currentStory.filePath != FilePath.docs) {
-      return SizedBox.shrink();
+      return const SizedBox.shrink();
     }
     return Positioned(
       bottom: 0,

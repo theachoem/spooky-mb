@@ -44,7 +44,7 @@ class _DetailMobile extends StatelessWidget {
           autoFocus: false,
           readOnly: readOnlyNotifier.value,
           expands: false,
-          padding: EdgeInsets.all(ConfigConstant.margin2).copyWith(
+          padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
             bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
           ),
           keyboardAppearance: M3Color.keyboardAppearance(context),

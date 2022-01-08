@@ -50,7 +50,7 @@ class HomeViewModel extends IndexTrackingViewModel {
         label: e.toString(),
       );
     }).toList();
-    actions.insert(0, AlertDialogAction(key: "create", label: "Create new"));
+    actions.insert(0, const AlertDialogAction(key: "create", label: "Create new"));
 
     String? selectedOption = await showConfirmationDialog(
       context: context,

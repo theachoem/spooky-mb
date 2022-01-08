@@ -13,6 +13,7 @@ class _FileManagerMobile extends StatelessWidget {
           viewModel.appBarTitle(),
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
       ),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: showFirst ? M3Color.of(context).primary : M3Color.of(context).secondary,
@@ -52,7 +53,7 @@ class _FileManagerMobile extends StatelessWidget {
 
   Widget buildListView(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (context, index) => Divider(height: 0),
+      separatorBuilder: (context, index) => const Divider(height: 0),
       itemCount: viewModel.parents.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (context, index) {
@@ -91,7 +92,7 @@ class _FileManagerMobile extends StatelessWidget {
                   onEntityPressed(item, context, extension);
                 }
               },
-              trailing: viewAble ? Icon(Icons.more_vert) : null,
+              trailing: viewAble ? const Icon(Icons.more_vert) : null,
             );
           },
         );

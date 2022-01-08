@@ -8,7 +8,10 @@ class _FileViewerMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        title: Text(FileHelper.fileName(viewModel.file.path)),
+        title: Text(
+          FileHelper.fileName(viewModel.file.path),
+        ),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
       ),
       body: Padding(
         padding: ConfigConstant.layoutPadding,

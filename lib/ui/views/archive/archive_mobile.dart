@@ -12,6 +12,7 @@ class _ArchiveMobile extends StatelessWidget {
           'Archive',
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
       ),
       body: StoryList(
         onRefresh: () => viewModel.load(),

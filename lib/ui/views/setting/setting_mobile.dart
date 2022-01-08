@@ -7,7 +7,7 @@ class _SettingMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MorphingAppBar(
+      appBar: AppBar(
         title: Text(
           "Setting",
           style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -18,8 +18,8 @@ class _SettingMobile extends StatelessWidget {
           context: context,
           tiles: [
             ListTile(
-              leading: Icon(Icons.folder),
-              title: Text("File Explorer"),
+              leading: const Icon(Icons.folder),
+              title: const Text("File Explorer"),
               onTap: () {
                 context.router.push(
                   route.FileManager(directory: FileHelper.directory),
@@ -27,15 +27,15 @@ class _SettingMobile extends StatelessWidget {
               },
             ),
             ListTile(
-              leading: Icon(Icons.archive),
-              title: Text("Archive"),
+              leading: const Icon(Icons.archive),
+              title: const Text("Archive"),
               onTap: () {
-                context.router.push(route.Archive());
+                context.router.push(const route.Archive());
               },
             ),
             ListTile(
-              leading: Icon(Icons.privacy_tip),
-              title: Text("Licenses"),
+              leading: const Icon(Icons.privacy_tip),
+              title: const Text("Licenses"),
               onTap: () {
                 context.router.push(route.LicensePage());
               },

@@ -150,7 +150,7 @@ class StoryList extends StatelessWidget {
                   Icons.swap_horiz,
                   size: ConfigConstant.iconSize3,
                   color: foregroundColor,
-                  key: ValueKey(Icons.swap_horiz),
+                  key: const ValueKey(Icons.swap_horiz),
                 ),
                 showFirst: value == 1,
               );
@@ -199,7 +199,7 @@ class StoryList extends StatelessWidget {
 
   Widget buildMonogram(BuildContext context, StoryModel content, Map<int, Color> dayColors) {
     DateTime? displayDate = content.pathDate ?? content.createdAt;
-    if (displayDate == null) return SizedBox.shrink();
+    if (displayDate == null) return const SizedBox.shrink();
     return Column(
       children: [
         ConfigConstant.sizedBoxH0,
@@ -259,7 +259,7 @@ class StoryList extends StatelessWidget {
   }
 
   Widget buildTime(BuildContext context, StoryModel content) {
-    if (content.createdAt == null) return SizedBox.shrink();
+    if (content.createdAt == null) return const SizedBox.shrink();
     return Positioned(
       right: 0,
       child: Row(

@@ -15,8 +15,8 @@ class _MainMobile extends StatelessWidget {
             viewModel.storyListReloader = callback;
           },
         ),
-        route.Explore(),
-        route.Setting(),
+        const route.Explore(),
+        const route.Setting(),
       ],
       builder: (context, child, animation) {
         final route.TabsRouter tabsRouter = route.AutoTabsRouter.of(context);

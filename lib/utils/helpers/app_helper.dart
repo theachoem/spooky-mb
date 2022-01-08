@@ -30,7 +30,7 @@ class AppHelper {
   }
 
   static String prettifyJson(Map<dynamic, dynamic> json) {
-    JsonEncoder encoder = JsonEncoder.withIndent("  ");
+    JsonEncoder encoder = const JsonEncoder.withIndent("  ");
     String prettyJson = encoder.convert(json);
     return prettyJson;
   }
