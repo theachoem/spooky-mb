@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:spooky/core/file_manager/docs_manager.dart';
+import 'package:spooky/core/route/router.dart' as route;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
@@ -124,5 +126,15 @@ class StoryModel extends BaseModel {
       document: document ?? this.document,
       parentPath: parentPath ?? this.parentPath,
     );
+  }
+
+  @override
+  String get displayRouteName => route.Detail.name;
+
+  @override
+  Map<String, String> get routePayload {
+    return {
+      "parentPath": DocsManager().constructParentPath(this),
+    };
   }
 }

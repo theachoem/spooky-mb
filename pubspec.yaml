@@ -31,6 +31,7 @@ dependencies:
   flutter_cupertino_datetime_picker: ^3.0.0
   injectable: ^1.5.0
   stacked_services: ^0.8.16
+  flutter_local_notifications: ^9.2.0
 
 dev_dependencies:
   flutter_test:

@@ -40,6 +40,17 @@ mixin StoryQueryMixin {
     return stories;
   }
 
+  Future<StoryModel?> fetchOneByFileParent(String parent) async {
+    Directory parentDir = Directory(parent);
+    if (await parentDir.exists()) {
+      List<FileSystemEntity> entities = parentDir.listSync();
+      List<StoryModel> result = await entitiesToDocuments(entities);
+      if (result.isNotEmpty) {
+        return result.first;
+      }
+    }
+  }
+
   Future<StoryModel?> fetchOne(File file) async {
     String result = await file.readAsString();
     dynamic json = jsonDecode(result);
