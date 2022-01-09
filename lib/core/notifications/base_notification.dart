@@ -20,7 +20,7 @@ abstract class BaseNotification {
 
   Future<void> initialize() async {
     _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-    _initializationSettingsAndroid = AndroidInitializationSettings('app_icon');
+    _initializationSettingsAndroid = AndroidInitializationSettings('@drawable/ic_notification');
 
     _initializationSettingsIOS = IOSInitializationSettings(
       requestSoundPermission: autoSave,
@@ -56,8 +56,8 @@ abstract class BaseNotification {
       notificatonChannelId,
       notificatonChannelName,
       channelDescription: "Display auto save alert.",
-      importance: Importance.defaultImportance,
-      priority: Priority.defaultPriority,
+      importance: Importance.high,
+      priority: Priority.high,
       ticker: 'ticker',
     );
     final IOSNotificationDetails iosPlatformChannelSpecifics = IOSNotificationDetails(
