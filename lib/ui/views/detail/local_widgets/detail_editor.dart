@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -47,14 +48,19 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin {
   }
 
   editor.QuillController _getDocumentController() {
-    if (widget.document != null) {
-      return editor.QuillController(
-        document: editor.Document.fromJson(widget.document!),
-        selection: const TextSelection.collapsed(offset: 0),
-      );
-    } else {
-      return editor.QuillController.basic();
+    try {
+      if (widget.document != null && widget.document?.isNotEmpty == true) {
+        return editor.QuillController(
+          document: editor.Document.fromJson(widget.document!),
+          selection: const TextSelection.collapsed(offset: 0),
+        );
+      }
+    } catch (e) {
+      if (kDebugMode) {
+        print("ERROR: _getDocumentController $e");
+      }
     }
+    return editor.QuillController.basic();
   }
 
   @override

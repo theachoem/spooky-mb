@@ -7,6 +7,15 @@ class _DetailMobile extends StatelessWidget {
   ValueNotifier<bool> get readOnlyNotifier => viewModel.readOnlyNotifier;
   TextEditingController get titleController => viewModel.titleController;
   ValueNotifier<bool> get hasChangeNotifer => viewModel.hasChangeNotifer;
+  List<List<dynamic>> get documents {
+    List<List<dynamic>>? pages = viewModel.currentStory.pages;
+    List<dynamic>? document = viewModel.currentStory.document;
+    if (pages != null) {
+      return pages;
+    } else {
+      return document != null ? [document] : [];
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +30,17 @@ class _DetailMobile extends StatelessWidget {
   }
 
   Widget buildEditor(GlobalKey<ScaffoldState> state) {
+    if (documents.isEmpty) return Text("No documents found");
     return PageView.builder(
-      itemCount: 2,
+      itemCount: documents.length,
       controller: viewModel.pageController,
       itemBuilder: (context, index) {
         return DetailEditor(
-          document: viewModel.currentStory.document,
+          document: documents[index],
           readOnlyNotifier: readOnlyNotifier,
           onChange: (_) => viewModel.onChange(_),
           onControllerReady: (controller) {
             viewModel.quillControllers[index] = controller;
-            print(controller);
-            print(viewModel.quillControllers);
           },
           onFocusNodeReady: (focusNode) {
             viewModel.focusNodes[index] = focusNode;

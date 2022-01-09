@@ -54,6 +54,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _setListener();
     });
+
     WidgetsBinding.instance?.addObserver(this);
   }
 
@@ -88,6 +89,11 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     hasChangeNotifer.dispose();
     WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
+  }
+
+  void addPage() {
+    currentStory.addPage();
+    notifyListeners();
   }
 
   Future<void> _save() async {
@@ -136,6 +142,18 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     });
   }
 
+  Map<int, List<dynamic>> get pagesData {
+    Map<int, List<dynamic>> documents = {};
+    if (currentStory.pages != null) {
+      for (int pageIndex = 0; pageIndex < currentStory.pages!.length; pageIndex++) {
+        List<dynamic>? quillDocument =
+            quillControllers.containsKey(pageIndex) ? quillControllers[pageIndex]!.document.toDelta().toJson() : null;
+        documents[pageIndex] = quillDocument ?? currentStory.pages![pageIndex];
+      }
+    }
+    return documents;
+  }
+
   @mustCallSuper
   StoryModel buildStory() {
     DateTime now = DateTime.now();
@@ -153,6 +171,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
           pathDate: currentStory.pathDate ?? now,
           plainText: currentQuillController?.document.toPlainText(),
           document: currentQuillController?.document.toDelta().toJson(),
+          pages: pagesData.values.toList(),
         );
         break;
       case DetailViewFlow.update:
@@ -164,6 +183,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
           pathDate: currentStory.pathDate ?? now,
           plainText: currentQuillController?.document.toPlainText(),
           document: currentQuillController?.document.toDelta().toJson(),
+          pages: pagesData.values.toList(),
         );
         break;
     }
@@ -173,7 +193,6 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   @mustCallSuper
   Future<void> _write(StoryModel story) async {
-    print(currentQuillController?.document.toPlainText());
     if (hasChange) {
       assert(story.documentId != null);
       assert(story.fileId != null);

@@ -130,6 +130,23 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
       leading: const SpPopButton(),
       title: widget.titleBuilder(scaffoldkey),
       actions: [
+        ValueListenableBuilder<bool>(
+          valueListenable: widget.readOnlyNotifier,
+          child: SpIconButton(
+            icon: Icon(Icons.add_chart),
+            onPressed: () {
+              widget.viewModel.addPage();
+            },
+            tooltip: "Add page",
+          ),
+          builder: (context, value, child) {
+            return SpCrossFade(
+              showFirst: widget.readOnlyNotifier.value,
+              secondChild: const SizedBox.shrink(),
+              firstChild: child ?? const SizedBox.shrink(),
+            );
+          },
+        ),
         if (widget.viewModel.currentStory.documentId != null)
           SpPopupMenuButton(
             fromAppBar: true,

@@ -25,6 +25,7 @@ class StoryModel extends BaseModel {
 
   // Returns JSON-serializable version of quill delta.
   final List<dynamic>? document;
+  final List<List<dynamic>>? pages;
 
   @JsonKey(ignore: true)
   final String? parentPath;
@@ -53,6 +54,7 @@ class StoryModel extends BaseModel {
     required this.pathDate,
     required this.plainText,
     required this.document,
+    required this.pages,
     this.parentPath,
   });
 
@@ -69,6 +71,7 @@ class StoryModel extends BaseModel {
       createdAt: null,
       plainText: null,
       document: null,
+      pages: null,
     );
   }
 
@@ -102,6 +105,12 @@ class StoryModel extends BaseModel {
     return keepComparableKeys(m1) != keepComparableKeys(m2);
   }
 
+  void addPage() {
+    if (pages != null) {
+      pages?.add([]);
+    }
+  }
+
   StoryModel copyWith({
     String? documentId,
     String? fileId,
@@ -112,6 +121,7 @@ class StoryModel extends BaseModel {
     DateTime? pathDate,
     String? plainText,
     List<dynamic>? document,
+    List<List<dynamic>>? pages,
     String? parentPath,
   }) {
     return StoryModel(
@@ -124,6 +134,7 @@ class StoryModel extends BaseModel {
       pathDate: pathDate ?? this.pathDate,
       plainText: plainText ?? this.plainText,
       document: document ?? this.document,
+      pages: pages ?? this.pages,
       parentPath: parentPath ?? this.parentPath,
     );
   }
