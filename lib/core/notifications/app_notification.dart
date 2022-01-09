@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
@@ -6,6 +7,7 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/base_notification.dart';
 // import 'package:spooky/app.dart';
 import 'package:spooky/core/route/router.dart' as route;
+import 'package:spooky/utils/helpers/date_format_helper.dart';
 
 class AppNotification extends BaseNotification {
   BuildContext? get context => App.navigatorKey.currentContext;
@@ -14,20 +16,27 @@ class AppNotification extends BaseNotification {
   void selectNotification(String? payload) async {
     if (kDebugMode) {
       print("payload: $payload");
-      // payload.replaceAll("%2F", replace)
-
     }
-    if (payload != null) {
+
+    if (payload != null && context != null) {
       Uri? uri = Uri.tryParse(payload);
       String? path = uri?.path.replaceFirst("/", "");
       switch (path) {
         case route.Detail.name:
-          if (uri?.queryParameters.containsKey('parentPath') == true) {
-            StoryModel? result = await DocsManager().fetchOneByFileParent(uri!.queryParameters['parentPath']!);
-            if (result != null && context != null) {
-              context!.router.push(
-                route.Detail(story: result),
-              );
+          if (context!.router.current.name == path) {
+            if (uri?.queryParameters.containsKey('parentPath') == true) {
+              StoryModel? result = await DocsManager().fetchOneByFileParent(uri!.queryParameters['parentPath']!);
+              if (result != null) {
+                String? message;
+                if (result.pathDate != null || result.createdAt != null) {
+                  message = DateFormatHelper.yM().format(result.pathDate ?? result.createdAt!);
+                }
+                showOkAlertDialog(
+                  context: context!,
+                  title: "Your document is saved",
+                  message: message != null ? "Document will be move to:\n" + message : null,
+                );
+              }
             }
           }
           break;

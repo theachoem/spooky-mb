@@ -102,11 +102,13 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     }
   }
 
+  bool hasAutosaved = false;
   Future<void> autosave() async {
     if (hasChange) {
       await _save();
       Future.delayed(ConfigConstant.fadeDuration).then((value) {
         if (docsManager.success == true) {
+          hasAutosaved = true;
           AppNotification().displayNotification(
             plainTitle: "Document is saved",
             plainBody: "Saved: ${docsManager.message}",
@@ -189,5 +191,10 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
     if (shouldSaveInStates.contains(state)) autosave();
     super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed && hasAutosaved) {
+      hasAutosaved = false;
+      hasChangeNotifer.value = hasChange;
+    }
   }
 }
