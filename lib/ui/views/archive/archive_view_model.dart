@@ -23,8 +23,8 @@ class ArchiveViewModel extends BaseViewModel {
     return deleteManager.success == true;
   }
 
-  Future<bool> unachieveDocument(StoryModel story) async {
-    await archiveManager.unachieveDocument(story);
+  Future<bool> unarchiveDocument(StoryModel story) async {
+    await archiveManager.unarchiveDocument(story);
     return archiveManager.success == true;
   }
 }

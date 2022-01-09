@@ -93,24 +93,24 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           ));
         },
       ),
-      if (archiveManager.canAchieve(widget.viewModel.currentStory))
+      if (archiveManager.canArchive(widget.viewModel.currentStory))
         SpPopMenuItem(
-          title: "Achieve",
+          title: "Archive",
           leadingIconData: Icons.archive,
           onPressed: () async {
-            await archiveManager.achieveDocument(widget.viewModel.currentStory);
+            await archiveManager.archiveDocument(widget.viewModel.currentStory);
             if (archiveManager.message != null) {
               App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
             }
             context.router.pop(widget.viewModel.currentStory);
           },
         ),
-      if (archiveManager.canUnachieve(widget.viewModel.currentStory))
+      if (archiveManager.canUnarchive(widget.viewModel.currentStory))
         SpPopMenuItem(
-          title: "Unachieve",
+          title: "Unarchive",
           leadingIconData: Icons.unarchive,
           onPressed: () async {
-            await archiveManager.unachieveDocument(widget.viewModel.currentStory);
+            await archiveManager.unarchiveDocument(widget.viewModel.currentStory);
             if (archiveManager.message != null) {
               App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
             }

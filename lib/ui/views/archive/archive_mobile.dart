@@ -49,7 +49,7 @@ class _ArchiveMobile extends StatelessWidget {
 
           switch (result) {
             case OkCancelResult.ok:
-              bool success = await viewModel.unachieveDocument(story);
+              bool success = await viewModel.unarchiveDocument(story);
               App.of(context)?.showSpSnackBar(success ? "Unarchive successfully!" : "Unarchive unsuccessfully!");
               return success;
             case OkCancelResult.cancel:

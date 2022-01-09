@@ -9,58 +9,58 @@ import 'package:spooky/core/models/story_model.dart';
 class ArchiveManager extends BaseFileManager with StoryQueryMixin {
   final DocsManager _docsManager = DocsManager();
 
-  bool canAchieve(StoryModel story) {
+  bool canArchive(StoryModel story) {
     return story.filePath == FilePath.docs;
   }
 
-  bool canUnachieve(StoryModel story) {
+  bool canUnarchive(StoryModel story) {
     return story.filePath == FilePath.archive;
   }
 
-  Future<void> achieveDocument(StoryModel story) async {
-    if (!canAchieve(story)) {
-      error = message = MessageSummary("Document is unable to achieve");
+  Future<void> archiveDocument(StoryModel story) async {
+    if (!canArchive(story)) {
+      error = message = MessageSummary("Document is unable to archive");
       return;
     }
 
     Directory storyDir = await _docsManager.constructDirectory(story);
-    Directory achieveRootDir = await constructRootDirectory();
+    Directory archiveRootDir = await constructRootDirectory();
 
     List<FileSystemEntity> entities = storyDir.listSync();
     for (FileSystemEntity e in entities) {
       if (e is File) {
-        String newPath = e.path.replaceAll(_docsManager.rootPath, achieveRootDir.absolute.path);
+        String newPath = e.path.replaceAll(_docsManager.rootPath, archiveRootDir.absolute.path);
         File? file = await moveFile(e, newPath);
         if (file == null) break;
-        message = MessageSummary('Achieve success!');
+        message = MessageSummary('Archive success!');
       }
     }
   }
 
-  Future<void> unachieveDocument(StoryModel story) async {
+  Future<void> unarchiveDocument(StoryModel story) async {
     error = null;
     file = null;
 
     String? storyParentPath = story.parentPath;
-    if (!canUnachieve(story) || storyParentPath == null) {
-      error = message = MessageSummary("Document is unable to unachieve");
+    if (!canUnarchive(story) || storyParentPath == null) {
+      error = message = MessageSummary("Document is unable to unarchive");
       return;
     }
 
-    Directory achieveRootDir = await constructRootDirectory();
+    Directory archiveRootDir = await constructRootDirectory();
     Directory storyDir = Directory(storyParentPath);
     await ensureDirExist(storyDir);
 
     List<FileSystemEntity> entities = storyDir.listSync();
     for (FileSystemEntity e in entities) {
       if (e is File) {
-        String newPath = e.path.replaceAll(achieveRootDir.absolute.path, _docsManager.rootPath);
+        String newPath = e.path.replaceAll(archiveRootDir.absolute.path, _docsManager.rootPath);
         File? file = await moveFile(e, newPath);
         if (file == null) break;
       }
     }
 
-    message = MessageSummary('Achieve success!');
+    message = MessageSummary('Archive success!');
   }
 
   @override
