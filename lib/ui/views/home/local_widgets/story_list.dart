@@ -45,7 +45,7 @@ class StoryList extends StatelessWidget {
             padding: EdgeInsets.zero,
             separatorBuilder: (context, index) {
               return Divider(
-                indent: 16 + 20 + 16 + 4,
+                indent: 16 + 20 + 16 + 4 + 16,
                 color: M3Color.of(context).secondary.m3Opacity.opacity016,
                 height: 0,
               );
