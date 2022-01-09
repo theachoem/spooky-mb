@@ -4,9 +4,6 @@ class _DetailMobile extends StatelessWidget {
   final DetailViewModel viewModel;
   const _DetailMobile(this.viewModel);
 
-  FocusNode get focusNode => viewModel.focusNode;
-  editor.QuillController get controller => viewModel.controller;
-  ScrollController get scrollController => viewModel.scrollController;
   ValueNotifier<bool> get readOnlyNotifier => viewModel.readOnlyNotifier;
   TextEditingController get titleController => viewModel.titleController;
   ValueNotifier<bool> get hasChangeNotifer => viewModel.hasChangeNotifer;
@@ -16,7 +13,6 @@ class _DetailMobile extends StatelessWidget {
     return DetailScaffold(
       titleBuilder: (state) => buildTitle(state),
       editorBuilder: (state) => buildEditor(state),
-      toolbarBuilder: (state) => buildToolbar(state),
       readOnlyNotifier: readOnlyNotifier,
       hasChangeNotifer: hasChangeNotifer,
       onSave: (context) => viewModel.save(context),
@@ -24,30 +20,23 @@ class _DetailMobile extends StatelessWidget {
     );
   }
 
-  editor.QuillToolbar buildToolbar(GlobalKey<ScaffoldState> state) {
-    return editor.QuillToolbar.basic(
-      controller: controller,
-      multiRowsDisplay: false,
-      toolbarIconSize: ConfigConstant.iconSize2,
-    );
-  }
-
   Widget buildEditor(GlobalKey<ScaffoldState> state) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: readOnlyNotifier,
-      builder: (context, value, child) {
-        return editor.QuillEditor(
-          controller: controller,
-          scrollController: scrollController,
-          scrollable: true,
-          focusNode: focusNode,
-          autoFocus: false,
-          readOnly: readOnlyNotifier.value,
-          expands: false,
-          padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
-            bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
-          ),
-          keyboardAppearance: M3Color.keyboardAppearance(context),
+    return PageView.builder(
+      itemCount: 2,
+      controller: viewModel.pageController,
+      itemBuilder: (context, index) {
+        return DetailEditor(
+          document: viewModel.currentStory.document,
+          readOnlyNotifier: readOnlyNotifier,
+          onChange: (_) => viewModel.onChange(_),
+          onControllerReady: (controller) {
+            viewModel.quillControllers[index] = controller;
+            print(controller);
+            print(viewModel.quillControllers);
+          },
+          onFocusNodeReady: (focusNode) {
+            viewModel.focusNodes[index] = focusNode;
+          },
         );
       },
     );

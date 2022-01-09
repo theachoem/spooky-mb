@@ -18,34 +18,35 @@ enum DetailViewFlow {
 
 class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver {
   late StoryModel currentStory;
+  late PageController pageController;
 
-  late QuillController controller;
-  late FocusNode focusNode;
-  late ScrollController scrollController;
   late ValueNotifier<bool> readOnlyNotifier;
   late TextEditingController titleController;
   late DocsManager docsManager;
   late ValueNotifier<bool> hasChangeNotifer;
 
+  Map<int, QuillController> quillControllers = {};
+  Map<int, FocusNode> focusNodes = {};
+
+  int? get currentIndex => pageController.hasClients ? pageController.page?.toInt() : null;
+  FocusNode? get currentFocusNode {
+    if (focusNodes.containsKey(currentIndex)) {
+      return focusNodes[currentIndex];
+    }
+  }
+
+  QuillController? get currentQuillController {
+    if (quillControllers.containsKey(currentIndex)) {
+      return quillControllers[currentIndex];
+    }
+  }
+
   bool get hasChange {
     return StoryModel.hasChanges(buildStory(), currentStory);
   }
 
-  QuillController _getDocumentController() {
-    if (currentStory.document != null) {
-      return QuillController(
-        document: Document.fromJson(currentStory.document!),
-        selection: const TextSelection.collapsed(offset: 0),
-      );
-    } else {
-      return QuillController.basic();
-    }
-  }
-
   DetailViewModel(this.currentStory) {
-    controller = _getDocumentController();
-    focusNode = FocusNode();
-    scrollController = ScrollController();
+    pageController = PageController();
     readOnlyNotifier = ValueNotifier(currentStory.flowType == DetailViewFlow.update);
     hasChangeNotifer = ValueNotifier(currentStory.flowType == DetailViewFlow.create);
     titleController = TextEditingController(text: currentStory.title);
@@ -59,17 +60,11 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   void _setListener() {
     readOnlyNotifier.addListener(() {
       if (readOnlyNotifier.value) {
-        focusNode.unfocus();
+        currentFocusNode?.unfocus();
       } else {
-        focusNode.requestFocus();
+        currentFocusNode?.requestFocus();
       }
       hasChangeNotifer.value = hasChange;
-    });
-
-    controller.addListener(() {
-      scheduleAction(() {
-        hasChangeNotifer.value = hasChange;
-      });
     });
 
     titleController.addListener(() {
@@ -79,11 +74,15 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     });
   }
 
+  void onChange(Document document) {
+    scheduleAction(() {
+      hasChangeNotifer.value = hasChange;
+    });
+  }
+
   @override
   void dispose() {
-    controller.dispose();
-    focusNode.dispose();
-    scrollController.dispose();
+    pageController.dispose();
     readOnlyNotifier.dispose();
     titleController.dispose();
     hasChangeNotifer.dispose();
@@ -152,8 +151,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
           title: titleController.text,
           createdAt: now,
           pathDate: currentStory.pathDate ?? now,
-          plainText: controller.document.toPlainText(),
-          document: controller.document.toDelta().toJson(),
+          plainText: currentQuillController?.document.toPlainText(),
+          document: currentQuillController?.document.toDelta().toJson(),
         );
         break;
       case DetailViewFlow.update:
@@ -163,8 +162,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
           title: titleController.text,
           createdAt: now,
           pathDate: currentStory.pathDate ?? now,
-          plainText: controller.document.toPlainText(),
-          document: controller.document.toDelta().toJson(),
+          plainText: currentQuillController?.document.toPlainText(),
+          document: currentQuillController?.document.toDelta().toJson(),
         );
         break;
     }
@@ -174,6 +173,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   @mustCallSuper
   Future<void> _write(StoryModel story) async {
+    print(currentQuillController?.document.toPlainText());
     if (hasChange) {
       assert(story.documentId != null);
       assert(story.fileId != null);
