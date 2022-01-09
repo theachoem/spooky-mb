@@ -2,18 +2,22 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
+import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/utils/widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeViewModel extends IndexTrackingViewModel {
   late int year;
+  late int month;
+
   final DocsManager docsManager = DocsManager();
 
   final void Function(int index) onTabChange;
   final void Function(int year) onYearChange;
   late final void Function(void Function()) onListReloaderReady;
   HomeViewModel(this.onTabChange, this.onYearChange, this.onListReloaderReady) {
-    year = DateTime.now().year;
+    year = InitialStoryTabService.initial.year;
+    month = InitialStoryTabService.initial.month;
   }
 
   void setYear(int? selectedYear) {

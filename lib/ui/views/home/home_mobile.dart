@@ -26,7 +26,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 12, vsync: this);
+    controller = TabController(length: 12, vsync: this, initialIndex: widget.viewModel.month - 1);
     controller.addListener(() {
       int monthIndex = controller.index + 1;
       widget.viewModel.onTabChange(monthIndex);

@@ -6,6 +6,7 @@ import 'package:spooky/core/file_manager/base_file_manager.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
+import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
@@ -189,7 +190,17 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
-    if (shouldSaveInStates.contains(state)) autosave();
+    if (shouldSaveInStates.contains(state)) {
+      autosave();
+
+      // if user close app, we store initial tab on home
+      // so they new it is saved.
+      DateTime now = DateTime.now();
+      InitialStoryTabService.setInitialTab(
+        currentStory.pathDate?.year ?? now.year,
+        currentStory.pathDate?.month ?? now.month,
+      );
+    }
     super.didChangeAppLifecycleState(state);
 
     if (state == AppLifecycleState.resumed && hasAutosaved) {
