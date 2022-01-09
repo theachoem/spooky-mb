@@ -134,16 +134,17 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           valueListenable: widget.readOnlyNotifier,
           child: SpIconButton(
             icon: Icon(Icons.add_chart),
+            key: ValueKey(Icons.add_chart),
             onPressed: () {
               widget.viewModel.addPage();
             },
             tooltip: "Add page",
           ),
           builder: (context, value, child) {
-            return SpCrossFade(
-              showFirst: widget.readOnlyNotifier.value,
-              secondChild: const SizedBox.shrink(),
-              firstChild: child ?? const SizedBox.shrink(),
+            return SpAnimatedIcons(
+              showFirst: !widget.readOnlyNotifier.value,
+              secondChild: const SizedBox.shrink(key: ValueKey("AddPageSizedBox")),
+              firstChild: child!,
             );
           },
         ),
