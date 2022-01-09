@@ -249,7 +249,8 @@ class StoryList extends StatelessWidget {
                   avatar: CircleAvatar(
                     backgroundImage: NetworkImage(images.first),
                   ),
-                )
+                ),
+              if (content.pages?.isNotEmpty == true) SpChip(labelText: "${content.pages?.length} Pages")
             ],
           ),
           buildTime(context, content)

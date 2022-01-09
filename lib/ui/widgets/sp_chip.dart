@@ -9,16 +9,18 @@ class SpChip extends StatelessWidget {
     Key? key,
     required this.labelText,
     this.avatar,
+    this.onTap,
   }) : super(key: key);
 
   final String labelText;
   final Widget? avatar;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return SpTapEffect(
       effects: const [SpTapEffectType.scaleDown],
-      onTap: () {},
+      onTap: onTap,
       child: Chip(
         label: Text(
           labelText,
