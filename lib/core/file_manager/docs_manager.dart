@@ -80,19 +80,19 @@ class DocsManager extends BaseFileManager with StoryQueryMixin {
   }
 
   @override
-  Future<void> write(BaseModel model) async {
+  Future<File?> write(BaseModel model) async {
     if (model is StoryModel) {
       if (model.documentId == null) {
         message = MessageSummary("documentId is missing");
-        return;
+        return null;
       }
       if (model.createdAt == null) {
         message = MessageSummary("createdAt is missing");
-        return;
+        return null;
       }
       if (model.pathDate == null) {
         message = MessageSummary("pathDate is missing");
-        return;
+        return null;
       }
     }
     return super.write(model);

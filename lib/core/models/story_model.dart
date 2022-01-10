@@ -12,7 +12,9 @@ part 'story_model.g.dart';
 
 @JsonSerializable()
 class StoryModel extends BaseModel {
+  // documentId must be null on create since we use it to get "flowType"
   final String? documentId;
+
   final String? fileId;
   final bool? starred;
   final String? feeling;
@@ -27,6 +29,7 @@ class StoryModel extends BaseModel {
   List<List<dynamic>>? pages;
 
   @JsonKey(ignore: true)
+  // parentPath is used to check whether it is in docs folder or other
   final String? parentPath;
 
   // /Users/../87B-E36A9EF0C9F1/Documents/docs/2022/Jan/8/1641634151020

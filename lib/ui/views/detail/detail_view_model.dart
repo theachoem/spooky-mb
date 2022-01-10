@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -101,8 +102,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   Future<void> _save() async {
     StoryModel story = buildStory();
-    await _write(story);
-    if (docsManager.success == true) currentStory = story;
+    StoryModel? result = await _write(story);
+
+    if (result != null) {
+      currentStory = result;
+      notifyListeners();
+    }
 
     if (kDebugMode) {
       print(docsManager.file?.absolute.path);
@@ -164,8 +169,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
     switch (currentStory.flowType) {
       case DetailViewFlow.create:
+        // documetId must be null on create
         story = StoryModel(
-          documentId: StoryModel.documentIdFromDate(now),
+          documentId: null,
           fileId: now.millisecondsSinceEpoch.toString(),
           starred: false,
           feeling: null,
@@ -193,13 +199,18 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   }
 
   @mustCallSuper
-  Future<void> _write(StoryModel story) async {
+  Future<StoryModel?> _write(StoryModel story) async {
     if (hasChange) {
-      assert(story.documentId != null);
       assert(story.fileId != null);
       assert(story.pathDate != null);
-      if (currentStory.filePath == FilePath.docs) {
-        await docsManager.write(story);
+      assert(story.createdAt != null);
+
+      if (currentStory.filePath == FilePath.docs || story.flowType == DetailViewFlow.create) {
+        StoryModel writeStory = story.copyWith(documentId: StoryModel.documentIdFromDate(story.createdAt!));
+        File? file = await docsManager.write(writeStory);
+        if (file != null) {
+          return writeStory.copyWith(parentPath: docsManager.storyParentPathFromFile(file));
+        }
       } else {
         // mostly not use, just prevent from save when it is not in "docs" folder
         docsManager.message = MessageSummary('Docs outside "docs/" folder can\'t be saved');

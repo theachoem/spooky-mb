@@ -55,8 +55,12 @@ mixin StoryQueryMixin {
     String result = await file.readAsString();
     dynamic json = jsonDecode(result);
     if (json is Map<String, dynamic>) {
-      StoryModel story = StoryModel.fromJson(json).copyWith(parentPath: file.absolute.parent.path);
+      StoryModel story = StoryModel.fromJson(json).copyWith(parentPath: storyParentPathFromFile(file));
       return story;
     }
+  }
+
+  String storyParentPathFromFile(File file) {
+    return file.absolute.parent.path;
   }
 }

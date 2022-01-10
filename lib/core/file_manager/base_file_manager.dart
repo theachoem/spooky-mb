@@ -39,8 +39,8 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
   }
 
   /// eg. app_path/parent_path_str/object_id.json
-  Future<void> write(BaseModel model) async {
-    return beforeExec<void>(() async {
+  Future<File?> write(BaseModel model) async {
+    return beforeExec<File?>(() async {
       Directory directory = await constructDirectory(model);
       File _file = await constructFile(model, directory);
 
@@ -51,6 +51,8 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
       message = MessageSummary(
         file != null ? FileHelper.fileName(file!.path) : "Successfully!",
       );
+
+      return file;
     });
   }
 
