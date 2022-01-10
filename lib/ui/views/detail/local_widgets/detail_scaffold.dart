@@ -19,6 +19,7 @@ import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/core/route/router.dart' as route;
 import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart' as indicator;
 
 class DetailScaffold extends StatefulWidget {
   const DetailScaffold({
@@ -65,7 +66,33 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
         children: [
           widget.editorBuilder(scaffoldkey),
           buildFloatActionButton(mediaQueryPadding),
+          buildIndicator(),
         ],
+      ),
+    );
+  }
+
+  Widget buildIndicator() {
+    return IgnorePointer(
+      child: AnimatedOpacity(
+        curve: Curves.fastOutSlowIn,
+        opacity: widget.viewModel.documents.isEmpty ? 0 : 1,
+        duration: ConfigConstant.duration,
+        child: Container(
+          alignment: Alignment.topRight,
+          margin: EdgeInsets.all(ConfigConstant.margin1),
+          child: indicator.SmoothPageIndicator(
+            controller: widget.viewModel.pageController,
+            effect: indicator.WormEffect(
+              dotHeight: 16,
+              dotWidth: 16,
+              radius: 16,
+              spacing: 4,
+              paintStyle: PaintingStyle.stroke,
+            ),
+            count: widget.viewModel.documents.length,
+          ),
+        ),
       ),
     );
   }

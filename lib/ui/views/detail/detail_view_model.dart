@@ -62,6 +62,11 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     WidgetsBinding.instance?.addObserver(this);
   }
 
+  List<List<dynamic>> get documents {
+    List<List<dynamic>>? pages = currentStory.pages;
+    return pages ?? [];
+  }
+
   void _setListener() {
     readOnlyNotifier.addListener(() {
       if (readOnlyNotifier.value) {
