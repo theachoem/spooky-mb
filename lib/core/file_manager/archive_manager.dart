@@ -26,10 +26,10 @@ class ArchiveManager extends BaseFileManager with StoryQueryMixin {
     Directory storyDir = await _docsManager.constructDirectory(story);
     Directory archiveRootDir = await constructRootDirectory();
 
-    List<FileSystemEntity> entities = storyDir.listSync();
+    List<FileSystemEntity> entities = storyDir.listSync(recursive: true);
     for (FileSystemEntity e in entities) {
       if (e is File) {
-        String newPath = e.path.replaceAll(_docsManager.rootPath, archiveRootDir.absolute.path);
+        String newPath = e.absolute.path.replaceAll(_docsManager.rootPath, archiveRootDir.absolute.path);
         File? file = await moveFile(e, newPath);
         if (file == null) break;
         message = MessageSummary('Archive success!');

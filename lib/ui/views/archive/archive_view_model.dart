@@ -20,11 +20,15 @@ class ArchiveViewModel extends BaseViewModel {
 
   Future<bool> delete(StoryModel story) async {
     await deleteManager.delete(story);
-    return deleteManager.success == true;
+    bool success = deleteManager.success == true;
+    if (success) await load();
+    return success;
   }
 
   Future<bool> unarchiveDocument(StoryModel story) async {
     await archiveManager.unarchiveDocument(story);
+    bool success = archiveManager.success == true;
+    if (success) await load();
     return archiveManager.success == true;
   }
 }
