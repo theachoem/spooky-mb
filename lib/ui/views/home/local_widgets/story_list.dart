@@ -255,7 +255,7 @@ class StoryList extends StatelessWidget {
                     backgroundImage: NetworkImage(images.first),
                   ),
                 ),
-              if (content.pages?.isNotEmpty == true) SpChip(labelText: "${content.pages?.length} Pages")
+              if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages")
             ],
           ),
           buildTime(context, content)

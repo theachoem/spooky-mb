@@ -8,6 +8,7 @@ class _DetailMobile extends StatelessWidget {
   TextEditingController get titleController => viewModel.titleController;
   ValueNotifier<bool> get hasChangeNotifer => viewModel.hasChangeNotifer;
   List<List<dynamic>> get documents => viewModel.documents;
+
   @override
   Widget build(BuildContext context) {
     return DetailScaffold(
@@ -21,7 +22,7 @@ class _DetailMobile extends StatelessWidget {
   }
 
   Widget buildEditor(GlobalKey<ScaffoldState> state, BuildContext context) {
-    if (documents.isEmpty) return Text("No documents found");
+    if (documents.isEmpty) return Center(child: Text("No documents found"));
     return PageView.builder(
       itemCount: documents.length,
       controller: viewModel.pageController,

@@ -76,7 +76,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
     return IgnorePointer(
       child: AnimatedOpacity(
         curve: Curves.fastOutSlowIn,
-        opacity: widget.viewModel.documents.isEmpty ? 0 : 1,
+        opacity: widget.viewModel.documents.length > 1 ? 1 : 0,
         duration: ConfigConstant.duration,
         child: Container(
           alignment: Alignment.topRight,
