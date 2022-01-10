@@ -19,7 +19,6 @@ void main() async {
         createdAt: null,
         pathDate: DateTime(2022, 1, 7),
         plainText: '',
-        document: [],
         pages: [],
       ));
       expect(path, Directory.current.path + '/docs/2022/Jan/7/1641474725533');

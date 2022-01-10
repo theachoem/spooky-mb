@@ -9,12 +9,7 @@ class _DetailMobile extends StatelessWidget {
   ValueNotifier<bool> get hasChangeNotifer => viewModel.hasChangeNotifer;
   List<List<dynamic>> get documents {
     List<List<dynamic>>? pages = viewModel.currentStory.pages;
-    List<dynamic>? document = viewModel.currentStory.document;
-    if (pages != null) {
-      return pages;
-    } else {
-      return document != null ? [document] : [];
-    }
+    return pages ?? [];
   }
 
   @override

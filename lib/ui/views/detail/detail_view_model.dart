@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/base_file_manager.dart';
+import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
 import 'package:spooky/core/file_manager/docs_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
@@ -51,6 +52,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     hasChangeNotifer = ValueNotifier(currentStory.flowType == DetailViewFlow.create);
     titleController = TextEditingController(text: currentStory.title);
     docsManager = DocsManager();
+
+    if (currentStory.pages == null) currentStory.addPage();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _setListener();
     });
@@ -170,7 +173,6 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
           createdAt: now,
           pathDate: currentStory.pathDate ?? now,
           plainText: currentQuillController?.document.toPlainText(),
-          document: currentQuillController?.document.toDelta().toJson(),
           pages: pagesData.values.toList(),
         );
         break;
@@ -182,7 +184,6 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
           createdAt: now,
           pathDate: currentStory.pathDate ?? now,
           plainText: currentQuillController?.document.toPlainText(),
-          document: currentQuillController?.document.toDelta().toJson(),
           pages: pagesData.values.toList(),
         );
         break;
@@ -197,7 +198,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       assert(story.documentId != null);
       assert(story.fileId != null);
       assert(story.pathDate != null);
-      await docsManager.write(story);
+      if (currentStory.filePath == FilePath.docs) {
+        await docsManager.write(story);
+      } else {
+        // mostly not use, just prevent from save when it is not in "docs" folder
+        docsManager.message = MessageSummary('Docs outside "docs/" folder can\'t be saved');
+      }
     } else {
       // set success to false,
       // otherwise if !hasChange, old success value will be used

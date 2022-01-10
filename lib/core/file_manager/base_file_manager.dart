@@ -55,6 +55,7 @@ abstract class BaseFileManager with BaseFmConstructorMixin {
   }
 
   Future<File?> moveFile(File sourceFile, String newPath) async {
+    if (!await sourceFile.exists()) return null;
     return beforeExec<File?>(() async {
       await ensureDirExist(Directory(newPath));
       try {

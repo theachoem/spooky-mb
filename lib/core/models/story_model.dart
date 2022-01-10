@@ -23,9 +23,8 @@ class StoryModel extends BaseModel {
   // we store document in this path
   final DateTime? pathDate;
 
-  // Returns JSON-serializable version of quill delta.
-  final List<dynamic>? document;
-  final List<List<dynamic>>? pages;
+  // List: Returns JSON-serializable version of quill delta.
+  List<List<dynamic>>? pages;
 
   @JsonKey(ignore: true)
   final String? parentPath;
@@ -53,7 +52,6 @@ class StoryModel extends BaseModel {
     required this.createdAt,
     required this.pathDate,
     required this.plainText,
-    required this.document,
     required this.pages,
     this.parentPath,
   });
@@ -70,7 +68,6 @@ class StoryModel extends BaseModel {
       pathDate: pathDate,
       createdAt: null,
       plainText: null,
-      document: null,
       pages: null,
     );
   }
@@ -108,6 +105,8 @@ class StoryModel extends BaseModel {
   void addPage() {
     if (pages != null) {
       pages?.add([]);
+    } else {
+      pages = [[]];
     }
   }
 
@@ -120,7 +119,6 @@ class StoryModel extends BaseModel {
     DateTime? createdAt,
     DateTime? pathDate,
     String? plainText,
-    List<dynamic>? document,
     List<List<dynamic>>? pages,
     String? parentPath,
   }) {
@@ -133,7 +131,6 @@ class StoryModel extends BaseModel {
       createdAt: createdAt ?? this.createdAt,
       pathDate: pathDate ?? this.pathDate,
       plainText: plainText ?? this.plainText,
-      document: document ?? this.document,
       pages: pages ?? this.pages,
       parentPath: parentPath ?? this.parentPath,
     );

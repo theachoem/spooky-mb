@@ -88,6 +88,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           title: "Archive",
           leadingIconData: Icons.archive,
           onPressed: () async {
+            // save since it may auto save after archived
+            await widget.viewModel.save(context);
             await archiveManager.archiveDocument(widget.viewModel.currentStory);
             if (archiveManager.message != null) {
               App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());

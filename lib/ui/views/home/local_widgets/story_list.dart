@@ -218,7 +218,12 @@ class StoryList extends StatelessWidget {
   }
 
   Widget buildContent(BuildContext context, StoryModel content) {
-    List<String> images = QuillHelper.imagesFromJson(content.document ?? []);
+    Set<String> images = {};
+
+    content.pages?.forEach((page) {
+      images.addAll(QuillHelper.imagesFromJson(page));
+    });
+
     return Expanded(
       child: Stack(
         children: [

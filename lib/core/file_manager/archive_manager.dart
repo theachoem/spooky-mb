@@ -30,8 +30,7 @@ class ArchiveManager extends BaseFileManager with StoryQueryMixin {
     for (FileSystemEntity e in entities) {
       if (e is File) {
         String newPath = e.absolute.path.replaceAll(_docsManager.rootPath, archiveRootDir.absolute.path);
-        File? file = await moveFile(e, newPath);
-        if (file == null) break;
+        await moveFile(e, newPath);
         message = MessageSummary('Archive success!');
       }
     }
@@ -55,8 +54,7 @@ class ArchiveManager extends BaseFileManager with StoryQueryMixin {
     for (FileSystemEntity e in entities) {
       if (e is File) {
         String newPath = e.path.replaceAll(archiveRootDir.absolute.path, _docsManager.rootPath);
-        File? file = await moveFile(e, newPath);
-        if (file == null) break;
+        await moveFile(e, newPath);
       }
     }
 
