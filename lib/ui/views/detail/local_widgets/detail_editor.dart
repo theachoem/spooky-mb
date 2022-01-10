@@ -84,23 +84,25 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin {
   Widget buildEditor() {
     return Column(
       children: [
-        ValueListenableBuilder<bool>(
-          valueListenable: widget.readOnlyNotifier,
-          builder: (context, value, child) {
-            return editor.QuillEditor(
-              controller: controller,
-              scrollController: scrollController,
-              scrollable: true,
-              focusNode: focusNode,
-              autoFocus: false,
-              readOnly: widget.readOnlyNotifier.value,
-              expands: false,
-              padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
-                bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
-              ),
-              keyboardAppearance: M3Color.keyboardAppearance(context),
-            );
-          },
+        Expanded(
+          child: ValueListenableBuilder<bool>(
+            valueListenable: widget.readOnlyNotifier,
+            builder: (context, value, child) {
+              return editor.QuillEditor(
+                controller: controller,
+                scrollController: scrollController,
+                scrollable: true,
+                focusNode: focusNode,
+                autoFocus: false,
+                readOnly: widget.readOnlyNotifier.value,
+                expands: false,
+                padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
+                  bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
+                ),
+                keyboardAppearance: M3Color.keyboardAppearance(context),
+              );
+            },
+          ),
         ),
         buildAdditionBottomPadding(),
       ],
@@ -158,7 +160,7 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin {
       valueListenable: widget.readOnlyNotifier,
       builder: (context, value, child) {
         double height = value ? 0 : ConfigConstant.objectHeight1 + bottomHeight;
-        return SizedBox(height: height + keyboardHeight);
+        return SizedBox(height: height + keyboardHeight + 8.0);
       },
     );
   }
