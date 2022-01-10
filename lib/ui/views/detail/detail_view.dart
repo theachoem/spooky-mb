@@ -53,6 +53,7 @@ class DetailView extends StatelessWidget {
                   return false;
               }
             }
+            context.router.popForced(model.currentStory);
             return true;
           },
           child: ScreenTypeLayout(
