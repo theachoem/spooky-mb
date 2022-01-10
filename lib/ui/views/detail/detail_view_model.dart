@@ -211,7 +211,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       assert(story.createdAt != null);
 
       if (currentStory.filePath == FilePath.docs || story.flowType == DetailViewFlow.create) {
-        StoryModel writeStory = story.copyWith(documentId: StoryModel.documentIdFromDate(story.createdAt!));
+        StoryModel writeStory = story.copyWith(
+          documentId: story.documentId ?? StoryModel.documentIdFromDate(story.createdAt!),
+        );
         File? file = await docsManager.write(writeStory);
         if (file != null) {
           return writeStory.copyWith(parentPath: docsManager.storyParentPathFromFile(file));
