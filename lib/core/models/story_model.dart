@@ -1,17 +1,16 @@
 import 'dart:convert';
-
 import 'package:spooky/core/file_manager/docs_manager.dart';
+import 'package:spooky/core/models/base_route_model.dart';
 import 'package:spooky/core/route/router.dart' as route;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
-import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
 part 'story_model.g.dart';
 
 @JsonSerializable()
-class StoryModel extends BaseModel {
+class StoryModel extends BaseRouteModel {
   // documentId must be null on create since we use it to get "flowType"
   final String? documentId;
 

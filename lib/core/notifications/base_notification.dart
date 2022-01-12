@@ -1,5 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:spooky/core/models/base_model.dart';
+import 'package:spooky/core/models/base_route_model.dart';
 
 abstract class BaseNotification {
   String notificatonChannelId = "com.juniorise.spooky/notification";
@@ -50,7 +50,7 @@ abstract class BaseNotification {
   Future<void> displayNotification({
     required String plainTitle,
     required String plainBody,
-    required BaseModel payload,
+    required BaseRouteModel payload,
   }) async {
     final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
       notificatonChannelId,
