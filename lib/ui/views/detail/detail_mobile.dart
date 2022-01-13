@@ -4,10 +4,10 @@ class _DetailMobile extends StatelessWidget {
   final DetailViewModel viewModel;
   const _DetailMobile(this.viewModel);
 
-  FocusNode get focusNode => viewModel.focusNode;
-  editor.QuillController get controller => viewModel.controller;
-  ScrollController get scrollController => viewModel.scrollController;
   ValueNotifier<bool> get readOnlyNotifier => viewModel.readOnlyNotifier;
+  TextEditingController get titleController => viewModel.titleController;
+  ValueNotifier<bool> get hasChangeNotifer => viewModel.hasChangeNotifer;
+  List<List<dynamic>> get documents => viewModel.documents;
 
   @override
   Widget build(BuildContext context) {
@@ -19,31 +19,14 @@ class _DetailMobile extends StatelessWidget {
     );
   }
 
-  editor.QuillToolbar buildToolbar(GlobalKey<ScaffoldState> state) {
-    return editor.QuillToolbar.basic(
-      controller: controller,
-      multiRowsDisplay: false,
-      toolbarIconSize: ConfigConstant.iconSize2,
-    );
+  Widget buildToolbar(GlobalKey<ScaffoldState> state) {
+    // TODO: Implement toolbars
+    return Text("data");
   }
 
   Widget buildEditor(GlobalKey<ScaffoldState> state) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: readOnlyNotifier,
-      builder: (context, value, child) {
-        return editor.QuillEditor(
-          controller: controller,
-          scrollController: scrollController,
-          scrollable: true,
-          focusNode: focusNode,
-          autoFocus: false,
-          readOnly: readOnlyNotifier.value,
-          expands: false,
-          padding: const EdgeInsets.all(ConfigConstant.margin2),
-          keyboardAppearance: M3Color.keyboardAppearance(context),
-        );
-      },
-    );
+    // TODO: Implement Editor
+    return Text("data");
   }
 
   Widget buildTitle(GlobalKey<ScaffoldState> state) {

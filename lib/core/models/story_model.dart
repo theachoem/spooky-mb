@@ -13,9 +13,41 @@ class StoryModel extends BaseModel {
 
   StoryModel({
     required this.id,
-    required this.changes,
     required this.path,
+    this.changes = const [],
   });
+
+  factory StoryModel.fromNow() {
+    final now = DateTime.now();
+    return StoryModel(
+      id: now.millisecondsSinceEpoch.toString(),
+      path: PathModel.fromDateTime(now),
+      changes: [
+        StoryContentModel.create(now),
+      ],
+    );
+  }
+
+  StoryModel copyWith({
+    String? id,
+    PathModel? path,
+    List<StoryContentModel>? changes,
+  }) {
+    return StoryModel(
+      id: id ?? this.id,
+      path: path ?? this.path,
+      changes: changes ?? this.changes,
+    );
+  }
+
+  void removeChangeById(String id) {
+    return changes.removeWhere((e) => e.id == id);
+  }
+
+  void addChange(StoryContentModel content) {
+    removeChangeById(content.id);
+    changes.add(content);
+  }
 
   @override
   Map<String, dynamic> toJson() => _$StoryModelToJson(this);

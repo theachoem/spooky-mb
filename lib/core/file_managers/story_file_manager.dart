@@ -7,6 +7,16 @@ import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
 class StoryFileManager extends BaseFileManager {
+  File modelToFile(StoryModel model) {
+    String path = FileHelper.directory.absolute.path + "/" + model.path.toPath();
+    return File(path);
+  }
+
+  Future<File?> writeStory(StoryModel content) async {
+    File file = modelToFile(content);
+    return write(file, content);
+  }
+
   Future<StoryModel?> fetchOne(File file) async {
     return beforeExec<StoryModel?>(() async {
       String result = await file.readAsString();

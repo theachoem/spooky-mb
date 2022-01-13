@@ -8,10 +8,12 @@ part of 'story_model.dart';
 
 StoryModel _$StoryModelFromJson(Map<String, dynamic> json) => StoryModel(
       id: json['id'] as String,
-      changes: (json['changes'] as List<dynamic>)
-          .map((e) => StoryContentModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
       path: PathModel.fromJson(json['path'] as Map<String, dynamic>),
+      changes: (json['changes'] as List<dynamic>?)
+              ?.map(
+                  (e) => StoryContentModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          const [],
     );
 
 Map<String, dynamic> _$StoryModelToJson(StoryModel instance) =>
