@@ -8,16 +8,26 @@ part of 'story_content_model.dart';
 
 StoryContentModel _$StoryContentModelFromJson(Map<String, dynamic> json) =>
     StoryContentModel(
-      document: json['document'] as List<dynamic>?,
+      id: json['id'] as String?,
+      starred: json['starred'] as bool?,
+      feeling: json['feeling'] as String?,
       title: json['title'] as String?,
-      createOn: json['create_on'] == null
+      plainText: json['plain_text'] as String?,
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['create_on'] as String),
+          : DateTime.parse(json['created_at'] as String),
+      pages: (json['pages'] as List<dynamic>?)
+          ?.map((e) => e as List<dynamic>)
+          .toList(),
     );
 
 Map<String, dynamic> _$StoryContentModelToJson(StoryContentModel instance) =>
     <String, dynamic>{
-      'document': instance.document,
+      'id': instance.id,
+      'starred': instance.starred,
+      'feeling': instance.feeling,
       'title': instance.title,
-      'create_on': instance.createOn?.toIso8601String(),
+      'plain_text': instance.plainText,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'pages': instance.pages,
     };
