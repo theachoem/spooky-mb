@@ -11,10 +11,10 @@ abstract class BaseFileManager {
 
   String get appPath => FileHelper.directory.absolute.path;
 
-  Future<T?> beforeExec<T>(Future<T> Function() callback) async {
+  Future<T?> beforeExec<T>(Future<T?> Function() callback) async {
     error = null;
     try {
-      T result = await callback();
+      T? result = await callback();
       error = null;
       return result;
     } catch (e) {
