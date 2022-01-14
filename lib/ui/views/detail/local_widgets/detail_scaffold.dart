@@ -4,13 +4,16 @@ import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
+import 'package:spooky/ui/views/detail/local_widgets/content_indicator.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
+import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:spooky/core/route/router.dart' as route;
 import 'package:smooth_page_indicator/smooth_page_indicator.dart' as indicator;
 
 class DetailScaffold extends StatefulWidget {
@@ -61,27 +64,9 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
   }
 
   Widget buildIndicator() {
-    return IgnorePointer(
-      child: AnimatedOpacity(
-        curve: Curves.fastOutSlowIn,
-        opacity: widget.viewModel.documents.length > 1 ? 1 : 0,
-        duration: ConfigConstant.duration,
-        child: Container(
-          alignment: Alignment.topRight,
-          margin: EdgeInsets.all(ConfigConstant.margin1),
-          child: indicator.SmoothPageIndicator(
-            controller: widget.viewModel.pageController,
-            effect: indicator.WormEffect(
-              dotHeight: 16,
-              dotWidth: 16,
-              radius: 16,
-              spacing: 4,
-              paintStyle: PaintingStyle.stroke,
-            ),
-            count: widget.viewModel.documents.length,
-          ),
-        ),
-      ),
+    return ContentIndicator(
+      controller: widget.viewModel.pageController,
+      pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
     );
   }
 
@@ -105,6 +90,28 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
               showFirst: !widget.readOnlyNotifier.value,
               secondChild: const SizedBox.shrink(key: ValueKey("AddPageSizedBox")),
               firstChild: child!,
+            );
+          },
+        ),
+        SpPopupMenuButton(
+          fromAppBar: true,
+          items: [
+            SpPopMenuItem(
+              title: "Changes History",
+              leadingIconData: Icons.history,
+              onPressed: () async {
+                context.router.push(
+                  route.ChangeHistory(
+                    story: widget.viewModel.currentStory,
+                  ),
+                );
+              },
+            ),
+          ],
+          builder: (void Function() callback) {
+            return SpIconButton(
+              icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
+              onPressed: callback,
             );
           },
         ),
