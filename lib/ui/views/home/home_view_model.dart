@@ -4,6 +4,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
+import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 
@@ -48,6 +49,24 @@ class HomeViewModel extends IndexTrackingViewModel {
       return yearsInt.toList();
     }
     return [year];
+  }
+
+  int get docsCount {
+    Directory root = Directory(storyFileManager.rootPath + "/" + "$year");
+    if (root.existsSync()) {
+      List<FileSystemEntity> result = root.listSync(recursive: true);
+      Set<String> docs = {};
+
+      for (FileSystemEntity element in result) {
+        String path = element.absolute.path;
+        if (path.endsWith("." + AppConstant.documentExstension)) {
+          docs.add(path.split("/").reversed.toList()[1]);
+        }
+      }
+
+      return docs.length;
+    }
+    return 0;
   }
 
   Future<void> pickYear(BuildContext context) async {
