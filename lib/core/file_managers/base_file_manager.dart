@@ -12,6 +12,7 @@ abstract class BaseFileManager {
 
   FilePathType get filePath;
   String get appPath => FileHelper.directory.absolute.path;
+  String get rootPath => FileHelper.directory.absolute.path + "/" + filePath.name;
 
   Future<T?> beforeExec<T>(Future<T?> Function() callback) async {
     error = null;

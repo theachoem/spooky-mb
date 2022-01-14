@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
@@ -27,7 +29,24 @@ class HomeViewModel extends IndexTrackingViewModel {
   }
 
   Future<List<int>> fetchYears() async {
-    // TODO: fetch years
+    Directory root = Directory(storyFileManager.rootPath);
+    if (await root.exists()) {
+      await storyFileManager.ensureDirExist(root);
+
+      List<FileSystemEntity> result = root.listSync();
+      List<String> years = result.map((e) {
+        return e.absolute.path.split("/").last;
+      }).toList();
+
+      Set<int> yearsInt = {};
+      for (String e in years) {
+        int? y = int.tryParse(e);
+        if (y != null) yearsInt.add(y);
+      }
+
+      yearsInt.add(year);
+      return yearsInt.toList();
+    }
     return [year];
   }
 
