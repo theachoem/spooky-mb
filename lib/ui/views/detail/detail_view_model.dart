@@ -112,7 +112,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   bool get hasChange {
-    return true;
+    if (currentStory.changes.isEmpty) return true;
+    return DetailViewModelHelper.buildContent(
+      currentContent,
+      quillControllers,
+      titleController,
+    ).hasChanges(currentStory.changes.last);
   }
 
   Future<void> save(BuildContext context) async {

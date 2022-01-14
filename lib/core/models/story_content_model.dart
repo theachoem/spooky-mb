@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/models/base_model.dart';
+import 'package:spooky/utils/mixins/comparable_mixin.dart';
 
 part 'story_content_model.g.dart';
 
 @JsonSerializable()
-class StoryContentModel extends BaseModel {
+class StoryContentModel extends BaseModel with ComparableMixin {
   final String id;
   final bool? starred;
   final String? feeling;
@@ -67,4 +68,12 @@ class StoryContentModel extends BaseModel {
 
   @override
   String? get objectId => id;
+
+  @override
+  List<String> get excludeCompareKeys {
+    return [
+      'id',
+      'plain_text',
+    ];
+  }
 }

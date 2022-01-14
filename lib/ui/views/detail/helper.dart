@@ -5,6 +5,18 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 
 class DetailViewModelHelper {
+  static StoryContentModel buildContent(
+    StoryContentModel currentContent,
+    Map<int, QuillController> quillControllers,
+    TextEditingController titleController,
+  ) {
+    return currentContent.copyWith(
+      title: titleController.text,
+      plainText: quillControllers.values.first.document.toPlainText(),
+      pages: pagesData(currentContent, quillControllers).values.toList(),
+    );
+  }
+
   static StoryModel buildStory(
     StoryModel currentStory,
     StoryContentModel currentContent,
@@ -13,12 +25,7 @@ class DetailViewModelHelper {
     TextEditingController titleController,
   ) {
     StoryModel story;
-    currentContent = currentContent.copyWith(
-      title: titleController.text,
-      plainText: quillControllers.values.first.document.toPlainText(),
-      pages: pagesData(currentContent, quillControllers).values.toList(),
-    );
-
+    currentContent = buildContent(currentContent, quillControllers, titleController);
     switch (flowType) {
       case DetailViewFlow.create:
         story = currentStory.copyWith(
