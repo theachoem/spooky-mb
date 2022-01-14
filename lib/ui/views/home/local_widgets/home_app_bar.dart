@@ -1,14 +1,15 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/ui/views/home/home_view_model.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_tab_bar.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
+import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
-import 'package:stacked_services/stacked_services.dart';
 
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
@@ -17,12 +18,14 @@ class HomeAppBar extends StatefulWidget {
     required this.subtitle,
     required this.tabLabels,
     required this.tabController,
+    required this.viewModel,
   }) : super(key: key);
 
   final String title;
   final String subtitle;
   final List<String> tabLabels;
   final TabController tabController;
+  final HomeViewModel viewModel;
 
   @override
   State<HomeAppBar> createState() => _HomeAppBarState();
@@ -68,9 +71,12 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
                 style: textTheme.headline6?.copyWith(color: colorScheme.primary),
               ),
               ConfigConstant.sizedBoxH0,
-              Text(
-                widget.subtitle,
-                style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+              SpTapEffect(
+                onTap: () => widget.viewModel.pickYear(context),
+                child: Text(
+                  widget.subtitle,
+                  style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+                ),
               ),
             ],
           ),
@@ -85,7 +91,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
       right: 0,
       child: SpIconButton(
         icon: getThemeModeIcon(),
-        backgroundColor: M3Color.of(context)?.primaryContainer,
+        backgroundColor: M3Color.of(context).primaryContainer,
         onLongPress: () async {
           ThemeMode? result = await showConfirmationDialog(
             context: context,
@@ -117,7 +123,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
     return ThemeMode.values.map((e) {
       return AlertDialogAction(
         key: e,
-        label: e.name.capitalize!,
+        label: e.name.capitalize,
       );
     }).toList();
   }

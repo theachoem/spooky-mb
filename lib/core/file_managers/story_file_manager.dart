@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/file_managers/base_file_manager.dart';
+import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
@@ -14,6 +15,9 @@ class StoryFileManager extends BaseFileManager {
 
   Future<File?> writeStory(StoryModel content) async {
     File file = modelToFile(content);
+    if (kDebugMode) {
+      print(file.absolute.path);
+    }
     return write(file, content);
   }
 
@@ -52,4 +56,7 @@ class StoryFileManager extends BaseFileManager {
       }
     });
   }
+
+  @override
+  FilePathType get filePath => FilePathType.docs;
 }

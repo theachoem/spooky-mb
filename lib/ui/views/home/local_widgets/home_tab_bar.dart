@@ -40,12 +40,12 @@ class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
       isScrollable: true,
       onTap: (index) {},
       overlayColor: MaterialStateProperty.all(Colors.transparent),
-      unselectedLabelColor: M3Color.of(context)?.primary,
-      labelColor: M3Color.of(context)?.onPrimary,
+      unselectedLabelColor: M3Color.of(context).primary,
+      labelColor: M3Color.of(context).onPrimary,
       indicator: SpTabIndicator(
         borderSide: BorderSide(
           width: height,
-          color: M3Color.of(context)!.primary,
+          color: M3Color.of(context).primary,
         ),
       ),
       tabs: List.generate(

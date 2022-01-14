@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
+import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
@@ -9,6 +10,7 @@ abstract class BaseFileManager {
   Object? error;
   bool get success => error == null;
 
+  FilePathType get filePath;
   String get appPath => FileHelper.directory.absolute.path;
 
   Future<T?> beforeExec<T>(Future<T?> Function() callback) async {

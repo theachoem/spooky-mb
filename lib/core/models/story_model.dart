@@ -19,9 +19,15 @@ class StoryModel extends BaseModel {
 
   factory StoryModel.fromNow() {
     final now = DateTime.now();
+    return StoryModel.fromDate(now);
+  }
+
+  // use date for only path
+  factory StoryModel.fromDate(DateTime date) {
+    final now = DateTime.now();
     return StoryModel(
       id: now.millisecondsSinceEpoch.toString(),
-      path: PathModel.fromDateTime(now),
+      path: PathModel.fromDateTime(date),
       changes: [
         StoryContentModel.create(now),
       ],

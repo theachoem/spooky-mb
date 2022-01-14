@@ -21,8 +21,8 @@ import '../../ui/views/main/main_view.dart' as _i2;
 import '../../ui/views/setting/setting_view.dart' as _i5;
 import '../models/story_model.dart' as _i8;
 
-class Router extends _i6.RootStackRouter {
-  Router([_i7.GlobalKey<_i7.NavigatorState>? navigatorKey])
+class AppRouter extends _i6.RootStackRouter {
+  AppRouter([_i7.GlobalKey<_i7.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
@@ -41,8 +41,14 @@ class Router extends _i6.RootStackRouter {
           routeData: routeData, child: const _i2.MainView());
     },
     Home.name: (routeData) {
+      final args = routeData.argsAs<HomeArgs>();
       return _i6.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.HomeView());
+          routeData: routeData,
+          child: _i3.HomeView(
+              key: args.key,
+              onTabChange: args.onTabChange,
+              onYearChange: args.onYearChange,
+              onListReloaderReady: args.onListReloaderReady));
     },
     Explore.name: (routeData) {
       return _i6.MaterialPageX<dynamic>(
@@ -108,10 +114,42 @@ class Main extends _i6.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.HomeView]
-class Home extends _i6.PageRouteInfo<void> {
-  const Home() : super(Home.name, path: 'home-view');
+class Home extends _i6.PageRouteInfo<HomeArgs> {
+  Home(
+      {_i7.Key? key,
+      required void Function(int) onTabChange,
+      required void Function(int) onYearChange,
+      required void Function(void Function()) onListReloaderReady})
+      : super(Home.name,
+            path: 'home-view',
+            args: HomeArgs(
+                key: key,
+                onTabChange: onTabChange,
+                onYearChange: onYearChange,
+                onListReloaderReady: onListReloaderReady));
 
   static const String name = 'Home';
+}
+
+class HomeArgs {
+  const HomeArgs(
+      {this.key,
+      required this.onTabChange,
+      required this.onYearChange,
+      required this.onListReloaderReady});
+
+  final _i7.Key? key;
+
+  final void Function(int) onTabChange;
+
+  final void Function(int) onYearChange;
+
+  final void Function(void Function()) onListReloaderReady;
+
+  @override
+  String toString() {
+    return 'HomeArgs{key: $key, onTabChange: $onTabChange, onYearChange: $onYearChange, onListReloaderReady: $onListReloaderReady}';
+  }
 }
 
 /// generated route for

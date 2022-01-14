@@ -5,6 +5,9 @@ import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 
+export 'router.gr.dart';
+export 'package:auto_route/auto_route.dart';
+
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     MaterialRoute(
@@ -32,4 +35,4 @@ import 'package:spooky/ui/views/setting/setting_view.dart';
     ),
   ],
 )
-class $Router {}
+class $AppRouter {}

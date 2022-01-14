@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/utils/widgets/measure_size.dart';
 
 class SpPopMenuItem {
   final String title;
   final void Function() onPressed;
+  final TextStyle? titleStyle;
+  IconData? leadingIconData;
 
   SpPopMenuItem({
     required this.title,
     required this.onPressed,
+    this.titleStyle,
+    this.leadingIconData,
   });
 }
 
@@ -18,11 +23,15 @@ class SpPopupMenuButton extends StatefulWidget {
     required this.builder,
     this.fromAppBar = false,
     this.items = const [],
+    this.dx,
+    this.dy,
   }) : super(key: key);
 
   final bool fromAppBar;
   final Widget Function(void Function() callback) builder;
   final List<SpPopMenuItem> items;
+  final double? dx;
+  final double? dy;
 
   @override
   State<SpPopupMenuButton> createState() => _SpPopupMenuButtonState();
@@ -62,11 +71,17 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
       } else {
         childPosition = const Offset(0, 0);
       }
+    } else {
+      childPosition = Offset(widget.dx ?? childPosition!.dx, widget.dy ?? childPosition!.dy);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (widget.fromAppBar) {
+      assert(widget.dx == null);
+      assert(widget.dy == null);
+    }
     return MeasureSize(
       onChange: (size) => childSize = size,
       child: GestureDetector(
@@ -76,11 +91,24 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
           showMenu(
             context: context,
             position: relativeRect!,
+            elevation: 2.0,
+            shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
             items: widget.items.map(
               (e) {
                 return PopupMenuItem(
+                  padding: EdgeInsets.zero,
                   child: ListTile(
-                    title: Text(e.title),
+                    leading: e.leadingIconData != null
+                        ? Icon(
+                            e.leadingIconData,
+                            color: e.titleStyle?.color,
+                          )
+                        : null,
+                    title: Text(
+                      e.title,
+                      style: e.titleStyle,
+                      textAlign: TextAlign.left,
+                    ),
                   ),
                   onTap: e.onPressed,
                 );

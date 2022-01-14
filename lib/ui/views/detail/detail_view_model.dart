@@ -6,6 +6,7 @@ import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/ui/views/detail/helper.dart';
+import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 
 enum DetailViewFlow {
@@ -13,7 +14,7 @@ enum DetailViewFlow {
   update,
 }
 
-class DetailViewModel extends BaseViewModel {
+class DetailViewModel extends BaseViewModel with ScheduleMixin {
   late StoryModel currentStory;
   late StoryContentModel currentContent;
   late PageController pageController;
@@ -52,6 +53,17 @@ class DetailViewModel extends BaseViewModel {
   List<List<dynamic>> get documents {
     List<List<dynamic>>? pages = currentContent.pages;
     return pages ?? [];
+  }
+
+  void addPage() {
+    currentContent.addPage();
+    notifyListeners();
+  }
+
+  void onChange(Document document) {
+    scheduleAction(() {
+      hasChangeNotifer.value = hasChange;
+    });
   }
 
   @override

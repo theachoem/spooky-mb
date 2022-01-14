@@ -15,12 +15,9 @@ dependencies:
 
   # mvvm
   stacked: ^2.2.7+1
-  stacked_services: ^0.8.16
   responsive_builder: ^0.4.1
   logger: ^1.1.0
-  get_it: ^7.2.0
   auto_route: ^3.2.1
-  injectable: ^1.5.0
   intl: ^0.17.0
   easy_localization: ^3.0.0
   flutter_quill: ^3.0.4
@@ -29,6 +26,13 @@ dependencies:
   adaptive_dialog: ^1.2.0
   json_annotation: ^4.4.0
   path_provider: ^2.0.8
+  timezone: ^0.8.0
+  scroll_to_index: ^2.1.1
+  flutter_cupertino_datetime_picker: ^3.0.0
+  injectable: ^1.5.0
+  stacked_services: ^0.8.16
+  flutter_local_notifications: ^9.2.0
+  smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:
@@ -38,8 +42,13 @@ dev_dependencies:
   
   # mvvm
   flutter_lints: ^1.0.0
-  injectable_generator: ^1.5.2
   auto_route_generator: ^3.2.1
+  injectable_generator: ^1.5.2
+  change_app_package_name: ^1.0.0
+  flutter_app_name: ^0.1.1
+
+flutter_app_name:
+  name: "Spooky"
 
 flutter:
   uses-material-design: true

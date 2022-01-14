@@ -53,7 +53,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
     M3Color? m3Colors = M3Color.of(context);
 
     return Material(
-      color: m3Colors?.readOnly.surface2,
+      color: m3Colors.readOnly.surface2,
       child: LayoutBuilder(builder: (context, constraints) {
         return Row(
           children: List.generate(widget.items.length, (index) {
@@ -135,7 +135,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
         ConfigConstant.sizedBoxH0,
         Text(
           item.label,
-          style: M3TextTheme.of(context)?.labelMedium.copyWith(color: m3Colors?.onSecondaryContainer),
+          style: M3TextTheme.of(context).labelMedium.copyWith(color: m3Colors?.onSecondaryContainer),
         ),
         const SizedBox(height: ConfigConstant.margin2),
       ],

@@ -4,9 +4,8 @@ import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/mixins/scaffold_messenger_mixin.dart';
-import 'package:stacked_services/stacked_services.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/route/router.gr.dart' as r;
+import 'package:spooky/core/route/router.dart' as route;
 
 class App extends StatefulWidget {
   const App({
@@ -15,6 +14,7 @@ class App extends StatefulWidget {
   }) : super(key: key);
 
   final ThemeMode themeMode;
+  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   static _AppState? of(BuildContext context) {
     return context.findAncestorStateOfType<_AppState>();
@@ -25,12 +25,12 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with ScaffoldMessengerMixin {
-  late r.Router _appRouter;
+  late route.AppRouter _appRouter;
   late M3TextTheme textTheme;
 
   @override
   void initState() {
-    _appRouter = r.Router(StackedService.navigatorKey);
+    _appRouter = route.AppRouter(App.navigatorKey);
     textTheme = ThemeConstant.textThemeM3;
     super.initState();
   }

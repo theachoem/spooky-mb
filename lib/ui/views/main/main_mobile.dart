@@ -6,14 +6,20 @@ class _MainMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AutoTabsRouter(
-      routes: const [
-        r.Home(),
-        r.Explore(),
-        r.Setting(),
+    return route.AutoTabsRouter(
+      routes: [
+        route.Home(
+          onTabChange: viewModel.onTabChange,
+          onYearChange: (int year) => viewModel.year = year,
+          onListReloaderReady: (void Function() callback) {
+            viewModel.storyListReloader = callback;
+          },
+        ),
+        const route.Explore(),
+        const route.Setting(),
       ],
       builder: (context, child, animation) {
-        final TabsRouter tabsRouter = AutoTabsRouter.of(context);
+        final route.TabsRouter tabsRouter = route.AutoTabsRouter.of(context);
         return Scaffold(
           body: FadeTransition(
             opacity: animation,
@@ -23,12 +29,19 @@ class _MainMobile extends StatelessWidget {
             shouldShow: tabsRouter.activeIndex == 0,
             child: FloatingActionButton.extended(
               onPressed: () {
-                context.router.push(
-                  r.Detail(
-                    initialStory: StoryModel.fromNow(),
+                SpDatePicker.showDayPicker(context, viewModel.date, (date) async {
+                  route.Detail page = route.Detail(
+                    initialStory: StoryModel.fromDate(date),
                     intialFlow: DetailViewFlow.create,
-                  ),
-                );
+                  );
+                  context.router.push(page).then(
+                    (value) {
+                      if (value is StoryModel) {
+                        viewModel.storyListReloader!();
+                      }
+                    },
+                  );
+                });
               },
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),

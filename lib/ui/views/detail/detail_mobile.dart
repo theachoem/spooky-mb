@@ -12,31 +12,46 @@ class _DetailMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DetailScaffold(
-      titleBuilder: (state) => buildTitle(state),
-      editorBuilder: (state) => buildEditor(state),
-      toolbarBuilder: (state) => buildToolbar(state),
+      titleBuilder: () => buildTitle(),
+      editorBuilder: () => buildEditor(context),
       readOnlyNotifier: readOnlyNotifier,
+      hasChangeNotifer: hasChangeNotifer,
+      onSave: (context) => viewModel.save(context),
+      viewModel: viewModel,
     );
   }
 
-  Widget buildToolbar(GlobalKey<ScaffoldState> state) {
-    // TODO: Implement toolbars
-    return Text("data");
+  Widget buildEditor(BuildContext context) {
+    if (documents.isEmpty) return Center(child: Text("No documents found"));
+    return PageView.builder(
+      itemCount: documents.length,
+      controller: viewModel.pageController,
+      physics: const ClampingScrollPhysics(),
+      itemBuilder: (context, index) {
+        return DetailEditor(
+          document: documents[index],
+          readOnlyNotifier: readOnlyNotifier,
+          onChange: (_) => viewModel.onChange(_),
+          onControllerReady: (controller) {
+            viewModel.quillControllers[index] = controller;
+          },
+          onFocusNodeReady: (focusNode) {
+            viewModel.focusNodes[index] = focusNode;
+          },
+        );
+      },
+    );
   }
 
-  Widget buildEditor(GlobalKey<ScaffoldState> state) {
-    // TODO: Implement Editor
-    return Text("data");
-  }
-
-  Widget buildTitle(GlobalKey<ScaffoldState> state) {
+  Widget buildTitle() {
     return ValueListenableBuilder<bool>(
       valueListenable: readOnlyNotifier,
       builder: (context, value, child) {
         return TextField(
-          style: M3TextTheme.of(context)?.titleLarge,
+          style: M3TextTheme.of(context).titleLarge,
           autofocus: false,
           readOnly: readOnlyNotifier.value,
+          controller: titleController,
           keyboardAppearance: M3Color.keyboardAppearance(context),
           decoration: const InputDecoration(
             contentPadding: EdgeInsets.symmetric(vertical: 4.0),

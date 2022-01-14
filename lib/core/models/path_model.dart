@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/core/models/base_model.dart';
@@ -28,6 +26,10 @@ class PathModel extends BaseModel {
         month = date.month,
         day = date.day,
         filePath = FilePathType.docs;
+
+  DateTime toDateTime() {
+    return DateTime(year, month, day);
+  }
 
   String toPath() {
     return [

@@ -25,6 +25,14 @@ class StoryContentModel extends BaseModel {
     required this.pages,
   });
 
+  void addPage() {
+    if (pages != null) {
+      pages?.add([]);
+    } else {
+      pages = [[]];
+    }
+  }
+
   StoryContentModel.create(this.createdAt)
       : id = createdAt.millisecondsSinceEpoch.toString(),
         starred = null,

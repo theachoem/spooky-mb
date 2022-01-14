@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/app.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/theme/theme_config.dart';
 
 class M3TextTheme {
-  static M3TextTheme? of(BuildContext context) {
-    return App.of(context)?.textTheme;
+  static M3TextTheme of(BuildContext context) {
+    bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
+    return ThemeConfig(isDarkMode).buildTextTheme(M3Color.of(context));
   }
 
   final List<String> fontFamilyFallback;
