@@ -2,7 +2,9 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/file_managers/types/response_code.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/ui/views/detail/helper.dart';
@@ -38,6 +40,19 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     }
   }
 
+  int? get currentIndex => pageController.hasClients ? pageController.page?.toInt() : null;
+  FocusNode? get currentFocusNode {
+    if (focusNodes.containsKey(currentIndex)) {
+      return focusNodes[currentIndex];
+    }
+  }
+
+  QuillController? get currentQuillController {
+    if (quillControllers.containsKey(currentIndex)) {
+      return quillControllers[currentIndex];
+    }
+  }
+
   DetailViewModel(
     this.currentStory,
     this.flowType,
@@ -48,6 +63,27 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     hasChangeNotifer = ValueNotifier(flowType == DetailViewFlow.create);
     titleController = TextEditingController(text: currentContent.title);
     storyFileManager = StoryFileManager();
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      _setListener();
+    });
+  }
+
+  void _setListener() {
+    readOnlyNotifier.addListener(() {
+      if (readOnlyNotifier.value) {
+        currentFocusNode?.unfocus();
+      } else {
+        currentFocusNode?.requestFocus();
+      }
+      hasChangeNotifer.value = hasChange;
+    });
+
+    titleController.addListener(() {
+      scheduleAction(() {
+        hasChangeNotifer.value = hasChange;
+      });
+    });
   }
 
   List<List<dynamic>> get documents {
@@ -80,23 +116,52 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   Future<void> save(BuildContext context) async {
-    if (!hasChange) return;
+    ResponseCode code = await _save();
+    String message;
+
+    switch (code) {
+      case ResponseCode.success:
+        notifyListeners();
+        message = "Save";
+        break;
+      case ResponseCode.noChange:
+        message = "Document has no changes";
+        break;
+      case ResponseCode.fail:
+        message = "Save unsuccessfully!";
+        break;
+    }
+
+    App.of(context)?.showSpSnackBar(message);
+  }
+
+  @mustCallSuper
+  Future<ResponseCode> _save() async {
+    if (!hasChange) return ResponseCode.noChange;
     StoryModel? result = await write();
     if (result != null && result.changes.isNotEmpty) {
       currentStory = result;
       currentContent = result.changes.last;
-      notifyListeners();
+      return ResponseCode.success;
     }
+    return ResponseCode.fail;
   }
 
   @mustCallSuper
   Future<StoryModel?> write() async {
-    StoryModel story = DetailViewModelHelper.buildStory(currentStory, currentContent, flowType);
-    File? result = await storyFileManager.writeStory(story);
+    StoryModel story = DetailViewModelHelper.buildStory(
+      currentStory,
+      currentContent,
+      flowType,
+      quillControllers,
+    );
 
+    File? result = await storyFileManager.writeStory(story);
     if (kDebugMode) {
-      print(storyFileManager.success);
-      print(storyFileManager.error);
+      print("+++ Write +++");
+      print("Success: ${storyFileManager.success}");
+      print("Message: ${storyFileManager.error}");
+      print("Path: ${result?.absolute.path}");
     }
 
     if (result != null) {

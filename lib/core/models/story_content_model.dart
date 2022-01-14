@@ -25,6 +25,26 @@ class StoryContentModel extends BaseModel {
     required this.pages,
   });
 
+  StoryContentModel copyWith({
+    String? id,
+    bool? starred,
+    String? feeling,
+    String? title,
+    String? plainText,
+    DateTime? createdAt,
+    List<List<dynamic>>? pages,
+  }) {
+    return StoryContentModel(
+      id: id ?? this.id,
+      starred: starred ?? this.starred,
+      feeling: feeling ?? this.feeling,
+      title: title ?? this.title,
+      plainText: plainText ?? this.plainText,
+      createdAt: createdAt ?? this.createdAt,
+      pages: pages ?? this.pages,
+    );
+  }
+
   void addPage() {
     if (pages != null) {
       pages?.add([]);

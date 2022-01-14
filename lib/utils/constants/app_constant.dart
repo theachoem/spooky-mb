@@ -10,4 +10,5 @@ class AppConstant {
   ];
 
   static const fallbackLocale = Locale('en');
+  static const String documentExstension = "json";
 }

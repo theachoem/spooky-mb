@@ -77,8 +77,8 @@ class ThemeConfig {
   M3TextTheme buildTextTheme(M3Color m3Color) {
     return ThemeConstant.textThemeM3.apply(
       bodyColor: m3Color.onSurface,
-      displayColor: m3Color.onSurface.withOpacity(0.54),
-      decorationColor: m3Color.onSurface.withOpacity(0.54),
+      displayColor: m3Color.onSurface,
+      decorationColor: m3Color.onSurface,
     );
   }
 }

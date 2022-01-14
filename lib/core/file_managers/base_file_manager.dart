@@ -8,7 +8,7 @@ import 'package:spooky/utils/helpers/file_helper.dart';
 // store as json
 abstract class BaseFileManager {
   Object? error;
-  bool get success => error == null;
+  bool get success => error != null;
 
   FilePathType get filePath;
   String get appPath => FileHelper.directory.absolute.path;
@@ -28,15 +28,22 @@ abstract class BaseFileManager {
   }
 
   Future<void> ensureDirExist(Directory directory) async {
-    Directory parent = directory.absolute.parent;
-    bool exists = await parent.exists();
+    bool exists = await directory.exists();
     if (!exists) {
-      await parent.create(recursive: true);
+      await directory.create(recursive: true);
+    }
+  }
+
+  Future<void> ensureFileExist(File file) async {
+    bool exists = await file.exists();
+    if (!exists) {
+      await file.create(recursive: true);
     }
   }
 
   Future<File?> write(File file, BaseModel content) async {
     return beforeExec<File?>(() async {
+      await ensureFileExist(file);
       file = await file.writeAsString(
         AppHelper.prettifyJson(content.toJson()),
       );
