@@ -29,7 +29,7 @@ class StoryModel extends BaseModel {
       id: now.millisecondsSinceEpoch.toString(),
       path: PathModel.fromDateTime(date),
       changes: [
-        StoryContentModel.create(now),
+        StoryContentModel.create(createdAt: now, id: now.millisecondsSinceEpoch.toString()),
       ],
     );
   }

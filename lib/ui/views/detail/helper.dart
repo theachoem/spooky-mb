@@ -9,8 +9,10 @@ class DetailViewModelHelper {
     StoryContentModel currentContent,
     Map<int, QuillController> quillControllers,
     TextEditingController titleController,
+    DateTime openOn,
   ) {
     return currentContent.copyWith(
+      id: openOn.millisecondsSinceEpoch.toString(),
       title: titleController.text,
       plainText: quillControllers.values.first.document.toPlainText(),
       pages: pagesData(currentContent, quillControllers).values.toList(),
@@ -23,9 +25,10 @@ class DetailViewModelHelper {
     DetailViewFlow flowType,
     Map<int, QuillController> quillControllers,
     TextEditingController titleController,
+    DateTime openOn,
   ) {
     StoryModel story;
-    currentContent = buildContent(currentContent, quillControllers, titleController);
+    currentContent = buildContent(currentContent, quillControllers, titleController, openOn);
     switch (flowType) {
       case DetailViewFlow.create:
         story = currentStory.copyWith(

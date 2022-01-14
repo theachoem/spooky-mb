@@ -54,9 +54,10 @@ class StoryContentModel extends BaseModel with ComparableMixin {
     }
   }
 
-  StoryContentModel.create(this.createdAt)
-      : id = createdAt.millisecondsSinceEpoch.toString(),
-        starred = null,
+  StoryContentModel.create({
+    required this.createdAt,
+    required this.id,
+  })  : starred = null,
         feeling = null,
         plainText = null,
         title = null,

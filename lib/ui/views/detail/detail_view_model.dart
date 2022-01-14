@@ -17,6 +17,8 @@ enum DetailViewFlow {
 }
 
 class DetailViewModel extends BaseViewModel with ScheduleMixin {
+  late DateTime openOn;
+
   late StoryModel currentStory;
   late StoryContentModel currentContent;
   late PageController pageController;
@@ -35,7 +37,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
       return story.changes.last;
     } else {
       return StoryContentModel.create(
-        DateTime(story.path.year, story.path.month, story.path.day),
+        createdAt: DateTime(story.path.year, story.path.month, story.path.day),
+        id: openOn.millisecondsSinceEpoch.toString(),
       );
     }
   }
@@ -57,6 +60,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     this.currentStory,
     this.flowType,
   ) {
+    openOn = DateTime.now();
     currentContent = getInitialStoryContent(currentStory);
     pageController = PageController();
     readOnlyNotifier = ValueNotifier(flowType == DetailViewFlow.update);
@@ -117,6 +121,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
       currentContent,
       quillControllers,
       titleController,
+      openOn,
     ).hasChanges(currentStory.changes.last);
   }
 
@@ -126,6 +131,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
 
     switch (code) {
       case ResponseCode.success:
+        flowType = DetailViewFlow.update;
         notifyListeners();
         message = "Save";
         break;
@@ -160,6 +166,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
       flowType,
       quillControllers,
       titleController,
+      openOn,
     );
 
     File? result = await storyFileManager.writeStory(story);
