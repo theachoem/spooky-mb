@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -9,9 +10,12 @@ class DetailViewModelHelper {
     StoryContentModel currentContent,
     DetailViewFlow flowType,
     Map<int, QuillController> quillControllers,
+    TextEditingController titleController,
   ) {
     StoryModel story;
     currentContent = currentContent.copyWith(
+      title: titleController.text,
+      plainText: quillControllers.values.first.document.toPlainText(),
       pages: pagesData(currentContent, quillControllers).values.toList(),
     );
 

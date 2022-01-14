@@ -40,7 +40,7 @@ class StoryFileManager extends BaseFileManager {
 
     return beforeExec<List<StoryModel>?>(() async {
       if (directory.existsSync()) {
-        List<FileSystemEntity> entities = directory.listSync();
+        List<FileSystemEntity> entities = directory.listSync(recursive: true);
 
         List<StoryModel> stories = [];
         for (FileSystemEntity item in entities) {

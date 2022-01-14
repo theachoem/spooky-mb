@@ -154,6 +154,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
       currentContent,
       flowType,
       quillControllers,
+      titleController,
     );
 
     File? result = await storyFileManager.writeStory(story);
