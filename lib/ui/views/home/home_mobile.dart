@@ -56,7 +56,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
                 queryOptions: StoryQueryOptionsModel(
                   filePath: FilePathType.docs,
                   year: widget.viewModel.year,
-                  month: widget.viewModel.month,
+                  month: index + 1,
                 ),
                 onListReloaderReady: (reloader) {
                   listReloaderMap[index + 1] = reloader;
