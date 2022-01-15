@@ -26,9 +26,17 @@ class DetailViewModelHelper {
     Map<int, QuillController> quillControllers,
     TextEditingController titleController,
     DateTime openOn,
+    bool restore,
   ) {
+    if (restore) {
+      currentStory.removeChangeById(currentContent.id);
+      currentStory.addChange(currentContent.restore(currentContent));
+      return currentStory;
+    }
+
     StoryModel story;
     currentContent = buildContent(currentContent, quillControllers, titleController, openOn);
+
     switch (flowType) {
       case DetailViewFlow.create:
         story = currentStory.copyWith(

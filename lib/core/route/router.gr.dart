@@ -36,11 +36,14 @@ class AppRouter extends _i8.RootStackRouter {
           routeData: routeData,
           child: _i1.ContentReaderView(key: args.key, content: args.content));
     },
-    ChangeHistory.name: (routeData) {
-      final args = routeData.argsAs<ChangeHistoryArgs>();
+    ChangesHistory.name: (routeData) {
+      final args = routeData.argsAs<ChangesHistoryArgs>();
       return _i8.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i2.ChangesHistoryView(key: args.key, story: args.story));
+          child: _i2.ChangesHistoryView(
+              key: args.key,
+              story: args.story,
+              onRestorePressed: args.onRestorePressed));
     },
     Detail.name: (routeData) {
       final args = routeData.argsAs<DetailArgs>();
@@ -77,14 +80,13 @@ class AppRouter extends _i8.RootStackRouter {
 
   @override
   List<_i8.RouteConfig> get routes => [
-        _i8.RouteConfig(ContentReader.name, path: '/content-reader-view'),
-        _i8.RouteConfig(ChangeHistory.name, path: '/changes-history-view'),
-        _i8.RouteConfig(Detail.name, path: '/detail-view'),
+        _i8.RouteConfig(ContentReader.name, path: '/content-reader'),
+        _i8.RouteConfig(ChangesHistory.name, path: '/changes-sistory'),
+        _i8.RouteConfig(Detail.name, path: '/detail'),
         _i8.RouteConfig(Main.name, path: '/', children: [
-          _i8.RouteConfig(Home.name, path: 'home-view', parent: Main.name),
-          _i8.RouteConfig(Explore.name,
-              path: 'explore-view', parent: Main.name),
-          _i8.RouteConfig(Setting.name, path: 'setting-view', parent: Main.name)
+          _i8.RouteConfig(Home.name, path: 'home', parent: Main.name),
+          _i8.RouteConfig(Explore.name, path: 'explore', parent: Main.name),
+          _i8.RouteConfig(Setting.name, path: 'setting', parent: Main.name)
         ])
       ];
 }
@@ -94,7 +96,7 @@ class AppRouter extends _i8.RootStackRouter {
 class ContentReader extends _i8.PageRouteInfo<ContentReaderArgs> {
   ContentReader({_i9.Key? key, required _i10.StoryContentModel content})
       : super(ContentReader.name,
-            path: '/content-reader-view',
+            path: '/content-reader',
             args: ContentReaderArgs(key: key, content: content));
 
   static const String name = 'ContentReader';
@@ -115,25 +117,32 @@ class ContentReaderArgs {
 
 /// generated route for
 /// [_i2.ChangesHistoryView]
-class ChangeHistory extends _i8.PageRouteInfo<ChangeHistoryArgs> {
-  ChangeHistory({_i9.Key? key, required _i11.StoryModel story})
-      : super(ChangeHistory.name,
-            path: '/changes-history-view',
-            args: ChangeHistoryArgs(key: key, story: story));
+class ChangesHistory extends _i8.PageRouteInfo<ChangesHistoryArgs> {
+  ChangesHistory(
+      {_i9.Key? key,
+      required _i11.StoryModel story,
+      required void Function(_i10.StoryContentModel) onRestorePressed})
+      : super(ChangesHistory.name,
+            path: '/changes-sistory',
+            args: ChangesHistoryArgs(
+                key: key, story: story, onRestorePressed: onRestorePressed));
 
-  static const String name = 'ChangeHistory';
+  static const String name = 'ChangesHistory';
 }
 
-class ChangeHistoryArgs {
-  const ChangeHistoryArgs({this.key, required this.story});
+class ChangesHistoryArgs {
+  const ChangesHistoryArgs(
+      {this.key, required this.story, required this.onRestorePressed});
 
   final _i9.Key? key;
 
   final _i11.StoryModel story;
 
+  final void Function(_i10.StoryContentModel) onRestorePressed;
+
   @override
   String toString() {
-    return 'ChangeHistoryArgs{key: $key, story: $story}';
+    return 'ChangesHistoryArgs{key: $key, story: $story, onRestorePressed: $onRestorePressed}';
   }
 }
 
@@ -145,7 +154,7 @@ class Detail extends _i8.PageRouteInfo<DetailArgs> {
       required _i11.StoryModel initialStory,
       required _i12.DetailViewFlow intialFlow})
       : super(Detail.name,
-            path: '/detail-view',
+            path: '/detail',
             args: DetailArgs(
                 key: key, initialStory: initialStory, intialFlow: intialFlow));
 
@@ -186,7 +195,7 @@ class Home extends _i8.PageRouteInfo<HomeArgs> {
       required void Function(int) onYearChange,
       required void Function(void Function()) onListReloaderReady})
       : super(Home.name,
-            path: 'home-view',
+            path: 'home',
             args: HomeArgs(
                 key: key,
                 onTabChange: onTabChange,
@@ -220,7 +229,7 @@ class HomeArgs {
 /// generated route for
 /// [_i6.ExploreView]
 class Explore extends _i8.PageRouteInfo<void> {
-  const Explore() : super(Explore.name, path: 'explore-view');
+  const Explore() : super(Explore.name, path: 'explore');
 
   static const String name = 'Explore';
 }
@@ -228,7 +237,7 @@ class Explore extends _i8.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.SettingView]
 class Setting extends _i8.PageRouteInfo<void> {
-  const Setting() : super(Setting.name, path: 'setting-view');
+  const Setting() : super(Setting.name, path: 'setting');
 
   static const String name = 'Setting';
 }

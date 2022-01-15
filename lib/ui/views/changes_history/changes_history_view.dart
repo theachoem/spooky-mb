@@ -1,6 +1,7 @@
 library changes_history_view;
 
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
@@ -20,14 +21,16 @@ class ChangesHistoryView extends StatelessWidget {
   const ChangesHistoryView({
     Key? key,
     required this.story,
+    required this.onRestorePressed,
   }) : super(key: key);
 
   final StoryModel story;
+  final void Function(StoryContentModel content) onRestorePressed;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChangesHistoryViewModel>.reactive(
-      viewModelBuilder: () => ChangesHistoryViewModel(story),
+      viewModelBuilder: () => ChangesHistoryViewModel(story, onRestorePressed),
       onModelReady: (model) {},
       builder: (context, model, child) {
         return ScreenTypeLayout(

@@ -23,7 +23,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
       separatorBuilder: (context, index) => const Divider(height: 0),
       itemCount: viewModel.story.changes.length,
       physics: const AlwaysScrollableScrollPhysics(),
-      itemBuilder: (context, index) {
+      itemBuilder: (_context, index) {
         StoryContentModel content = viewModel.story.changes[index];
         return SpPopupMenuButton(
           dx: MediaQuery.of(context).size.width,
@@ -36,6 +36,14 @@ class _ChangesHistoryMobile extends StatelessWidget {
                 );
               },
             ),
+            if (viewModel.story.changes.length - 1 != index)
+              SpPopMenuItem(
+                title: "Restore this version",
+                onPressed: () {
+                  viewModel.onRestorePressed(content);
+                  context.router.popForced();
+                },
+              ),
           ],
           builder: (callback) {
             return ListTile(
@@ -46,7 +54,9 @@ class _ChangesHistoryMobile extends StatelessWidget {
               ),
               subtitle: buildEntitySubtitle(content),
               trailing: const Icon(Icons.more_vert),
-              onTap: callback,
+              onTap: () {
+                callback();
+              },
             );
           },
         );

@@ -7,9 +7,11 @@ import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/file_managers/types/response_code.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/route/router.dart';
 import 'package:spooky/ui/views/detail/helper.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
+import 'package:spooky/core/route/router.dart' as route;
 
 enum DetailViewFlow {
   create,
@@ -125,6 +127,41 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     ).hasChanges(currentStory.changes.last);
   }
 
+  void restore(StoryContentModel content, BuildContext context) async {
+    // save current version which may not saved
+    await _save();
+
+    // Set currentContent is required. It will be used in buildStory()
+    currentContent = content;
+
+    ResponseCode code = await _save(restore: true);
+    String message;
+
+    switch (code) {
+      case ResponseCode.success:
+        flowType = DetailViewFlow.update;
+        notifyListeners();
+        message = "Restored";
+        break;
+      case ResponseCode.noChange:
+        message = "Document has no changes";
+        break;
+      case ResponseCode.fail:
+        message = "Restore unsuccessfully!";
+        break;
+    }
+    App.of(context)?.showSpSnackBar(message);
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      context.router.popAndPush(
+        route.Detail(
+          initialStory: currentStory,
+          intialFlow: DetailViewFlow.update,
+        ),
+      );
+    });
+  }
+
   Future<void> save(BuildContext context) async {
     ResponseCode code = await _save();
     String message;
@@ -133,7 +170,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
       case ResponseCode.success:
         flowType = DetailViewFlow.update;
         notifyListeners();
-        message = "Save";
+        message = "Saved";
         break;
       case ResponseCode.noChange:
         message = "Document has no changes";
@@ -147,9 +184,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   @mustCallSuper
-  Future<ResponseCode> _save() async {
+  Future<ResponseCode> _save({bool restore = false}) async {
     if (!hasChange) return ResponseCode.noChange;
-    StoryModel? result = await write();
+    StoryModel? result = await write(restore: restore);
     if (result != null && result.changes.isNotEmpty) {
       currentStory = result;
       currentContent = result.changes.last;
@@ -159,7 +196,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   @mustCallSuper
-  Future<StoryModel?> write() async {
+  Future<StoryModel?> write({bool restore = false}) async {
     StoryModel story = DetailViewModelHelper.buildStory(
       currentStory,
       currentContent,
@@ -167,6 +204,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
       quillControllers,
       titleController,
       openOn,
+      restore,
     );
 
     File? result = await storyFileManager.writeStory(story);

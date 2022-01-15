@@ -15,30 +15,37 @@ export 'package:auto_route/auto_route.dart';
     MaterialRoute(
       page: ContentReaderView,
       name: 'ContentReader',
+      path: '/content-reader',
     ),
     MaterialRoute(
       page: ChangesHistoryView,
-      name: 'ChangeHistory',
+      name: 'ChangesHistory',
+      path: '/changes-sistory',
     ),
     MaterialRoute(
       name: 'Detail',
       page: DetailView,
+      path: '/detail',
     ),
     MaterialRoute(
       name: 'Main',
       page: MainView,
+      path: '/',
       children: [
         MaterialRoute(
           name: 'Home',
           page: HomeView,
+          path: 'home',
         ),
         MaterialRoute(
           name: 'Explore',
           page: ExploreView,
+          path: 'explore',
         ),
         MaterialRoute(
           name: 'Setting',
           page: SettingView,
+          path: 'setting',
         ),
       ],
       initial: true,

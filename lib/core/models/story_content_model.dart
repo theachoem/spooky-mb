@@ -54,6 +54,14 @@ class StoryContentModel extends BaseModel with ComparableMixin {
     }
   }
 
+  StoryContentModel restore(StoryContentModel oldContent) {
+    DateTime now = DateTime.now();
+    return oldContent.copyWith(
+      id: now.millisecondsSinceEpoch.toString(),
+      createdAt: now,
+    );
+  }
+
   StoryContentModel.create({
     required this.createdAt,
     required this.id,
