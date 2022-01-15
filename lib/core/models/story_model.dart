@@ -50,6 +50,10 @@ class StoryModel extends BaseModel {
     return changes.removeWhere((e) => e.id == id);
   }
 
+  void removeChangeByIds(List<String> ids) {
+    return changes.removeWhere((e) => ids.contains(e.id));
+  }
+
   void addChange(StoryContentModel content) {
     removeChangeById(content.id);
     changes.add(content);

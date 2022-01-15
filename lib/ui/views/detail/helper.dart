@@ -16,6 +16,7 @@ class DetailViewModelHelper {
       title: titleController.text,
       plainText: quillControllers.values.first.document.toPlainText(),
       pages: pagesData(currentContent, quillControllers).values.toList(),
+      createdAt: DateTime.now(),
     );
   }
 

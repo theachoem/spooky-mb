@@ -13,45 +13,51 @@ class _ChangesHistoryMobile extends StatelessWidget {
       },
       child: Scaffold(
         appBar: MorphingAppBar(
-          leading: SpAnimatedIcons(
-            showFirst: !viewModel.editing,
-            firstChild: SpPopButton(
-              key: ValueKey("PopButtonOnViewing"),
-            ),
-            secondChild: SpIconButton(
-              icon: Icon(Icons.clear),
-              key: ValueKey("PopButtonOnEditing"),
-              onPressed: () {
-                viewModel.toggleEditing();
-              },
-            ),
-          ),
-          actions: [
-            buildDeleteChangeButton(),
-          ],
-          title: SpCrossFade(
-            showFirst: !viewModel.editing,
-            firstChild: Text(
-              "Changes History",
-              style: Theme.of(context).appBarTheme.titleTextStyle,
-            ),
-            secondChild: ValueListenableBuilder(
-              valueListenable: viewModel.selectedNotifier,
-              builder: (context, child, value) {
-                return Text(
-                  viewModel.selectedNotifier.value.length.toString(),
-                  style: Theme.of(context).appBarTheme.titleTextStyle,
-                );
-              },
-            ),
-          ),
+          leading: buildPopButton(),
+          actions: [buildDeleteChangeButton()],
+          title: buildAppBarTitle(context),
         ),
         body: buildListView(context),
       ),
     );
   }
 
-  ValueListenableBuilder<Set<String>> buildDeleteChangeButton() {
+  Widget buildPopButton() {
+    return SpAnimatedIcons(
+      showFirst: !viewModel.editing,
+      firstChild: SpPopButton(
+        key: ValueKey("PopButtonOnViewing"),
+      ),
+      secondChild: SpIconButton(
+        icon: Icon(Icons.clear),
+        key: ValueKey("PopButtonOnEditing"),
+        onPressed: () {
+          viewModel.toggleEditing();
+        },
+      ),
+    );
+  }
+
+  Widget buildAppBarTitle(BuildContext context) {
+    return SpCrossFade(
+      showFirst: !viewModel.editing,
+      firstChild: Text(
+        "Changes History",
+        style: Theme.of(context).appBarTheme.titleTextStyle,
+      ),
+      secondChild: ValueListenableBuilder(
+        valueListenable: viewModel.selectedNotifier,
+        builder: (context, child, value) {
+          return Text(
+            viewModel.selectedNotifier.value.length.toString(),
+            style: Theme.of(context).appBarTheme.titleTextStyle,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildDeleteChangeButton() {
     return ValueListenableBuilder(
       valueListenable: viewModel.selectedNotifier,
       builder: (context, child, value) {
@@ -106,8 +112,12 @@ class _ChangesHistoryMobile extends StatelessWidget {
           builder: (callback) {
             return ListTile(
               onLongPress: () {
-                if (viewModel.editing) return;
-                viewModel.toggleEditing();
+                if (viewModel.editing) {
+                  toggleItem(id);
+                } else {
+                  viewModel.toggleEditing();
+                  addItem(id);
+                }
               },
               title: Text(
                 content.title ?? "No title",
@@ -125,7 +135,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               ),
               onTap: () {
                 if (viewModel.editing) {
-                  onToggleItem(id);
+                  toggleItem(id);
                 } else {
                   callback();
                 }
@@ -143,14 +153,20 @@ class _ChangesHistoryMobile extends StatelessWidget {
       builder: (context, selectedItems, child) {
         bool selected = viewModel.selectedNotifier.value.contains(content.id);
         return Checkbox(
-          onChanged: (bool? value) => onToggleItem(id),
+          onChanged: (bool? value) => toggleItem(id),
           value: selected,
         );
       },
     );
   }
 
-  void onToggleItem(String id) {
+  void addItem(String id) {
+    Set<String> previous = {...viewModel.selectedNotifier.value};
+    previous.add(id);
+    viewModel.selectedNotifier.value = previous;
+  }
+
+  void toggleItem(String id) {
     Set<String> previous = {...viewModel.selectedNotifier.value};
     if (previous.contains(id)) {
       previous.remove(id);

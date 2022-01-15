@@ -163,10 +163,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   Future<void> deleteChange(List<String> contentIds, BuildContext context) async {
-    for (String id in contentIds) {
-      currentStory.removeChangeById(id);
-    }
-    save(context, force: true);
+    currentStory.removeChangeByIds(contentIds);
+    return save(context, force: true);
   }
 
   Future<void> save(BuildContext context, {bool force = false}) async {
