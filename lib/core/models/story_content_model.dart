@@ -83,6 +83,7 @@ class StoryContentModel extends BaseModel with ComparableMixin {
     return [
       'id',
       'plain_text',
+      'created_at',
     ];
   }
 }
