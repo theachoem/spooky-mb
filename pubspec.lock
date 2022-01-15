@@ -651,6 +651,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  page_turn:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "2.0.0"
+      resolved-ref: "033642ab95f6fb1afc8e93dd62a790488880086d"
+      url: "git@github.com:juniorise/page_turn.git"
+    source: git
+    version: "2.0.0"
   path:
     dependency: transitive
     description:

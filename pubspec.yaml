@@ -5,7 +5,7 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
-# flutter pub upgrade --major-versions 
+# flutter pub upgrade --major-versions
 dependencies:
   flutter:
     sdk: flutter
@@ -33,13 +33,17 @@ dependencies:
   stacked_services: ^0.8.16
   flutter_local_notifications: ^9.2.0
   smooth_page_indicator: ^1.0.0+2
+  page_turn:
+    git:
+      url: git@github.com:juniorise/page_turn.git
+      ref: 2.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner: ^2.1.7
   json_serializable: ^6.1.3
-  
+
   # mvvm
   flutter_lints: ^1.0.0
   auto_route_generator: ^3.2.1

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
-import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
@@ -15,7 +14,6 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:spooky/core/route/router.dart' as route;
-import 'package:smooth_page_indicator/smooth_page_indicator.dart' as indicator;
 
 class DetailScaffold extends StatefulWidget {
   const DetailScaffold({

@@ -6,10 +6,12 @@ class SpPopButton extends StatelessWidget {
   const SpPopButton({
     Key? key,
     this.color,
+    this.backgroundColor,
     this.onPressed,
   }) : super(key: key);
 
   final Color? color;
+  final Color? backgroundColor;
   final VoidCallback? onPressed;
 
   @override
@@ -18,6 +20,7 @@ class SpPopButton extends StatelessWidget {
     bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
     return Center(
       child: SpIconButton(
+        backgroundColor: backgroundColor,
         icon: IconTheme.merge(
           data: IconThemeData(size: ConfigConstant.iconSize2, color: color),
           child: useCloseButton ? const Icon(Icons.close) : const BackButtonIcon(),

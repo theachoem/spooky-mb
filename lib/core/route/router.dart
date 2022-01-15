@@ -16,6 +16,7 @@ export 'package:auto_route/auto_route.dart';
       page: ContentReaderView,
       name: 'ContentReader',
       path: '/content-reader',
+      fullscreenDialog: true,
     ),
     MaterialRoute(
       page: ChangesHistoryView,

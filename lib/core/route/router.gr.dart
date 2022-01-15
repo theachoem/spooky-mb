@@ -34,7 +34,8 @@ class AppRouter extends _i8.RootStackRouter {
       final args = routeData.argsAs<ContentReaderArgs>();
       return _i8.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i1.ContentReaderView(key: args.key, content: args.content));
+          child: _i1.ContentReaderView(key: args.key, content: args.content),
+          fullscreenDialog: true);
     },
     ChangesHistory.name: (routeData) {
       final args = routeData.argsAs<ChangesHistoryArgs>();

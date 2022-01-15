@@ -1,14 +1,9 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/initial_theme.dart';
-import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/home/home_view_model.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_tab_bar.dart';
-import 'package:spooky/ui/widgets/sp_animated_icon.dart';
-import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
+import 'package:spooky/ui/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 
 class HomeAppBar extends StatefulWidget {
@@ -89,42 +84,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
   Widget buildThemeSwitcherButton() {
     return Positioned(
       right: 0,
-      child: SpIconButton(
-        icon: getThemeModeIcon(),
-        backgroundColor: M3Color.of(context).primaryContainer,
-        onLongPress: () async {
-          ThemeMode? result = await showConfirmationDialog(
-            context: context,
-            title: "Theme",
-            initialSelectedActionKey: InitialTheme.of(context)?.mode,
-            actions: themeModeActions,
-          );
-          if (result != null) {
-            InitialTheme.of(context)?.setThemeMode(result);
-          }
-        },
-        onPressed: () {
-          InitialTheme.of(context)?.toggleThemeMode();
-        },
-      ),
+      child: SpThemeSwitcher(),
     );
-  }
-
-  Widget getThemeModeIcon() {
-    return SpAnimatedIcons(
-      duration: ConfigConstant.duration * 3,
-      firstChild: const Icon(Icons.dark_mode, key: ValueKey(Brightness.dark)),
-      secondChild: const Icon(Icons.light_mode, key: ValueKey(Brightness.light)),
-      showFirst: Theme.of(context).colorScheme.brightness == Brightness.dark,
-    );
-  }
-
-  List<AlertDialogAction<ThemeMode>> get themeModeActions {
-    return ThemeMode.values.map((e) {
-      return AlertDialogAction(
-        key: e,
-        label: e.name.capitalize,
-      );
-    }).toList();
   }
 }
