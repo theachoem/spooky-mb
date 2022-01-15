@@ -1,12 +1,13 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:spooky/core/models/base_model.dart';
+import 'package:spooky/core/route/router.dart' as route;
+import 'package:spooky/core/models/base_route_model.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 
 part 'story_model.g.dart';
 
 @JsonSerializable()
-class StoryModel extends BaseModel {
+class StoryModel extends BaseRouteModel {
   final String id;
   final PathModel path;
   final List<StoryContentModel> changes;
@@ -65,4 +66,14 @@ class StoryModel extends BaseModel {
 
   @override
   String? get objectId => id;
+
+  @override
+  String get displayRouteName => route.Detail.name;
+
+  @override
+  Map<String, String> get routePayload {
+    return {
+      "path": path.toPath(),
+    };
+  }
 }

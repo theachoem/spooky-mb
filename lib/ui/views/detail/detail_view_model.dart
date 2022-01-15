@@ -7,8 +7,11 @@ import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/file_managers/types/response_code.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/notifications/app_notification.dart';
 import 'package:spooky/core/route/router.dart';
+import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/ui/views/detail/helper.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 import 'package:spooky/core/route/router.dart' as route;
@@ -18,7 +21,7 @@ enum DetailViewFlow {
   update,
 }
 
-class DetailViewModel extends BaseViewModel with ScheduleMixin {
+class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver {
   late DateTime openOn;
 
   late StoryModel currentStory;
@@ -73,6 +76,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _setListener();
     });
+
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   void _setListener() {
@@ -114,6 +119,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     readOnlyNotifier.dispose();
     titleController.dispose();
     hasChangeNotifer.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -222,6 +228,55 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
 
     if (result != null) {
       return story;
+    }
+  }
+
+  bool hasAutosaved = false;
+  Future<void> autosave() async {
+    if (hasChange) {
+      ResponseCode code = await _save();
+      Future.delayed(ConfigConstant.fadeDuration).then((value) {
+        switch (code) {
+          case ResponseCode.success:
+            hasAutosaved = true;
+            AppNotification().displayNotification(
+              plainTitle: "Document is saved",
+              plainBody: "Saved",
+              payload: currentStory,
+            );
+            break;
+          case ResponseCode.noChange:
+            break;
+          case ResponseCode.fail:
+            AppNotification().displayNotification(
+              plainTitle: "Document isn't saved!",
+              plainBody: "Error",
+              payload: currentStory,
+            );
+            break;
+        }
+      });
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
+    if (shouldSaveInStates.contains(state)) {
+      autosave();
+
+      // if user close app, we store initial tab on home
+      // so they new it is saved.
+      InitialStoryTabService.setInitialTab(
+        currentStory.path.year,
+        currentStory.path.month,
+      );
+    }
+    super.didChangeAppLifecycleState(state);
+
+    if (state == AppLifecycleState.resumed && hasAutosaved) {
+      hasAutosaved = false;
+      hasChangeNotifer.value = hasChange;
     }
   }
 }
