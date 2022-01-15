@@ -17,6 +17,7 @@ class _ContentReaderMobile extends StatelessWidget {
       body: Stack(
         children: [
           PageView.builder(
+            controller: viewModel.pageController,
             itemCount: viewModel.content.pages?.length ?? 0,
             itemBuilder: (context, index) {
               List<dynamic>? page = viewModel.content.pages?[index];
