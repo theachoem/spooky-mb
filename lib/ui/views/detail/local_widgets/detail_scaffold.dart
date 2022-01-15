@@ -96,6 +96,15 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
           fromAppBar: true,
           items: [
             SpPopMenuItem(
+              title: "View in PageTurn",
+              leadingIconData: Icons.menu_book_rounded,
+              onPressed: () {
+                context.router.push(
+                  route.ContentReader(content: widget.viewModel.currentContent),
+                );
+              },
+            ),
+            SpPopMenuItem(
               title: "Changes History",
               leadingIconData: Icons.history,
               onPressed: () async {

@@ -24,13 +24,7 @@ class ContentIndicator extends StatelessWidget {
           margin: EdgeInsets.all(ConfigConstant.margin1),
           child: SmoothPageIndicator(
             controller: controller,
-            effect: WormEffect(
-              dotHeight: 16,
-              dotWidth: 16,
-              radius: 16,
-              spacing: 4,
-              paintStyle: PaintingStyle.stroke,
-            ),
+            effect: WormEffect(dotHeight: 4.0, spacing: 4),
             count: pagesCount,
           ),
         ),
