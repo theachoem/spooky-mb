@@ -6,15 +6,72 @@ class _ChangesHistoryMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MorphingAppBar(
-        leading: SpPopButton(),
-        title: Text(
-          "Changes History",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
+    return WillPopScope(
+      onWillPop: () async {
+        bool backable = !viewModel.editing;
+        return backable;
+      },
+      child: Scaffold(
+        appBar: MorphingAppBar(
+          leading: SpAnimatedIcons(
+            showFirst: !viewModel.editing,
+            firstChild: SpPopButton(
+              key: ValueKey("PopButtonOnViewing"),
+            ),
+            secondChild: SpIconButton(
+              icon: Icon(Icons.clear),
+              key: ValueKey("PopButtonOnEditing"),
+              onPressed: () {
+                viewModel.toggleEditing();
+              },
+            ),
+          ),
+          actions: [
+            buildDeleteChangeButton(),
+          ],
+          title: SpCrossFade(
+            showFirst: !viewModel.editing,
+            firstChild: Text(
+              "Changes History",
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+            ),
+            secondChild: ValueListenableBuilder(
+              valueListenable: viewModel.selectedNotifier,
+              builder: (context, child, value) {
+                return Text(
+                  viewModel.selectedNotifier.value.length.toString(),
+                  style: Theme.of(context).appBarTheme.titleTextStyle,
+                );
+              },
+            ),
+          ),
         ),
+        body: buildListView(context),
       ),
-      body: buildListView(context),
+    );
+  }
+
+  ValueListenableBuilder<Set<String>> buildDeleteChangeButton() {
+    return ValueListenableBuilder(
+      valueListenable: viewModel.selectedNotifier,
+      builder: (context, child, value) {
+        return SpAnimatedIcons(
+          showFirst: viewModel.editing && viewModel.selectedNotifier.value.isNotEmpty,
+          firstChild: SpIconButton(
+            icon: Icon(Icons.delete),
+            key: ValueKey(Icons.delete),
+            onPressed: () {
+              viewModel.onDeletePressed(
+                viewModel.selectedNotifier.value.toList(),
+              );
+              context.router.popForced();
+            },
+          ),
+          secondChild: SizedBox.shrink(
+            key: ValueKey("SizeBox"),
+          ),
+        );
+      },
     );
   }
 
@@ -25,6 +82,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (_context, index) {
         StoryContentModel content = viewModel.story.changes[index];
+        String id = content.id;
         return SpPopupMenuButton(
           dx: MediaQuery.of(context).size.width,
           items: [
@@ -47,15 +105,30 @@ class _ChangesHistoryMobile extends StatelessWidget {
           ],
           builder: (callback) {
             return ListTile(
+              onLongPress: () {
+                if (viewModel.editing) return;
+                viewModel.toggleEditing();
+              },
               title: Text(
-                content.id,
+                content.title ?? "No title",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              subtitle: buildEntitySubtitle(content),
-              trailing: const Icon(Icons.more_vert),
+              subtitle: buildSubtitle(content, context),
+              trailing: SpCrossFade(
+                showFirst: !viewModel.editing,
+                firstChild: SizedBox(
+                  height: ConfigConstant.objectHeight1,
+                  child: Icon(Icons.more_vert),
+                ),
+                secondChild: buildCheckBox(content, id),
+              ),
               onTap: () {
-                callback();
+                if (viewModel.editing) {
+                  onToggleItem(id);
+                } else {
+                  callback();
+                }
               },
             );
           },
@@ -64,8 +137,36 @@ class _ChangesHistoryMobile extends StatelessWidget {
     );
   }
 
-  Widget? buildEntitySubtitle(StoryContentModel content) {
+  Widget buildCheckBox(StoryContentModel content, String id) {
+    return ValueListenableBuilder<Set<String>>(
+      valueListenable: viewModel.selectedNotifier,
+      builder: (context, selectedItems, child) {
+        bool selected = viewModel.selectedNotifier.value.contains(content.id);
+        return Checkbox(
+          onChanged: (bool? value) => onToggleItem(id),
+          value: selected,
+        );
+      },
+    );
+  }
+
+  void onToggleItem(String id) {
+    Set<String> previous = {...viewModel.selectedNotifier.value};
+    if (previous.contains(id)) {
+      previous.remove(id);
+    } else {
+      previous.add(id);
+    }
+    viewModel.selectedNotifier.value = previous;
+  }
+
+  Widget? buildSubtitle(StoryContentModel content, BuildContext context) {
     String date = DateFormatHelper.dateTimeFormat().format(content.createdAt);
-    return Text("Created at $date");
+    return Text(
+      "Created at $date",
+      maxLines: 1,
+      overflow: TextOverflow.ellipsis,
+      style: TextStyle(fontWeight: FontWeight.w500),
+    );
   }
 }

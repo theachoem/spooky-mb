@@ -1,12 +1,17 @@
 library changes_history_view;
 
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:spooky/app.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/ui/widgets/sp_animated_icon.dart';
+import 'package:spooky/ui/widgets/sp_cross_fade.dart';
+import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
+import 'package:spooky/utils/widgets/measure_size.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
@@ -22,15 +27,23 @@ class ChangesHistoryView extends StatelessWidget {
     Key? key,
     required this.story,
     required this.onRestorePressed,
+    required this.onDeletePressed,
   }) : super(key: key);
 
   final StoryModel story;
   final void Function(StoryContentModel content) onRestorePressed;
+  final void Function(List<String> contentIds) onDeletePressed;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<ChangesHistoryViewModel>.reactive(
-      viewModelBuilder: () => ChangesHistoryViewModel(story, onRestorePressed),
+      viewModelBuilder: () {
+        return ChangesHistoryViewModel(
+          story,
+          onRestorePressed,
+          onDeletePressed,
+        );
+      },
       onModelReady: (model) {},
       builder: (context, model, child) {
         return ScreenTypeLayout(

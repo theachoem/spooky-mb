@@ -127,7 +127,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     ).hasChanges(currentStory.changes.last);
   }
 
-  void restore(StoryContentModel content, BuildContext context) async {
+  Future<void> restore(StoryContentModel content, BuildContext context) async {
     // save current version which may not saved
     await _save();
 
@@ -162,8 +162,15 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
     });
   }
 
-  Future<void> save(BuildContext context) async {
-    ResponseCode code = await _save();
+  Future<void> deleteChange(List<String> contentIds, BuildContext context) async {
+    for (String id in contentIds) {
+      currentStory.removeChangeById(id);
+    }
+    save(context, force: true);
+  }
+
+  Future<void> save(BuildContext context, {bool force = false}) async {
+    ResponseCode code = await _save(force: force);
     String message;
 
     switch (code) {
@@ -184,8 +191,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   @mustCallSuper
-  Future<ResponseCode> _save({bool restore = false}) async {
-    if (!hasChange) return ResponseCode.noChange;
+  Future<ResponseCode> _save({bool restore = false, bool force = false}) async {
+    if (!hasChange && !force) return ResponseCode.noChange;
     StoryModel? result = await write(restore: restore);
     if (result != null && result.changes.isNotEmpty) {
       currentStory = result;

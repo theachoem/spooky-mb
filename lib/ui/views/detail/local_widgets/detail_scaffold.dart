@@ -107,6 +107,9 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
                     onRestorePressed: (content) {
                       widget.viewModel.restore(content, context);
                     },
+                    onDeletePressed: (contentIds) {
+                      widget.viewModel.deleteChange(contentIds, context);
+                    },
                   ),
                 );
               },

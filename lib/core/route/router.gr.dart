@@ -43,7 +43,8 @@ class AppRouter extends _i8.RootStackRouter {
           child: _i2.ChangesHistoryView(
               key: args.key,
               story: args.story,
-              onRestorePressed: args.onRestorePressed));
+              onRestorePressed: args.onRestorePressed,
+              onDeletePressed: args.onDeletePressed));
     },
     Detail.name: (routeData) {
       final args = routeData.argsAs<DetailArgs>();
@@ -121,18 +122,25 @@ class ChangesHistory extends _i8.PageRouteInfo<ChangesHistoryArgs> {
   ChangesHistory(
       {_i9.Key? key,
       required _i11.StoryModel story,
-      required void Function(_i10.StoryContentModel) onRestorePressed})
+      required void Function(_i10.StoryContentModel) onRestorePressed,
+      required void Function(List<String>) onDeletePressed})
       : super(ChangesHistory.name,
             path: '/changes-sistory',
             args: ChangesHistoryArgs(
-                key: key, story: story, onRestorePressed: onRestorePressed));
+                key: key,
+                story: story,
+                onRestorePressed: onRestorePressed,
+                onDeletePressed: onDeletePressed));
 
   static const String name = 'ChangesHistory';
 }
 
 class ChangesHistoryArgs {
   const ChangesHistoryArgs(
-      {this.key, required this.story, required this.onRestorePressed});
+      {this.key,
+      required this.story,
+      required this.onRestorePressed,
+      required this.onDeletePressed});
 
   final _i9.Key? key;
 
@@ -140,9 +148,11 @@ class ChangesHistoryArgs {
 
   final void Function(_i10.StoryContentModel) onRestorePressed;
 
+  final void Function(List<String>) onDeletePressed;
+
   @override
   String toString() {
-    return 'ChangesHistoryArgs{key: $key, story: $story, onRestorePressed: $onRestorePressed}';
+    return 'ChangesHistoryArgs{key: $key, story: $story, onRestorePressed: $onRestorePressed, onDeletePressed: $onDeletePressed}';
   }
 }
 
