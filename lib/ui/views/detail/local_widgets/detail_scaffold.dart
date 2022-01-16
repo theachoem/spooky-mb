@@ -1,25 +1,19 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/core/file_manager/archive_manager.dart';
-import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
-import 'package:spooky/core/file_manager/delete_manager.dart';
-import 'package:spooky/core/file_manager/docs_manager.dart';
+import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
-import 'package:spooky/ui/views/file_manager/file_manager_view.dart';
+import 'package:spooky/ui/views/detail/local_widgets/content_indicator.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
-import 'package:spooky/core/route/router.dart' as route;
 import 'package:swipeable_page_route/swipeable_page_route.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart' as indicator;
+import 'package:spooky/core/route/router.dart' as route;
 
 class DetailScaffold extends StatefulWidget {
   const DetailScaffold({
@@ -32,8 +26,8 @@ class DetailScaffold extends StatefulWidget {
     required this.viewModel,
   }) : super(key: key);
 
-  final Widget Function(GlobalKey<ScaffoldState>) titleBuilder;
-  final Widget Function(GlobalKey<ScaffoldState>) editorBuilder;
+  final Widget Function() titleBuilder;
+  final Widget Function() editorBuilder;
   final ValueNotifier<bool> readOnlyNotifier;
   final ValueNotifier<bool> hasChangeNotifer;
   final Future<void> Function(BuildContext context) onSave;
@@ -43,10 +37,7 @@ class DetailScaffold extends StatefulWidget {
   State<DetailScaffold> createState() => _DetailScaffoldState();
 }
 
-class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin, DetailViewMixn {
-  final ArchiveManager archiveManager = ArchiveManager();
-  final DeleteManager deleteManager = DeleteManager();
-
+class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, DetailViewMixn {
   @override
   void initState() {
     super.initState();
@@ -56,7 +47,6 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldkey,
       extendBody: true,
       appBar: buildAppBar(),
       resizeToAvoidBottomInset: false,
@@ -64,7 +54,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
       body: Stack(
         fit: StackFit.expand,
         children: [
-          widget.editorBuilder(scaffoldkey),
+          widget.editorBuilder(),
           buildFloatActionButton(mediaQueryPadding),
           buildIndicator(),
         ],
@@ -73,91 +63,16 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
   }
 
   Widget buildIndicator() {
-    return IgnorePointer(
-      child: AnimatedOpacity(
-        curve: Curves.fastOutSlowIn,
-        opacity: widget.viewModel.documents.length > 1 ? 1 : 0,
-        duration: ConfigConstant.duration,
-        child: Container(
-          alignment: Alignment.topRight,
-          margin: EdgeInsets.all(ConfigConstant.margin1),
-          child: indicator.SmoothPageIndicator(
-            controller: widget.viewModel.pageController,
-            effect: indicator.WormEffect(
-              dotHeight: 16,
-              dotWidth: 16,
-              radius: 16,
-              spacing: 4,
-              paintStyle: PaintingStyle.stroke,
-            ),
-            count: widget.viewModel.documents.length,
-          ),
-        ),
-      ),
+    return ContentIndicator(
+      controller: widget.viewModel.pageController,
+      pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
     );
   }
 
   MorphingAppBar buildAppBar() {
-    List<SpPopMenuItem> items = [
-      SpPopMenuItem(
-        title: "Changes History",
-        leadingIconData: Icons.history,
-        onPressed: () async {
-          Directory directory = await DocsManager().constructDirectory(widget.viewModel.currentStory);
-          context.router.push(route.FileManager(
-            directory: directory,
-            fileManagerFlow: FileManagerFlow.viewChanges,
-          ));
-        },
-      ),
-      if (archiveManager.canArchive(widget.viewModel.currentStory))
-        SpPopMenuItem(
-          title: "Archive",
-          leadingIconData: Icons.archive,
-          onPressed: () async {
-            // save since it may auto save after archived
-            if (widget.viewModel.hasChange) await widget.viewModel.save(context);
-            await archiveManager.archiveDocument(widget.viewModel.currentStory);
-            if (archiveManager.message != null) {
-              App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
-            }
-            context.router.pop(widget.viewModel.currentStory);
-          },
-        ),
-      if (archiveManager.canUnarchive(widget.viewModel.currentStory))
-        SpPopMenuItem(
-          title: "Unarchive",
-          leadingIconData: Icons.unarchive,
-          onPressed: () async {
-            await archiveManager.unarchiveDocument(widget.viewModel.currentStory);
-            if (archiveManager.message != null) {
-              App.of(context)?.showSpSnackBar(archiveManager.message!.valueToString());
-            }
-            context.router.pop(widget.viewModel.currentStory);
-          },
-        ),
-      if (deleteManager.canDelete(widget.viewModel.currentStory))
-        SpPopMenuItem(
-          title: "Delete",
-          titleStyle: TextStyle(color: m3Color?.error),
-          leadingIconData: Icons.delete,
-          onPressed: () async {
-            await deleteManager.delete(widget.viewModel.currentStory);
-            if (deleteManager.success == true) {
-              App.of(context)?.showSpSnackBar("Delete successfully!");
-              context.router.pop(widget.viewModel.currentStory);
-            } else {
-              App.of(context)?.showSpSnackBar(
-                deleteManager.error != null ? deleteManager.error.toString() : "Delete unsuccessfully",
-              );
-            }
-          },
-        ),
-    ];
-
     return MorphingAppBar(
       leading: const SpPopButton(),
-      title: widget.titleBuilder(scaffoldkey),
+      title: widget.titleBuilder(),
       actions: [
         ValueListenableBuilder<bool>(
           valueListenable: widget.readOnlyNotifier,
@@ -177,17 +92,43 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
             );
           },
         ),
-        if (widget.viewModel.currentStory.documentId != null)
-          SpPopupMenuButton(
-            fromAppBar: true,
-            items: items,
-            builder: (void Function() callback) {
-              return SpIconButton(
-                icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
-                onPressed: callback,
-              );
-            },
-          ),
+        SpPopupMenuButton(
+          fromAppBar: true,
+          items: [
+            SpPopMenuItem(
+              title: "View in PageTurn",
+              leadingIconData: Icons.menu_book_rounded,
+              onPressed: () {
+                context.router.push(
+                  route.ContentReader(content: widget.viewModel.currentContent),
+                );
+              },
+            ),
+            SpPopMenuItem(
+              title: "Changes History",
+              leadingIconData: Icons.history,
+              onPressed: () async {
+                await context.router.push(
+                  route.ChangesHistory(
+                    story: widget.viewModel.currentStory,
+                    onRestorePressed: (content) {
+                      widget.viewModel.restore(content, context);
+                    },
+                    onDeletePressed: (contentIds) {
+                      widget.viewModel.deleteChange(contentIds, context);
+                    },
+                  ),
+                );
+              },
+            ),
+          ],
+          builder: (void Function() callback) {
+            return SpIconButton(
+              icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
+              onPressed: callback,
+            );
+          },
+        ),
       ],
     );
   }
@@ -204,9 +145,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
   }
 
   Widget buildFloatActionButton(EdgeInsets mediaQueryPadding) {
-    if (widget.viewModel.currentStory.flowType == DetailViewFlow.update &&
-        widget.viewModel.currentStory.filePath != null &&
-        widget.viewModel.currentStory.filePath != FilePath.docs) {
+    if (widget.viewModel.currentStory.path.filePath != FilePathType.docs) {
       return const SizedBox.shrink();
     }
     return Positioned(
@@ -277,26 +216,6 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           );
         },
       ),
-    );
-  }
-
-  @override
-  Widget buildSheet(BuildContext context) {
-    return Column(
-      children: ListTile.divideTiles(context: context, tiles: [
-        if (widget.viewModel.currentStory.documentId != null)
-          ListTile(
-            title: const Text("Changes History"),
-            leading: const Icon(Icons.history),
-            onTap: () async {
-              Directory directory = await DocsManager().constructDirectory(widget.viewModel.currentStory);
-              context.router.push(route.FileManager(
-                directory: directory,
-                fileManagerFlow: FileManagerFlow.viewChanges,
-              ));
-            },
-          ),
-      ]).toList(),
     );
   }
 }

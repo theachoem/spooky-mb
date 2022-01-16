@@ -27,7 +27,7 @@ mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSpSnackBar(String message) {
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSpSnackBar(String message, {bool success = true}) {
     clearSpSnackBars();
     return _state?.showSnackBar(
       SnackBar(

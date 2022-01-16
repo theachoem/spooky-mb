@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
+import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_chip.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
@@ -54,7 +56,7 @@ class StoryList extends StatelessWidget {
               final StoryModel content = stories![index];
               if (onDelete != null && onUnarchive != null) {
                 return Dismissible(
-                  key: ValueKey(content.documentId ?? index),
+                  key: ValueKey(content.id),
                   background: buildDismissibleBackground(
                     context: context,
                     iconData: Icons.delete,
@@ -166,18 +168,16 @@ class StoryList extends StatelessWidget {
     );
   }
 
-  Widget buildStoryTile(StoryModel content, BuildContext context, Map<int, Color> dayColors) {
+  Widget buildStoryTile(StoryModel story, BuildContext context, Map<int, Color> dayColors) {
     return SpTapEffect(
       onTap: () {
         route.Detail page = route.Detail(
-          story: content.copyWith(
-            documentId: content.documentId ?? StoryModel.documentIdFromDate(DateTime.now()),
-            pathDate: content.pathDate ?? content.createdAt ?? DateTime.now(),
-          ),
+          initialStory: story,
+          intialFlow: DetailViewFlow.update,
         );
         context.router.push(page).then(
           (value) {
-            if (value is StoryModel && value.documentId != null) {
+            if (value is StoryModel) {
               onRefresh();
             }
           },
@@ -188,18 +188,17 @@ class StoryList extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildMonogram(context, content, dayColors),
+            buildMonogram(context, story, dayColors),
             ConfigConstant.sizedBoxW2,
-            buildContent(context, content),
+            buildContent(context, story),
           ],
         ),
       ),
     );
   }
 
-  Widget buildMonogram(BuildContext context, StoryModel content, Map<int, Color> dayColors) {
-    DateTime? displayDate = content.pathDate ?? content.createdAt;
-    if (displayDate == null) return const SizedBox.shrink();
+  Widget buildMonogram(BuildContext context, StoryModel story, Map<int, Color> dayColors) {
+    DateTime displayDate = story.path.toDateTime();
     return Column(
       children: [
         ConfigConstant.sizedBoxH0,
@@ -217,8 +216,9 @@ class StoryList extends StatelessWidget {
     );
   }
 
-  Widget buildContent(BuildContext context, StoryModel content) {
+  Widget buildContent(BuildContext context, StoryModel story) {
     Set<String> images = {};
+    StoryContentModel content = story.changes.last;
 
     content.pages?.forEach((page) {
       images.addAll(QuillHelper.imagesFromJson(page));
@@ -264,8 +264,7 @@ class StoryList extends StatelessWidget {
     );
   }
 
-  Widget buildTime(BuildContext context, StoryModel content) {
-    if (content.createdAt == null) return const SizedBox.shrink();
+  Widget buildTime(BuildContext context, StoryContentModel content) {
     return Positioned(
       right: 0,
       child: Row(
@@ -278,7 +277,7 @@ class StoryList extends StatelessWidget {
             ),
           ConfigConstant.sizedBoxW0,
           Text(
-            DateFormatHelper.timeFormat().format(content.createdAt!),
+            DateFormatHelper.timeFormat().format(content.createdAt),
             style: M3TextTheme.of(context).bodySmall,
           ),
         ],

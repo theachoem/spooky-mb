@@ -1,8 +1,10 @@
 import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/file_manager/docs_manager.dart';
+import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
+import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 
@@ -10,7 +12,7 @@ class HomeViewModel extends IndexTrackingViewModel {
   late int year;
   late int month;
 
-  final DocsManager docsManager = DocsManager();
+  final StoryFileManager storyFileManager = StoryFileManager();
 
   final void Function(int index) onTabChange;
   final void Function(int year) onYearChange;
@@ -28,21 +30,43 @@ class HomeViewModel extends IndexTrackingViewModel {
   }
 
   Future<List<int>> fetchYears() async {
-    Directory root = Directory(docsManager.rootPath);
+    Directory root = Directory(storyFileManager.rootPath);
     if (await root.exists()) {
+      await storyFileManager.ensureDirExist(root);
+
       List<FileSystemEntity> result = root.listSync();
-      List<String> years = result.map((e) => e.absolute.path.replaceFirst(DocsManager().rootPath + "/", "")).toList();
+      List<String> years = result.map((e) {
+        return e.absolute.path.split("/").last;
+      }).toList();
+
       Set<int> yearsInt = {};
       for (String e in years) {
         int? y = int.tryParse(e);
-        if (y != null) {
-          yearsInt.add(y);
-        }
+        if (y != null) yearsInt.add(y);
       }
+
       yearsInt.add(year);
       return yearsInt.toList();
     }
     return [year];
+  }
+
+  int get docsCount {
+    Directory root = Directory(storyFileManager.rootPath + "/" + "$year");
+    if (root.existsSync()) {
+      List<FileSystemEntity> result = root.listSync(recursive: true);
+      Set<String> docs = {};
+
+      for (FileSystemEntity element in result) {
+        String path = element.absolute.path;
+        if (path.endsWith("." + AppConstant.documentExstension)) {
+          docs.add(path.split("/").reversed.toList()[1]);
+        }
+      }
+
+      return docs.length;
+    }
+    return 0;
   }
 
   Future<void> pickYear(BuildContext context) async {

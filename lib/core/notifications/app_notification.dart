@@ -1,11 +1,12 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/core/file_manager/docs_manager.dart';
+import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/base_notification.dart';
-// import 'package:spooky/app.dart';
 import 'package:spooky/core/route/router.dart' as route;
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 
@@ -23,23 +24,7 @@ class AppNotification extends BaseNotification {
       String? path = uri?.path.replaceFirst("/", "");
       switch (path) {
         case route.Detail.name:
-          if (context!.router.current.name == path) {
-            if (uri?.queryParameters.containsKey('parentPath') == true) {
-              StoryModel? result = await DocsManager().fetchOneByFileParent(uri!.queryParameters['parentPath']!);
-              if (result != null) {
-                String? message;
-                if (result.pathDate != null || result.createdAt != null) {
-                  message = DateFormatHelper.yM().format(result.pathDate ?? result.createdAt!);
-                }
-                showOkAlertDialog(
-                  context: context!,
-                  title: "Your document is saved",
-                  message: message != null ? "Document will be move to:\n" + message : null,
-                );
-              }
-            }
-          }
-          break;
+          return await onAutosaved(uri);
         default:
       }
     }
@@ -57,6 +42,30 @@ class AppNotification extends BaseNotification {
       print("title: $title");
       print("body: $body");
       print("payload: $payload");
+    }
+  }
+
+  Future<void> onAutosaved(Uri? uri) async {
+    if (uri?.queryParameters.containsKey('path') == true) {
+      String? path = uri?.queryParameters['path'];
+      if (path == null) return;
+
+      File file = File(StoryFileManager().appPath + "/" + path);
+      if (!file.existsSync()) return;
+
+      StoryModel? result = await StoryFileManager().fetchOne(file);
+      if (result == null) return;
+
+      String? message;
+      if (result.changes.isNotEmpty) {
+        message = DateFormatHelper.yM().format(result.changes.last.createdAt);
+      }
+
+      showOkAlertDialog(
+        context: context!,
+        title: "Your document is saved",
+        message: message != null ? "Document will be move to:\n" + message : null,
+      );
     }
   }
 }

@@ -3,15 +3,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/core/file_manager/base_file_manager.dart';
-import 'package:spooky/core/file_manager/base_fm_constructor_mixin.dart';
-import 'package:spooky/core/file_manager/docs_manager.dart';
+import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/file_managers/types/response_code.dart';
+import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
+import 'package:spooky/core/route/router.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
+import 'package:spooky/ui/views/detail/helper.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
+import 'package:spooky/core/route/router.dart' as route;
 
 enum DetailViewFlow {
   create,
@@ -19,16 +22,31 @@ enum DetailViewFlow {
 }
 
 class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver {
+  late DateTime openOn;
+
   late StoryModel currentStory;
+  late StoryContentModel currentContent;
   late PageController pageController;
 
   late ValueNotifier<bool> readOnlyNotifier;
   late TextEditingController titleController;
-  late DocsManager docsManager;
+  late StoryFileManager storyFileManager;
   late ValueNotifier<bool> hasChangeNotifer;
 
   Map<int, QuillController> quillControllers = {};
   Map<int, FocusNode> focusNodes = {};
+
+  DetailViewFlow flowType;
+  StoryContentModel getInitialStoryContent(StoryModel story) {
+    if (story.changes.isNotEmpty) {
+      return story.changes.last;
+    } else {
+      return StoryContentModel.create(
+        createdAt: DateTime(story.path.year, story.path.month, story.path.day),
+        id: openOn.millisecondsSinceEpoch.toString(),
+      );
+    }
+  }
 
   int? get currentIndex => pageController.hasClients ? pageController.page?.toInt() : null;
   FocusNode? get currentFocusNode {
@@ -43,28 +61,23 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     }
   }
 
-  bool get hasChange {
-    return StoryModel.hasChanges(buildStory(), currentStory);
-  }
-
-  DetailViewModel(this.currentStory) {
+  DetailViewModel(
+    this.currentStory,
+    this.flowType,
+  ) {
+    openOn = DateTime.now();
+    currentContent = getInitialStoryContent(currentStory);
     pageController = PageController();
-    readOnlyNotifier = ValueNotifier(currentStory.flowType == DetailViewFlow.update);
-    hasChangeNotifer = ValueNotifier(currentStory.flowType == DetailViewFlow.create);
-    titleController = TextEditingController(text: currentStory.title);
-    docsManager = DocsManager();
+    readOnlyNotifier = ValueNotifier(flowType == DetailViewFlow.update);
+    hasChangeNotifer = ValueNotifier(flowType == DetailViewFlow.create);
+    titleController = TextEditingController(text: currentContent.title);
+    storyFileManager = StoryFileManager();
 
-    if (currentStory.pages == null) currentStory.addPage();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _setListener();
     });
 
     WidgetsBinding.instance?.addObserver(this);
-  }
-
-  List<List<dynamic>> get documents {
-    List<List<dynamic>>? pages = currentStory.pages;
-    return pages ?? [];
   }
 
   void _setListener() {
@@ -84,6 +97,16 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     });
   }
 
+  List<List<dynamic>> get documents {
+    List<List<dynamic>>? pages = currentContent.pages;
+    return pages ?? [];
+  }
+
+  void addPage() {
+    currentContent.addPage();
+    notifyListeners();
+  }
+
   void onChange(Document document) {
     scheduleAction(() {
       hasChangeNotifer.value = hasChange;
@@ -100,133 +123,139 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     super.dispose();
   }
 
-  void addPage() {
-    currentStory.addPage();
-    notifyListeners();
+  bool get hasChange {
+    if (currentStory.changes.isEmpty) return true;
+    return DetailViewModelHelper.buildContent(
+      currentContent,
+      quillControllers,
+      titleController,
+      openOn,
+    ).hasChanges(currentStory.changes.last);
   }
 
-  Future<void> _save() async {
-    StoryModel story = buildStory();
-    StoryModel? result = await _write(story);
+  Future<void> restore(StoryContentModel content, BuildContext context) async {
+    // save current version which may not saved
+    await _save();
 
-    if (result != null) {
-      currentStory = result;
-      notifyListeners();
+    // Set currentContent is required. It will be used in buildStory()
+    currentContent = content;
+
+    ResponseCode code = await _save(restore: true);
+    String message;
+
+    switch (code) {
+      case ResponseCode.success:
+        flowType = DetailViewFlow.update;
+        notifyListeners();
+        message = "Restored";
+        break;
+      case ResponseCode.noChange:
+        message = "Document has no changes";
+        break;
+      case ResponseCode.fail:
+        message = "Restore unsuccessfully!";
+        break;
+    }
+    App.of(context)?.showSpSnackBar(message);
+
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      context.router.popAndPush(
+        route.Detail(
+          initialStory: currentStory,
+          intialFlow: DetailViewFlow.update,
+        ),
+      );
+    });
+  }
+
+  Future<void> deleteChange(List<String> contentIds, BuildContext context) async {
+    currentStory.removeChangeByIds(contentIds);
+    return save(context, force: true);
+  }
+
+  Future<void> save(BuildContext context, {bool force = false}) async {
+    ResponseCode code = await _save(force: force);
+    String message;
+
+    switch (code) {
+      case ResponseCode.success:
+        flowType = DetailViewFlow.update;
+        notifyListeners();
+        message = "Saved";
+        break;
+      case ResponseCode.noChange:
+        message = "Document has no changes";
+        break;
+      case ResponseCode.fail:
+        message = "Save unsuccessfully!";
+        break;
     }
 
+    App.of(context)?.showSpSnackBar(message);
+  }
+
+  @mustCallSuper
+  Future<ResponseCode> _save({bool restore = false, bool force = false}) async {
+    if (!hasChange && !force) return ResponseCode.noChange;
+    StoryModel? result = await write(restore: restore);
+    if (result != null && result.changes.isNotEmpty) {
+      currentStory = result;
+      currentContent = result.changes.last;
+      return ResponseCode.success;
+    }
+    return ResponseCode.fail;
+  }
+
+  @mustCallSuper
+  Future<StoryModel?> write({bool restore = false}) async {
+    StoryModel story = DetailViewModelHelper.buildStory(
+      currentStory,
+      currentContent,
+      flowType,
+      quillControllers,
+      titleController,
+      openOn,
+      restore,
+    );
+
+    File? result = await storyFileManager.writeStory(story);
     if (kDebugMode) {
-      print(docsManager.file?.absolute.path);
-      print(docsManager.success);
-      print(docsManager.error);
+      print("+++ Write +++");
+      print("Success: ${storyFileManager.success}");
+      print("Message: ${storyFileManager.error}");
+      print("Path: ${result?.absolute.path}");
+    }
+
+    if (result != null) {
+      return story;
     }
   }
 
   bool hasAutosaved = false;
   Future<void> autosave() async {
     if (hasChange) {
-      await _save();
+      ResponseCode code = await _save();
       Future.delayed(ConfigConstant.fadeDuration).then((value) {
-        if (docsManager.success == true) {
-          hasAutosaved = true;
-          AppNotification().displayNotification(
-            plainTitle: "Document is saved",
-            plainBody: "Saved: ${docsManager.message}",
-            payload: currentStory,
-          );
-        } else {
-          AppNotification().displayNotification(
-            plainTitle: "Document isn't saved!",
-            plainBody: "Error: ${docsManager.message}",
-            payload: currentStory,
-          );
+        switch (code) {
+          case ResponseCode.success:
+            hasAutosaved = true;
+            AppNotification().displayNotification(
+              plainTitle: "Document is saved",
+              plainBody: "Saved",
+              payload: currentStory,
+            );
+            break;
+          case ResponseCode.noChange:
+            break;
+          case ResponseCode.fail:
+            AppNotification().displayNotification(
+              plainTitle: "Document isn't saved!",
+              plainBody: "Error",
+              payload: currentStory,
+            );
+            break;
         }
       });
-    }
-  }
-
-  Future<void> save(BuildContext context) async {
-    await _save();
-    Future.delayed(ConfigConstant.fadeDuration).then((value) {
-      if (docsManager.success == true) {
-        App.of(context)?.showSpSnackBar("Saved: ${docsManager.message}");
-      } else {
-        App.of(context)?.showSpSnackBar("Error: ${docsManager.message}");
-      }
-    });
-  }
-
-  Map<int, List<dynamic>> get pagesData {
-    Map<int, List<dynamic>> documents = {};
-    if (currentStory.pages != null) {
-      for (int pageIndex = 0; pageIndex < currentStory.pages!.length; pageIndex++) {
-        List<dynamic>? quillDocument =
-            quillControllers.containsKey(pageIndex) ? quillControllers[pageIndex]!.document.toDelta().toJson() : null;
-        documents[pageIndex] = quillDocument ?? currentStory.pages![pageIndex];
-      }
-    }
-    return documents;
-  }
-
-  @mustCallSuper
-  StoryModel buildStory() {
-    DateTime now = DateTime.now();
-    StoryModel story;
-
-    switch (currentStory.flowType) {
-      case DetailViewFlow.create:
-        // documetId must be null on create
-        story = StoryModel(
-          documentId: null,
-          fileId: now.millisecondsSinceEpoch.toString(),
-          starred: false,
-          feeling: null,
-          title: titleController.text,
-          createdAt: now,
-          pathDate: currentStory.pathDate ?? now,
-          plainText: currentQuillController?.document.toPlainText(),
-          pages: pagesData.values.toList(),
-        );
-        break;
-      case DetailViewFlow.update:
-        // "update" mean that documentId != null
-        story = currentStory.copyWith(
-          fileId: now.millisecondsSinceEpoch.toString(),
-          title: titleController.text,
-          createdAt: now,
-          pathDate: currentStory.pathDate ?? now,
-          plainText: currentQuillController?.document.toPlainText(),
-          pages: pagesData.values.toList(),
-        );
-        break;
-    }
-
-    return story;
-  }
-
-  @mustCallSuper
-  Future<StoryModel?> _write(StoryModel story) async {
-    if (hasChange) {
-      assert(story.fileId != null);
-      assert(story.pathDate != null);
-      assert(story.createdAt != null);
-
-      if (currentStory.filePath == FilePath.docs || story.flowType == DetailViewFlow.create) {
-        StoryModel writeStory = story.copyWith(
-          documentId: story.documentId ?? StoryModel.documentIdFromDate(story.createdAt!),
-        );
-        File? file = await docsManager.write(writeStory);
-        if (file != null) {
-          return writeStory.copyWith(parentPath: docsManager.storyParentPathFromFile(file));
-        }
-      } else {
-        // mostly not use, just prevent from save when it is not in "docs" folder
-        docsManager.message = MessageSummary('Docs outside "docs/" folder can\'t be saved');
-      }
-    } else {
-      // set success to false,
-      // otherwise if !hasChange, old success value will be used
-      // which is wrong.
-      docsManager.message = MessageSummary('Document has no changes');
     }
   }
 
@@ -238,10 +267,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
       // if user close app, we store initial tab on home
       // so they new it is saved.
-      DateTime now = DateTime.now();
       InitialStoryTabService.setInitialTab(
-        currentStory.pathDate?.year ?? now.year,
-        currentStory.pathDate?.month ?? now.month,
+        currentStory.path.year,
+        currentStory.path.month,
       );
     }
     super.didChangeAppLifecycleState(state);

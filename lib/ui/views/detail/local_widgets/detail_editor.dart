@@ -97,6 +97,7 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin {
                 readOnly: widget.readOnlyNotifier.value,
                 expands: false,
                 padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
+                  top: ConfigConstant.margin2 + 8.0,
                   bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
                 ),
                 keyboardAppearance: M3Color.keyboardAppearance(context),

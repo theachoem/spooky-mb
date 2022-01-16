@@ -1,10 +1,8 @@
 import 'package:auto_route/annotations.dart';
-import 'package:flutter/material.dart';
-import 'package:spooky/ui/views/archive/archive_view.dart';
+import 'package:spooky/ui/views/changes_history/changes_history_view.dart';
+import 'package:spooky/ui/views/content_reader/content_reader_view.dart';
 import 'package:spooky/ui/views/detail/detail_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
-import 'package:spooky/ui/views/file_manager/file_manager_view.dart';
-import 'package:spooky/ui/views/file_viewer/file_viewer_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
@@ -15,40 +13,40 @@ export 'package:auto_route/auto_route.dart';
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     MaterialRoute(
-      page: ArchiveView,
-      name: 'Archive',
+      page: ContentReaderView,
+      name: 'ContentReader',
+      path: '/content-reader',
+      fullscreenDialog: true,
     ),
     MaterialRoute(
-      page: FileViewerView,
-      name: 'FileViewer',
+      page: ChangesHistoryView,
+      name: 'ChangesHistory',
+      path: '/changes-sistory',
     ),
-    AutoRoute(
+    MaterialRoute(
       name: 'Detail',
       page: DetailView,
+      path: '/detail',
     ),
-    AutoRoute(
-      name: "FileManager",
-      page: FileManagerView,
-    ),
-    AutoRoute(
-      name: "LicensePage",
-      page: LicensePage,
-    ),
-    AutoRoute(
+    MaterialRoute(
       name: 'Main',
       page: MainView,
+      path: '/',
       children: [
-        AutoRoute(
+        MaterialRoute(
           name: 'Home',
           page: HomeView,
+          path: 'home',
         ),
-        AutoRoute(
+        MaterialRoute(
           name: 'Explore',
           page: ExploreView,
+          path: 'explore',
         ),
-        AutoRoute(
+        MaterialRoute(
           name: 'Setting',
           page: SettingView,
+          path: 'setting',
         ),
       ],
       initial: true,

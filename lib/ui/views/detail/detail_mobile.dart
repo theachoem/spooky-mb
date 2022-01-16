@@ -12,8 +12,8 @@ class _DetailMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DetailScaffold(
-      titleBuilder: (state) => buildTitle(state),
-      editorBuilder: (state) => buildEditor(state, context),
+      titleBuilder: () => buildTitle(),
+      editorBuilder: () => buildEditor(context),
       readOnlyNotifier: readOnlyNotifier,
       hasChangeNotifer: hasChangeNotifer,
       onSave: (context) => viewModel.save(context),
@@ -21,7 +21,7 @@ class _DetailMobile extends StatelessWidget {
     );
   }
 
-  Widget buildEditor(GlobalKey<ScaffoldState> state, BuildContext context) {
+  Widget buildEditor(BuildContext context) {
     if (documents.isEmpty) return Center(child: Text("No documents found"));
     return PageView.builder(
       itemCount: documents.length,
@@ -43,7 +43,7 @@ class _DetailMobile extends StatelessWidget {
     );
   }
 
-  Widget buildTitle(GlobalKey<ScaffoldState> state) {
+  Widget buildTitle() {
     return ValueListenableBuilder<bool>(
       valueListenable: readOnlyNotifier,
       builder: (context, value, child) {

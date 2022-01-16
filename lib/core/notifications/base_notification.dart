@@ -50,7 +50,7 @@ abstract class BaseNotification {
   Future<void> displayNotification({
     required String plainTitle,
     required String plainBody,
-    required BaseRouteModel payload,
+    required BaseRouteModel? payload,
   }) async {
     final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
       notificatonChannelId,
@@ -74,7 +74,7 @@ abstract class BaseNotification {
       plainTitle,
       plainBody,
       platformChannelSpecifics,
-      payload: payload.payload,
+      payload: payload?.payload,
     );
   }
 }

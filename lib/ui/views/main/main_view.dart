@@ -3,6 +3,7 @@ library main_view;
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/route/router.dart' as route;
+import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/widgets/sp_bottom_navaigation_bar.dart';
 import 'package:spooky/ui/widgets/sp_show_hide_animator.dart';
 import 'package:spooky/utils/widgets/sp_date_picker.dart';

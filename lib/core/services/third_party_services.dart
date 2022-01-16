@@ -5,8 +5,10 @@ import 'package:stacked_services/stacked_services.dart';
 abstract class ThirdPartyServicesModule {
   @singleton
   NavigationService get navigationService;
+
   @singleton
   DialogService get dialogService;
+
   @singleton
   SnackbarService get snackbarService;
 }

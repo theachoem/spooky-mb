@@ -52,9 +52,12 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
           children: List.generate(
             controller.length,
             (index) {
-              return StoryListByMonth(
-                year: widget.viewModel.year,
-                month: index + 1,
+              return StoryQueryList(
+                queryOptions: StoryQueryOptionsModel(
+                  filePath: FilePathType.docs,
+                  year: widget.viewModel.year,
+                  month: index + 1,
+                ),
                 onListReloaderReady: (reloader) {
                   listReloaderMap[index + 1] = reloader;
                 },
@@ -75,7 +78,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   Widget buildAppBar() {
     return HomeAppBar(
       title: "Hello Sothea 📝",
-      subtitle: "${widget.viewModel.year} - ${widget.viewModel.docsManager.docsCount(widget.viewModel.year)} Stories",
+      subtitle: "${widget.viewModel.year} - ${widget.viewModel.docsCount} Stories",
       tabController: controller,
       viewModel: widget.viewModel,
       tabLabels: List.generate(
