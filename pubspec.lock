@@ -655,11 +655,11 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "2.0.0"
-      resolved-ref: "033642ab95f6fb1afc8e93dd62a790488880086d"
+      ref: "2.0.2"
+      resolved-ref: a699ee27e13297eed4514504c8d262bb0526843b
       url: "git@github.com:juniorise/page_turn.git"
     source: git
-    version: "2.0.0"
+    version: "2.0.2"
   path:
     dependency: transitive
     description:

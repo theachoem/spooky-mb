@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ConfigConstant {
   ConfigConstant._internal();
   static const titleConstraints = BoxConstraints(minWidth: 80);
 
   static const double sliverExpandedHeight = 200;
+  static const indicatorEffect = WormEffect(dotHeight: 8, spacing: 8.0, dotWidth: 8.0);
 
   /// ```dart
   /// margin0 = 4.0

@@ -14,18 +14,22 @@ class ContentIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IgnorePointer(
-      child: AnimatedOpacity(
-        curve: Curves.fastOutSlowIn,
-        opacity: pagesCount > 1 ? 1 : 0,
-        duration: ConfigConstant.duration,
-        child: Container(
-          alignment: Alignment.topRight,
-          margin: EdgeInsets.all(ConfigConstant.margin1),
-          child: SmoothPageIndicator(
-            controller: controller,
-            effect: WormEffect(dotHeight: 4.0, spacing: 4),
-            count: pagesCount,
+    return Positioned(
+      bottom: MediaQuery.of(context).padding.bottom + kToolbarHeight / 2 + 12,
+      right: 0,
+      left: 0,
+      child: IgnorePointer(
+        child: AnimatedOpacity(
+          curve: Curves.fastOutSlowIn,
+          opacity: pagesCount > 1 ? 1 : 0,
+          duration: ConfigConstant.duration,
+          child: Container(
+            alignment: Alignment.bottomCenter,
+            child: SmoothPageIndicator(
+              controller: controller,
+              effect: ConfigConstant.indicatorEffect,
+              count: pagesCount,
+            ),
           ),
         ),
       ),

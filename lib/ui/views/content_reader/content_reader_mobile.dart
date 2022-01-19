@@ -69,12 +69,6 @@ class _ContentReaderMobile extends StatelessWidget {
                         .titleTextStyle
                         ?.copyWith(color: M3Color.of(context).onPrimaryContainer),
                   ),
-                  actions: [
-                    SpThemeSwitcher(
-                      backgroundColor: Colors.transparent,
-                      color: M3Color.of(context).onPrimaryContainer,
-                    ),
-                  ],
                 ),
               ),
             ),
@@ -144,7 +138,7 @@ class _ContentReaderMobile extends StatelessWidget {
           builder: (context, value, child) {
             return AnimatedSmoothIndicator(
               activeIndex: value,
-              effect: WormEffect(dotHeight: 4),
+              effect: ConfigConstant.indicatorEffect,
               count: length,
             );
           },
