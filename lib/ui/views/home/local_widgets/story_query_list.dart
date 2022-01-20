@@ -74,8 +74,20 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
       onRefresh: () => load(),
       stories: stories,
       emptyMessage: "Empty",
-      onDelete: widget.onDelete,
-      onUnarchive: widget.onUnarchive,
+      onDelete: widget.onDelete != null
+          ? (story) async {
+              bool success = await widget.onDelete!(story);
+              if (success) load();
+              return success;
+            }
+          : null,
+      onUnarchive: widget.onUnarchive != null
+          ? (story) async {
+              bool success = await widget.onUnarchive!(story);
+              if (success) load();
+              return success;
+            }
+          : null,
     );
   }
 
