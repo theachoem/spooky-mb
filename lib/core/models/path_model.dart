@@ -31,6 +31,12 @@ class PathModel extends BaseModel {
     return DateTime(year, month, day);
   }
 
+  bool sameDayAs(PathModel compare) {
+    String _this = [year, month, day].join("/");
+    String _cmp = [compare.year, compare.month, compare.day].join("/");
+    return _this == _cmp;
+  }
+
   String toPath() {
     return [
       filePath.name,

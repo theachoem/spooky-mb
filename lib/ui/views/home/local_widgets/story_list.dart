@@ -30,13 +30,20 @@ class StoryList extends StatelessWidget {
   final String emptyMessage;
   final EdgeInsets itemPadding;
 
+  StoryModel? storyAt(int index) {
+    if (stories?.isNotEmpty == true) {
+      if (index >= 0 && stories!.length > index) {
+        return stories![index];
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (onDelete != null || onUnarchive != null) {
       assert(onDelete != null);
       assert(onUnarchive != null);
     }
-    Map<int, Color> dayColors = M3Color.dayColorsOf(context);
     return RefreshIndicator(
       onRefresh: onRefresh,
       child: Stack(
@@ -94,16 +101,16 @@ class StoryList extends StatelessWidget {
                     }
                   },
                   child: buildStoryTile(
-                    content,
-                    context,
-                    dayColors,
+                    story: content,
+                    context: context,
+                    previousStory: storyAt(index - 1),
                   ),
                 );
               }
               return buildStoryTile(
-                content,
-                context,
-                dayColors,
+                story: content,
+                context: context,
+                previousStory: storyAt(index - 1),
               );
             },
           ),
@@ -168,7 +175,12 @@ class StoryList extends StatelessWidget {
     );
   }
 
-  Widget buildStoryTile(StoryModel story, BuildContext context, Map<int, Color> dayColors) {
+  Widget buildStoryTile({
+    required StoryModel story,
+    required StoryModel? previousStory,
+    required BuildContext context,
+  }) {
+    Map<int, Color> dayColors = M3Color.dayColorsOf(context);
     return SpTapEffect(
       onTap: () {
         route.Detail page = route.Detail(
@@ -188,7 +200,7 @@ class StoryList extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            buildMonogram(context, story, dayColors),
+            buildMonogram(context, story, previousStory, dayColors),
             ConfigConstant.sizedBoxW2,
             buildContent(context, story),
           ],
@@ -197,12 +209,26 @@ class StoryList extends StatelessWidget {
     );
   }
 
-  Widget buildMonogram(BuildContext context, StoryModel story, Map<int, Color> dayColors) {
+  Widget buildMonogram(
+    BuildContext context,
+    StoryModel story,
+    StoryModel? previousStory,
+    Map<int, Color> dayColors,
+  ) {
+    // bool sameDay = previousStory?.path != null ? story.path.sameDayAs(previousStory!.path) : false;
     DateTime displayDate = story.path.toDateTime();
     return Column(
       children: [
         ConfigConstant.sizedBoxH0,
-        Text(DateFormatHelper.toDay().format(displayDate).toString()),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 20 * 2),
+          child: Text(
+            DateFormatHelper.toDay().format(displayDate).toString(),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+          ),
+        ),
         ConfigConstant.sizedBoxH0,
         CircleAvatar(
           radius: 20,
