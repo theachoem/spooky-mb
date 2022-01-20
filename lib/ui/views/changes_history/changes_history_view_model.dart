@@ -27,6 +27,15 @@ class ChangesHistoryViewModel extends BaseViewModel {
   }
 
   @override
+  void notifyListeners() {
+    super.notifyListeners();
+    if (_editing == false) {
+      Set<String> value = {...selectedNotifier.value}..clear();
+      selectedNotifier.value = value;
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
     selectedNotifier.dispose();

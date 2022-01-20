@@ -41,6 +41,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
   Widget buildAppBarTitle(BuildContext context) {
     return SpCrossFade(
       showFirst: !viewModel.editing,
+      alignment: viewModel.editing ? Alignment.center : Alignment.center,
       firstChild: Text(
         "Changes History",
         style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -66,11 +67,24 @@ class _ChangesHistoryMobile extends StatelessWidget {
           firstChild: SpIconButton(
             icon: Icon(Icons.delete),
             key: ValueKey(Icons.delete),
-            onPressed: () {
-              viewModel.onDeletePressed(
-                viewModel.selectedNotifier.value.toList(),
+            onPressed: () async {
+              OkCancelResult result = await showOkCancelAlertDialog(
+                context: context,
+                title: "Are you sure to delete?",
+                message: viewModel.selectedNotifier.value.length.toString() + " selected",
+                okLabel: "Delete",
+                isDestructiveAction: true,
               );
-              context.router.popForced();
+              switch (result) {
+                case OkCancelResult.ok:
+                  viewModel.onDeletePressed(
+                    viewModel.selectedNotifier.value.toList(),
+                  );
+                  context.router.popForced();
+                  break;
+                case OkCancelResult.cancel:
+                  break;
+              }
             },
           ),
           secondChild: SizedBox.shrink(
@@ -100,6 +114,14 @@ class _ChangesHistoryMobile extends StatelessWidget {
                 );
               },
             ),
+            if (!viewModel.editing)
+              SpPopMenuItem(
+                title: "Select",
+                onPressed: () {
+                  addItem(id);
+                  viewModel.toggleEditing();
+                },
+              ),
             if (viewModel.story.changes.length - 1 != index)
               SpPopMenuItem(
                 title: "Restore this version",

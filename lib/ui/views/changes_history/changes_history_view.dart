@@ -1,5 +1,6 @@
 library changes_history_view;
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';

@@ -7,15 +7,18 @@ class SpCrossFade extends StatelessWidget {
     required this.firstChild,
     required this.secondChild,
     required this.showFirst,
+    this.alignment = Alignment.topCenter,
   }) : super(key: key);
 
   final Widget firstChild;
   final Widget secondChild;
   final bool showFirst;
+  final AlignmentGeometry alignment;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedCrossFade(
+      alignment: alignment,
       firstChild: firstChild,
       secondChild: secondChild,
       sizeCurve: Curves.ease,
