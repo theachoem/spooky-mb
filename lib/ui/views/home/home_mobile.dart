@@ -27,13 +27,6 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   void initState() {
     super.initState();
     controller = TabController(length: 12, vsync: this, initialIndex: widget.viewModel.month - 1);
-    controller.addListener(() {
-      int monthIndex = controller.index + 1;
-      widget.viewModel.onTabChange(monthIndex);
-      if (listReloaderMap.containsKey(monthIndex)) {
-        widget.viewModel.onListReloaderReady(listReloaderMap[monthIndex]!);
-      }
-    });
   }
 
   @override
@@ -49,6 +42,13 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
         headerSliverBuilder: headerSliverBuilder,
         body: SpTabView(
           controller: controller,
+          listener: (controller) {
+            int monthIndex = (controller.animation?.value.round() ?? controller.index) + 1;
+            if (listReloaderMap.containsKey(monthIndex)) {
+              widget.viewModel.onListReloaderReady(listReloaderMap[monthIndex]!);
+            }
+            widget.viewModel.onTabChange(monthIndex);
+          },
           children: List.generate(
             controller.length,
             (index) {

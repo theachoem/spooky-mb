@@ -36,7 +36,7 @@ class _MainMobile extends StatelessWidget {
                   );
                   context.router.push(page).then(
                     (value) {
-                      if (value is StoryModel) {
+                      if (viewModel.storyListReloader != null) {
                         viewModel.storyListReloader!();
                       }
                     },
