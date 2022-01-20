@@ -135,6 +135,7 @@ class _ContentReaderMobile extends StatelessWidget {
 
   Widget buildIndicator(BuildContext context) {
     int length = viewModel.content.pages?.length ?? 0;
+    if (length <= 1) return const SizedBox.shrink();
     return Positioned(
       bottom: MediaQuery.of(context).padding.bottom + kToolbarHeight / 2 + 12,
       right: 0,
