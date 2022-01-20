@@ -8,8 +8,13 @@ class _ChangesHistoryMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        bool backable = !viewModel.editing;
-        return backable;
+        if (viewModel.editing) {
+          viewModel.toggleEditing();
+          return false;
+        } else {
+          bool backable = !viewModel.editing;
+          return backable;
+        }
       },
       child: Scaffold(
         appBar: MorphingAppBar(
