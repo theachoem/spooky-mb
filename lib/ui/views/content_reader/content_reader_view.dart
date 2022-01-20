@@ -1,6 +1,5 @@
 library content_reader_view;
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:page_turn/page_turn.dart';
 import 'package:responsive_builder/responsive_builder.dart';

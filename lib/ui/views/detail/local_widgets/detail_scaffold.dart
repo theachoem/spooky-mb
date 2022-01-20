@@ -4,7 +4,7 @@ import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
-import 'package:spooky/ui/views/detail/local_widgets/content_indicator.dart';
+import 'package:spooky/ui/views/detail/local_widgets/page_indicator_button.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
@@ -56,16 +56,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
         children: [
           widget.editorBuilder(),
           buildFloatActionButton(mediaQueryPadding),
-          buildIndicator(),
         ],
       ),
-    );
-  }
-
-  Widget buildIndicator() {
-    return ContentIndicator(
-      controller: widget.viewModel.pageController,
-      pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
     );
   }
 
@@ -92,44 +84,52 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
             );
           },
         ),
-        SpPopupMenuButton(
-          fromAppBar: true,
-          items: [
-            SpPopMenuItem(
-              title: "View in PageTurn",
-              leadingIconData: Icons.menu_book_rounded,
-              onPressed: () {
-                context.router.push(
-                  route.ContentReader(content: widget.viewModel.currentContent),
-                );
-              },
-            ),
-            SpPopMenuItem(
-              title: "Changes History",
-              leadingIconData: Icons.history,
-              onPressed: () async {
-                await context.router.push(
-                  route.ChangesHistory(
-                    story: widget.viewModel.currentStory,
-                    onRestorePressed: (content) {
-                      widget.viewModel.restore(content, context);
-                    },
-                    onDeletePressed: (contentIds) {
-                      widget.viewModel.deleteChange(contentIds, context);
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
-          builder: (void Function() callback) {
-            return SpIconButton(
-              icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
-              onPressed: callback,
+        PageIndicatorButton(
+          controller: widget.viewModel.pageController,
+          pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
+        ),
+        buildMoreVertButton(),
+      ],
+    );
+  }
+
+  Widget buildMoreVertButton() {
+    return SpPopupMenuButton(
+      fromAppBar: true,
+      items: [
+        SpPopMenuItem(
+          title: "View in PageTurn",
+          leadingIconData: Icons.menu_book_rounded,
+          onPressed: () {
+            context.router.push(
+              route.ContentReader(content: widget.viewModel.currentContent),
+            );
+          },
+        ),
+        SpPopMenuItem(
+          title: "Changes History",
+          leadingIconData: Icons.history,
+          onPressed: () async {
+            await context.router.push(
+              route.ChangesHistory(
+                story: widget.viewModel.currentStory,
+                onRestorePressed: (content) {
+                  widget.viewModel.restore(content, context);
+                },
+                onDeletePressed: (contentIds) {
+                  widget.viewModel.deleteChange(contentIds, context);
+                },
+              ),
             );
           },
         ),
       ],
+      builder: (void Function() callback) {
+        return SpIconButton(
+          icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
+          onPressed: callback,
+        );
+      },
     );
   }
 
