@@ -34,9 +34,11 @@ dependencies:
   flutter_local_notifications: ^9.2.0
   smooth_page_indicator: ^1.0.0+2
   page_turn:
-    git:
-      url: git@github.com:juniorise/page_turn.git
-      ref: 2.0.2
+    # git:
+    #   url: git@github.com:juniorise/page_turn.git
+    #   ref: 2.0.2
+    path: ./page_turn
+  audioplayers: ^0.20.1
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +62,7 @@ flutter:
     - assets/
     - assets/translations/
     - assets/fonts/Quicksand/OFL.txt
+    - assets/sounds/
 
   fonts:
     - family: Quicksand

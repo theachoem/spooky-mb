@@ -38,4 +38,9 @@ class ContentReaderViewModel extends BaseViewModel {
   void toggleFullscreen() {
     fullscreenNotifier.value = !fullscreenNotifier.value;
   }
+
+  void setFullscreen(bool value) {
+    if (fullscreenNotifier.value == value) return;
+    fullscreenNotifier.value = value;
+  }
 }

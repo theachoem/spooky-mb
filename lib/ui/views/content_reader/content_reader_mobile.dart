@@ -14,24 +14,10 @@ class _ContentReaderMobile extends StatelessWidget {
         body: Stack(
           children: [
             GestureDetector(
-              onTapDown: (_) {
-                viewModel.fullscreenNotifier.value = true;
-              },
-              onDoubleTap: () {
-                viewModel.toggleFullscreen();
-              },
-              child: TweenAnimationBuilder<int>(
-                duration: ConfigConstant.duration * 2,
-                tween: IntTween(begin: 0, end: 1),
-                child: buildBody(context),
-                builder: (context, value, child) {
-                  return AnimatedOpacity(
-                    opacity: value.toDouble(),
-                    duration: ConfigConstant.duration * 2,
-                    child: child,
-                  );
-                },
-              ),
+              onTapDown: (_) => viewModel.setFullscreen(true),
+              onDoubleTap: () => viewModel.toggleFullscreen(),
+              onLongPress: () => viewModel.setFullscreen(false),
+              child: buildBody(context),
             ),
             buildIndicator(context),
             buildAppBar(),
@@ -106,10 +92,33 @@ class _ContentReaderMobile extends StatelessWidget {
   Widget buildBody(BuildContext context) {
     return PageTurn(
       key: viewModel.pageTurnState,
+      onDragEnd: (info) {
+        viewModel.setFullscreen(true);
+        double value = info.dragValue;
+        if (value > 0.9) {
+          AudioService.play(Assets.sounds.pageFlip9);
+        } else if (value > 0.8) {
+          AudioService.play(Assets.sounds.pageFlip7);
+        } else if (value > 0.7) {
+          AudioService.play(Assets.sounds.pageFlip6);
+        } else if (value > 0.6) {
+          AudioService.play(Assets.sounds.pageFlip5);
+        } else if (value > 0.5) {
+          AudioService.play(Assets.sounds.pageFlip5);
+        } else if (value > 0.4) {
+          AudioService.play(Assets.sounds.pageFlip4);
+        } else if (value > 0.3) {
+          AudioService.play(Assets.sounds.pageFlip03);
+        } else if (value > 0.2) {
+          AudioService.play(Assets.sounds.pageFlip02);
+        } else if (value > 0.1) {
+          AudioService.play(Assets.sounds.pageFlip01a);
+        }
+      },
+      backgroundColor: M3Color.of(context).background,
       children: List.generate(viewModel.content.pages?.length ?? 0, (index) {
         List<dynamic> page = viewModel.content.pages![index];
         return Container(
-          color: M3Color.of(context).background,
           padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + kToolbarHeight),
           child: ContentPageViewer(document: page),
         );

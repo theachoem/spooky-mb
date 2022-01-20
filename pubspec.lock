@@ -43,6 +43,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
+  audioplayers:
+    dependency: "direct main"
+    description:
+      name: audioplayers
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.20.1"
   auto_route:
     dependency: "direct main"
     description:
@@ -654,11 +661,9 @@ packages:
   page_turn:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "2.0.2"
-      resolved-ref: a699ee27e13297eed4514504c8d262bb0526843b
-      url: "git@github.com:juniorise/page_turn.git"
-    source: git
+      path: page_turn
+      relative: true
+    source: path
     version: "2.0.2"
   path:
     dependency: transitive
@@ -1099,6 +1104,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.2"
+  uuid:
+    dependency: transitive
+    description:
+      name: uuid
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.5"
   vector_math:
     dependency: transitive
     description:
