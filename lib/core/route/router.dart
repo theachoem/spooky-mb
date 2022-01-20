@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:spooky/ui/views/archive/archive_view.dart';
 import 'package:spooky/ui/views/changes_history/changes_history_view.dart';
 import 'package:spooky/ui/views/content_reader/content_reader_view.dart';
 import 'package:spooky/ui/views/detail/detail_view.dart';
@@ -12,6 +13,11 @@ export 'package:auto_route/auto_route.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
+    MaterialRoute(
+      page: ArchiveView,
+      name: 'Archive',
+      path: '/archive',
+    ),
     MaterialRoute(
       page: ContentReaderView,
       name: 'ContentReader',

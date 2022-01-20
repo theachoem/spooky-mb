@@ -9,10 +9,14 @@ class StoryQueryList extends StatefulWidget {
     Key? key,
     required this.queryOptions,
     required this.onListReloaderReady,
+    this.onDelete,
+    this.onUnarchive,
   }) : super(key: key);
 
   final StoryQueryOptionsModel queryOptions;
   final void Function(void Function() callback) onListReloaderReady;
+  final Future<bool> Function(StoryModel story)? onDelete;
+  final Future<bool> Function(StoryModel story)? onUnarchive;
 
   @override
   State<StoryQueryList> createState() => _StoryListState();
@@ -70,6 +74,8 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
       onRefresh: () => load(),
       stories: stories,
       emptyMessage: "Empty",
+      onDelete: widget.onDelete,
+      onUnarchive: widget.onUnarchive,
     );
   }
 

@@ -52,13 +52,18 @@ abstract class BaseFileManager {
     });
   }
 
-  Future<File?> moveFile(File sourceFile, String newPath) async {
-    if (!await sourceFile.exists()) return null;
+  Future<FileSystemEntity?> deleteFile(File file) async {
+    return beforeExec(() async {
+      return await file.delete();
+    });
+  }
+
+  Future<File?> moveFile(File sourceFile, String newFilePath) async {
+    if (!sourceFile.existsSync()) return null;
     return beforeExec<File?>(() async {
-      await ensureDirExist(Directory(newPath));
+      await ensureFileExist(File(newFilePath));
       try {
-        File newFile = await sourceFile.rename(newPath);
-        await sourceFile.absolute.parent.delete(recursive: true);
+        File newFile = await sourceFile.rename(newFilePath);
         return newFile;
       } on FileSystemException catch (e) {
         if (kDebugMode) {
@@ -66,7 +71,7 @@ abstract class BaseFileManager {
           print("RENAME: path: ${e.path}");
           print("RENAME: message: ${e.message}");
         }
-        File newFile = await sourceFile.copy(newPath);
+        File newFile = await sourceFile.copy(newFilePath);
         await sourceFile.delete();
         return newFile;
       }

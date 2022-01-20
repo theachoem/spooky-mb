@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/file_managers/archive_file_manager.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
@@ -93,6 +97,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
     );
   }
 
+  ArchiveFileManager manager = ArchiveFileManager();
+
   Widget buildMoreVertButton() {
     return SpPopupMenuButton(
       fromAppBar: true,
@@ -106,6 +112,28 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
             );
           },
         ),
+        if (widget.viewModel.flowType == DetailViewFlow.update && manager.canArchive(widget.viewModel.currentStory))
+          SpPopMenuItem(
+            title: "Archive",
+            leadingIconData: Icons.archive,
+            onPressed: () async {
+              OkCancelResult result = await showOkCancelAlertDialog(
+                context: context,
+                title: "Are you sure to archive document?",
+              );
+              switch (result) {
+                case OkCancelResult.ok:
+                  File? file = await manager.archiveDocument(widget.viewModel.currentStory);
+                  if (file != null) {
+                    App.of(context)?.showSpSnackBar("Archived!");
+                  }
+                  context.router.pop(widget.viewModel.currentStory);
+                  break;
+                case OkCancelResult.cancel:
+                  break;
+              }
+            },
+          ),
         SpPopMenuItem(
           title: "Changes History",
           leadingIconData: Icons.history,

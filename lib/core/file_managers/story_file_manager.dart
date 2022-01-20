@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/file_managers/base_file_manager.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
+import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
@@ -34,6 +35,7 @@ class StoryFileManager extends BaseFileManager {
 
   Future<List<StoryModel>?> fetchAll(StoryQueryOptionsModel options) async {
     Directory directory = Directory(FileHelper.directory.absolute.path + "/" + options.toPath());
+
     if (kDebugMode) {
       print("fetchAll directory: ${directory.absolute.path}");
     }
@@ -47,7 +49,8 @@ class StoryFileManager extends BaseFileManager {
           if (item is File && item.absolute.path.endsWith(".json")) {
             StoryModel? story = await fetchOne(item);
             if (story != null) {
-              stories.add(story);
+              PathModel path = story.path.copyWith(filePath: options.filePath);
+              stories.add(story.copyWith(path: path));
             }
           }
         }

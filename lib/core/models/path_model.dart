@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/core/models/base_model.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 
 part 'path_model.g.dart';
 
@@ -19,6 +22,22 @@ class PathModel extends BaseModel {
     required this.day,
     required this.filePath,
   });
+
+  PathModel copyWith({
+    String? fileName,
+    int? year,
+    int? month,
+    int? day,
+    FilePathType? filePath,
+  }) {
+    return PathModel(
+      fileName: fileName ?? this.fileName,
+      year: year ?? this.year,
+      month: month ?? this.month,
+      day: day ?? this.day,
+      filePath: filePath ?? this.filePath,
+    );
+  }
 
   PathModel.fromDateTime(DateTime date)
       : fileName = date.millisecondsSinceEpoch.toString() + ".json",
@@ -47,9 +66,16 @@ class PathModel extends BaseModel {
     ].join("/");
   }
 
-  // File toFile() {
-  //   return File("path");
-  // }
+  String toFullPath() {
+    return [
+      FileHelper.directory.absolute.path,
+      toPath(),
+    ].join("/");
+  }
+
+  File toFile() {
+    return File(toFullPath());
+  }
 
   @override
   String? get objectId => fileName;
