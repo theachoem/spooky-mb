@@ -69,7 +69,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     return StoryList(
       onRefresh: () => load(),
       stories: stories,
-      emptyMessage: "",
+      emptyMessage: "Empty",
     );
   }
 

@@ -17,7 +17,7 @@ class StoryList extends StatelessWidget {
     Key? key,
     required this.onRefresh,
     required this.stories,
-    this.emptyMessage = "",
+    this.emptyMessage = "Empty",
     this.onDelete,
     this.onUnarchive,
     this.itemPadding = const EdgeInsets.all(ConfigConstant.margin2),
