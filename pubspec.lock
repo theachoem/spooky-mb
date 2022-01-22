@@ -317,9 +317,9 @@ packages:
   flutter_cupertino_datetime_picker:
     dependency: "direct main"
     description:
-      name: flutter_cupertino_datetime_picker
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: flutter_cupertino_datetime_picker
+      relative: true
+    source: path
     version: "3.0.0"
   flutter_inappwebview:
     dependency: transitive
@@ -661,9 +661,11 @@ packages:
   page_turn:
     dependency: "direct main"
     description:
-      path: page_turn
-      relative: true
-    source: path
+      path: "."
+      ref: "2.0.2"
+      resolved-ref: "906aa449c1d0460d4a0661bd7d366846a1d43c82"
+      url: "git@github.com:juniorise/page_turn.git"
+    source: git
     version: "2.0.2"
   path:
     dependency: transitive

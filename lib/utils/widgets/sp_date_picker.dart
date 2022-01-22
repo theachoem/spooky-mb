@@ -24,8 +24,12 @@ class SpDatePicker {
         itemTextStyle: TextStyle(
           fontFamilyFallback: M3TextTheme.of(context).fontFamilyFallback,
         ).copyWith(color: color.onPrimary),
-        cancelTextStyle: const TextStyle().copyWith(color: color.onPrimary),
-        confirmTextStyle: const TextStyle().copyWith(color: color.onPrimary),
+        cancelTextStyle: TextStyle(color: color.onPrimary),
+        confirmTextStyle: TextStyle(color: color.onPrimary),
+        buttonStyle: TextButton.styleFrom(
+          splashFactory: null,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+        ),
       ),
       onConfirm: (DateTime date, List<int> _) {
         onConfirm(date);

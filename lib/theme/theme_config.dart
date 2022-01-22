@@ -15,6 +15,7 @@ class ThemeConfig {
   M3Color get _light => ThemeConstant.lightM3Color;
   M3Color get _dark => ThemeConstant.darkM3Color;
 
+  final Color splashColor = Colors.transparent;
   ThemeData get themeData {
     M3Color m3Color = isDarkMode ? _dark : _light;
     M3TextTheme m3TextTheme = buildTextTheme(m3Color);
@@ -55,21 +56,51 @@ class ThemeConfig {
           borderRadius: ConfigConstant.circlarRadius1,
         ),
       ),
-      splashColor: Colors.transparent,
+      splashColor: splashColor,
       // splashFactory:
       // InkRipple.splashFactory, //
       // InkSplash.splashFactory,
       indicatorColor: m3Color.onPrimary,
       textTheme: m3TextTheme.toTextTheme(),
-      textButtonTheme: TextButtonThemeData(
-        style: TextButton.styleFrom(
-          backgroundColor: m3Color.primary,
-          onSurface: m3Color.onSurface,
-          primary: m3Color.onPrimary,
-        ),
-      ),
+      textButtonTheme: buildTextButtonStyle(m3Color),
       cupertinoOverrideTheme: const CupertinoThemeData(
         textTheme: CupertinoTextThemeData(),
+      ),
+    );
+  }
+
+  TextButtonThemeData buildTextButtonStyle(M3Color m3Color) {
+    return TextButtonThemeData(
+      style: TextButton.styleFrom(
+        onSurface: m3Color.onSurface,
+        primary: m3Color.onPrimary,
+      ).copyWith(
+        overlayColor: MaterialStateProperty.all(splashColor),
+        backgroundColor: MaterialStateProperty.resolveWith(
+          (states) {
+            if (states.isNotEmpty) {
+              switch (states.last) {
+                case MaterialState.hovered:
+                  return m3Color.onPrimary.withOpacity(0.1);
+                case MaterialState.focused:
+                  return m3Color.onPrimary.withOpacity(0.1);
+                case MaterialState.pressed:
+                  return m3Color.onPrimary.withOpacity(0.1);
+                case MaterialState.dragged:
+                  return m3Color.onPrimary.withOpacity(0.1);
+                case MaterialState.selected:
+                  return m3Color.onPrimary.withOpacity(0.1);
+                case MaterialState.scrolledUnder:
+                  return m3Color.onPrimary.withOpacity(0.1);
+                case MaterialState.disabled:
+                  return m3Color.onPrimary.withOpacity(0.1);
+                case MaterialState.error:
+                  return m3Color.onPrimary.withOpacity(0.1);
+              }
+            }
+            return m3Color.primary;
+          },
+        ),
       ),
     );
   }

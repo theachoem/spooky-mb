@@ -28,17 +28,23 @@ dependencies:
   path_provider: ^2.0.8
   timezone: ^0.8.0
   scroll_to_index: ^2.1.1
-  flutter_cupertino_datetime_picker: ^3.0.0
   injectable: ^1.5.0
   stacked_services: ^0.8.16
   flutter_local_notifications: ^9.2.0
   smooth_page_indicator: ^1.0.0+2
-  page_turn:
-    # git:
-    #   url: git@github.com:juniorise/page_turn.git
-    #   ref: 2.0.2
-    path: ./page_turn
   audioplayers: ^0.20.1
+
+  # local
+  flutter_cupertino_datetime_picker: # ^3.0.0
+    path: ./flutter_cupertino_datetime_picker
+    # git: 
+    #   url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git
+    #   ref: master
+  page_turn:
+    # path: ./page_turn
+    git:
+      url: git@github.com:juniorise/page_turn.git
+      ref: 2.0.2
 
 dev_dependencies:
   flutter_test:
