@@ -89,6 +89,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
             );
           },
         ),
+        ConfigConstant.sizedBoxW0,
         PageIndicatorButton(
           controller: widget.viewModel.pageController,
           pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
