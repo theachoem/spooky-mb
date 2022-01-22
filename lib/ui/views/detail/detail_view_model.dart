@@ -105,6 +105,13 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   void addPage() {
     currentContent.addPage();
     notifyListeners();
+    Future.delayed(ConfigConstant.fadeDuration).then((value) {
+      pageController.animateToPage(
+        documents.length - 1,
+        duration: ConfigConstant.duration,
+        curve: Curves.ease,
+      );
+    });
   }
 
   void onChange(Document document) {
