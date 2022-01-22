@@ -23,7 +23,7 @@ class _DetailMobile extends StatelessWidget {
 
   Widget buildEditor(BuildContext context) {
     if (documents.isEmpty) return Center(child: Text("No documents found"));
-    return PageView.builder(
+    return SpPageView(
       itemCount: documents.length,
       controller: viewModel.pageController,
       physics: const ClampingScrollPhysics(),

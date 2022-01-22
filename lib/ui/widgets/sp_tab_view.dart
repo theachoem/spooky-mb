@@ -115,7 +115,7 @@ class SpTabView extends StatelessWidget {
                 ..translate(translateX1)
                 ..translate(translateX2),
               child: Opacity(
-                opacity: opacity,
+                opacity: controller.indexIsChanging ? 0 : opacity,
                 child: AnimatedOpacity(
                   opacity: controller.indexIsChanging ? 0 : opacity,
                   duration: ConfigConstant.fadeDuration,

@@ -1,6 +1,5 @@
 library detail_view;
 
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -8,6 +7,7 @@ import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/route/router.dart' as route;
 import 'package:spooky/ui/views/detail/local_widgets/detail_editor.dart';
 import 'package:spooky/ui/views/detail/local_widgets/detail_scaffold.dart';
+import 'package:spooky/ui/widgets/sp_page_view.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'detail_view_model.dart';
