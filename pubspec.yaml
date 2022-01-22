@@ -45,6 +45,7 @@ dependencies:
     git:
       url: git@github.com:juniorise/page_turn.git
       ref: 2.0.2
+  rect_getter: ^1.1.0
 
 dev_dependencies:
   flutter_test:

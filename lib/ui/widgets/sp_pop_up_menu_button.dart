@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rect_getter/rect_getter.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/utils/widgets/measure_size.dart';
@@ -44,12 +45,15 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
   Offset? childPosition;
   Size? childSize;
 
+  GlobalKey<RectGetterState> globalKey = RectGetter.createGlobalKey();
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       RenderObject? renderObject = Overlay.of(context)?.context.findRenderObject();
       if (renderObject is RenderBox) overlay = renderObject;
+      setChildPosition();
     });
   }
 
@@ -65,8 +69,10 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
     );
   }
 
-  void setChildPosition(TapDownDetails detail) {
-    childPosition = detail.globalPosition;
+  void setChildPosition() {
+    Rect? rect = RectGetter.getRectFromKey(globalKey);
+    childPosition = rect?.center;
+    childSize = rect?.size;
     if (widget.fromAppBar) {
       if (childPosition!.dx >= screenSize.width / 2) {
         childPosition = Offset(screenSize.width, 0);
@@ -84,44 +90,30 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
       assert(widget.dx == null);
       assert(widget.dy == null);
     }
-    return MeasureSize(
-      onChange: (size) => childSize = size,
-      child: GestureDetector(
-        onTapDown: (detail) => setChildPosition(detail),
-        child: widget.builder(() async {
-          if (relativeRect == null) return;
-          SpPopMenuItem? result = await showMenu<SpPopMenuItem>(
-            context: context,
-            position: relativeRect!,
-            elevation: 2.0,
-            shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
-            items: widget.items().map(
-              (e) {
-                return PopupMenuItem<SpPopMenuItem>(
-                  padding: EdgeInsets.zero,
-                  child: ListTile(
-                    leading: e.leadingIconData != null
-                        ? Icon(
-                            e.leadingIconData,
-                            color: e.titleStyle?.color,
-                          )
-                        : null,
-                    title: Text(
-                      e.title,
-                      style: e.titleStyle,
-                      textAlign: TextAlign.left,
-                    ),
-                  ),
-                  value: e,
-                  onTap: e.onPressed,
-                );
-              },
-            ).toList(),
-          );
-          if (widget.onDimissed != null) {
-            widget.onDimissed!(result);
-          }
-        }),
+    return RectGetter(
+      key: globalKey,
+      child: widget.builder(() async {
+        if (relativeRect == null) return;
+        SpPopMenuItem? result = await showMenu<SpPopMenuItem>(
+          context: context,
+          position: relativeRect!,
+          elevation: 2.0,
+          shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
+          items: widget.items().map((e) => buildItem(e)).toList(),
+        );
+        if (widget.onDimissed != null) widget.onDimissed!(result);
+      }),
+    );
+  }
+
+  PopupMenuItem<SpPopMenuItem> buildItem(SpPopMenuItem e) {
+    return PopupMenuItem<SpPopMenuItem>(
+      padding: EdgeInsets.zero,
+      onTap: e.onPressed,
+      value: e,
+      child: ListTile(
+        leading: e.leadingIconData != null ? Icon(e.leadingIconData, color: e.titleStyle?.color) : null,
+        title: Text(e.title, style: e.titleStyle, textAlign: TextAlign.left),
       ),
     );
   }
