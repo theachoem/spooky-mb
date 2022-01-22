@@ -113,11 +113,15 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
             );
           },
         ),
-        if ((widget.viewModel.currentContent.pages ?? []).length > 1 && !widget.viewModel.hasChange)
+        if ((widget.viewModel.currentContent.pages ?? []).length > 1)
           SpPopMenuItem(
             title: "Manage Pages",
             leadingIconData: Icons.edit,
-            onPressed: () {
+            onPressed: () async {
+              if (widget.viewModel.hasChange) {
+                App.of(context)?.showSpSnackBar("Please save document first");
+                return;
+              }
               context.router.push(route.ManagePages(content: widget.viewModel.currentContent)).then((value) {
                 if (value is StoryContentModel) {
                   widget.viewModel.updatePage(context, value);
@@ -165,10 +169,18 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
           },
         ),
       ],
+      onDimissed: (result) {
+        if (result == null) {
+          FocusScope.of(context).requestFocus();
+        }
+      },
       builder: (void Function() callback) {
         return SpIconButton(
           icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
-          onPressed: callback,
+          onPressed: () {
+            FocusScope.of(context).unfocus();
+            callback();
+          },
         );
       },
     );

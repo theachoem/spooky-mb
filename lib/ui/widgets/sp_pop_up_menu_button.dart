@@ -25,11 +25,13 @@ class SpPopupMenuButton extends StatefulWidget {
     this.fromAppBar = false,
     this.dx,
     this.dy,
+    this.onDimissed,
   }) : super(key: key);
 
   final bool fromAppBar;
   final Widget Function(void Function() callback) builder;
   final List<SpPopMenuItem> Function() items;
+  final void Function(SpPopMenuItem?)? onDimissed;
   final double? dx;
   final double? dy;
 
@@ -86,16 +88,16 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
       onChange: (size) => childSize = size,
       child: GestureDetector(
         onTapDown: (detail) => setChildPosition(detail),
-        child: widget.builder(() {
+        child: widget.builder(() async {
           if (relativeRect == null) return;
-          showMenu(
+          SpPopMenuItem? result = await showMenu<SpPopMenuItem>(
             context: context,
             position: relativeRect!,
             elevation: 2.0,
             shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
             items: widget.items().map(
               (e) {
-                return PopupMenuItem(
+                return PopupMenuItem<SpPopMenuItem>(
                   padding: EdgeInsets.zero,
                   child: ListTile(
                     leading: e.leadingIconData != null
@@ -110,11 +112,15 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
                       textAlign: TextAlign.left,
                     ),
                   ),
+                  value: e,
                   onTap: e.onPressed,
                 );
               },
             ).toList(),
           );
+          if (widget.onDimissed != null) {
+            widget.onDimissed!(result);
+          }
         }),
       ),
     );
