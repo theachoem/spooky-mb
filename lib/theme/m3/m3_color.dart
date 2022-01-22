@@ -6,8 +6,7 @@ export '../../utils/extensions/color_extension.dart';
 
 class M3Color {
   static M3Color of(BuildContext context) {
-    bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
-    return isDarkMode ? ThemeConstant.darkM3Color : ThemeConstant.lightM3Color;
+    return ThemeConstant.m3Color(Theme.of(context).colorScheme.brightness);
   }
 
   static Map<int, Color> dayColorsOf(BuildContext context) {

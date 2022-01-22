@@ -12,8 +12,8 @@ class ThemeConfig {
   ThemeConfig.dark() : isDarkMode = true;
   ThemeConfig.light() : isDarkMode = false;
 
-  M3Color get _light => ThemeConstant.lightM3Color;
-  M3Color get _dark => ThemeConstant.darkM3Color;
+  M3Color get _light => ThemeConstant.m3Color(Brightness.light);
+  M3Color get _dark => ThemeConstant.m3Color(Brightness.dark);
 
   final Color splashColor = Colors.transparent;
   ThemeData get themeData {

@@ -54,8 +54,8 @@ class _InitialThemeState extends State<InitialTheme> {
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: mode,
-      theme: buildThemeData(ThemeConstant.lightM3Color),
-      darkTheme: buildThemeData(ThemeConstant.darkM3Color),
+      theme: buildThemeData(ThemeConstant.m3Color(Brightness.light)),
+      darkTheme: buildThemeData(ThemeConstant.m3Color(Brightness.dark)),
       home: App(themeMode: mode),
     );
   }
