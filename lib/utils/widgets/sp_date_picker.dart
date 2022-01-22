@@ -73,7 +73,7 @@ class SpDatePicker {
       onConfirm: onConfirm,
       minDateTime: DateTime(initialDate.year, initialDate.month, 1),
       maxDateTime: DateTime(initialDate.year, initialDate.month, days),
-      dateFormat: 'yyyy-MM-dd',
+      dateFormat: 'yyyy-MMMM-dd',
     );
   }
 }
