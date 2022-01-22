@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/storages/color_storage.dart';
 import 'package:spooky/gen/fonts.gen.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -9,9 +10,11 @@ class ThemeConstant {
   static m3.Scheme? m3DarkScheme;
   static m3.Scheme? m3LightScheme;
 
+  static const Color fallbackColor = Color(0xFF6750A4);
   static Future<void> initialize() async {
-    m3DarkScheme = await getScheme(true, Color(0xFF6750A4));
-    m3LightScheme = await getScheme(false, Color(0xFF6750A4));
+    int color = await ColorStorage().read() ?? fallbackColor.value;
+    m3DarkScheme = await getScheme(true, Color(color));
+    m3LightScheme = await getScheme(false, Color(color));
   }
 
   static const List<String> fontFamilyFallback = [

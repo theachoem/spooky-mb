@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/app_builder.dart';
+import 'package:spooky/core/storages/color_storage.dart';
 import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -48,5 +49,11 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
       routeInformationParser: _appRouter.defaultRouteParser(),
       builder: (context, child) => AppBuilder(child: child),
     );
+  }
+
+  Future<void> updateColor(Color? color) async {
+    await ColorStorage().write(color?.value);
+    await ThemeConstant.initialize();
+    setState(() {});
   }
 }
