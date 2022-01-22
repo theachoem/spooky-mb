@@ -38,10 +38,16 @@ class ManagePagesViewModel extends BaseViewModel {
     if (content.pages == null) return;
     for (int i = 0; i < content.pages!.length; i++) {
       List<dynamic> page = content.pages![i];
+      editor.Document document;
+      try {
+        document = editor.Document.fromJson(page);
+      } catch (e) {
+        document = editor.Document();
+      }
       documents.add(
         DocumentKeyModel(
           key: i,
-          document: editor.Document.fromJson(page),
+          document: document,
         ),
       );
     }
