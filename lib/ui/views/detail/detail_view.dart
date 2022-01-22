@@ -45,22 +45,7 @@ class DetailView extends StatelessWidget {
   }
 
   Future<bool> onWillPop(DetailViewModel model, BuildContext context) async {
-    if (model.hasChange) {
-      OkCancelResult result = await showOkCancelAlertDialog(
-        context: context,
-        title: "Do you want to save changes?",
-        isDestructiveAction: false,
-        barrierDismissible: true,
-      );
-      switch (result) {
-        case OkCancelResult.ok:
-          await model.save(context);
-          context.router.popForced(model.currentStory);
-          return true;
-        case OkCancelResult.cancel:
-          return false;
-      }
-    }
+    if (model.hasChange) await model.save(context);
     context.router.popForced(model.currentStory);
     return true;
   }
