@@ -11,7 +11,7 @@ class _ManagePagesMobile extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           leading: const SpPopButton(),
-          title: Text("Manges Page", style: Theme.of(context).appBarTheme.titleTextStyle),
+          title: Text("Manage Page", style: Theme.of(context).appBarTheme.titleTextStyle),
           actions: buildActionsButton(context),
         ),
         body: buildPagesList(),

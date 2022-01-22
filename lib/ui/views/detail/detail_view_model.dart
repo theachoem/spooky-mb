@@ -115,12 +115,14 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   @override
   void dispose() {
-    pageController.dispose();
-    readOnlyNotifier.dispose();
-    titleController.dispose();
-    hasChangeNotifer.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      pageController.dispose();
+      readOnlyNotifier.dispose();
+      titleController.dispose();
+      hasChangeNotifer.dispose();
+    });
+    WidgetsBinding.instance?.removeObserver(this);
   }
 
   bool get hasChange {

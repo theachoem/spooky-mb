@@ -38,6 +38,8 @@ class ChangesHistoryViewModel extends BaseViewModel {
   @override
   void dispose() {
     super.dispose();
-    selectedNotifier.dispose();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      selectedNotifier.dispose();
+    });
   }
 }

@@ -29,10 +29,12 @@ class ContentReaderViewModel extends BaseViewModel {
 
   @override
   void dispose() {
-    pageController.dispose();
-    fullscreenNotifier.dispose();
     timer.cancel();
     super.dispose();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      pageController.dispose();
+      fullscreenNotifier.dispose();
+    });
   }
 
   void toggleFullscreen() {
