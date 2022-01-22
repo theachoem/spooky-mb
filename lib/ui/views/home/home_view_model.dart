@@ -55,7 +55,9 @@ class HomeViewModel extends IndexTrackingViewModel {
     Directory root = Directory(storyFileManager.rootPath + "/" + "$year");
     if (root.existsSync()) {
       List<FileSystemEntity> result = root.listSync(recursive: true);
-      return result.whereType<File>().length;
+      return result.where((e) {
+        return e is File && e.path.endsWith(AppConstant.documentExstension);
+      }).length;
     }
     return 0;
   }
