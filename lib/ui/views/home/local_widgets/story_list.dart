@@ -6,6 +6,7 @@ import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_chip.dart';
+import 'package:spooky/ui/widgets/sp_dimissable_background.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
@@ -136,42 +137,12 @@ class StoryList extends StatelessWidget {
     Color? foregroundColor,
     Alignment alignment = Alignment.centerRight,
   }) {
-    return Container(
+    return SpDimissableBackground(
       alignment: alignment,
-      padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
-      color: backgroundColor,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          TweenAnimationBuilder<int>(
-            duration: ConfigConstant.duration,
-            tween: IntTween(begin: 0, end: 1),
-            builder: (context, value, child) {
-              return SpAnimatedIcons(
-                firstChild: Icon(
-                  iconData,
-                  size: ConfigConstant.iconSize3,
-                  color: foregroundColor,
-                  key: ValueKey(iconData),
-                ),
-                secondChild: Icon(
-                  Icons.swap_horiz,
-                  size: ConfigConstant.iconSize3,
-                  color: foregroundColor,
-                  key: const ValueKey(Icons.swap_horiz),
-                ),
-                showFirst: value == 1,
-              );
-            },
-          ),
-          ConfigConstant.sizedBoxH0,
-          Text(
-            label,
-            style: TextStyle(color: foregroundColor),
-          ),
-        ],
-      ),
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
+      iconData: iconData,
+      label: label,
     );
   }
 

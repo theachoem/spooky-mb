@@ -55,12 +55,7 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1),
           height: ConfigConstant.iconSize3,
-          decoration: BoxDecoration(
-            color: M3Color.of(context).tertiary,
-            borderRadius: BorderRadius.circular(
-              ConfigConstant.iconSize3,
-            ),
-          ),
+          decoration: BoxDecoration(color: M3Color.of(context).tertiary, borderRadius: ConfigConstant.circlarRadius1),
           alignment: Alignment.center,
           child: SpCrossFade(
             showFirst: lastReportedPage.isEven,

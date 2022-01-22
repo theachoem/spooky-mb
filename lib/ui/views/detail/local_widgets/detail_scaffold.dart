@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/archive_file_manager.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
+import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
@@ -102,7 +103,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
   Widget buildMoreVertButton() {
     return SpPopupMenuButton(
       fromAppBar: true,
-      items: [
+      items: () => [
         SpPopMenuItem(
           title: "View in PageTurn",
           leadingIconData: Icons.menu_book_rounded,
@@ -112,6 +113,18 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
             );
           },
         ),
+        if ((widget.viewModel.currentContent.pages ?? []).length > 1 && !widget.viewModel.hasChange)
+          SpPopMenuItem(
+            title: "Manage Pages",
+            leadingIconData: Icons.edit,
+            onPressed: () {
+              context.router.push(route.ManagePages(content: widget.viewModel.currentContent)).then((value) {
+                if (value is StoryContentModel) {
+                  widget.viewModel.updatePage(context, value);
+                }
+              });
+            },
+          ),
         if (widget.viewModel.flowType == DetailViewFlow.update && manager.canArchive(widget.viewModel.currentStory))
           SpPopMenuItem(
             title: "Archive",

@@ -25,7 +25,7 @@ class DetailEditor extends StatefulWidget {
   State<DetailEditor> createState() => _DetailEditorState();
 }
 
-class _DetailEditorState extends State<DetailEditor> with StatefulMixin {
+class _DetailEditorState extends State<DetailEditor> with StatefulMixin, AutomaticKeepAliveClientMixin {
   late editor.QuillController controller;
   late ScrollController scrollController;
   late FocusNode focusNode;
@@ -165,4 +165,7 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

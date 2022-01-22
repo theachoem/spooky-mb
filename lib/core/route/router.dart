@@ -6,6 +6,7 @@ import 'package:spooky/ui/views/detail/detail_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
+import 'package:spooky/ui/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 
 export 'router.gr.dart';
@@ -13,6 +14,12 @@ export 'package:auto_route/auto_route.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
+    MaterialRoute(
+      page: ManagePagesView,
+      name: 'ManagePages',
+      path: '/manage-pages',
+      fullscreenDialog: true,
+    ),
     MaterialRoute(
       page: ArchiveView,
       name: 'Archive',

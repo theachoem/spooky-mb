@@ -3,6 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
+import 'package:spooky/utils/helpers/app_helper.dart';
 
 class DetailViewModelHelper {
   static StoryContentModel buildContent(
@@ -11,11 +12,13 @@ class DetailViewModelHelper {
     TextEditingController titleController,
     DateTime openOn,
   ) {
+    var pages = pagesData(currentContent, quillControllers).values.toList();
     return currentContent.copyWith(
       id: openOn.millisecondsSinceEpoch.toString(),
       title: titleController.text,
-      plainText: quillControllers.values.first.document.toPlainText(),
-      pages: pagesData(currentContent, quillControllers).values.toList(),
+      plainText: AppHelper.listItem(quillControllers.values, 0)?.document.toPlainText() ??
+          Document.fromJson(pages.first).toPlainText(),
+      pages: pages,
       createdAt: DateTime.now(),
     );
   }

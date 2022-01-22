@@ -14,6 +14,10 @@ class AppHelper {
     return 1;
   }
 
+  static T? listItem<T>(Iterable<T> list, int index) {
+    if (index >= 0 && list.length > index) return list.toList()[index];
+  }
+
   static int? intFromDateTime({DateTime? dateTime}) {
     if (dateTime == null) return null;
     return dateTime.millisecondsSinceEpoch;

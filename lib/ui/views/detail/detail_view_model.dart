@@ -173,14 +173,28 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     return save(context, force: true);
   }
 
-  Future<void> save(BuildContext context, {bool force = false}) async {
+  Future<void> updatePage(BuildContext context, StoryContentModel value) async {
+    currentContent.pages = value.pages;
+    quillControllers.clear();
+    await save(context, force: true, shouldRefresh: false, shouldShowSnackbar: false);
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      App.navigatorKey.currentContext?.router.pop();
+    });
+  }
+
+  Future<void> save(
+    BuildContext context, {
+    bool force = false,
+    bool shouldRefresh = true,
+    bool shouldShowSnackbar = true,
+  }) async {
     ResponseCode code = await _save(force: force);
     String message;
 
     switch (code) {
       case ResponseCode.success:
         flowType = DetailViewFlow.update;
-        notifyListeners();
+        if (shouldRefresh) notifyListeners();
         message = "Saved";
         break;
       case ResponseCode.noChange:
@@ -191,7 +205,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
         break;
     }
 
-    App.of(context)?.showSpSnackBar(message);
+    if (shouldShowSnackbar || code != ResponseCode.success) {
+      App.of(context)?.showSpSnackBar(message);
+    }
   }
 
   @mustCallSuper

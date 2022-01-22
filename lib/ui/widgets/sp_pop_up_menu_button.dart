@@ -21,15 +21,15 @@ class SpPopupMenuButton extends StatefulWidget {
   const SpPopupMenuButton({
     Key? key,
     required this.builder,
+    required this.items,
     this.fromAppBar = false,
-    this.items = const [],
     this.dx,
     this.dy,
   }) : super(key: key);
 
   final bool fromAppBar;
   final Widget Function(void Function() callback) builder;
-  final List<SpPopMenuItem> items;
+  final List<SpPopMenuItem> Function() items;
   final double? dx;
   final double? dy;
 
@@ -93,7 +93,7 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
             position: relativeRect!,
             elevation: 2.0,
             shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
-            items: widget.items.map(
+            items: widget.items().map(
               (e) {
                 return PopupMenuItem(
                   padding: EdgeInsets.zero,
