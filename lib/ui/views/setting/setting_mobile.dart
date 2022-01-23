@@ -25,6 +25,13 @@ class _SettingMobile extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.color_lens),
+              title: const Text("Theme"),
+              onTap: () {
+                context.router.push(route.ThemeSetting());
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.privacy_tip),
               title: const Text("Licenses"),
               onTap: () {
@@ -32,8 +39,7 @@ class _SettingMobile extends StatelessWidget {
               },
             ),
           ],
-        ).toList()
-          ..add(buildTestColor(context)),
+        ).toList(),
       ),
     );
   }

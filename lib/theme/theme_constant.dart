@@ -10,11 +10,14 @@ class ThemeConstant {
   static m3.Scheme? m3DarkScheme;
   static m3.Scheme? m3LightScheme;
 
+  static Color currentPrimaryColor = fallbackColor;
   static const Color fallbackColor = Color(0xFF6750A4);
+
   static Future<void> initialize() async {
     int color = await ColorStorage().read() ?? fallbackColor.value;
-    m3DarkScheme = await getScheme(true, Color(color));
-    m3LightScheme = await getScheme(false, Color(color));
+    currentPrimaryColor = Color(color);
+    m3DarkScheme = await getScheme(true, currentPrimaryColor);
+    m3LightScheme = await getScheme(false, currentPrimaryColor);
   }
 
   static const List<String> fontFamilyFallback = [

@@ -8,12 +8,14 @@ class SpCrossFade extends StatelessWidget {
     required this.secondChild,
     required this.showFirst,
     this.alignment = Alignment.topCenter,
+    this.duration = ConfigConstant.duration,
   }) : super(key: key);
 
   final Widget firstChild;
   final Widget secondChild;
   final bool showFirst;
   final AlignmentGeometry alignment;
+  final Duration duration;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class SpCrossFade extends StatelessWidget {
       secondChild: secondChild,
       sizeCurve: Curves.ease,
       crossFadeState: showFirst ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      duration: ConfigConstant.duration,
+      duration: duration,
     );
   }
 }

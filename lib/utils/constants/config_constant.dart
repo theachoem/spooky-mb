@@ -157,7 +157,7 @@ class ConfigConstant {
   /// ```
   static const EdgeInsets layoutPadding = EdgeInsets.symmetric(
     horizontal: margin2,
-    vertical: margin1,
+    vertical: margin2,
   );
 
   /// ```dart

@@ -23,20 +23,28 @@ class SpThemeSwitcher extends StatelessWidget {
       icon: getThemeModeIcon(context),
       backgroundColor: backgroundColor ?? M3Color.of(context).primaryContainer,
       onLongPress: () async {
-        ThemeMode? result = await showConfirmationDialog(
-          context: context,
-          title: "Theme",
-          initialSelectedActionKey: InitialTheme.of(context)?.mode,
-          actions: themeModeActions,
-        );
-        if (result != null) {
-          InitialTheme.of(context)?.setThemeMode(result);
-        }
+        await onLongPress(context);
       },
       onPressed: () {
-        InitialTheme.of(context)?.toggleThemeMode();
+        onPress(context);
       },
     );
+  }
+
+  static void onPress(BuildContext context) {
+    InitialTheme.of(context)?.toggleThemeMode();
+  }
+
+  static Future<void> onLongPress(BuildContext context) async {
+    ThemeMode? result = await showConfirmationDialog(
+      context: context,
+      title: "Theme",
+      initialSelectedActionKey: InitialTheme.of(context)?.mode,
+      actions: themeModeActions,
+    );
+    if (result != null) {
+      InitialTheme.of(context)?.setThemeMode(result);
+    }
   }
 
   Widget getThemeModeIcon(BuildContext context) {
@@ -48,7 +56,7 @@ class SpThemeSwitcher extends StatelessWidget {
     );
   }
 
-  List<AlertDialogAction<ThemeMode>> get themeModeActions {
+  static List<AlertDialogAction<ThemeMode>> get themeModeActions {
     return ThemeMode.values.map((e) {
       return AlertDialogAction(
         key: e,
