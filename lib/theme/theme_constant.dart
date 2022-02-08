@@ -7,7 +7,7 @@ class ThemeConstant {
 
   static const List<String> fontFamilyFallback = [FontFamily.quicksand];
   static ColorScheme colorScheme(Brightness brightness) {
-    return brightness == Brightness.dark ? M3Color.m3DarkScheme! : M3Color.m3LightScheme!;
+    return brightness == Brightness.dark ? M3Color.darkScheme! : M3Color.lightScheme!;
   }
 
   static const TextTheme defaultTextTheme = TextTheme(

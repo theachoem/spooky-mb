@@ -4,7 +4,6 @@ import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/core/storages/color_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
-import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/utils/mixins/scaffold_messenger_mixin.dart';
 import 'package:flutter/material.dart';
@@ -29,9 +28,12 @@ class App extends StatefulWidget {
 class _AppState extends State<App> with ScaffoldMessengerMixin {
   late TextTheme textTheme;
 
+  ThemeData get lightTheme => ThemeConfig.light().themeData;
+  ThemeData get darkTheme => ThemeConfig.dark().themeData;
+
   @override
   void initState() {
-    textTheme = ThemeConstant.defaultTextTheme;
+    textTheme = ThemeConfig.buildTextTheme();
     super.initState();
   }
 
@@ -44,8 +46,8 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       home: MainView(),
-      theme: ThemeConfig.light().themeData,
-      darkTheme: ThemeConfig.dark().themeData,
+      theme: lightTheme,
+      darkTheme: darkTheme,
       builder: (context, child) => AppBuilder(child: child),
       onGenerateRoute: (settings) => SpRouteConfig(context: context, settings: settings).generate(),
     );

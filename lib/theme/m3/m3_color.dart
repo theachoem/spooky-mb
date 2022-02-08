@@ -13,19 +13,19 @@ class M3Color {
   }
 
   static Color currentPrimaryColor = ThemeConstant.fallbackColor;
-  static ColorScheme? m3DarkScheme;
-  static ColorScheme? m3LightScheme;
+  static ColorScheme? darkScheme;
+  static ColorScheme? lightScheme;
 
   static Future<void> initialize() async {
     int? color = await ColorStorage().read();
     if (color != null) currentPrimaryColor = Color(color);
-    m3DarkScheme = await M3Color.getScheme(true, currentPrimaryColor);
-    m3LightScheme = await M3Color.getScheme(false, currentPrimaryColor);
+    darkScheme = await M3Color.getScheme(true, currentPrimaryColor);
+    lightScheme = await M3Color.getScheme(false, currentPrimaryColor);
   }
 
   static Map<int, Color> dayColorsOf(BuildContext context) {
     bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
-    return isDarkMode ? colorsByDayDarkM3 : colorsByDayLightM3;
+    return isDarkMode ? colorsByDayDark : colorsByDayLight;
   }
 
   static Brightness keyboardAppearance(BuildContext context) {

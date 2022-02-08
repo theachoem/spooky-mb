@@ -19,7 +19,7 @@ class ThemeConfig {
 
   ThemeData get themeData {
     ColorScheme colorScheme = isDarkMode ? _dark : _light;
-    TextTheme textTheme = buildTextTheme(colorScheme);
+    TextTheme textTheme = buildTextTheme();
     return ThemeData(
       // platform: TargetPlatform.android,
       useMaterial3: true,
@@ -37,8 +37,9 @@ class ThemeConfig {
         iconTheme: IconThemeData(color: colorScheme.onSurface),
         titleTextStyle: textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
       ),
-      floatingActionButtonTheme:
-          FloatingActionButtonThemeData(extendedTextStyle: ThemeConstant.defaultTextTheme.labelLarge),
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        extendedTextStyle: ThemeConstant.defaultTextTheme.labelLarge,
+      ),
       tabBarTheme: TabBarTheme(
         labelColor: colorScheme.primary,
         unselectedLabelColor: colorScheme.onSurface,
@@ -72,11 +73,11 @@ class ThemeConfig {
     );
   }
 
-  TextButtonThemeData buildTextButtonStyle(ColorScheme m3Color) {
+  TextButtonThemeData buildTextButtonStyle(ColorScheme colorScheme) {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
-        onSurface: m3Color.onSurface,
-        primary: m3Color.onPrimary,
+        onSurface: colorScheme.onSurface,
+        primary: colorScheme.onPrimary,
       ).copyWith(
         overlayColor: MaterialStateProperty.all(splashColor),
         backgroundColor: MaterialStateProperty.resolveWith(
@@ -84,35 +85,31 @@ class ThemeConfig {
             if (states.isNotEmpty) {
               switch (states.last) {
                 case MaterialState.hovered:
-                  return m3Color.onPrimary.withOpacity(0.1);
+                  return colorScheme.onPrimary.withOpacity(0.1);
                 case MaterialState.focused:
-                  return m3Color.onPrimary.withOpacity(0.1);
+                  return colorScheme.onPrimary.withOpacity(0.1);
                 case MaterialState.pressed:
-                  return m3Color.onPrimary.withOpacity(0.1);
+                  return colorScheme.onPrimary.withOpacity(0.1);
                 case MaterialState.dragged:
-                  return m3Color.onPrimary.withOpacity(0.1);
+                  return colorScheme.onPrimary.withOpacity(0.1);
                 case MaterialState.selected:
-                  return m3Color.onPrimary.withOpacity(0.1);
+                  return colorScheme.onPrimary.withOpacity(0.1);
                 case MaterialState.scrolledUnder:
-                  return m3Color.onPrimary.withOpacity(0.1);
+                  return colorScheme.onPrimary.withOpacity(0.1);
                 case MaterialState.disabled:
-                  return m3Color.onPrimary.withOpacity(0.1);
+                  return colorScheme.onPrimary.withOpacity(0.1);
                 case MaterialState.error:
-                  return m3Color.onPrimary.withOpacity(0.1);
+                  return colorScheme.onPrimary.withOpacity(0.1);
               }
             }
-            return m3Color.primary;
+            return colorScheme.primary;
           },
         ),
       ),
     );
   }
 
-  TextTheme buildTextTheme(ColorScheme colorScheme) {
-    return ThemeConstant.defaultTextTheme.apply(
-      bodyColor: colorScheme.onSurface,
-      displayColor: colorScheme.onSurface,
-      decorationColor: colorScheme.onSurface,
-    );
+  static TextTheme buildTextTheme() {
+    return ThemeConstant.defaultTextTheme;
   }
 }

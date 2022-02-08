@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 /// ref: http://fashioncambodia.blogspot.com/2015/11/7-colors-for-every-single-day-of-week.html
-const Map<int, Color> colorsByDayLightM3 = {
+const Map<int, Color> colorsByDayLight = {
   DateTime.monday: Color(0xFFE38A41),
   DateTime.tuesday: Color(0xFF9341B1),
   DateTime.wednesday: Color(0xFFA3AA49),
@@ -12,7 +12,7 @@ const Map<int, Color> colorsByDayLightM3 = {
 };
 
 /// generated m3 color from https://material-foundation.github.io/material-theme-builder/#/dynamic
-const Map<int, Color> colorsByDayDarkM3 = {
+const Map<int, Color> colorsByDayDark = {
   DateTime.monday: Color(0xFFFFB780),
   DateTime.tuesday: Color(0xFFF0AFFF),
   DateTime.wednesday: Color(0xFFC5CE5B),
