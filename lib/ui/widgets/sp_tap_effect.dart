@@ -97,6 +97,8 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
                   result,
                   Positioned.fill(
                     child: Container(
+                      transform: Matrix4.identity()..scale(1.25),
+                      transformAlignment: Alignment.center,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Color.lerp(Colors.transparent, M3Color.of(context).onSurface, borderAnimation.value)!,

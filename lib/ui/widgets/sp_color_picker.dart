@@ -232,7 +232,7 @@ class SpColorItem extends StatelessWidget {
         padding: const EdgeInsets.all(1.0),
         child: SpTapEffect(
           effects: [
-            SpTapEffectType.touchableOpacity,
+            // SpTapEffectType.touchableOpacity,
             SpTapEffectType.border,
           ],
           onTap: onPressed != null ? () => onPressed!(color) : null,
