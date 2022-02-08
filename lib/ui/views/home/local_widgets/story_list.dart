@@ -156,7 +156,7 @@ class StoryList extends StatelessWidget {
       onTap: () {
         DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlow.update);
         Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
-          if (value is StoryModel) onRefresh();
+          if (value is StoryModel && value != story) onRefresh();
         });
       },
       child: Padding(
