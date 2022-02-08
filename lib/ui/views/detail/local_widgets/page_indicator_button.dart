@@ -52,9 +52,8 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
       secondChild: const SizedBox.shrink(),
       firstChild: Center(
         child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1),
+          // padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1),
           height: ConfigConstant.iconSize3,
-          decoration: BoxDecoration(color: M3Color.of(context).tertiary, borderRadius: ConfigConstant.circlarRadius1),
           alignment: Alignment.center,
           child: SpCrossFade(
             showFirst: lastReportedPage.isEven,
@@ -66,12 +65,17 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
     );
   }
 
-  Text buildPageNumber(BuildContext context) {
-    return Text(
-      "${lastReportedPage + 1}/${widget.pagesCount}",
+  Widget buildPageNumber(BuildContext context) {
+    return RichText(
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: M3TextTheme.of(context).bodySmall?.copyWith(color: M3Color.of(context).onTertiary),
+      text: TextSpan(
+        style: M3TextTheme.of(context).bodyMedium,
+        children: [
+          TextSpan(text: "${lastReportedPage + 1}", style: M3TextTheme.of(context).titleLarge),
+          TextSpan(text: "/${widget.pagesCount}"),
+        ],
+      ),
     );
   }
 }
