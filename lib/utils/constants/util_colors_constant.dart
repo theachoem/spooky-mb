@@ -1,15 +1,6 @@
 import 'package:flutter/material.dart';
 
 /// ref: http://fashioncambodia.blogspot.com/2015/11/7-colors-for-every-single-day-of-week.html
-const Map<int, Color> colorsByDay = {
-  DateTime.monday: Color(0xFFE38A41),
-  DateTime.tuesday: Color(0xFF9341B1),
-  DateTime.wednesday: Color(0xFFA3AA49),
-  DateTime.thursday: Color(0xFF397C2D),
-  DateTime.friday: Color(0xFF5080D7),
-  DateTime.saturday: Color(0xFF6E183B),
-  DateTime.sunday: Color(0xFFE5333A),
-};
 const Map<int, Color> colorsByDayLightM3 = {
   DateTime.monday: Color(0xFFE38A41),
   DateTime.tuesday: Color(0xFF9341B1),
@@ -19,6 +10,8 @@ const Map<int, Color> colorsByDayLightM3 = {
   DateTime.saturday: Color(0xFF6E183B),
   DateTime.sunday: Color(0xFFE5333A),
 };
+
+/// generated m3 color from https://material-foundation.github.io/material-theme-builder/#/dynamic
 const Map<int, Color> colorsByDayDarkM3 = {
   DateTime.monday: Color(0xFFFFB780),
   DateTime.tuesday: Color(0xFFF0AFFF),
@@ -51,7 +44,8 @@ const List<ColorSwatch> materialColors = <ColorSwatch>[
   Colors.blueGrey,
 ];
 
-const List<ColorSwatch> accentColors = <ColorSwatch>[
+// ignore: unused_element
+const List<ColorSwatch> _accentColors = <ColorSwatch>[
   Colors.redAccent,
   Colors.pinkAccent,
   Colors.purpleAccent,
@@ -70,7 +64,8 @@ const List<ColorSwatch> accentColors = <ColorSwatch>[
   Colors.deepOrangeAccent,
 ];
 
-const List<ColorSwatch> fullMaterialColors = <ColorSwatch>[
+// ignore: unused_element
+const List<ColorSwatch> _fullMaterialColors = <ColorSwatch>[
   ColorSwatch(0xFFFFFFFF, {500: Colors.white}),
   ColorSwatch(0xFF000000, {500: Colors.black}),
   Colors.red,
