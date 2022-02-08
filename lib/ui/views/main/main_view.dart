@@ -10,10 +10,10 @@ import 'package:spooky/ui/views/main/main_view_item.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/widgets/sp_bottom_navaigation_bar.dart';
 import 'package:spooky/ui/widgets/sp_show_hide_animator.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'main_view_model.dart';
 
 part 'main_mobile.dart';

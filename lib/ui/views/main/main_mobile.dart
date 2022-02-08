@@ -21,9 +21,13 @@ class _MainMobile extends StatelessWidget {
         index: viewModel.activeIndex,
         sizing: StackFit.expand,
         children: List.generate(tabs.length, (index) {
-          return buildTabItem(
-            item: tabs[index],
-            context: context,
+          return AnimatedOpacity(
+            duration: ConfigConstant.fadeDuration,
+            opacity: index == viewModel.activeIndex ? 1 : 0,
+            child: buildTabItem(
+              item: tabs[index],
+              context: context,
+            ),
           );
         }),
       ),
@@ -88,18 +92,5 @@ class _MainMobile extends StatelessWidget {
         break;
     }
     return screen;
-  }
-
-  Route route(BuildContext context, Widget screen) {
-    switch (Theme.of(context).platform) {
-      case TargetPlatform.android:
-      case TargetPlatform.fuchsia:
-      case TargetPlatform.linux:
-      case TargetPlatform.windows:
-        return SwipeablePageRoute(builder: (context) => screen);
-      case TargetPlatform.iOS:
-      case TargetPlatform.macOS:
-        return MaterialPageRoute(builder: (context) => screen);
-    }
   }
 }
