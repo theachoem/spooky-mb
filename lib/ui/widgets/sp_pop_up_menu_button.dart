@@ -30,7 +30,7 @@ class SpPopupMenuButton extends StatefulWidget {
 
   final bool fromAppBar;
   final Widget Function(void Function() callback) builder;
-  final List<SpPopMenuItem> Function() items;
+  final List<SpPopMenuItem> Function(BuildContext context) items;
   final void Function(SpPopMenuItem?)? onDimissed;
   final double? dx;
   final double? dy;
@@ -98,8 +98,9 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
           position: relativeRect!,
           elevation: 2.0,
           shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
-          items: widget.items().map((e) => buildItem(e)).toList(),
+          items: widget.items(context).map((e) => buildItem(e)).toList(),
         );
+        result?.onPressed();
         if (widget.onDimissed != null) widget.onDimissed!(result);
       }),
     );
@@ -108,11 +109,11 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
   PopupMenuItem<SpPopMenuItem> buildItem(SpPopMenuItem e) {
     return PopupMenuItem<SpPopMenuItem>(
       padding: EdgeInsets.zero,
-      onTap: e.onPressed,
+      onTap: () => Navigator.maybePop(context),
       value: e,
       child: ListTile(
         leading: e.leadingIconData != null ? Icon(e.leadingIconData, color: e.titleStyle?.color) : null,
-        title: Text(e.title, style: e.titleStyle, textAlign: TextAlign.left),
+        title: Text(e.title, textAlign: TextAlign.left),
       ),
     );
   }

@@ -104,7 +104,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
   Widget buildMoreVertButton() {
     return SpPopupMenuButton(
       fromAppBar: true,
-      items: () => [
+      items: (context) => [
         SpPopMenuItem(
           title: "View in PageTurn",
           leadingIconData: Icons.menu_book_rounded,
@@ -139,6 +139,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
             onPressed: () async {
               OkCancelResult result = await showOkCancelAlertDialog(
                 context: context,
+                useRootNavigator: true,
                 title: "Are you sure to archive document?",
               );
               switch (result) {

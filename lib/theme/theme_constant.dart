@@ -50,7 +50,7 @@ class ThemeConstant {
     ),
     titleMedium: TextStyle(
       fontFamilyFallback: fontFamilyFallback,
-      fontWeight: FontWeight.w500,
+      fontWeight: FontWeight.w400,
       fontSize: 16,
       letterSpacing: 0.1,
     ),

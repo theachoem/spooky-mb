@@ -110,7 +110,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
         String id = content.id;
         return SpPopupMenuButton(
           dx: MediaQuery.of(context).size.width,
-          items: () => [
+          items: (context) => [
             SpPopMenuItem(
               title: "View Story",
               onPressed: () {
