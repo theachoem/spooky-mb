@@ -48,7 +48,18 @@ class _AppStarterMobile extends StatelessWidget {
             ConfigConstant.sizedBoxH2,
             SpButton(
               label: "Sign up & Accept",
-              onTap: () {},
+              backgroundColor: M3Color.of(context).onPrimary,
+              foregroundColor: M3Color.of(context).primary,
+              onTap: () {
+                // TODO: convert to route name
+                Navigator.of(context).push(
+                  SpPageRoute.fadeThrough(
+                    builder: (context) {
+                      return NicknameCreatorView();
+                    },
+                  ),
+                );
+              },
             )
           ],
         ),

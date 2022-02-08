@@ -2,8 +2,10 @@ library app_starter_view;
 
 import 'package:flutter/services.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:spooky/core/route/sp_page_route.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
+import 'package:spooky/ui/views/nickname_creator/nickname_creator_view.dart';
 import 'package:spooky/ui/widgets/sp_button.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';

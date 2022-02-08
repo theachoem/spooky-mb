@@ -12,7 +12,7 @@ import 'package:spooky/ui/views/theme_setting/theme_setting_view.dart';
 
 /// Use for generator route params only. use normal `Navigator.of(context)`
 @MaterialAutoRouter(
-  routes: <AutoRoute>[ MaterialRoute(page: AppStarterView,),
+  routes: <AutoRoute>[ MaterialRoute(page: NicknameCreatorView,), MaterialRoute(page: AppStarterView,),
     MaterialRoute(
       page: ThemeSettingView,
       name: 'ThemeSetting',

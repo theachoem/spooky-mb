@@ -8,10 +8,14 @@ class SpButton extends StatelessWidget {
     Key? key,
     this.onTap,
     required this.label,
+    this.backgroundColor,
+    this.foregroundColor,
   }) : super(key: key);
 
   final VoidCallback? onTap;
   final String label;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
 
   @override
   Widget build(BuildContext context) {
@@ -22,10 +26,10 @@ class SpButton extends StatelessWidget {
         onPressed: null,
         child: Text(
           "  $label  ",
-          style: M3TextTheme.of(context).labelLarge?.copyWith(color: M3Color.of(context).primary),
+          style: M3TextTheme.of(context).labelLarge?.copyWith(color: foregroundColor ?? M3Color.of(context).onPrimary),
         ),
         style: TextButton.styleFrom(
-          backgroundColor: M3Color.of(context).onPrimary,
+          backgroundColor: backgroundColor ?? M3Color.of(context).primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(48),
           ),

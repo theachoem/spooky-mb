@@ -46,6 +46,7 @@ dependencies:
   flutter_local_notifications: ^9.2.0
   audioplayers: ^0.20.1
   rect_getter: ^1.1.0
+  flutter_keyboard_visibility: ^5.1.1
 
 dev_dependencies:
   flutter_test:
