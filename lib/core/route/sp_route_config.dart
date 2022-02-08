@@ -86,6 +86,12 @@ class SpRouteConfig {
 
   Map<String, BaseRouteSetting> get routes {
     return {
+      '/': DefaultRouteSetting(
+        title: "Main",
+        canSwap: false,
+        fullscreenDialog: false,
+        route: (context) => MainView(),
+      ),
       themeSetting: DefaultRouteSetting(
         title: "Theme Setting",
         canSwap: false,
