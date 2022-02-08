@@ -4,7 +4,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/route/router.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_dimissable_background.dart';

@@ -85,7 +85,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
                   viewModel.onDeletePressed(
                     viewModel.selectedNotifier.value.toList(),
                   );
-                  context.router.popForced();
+                  Navigator.of(context).maybePop();
                   break;
                 case OkCancelResult.cancel:
                   break;
@@ -114,8 +114,9 @@ class _ChangesHistoryMobile extends StatelessWidget {
             SpPopMenuItem(
               title: "View Story",
               onPressed: () {
-                context.router.push(
-                  route.ContentReader(content: content),
+                Navigator.of(context).pushNamed(
+                  SpRouteConfig.contentReader,
+                  arguments: ContentReaderArgs(content: content),
                 );
               },
             ),
@@ -132,7 +133,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
                 title: "Restore this version",
                 onPressed: () {
                   viewModel.onRestorePressed(content);
-                  context.router.popForced();
+                  Navigator.of(context).maybePop();
                 },
               ),
           ],

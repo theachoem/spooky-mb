@@ -3,12 +3,11 @@ import 'package:spooky/core/route/setting/base_route_setting.dart';
 
 class AnimatedRouteSetting extends BaseRouteSetting {
   AnimatedRouteSetting({
-    required this.screen,
     required this.fillColor,
     required Widget Function(dynamic p1) route,
     required String title,
-  }) : super(route: route, title: title);
+    required bool fullscreenDialog,
+  }) : super(route: route, title: title, fullscreenDialog: fullscreenDialog);
 
-  final Widget? screen;
   final Color? fillColor;
 }

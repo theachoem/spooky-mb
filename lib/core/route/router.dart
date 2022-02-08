@@ -10,9 +10,7 @@ import 'package:spooky/ui/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/views/theme_setting/theme_setting_view.dart';
 
-export 'router.gr.dart';
-export 'package:auto_route/auto_route.dart';
-
+/// Use for generator route params only. use normal `Navigator.of(context)`
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     MaterialRoute(

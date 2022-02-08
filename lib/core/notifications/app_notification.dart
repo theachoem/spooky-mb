@@ -7,7 +7,7 @@ import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/base_notification.dart';
-import 'package:spooky/core/route/router.dart' as route;
+import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 
 class AppNotification extends BaseNotification {
@@ -23,7 +23,7 @@ class AppNotification extends BaseNotification {
       Uri? uri = Uri.tryParse(payload);
       String? path = uri?.path.replaceFirst("/", "");
       switch (path) {
-        case route.Detail.name:
+        case Detail.name:
           return await onAutosaved(uri);
         default:
       }

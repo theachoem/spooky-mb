@@ -3,12 +3,12 @@ library setting_view;
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:spooky/ui/views/setting/setting_view_model.dart';
-import 'package:spooky/core/route/router.dart' as route;
 
 part 'setting_mobile.dart';
 part 'setting_tablet.dart';

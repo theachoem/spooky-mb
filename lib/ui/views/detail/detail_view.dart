@@ -4,7 +4,6 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
-import 'package:spooky/core/route/router.dart' as route;
 import 'package:spooky/ui/views/detail/local_widgets/detail_editor.dart';
 import 'package:spooky/ui/views/detail/local_widgets/detail_scaffold.dart';
 import 'package:spooky/ui/widgets/sp_page_view.dart';
@@ -46,7 +45,6 @@ class DetailView extends StatelessWidget {
 
   Future<bool> onWillPop(DetailViewModel model, BuildContext context) async {
     if (model.hasChange) await model.save(context);
-    context.router.popForced(model.currentStory);
-    return true;
+    return Navigator.of(context).maybePop(model.currentStory);
   }
 }
