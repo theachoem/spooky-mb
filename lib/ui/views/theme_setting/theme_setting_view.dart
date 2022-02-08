@@ -14,6 +14,7 @@ import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'theme_setting_view_model.dart';
+
 part 'theme_setting_mobile.dart';
 part 'theme_setting_tablet.dart';
 part 'theme_setting_desktop.dart';

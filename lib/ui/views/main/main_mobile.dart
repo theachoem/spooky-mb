@@ -4,76 +4,105 @@ class _MainMobile extends StatelessWidget {
   final MainViewModel viewModel;
   const _MainMobile(this.viewModel);
 
+  void onConfirm(DateTime date, BuildContext context) {
+    DetailArgs args = DetailArgs(initialStory: StoryModel.fromDate(date), intialFlow: DetailViewFlow.create);
+    Navigator.of(context).pushNamed<StoryModel>(SpRouteConfig.detail, arguments: args).then((value) {
+      if (viewModel.storyListReloader != null && value != null) viewModel.storyListReloader!();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return route.AutoTabsRouter(
-      routes: [
-        route.Home(
+    List<MainTabBarItem> tabs = MainTabBar.items;
+    return Scaffold(
+      floatingActionButton: buildFloatingActionButton(context),
+      bottomNavigationBar: buildBottomNavigationBar(tabs),
+      body: IndexedStack(
+        children: List.generate(tabs.length, (index) {
+          return buildTabItem(
+            tabs: tabs,
+            index: index,
+            context: context,
+          );
+        }),
+      ),
+    );
+  }
+
+  Widget buildBottomNavigationBar(List<MainTabBarItem> tabs) {
+    return SpBottomNavigationBar(
+      currentIndex: viewModel.activeIndex,
+      onTap: (int index) => viewModel.setActiveIndex(index),
+      items: tabs.map((e) {
+        return SpBottomNavigationBarItem(
+          activeIconData: e.activeIcon,
+          iconData: e.inactiveIcon,
+          label: e.label,
+        );
+      }).toList(),
+    );
+  }
+
+  Widget buildFloatingActionButton(BuildContext context) {
+    return SpShowHideAnimator(
+      shouldShow: viewModel.activeIndex == 0,
+      child: FloatingActionButton.extended(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        label: const Text("Add"),
+        icon: const Icon(Icons.edit),
+        onPressed: () {
+          SpDatePicker.showDayPicker(
+            context,
+            viewModel.date,
+            (date) => onConfirm(date, context),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildTabItem({
+    required List<MainTabBarItem> tabs,
+    required int index,
+    required BuildContext context,
+  }) {
+    MainTabBarItem item = tabs[index];
+
+    Widget screen;
+    switch (item.routeName) {
+      case SpRouteConfig.home:
+        screen = HomeView(
           onTabChange: viewModel.onTabChange,
           onYearChange: (int year) => viewModel.year = year,
           onListReloaderReady: (void Function() callback) {
             viewModel.storyListReloader = callback;
           },
-        ),
-        const route.Explore(),
-        const route.Setting(),
-      ],
-      builder: (context, child, animation) {
-        final route.TabsRouter tabsRouter = route.AutoTabsRouter.of(context);
-        return Scaffold(
-          body: FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-          floatingActionButton: SpShowHideAnimator(
-            shouldShow: tabsRouter.activeIndex == 0,
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                SpDatePicker.showDayPicker(context, viewModel.date, (date) async {
-                  route.Detail page = route.Detail(
-                    initialStory: StoryModel.fromDate(date),
-                    intialFlow: DetailViewFlow.create,
-                  );
-                  context.router.push(page).then(
-                    (value) {
-                      if (viewModel.storyListReloader != null) {
-                        viewModel.storyListReloader!();
-                      }
-                    },
-                  );
-                });
-              },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              label: const Text("Add"),
-              icon: const Icon(Icons.edit),
-            ),
-          ),
-          bottomNavigationBar: SpBottomNavigationBar(
-            currentIndex: tabsRouter.activeIndex,
-            onTap: (int index) {
-              tabsRouter.setActiveIndex(index);
-            },
-            items: [
-              SpBottomNavigationBarItem(
-                activeIconData: Icons.home,
-                iconData: Icons.home_outlined,
-                label: "Home",
-              ),
-              SpBottomNavigationBarItem(
-                activeIconData: Icons.explore,
-                iconData: Icons.explore_outlined,
-                label: "Explore",
-              ),
-              SpBottomNavigationBarItem(
-                activeIconData: Icons.settings,
-                iconData: Icons.settings_outlined,
-                label: "Setting",
-              ),
-            ],
-          ),
         );
+        break;
+      case SpRouteConfig.explore:
+        screen = ExploreView();
+        break;
+      case SpRouteConfig.setting:
+        screen = SettingView();
+        break;
+      default:
+        screen = SpRouteConfig.buildNotFound();
+        break;
+    }
+
+    return Navigator(
+      key: item.navigatorKey,
+      onGenerateRoute: (setting) {
+        switch (Theme.of(context).platform) {
+          case TargetPlatform.android:
+          case TargetPlatform.fuchsia:
+          case TargetPlatform.linux:
+          case TargetPlatform.windows:
+            return SwipeablePageRoute(builder: (context) => screen);
+          case TargetPlatform.iOS:
+          case TargetPlatform.macOS:
+            return MaterialPageRoute(builder: (context) => screen);
+        }
       },
     );
   }

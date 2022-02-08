@@ -1,6 +1,12 @@
 import 'package:stacked/stacked.dart';
 
 class MainViewModel extends BaseViewModel {
+  int activeIndex = 0;
+  void setActiveIndex(int index) {
+    activeIndex = index;
+    notifyListeners();
+  }
+
   void Function()? storyListReloader;
 
   late int year;

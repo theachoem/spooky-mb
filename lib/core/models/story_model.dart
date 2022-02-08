@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:spooky/core/route/router.dart' as route;
 import 'package:spooky/core/models/base_route_model.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_content_model.dart';
+import 'package:spooky/core/route/sp_route_config.dart';
 
 part 'story_model.g.dart';
 
@@ -68,7 +68,7 @@ class StoryModel extends BaseRouteModel {
   String? get objectId => id;
 
   @override
-  String get displayRouteName => route.Detail.name;
+  String get displayRouteName => Detail.name;
 
   @override
   Map<String, String> get routePayload {

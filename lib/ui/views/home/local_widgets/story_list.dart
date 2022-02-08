@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
@@ -10,7 +11,6 @@ import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
-import 'package:spooky/core/route/router.dart' as route;
 
 class StoryList extends StatelessWidget {
   const StoryList({
@@ -154,17 +154,10 @@ class StoryList extends StatelessWidget {
     Map<int, Color> dayColors = M3Color.dayColorsOf(context);
     return SpTapEffect(
       onTap: () {
-        route.Detail page = route.Detail(
-          initialStory: story,
-          intialFlow: DetailViewFlow.update,
-        );
-        context.router.push(page).then(
-          (value) {
-            if (value is StoryModel) {
-              onRefresh();
-            }
-          },
-        );
+        DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlow.update);
+        Navigator.of(context).pushNamed<StoryModel>(SpRouteConfig.detail, arguments: args).then((value) {
+          if (value != null) onRefresh();
+        });
       },
       child: Padding(
         padding: itemPadding,

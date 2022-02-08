@@ -2,13 +2,19 @@ library main_view;
 
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/route/router.dart' as route;
+
+import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
+import 'package:spooky/ui/views/explore/explore_view.dart';
+import 'package:spooky/ui/views/home/home_view.dart';
+import 'package:spooky/ui/views/main/main_view_item.dart';
+import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/widgets/sp_bottom_navaigation_bar.dart';
 import 'package:spooky/ui/widgets/sp_show_hide_animator.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'main_view_model.dart';
 
 part 'main_mobile.dart';

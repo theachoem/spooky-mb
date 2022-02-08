@@ -77,7 +77,7 @@ class _ManagePagesMobile extends StatelessWidget {
                   switch (result) {
                     case OkCancelResult.ok:
                       WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-                        context.router.popForced(viewModel.save());
+                        context.navigator?.maybePop(viewModel.save());
                       });
                       break;
                     case OkCancelResult.cancel:

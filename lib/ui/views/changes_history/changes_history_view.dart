@@ -4,6 +4,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
@@ -15,7 +16,6 @@ import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'changes_history_view_model.dart';
-import 'package:spooky/core/route/router.dart' as route;
 
 part 'changes_history_mobile.dart';
 part 'changes_history_tablet.dart';

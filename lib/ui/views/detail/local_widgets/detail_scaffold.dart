@@ -6,6 +6,7 @@ import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/archive_file_manager.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/core/models/story_content_model.dart';
+import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_mixin.dart';
@@ -18,7 +19,6 @@ import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
-import 'package:spooky/core/route/router.dart' as route;
 
 class DetailScaffold extends StatefulWidget {
   const DetailScaffold({
@@ -109,8 +109,11 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
           title: "View in PageTurn",
           leadingIconData: Icons.menu_book_rounded,
           onPressed: () {
-            context.router.push(
-              route.ContentReader(content: widget.viewModel.currentContent),
+            Navigator.of(context).pushNamed(
+              SpRouteConfig.contentReader,
+              arguments: ContentReaderArgs(
+                content: widget.viewModel.currentContent,
+              ),
             );
           },
         ),
@@ -123,10 +126,11 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
                 App.of(context)?.showSpSnackBar("Please save document first");
                 return;
               }
-              context.router.push(route.ManagePages(content: widget.viewModel.currentContent)).then((value) {
-                if (value is StoryContentModel) {
-                  widget.viewModel.updatePage(context, value);
-                }
+              ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
+              Navigator.of(context)
+                  .pushNamed<StoryContentModel>(SpRouteConfig.managePages, arguments: arguments)
+                  .then((value) {
+                if (value != null) widget.viewModel.updatePage(context, value);
               });
             },
           ),
@@ -145,7 +149,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
                   if (file != null) {
                     App.of(context)?.showSpSnackBar("Archived!");
                   }
-                  context.router.pop(widget.viewModel.currentStory);
+                  Navigator.of(context).maybePop(widget.viewModel.currentStory);
                   break;
                 case OkCancelResult.cancel:
                   break;
@@ -156,16 +160,14 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
           title: "Changes History",
           leadingIconData: Icons.history,
           onPressed: () async {
-            await context.router.push(
-              route.ChangesHistory(
-                story: widget.viewModel.currentStory,
-                onRestorePressed: (content) {
-                  widget.viewModel.restore(content, context);
-                },
-                onDeletePressed: (contentIds) {
-                  widget.viewModel.deleteChange(contentIds, context);
-                },
-              ),
+            ChangesHistoryArgs arguments = ChangesHistoryArgs(
+              story: widget.viewModel.currentStory,
+              onRestorePressed: (content) => widget.viewModel.restore(content, context),
+              onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds, context),
+            );
+            Navigator.of(context).pushNamed<StoryContentModel>(
+              SpRouteConfig.changesHistory,
+              arguments: arguments,
             );
           },
         ),
