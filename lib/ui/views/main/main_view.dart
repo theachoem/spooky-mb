@@ -1,5 +1,6 @@
 library main_view;
 
+import 'package:auto_route/auto_route.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
 

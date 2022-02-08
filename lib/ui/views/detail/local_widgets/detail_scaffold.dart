@@ -127,10 +127,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
                 return;
               }
               ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
-              Navigator.of(context)
-                  .pushNamed<StoryContentModel>(SpRouteConfig.managePages, arguments: arguments)
-                  .then((value) {
-                if (value != null) widget.viewModel.updatePage(context, value);
+              Navigator.of(context).pushNamed(SpRouteConfig.managePages, arguments: arguments).then((value) {
+                if (value is StoryContentModel) widget.viewModel.updatePage(context, value);
               });
             },
           ),
@@ -165,7 +163,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Det
               onRestorePressed: (content) => widget.viewModel.restore(content, context),
               onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds, context),
             );
-            Navigator.of(context).pushNamed<StoryContentModel>(
+            Navigator.of(context).pushNamed(
               SpRouteConfig.changesHistory,
               arguments: arguments,
             );

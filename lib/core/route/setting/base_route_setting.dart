@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-abstract class BaseRouteSetting {
+abstract class BaseRouteSetting<T> {
   final Widget Function(dynamic) route;
   final String title;
   final bool fullscreenDialog;
@@ -10,4 +10,6 @@ abstract class BaseRouteSetting {
     required this.title,
     required this.fullscreenDialog,
   });
+
+  Route<T>? toRoute(BuildContext context, RouteSettings? settings);
 }

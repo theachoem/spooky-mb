@@ -6,7 +6,7 @@ class _MainMobile extends StatelessWidget {
 
   void onConfirm(DateTime date, BuildContext context) {
     DetailArgs args = DetailArgs(initialStory: StoryModel.fromDate(date), intialFlow: DetailViewFlow.create);
-    Navigator.of(context).pushNamed<StoryModel>(SpRouteConfig.detail, arguments: args).then((value) {
+    Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
       if (viewModel.storyListReloader != null && value != null) viewModel.storyListReloader!();
     });
   }
@@ -18,10 +18,10 @@ class _MainMobile extends StatelessWidget {
       floatingActionButton: buildFloatingActionButton(context),
       bottomNavigationBar: buildBottomNavigationBar(tabs),
       body: IndexedStack(
+        index: viewModel.activeIndex,
         children: List.generate(tabs.length, (index) {
           return buildTabItem(
-            tabs: tabs,
-            index: index,
+            item: tabs[index],
             context: context,
           );
         }),
@@ -62,13 +62,11 @@ class _MainMobile extends StatelessWidget {
   }
 
   Widget buildTabItem({
-    required List<MainTabBarItem> tabs,
-    required int index,
+    required MainTabBarItem item,
     required BuildContext context,
   }) {
-    MainTabBarItem item = tabs[index];
-
     Widget screen;
+
     switch (item.routeName) {
       case SpRouteConfig.home:
         screen = HomeView(
@@ -92,18 +90,26 @@ class _MainMobile extends StatelessWidget {
 
     return Navigator(
       key: item.navigatorKey,
-      onGenerateRoute: (setting) {
-        switch (Theme.of(context).platform) {
-          case TargetPlatform.android:
-          case TargetPlatform.fuchsia:
-          case TargetPlatform.linux:
-          case TargetPlatform.windows:
-            return SwipeablePageRoute(builder: (context) => screen);
-          case TargetPlatform.iOS:
-          case TargetPlatform.macOS:
-            return MaterialPageRoute(builder: (context) => screen);
-        }
+      initialRoute: item.routeName,
+      onGenerateRoute: (setting) => SpRouteConfig(context: context, settings: setting).generate(),
+      onGenerateInitialRoutes: (NavigatorState navigator, String initialRouteName) {
+        return [
+          route(context, screen),
+        ];
       },
     );
+  }
+
+  Route route(BuildContext context, Widget screen) {
+    switch (Theme.of(context).platform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return SwipeablePageRoute(builder: (context) => screen);
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return MaterialPageRoute(builder: (context) => screen);
+    }
   }
 }

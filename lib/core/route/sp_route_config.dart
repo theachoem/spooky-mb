@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/route/router.gr.dart';
-import 'package:spooky/core/route/setting/animated_route_setting.dart';
 import 'package:spooky/core/route/setting/base_route_setting.dart';
 import 'package:spooky/core/route/setting/default_route_setting.dart';
-import 'package:spooky/core/route/sp_page_route.dart';
 import 'package:spooky/ui/views/archive/archive_view.dart';
 import 'package:spooky/ui/views/changes_history/changes_history_view.dart';
 import 'package:spooky/ui/views/content_reader/content_reader_view.dart';
@@ -14,7 +13,6 @@ import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/ui/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/views/theme_setting/theme_setting_view.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 export 'router.gr.dart';
 
@@ -27,16 +25,16 @@ class SpRouteConfig {
     this.settings,
   });
 
-  static const String themeSetting = ThemeSetting.name;
-  static const String managePages = ManagePages.name;
-  static const String archive = Archive.name;
-  static const String contentReader = ContentReader.name;
-  static const String changesHistory = ChangesHistory.name;
-  static const String detail = Detail.name;
-  static const String main = Main.name;
-  static const String home = Home.name;
-  static const String explore = Explore.name;
-  static const String setting = Setting.name;
+  static const String themeSetting = '/theme-setting';
+  static const String managePages = '/manage-pages';
+  static const String archive = '/archive';
+  static const String contentReader = '/content-reader';
+  static const String changesHistory = '/changes-history';
+  static const String detail = '/detail';
+  static const String main = '/';
+  static const String home = '/home';
+  static const String explore = '/explore';
+  static const String setting = '/setting';
   static const String notFound = '/not-found';
 
   bool hasRoute(String name) => routes.containsKey(name);
@@ -46,52 +44,23 @@ class SpRouteConfig {
     if (name == null || !hasRoute(name)) name = notFound;
 
     BaseRouteSetting? setting = routes[name];
-    if (setting is DefaultRouteSetting) {
-      switch (Theme.of(context).platform) {
-        case TargetPlatform.android:
-        case TargetPlatform.fuchsia:
-        case TargetPlatform.linux:
-        case TargetPlatform.windows:
-          return MaterialPageRoute(
-            builder: setting.route,
-            settings: settings?.copyWith(arguments: setting),
-            fullscreenDialog: setting.fullscreenDialog,
-          );
-        case TargetPlatform.iOS:
-        case TargetPlatform.macOS:
-          return SwipeablePageRoute(
-            canSwipe: setting.canSwap,
-            builder: setting.route,
-            settings: settings?.copyWith(arguments: setting),
-            fullscreenDialog: setting.fullscreenDialog,
-          );
-      }
-    } else if (setting is AnimatedRouteSetting) {
-      return SpPageRoute.sharedAxis(
-        builder: setting.route,
-        settings: settings?.copyWith(arguments: setting),
-        fillColor: setting.fillColor,
-        fullscreenDialog: setting.fullscreenDialog,
+    Route? route = setting?.toRoute(context, settings);
+
+    if (route != null) {
+      return route;
+    } else {
+      return MaterialPageRoute(
+        fullscreenDialog: true,
+        settings: settings?.copyWith(arguments: routes[name]!),
+        builder: (context) {
+          return buildNotFound();
+        },
       );
     }
-
-    return MaterialPageRoute(
-      fullscreenDialog: true,
-      settings: settings?.copyWith(arguments: routes[name]!),
-      builder: (context) {
-        return buildNotFound();
-      },
-    );
   }
 
   Map<String, BaseRouteSetting> get routes {
     return {
-      '/': DefaultRouteSetting(
-        title: "Main",
-        canSwap: false,
-        fullscreenDialog: false,
-        route: (context) => MainView(),
-      ),
       themeSetting: DefaultRouteSetting(
         title: "Theme Setting",
         canSwap: false,
@@ -140,14 +109,17 @@ class SpRouteConfig {
           return buildNotFound();
         },
       ),
-      detail: DefaultRouteSetting(
+      detail: DefaultRouteSetting<StoryModel>(
         title: "Detail",
         canSwap: false,
         fullscreenDialog: false,
         route: (context) {
           Object? arguments = settings?.arguments;
           if (arguments is DetailArgs) {
-            return DetailView(initialStory: arguments.initialStory, intialFlow: arguments.intialFlow);
+            return DetailView(
+              initialStory: arguments.initialStory,
+              intialFlow: arguments.intialFlow,
+            );
           }
           return buildNotFound();
         },
