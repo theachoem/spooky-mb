@@ -200,7 +200,10 @@ class StoryList extends StatelessWidget {
               ? dayColors[displayDate.weekday]
               : M3Color.of(context).primary,
           foregroundColor: M3Color.of(context).onPrimary,
-          child: Text(displayDate.day.toString()),
+          child: Text(
+            displayDate.day.toString(),
+            style: M3TextTheme.of(context).bodyLarge?.copyWith(color: M3Color.of(context).onPrimary),
+          ),
         ),
       ],
     );
