@@ -4,6 +4,7 @@ import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/core/storages/color_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
+import 'package:spooky/ui/views/app_starter/app_starter_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/utils/mixins/scaffold_messenger_mixin.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> with ScaffoldMessengerMixin {
   late TextTheme textTheme;
 
+  Color currentSeedColor = M3Color.currentPrimaryColor;
   ThemeData get lightTheme => ThemeConfig.light().themeData;
   ThemeData get darkTheme => ThemeConfig.dark().themeData;
 
@@ -45,7 +47,7 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: MainView(),
+      home: AppStarterView(),
       theme: lightTheme,
       darkTheme: darkTheme,
       builder: (context, child) => AppBuilder(child: child),
@@ -56,6 +58,7 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
   Future<void> updateColor(Color? color) async {
     await ColorStorage().write(color?.value);
     await M3Color.initialize();
+    if (color != null) currentSeedColor = color;
     setState(() {});
   }
 }

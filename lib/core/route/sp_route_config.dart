@@ -31,7 +31,7 @@ class SpRouteConfig {
   static const String contentReader = '/content-reader';
   static const String changesHistory = '/changes-history';
   static const String detail = '/detail';
-  static const String main = '/';
+  static const String main = '/main';
   static const String home = '/home';
   static const String explore = '/explore';
   static const String setting = '/setting';
@@ -123,6 +123,12 @@ class SpRouteConfig {
           }
           return buildNotFound();
         },
+      ),
+      "/": DefaultRouteSetting(
+        title: "Main",
+        canSwap: false,
+        fullscreenDialog: false,
+        route: (context) => MainView(),
       ),
       main: DefaultRouteSetting(
         title: "Main",
