@@ -13,6 +13,7 @@ import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'archive_view_model.dart';
+
 part 'archive_mobile.dart';
 part 'archive_tablet.dart';
 part 'archive_desktop.dart';

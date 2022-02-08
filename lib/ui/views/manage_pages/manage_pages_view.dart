@@ -16,6 +16,7 @@ import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'manage_pages_view_model.dart';
+
 part 'manage_pages_mobile.dart';
 part 'manage_pages_tablet.dart';
 part 'manage_pages_desktop.dart';

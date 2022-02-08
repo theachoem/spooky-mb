@@ -10,7 +10,7 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
 import 'package:spooky/core/route/router.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
-import 'package:spooky/ui/views/detail/helper.dart';
+import 'package:spooky/ui/views/detail/detail_view_model_helper.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
