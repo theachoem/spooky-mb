@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 
 enum SpTapEffectType {
   touchableOpacity,
   scaleDown,
+  border,
 }
 
 class SpTapEffect extends StatefulWidget {
@@ -35,14 +37,16 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
   final double scaleActive = 0.98;
   final double opacityActive = 0.2;
   late AnimationController controller;
-  late Animation<double> animation;
-  late Animation<double> animation2;
+  late Animation<double> scaleAnimation;
+  late Animation<double> opacityAnimation;
+  late Animation<double> borderAnimation;
 
   @override
   void initState() {
     controller = AnimationController(vsync: this, duration: widget.duration);
-    animation = Tween<double>(begin: 1, end: scaleActive).animate(controller);
-    animation2 = Tween<double>(begin: 1, end: opacityActive).animate(controller);
+    scaleAnimation = Tween<double>(begin: 1, end: scaleActive).animate(controller);
+    opacityAnimation = Tween<double>(begin: 1, end: opacityActive).animate(controller);
+    borderAnimation = Tween<double>(begin: 0, end: 1).animate(controller);
     super.initState();
   }
 
@@ -65,18 +69,14 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
         onTapDown: (detail) => onTapDown(),
         onTapUp: (detail) => onTapUp(),
         onTapCancel: () => onTapCancel(),
-        child: buildChild(controller, animation, animation2),
+        child: buildChild(controller),
       );
     } else {
-      return buildChild(controller, animation, animation2);
+      return buildChild(controller);
     }
   }
 
-  AnimatedBuilder buildChild(
-    AnimationController controller,
-    Animation<double> animation,
-    Animation<double> animation2,
-  ) {
+  AnimatedBuilder buildChild(AnimationController controller) {
     return AnimatedBuilder(
       child: widget.child,
       animation: controller,
@@ -85,10 +85,29 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
         for (var effect in widget.effects) {
           switch (effect) {
             case SpTapEffectType.scaleDown:
-              result = ScaleTransition(scale: animation, child: result);
+              result = ScaleTransition(scale: scaleAnimation, child: result);
               break;
             case SpTapEffectType.touchableOpacity:
-              result = Opacity(opacity: animation2.value, child: result);
+              result = Opacity(opacity: opacityAnimation.value, child: result);
+              break;
+            case SpTapEffectType.border:
+              result = Stack(
+                alignment: Alignment.center,
+                children: [
+                  result,
+                  Positioned.fill(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Color.lerp(Colors.transparent, M3Color.of(context).onSurface, borderAnimation.value)!,
+                          width: 2,
+                        ),
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  )
+                ],
+              );
               break;
           }
         }

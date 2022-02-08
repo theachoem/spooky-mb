@@ -128,9 +128,9 @@ class _SpColorPickerState extends State<SpColorPicker> {
   Widget build(BuildContext context) {
     return Container(
       height: onPickingSwatchHeight,
-      alignment: Alignment.topCenter,
+      alignment: Alignment.topRight,
       child: SpCrossFade(
-        alignment: Alignment.center,
+        alignment: Alignment.topRight,
         showFirst: !isColorChildPicking,
         firstChild: buildColorListWrapper(
           context: context,
@@ -231,6 +231,10 @@ class SpColorItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: SpTapEffect(
+          effects: [
+            SpTapEffectType.touchableOpacity,
+            SpTapEffectType.border,
+          ],
           onTap: onPressed != null ? () => onPressed!(color) : null,
           child: Container(
             width: size - 2,
