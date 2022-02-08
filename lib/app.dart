@@ -29,6 +29,7 @@ class App extends StatefulWidget {
 class _AppState extends State<App> with ScaffoldMessengerMixin {
   late TextTheme textTheme;
 
+  Color currentSeedColor = M3Color.currentPrimaryColor;
   ThemeData get lightTheme => ThemeConfig.light().themeData;
   ThemeData get darkTheme => ThemeConfig.dark().themeData;
 
@@ -57,6 +58,7 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
   Future<void> updateColor(Color? color) async {
     await ColorStorage().write(color?.value);
     await M3Color.initialize();
+    if (color != null) currentSeedColor = color;
     setState(() {});
   }
 }

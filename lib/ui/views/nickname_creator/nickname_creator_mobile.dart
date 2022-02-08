@@ -37,6 +37,10 @@ class _NicknameCreatorMobile extends StatelessWidget {
             label: "Continue",
             onTap: () {
               if (viewModel.nickname.trim().isNotEmpty) {
+                // TODO: move to route name
+                Navigator.of(context).push(SpPageRoute.sharedAxis(builder: (context) {
+                  return InitPickColorView();
+                }));
               } else {
                 App.of(context)?.showSpSnackBar("Nickname must not empty!");
               }
