@@ -32,6 +32,7 @@ class HomeView extends StatelessWidget {
     return ViewModelBuilder<HomeViewModel>.reactive(
       viewModelBuilder: () => HomeViewModel(onTabChange, onYearChange, onListReloaderReady),
       onModelReady: (model) {},
+      disposeViewModel: false,
       builder: (context, model, child) {
         return ScreenTypeLayout(
           mobile: _HomeMobile(model),

@@ -30,6 +30,7 @@ class MainView extends StatelessWidget {
     return ViewModelBuilder<MainViewModel>.reactive(
       viewModelBuilder: () => MainViewModel(),
       onModelReady: (model) {},
+      disposeViewModel: false,
       builder: (context, model, child) {
         return ScreenTypeLayout(
           mobile: _MainMobile(model),

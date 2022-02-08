@@ -19,6 +19,7 @@ class _MainMobile extends StatelessWidget {
       bottomNavigationBar: buildBottomNavigationBar(tabs),
       body: IndexedStack(
         index: viewModel.activeIndex,
+        sizing: StackFit.expand,
         children: List.generate(tabs.length, (index) {
           return buildTabItem(
             item: tabs[index],
@@ -66,7 +67,6 @@ class _MainMobile extends StatelessWidget {
     required BuildContext context,
   }) {
     Widget screen;
-
     switch (item.routeName) {
       case SpRouteConfig.home:
         screen = HomeView(
@@ -87,17 +87,7 @@ class _MainMobile extends StatelessWidget {
         screen = SpRouteConfig.buildNotFound();
         break;
     }
-
-    return Navigator(
-      key: item.navigatorKey,
-      initialRoute: item.routeName,
-      onGenerateRoute: (setting) => SpRouteConfig(context: context, settings: setting).generate(),
-      onGenerateInitialRoutes: (NavigatorState navigator, String initialRouteName) {
-        return [
-          route(context, screen),
-        ];
-      },
-    );
+    return screen;
   }
 
   Route route(BuildContext context, Widget screen) {
