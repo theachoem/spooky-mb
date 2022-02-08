@@ -8,6 +8,7 @@ import 'package:spooky/core/file_managers/types/response_code.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
+import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/core/route/router.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/ui/views/detail/detail_view_model_helper.dart';
@@ -170,8 +171,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     App.of(context)?.showSpSnackBar(message);
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      context.router.popAndPush(
-        route.Detail(
+      Navigator.of(context).popAndPushNamed(
+        SpRouteConfig.detail,
+        arguments: DetailArgs(
           initialStory: currentStory,
           intialFlow: DetailViewFlow.update,
         ),
