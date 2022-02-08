@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/app_builder.dart';
 import 'package:spooky/core/storages/color_storage.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/theme/theme_constant.dart';
-import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/mixins/scaffold_messenger_mixin.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/route/router.dart' as route;
@@ -27,12 +27,12 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> with ScaffoldMessengerMixin {
   late route.AppRouter _appRouter;
-  late M3TextTheme textTheme;
+  late TextTheme textTheme;
 
   @override
   void initState() {
     _appRouter = route.AppRouter(App.navigatorKey);
-    textTheme = ThemeConstant.textThemeM3;
+    textTheme = ThemeConstant.defaultTextTheme;
     super.initState();
   }
 
@@ -53,7 +53,7 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
 
   Future<void> updateColor(Color? color) async {
     await ColorStorage().write(color?.value);
-    await ThemeConstant.initialize();
+    await M3Color.initialize();
     setState(() {});
   }
 }

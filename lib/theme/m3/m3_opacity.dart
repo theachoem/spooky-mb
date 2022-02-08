@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Used in extension [ColorExtension]
 class M3Opacity {
   final Color _baseColor;
   M3Opacity(this._baseColor);

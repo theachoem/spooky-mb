@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
-import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
@@ -72,7 +71,7 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
       "${lastReportedPage + 1}/${widget.pagesCount}",
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: M3TextTheme.of(context).bodySmall.copyWith(color: M3Color.of(context).onTertiary),
+      style: M3TextTheme.of(context).bodySmall?.copyWith(color: M3Color.of(context).onTertiary),
     );
   }
 }

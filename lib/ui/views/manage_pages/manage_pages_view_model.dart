@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 

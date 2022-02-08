@@ -53,12 +53,14 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     if (focusNodes.containsKey(currentIndex)) {
       return focusNodes[currentIndex];
     }
+    return null;
   }
 
   QuillController? get currentQuillController {
     if (quillControllers.containsKey(currentIndex)) {
       return quillControllers[currentIndex];
     }
+    return null;
   }
 
   DetailViewModel(
@@ -254,6 +256,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     if (result != null) {
       return story;
     }
+    return null;
   }
 
   bool hasAutosaved = false;

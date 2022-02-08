@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:rect_getter/rect_getter.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
-import 'package:spooky/utils/widgets/measure_size.dart';
 
 class SpPopMenuItem {
   final String title;

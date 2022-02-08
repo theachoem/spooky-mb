@@ -19,7 +19,7 @@ class _ThemeSettingMobile extends StatelessWidget {
             SpOverlayEntryButton(floatingBuilder: (context, callback) {
               return SpColorPicker(
                 blackWhite: SpColorPicker.getBlackWhite(context),
-                currentColor: ThemeConstant.currentPrimaryColor,
+                currentColor: M3Color.currentPrimaryColor,
                 onPickedColor: (color) async {
                   callback();
                   await Future.delayed(ConfigConstant.duration);
@@ -35,7 +35,7 @@ class _ThemeSettingMobile extends StatelessWidget {
                     size: ConfigConstant.iconSize2,
                     onPressed: null,
                     selected: true,
-                    color: ThemeConstant.currentPrimaryColor,
+                    color: M3Color.currentPrimaryColor,
                   ),
                 ),
                 onTap: () {

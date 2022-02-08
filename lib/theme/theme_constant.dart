@@ -1,68 +1,16 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/storages/color_storage.dart';
 import 'package:spooky/gen/fonts.gen.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
-import 'package:spooky/theme/m3/m3_text_theme.dart';
-import 'package:material_color_utilities/material_color_utilities.dart' as m3;
 
 class ThemeConstant {
-  static m3.Scheme? m3DarkScheme;
-  static m3.Scheme? m3LightScheme;
-
-  static Color currentPrimaryColor = fallbackColor;
   static const Color fallbackColor = Color(0xFF6750A4);
 
-  static Future<void> initialize() async {
-    int color = await ColorStorage().read() ?? fallbackColor.value;
-    currentPrimaryColor = Color(color);
-    m3DarkScheme = await getScheme(true, currentPrimaryColor);
-    m3LightScheme = await getScheme(false, currentPrimaryColor);
+  static const List<String> fontFamilyFallback = [FontFamily.quicksand];
+  static ColorScheme colorScheme(Brightness brightness) {
+    return brightness == Brightness.dark ? M3Color.m3DarkScheme! : M3Color.m3LightScheme!;
   }
 
-  static const List<String> fontFamilyFallback = [
-    FontFamily.quicksand,
-  ];
-
-  static Future<m3.Scheme> getScheme(bool isDarkMode, Color color) async {
-    return compute(
-      isDarkMode ? m3.Scheme.dark : m3.Scheme.light,
-      color.value,
-    );
-  }
-
-  static M3Color m3Color(Brightness brightness) {
-    m3.Scheme color = brightness == Brightness.dark ? m3DarkScheme! : m3LightScheme!;
-    return M3Color(
-      brightness: brightness,
-      primary: Color(color.primary),
-      onPrimary: Color(color.onPrimary),
-      primaryContainer: Color(color.primaryContainer),
-      onPrimaryContainer: Color(color.onPrimaryContainer),
-      secondary: Color(color.secondary),
-      onSecondary: Color(color.onSecondary),
-      secondaryContainer: Color(color.secondaryContainer),
-      onSecondaryContainer: Color(color.onSecondaryContainer),
-      tertiary: Color(color.tertiary),
-      onTertiary: Color(color.onTertiary),
-      tertiaryContainer: Color(color.tertiaryContainer),
-      onTertiaryContainer: Color(color.onTertiaryContainer),
-      error: Color(color.error),
-      onError: Color(color.onError),
-      errorContainer: Color(color.errorContainer),
-      onErrorContainer: Color(color.onErrorContainer),
-      background: Color(color.background),
-      onBackground: Color(color.onBackground),
-      surface: Color(color.surface),
-      onSurface: Color(color.onSurface),
-      surfaceVariant: Color(color.surfaceVariant),
-      onSurfaceVariant: Color(color.onSurfaceVariant),
-      outline: Color(color.outline),
-    );
-  }
-
-  static const M3TextTheme textThemeM3 = M3TextTheme(
-    fontFamilyFallback: fontFamilyFallback,
+  static const TextTheme defaultTextTheme = TextTheme(
     displayLarge: TextStyle(
       fontFamilyFallback: fontFamilyFallback,
       fontWeight: FontWeight.w400,

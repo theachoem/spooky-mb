@@ -16,6 +16,7 @@ abstract class EnumPreferenceStorage<T> {
     for (T e in values) {
       if ("$e" == result) return e;
     }
+    return null;
   }
 
   Future<void> remove() async {

@@ -30,6 +30,7 @@ abstract class SecurePreferenceStorage {
     } catch (e) {
       error = e;
     }
+    return null;
   }
 
   Future<void> write(String value) async {
@@ -71,5 +72,6 @@ abstract class SecurePreferenceStorage {
     if (read == null) return null;
     final json = jsonDecode(read);
     if (json is Map) return json;
+    return null;
   }
 }

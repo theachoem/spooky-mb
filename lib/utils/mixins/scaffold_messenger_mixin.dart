@@ -9,6 +9,7 @@ mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
     if (_context != null) {
       return ScaffoldMessenger.maybeOf(_context!);
     }
+    return null;
   }
 
   ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>? showSpMaterialBanner(String message) {

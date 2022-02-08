@@ -28,5 +28,6 @@ class InitialStoryTabStorage extends MapPreferenceStorage {
       dynamic value = map?[key];
       if (value is int) return value;
     }
+    return null;
   }
 }

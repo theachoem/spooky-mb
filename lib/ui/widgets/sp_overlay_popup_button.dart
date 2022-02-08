@@ -1,11 +1,8 @@
 import 'dart:math';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/overlay_render_box_mixin.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
-import 'package:spooky/utils/widgets/measure_size.dart';
 
 enum SpOverlayFloatingType {
   topToBottom,

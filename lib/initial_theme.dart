@@ -1,7 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/storages/theme_mode_storage.dart';
-import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:flutter/material.dart';
 
@@ -54,20 +53,18 @@ class _InitialThemeState extends State<InitialTheme> {
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: mode,
-      theme: buildThemeData(ThemeConstant.m3Color(Brightness.light)),
-      darkTheme: buildThemeData(ThemeConstant.m3Color(Brightness.dark)),
+      theme: buildThemeData(ThemeConstant.colorScheme(Brightness.light)),
+      darkTheme: buildThemeData(ThemeConstant.colorScheme(Brightness.dark)),
       home: App(themeMode: mode),
     );
   }
 
-  ThemeData buildThemeData(M3Color colors) {
+  ThemeData buildThemeData(ColorScheme colors) {
     return ThemeData(
       dialogBackgroundColor: colors.background,
       backgroundColor: colors.background,
       primaryColor: colors.primary,
-      // ignore: deprecated_member_use
-      accentColor: colors.primary,
-      colorScheme: colors.toColorScheme(),
+      colorScheme: colors,
     );
   }
 }

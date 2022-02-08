@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/theme/m3/m3_color.dart';
 
+/// Used in extension [ColorSchemeExtension]
 class M3ReadOnlyColor {
-  final M3Color _color;
+  final ColorScheme _color;
   M3ReadOnlyColor(this._color);
 
   Color? get surface1 {

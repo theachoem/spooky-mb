@@ -8,8 +8,8 @@ mixin StatefulMixin<T extends StatefulWidget> on State<T> {
   ThemeData get themeData => Theme.of(context);
   AppBarTheme get appBarTheme => Theme.of(context).appBarTheme;
 
-  M3Color? get m3Color => M3Color.of(context);
-  M3TextTheme get m3TextTheme => M3TextTheme.of(context);
+  ColorScheme? get m3Color => M3Color.of(context);
+  TextTheme get m3TextTheme => M3TextTheme.of(context);
 
   Size get screenSize => MediaQuery.of(context).size;
   EdgeInsets get viewInsets => MediaQuery.of(context).viewInsets;

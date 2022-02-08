@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/extensions/color_scheme_extension.dart';
 
 class ThemeConfig {
   final bool isDarkMode;
@@ -12,45 +12,48 @@ class ThemeConfig {
   ThemeConfig.dark() : isDarkMode = true;
   ThemeConfig.light() : isDarkMode = false;
 
-  M3Color get _light => ThemeConstant.m3Color(Brightness.light);
-  M3Color get _dark => ThemeConstant.m3Color(Brightness.dark);
+  ColorScheme get _light => ThemeConstant.colorScheme(Brightness.light);
+  ColorScheme get _dark => ThemeConstant.colorScheme(Brightness.dark);
 
   final Color splashColor = Colors.transparent;
+
   ThemeData get themeData {
-    M3Color m3Color = isDarkMode ? _dark : _light;
-    M3TextTheme m3TextTheme = buildTextTheme(m3Color);
+    ColorScheme colorScheme = isDarkMode ? _dark : _light;
+    TextTheme textTheme = buildTextTheme(colorScheme);
     return ThemeData(
       // platform: TargetPlatform.android,
-      primaryColor: m3Color.primary,
-      backgroundColor: m3Color.background,
-      scaffoldBackgroundColor: m3Color.background,
-      colorScheme: m3Color.toColorScheme(),
-      canvasColor: m3Color.readOnly.surface2,
-      toggleableActiveColor: m3Color.primary,
+      useMaterial3: true,
+      primaryColor: colorScheme.primary,
+      backgroundColor: colorScheme.background,
+      scaffoldBackgroundColor: colorScheme.background,
+      colorScheme: colorScheme,
+      canvasColor: colorScheme.readOnly.surface2,
+      toggleableActiveColor: colorScheme.primary,
       appBarTheme: AppBarTheme(
-        backgroundColor: m3Color.readOnly.surface2,
+        backgroundColor: colorScheme.readOnly.surface2,
         centerTitle: false,
         elevation: 0.0,
-        foregroundColor: m3Color.onSurface,
-        iconTheme: IconThemeData(color: m3Color.onSurface),
-        titleTextStyle: m3TextTheme.titleLarge.copyWith(color: m3Color.onSurface),
+        foregroundColor: colorScheme.onSurface,
+        iconTheme: IconThemeData(color: colorScheme.onSurface),
+        titleTextStyle: textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
       ),
-      floatingActionButtonTheme: FloatingActionButtonThemeData(extendedTextStyle: ThemeConstant.textThemeM3.labelLarge),
+      floatingActionButtonTheme:
+          FloatingActionButtonThemeData(extendedTextStyle: ThemeConstant.defaultTextTheme.labelLarge),
       tabBarTheme: TabBarTheme(
-        labelColor: m3Color.primary,
-        unselectedLabelColor: m3Color.onSurface,
-        labelStyle: m3TextTheme.titleSmall,
-        unselectedLabelStyle: m3TextTheme.titleSmall,
+        labelColor: colorScheme.primary,
+        unselectedLabelColor: colorScheme.onSurface,
+        labelStyle: textTheme.titleSmall,
+        unselectedLabelStyle: textTheme.titleSmall,
         indicator: UnderlineTabIndicator(
           borderSide: BorderSide(
-            color: m3Color.onPrimaryContainer,
+            color: colorScheme.onPrimaryContainer,
             width: 1,
           ),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: const Color(0xFF323232),
-        contentTextStyle: m3TextTheme.bodyMedium.copyWith(color: _light.background),
+        contentTextStyle: textTheme.bodyMedium?.copyWith(color: _light.background),
         actionTextColor: _dark.primary,
         shape: RoundedRectangleBorder(
           borderRadius: ConfigConstant.circlarRadius1,
@@ -60,16 +63,16 @@ class ThemeConfig {
       // splashFactory:
       // InkRipple.splashFactory, //
       // InkSplash.splashFactory,
-      indicatorColor: m3Color.onPrimary,
-      textTheme: m3TextTheme.toTextTheme(),
-      textButtonTheme: buildTextButtonStyle(m3Color),
+      indicatorColor: colorScheme.onPrimary,
+      textTheme: textTheme,
+      textButtonTheme: buildTextButtonStyle(colorScheme),
       cupertinoOverrideTheme: const CupertinoThemeData(
         textTheme: CupertinoTextThemeData(),
       ),
     );
   }
 
-  TextButtonThemeData buildTextButtonStyle(M3Color m3Color) {
+  TextButtonThemeData buildTextButtonStyle(ColorScheme m3Color) {
     return TextButtonThemeData(
       style: TextButton.styleFrom(
         onSurface: m3Color.onSurface,
@@ -105,11 +108,11 @@ class ThemeConfig {
     );
   }
 
-  M3TextTheme buildTextTheme(M3Color m3Color) {
-    return ThemeConstant.textThemeM3.apply(
-      bodyColor: m3Color.onSurface,
-      displayColor: m3Color.onSurface,
-      decorationColor: m3Color.onSurface,
+  TextTheme buildTextTheme(ColorScheme colorScheme) {
+    return ThemeConstant.defaultTextTheme.apply(
+      bodyColor: colorScheme.onSurface,
+      displayColor: colorScheme.onSurface,
+      decorationColor: colorScheme.onSurface,
     );
   }
 }

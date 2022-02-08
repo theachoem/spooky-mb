@@ -16,6 +16,7 @@ class AppHelper {
 
   static T? listItem<T>(Iterable<T> list, int index) {
     if (index >= 0 && list.length > index) return list.toList()[index];
+    return null;
   }
 
   static int? intFromDateTime({DateTime? dateTime}) {

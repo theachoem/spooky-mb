@@ -4,7 +4,6 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
-import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_chip.dart';
 import 'package:spooky/ui/widgets/sp_dimissable_background.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
@@ -37,6 +36,7 @@ class StoryList extends StatelessWidget {
         return stories![index];
       }
     }
+    return null;
   }
 
   @override

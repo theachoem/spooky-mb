@@ -1,12 +1,26 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/theme/m3/m3_read_only_color.dart';
+import 'package:spooky/core/storages/color_storage.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/utils/constants/util_colors_constant.dart';
 export '../../utils/extensions/color_extension.dart';
+export '../../utils/extensions/color_scheme_extension.dart';
 
 class M3Color {
-  static M3Color of(BuildContext context) {
-    return ThemeConstant.m3Color(Theme.of(context).colorScheme.brightness);
+  /// Use `M3Color.of(context)` instead of `Theme.of(context).colorScheme`
+  static ColorScheme of(BuildContext context) {
+    return Theme.of(context).colorScheme;
+  }
+
+  static Color currentPrimaryColor = ThemeConstant.fallbackColor;
+  static ColorScheme? m3DarkScheme;
+  static ColorScheme? m3LightScheme;
+
+  static Future<void> initialize() async {
+    int? color = await ColorStorage().read();
+    if (color != null) currentPrimaryColor = Color(color);
+    m3DarkScheme = await M3Color.getScheme(true, currentPrimaryColor);
+    m3LightScheme = await M3Color.getScheme(false, currentPrimaryColor);
   }
 
   static Map<int, Color> dayColorsOf(BuildContext context) {
@@ -15,86 +29,18 @@ class M3Color {
   }
 
   static Brightness keyboardAppearance(BuildContext context) {
-    return Theme.of(context).colorScheme.brightness == Brightness.dark ? Brightness.dark : Brightness.light;
+    return Theme.of(context).colorScheme.brightness;
   }
 
-  M3ReadOnlyColor get readOnly => M3ReadOnlyColor(this);
+  static ColorScheme darkSchemeFromSeed(Color seedColor) {
+    return ColorScheme.fromSeed(seedColor: seedColor, brightness: Brightness.dark);
+  }
 
-  final Brightness brightness;
+  static ColorScheme lightSchemeFromSeed(Color seedColor) {
+    return ColorScheme.fromSeed(seedColor: seedColor, brightness: Brightness.light);
+  }
 
-  final Color primary;
-  final Color onPrimary;
-  final Color primaryContainer;
-  final Color onPrimaryContainer;
-
-  final Color secondary;
-  final Color onSecondary;
-  final Color secondaryContainer;
-  final Color onSecondaryContainer;
-
-  final Color tertiary;
-  final Color onTertiary;
-  final Color tertiaryContainer;
-  final Color onTertiaryContainer;
-
-  final Color error;
-  final Color onError;
-  final Color errorContainer;
-  final Color onErrorContainer;
-
-  final Color background;
-  final Color onBackground;
-
-  final Color surface;
-  final Color onSurface;
-
-  final Color surfaceVariant;
-  final Color onSurfaceVariant;
-
-  final Color outline;
-
-  const M3Color({
-    required this.brightness,
-    required this.primary,
-    required this.onPrimary,
-    required this.primaryContainer,
-    required this.onPrimaryContainer,
-    required this.secondary,
-    required this.onSecondary,
-    required this.secondaryContainer,
-    required this.onSecondaryContainer,
-    required this.tertiary,
-    required this.onTertiary,
-    required this.tertiaryContainer,
-    required this.onTertiaryContainer,
-    required this.error,
-    required this.onError,
-    required this.errorContainer,
-    required this.onErrorContainer,
-    required this.background,
-    required this.onBackground,
-    required this.surface,
-    required this.onSurface,
-    required this.surfaceVariant,
-    required this.onSurfaceVariant,
-    required this.outline,
-  });
-
-  ColorScheme toColorScheme() {
-    return ColorScheme(
-      primary: primary,
-      primaryVariant: onPrimaryContainer,
-      onPrimary: onPrimary,
-      secondary: secondary,
-      secondaryVariant: onSecondaryContainer,
-      onSecondary: onSecondary,
-      surface: surface,
-      onSurface: onSurface,
-      background: background,
-      onBackground: onBackground,
-      error: error,
-      onError: onError,
-      brightness: brightness,
-    );
+  static Future<ColorScheme> getScheme(bool isDarkMode, Color color) async {
+    return compute(isDarkMode ? darkSchemeFromSeed : lightSchemeFromSeed, color);
   }
 }

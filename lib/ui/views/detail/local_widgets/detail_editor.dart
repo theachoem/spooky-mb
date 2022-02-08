@@ -73,6 +73,7 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Stack(
       children: [
         buildEditor(),

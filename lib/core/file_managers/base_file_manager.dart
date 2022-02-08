@@ -26,6 +26,7 @@ abstract class BaseFileManager {
         rethrow;
       }
     }
+    return null;
   }
 
   Future<void> ensureDirExist(Directory directory) async {

@@ -9,12 +9,14 @@ class DateFormatHelper {
     if (flutterTest) {
       return App.navigatorKey.currentContext;
     }
+    return null;
   }
 
   static String? get languageCode {
     if (!flutterTest) {
       return _context?.locale.languageCode ?? AppConstant.fallbackLocale.languageCode;
     }
+    return null;
   }
 
   static DateFormat toNameOfMonth({bool fullName = false}) {

@@ -36,7 +36,7 @@ dependencies:
 
   # local
   flutter_cupertino_datetime_picker: # ^3.0.0
-    path: ./flutter_cupertino_datetime_picker
+    path: ./packages/flutter_cupertino_datetime_picker
     # git: 
     #   url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git
     #   ref: master
@@ -46,7 +46,6 @@ dependencies:
       url: git@github.com:juniorise/page_turn.git
       ref: 2.0.2
   rect_getter: ^1.1.0
-  material_color_utilities: ^0.1.4
 
 dev_dependencies:
   flutter_test:

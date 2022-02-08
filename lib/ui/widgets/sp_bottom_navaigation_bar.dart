@@ -50,10 +50,10 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
     height += bottomHeight;
     height += 26;
 
-    M3Color? m3Colors = M3Color.of(context);
+    ColorScheme? colorScheme = M3Color.of(context);
 
     return Material(
-      color: m3Colors.readOnly.surface2,
+      color: colorScheme.readOnly.surface2,
       child: LayoutBuilder(builder: (context, constraints) {
         return Row(
           children: List.generate(widget.items.length, (index) {
@@ -63,7 +63,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
               bottomHeight,
               constraints,
               index,
-              m3Colors,
+              colorScheme,
               item,
               context,
             );
@@ -78,7 +78,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
     double bottomHeight,
     BoxConstraints constraints,
     int index,
-    M3Color? m3Colors,
+    ColorScheme? colorScheme,
     SpBottomNavigationBarItem item,
     BuildContext context,
   ) {
@@ -98,7 +98,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
             builder: (context, value, child) {
               return buildContent(
                 index,
-                m3Colors,
+                colorScheme,
                 item,
                 context,
                 constraints,
@@ -112,7 +112,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
 
   Widget buildContent(
     int index,
-    M3Color? m3Colors,
+    ColorScheme? colorScheme,
     SpBottomNavigationBarItem item,
     BuildContext context,
     BoxConstraints constraints,
@@ -128,21 +128,21 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
         const SizedBox(height: 12),
         Stack(
           children: [
-            if (index == 0) buildIndicator(transformX, m3Colors),
-            buildIcon(selected, item, m3Colors),
+            if (index == 0) buildIndicator(transformX, colorScheme),
+            buildIcon(selected, item, colorScheme),
           ],
         ),
         ConfigConstant.sizedBoxH0,
         Text(
           item.label,
-          style: M3TextTheme.of(context).labelMedium.copyWith(color: m3Colors?.onSecondaryContainer),
+          style: M3TextTheme.of(context).labelMedium?.copyWith(color: colorScheme?.onSecondaryContainer),
         ),
         const SizedBox(height: ConfigConstant.margin2),
       ],
     );
   }
 
-  Widget buildIcon(bool selected, SpBottomNavigationBarItem item, M3Color? m3Colors) {
+  Widget buildIcon(bool selected, SpBottomNavigationBarItem item, ColorScheme? colorScheme) {
     return Container(
       height: 32,
       padding: const EdgeInsets.symmetric(
@@ -157,18 +157,18 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
         firstChild: Icon(
           item.activeIconData,
           size: ConfigConstant.iconSize2,
-          color: m3Colors?.onSecondaryContainer,
+          color: colorScheme?.onSecondaryContainer,
         ),
         secondChild: Icon(
           item.iconData,
           size: ConfigConstant.iconSize2,
-          color: m3Colors?.onSurfaceVariant,
+          color: colorScheme?.onSurfaceVariant,
         ),
       ),
     );
   }
 
-  Widget buildIndicator(double transformX, M3Color? m3Colors) {
+  Widget buildIndicator(double transformX, ColorScheme? colorScheme) {
     return Center(
       child: AnimatedContainer(
         height: 32,
@@ -177,7 +177,7 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
         duration: ConfigConstant.fadeDuration,
         transform: Matrix4.identity()..translate(transformX, 0.0),
         decoration: BoxDecoration(
-          color: m3Colors?.secondaryContainer.withOpacity(1),
+          color: colorScheme?.secondaryContainer.withOpacity(1),
           borderRadius: BorderRadius.circular(20),
         ),
       ),

@@ -30,6 +30,7 @@ class StoryFileManager extends BaseFileManager {
         StoryModel story = StoryModel.fromJson(json);
         return story;
       }
+      return null;
     });
   }
 
@@ -57,6 +58,7 @@ class StoryFileManager extends BaseFileManager {
 
         return stories;
       }
+      return null;
     });
   }
 
