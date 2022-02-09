@@ -67,17 +67,15 @@ class HomeViewModel extends IndexTrackingViewModel {
     List<int> years = await fetchYears();
 
     List<AlertDialogAction<String>> actions = years.map((e) {
-      return AlertDialogAction(
-        key: "$e",
-        label: e.toString(),
-      );
-    }).toList();
-    actions.insert(0, const AlertDialogAction(key: "create", label: "Create new"));
+      return AlertDialogAction(key: "$e", label: e.toString());
+    }).toList()
+      ..insert(0, const AlertDialogAction(key: "create", label: "Create new"));
 
     String? selectedOption = await showConfirmationDialog(
       context: context,
       title: "Year",
       actions: actions,
+      initialSelectedActionKey: "$year",
     );
 
     if (selectedOption == null) return;
