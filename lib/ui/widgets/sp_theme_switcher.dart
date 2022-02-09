@@ -49,7 +49,7 @@ class SpThemeSwitcher extends StatelessWidget {
 
   Widget getThemeModeIcon(BuildContext context) {
     return SpAnimatedIcons(
-      duration: ConfigConstant.duration * 3,
+      duration: ConfigConstant.duration * 2.5,
       firstChild: Icon(Icons.dark_mode, color: color, key: ValueKey(Brightness.dark)),
       secondChild: Icon(Icons.light_mode, color: color, key: ValueKey(Brightness.light)),
       showFirst: Theme.of(context).colorScheme.brightness == Brightness.dark,
