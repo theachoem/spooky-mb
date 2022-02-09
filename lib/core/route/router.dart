@@ -4,6 +4,7 @@ import 'package:spooky/ui/views/archive/archive_view.dart';
 import 'package:spooky/ui/views/changes_history/changes_history_view.dart';
 import 'package:spooky/ui/views/content_reader/content_reader_view.dart';
 import 'package:spooky/ui/views/detail/detail_view.dart';
+import 'package:spooky/ui/views/developer_mode/developer_mode_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
@@ -15,6 +16,9 @@ import 'package:spooky/ui/views/theme_setting/theme_setting_view.dart';
 /// Use for generator route params only. use normal `Navigator.of(context)`
 @MaterialAutoRouter(
   routes: <AutoRoute>[
+    MaterialRoute(
+      page: DeveloperModeView,
+    ),
     MaterialRoute(
       page: NicknameCreatorView,
     ),

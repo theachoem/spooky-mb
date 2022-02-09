@@ -38,6 +38,13 @@ class _SettingMobile extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => LicensePage()));
               },
             ),
+            ListTile(
+              leading: const Icon(Icons.developer_mode),
+              title: const Text("Developer"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeveloperModeView()));
+              },
+            ),
           ],
         ).toList(),
       ),

@@ -8,6 +8,7 @@ class _ThemeSettingMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
+        leading: SpPopButton(),
         title: Text(
           "Theme",
           style: Theme.of(context).appBarTheme.titleTextStyle,

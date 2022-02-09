@@ -55,6 +55,11 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
     }
   }
 
+  void clearNickname() {
+    NicknameStorage().remove();
+    nicknameNotifier.value = "";
+  }
+
   @override
   void dispose() {
     nicknameNotifier.dispose();

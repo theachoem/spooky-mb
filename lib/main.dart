@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/storages/nickname_storage.dart';
@@ -26,11 +27,13 @@ void main() async {
   spAppIntiailized = await NicknameStorage().read() != null;
 
   runApp(
-    EasyLocalization(
-      supportedLocales: AppConstant.supportedLocales,
-      fallbackLocale: AppConstant.fallbackLocale,
-      path: 'assets/translations',
-      child: const InitialTheme(),
+    Phoenix(
+      child: EasyLocalization(
+        supportedLocales: AppConstant.supportedLocales,
+        fallbackLocale: AppConstant.fallbackLocale,
+        path: 'assets/translations',
+        child: const InitialTheme(),
+      ),
     ),
   );
 }

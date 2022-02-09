@@ -9,6 +9,11 @@ abstract class SharePreferenceStorage {
   }
 
   Future<void> write(dynamic value) async {
+    if (value == null) {
+      remove();
+      return;
+    }
+
     assert(value is int || value is String);
     final storage = await SharedPreferences.getInstance();
 
