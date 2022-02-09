@@ -6,6 +6,8 @@ import 'package:spooky/app.dart';
 import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/developer_mode/developer_mode_view.dart';
+import 'package:spooky/ui/widgets/sp_app_version.dart';
+import 'package:spooky/ui/widgets/sp_developer_visibility.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:stacked/stacked.dart';

@@ -30,6 +30,7 @@ class App extends StatefulWidget {
 
 class _AppState extends State<App> with ScaffoldMessengerMixin {
   late final ValueNotifier<String> nicknameNotifier;
+  late final ValueNotifier<bool> developerModeNotifier;
   late TextTheme textTheme;
 
   Color currentSeedColor = M3Color.currentPrimaryColor;
@@ -40,6 +41,7 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
   void initState() {
     textTheme = ThemeConfig.buildTextTheme();
     nicknameNotifier = ValueNotifier("");
+    developerModeNotifier = ValueNotifier(false);
     super.initState();
     NicknameStorage().read().then((value) {
       if (value is String) {
@@ -63,6 +65,7 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
   @override
   void dispose() {
     nicknameNotifier.dispose();
+    developerModeNotifier.dispose();
     super.dispose();
   }
 

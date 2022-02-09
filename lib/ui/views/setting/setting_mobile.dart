@@ -17,6 +17,15 @@ class _SettingMobile extends StatelessWidget {
         children: ListTile.divideTiles(
           context: context,
           tiles: [
+            SpDeveloperVisibility(
+              child: ListTile(
+                leading: const Icon(Icons.developer_mode),
+                title: const Text("Developer"),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeveloperModeView()));
+                },
+              ),
+            ),
             ListTile(
               leading: const Icon(Icons.archive),
               title: const Text("Archive"),
@@ -38,13 +47,7 @@ class _SettingMobile extends StatelessWidget {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => LicensePage()));
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.developer_mode),
-              title: const Text("Developer"),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeveloperModeView()));
-              },
-            ),
+            SpAppVersion(),
           ],
         ).toList(),
       ),

@@ -52,6 +52,7 @@ dependencies:
   flutter_phoenix: ^1.0.0
   restart_app: ^1.1.0
   package_info_plus: ^1.3.0
+  fluttertoast: ^8.0.8
 
 dev_dependencies:
   flutter_test:

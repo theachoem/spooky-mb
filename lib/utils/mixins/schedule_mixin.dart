@@ -1,5 +1,3 @@
-// ignore_for_file: unnecessary_this
-
 import 'dart:async';
 import 'package:flutter/material.dart';
 
@@ -13,8 +11,8 @@ mixin ScheduleMixin {
   }
 
   cancelTimer() {
-    if (this._timer != null && this._timer!.isActive) {
-      this._timer?.cancel();
+    if (_timer != null && _timer!.isActive) {
+      _timer?.cancel();
     }
   }
 }
