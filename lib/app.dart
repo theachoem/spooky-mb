@@ -48,6 +48,9 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
         nicknameNotifier.value = value;
       }
     });
+    nicknameNotifier.addListener(() {
+      spAppIntiailized = nicknameNotifier.value.trim().isNotEmpty;
+    });
   }
 
   void setNickname(String value) {
