@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spooky/core/storages/color_storage.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/utils/constants/util_colors_constant.dart';
@@ -42,5 +43,10 @@ class M3Color {
 
   static Future<ColorScheme> getScheme(bool isDarkMode, Color color) async {
     return compute(isDarkMode ? darkSchemeFromSeed : lightSchemeFromSeed, color);
+  }
+
+  static SystemUiOverlayStyle systemOverlayStyleFromBg(Color color) {
+    Brightness brightness = ThemeData.estimateBrightnessForColor(color);
+    return brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
   }
 }

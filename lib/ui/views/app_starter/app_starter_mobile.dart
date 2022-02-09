@@ -11,9 +11,16 @@ class _AppStarterMobile extends StatelessWidget {
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle.light,
+        systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).primary),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
+        actions: [
+          buildColorPickerButton(),
+          SpThemeSwitcher(
+            backgroundColor: Colors.transparent,
+            color: M3Color.of(context).onPrimary,
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.all(MediaQuery.of(context).padding.bottom + ConfigConstant.margin2),
@@ -53,7 +60,8 @@ class _AppStarterMobile extends StatelessWidget {
               onTap: () {
                 // TODO: convert to route name
                 Navigator.of(context).push(
-                  SpPageRoute.fadeThrough(
+                  SpPageRoute.sharedAxis(
+                    type: SharedAxisTransitionType.vertical,
                     builder: (context) {
                       return NicknameCreatorView();
                     },
@@ -65,5 +73,24 @@ class _AppStarterMobile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  SpOverlayEntryButton buildColorPickerButton() {
+    return SpOverlayEntryButton(floatingBuilder: (context, callback) {
+      return SpColorPicker(
+        blackWhite: SpColorPicker.getBlackWhite(context),
+        currentColor: M3Color.currentPrimaryColor,
+        onPickedColor: (color) async {
+          callback();
+          await Future.delayed(ConfigConstant.duration);
+          await App.of(context)?.updateColor(color);
+        },
+      );
+    }, childBuilder: (context, callback) {
+      return SpIconButton(
+        icon: Icon(Icons.palette, color: M3Color.of(context).onPrimary),
+        onPressed: callback,
+      );
+    });
   }
 }

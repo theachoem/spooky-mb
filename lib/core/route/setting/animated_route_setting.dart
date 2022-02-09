@@ -19,6 +19,7 @@ class AnimatedRouteSetting<T> extends BaseRouteSetting<T> {
       settings: settings?.copyWith(arguments: this),
       fillColor: fillColor,
       fullscreenDialog: fullscreenDialog,
+      type: SharedAxisTransitionType.vertical,
     );
   }
 }

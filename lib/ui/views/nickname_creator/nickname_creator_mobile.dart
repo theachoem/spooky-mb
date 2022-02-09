@@ -9,11 +9,15 @@ class _NicknameCreatorMobile extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
+      appBar: MorphingAppBar(
+        systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).background),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
         leading: SpPopButton(),
+        title: Text(
+          "So, what's your nickname?",
+          style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(color: M3Color.of(context).onBackground),
+        ),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -34,13 +38,11 @@ class _NicknameCreatorMobile extends StatelessWidget {
           ),
           ConfigConstant.sizedBoxH2,
           SpButton(
-            label: "Continue",
+            label: "Done",
             onTap: () {
               if (viewModel.nickname.trim().isNotEmpty) {
-                // TODO: move to route name
-                Navigator.of(context).push(SpPageRoute.sharedAxis(builder: (context) {
-                  return InitPickColorView();
-                }));
+                App.of(context)?.clearSpSnackBars();
+                Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
               } else {
                 App.of(context)?.showSpSnackBar("Nickname must not empty!");
               }

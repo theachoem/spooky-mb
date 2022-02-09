@@ -48,6 +48,7 @@ dependencies:
   rect_getter: ^1.1.0
   flutter_keyboard_visibility: ^5.1.1
   visibility_detector: ^0.2.2
+  hexagon: ^0.2.0-nullsafety.1
 
 dev_dependencies:
   flutter_test:

@@ -5,7 +5,6 @@ import 'package:spooky/core/storages/color_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/ui/views/app_starter/app_starter_view.dart';
-import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/utils/mixins/scaffold_messenger_mixin.dart';
 import 'package:flutter/material.dart';
 
