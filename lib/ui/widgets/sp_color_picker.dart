@@ -29,14 +29,21 @@ Map<int, List<int>> listToTreeMap(List<dynamic> _list, {int rowLength = 5}) {
   return map;
 }
 
+enum SpColorPickerLevel {
+  one,
+  two,
+}
+
 class SpColorPicker extends StatefulWidget {
   const SpColorPicker({
     Key? key,
     required this.onPickedColor,
     this.currentColor,
     required this.blackWhite,
+    this.level = SpColorPickerLevel.one,
   }) : super(key: key);
 
+  final SpColorPickerLevel level;
   final ValueChanged<Color> onPickedColor;
   final Color? currentColor;
   final ColorSwatch blackWhite;
@@ -105,23 +112,38 @@ class _SpColorPickerState extends State<SpColorPicker> {
     ];
   }
 
-  void onPickedColor(color) {
-    if (isColorChildPicking == false) {
-      setState(() {
-        isColorChildPicking = true;
-        _colorNormal = _getMaterialColorShades(color!);
-        _colorsMap = listToTreeMap(_colorNormal);
-      });
-      Future.delayed(Duration(milliseconds: 100)).then((value) {
-        if (widget.currentColor != null && _colorNormal.contains(widget.currentColor)) {
-          setState(() {
-            currentSelectedColor = widget.currentColor;
-          });
+  void onPickedColor(Color color) {
+    switch (widget.level) {
+      case SpColorPickerLevel.one:
+        if (color == widget.blackWhite) {
+          extendChildren(color);
+        } else {
+          widget.onPickedColor(color);
         }
-      });
-    } else {
-      widget.onPickedColor(color);
+        break;
+      case SpColorPickerLevel.two:
+        if (isColorChildPicking == false) {
+          extendChildren(color);
+        } else {
+          widget.onPickedColor(color);
+        }
+        break;
     }
+  }
+
+  void extendChildren(color) {
+    setState(() {
+      isColorChildPicking = true;
+      _colorNormal = _getMaterialColorShades(color!);
+      _colorsMap = listToTreeMap(_colorNormal);
+    });
+    Future.delayed(Duration(milliseconds: 100)).then((value) {
+      if (widget.currentColor != null && _colorNormal.contains(widget.currentColor)) {
+        setState(() {
+          currentSelectedColor = widget.currentColor;
+        });
+      }
+    });
   }
 
   @override

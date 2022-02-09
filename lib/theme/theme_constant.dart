@@ -3,7 +3,7 @@ import 'package:spooky/gen/fonts.gen.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 
 class ThemeConstant {
-  static const Color fallbackColor = Color(0xFF6750A4);
+  static const Color fallbackColor = Colors.indigo;
 
   static const List<String> fontFamilyFallback = [FontFamily.quicksand];
   static ColorScheme colorScheme(Brightness brightness) {
