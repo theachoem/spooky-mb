@@ -11,6 +11,7 @@ import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
+import 'package:spooky/utils/util_widgets/measure_size.dart';
 
 class StoryList extends StatelessWidget {
   const StoryList({
@@ -217,23 +218,26 @@ class StoryList extends StatelessWidget {
       images.addAll(QuillHelper.imagesFromJson(page));
     });
 
+    bool hasTitle = content.title?.trim().isNotEmpty == true;
     return Expanded(
       child: Stack(
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (content.title?.trim().isNotEmpty == true)
+              if (hasTitle)
                 Container(
-                  margin: const EdgeInsets.only(bottom: ConfigConstant.margin0),
+                  margin: const EdgeInsets.only(bottom: ConfigConstant.margin0, right: kToolbarHeight),
                   child: Text(
                     content.title ?? "content.title",
                     style: M3TextTheme.of(context).titleMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               if (content.plainText != null && content.plainText!.trim().length > 1)
                 Container(
-                  margin: const EdgeInsets.only(bottom: ConfigConstant.margin0),
+                  margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : kToolbarHeight),
                   child: Text(
                     content.plainText?.trim() ?? "content.plainText",
                     style: M3TextTheme.of(context).bodyMedium,
