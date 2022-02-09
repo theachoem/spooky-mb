@@ -1,6 +1,7 @@
 library setting_view;
 
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/route/sp_route_config.dart';
@@ -12,6 +13,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:spooky/ui/views/setting/setting_view_model.dart';
+import 'package:spooky/ui/widgets/sp_about.dart' as about;
 
 part 'setting_mobile.dart';
 part 'setting_tablet.dart';

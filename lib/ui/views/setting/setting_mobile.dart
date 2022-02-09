@@ -43,8 +43,20 @@ class _SettingMobile extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.privacy_tip),
               title: const Text("Licenses"),
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => LicensePage()));
+              onTap: () async {
+                PackageInfo info = await PackageInfo.fromPlatform();
+                about.showLicensePage(
+                  context: context,
+                  applicationIcon: Padding(
+                    padding: const EdgeInsets.all(ConfigConstant.margin2),
+                    child: FlutterLogo(
+                      size: ConfigConstant.iconSize4,
+                    ),
+                  ),
+                  applicationLegalese: "© ${DateTime.now().year} Juniorise",
+                  applicationVersion: info.version + "+" + info.buildNumber,
+                  applicationName: info.appName,
+                );
               },
             ),
             SpAppVersion(),
