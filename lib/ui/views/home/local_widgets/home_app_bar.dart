@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/ui/views/home/home_view_model.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_tab_bar.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
@@ -9,14 +10,12 @@ import 'package:spooky/utils/mixins/stateful_mixin.dart';
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
     Key? key,
-    required this.title,
     required this.subtitle,
     required this.tabLabels,
     required this.tabController,
     required this.viewModel,
   }) : super(key: key);
 
-  final String title;
   final String subtitle;
   final List<String> tabLabels;
   final TabController tabController;
@@ -61,10 +60,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                widget.title,
-                style: textTheme.headline6?.copyWith(color: colorScheme.primary),
-              ),
+              buildTitle(),
               ConfigConstant.sizedBoxH0,
               SpTapEffect(
                 onTap: () => widget.viewModel.pickYear(context),
@@ -77,6 +73,21 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
           ),
           buildThemeSwitcherButton()
         ],
+      ),
+    );
+  }
+
+  Widget buildTitle() {
+    return SpTapEffect(
+      onTap: () => widget.viewModel.openNicknameEditor(context),
+      child: ValueListenableBuilder<String?>(
+        valueListenable: App.of(context)!.nicknameNotifier,
+        builder: (context, value, child) {
+          return Text(
+            "Hello $value",
+            style: textTheme.headline6?.copyWith(color: colorScheme.primary),
+          );
+        },
       ),
     );
   }

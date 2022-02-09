@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
@@ -88,6 +89,22 @@ class HomeViewModel extends IndexTrackingViewModel {
     } else {
       int? year = int.tryParse(selectedOption);
       setYear(year);
+    }
+  }
+
+  Future<void> openNicknameEditor(BuildContext context) async {
+    List<String>? nickname = await showTextInputDialog(
+      context: context,
+      title: "What should I call you?",
+      textFields: [
+        DialogTextField(
+          initialText: App.of(context)?.nicknameNotifier.value,
+          keyboardType: TextInputType.name,
+        ),
+      ],
+    );
+    if (nickname?.isNotEmpty == true) {
+      App.of(context)?.setNickname(nickname![0]);
     }
   }
 }

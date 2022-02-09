@@ -6,14 +6,14 @@ import 'package:spooky/utils/constants/app_constant.dart';
 
 class DateFormatHelper {
   static BuildContext? get _context {
-    if (flutterTest) {
+    if (spFlutterTest) {
       return App.navigatorKey.currentContext;
     }
     return null;
   }
 
   static String? get languageCode {
-    if (!flutterTest) {
+    if (!spFlutterTest) {
       return _context?.locale.languageCode ?? AppConstant.fallbackLocale.languageCode;
     }
     return null;

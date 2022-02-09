@@ -77,7 +77,6 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
 
   Widget buildAppBar() {
     return HomeAppBar(
-      title: "Hello Sothea 📝",
       subtitle: "${widget.viewModel.year} - ${widget.viewModel.docsCount} Stories",
       tabController: controller,
       viewModel: widget.viewModel,

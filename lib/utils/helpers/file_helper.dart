@@ -11,7 +11,7 @@ class FileHelper {
   static Directory? _supportDirectory;
 
   static Future<void> initialFile() async {
-    if (flutterTest) {
+    if (spFlutterTest) {
       _directory = Directory.current;
       _supportDirectory = Directory.current;
     } else {
