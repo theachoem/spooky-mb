@@ -318,8 +318,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "3.0.0"
-      resolved-ref: e2ee701205ca02e026e7cbac0b81c232135c62d3
+      ref: "3.0.1"
+      resolved-ref: efe6bfa85fde6927ea8287dee8bfa08a0ecc7b1f
       url: "git@github.com:juniorise/flutter_cupertino_datetime_picker.git"
     source: git
     version: "3.0.0"

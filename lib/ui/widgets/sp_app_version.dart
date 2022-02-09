@@ -3,7 +3,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/services/toast_service.dart';
 import 'package:spooky/core/storages/developer_mode_storage.dart';
-import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 

@@ -27,7 +27,7 @@ dependencies:
   flutter_cupertino_datetime_picker:
     git:
       url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git
-      ref: 3.0.0
+      ref: 3.0.1
 
   page_turn:
     git:
