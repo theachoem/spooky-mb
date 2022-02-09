@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_tab_indicator.dart';
+import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 
 class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeTabBar({
@@ -34,29 +35,36 @@ class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
     TabController? tabController,
     BuildContext context,
   ) {
-    return TabBar(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      controller: tabController,
-      isScrollable: true,
-      onTap: (index) {},
-      overlayColor: MaterialStateProperty.all(Colors.transparent),
-      unselectedLabelColor: M3Color.of(context).primary,
-      labelColor: M3Color.of(context).onPrimary,
-      indicator: SpTabIndicator(
-        borderSide: BorderSide(
-          width: height,
-          color: M3Color.of(context).primary,
+    return Theme(
+      data: Theme.of(context).copyWith(highlightColor: Colors.transparent),
+      child: TabBar(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        controller: tabController,
+        isScrollable: true,
+        onTap: (index) {},
+        overlayColor: MaterialStateProperty.all(Colors.transparent),
+        unselectedLabelColor: M3Color.of(context).primary,
+        labelColor: M3Color.of(context).onPrimary,
+        indicator: SpTabIndicator(
+          borderSide: BorderSide(
+            width: height,
+            color: M3Color.of(context).primary,
+          ),
         ),
-      ),
-      tabs: List.generate(
-        tabs.length,
-        (index) {
-          final text = tabs[index];
-          return Container(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(text),
-          );
-        },
+        tabs: List.generate(
+          tabs.length,
+          (index) {
+            final text = tabs[index];
+            return SpTapEffect(
+              onTap: () => tabController?.animateTo(index),
+              behavior: HitTestBehavior.opaque,
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(text),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
