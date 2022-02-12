@@ -75,6 +75,7 @@ flutter:
     - assets/translations/
     - assets/fonts/Quicksand/OFL.txt
     - assets/sounds/
+    - assets/logo/logo.png
 
   fonts:
     - family: Quicksand

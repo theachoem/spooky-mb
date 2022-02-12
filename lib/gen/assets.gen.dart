@@ -13,6 +13,13 @@ class $AssetsFontsGen {
   $AssetsFontsQuicksandGen get quicksand => const $AssetsFontsQuicksandGen();
 }
 
+class $AssetsLogoGen {
+  const $AssetsLogoGen();
+
+  /// File path: assets/logo/logo.png
+  AssetGenImage get logo => const AssetGenImage('assets/logo/logo.png');
+}
+
 class $AssetsSoundsGen {
   const $AssetsSoundsGen();
 
@@ -68,6 +75,7 @@ class Assets {
   Assets._();
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsLogoGen logo = $AssetsLogoGen();
   static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }

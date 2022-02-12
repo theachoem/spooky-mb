@@ -3,6 +3,7 @@ library app_starter_view;
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/route/sp_page_route.dart';
+import 'package:spooky/gen/assets.gen.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/nickname_creator/nickname_creator_view.dart';

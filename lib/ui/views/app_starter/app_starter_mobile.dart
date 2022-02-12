@@ -23,9 +23,19 @@ class _AppStarterMobile extends StatelessWidget {
       body: Container(
         alignment: Alignment.center,
         padding: EdgeInsets.all(MediaQuery.of(context).padding.bottom + ConfigConstant.margin2),
-        child: Text(
-          'Spooky',
-          style: M3TextTheme.of(context).headlineLarge?.copyWith(color: M3Color.of(context).onPrimary),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ImageIcon(
+              Assets.logo.logo,
+              size: 150,
+              color: M3Color.of(context).onPrimary,
+            ),
+            Text(
+              'Spooky',
+              style: M3TextTheme.of(context).headlineLarge?.copyWith(color: M3Color.of(context).onPrimary),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: buildBottomNavigation(context),
@@ -67,24 +77,27 @@ class _AppStarterMobile extends StatelessWidget {
   }
 
   Widget buildPolicyAlert(BuildContext context) {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onPrimary),
-        children: [
-          TextSpan(text: "By tapping on “Sign up & Accept”, you agree to the "),
-          WidgetSpan(
-            child: SpTapEffect(
-              onTap: () {},
-              child: Text(
-                "Privacy Policy",
-                style: M3TextTheme.of(context)
-                    .bodyMedium
-                    ?.copyWith(color: M3Color.of(context).onPrimary, decoration: TextDecoration.underline),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+      child: RichText(
+        textAlign: TextAlign.center,
+        text: TextSpan(
+          style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onPrimary),
+          children: [
+            TextSpan(text: "By tapping on “Sign up & Accept”, you agree to the "),
+            WidgetSpan(
+              child: SpTapEffect(
+                onTap: () {},
+                child: Text(
+                  "Privacy Policy",
+                  style: M3TextTheme.of(context)
+                      .bodyMedium
+                      ?.copyWith(color: M3Color.of(context).onPrimary, decoration: TextDecoration.underline),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
