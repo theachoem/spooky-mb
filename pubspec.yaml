@@ -18,12 +18,7 @@ dependencies:
   stacked: ^2.2.8
   injectable: ^1.5.3
   json_annotation: ^4.4.0
-
-  flutter_quill: # ^3.9.10
-    git:
-      url: git@github.com:singerdmx/flutter-quill.git
-      ref: upgrade
-
+  flutter_quill: ^4.0.1
   flutter_cupertino_datetime_picker:
     git:
       url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git
