@@ -6,6 +6,7 @@ import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
+import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
 class SpThemeSwitcher extends StatefulWidget {
   const SpThemeSwitcher({
@@ -46,15 +47,28 @@ class SpThemeSwitcher extends StatefulWidget {
   }
 }
 
-class _SpThemeSwitcherState extends State<SpThemeSwitcher> {
+class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
   bool? _isDarkMode;
-  bool get isDarkMode => _isDarkMode ?? Theme.of(context).brightness == Brightness.dark;
+  bool get isDarkMode => _isDarkMode ?? isDarkModeFromTheme;
+  bool get isDarkModeFromTheme => Theme.of(context).brightness == Brightness.dark;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _isDarkMode = Theme.of(context).brightness == Brightness.dark;
+      _isDarkMode = isDarkModeFromTheme;
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant SpThemeSwitcher oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    scheduleAction(() {
+      if (_isDarkMode != isDarkModeFromTheme) {
+        setState(() {
+          _isDarkMode = isDarkModeFromTheme;
+        });
+      }
     });
   }
 
