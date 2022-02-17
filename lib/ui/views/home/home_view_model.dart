@@ -80,10 +80,11 @@ class HomeViewModel extends IndexTrackingViewModel {
 
     if (selectedOption == null) return;
     if (selectedOption == "create") {
-      SpDatePicker.showYearPicker(context, (date) {
+      DateTime? date = await SpDatePicker.showYearPicker(context);
+      if (date != null) {
         int year = date.year;
         setYear(year);
-      });
+      }
     } else {
       int? year = int.tryParse(selectedOption);
       setYear(year);

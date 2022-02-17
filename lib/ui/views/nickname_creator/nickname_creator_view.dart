@@ -7,7 +7,6 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/widgets/sp_button.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
-import 'package:spooky/ui/widgets/sp_pop_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';

@@ -49,21 +49,23 @@ class _MainMobile extends StatelessWidget {
   }
 
   Widget buildFloatingActionButton(BuildContext context) {
-    return SpShowHideAnimator(
-      shouldShow: viewModel.activeIndex == 0,
-      child: FloatingActionButton.extended(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        label: const Text("Add"),
-        icon: const Icon(Icons.edit),
-        onPressed: () {
-          SpDatePicker.showDayPicker(
-            context,
-            viewModel.date,
-            (date) => onConfirm(date, context),
-          );
-        },
-      ),
-    );
+    return Builder(builder: (context) {
+      return SpShowHideAnimator(
+        shouldShow: viewModel.activeIndex == 0,
+        child: FloatingActionButton.extended(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          label: const Text("Add"),
+          icon: const Icon(Icons.edit),
+          onPressed: () async {
+            DateTime? date = await SpDatePicker.showDayPicker(
+              context,
+              viewModel.date,
+            );
+            if (date != null) onConfirm(date, context);
+          },
+        ),
+      );
+    });
   }
 
   Widget buildTabItem({
