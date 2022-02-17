@@ -221,63 +221,69 @@ class StoryList extends StatelessWidget {
     return Expanded(
       child: Stack(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (hasTitle)
-                Container(
-                  margin: const EdgeInsets.only(bottom: ConfigConstant.margin0, right: kToolbarHeight),
-                  child: Text(
-                    content.title ?? "content.title",
-                    style: M3TextTheme.of(context).titleMedium,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+          SizedBox(
+            width: double.infinity,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (hasTitle)
+                  Container(
+                    margin: const EdgeInsets.only(bottom: ConfigConstant.margin0, right: kToolbarHeight),
+                    child: Text(
+                      content.title ?? "content.title",
+                      style: M3TextTheme.of(context).titleMedium,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-              if (content.plainText != null && content.plainText!.trim().length > 1)
-                Container(
-                  margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : kToolbarHeight),
-                  child: Text(
-                    content.plainText?.trim() ?? "content.plainText",
-                    style: M3TextTheme.of(context).bodyMedium,
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
+                if (content.plainText != null && content.plainText!.trim().length > 1)
+                  Container(
+                    margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : kToolbarHeight),
+                    child: Text(
+                      body(content),
+                      style: M3TextTheme.of(context).bodyMedium,
+                      maxLines: 5,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
-                ),
-              if (images.isNotEmpty)
-                SpChip(
-                  labelText: "${images.length} Images",
-                  avatar: CircleAvatar(
-                    backgroundImage: NetworkImage(images.first),
+                if (images.isNotEmpty)
+                  SpChip(
+                    labelText: "${images.length} Images",
+                    avatar: CircleAvatar(
+                      backgroundImage: NetworkImage(images.first),
+                    ),
                   ),
-                ),
-              if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages")
-            ],
+                if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages")
+              ],
+            ),
           ),
-          buildTime(context, content)
+          buildTime(context, story.changes.first),
         ],
       ),
     );
   }
 
+  String body(StoryContentModel content) {
+    String _body = content.plainText?.trim() ?? "content.plainText";
+    return _body;
+  }
+
   Widget buildTime(BuildContext context, StoryContentModel content) {
-    return Positioned(
-      right: 0,
-      child: Row(
-        children: [
-          if (content.starred == true)
-            Icon(
-              Icons.favorite,
-              size: ConfigConstant.iconSize1,
-              color: M3Color.of(context).error,
-            ),
-          ConfigConstant.sizedBoxW0,
-          Text(
-            DateFormatHelper.timeFormat().format(content.createdAt),
-            style: M3TextTheme.of(context).bodySmall,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        if (content.starred == true)
+          Icon(
+            Icons.favorite,
+            size: ConfigConstant.iconSize1,
+            color: M3Color.of(context).error,
           ),
-        ],
-      ),
+        ConfigConstant.sizedBoxW0,
+        Text(
+          DateFormatHelper.timeFormat().format(content.createdAt),
+          style: M3TextTheme.of(context).bodySmall,
+        ),
+      ],
     );
   }
 }
