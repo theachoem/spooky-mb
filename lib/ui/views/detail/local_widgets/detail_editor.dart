@@ -74,95 +74,23 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Stack(
-      children: [
-        buildEditor(),
-        buildToolbarPositioned(),
-      ],
-    );
-  }
-
-  Widget buildEditor() {
-    return Column(
-      children: [
-        Expanded(
-          child: ValueListenableBuilder<bool>(
-            valueListenable: widget.readOnlyNotifier,
-            builder: (context, value, child) {
-              return editor.QuillEditor(
-                controller: controller,
-                scrollController: scrollController,
-                scrollable: true,
-                focusNode: focusNode,
-                autoFocus: false,
-                readOnly: widget.readOnlyNotifier.value,
-                expands: false,
-                padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
-                  top: ConfigConstant.margin2 + 8.0,
-                  bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
-                ),
-                keyboardAppearance: M3Color.keyboardAppearance(context),
-              );
-            },
-          ),
-        ),
-        buildAdditionBottomPadding(),
-      ],
-    );
-  }
-
-  Widget buildToolbarPositioned() {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: ValueListenableBuilder<bool>(
-        valueListenable: widget.readOnlyNotifier,
-        child: AnimatedContainer(
-          curve: Curves.ease,
-          duration: ConfigConstant.duration * 2,
-          color: M3Color.of(context).readOnly.surface2,
-          padding: EdgeInsets.only(
-            bottom: bottomHeight + keyboardHeight + ConfigConstant.margin0,
-            top: ConfigConstant.margin0,
-          ),
-          child: buildQuillToolbar(),
-        ),
-        builder: (context, value, child) {
-          return IgnorePointer(
-            ignoring: value,
-            child: AnimatedOpacity(
-              opacity: value ? 0 : 1,
-              duration: ConfigConstant.fadeDuration,
-              curve: Curves.ease,
-              child: AnimatedContainer(
-                curve: Curves.ease,
-                duration: ConfigConstant.fadeDuration,
-                transform: Matrix4.identity()..translate(0.0, !value ? 0 : kToolbarHeight),
-                child: child,
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  editor.QuillToolbar buildQuillToolbar() {
-    return editor.QuillToolbar.basic(
-      controller: controller,
-      multiRowsDisplay: false,
-      toolbarIconSize: ConfigConstant.iconSize2,
-    );
-  }
-
-  // spacing when toolbar is opened
-  Widget buildAdditionBottomPadding() {
     return ValueListenableBuilder<bool>(
       valueListenable: widget.readOnlyNotifier,
       builder: (context, value, child) {
-        double height = value ? 0 : ConfigConstant.objectHeight1 + bottomHeight;
-        return SizedBox(height: height + keyboardHeight + 8.0);
+        return editor.QuillEditor(
+          controller: controller,
+          scrollController: scrollController,
+          scrollable: true,
+          focusNode: focusNode,
+          autoFocus: false,
+          readOnly: widget.readOnlyNotifier.value,
+          expands: false,
+          padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
+            top: ConfigConstant.margin2 + 8.0,
+            bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
+          ),
+          keyboardAppearance: M3Color.keyboardAppearance(context),
+        );
       },
     );
   }

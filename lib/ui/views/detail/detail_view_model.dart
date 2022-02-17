@@ -27,11 +27,14 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   late StoryContentModel currentContent;
   late PageController pageController;
 
-  late ValueNotifier<bool> readOnlyNotifier;
-  late TextEditingController titleController;
-  late StoryFileManager storyFileManager;
-  late ValueNotifier<bool> hasChangeNotifer;
+  late final ValueNotifier<bool> readOnlyNotifier;
+  late final TextEditingController titleController;
+  late final ValueNotifier<bool> hasChangeNotifer;
 
+  // has 1 or more controller inited
+  late final ValueNotifier<bool> quillControllerInitedNotifier;
+
+  StoryFileManager storyFileManager = StoryFileManager();
   Map<int, QuillController> quillControllers = {};
   Map<int, FocusNode> focusNodes = {};
 
@@ -55,6 +58,14 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     return null;
   }
 
+  void setQuillController(int index, QuillController controller) {
+    quillControllers[index] = controller;
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      if (quillControllerInitedNotifier.value) return;
+      quillControllerInitedNotifier.value = true;
+    });
+  }
+
   QuillController? get currentQuillController {
     if (quillControllers.containsKey(currentIndex)) {
       return quillControllers[currentIndex];
@@ -71,8 +82,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     pageController = PageController();
     readOnlyNotifier = ValueNotifier(flowType == DetailViewFlow.update);
     hasChangeNotifer = ValueNotifier(flowType == DetailViewFlow.create);
+    quillControllerInitedNotifier = ValueNotifier(false);
     titleController = TextEditingController(text: currentContent.title);
-    storyFileManager = StoryFileManager();
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       _setListener();
@@ -129,6 +140,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       readOnlyNotifier.dispose();
       titleController.dispose();
       hasChangeNotifer.dispose();
+      quillControllerInitedNotifier.dispose();
     });
     WidgetsBinding.instance?.removeObserver(this);
   }

@@ -10,6 +10,7 @@ class SpPageView extends StatefulWidget {
     required this.controller,
     required this.itemBuilder,
     required this.itemCount,
+    this.onPageChanged,
     this.physics,
   }) : super(key: key);
 
@@ -17,6 +18,7 @@ class SpPageView extends StatefulWidget {
   final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
   final ScrollPhysics? physics;
+  final ValueChanged<int>? onPageChanged;
 
   @override
   State<SpPageView> createState() => _SpPageViewState();
@@ -59,6 +61,7 @@ class _SpPageViewState extends State<SpPageView> with StatefulMixin {
       itemCount: widget.itemCount,
       controller: widget.controller,
       physics: widget.physics,
+      onPageChanged: widget.onPageChanged,
       itemBuilder: (context, itemIndex) {
         return FutureBuilder(
           future: initializeController(),

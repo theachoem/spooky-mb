@@ -14,6 +14,7 @@ class _DetailMobile extends StatelessWidget {
     return DetailScaffold(
       titleBuilder: () => buildTitle(),
       editorBuilder: () => buildEditor(context),
+      toolbarBuilder: () => DetailToolbars(viewModel: viewModel),
       readOnlyNotifier: readOnlyNotifier,
       hasChangeNotifer: hasChangeNotifer,
       onSave: (context) => viewModel.save(context),
@@ -32,9 +33,7 @@ class _DetailMobile extends StatelessWidget {
           document: documents[index],
           readOnlyNotifier: readOnlyNotifier,
           onChange: (_) => viewModel.onChange(_),
-          onControllerReady: (controller) {
-            viewModel.quillControllers[index] = controller;
-          },
+          onControllerReady: (controller) => viewModel.setQuillController(index, controller),
           onFocusNodeReady: (focusNode) {
             viewModel.focusNodes[index] = focusNode;
           },
