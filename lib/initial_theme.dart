@@ -39,13 +39,16 @@ class _InitialThemeState extends State<InitialTheme> {
     }
   }
 
-  void toggleThemeMode() {
+  bool toggleThemeMode() {
     if (mode == ThemeMode.system) {
       Brightness? brightness = SchedulerBinding.instance?.window.platformBrightness;
       bool isDarkMode = brightness == Brightness.dark;
       setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
+      return !isDarkMode;
     } else {
-      setThemeMode(mode == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark);
+      bool isDarkMode = mode == ThemeMode.dark;
+      setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
+      return !isDarkMode;
     }
   }
 
