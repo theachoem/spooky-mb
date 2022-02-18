@@ -23,12 +23,20 @@ class StoryFileManager extends BaseFileManager {
   }
 
   Future<StoryModel?> fetchOne(File file) async {
+    if (!file.path.endsWith(".json")) return null;
     return beforeExec<StoryModel?>(() async {
       String result = await file.readAsString();
-      dynamic json = jsonDecode(result);
-      if (json is Map<String, dynamic>) {
-        StoryModel story = StoryModel.fromJson(json);
-        return story;
+      // try catch to check if json is validated
+      try {
+        dynamic json = jsonDecode(result);
+        if (json is Map<String, dynamic>) {
+          StoryModel story = StoryModel.fromJson(json);
+          return story;
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print("ERROR: fetchOne: $e");
+        }
       }
       return null;
     });
