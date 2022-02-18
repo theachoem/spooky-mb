@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/core/file_managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/route/sp_route_config.dart';
@@ -7,6 +8,7 @@ import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/widgets/sp_chip.dart';
 import 'package:spooky/ui/widgets/sp_dimissable_background.dart';
+import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
@@ -151,25 +153,46 @@ class StoryList extends StatelessWidget {
     required StoryModel? previousStory,
     required BuildContext context,
   }) {
+    final ArchiveFileManager manager = ArchiveFileManager();
     Map<int, Color> dayColors = M3Color.dayColorsOf(context);
-    return SpTapEffect(
-      onTap: () {
-        DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlow.update);
-        Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
-          if (value is StoryModel && value != story) onRefresh();
-        });
+    return SpPopupMenuButton(
+      dxGetter: (double dx) => MediaQuery.of(context).size.width,
+      dyGetter: (double dy) => dy + ConfigConstant.margin2,
+      builder: (callback) {
+        return SpTapEffect(
+          onTap: () {
+            DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlow.update);
+            Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
+              if (value is StoryModel && value != story) onRefresh();
+            });
+          },
+          onLongPressed: manager.canArchive(story) ? () => callback() : null,
+          child: Padding(
+            padding: itemPadding,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildMonogram(context, story, previousStory, dayColors),
+                ConfigConstant.sizedBoxW2,
+                buildContent(context, story),
+              ],
+            ),
+          ),
+        );
       },
-      child: Padding(
-        padding: itemPadding,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildMonogram(context, story, previousStory, dayColors),
-            ConfigConstant.sizedBoxW2,
-            buildContent(context, story),
-          ],
-        ),
-      ),
+      items: (BuildContext context) {
+        return [
+          if (manager.canArchive(story))
+            SpPopMenuItem(
+              title: "Archive",
+              leadingIconData: Icons.archive,
+              onPressed: () async {
+                await manager.archiveDocument(story);
+                onRefresh();
+              },
+            ),
+        ];
+      },
     );
   }
 

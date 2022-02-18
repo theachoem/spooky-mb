@@ -27,6 +27,8 @@ class SpPopupMenuButton extends StatefulWidget {
     this.fromAppBar = false,
     this.dx,
     this.dy,
+    this.dxGetter,
+    this.dyGetter,
     this.onDimissed,
   }) : super(key: key);
 
@@ -34,6 +36,10 @@ class SpPopupMenuButton extends StatefulWidget {
   final Widget Function(void Function() callback) builder;
   final List<SpPopMenuItem> Function(BuildContext context) items;
   final void Function(SpPopMenuItem?)? onDimissed;
+
+  final double Function(double dx)? dxGetter;
+  final double Function(double dy)? dyGetter;
+
   final double? dx;
   final double? dy;
 
@@ -54,7 +60,6 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       RenderObject? renderObject = Overlay.of(context)?.context.findRenderObject();
       if (renderObject is RenderBox) overlay = renderObject;
-      setChildPosition();
     });
   }
 
@@ -70,6 +75,16 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
     );
   }
 
+  double dxGetter(double dx) {
+    if (widget.dxGetter != null) return widget.dxGetter!(dx);
+    return dx;
+  }
+
+  double dyGetter(double dy) {
+    if (widget.dyGetter != null) return widget.dyGetter!(dy);
+    return dy;
+  }
+
   void setChildPosition() {
     Rect? rect = RectGetter.getRectFromKey(globalKey);
     childPosition = rect?.center;
@@ -81,19 +96,27 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
         childPosition = const Offset(0, 0);
       }
     } else {
-      childPosition = Offset(widget.dx ?? childPosition!.dx, widget.dy ?? childPosition!.dy);
+      childPosition = Offset(widget.dx ?? dxGetter(childPosition!.dx), widget.dy ?? dyGetter(childPosition!.dy));
+      print(childPosition);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    if (widget.fromAppBar) {
+    if (widget.fromAppBar || widget.dxGetter != null || widget.dyGetter != null) {
       assert(widget.dx == null);
       assert(widget.dy == null);
     }
+
+    if (widget.dx != null || widget.dy != null) {
+      assert(widget.dyGetter == null);
+      assert(widget.dxGetter == null);
+    }
+
     return RectGetter(
       key: globalKey,
       child: widget.builder(() async {
+        setChildPosition();
         if (relativeRect == null) return;
         SpPopMenuItem? result = await showMenu<SpPopMenuItem>(
           context: context,
