@@ -1,4 +1,5 @@
 import 'package:auto_route/annotations.dart';
+import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/ui/views/app_starter/app_starter_view.dart';
 import 'package:spooky/ui/views/archive/archive_view.dart';
 import 'package:spooky/ui/views/changes_history/changes_history_view.dart';
@@ -7,6 +8,7 @@ import 'package:spooky/ui/views/detail/detail_view.dart';
 import 'package:spooky/ui/views/developer_mode/developer_mode_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
+import 'package:spooky/ui/views/init_pick_color/init_pick_color_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/ui/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/ui/views/nickname_creator/nickname_creator_view.dart';
@@ -18,49 +20,60 @@ import 'package:spooky/ui/views/theme_setting/theme_setting_view.dart';
   routes: <AutoRoute>[
     MaterialRoute(
       page: DeveloperModeView,
+      name: 'DeveloperMode',
+      path: SpRouteConfig.developerModeView,
     ),
     MaterialRoute(
       page: NicknameCreatorView,
+      name: 'NicknameCreator',
+      path: SpRouteConfig.nicknameCreator,
+    ),
+    MaterialRoute(
+      page: InitPickColorView,
+      name: 'InitPickColor',
+      path: SpRouteConfig.initPickColor,
     ),
     MaterialRoute(
       page: AppStarterView,
+      name: 'AppStarter',
+      path: SpRouteConfig.appStarter,
     ),
     MaterialRoute(
       page: ThemeSettingView,
       name: 'ThemeSetting',
-      path: '/theme-setting',
+      path: SpRouteConfig.themeSetting,
     ),
     MaterialRoute(
       page: ManagePagesView,
       name: 'ManagePages',
-      path: '/manage-pages',
+      path: SpRouteConfig.managePages,
       fullscreenDialog: true,
     ),
     MaterialRoute(
       page: ArchiveView,
       name: 'Archive',
-      path: '/archive',
+      path: SpRouteConfig.archive,
     ),
     MaterialRoute(
       page: ContentReaderView,
       name: 'ContentReader',
-      path: '/content-reader',
+      path: SpRouteConfig.contentReader,
       fullscreenDialog: true,
     ),
     MaterialRoute(
       page: ChangesHistoryView,
       name: 'ChangesHistory',
-      path: '/changes-sistory',
+      path: SpRouteConfig.changesHistory,
     ),
     MaterialRoute(
       name: 'Detail',
       page: DetailView,
-      path: '/detail',
+      path: SpRouteConfig.detail,
     ),
     MaterialRoute(
       name: 'Main',
       page: MainView,
-      path: '/',
+      path: SpRouteConfig.main,
       children: [
         MaterialRoute(
           name: 'Home',
