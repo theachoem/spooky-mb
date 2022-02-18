@@ -30,7 +30,7 @@ class StoryFileManager extends BaseFileManager {
       try {
         dynamic json = jsonDecode(result);
         if (json is Map<String, dynamic>) {
-          StoryModel story = StoryModel.fromJson(json);
+          StoryModel story = StoryModel.fromJson(json).copyWith(file: file);
           return story;
         }
       } catch (e) {

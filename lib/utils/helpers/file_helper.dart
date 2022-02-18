@@ -23,4 +23,12 @@ class FileHelper {
   static String fileName(String path) {
     return basename(path);
   }
+
+  static String removeDirectory(String path) {
+    return path.replaceFirst(directory.path, "").replaceFirst("/", "");
+  }
+
+  static String addDirectory(String path) {
+    return directory.path + "/" + path;
+  }
 }

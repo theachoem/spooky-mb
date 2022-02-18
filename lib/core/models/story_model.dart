@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/models/base_route_model.dart';
 import 'package:spooky/core/models/path_model.dart';
@@ -10,11 +12,13 @@ part 'story_model.g.dart';
 class StoryModel extends BaseRouteModel {
   final String id;
   final PathModel path;
+  final File? file;
   final List<StoryContentModel> changes;
 
   StoryModel({
     required this.id,
     required this.path,
+    this.file,
     this.changes = const [],
   });
 
@@ -38,11 +42,13 @@ class StoryModel extends BaseRouteModel {
   StoryModel copyWith({
     String? id,
     PathModel? path,
+    File? file,
     List<StoryContentModel>? changes,
   }) {
     return StoryModel(
       id: id ?? this.id,
       path: path ?? this.path,
+      file: file ?? this.file,
       changes: changes ?? this.changes,
     );
   }

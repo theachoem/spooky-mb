@@ -17,40 +17,48 @@ class _MainMobile extends StatelessWidget {
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
       bottomNavigationBar: buildBottomNavigationBar(tabs),
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) {
-          ScrollDirection direction = notification.direction;
-          double maxScrollExtent = notification.metrics.maxScrollExtent;
-
-          // some screen list view can't be scroll
-          if (maxScrollExtent == 0) {
-            if (direction == ScrollDirection.idle) {
-              return false;
-            } else {
-              viewModel.setShowBottomNav(true);
-              return true;
-            }
-          }
-
-          switch (notification.direction) {
-            case ScrollDirection.idle:
-              return true;
-            case ScrollDirection.forward:
-              WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-                viewModel.setShowBottomNav(true);
-              });
-              break;
-            case ScrollDirection.reverse:
-              WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-                viewModel.setShowBottomNav(false);
-              });
-              break;
-          }
-
-          return false;
-        },
+      body: buildPagesListener(
         child: buildPages(tabs, context),
       ),
+    );
+  }
+
+  Widget buildPagesListener({
+    required Widget child,
+  }) {
+    return NotificationListener<UserScrollNotification>(
+      child: child,
+      onNotification: (notification) {
+        ScrollDirection direction = notification.direction;
+        double maxScrollExtent = notification.metrics.maxScrollExtent;
+
+        // some screen list view can't be scroll
+        if (maxScrollExtent == 0) {
+          if (direction == ScrollDirection.idle) {
+            return false;
+          } else {
+            viewModel.setShowBottomNav(true);
+            return true;
+          }
+        }
+
+        switch (notification.direction) {
+          case ScrollDirection.idle:
+            return true;
+          case ScrollDirection.forward:
+            WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+              viewModel.setShowBottomNav(true);
+            });
+            break;
+          case ScrollDirection.reverse:
+            WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+              viewModel.setShowBottomNav(false);
+            });
+            break;
+        }
+
+        return false;
+      },
     );
   }
 

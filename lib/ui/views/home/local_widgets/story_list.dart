@@ -7,11 +7,13 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/widgets/sp_chip.dart';
+import 'package:spooky/ui/widgets/sp_developer_visibility.dart';
 import 'package:spooky/ui/widgets/sp_dimissable_background.dart';
 import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 
 class StoryList extends StatelessWidget {
@@ -276,7 +278,24 @@ class StoryList extends StatelessWidget {
                       backgroundImage: NetworkImage(images.first),
                     ),
                   ),
-                if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages")
+                if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
+                SpDeveloperVisibility(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4.0),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        FileHelper.fileName(story.file!.path),
+                        textAlign: TextAlign.end,
+                        style: M3TextTheme.of(context).labelSmall?.copyWith(
+                              fontWeight: FontWeight.normal,
+                              color: M3Color.of(context).primary,
+                              backgroundColor: M3Color.of(context).primaryContainer,
+                            ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
