@@ -39,7 +39,7 @@ class ArchiveFileManager extends BaseFileManager {
   }
 
   Future<FileSystemEntity?> deleteDocument(StoryModel story) async {
-    File fileToDelete = story.path.toFile();
+    File fileToDelete = story.file ?? story.path.toFile();
     return deleteFile(fileToDelete);
   }
 }

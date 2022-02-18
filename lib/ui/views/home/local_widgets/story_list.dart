@@ -71,7 +71,7 @@ class StoryList extends StatelessWidget {
               final StoryModel content = stories![index];
               if (onDelete != null && onUnarchive != null) {
                 return Dismissible(
-                  key: ValueKey(content.id),
+                  key: ValueKey(content.file?.path),
                   background: buildDismissibleBackground(
                     context: context,
                     iconData: Icons.delete,
@@ -167,12 +167,7 @@ class StoryList extends StatelessWidget {
       dyGetter: (double dy) => dy + ConfigConstant.margin2,
       builder: (callback) {
         return SpTapEffect(
-          onTap: () {
-            DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlow.update);
-            Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
-              if (value is StoryModel && value != story) onRefresh();
-            });
-          },
+          onTap: () => view(story, context),
           onLongPressed: () => callback(),
           child: Padding(
             padding: itemPadding,
@@ -189,6 +184,30 @@ class StoryList extends StatelessWidget {
       },
       items: (BuildContext context) {
         return [
+          if (!manager.canArchive(story))
+            SpPopMenuItem(
+              title: "View",
+              leadingIconData: Icons.chrome_reader_mode,
+              onPressed: () => view(story, context),
+            ),
+          if (manager.canArchive(story))
+            SpPopMenuItem(
+              title: "Change Date",
+              leadingIconData: Icons.folder_open,
+              onPressed: () async {
+                DateTime? pathDate = await SpDatePicker.showDatePicker(
+                  context,
+                  story.path.toDateTime(),
+                );
+
+                if (pathDate != null) {
+                  File? file = await storyManager.updatePathDate(story, pathDate);
+                  if (file != null) {
+                    onRefresh();
+                  }
+                }
+              },
+            ),
           if (manager.canArchive(story))
             SpPopMenuItem(
               title: "Archive",
@@ -200,26 +219,16 @@ class StoryList extends StatelessWidget {
                 }
               },
             ),
-          SpPopMenuItem(
-            title: "Change Date",
-            leadingIconData: Icons.folder_open,
-            onPressed: () async {
-              DateTime? pathDate = await SpDatePicker.showDatePicker(
-                context,
-                story.path.toDateTime(),
-              );
-
-              if (pathDate != null) {
-                File? file = await storyManager.updatePathDate(story, pathDate);
-                if (file != null) {
-                  onRefresh();
-                }
-              }
-            },
-          ),
         ];
       },
     );
+  }
+
+  void view(StoryModel story, BuildContext context) {
+    DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlow.update);
+    Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
+      if (value is StoryModel && value != story) onRefresh();
+    });
   }
 
   Widget buildMonogram(
