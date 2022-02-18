@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/route/router.gr.dart';
+import 'package:spooky/core/route/setting/animated_route_setting.dart';
 import 'package:spooky/core/route/setting/base_route_setting.dart';
 import 'package:spooky/core/route/setting/default_route_setting.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/archive/archive_view.dart';
 import 'package:spooky/ui/views/changes_history/changes_history_view.dart';
 import 'package:spooky/ui/views/content_reader/content_reader_view.dart';
 import 'package:spooky/ui/views/detail/detail_view.dart';
+import 'package:spooky/ui/views/developer_mode/developer_mode_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
+import 'package:spooky/ui/views/init_pick_color/init_pick_color_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/ui/views/manage_pages/manage_pages_view.dart';
+import 'package:spooky/ui/views/nickname_creator/nickname_creator_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/views/theme_setting/theme_setting_view.dart';
 
@@ -35,6 +40,10 @@ class SpRouteConfig {
   static const String home = '/home';
   static const String explore = '/explore';
   static const String setting = '/setting';
+  static const String appStarter = 'landing/app-starter';
+  static const String initPickColor = '/landing/init-pick-color';
+  static const String nicknameCreator = '/landing/nickname-creator';
+  static const String developerModeView = '/developer-mode-view';
   static const String notFound = '/not-found';
 
   bool hasRoute(String name) => routes.containsKey(name);
@@ -163,6 +172,24 @@ class SpRouteConfig {
         canSwap: false,
         fullscreenDialog: false,
         route: (context) => SettingView(),
+      ),
+      initPickColor: AnimatedRouteSetting(
+        title: "Pick Color",
+        fullscreenDialog: true,
+        fillColor: M3Color.of(context).background,
+        route: (context) => InitPickColorView(),
+      ),
+      nicknameCreator: AnimatedRouteSetting(
+        title: "Nickname Creator",
+        fullscreenDialog: true,
+        fillColor: M3Color.of(context).background,
+        route: (context) => NicknameCreatorView(),
+      ),
+      developerModeView: DefaultRouteSetting(
+        title: "Developer Mode",
+        canSwap: false,
+        fullscreenDialog: false,
+        route: (context) => DeveloperModeView(),
       ),
       notFound: DefaultRouteSetting(
         title: "Not Found",

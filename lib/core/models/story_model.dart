@@ -15,8 +15,10 @@ class StoryModel extends BaseRouteModel {
   // path model is sorted when display to user.
   // its date also display in monogram
   final PathModel path;
-  final File? file;
   final List<StoryContentModel> changes;
+
+  @JsonKey(ignore: true)
+  final File? file;
 
   StoryModel({
     required this.id,

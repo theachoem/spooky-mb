@@ -4,47 +4,28 @@ class _InitPickColorMobile extends StatelessWidget {
   final InitPickColorViewModel viewModel;
   const _InitPickColorMobile(this.viewModel);
 
-  static const Map<String, int> hexagonIndexsMap = {
-    // -2
-    "-2, 0": 0,
-    "-2, 1": 1,
-    "-2, 2": 2,
-    // -1
-    "-1, -1": 3,
-    "-1, 0": 4,
-    "-1, 1": 5,
-    "-1, 2": 6,
-    // 0
-    "0, -2": 7,
-    "0, -1": 8,
-    "0, 0": 9,
-    "0, 1": 10,
-    "0, 2": 11,
-    // 1
-    "1, -2": 12,
-    "1, -1": 13,
-    "1, 0": 14,
-    "1, 1": 15,
-    // 2
-    "2, -2": 16,
-    "2, -1": 17,
-    "2, 0": 18,
-  };
-
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
       appBar: MorphingAppBar(
+        systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).background),
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
-        leading: SpPopButton(),
+        automaticallyImplyLeading: false,
         title: Text(
           "What's your favorite color?",
           style: Theme.of(context).appBarTheme.titleTextStyle,
+          overflow: TextOverflow.fade,
         ),
         actions: [
           SpThemeSwitcher(backgroundColor: Colors.transparent),
+          SpIconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () => Navigator.maybePop(context),
+          ),
         ],
       ),
       bottomNavigationBar: Container(
@@ -59,62 +40,74 @@ class _InitPickColorMobile extends StatelessWidget {
           );
         }),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(ConfigConstant.margin2),
-          child: HexagonGrid(
-            hexType: HexagonType.FLAT,
-            depth: 2,
-            buildTile: (coordinates) {
-              return buildColorItem(coordinates, context);
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  HexagonWidgetBuilder buildColorItem(
-    Coordinates coordinates,
-    BuildContext context,
-  ) {
-    Color color = colorByCoordinates(coordinates);
-    bool selected = App.of(context)?.currentSeedColor == color;
-    return HexagonWidgetBuilder(
-      padding: 0.0,
-      cornerRadius: 0.0,
-      elevation: 0.0,
-      color: Colors.transparent,
-      child: SpTapEffect(
-        effects: [SpTapEffectType.scaleDown],
-        onTap: () => App.of(context)?.updateColor(color),
-        child: SizedBox(
-          width: double.infinity,
-          height: double.infinity,
-          child: AnimatedContainer(
-            duration: ConfigConstant.fadeDuration,
-            transform: Matrix4.identity()..scale(selected ? 1.1 : 1.0),
-            decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-            alignment: Alignment.center,
-            transformAlignment: Alignment.center,
-            child: SpCrossFade(
-              showFirst: selected,
-              secondChild: SizedBox(width: ConfigConstant.iconSize2),
-              firstChild: Icon(
-                Icons.check,
-                color: M3Color.of(context).onPrimary,
-                size: ConfigConstant.iconSize2,
+      body: FutureBuilder<int>(
+        future: Future.delayed(ConfigConstant.duration ~/ 2).then((value) => 1),
+        builder: (context, snapshot) {
+          var selected = snapshot.data == 1;
+          return AnimatedOpacity(
+            duration: ConfigConstant.duration,
+            opacity: selected ? 1.0 : 0.0,
+            child: AnimatedContainer(
+              curve: Curves.ease,
+              duration: ConfigConstant.fadeDuration,
+              transform: Matrix4.identity()..translate(0.0, selected ? 0.0 : 4.0),
+              child: buildColorPicker(
+                context,
+                width,
               ),
             ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildColorPicker(BuildContext context, double width) {
+    return Center(
+      child: Container(
+        decoration: BoxDecoration(
+          color: M3Color.of(context).background,
+          border: Border.all(color: M3Color.of(context).onBackground, width: 6.0),
+          shape: BoxShape.circle,
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(size(width) / 2),
+          child: BubbleLens(
+            duration: ConfigConstant.fadeDuration,
+            width: size(width),
+            height: size(width),
+            widgets: materialColors.map((color) {
+              bool selected = App.of(context)?.currentSeedColor == color;
+              return SpTapEffect(
+                effects: [SpTapEffectType.scaleDown],
+                onTap: () => App.of(context)?.updateColor(color),
+                child: AnimatedContainer(
+                  duration: ConfigConstant.fadeDuration,
+                  decoration: BoxDecoration(
+                    color: color,
+                    shape: BoxShape.circle,
+                    gradient: LinearGradient(colors: [color, color.lighten()]),
+                  ),
+                  alignment: Alignment.center,
+                  transformAlignment: Alignment.center,
+                  child: SpCrossFade(
+                    showFirst: selected,
+                    duration: ConfigConstant.duration * 3,
+                    secondChild: SizedBox(width: ConfigConstant.iconSize3),
+                    firstChild: Icon(
+                      Icons.check,
+                      color: M3Color.of(context).onPrimary,
+                      size: ConfigConstant.iconSize3,
+                    ),
+                  ),
+                ),
+              );
+            }).toList(),
           ),
         ),
       ),
     );
   }
 
-  Color colorByCoordinates(Coordinates coordinates) {
-    String _key = "${coordinates.q}, ${coordinates.r}";
-    Color color = hexagonIndexsMap.containsKey(_key) ? materialColors[hexagonIndexsMap[_key]!] : Colors.transparent;
-    return color;
-  }
+  double size(double width) => min(width - 100, 250);
 }

@@ -12,13 +12,6 @@ class _AppStarterMobile extends StatelessWidget {
         systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).primary),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
-        actions: [
-          buildColorPickerButton(),
-          SpThemeSwitcher(
-            backgroundColor: Colors.transparent,
-            color: M3Color.of(context).onPrimary,
-          ),
-        ],
       ),
       body: Container(
         alignment: Alignment.center,
@@ -53,15 +46,7 @@ class _AppStarterMobile extends StatelessWidget {
       backgroundColor: M3Color.of(context).onPrimary,
       foregroundColor: M3Color.of(context).primary,
       onTap: () {
-        // TODO: convert to route name
-        Navigator.of(context).push(
-          SpPageRoute.sharedAxis(
-            type: SharedAxisTransitionType.vertical,
-            builder: (context) {
-              return NicknameCreatorView();
-            },
-          ),
-        );
+        Navigator.of(context).pushNamed(SpRouteConfig.nicknameCreator);
       },
     );
   }
