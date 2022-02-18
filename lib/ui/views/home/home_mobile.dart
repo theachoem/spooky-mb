@@ -39,6 +39,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
+        controller: PrimaryScrollController.of(context),
         headerSliverBuilder: headerSliverBuilder,
         body: SpTabView(
           controller: controller,
@@ -80,6 +81,15 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       subtitle: "${widget.viewModel.year} - ${widget.viewModel.docsCount} Stories",
       tabController: controller,
       viewModel: widget.viewModel,
+      onTap: (index) {
+        // if (index == controller.index) {
+        //   PrimaryScrollController.of(context)?.animateTo(
+        //     0,
+        //     duration: ConfigConstant.duration * 5,
+        //     curve: Curves.easeInOutQuad,
+        //   );
+        // }
+      },
       tabLabels: List.generate(
         12,
         (index) {

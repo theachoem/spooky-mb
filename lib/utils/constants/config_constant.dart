@@ -189,4 +189,7 @@ class ConfigConstant {
   /// sizedBoxW2 = SizedBox(width: 16.0);
   /// ```
   static const SizedBox sizedBoxW2 = SizedBox(width: 16.0);
+
+  /// scrollToTopCurve curve animation.
+  static const Curve scrollToTopCurve = Curves.fastLinearToSlowEaseIn;
 }

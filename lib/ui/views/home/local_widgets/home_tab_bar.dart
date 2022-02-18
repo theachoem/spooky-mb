@@ -9,6 +9,7 @@ class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
     required this.height,
     required this.tabs,
     this.controller,
+    this.onTap,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
   }) : super(key: key);
 
@@ -16,6 +17,7 @@ class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
   final List<String> tabs;
   final TabController? controller;
   final EdgeInsets padding;
+  final ValueChanged<int>? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         controller: tabController,
         isScrollable: true,
-        onTap: (index) {},
+        onTap: onTap,
         overlayColor: MaterialStateProperty.all(Colors.transparent),
         unselectedLabelColor: M3Color.of(context).primary,
         labelColor: M3Color.of(context).onPrimary,
@@ -56,7 +58,10 @@ class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
           (index) {
             final text = tabs[index];
             return SpTapEffect(
-              onTap: () => tabController?.animateTo(index),
+              onTap: () {
+                if (onTap != null) onTap!(index);
+                tabController?.animateTo(index);
+              },
               behavior: HitTestBehavior.opaque,
               child: Container(
                 padding: const EdgeInsets.all(8.0),

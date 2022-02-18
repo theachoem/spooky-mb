@@ -14,12 +14,14 @@ class HomeAppBar extends StatefulWidget {
     required this.tabLabels,
     required this.tabController,
     required this.viewModel,
+    this.onTap,
   }) : super(key: key);
 
   final String subtitle;
   final List<String> tabLabels;
   final TabController tabController;
   final HomeViewModel viewModel;
+  final ValueChanged<int>? onTap;
 
   @override
   State<HomeAppBar> createState() => _HomeAppBarState();
@@ -36,6 +38,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin {
       expandedHeight: kToolbarHeight + 48.0 + 32.0 + 16.0,
       bottom: HomeTabBar(
         height: 40,
+        onTap: widget.onTap,
         controller: widget.tabController,
         tabs: List.generate(
           widget.tabLabels.length,

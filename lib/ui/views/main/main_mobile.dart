@@ -115,20 +115,37 @@ class _MainMobile extends StatelessWidget {
   }
 
   Widget buildFloatingActionButton(BuildContext context) {
-    return SpShowHideAnimator(
-      shouldShow: viewModel.activeIndex == 0,
-      child: FloatingActionButton.extended(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        label: const Text("Add"),
-        icon: const Icon(Icons.edit),
-        onPressed: () async {
-          DateTime? date = await SpDatePicker.showDayPicker(
-            context,
-            viewModel.date,
-          );
-          if (date != null) onConfirm(date, context);
-        },
-      ),
+    return ValueListenableBuilder<bool>(
+      valueListenable: viewModel.shouldShowBottomNavNotifier,
+      builder: (context, allowToAdd, child) {
+        return SpShowHideAnimator(
+          shouldShow: viewModel.activeIndex == 0,
+          child: FloatingActionButton.extended(
+            backgroundColor: allowToAdd ? null : M3Color.of(context).primary,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            label: SpCrossFade(
+              firstChild: const Text("Add"),
+              secondChild: const Text("Scroll to Top"),
+              showFirst: allowToAdd,
+            ),
+            icon: SpAnimatedIcons(
+              firstChild: const Icon(Icons.edit, key: ValueKey(Icons.edit)),
+              secondChild: const Icon(Icons.arrow_upward, key: ValueKey(Icons.arrow_upward)),
+              showFirst: allowToAdd,
+            ),
+            onPressed: () async {
+              if (!allowToAdd) {
+                await PrimaryScrollController.of(context)
+                    ?.animateTo(0.0, duration: ConfigConstant.duration, curve: ConfigConstant.scrollToTopCurve);
+                viewModel.shouldShowBottomNavNotifier.value = true;
+              } else {
+                DateTime? date = await SpDatePicker.showDayPicker(context, viewModel.date);
+                if (date != null) onConfirm(date, context);
+              }
+            },
+          ),
+        );
+      },
     );
   }
 
