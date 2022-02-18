@@ -5,15 +5,17 @@ import 'package:spooky/utils/mixins/stateful_mixin.dart';
 
 class SpPopMenuItem {
   final String title;
-  final void Function() onPressed;
+  final String? subtitle;
+  final void Function()? onPressed;
   final TextStyle? titleStyle;
   IconData? leadingIconData;
 
   SpPopMenuItem({
     required this.title,
-    required this.onPressed,
+    this.onPressed,
     this.titleStyle,
     this.leadingIconData,
+    this.subtitle,
   });
 }
 
@@ -100,7 +102,7 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
           shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
           items: widget.items(context).map((e) => buildItem(e)).toList(),
         );
-        result?.onPressed();
+        if (result?.onPressed != null) result!.onPressed!();
         if (widget.onDimissed != null) widget.onDimissed!(result);
       }),
     );
@@ -112,8 +114,15 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
       onTap: () => Navigator.maybePop(context),
       value: e,
       child: ListTile(
-        leading: e.leadingIconData != null ? Icon(e.leadingIconData, color: e.titleStyle?.color) : null,
+        leading: e.leadingIconData != null
+            ? Container(
+                width: 40,
+                alignment: Alignment.center,
+                child: Icon(e.leadingIconData, color: e.titleStyle?.color),
+              )
+            : null,
         title: Text(e.title, textAlign: TextAlign.left),
+        subtitle: e.subtitle != null ? Text(e.subtitle!, textAlign: TextAlign.left) : null,
       ),
     );
   }

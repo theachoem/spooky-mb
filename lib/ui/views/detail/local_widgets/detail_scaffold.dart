@@ -106,6 +106,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
         PageIndicatorButton(
           controller: widget.viewModel.pageController,
           pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
+          viewModel: widget.viewModel,
         ),
         buildMoreVertButton(),
       ],
