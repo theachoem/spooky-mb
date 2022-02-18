@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_managers/archive_file_manager.dart';
+import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/route/sp_route_config.dart';
@@ -15,6 +17,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
+import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 
 class StoryList extends StatelessWidget {
   const StoryList({
@@ -156,6 +159,8 @@ class StoryList extends StatelessWidget {
     required BuildContext context,
   }) {
     final ArchiveFileManager manager = ArchiveFileManager();
+    final StoryFileManager storyManager = StoryFileManager();
+
     Map<int, Color> dayColors = M3Color.dayColorsOf(context);
     return SpPopupMenuButton(
       dxGetter: (double dx) => MediaQuery.of(context).size.width,
@@ -168,7 +173,7 @@ class StoryList extends StatelessWidget {
               if (value is StoryModel && value != story) onRefresh();
             });
           },
-          onLongPressed: manager.canArchive(story) ? () => callback() : null,
+          onLongPressed: () => callback(),
           child: Padding(
             padding: itemPadding,
             child: Row(
@@ -189,10 +194,29 @@ class StoryList extends StatelessWidget {
               title: "Archive",
               leadingIconData: Icons.archive,
               onPressed: () async {
-                await manager.archiveDocument(story);
-                onRefresh();
+                File? file = await manager.archiveDocument(story);
+                if (file != null) {
+                  onRefresh();
+                }
               },
             ),
+          SpPopMenuItem(
+            title: "Change Date",
+            leadingIconData: Icons.folder_open,
+            onPressed: () async {
+              DateTime? pathDate = await SpDatePicker.showDatePicker(
+                context,
+                story.path.toDateTime(),
+              );
+
+              if (pathDate != null) {
+                File? file = await storyManager.updatePathDate(story, pathDate);
+                if (file != null) {
+                  onRefresh();
+                }
+              }
+            },
+          ),
         ];
       },
     );
@@ -271,31 +295,7 @@ class StoryList extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                if (images.isNotEmpty)
-                  SpChip(
-                    labelText: "${images.length} Images",
-                    avatar: CircleAvatar(
-                      backgroundImage: NetworkImage(images.first),
-                    ),
-                  ),
-                if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
-                SpDeveloperVisibility(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4.0),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        FileHelper.fileName(story.file!.path),
-                        textAlign: TextAlign.end,
-                        style: M3TextTheme.of(context).labelSmall?.copyWith(
-                              fontWeight: FontWeight.normal,
-                              color: M3Color.of(context).primary,
-                              backgroundColor: M3Color.of(context).primaryContainer,
-                            ),
-                      ),
-                    ),
-                  ),
-                ),
+                buildChips(images, content, story),
               ],
             ),
           ),
@@ -303,6 +303,41 @@ class StoryList extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Wrap buildChips(Set<String> images, StoryContentModel content, StoryModel story) {
+    return Wrap(
+      children: getChipList(images, content, story).map(
+        (child) {
+          return Padding(
+            padding: const EdgeInsets.only(right: 4.0),
+            child: child,
+          );
+        },
+      ).toList(),
+    );
+  }
+
+  List<Widget> getChipList(Set<String> images, StoryContentModel content, StoryModel story) {
+    return [
+      if (images.isNotEmpty)
+        SpChip(
+          labelText: "${images.length} Images",
+          avatar: CircleAvatar(
+            backgroundImage: NetworkImage(images.first),
+          ),
+        ),
+      if ((content.pages?.length ?? 0) > 1)
+        SpChip(
+          labelText: "${content.pages?.length} Pages",
+        ),
+      SpDeveloperVisibility(
+        child: SpChip(
+          avatar: Icon(Icons.developer_board, size: ConfigConstant.iconSize1),
+          labelText: FileHelper.fileName(story.file!.path),
+        ),
+      ),
+    ];
   }
 
   String body(StoryContentModel content) {

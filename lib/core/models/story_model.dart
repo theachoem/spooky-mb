@@ -11,6 +11,9 @@ part 'story_model.g.dart';
 @JsonSerializable()
 class StoryModel extends BaseRouteModel {
   final String id;
+
+  // path model is sorted when display to user.
+  // its date also display in monogram
   final PathModel path;
   final File? file;
   final List<StoryContentModel> changes;

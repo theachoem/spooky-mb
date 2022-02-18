@@ -97,7 +97,6 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
       }
     } else {
       childPosition = Offset(widget.dx ?? dxGetter(childPosition!.dx), widget.dy ?? dyGetter(childPosition!.dy));
-      print(childPosition);
     }
   }
 

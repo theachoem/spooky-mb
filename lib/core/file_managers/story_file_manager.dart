@@ -14,6 +14,29 @@ class StoryFileManager extends BaseFileManager {
     return File(path);
   }
 
+  Future<File?> updatePathDate(
+    StoryModel story,
+    DateTime newDatePath,
+  ) async {
+    File fileToMove = story.file ?? story.path.toFile();
+
+    PathModel newPath = PathModel.fromDateTime(newDatePath).copyWith(
+      filePath: story.path.filePath,
+      fileName: story.path.fileName,
+    );
+
+    File? newFile = await moveFile(
+      fileToMove,
+      newPath.toFullPath(),
+    );
+
+    if (newFile != null) {
+      return write(newFile, story.copyWith(path: newPath));
+    }
+
+    return null;
+  }
+
   Future<File?> writeStory(StoryModel content) async {
     File file = modelToFile(content);
     if (kDebugMode) {

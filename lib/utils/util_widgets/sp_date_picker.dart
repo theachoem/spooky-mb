@@ -54,6 +54,7 @@ class SpDatePicker {
     return showPicker(
       context: context,
       dateFormat: 'yyyy-MM-dd',
+      initialDate: initialDate,
     );
   }
 
