@@ -1,7 +1,6 @@
 import 'dart:async';
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:spooky/ui/widgets/sp_page_view/sp_page_view_datas.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 
 class SpPageView extends StatefulWidget {
@@ -71,39 +70,18 @@ class _SpPageViewState extends State<SpPageView> with StatefulMixin {
               valueListenable: offsetNotifier,
               child: widget.itemBuilder(context, itemIndex),
               builder: (context, value, child) {
-                int currentIndex = offsetNotifier.value ~/ width;
-                bool isCurrentChild = itemIndex == currentIndex;
-
-                double translateX1 = 0;
-                double? translateX2 = 0;
-                double? opacity = 1;
-
-                double offset = 0;
-                offset = (controller.page ?? 0) % 1;
-
-                bool inScope = itemIndex <= currentIndex + 1 && itemIndex >= currentIndex;
-
-                if (inScope) {
-                  if (isCurrentChild) {
-                    translateX1 = width * offset;
-                    opacity = lerpDouble(1, -1, offset);
-                    translateX2 = lerpDouble(0, -50, offset);
-                  } else {
-                    translateX1 = width * (offset - 1);
-                    opacity = lerpDouble(-1, 1, offset);
-                    translateX2 = lerpDouble(50, 0, offset);
-                  }
-                }
-
-                if (opacity! < 0) opacity = 0;
-                if (opacity > 1) opacity = 1;
-
+                SpPageViewDatas datas = SpPageViewDatas.fromOffset(
+                  pageOffset: offsetNotifier.value,
+                  itemIndex: itemIndex,
+                  controller: controller,
+                  width: width,
+                );
                 return Transform(
                   transform: Matrix4.identity()
-                    ..translate(translateX1)
-                    ..translate(translateX2),
+                    ..translate(datas.translateX1)
+                    ..translate(datas.translateX2),
                   child: Opacity(
-                    opacity: opacity,
+                    opacity: datas.opacity,
                     child: child,
                   ),
                 );

@@ -1,7 +1,6 @@
 library main_view;
 
 import 'package:flutter/rendering.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/route/sp_route_config.dart';
