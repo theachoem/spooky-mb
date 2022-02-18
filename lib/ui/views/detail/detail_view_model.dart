@@ -206,7 +206,13 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     quillControllers.clear();
     await save(context, force: true, shouldRefresh: false, shouldShowSnackbar: false);
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      App.navigatorKey.currentState?.maybePop();
+      Navigator.of(context).pushReplacementNamed(
+        SpRouteConfig.detail,
+        arguments: DetailArgs(
+          initialStory: currentStory,
+          intialFlow: DetailViewFlow.update,
+        ),
+      );
     });
   }
 

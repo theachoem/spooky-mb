@@ -38,7 +38,7 @@ class StoryFileManager extends BaseFileManager {
   }
 
   Future<File?> writeStory(StoryModel content) async {
-    File file = modelToFile(content);
+    File file = content.file ?? modelToFile(content);
     if (kDebugMode) {
       print(file.absolute.path);
     }
