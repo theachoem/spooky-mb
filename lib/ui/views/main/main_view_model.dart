@@ -1,6 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 
-class MainViewModel extends BaseViewModel {
+class MainViewModel extends BaseViewModel with ScheduleMixin {
+  late final ValueNotifier<bool> shouldShowBottomNavNotifier;
+  late final ValueNotifier<double?> bottomNavigationHeight;
+
+  MainViewModel() {
+    shouldShowBottomNavNotifier = ValueNotifier(true);
+    bottomNavigationHeight = ValueNotifier(null);
+    DateTime date = DateTime.now();
+    year = date.year;
+    month = date.month;
+    day = date.day;
+  }
+
+  @override
+  void dispose() {
+    shouldShowBottomNavNotifier.dispose();
+    bottomNavigationHeight.dispose();
+    super.dispose();
+  }
+
   int activeIndex = 0;
   void setActiveIndex(int index) {
     activeIndex = index;
@@ -27,14 +48,13 @@ class MainViewModel extends BaseViewModel {
     );
   }
 
-  MainViewModel() {
-    DateTime date = DateTime.now();
-    year = date.year;
-    month = date.month;
-    day = date.day;
-  }
-
   void onTabChange(int month) {
     this.month = month;
+  }
+
+  void setShowBottomNav(bool value) {
+    scheduleAction(() {
+      shouldShowBottomNavNotifier.value = value;
+    });
   }
 }

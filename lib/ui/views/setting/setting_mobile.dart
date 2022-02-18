@@ -14,6 +14,7 @@ class _SettingMobile extends StatelessWidget {
         ),
       ),
       body: ListView(
+        padding: const EdgeInsets.only(bottom: kToolbarHeight),
         children: ListTile.divideTiles(
           context: context,
           tiles: [
