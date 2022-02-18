@@ -30,9 +30,11 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   late final ValueNotifier<bool> readOnlyNotifier;
   late final TextEditingController titleController;
   late final ValueNotifier<bool> hasChangeNotifer;
+  late final FocusNode titleFocusNode;
 
   // has 1 or more controller inited
   late final ValueNotifier<bool> quillControllerInitedNotifier;
+  late final ValueNotifier<bool> toolbarVisibleNotifier;
 
   StoryFileManager storyFileManager = StoryFileManager();
   Map<int, QuillController> quillControllers = {};
@@ -83,6 +85,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     readOnlyNotifier = ValueNotifier(flowType == DetailViewFlow.update);
     hasChangeNotifer = ValueNotifier(flowType == DetailViewFlow.create);
     quillControllerInitedNotifier = ValueNotifier(false);
+    toolbarVisibleNotifier = ValueNotifier(false);
+    titleFocusNode = FocusNode();
     titleController = TextEditingController(text: currentContent.title);
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
@@ -100,6 +104,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
         currentFocusNode?.requestFocus();
       }
       hasChangeNotifer.value = hasChange;
+      toolbarVisibleNotifier.value = !readOnlyNotifier.value;
     });
 
     titleController.addListener(() {

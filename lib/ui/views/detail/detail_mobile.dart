@@ -24,21 +24,32 @@ class _DetailMobile extends StatelessWidget {
 
   Widget buildEditor(BuildContext context) {
     if (documents.isEmpty) return Center(child: Text("No documents found"));
-    return SpPageView(
-      itemCount: documents.length,
-      controller: viewModel.pageController,
-      physics: const ClampingScrollPhysics(),
-      itemBuilder: (context, index) {
-        return DetailEditor(
-          document: documents[index],
-          readOnlyNotifier: readOnlyNotifier,
-          onChange: (_) => viewModel.onChange(_),
-          onControllerReady: (controller) => viewModel.setQuillController(index, controller),
-          onFocusNodeReady: (focusNode) {
-            viewModel.focusNodes[index] = focusNode;
-          },
-        );
+    return FocusScope(
+      onFocusChange: (bool focused) {
+        viewModel.toolbarVisibleNotifier.value = focused || !viewModel.titleFocusNode.hasFocus;
       },
+      child: SpPageView(
+        itemCount: documents.length,
+        controller: viewModel.pageController,
+        physics: const ClampingScrollPhysics(),
+        onPageChanged: (int index) {
+          // if title has focus,
+          // body shouldn't request focus
+          if (viewModel.titleFocusNode.hasFocus) return;
+          viewModel.focusNodes[index]?.requestFocus();
+        },
+        itemBuilder: (context, index) {
+          return DetailEditor(
+            document: documents[index],
+            readOnlyNotifier: readOnlyNotifier,
+            onChange: (_) => viewModel.onChange(_),
+            onControllerReady: (controller) => viewModel.setQuillController(index, controller),
+            onFocusNodeReady: (focusNode) {
+              viewModel.focusNodes[index] = focusNode;
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -49,6 +60,7 @@ class _DetailMobile extends StatelessWidget {
         return TextField(
           style: M3TextTheme.of(context).titleLarge,
           autofocus: false,
+          focusNode: viewModel.titleFocusNode,
           readOnly: readOnlyNotifier.value,
           controller: titleController,
           keyboardAppearance: M3Color.keyboardAppearance(context),

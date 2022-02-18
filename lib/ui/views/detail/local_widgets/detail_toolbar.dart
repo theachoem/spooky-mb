@@ -42,13 +42,21 @@ class _DetailToolbarsState extends State<DetailToolbars> {
       builder: (context, value, Widget? child) {
         child as _List;
         if (child.children.isEmpty) return SizedBox.shrink();
-        return Stack(
-          children: List.generate(child.children.length, (index) {
-            Widget _child = child.children[index];
-            double page = widget.viewModel.pageController.page ?? 0.0;
-            bool visible = page > index - 0.25 && page < index + 0.25;
-            return buildWrapper(visible, _child);
-          }),
+        return ValueListenableBuilder<bool>(
+          valueListenable: widget.viewModel.toolbarVisibleNotifier,
+          builder: (context, toolbarShouldVisible, _) {
+            return Stack(
+              children: List.generate(child.children.length, (index) {
+                Widget _child = child.children[index];
+                double page = widget.viewModel.pageController.page ?? 0.0;
+                bool visible = page > index - 0.25 && page < index + 0.25;
+                return buildWrapper(
+                  visible && toolbarShouldVisible,
+                  _child,
+                );
+              }),
+            );
+          },
         );
       },
     );
@@ -67,18 +75,13 @@ class _DetailToolbarsState extends State<DetailToolbars> {
   }
 
   Widget buildWrapper(bool visible, Widget _child) {
-    return AnimatedContainer(
-      duration: ConfigConstant.duration,
-      transform: Matrix4.identity()..translate(0.0, visible ? 0.0 : 4),
+    return AnimatedOpacity(
+      opacity: visible ? 1 : 0,
+      duration: ConfigConstant.fadeDuration,
       curve: Curves.ease,
-      child: AnimatedOpacity(
-        opacity: visible ? 1 : 0,
-        duration: ConfigConstant.fadeDuration,
-        curve: Curves.ease,
-        child: IgnorePointer(
-          ignoring: !visible,
-          child: _child,
-        ),
+      child: IgnorePointer(
+        ignoring: !visible,
+        child: _child,
       ),
     );
   }
