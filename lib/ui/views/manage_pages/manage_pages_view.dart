@@ -1,7 +1,7 @@
 library manage_pages_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+
 import 'package:spooky/app.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -9,6 +9,7 @@ import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_dimissable_background.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
@@ -34,7 +35,7 @@ class ManagePagesView extends StatelessWidget {
       viewModelBuilder: () => ManagePagesViewModel(content),
       onModelReady: (model) {},
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _ManagePagesMobile(model),
           desktop: _ManagePagesDesktop(model),
           tablet: _ManagePagesTablet(model),

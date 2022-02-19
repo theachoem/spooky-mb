@@ -1,6 +1,5 @@
 library theme_setting_view;
 
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -8,6 +7,7 @@ import 'package:spooky/ui/widgets/sp_color_picker.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_overlay_popup_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
@@ -29,7 +29,7 @@ class ThemeSettingView extends StatelessWidget {
       viewModelBuilder: () => ThemeSettingViewModel(),
       onModelReady: (model) {},
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _ThemeSettingMobile(model),
           desktop: _ThemeSettingDesktop(model),
           tablet: _ThemeSettingTablet(model),

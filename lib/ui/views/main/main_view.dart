@@ -1,7 +1,6 @@
 library main_view;
 
 import 'package:flutter/rendering.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -13,6 +12,7 @@ import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_bottom_navaigation_bar.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_show_hide_animator.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -36,7 +36,14 @@ class MainView extends StatelessWidget {
       onModelReady: (model) {},
       disposeViewModel: false,
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
+          listener: (info) {
+            if (info.isSmall) {
+              model.setShouldHideBottomNav(false, true);
+            } else {
+              model.setShouldHideBottomNav(true, true);
+            }
+          },
           mobile: _MainMobile(model),
           desktop: _MainDesktop(model),
           tablet: _MainTablet(model),

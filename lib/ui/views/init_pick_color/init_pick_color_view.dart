@@ -3,13 +3,14 @@ library init_pick_color_view;
 import 'dart:math';
 
 import 'package:bubble_lens/bubble_lens.dart';
-import 'package:responsive_builder/responsive_builder.dart';
+
 import 'package:spooky/app.dart';
 import 'package:spooky/core/route/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/widgets/sp_button.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/ui/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -32,7 +33,7 @@ class InitPickColorView extends StatelessWidget {
       viewModelBuilder: () => InitPickColorViewModel(),
       onModelReady: (model) {},
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _InitPickColorMobile(model),
           desktop: _InitPickColorDesktop(model),
           tablet: _InitPickColorTablet(model),

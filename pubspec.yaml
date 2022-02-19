@@ -48,6 +48,7 @@ dependencies:
   package_info_plus: ^1.3.0
   fluttertoast: ^8.0.8
   bubble_lens: ^2.0.0
+  desktop_window: ^0.4.0
 
 dev_dependencies:
   flutter_test:

@@ -32,12 +32,26 @@ class _MainMobile extends StatelessWidget {
     return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
         double offset = notification.metrics.pixels;
-        // viewModel.currentScrollController return value
-        // that not actually an desire offset, so we prevent it
-        if (offset != viewModel.currentScrollController?.offset && offset != 0) {
-          viewModel.setShouldScrollToTop(offset > height / 2);
-          return true;
+
+        switch (Theme.of(context).platform) {
+          case TargetPlatform.android:
+          case TargetPlatform.iOS:
+            // viewModel.currentScrollController return value
+            // that not actually an desire offset, so we prevent it
+            if (offset != viewModel.currentScrollController?.offset && offset != 0) {
+              viewModel.setShouldScrollToTop(offset > height / 2);
+              return true;
+            }
+            break;
+          case TargetPlatform.fuchsia:
+          case TargetPlatform.linux:
+          case TargetPlatform.macOS:
+          case TargetPlatform.windows:
+            double windowOffset = viewModel.currentScrollController?.offset ?? 0.0;
+            viewModel.setShouldScrollToTop(windowOffset > 0);
+            return true;
         }
+
         return false;
       },
       child: NotificationListener<UserScrollNotification>(
