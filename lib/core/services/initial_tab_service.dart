@@ -1,4 +1,4 @@
-import 'package:spooky/core/storages/initial_story_tab_storage.dart';
+import 'package:spooky/core/storages/local_storages/initial_story_tab_storage.dart';
 
 class InitialStoryTabService {
   static final InitialStoryTabStorage _storage = InitialStoryTabStorage();

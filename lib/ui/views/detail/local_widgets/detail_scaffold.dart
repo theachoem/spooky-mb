@@ -3,10 +3,11 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/archive_file_manager.dart';
-import 'package:spooky/core/file_managers/types/file_path_type.dart';
+import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/route/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/detail/local_widgets/page_indicator_button.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
@@ -146,7 +147,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               });
             },
           ),
-        if (widget.viewModel.flowType == DetailViewFlow.update && manager.canArchive(widget.viewModel.currentStory))
+        if (widget.viewModel.flowType == DetailViewFlowType.update && manager.canArchive(widget.viewModel.currentStory))
           SpPopMenuItem(
             title: "Archive",
             leadingIconData: Icons.archive,

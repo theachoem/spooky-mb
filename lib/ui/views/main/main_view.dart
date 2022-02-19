@@ -2,8 +2,11 @@ library main_view;
 
 import 'package:flutter/rendering.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/route/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/core/services/security_service.dart';
+import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
@@ -20,7 +23,7 @@ import 'package:spooky/utils/util_widgets/measure_size.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
-import 'main_view_model.dart';
+import 'package:spooky/ui/views/main/main_view_model.dart';
 
 part 'main_mobile.dart';
 part 'main_tablet.dart';
@@ -33,7 +36,9 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainViewModel>.reactive(
       viewModelBuilder: () => MainViewModel(),
-      onModelReady: (model) {},
+      onModelReady: (model) {
+        model.service.showLockIfHas(context);
+      },
       disposeViewModel: false,
       builder: (context, model, child) {
         return SpScreenTypeLayout(

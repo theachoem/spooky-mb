@@ -5,7 +5,7 @@ class _MainMobile extends StatelessWidget {
   const _MainMobile(this.viewModel);
 
   void onConfirm(DateTime date, BuildContext context) {
-    DetailArgs args = DetailArgs(initialStory: StoryModel.fromDate(date), intialFlow: DetailViewFlow.create);
+    DetailArgs args = DetailArgs(initialStory: StoryModel.fromDate(date), intialFlow: DetailViewFlowType.create);
     Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
       if (viewModel.storyListReloader != null && value != null) viewModel.storyListReloader!();
     });

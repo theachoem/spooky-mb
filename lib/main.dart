@@ -4,7 +4,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
-import 'package:spooky/core/storages/nickname_storage.dart';
+import 'package:spooky/core/services/security_service.dart';
+import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
@@ -23,7 +24,13 @@ void main() async {
   tz.initializeTimeZones();
   FileHelper.initialFile();
 
-  await DesktopWindow.setMinWindowSize(Size(320, 510));
+  if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
+    await DesktopWindow.setMinWindowSize(Size(320, 510));
+  }
+
+  if (Platform.isAndroid || Platform.isIOS) {
+    await SecurityService.initialize();
+  }
 
   await AppNotification().initialize();
   await InitialStoryTabService.initialize();

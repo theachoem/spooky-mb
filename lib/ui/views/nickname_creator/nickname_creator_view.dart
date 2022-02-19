@@ -1,7 +1,7 @@
 library nickname_creator_view;
 
 import 'package:spooky/app.dart';
-import 'package:spooky/core/route/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/widgets/sp_button.dart';

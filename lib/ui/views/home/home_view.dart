@@ -1,6 +1,6 @@
 library home_view;
 
-import 'package:spooky/core/file_managers/types/file_path_type.dart';
+import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_app_bar.dart';
 import 'package:spooky/ui/views/home/local_widgets/story_query_list.dart';

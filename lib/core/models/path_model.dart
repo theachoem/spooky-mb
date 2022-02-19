@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:spooky/core/file_managers/types/file_path_type.dart';
+import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 

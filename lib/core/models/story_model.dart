@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/models/base_route_model.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/route/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 
 part 'story_model.g.dart';
 

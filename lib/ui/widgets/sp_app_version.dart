@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/services/toast_service.dart';
-import 'package:spooky/core/storages/developer_mode_storage.dart';
+import 'package:spooky/core/storages/local_storages/developer_mode_storage.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
@@ -35,14 +35,14 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
   }
 
   Future<void> setModeFromStorage() async {
-    return storage.readBool().then((value) {
+    return storage.read().then((value) {
       return setDeveloperMode(value == true);
     });
   }
 
   void setDeveloperMode(bool value) {
     App.of(context)?.developerModeNotifier.value = value;
-    storage.writeBool(value: value);
+    storage.write(value);
   }
 
   @override
