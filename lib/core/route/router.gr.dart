@@ -10,76 +10,86 @@
 //
 // ignore_for_file: type=lint
 
-import 'package:auto_route/auto_route.dart' as _i15;
-import 'package:flutter/material.dart' as _i16;
+import 'package:auto_route/auto_route.dart' as _i17;
+import 'package:flutter/material.dart' as _i18;
 
-import '../../ui/views/app_starter/app_starter_view.dart' as _i4;
-import '../../ui/views/archive/archive_view.dart' as _i7;
-import '../../ui/views/changes_history/changes_history_view.dart' as _i9;
-import '../../ui/views/content_reader/content_reader_view.dart' as _i8;
-import '../../ui/views/detail/detail_view.dart' as _i10;
-import '../../ui/views/detail/detail_view_model.dart' as _i19;
-import '../../ui/views/developer_mode/developer_mode_view.dart' as _i1;
-import '../../ui/views/explore/explore_view.dart' as _i13;
-import '../../ui/views/home/home_view.dart' as _i12;
-import '../../ui/views/init_pick_color/init_pick_color_view.dart' as _i3;
-import '../../ui/views/main/main_view.dart' as _i11;
-import '../../ui/views/manage_pages/manage_pages_view.dart' as _i6;
-import '../../ui/views/nickname_creator/nickname_creator_view.dart' as _i2;
-import '../../ui/views/setting/setting_view.dart' as _i14;
-import '../../ui/views/theme_setting/theme_setting_view.dart' as _i5;
-import '../models/story_content_model.dart' as _i17;
-import '../models/story_model.dart' as _i18;
+import '../../ui/views/app_starter/app_starter_view.dart' as _i6;
+import '../../ui/views/archive/archive_view.dart' as _i9;
+import '../../ui/views/changes_history/changes_history_view.dart' as _i11;
+import '../../ui/views/content_reader/content_reader_view.dart' as _i10;
+import '../../ui/views/detail/detail_view.dart' as _i12;
+import '../../ui/views/detail/detail_view_model.dart' as _i21;
+import '../../ui/views/developer_mode/developer_mode_view.dart' as _i3;
+import '../../ui/views/explore/explore_view.dart' as _i15;
+import '../../ui/views/home/home_view.dart' as _i14;
+import '../../ui/views/init_pick_color/init_pick_color_view.dart' as _i5;
+import '../../ui/views/lock/lock_view.dart' as _i1;
+import '../../ui/views/main/main_view.dart' as _i13;
+import '../../ui/views/manage_pages/manage_pages_view.dart' as _i8;
+import '../../ui/views/nickname_creator/nickname_creator_view.dart' as _i4;
+import '../../ui/views/security/security_view.dart' as _i2;
+import '../../ui/views/setting/setting_view.dart' as _i16;
+import '../../ui/views/theme_setting/theme_setting_view.dart' as _i7;
+import '../models/story_content_model.dart' as _i19;
+import '../models/story_model.dart' as _i20;
 
-class AppRouter extends _i15.RootStackRouter {
-  AppRouter([_i16.GlobalKey<_i16.NavigatorState>? navigatorKey])
+class AppRouter extends _i17.RootStackRouter {
+  AppRouter([_i18.GlobalKey<_i18.NavigatorState>? navigatorKey])
       : super(navigatorKey);
 
   @override
-  final Map<String, _i15.PageFactory> pagesMap = {
+  final Map<String, _i17.PageFactory> pagesMap = {
+    Lock.name: (routeData) {
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i1.LockView());
+    },
+    Security.name: (routeData) {
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i2.SecurityView());
+    },
     DeveloperMode.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.DeveloperModeView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i3.DeveloperModeView());
     },
     NicknameCreator.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i2.NicknameCreatorView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i4.NicknameCreatorView());
     },
     InitPickColor.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i3.InitPickColorView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i5.InitPickColorView());
     },
     AppStarter.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i4.AppStarterView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i6.AppStarterView());
     },
     ThemeSetting.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i5.ThemeSettingView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i7.ThemeSettingView());
     },
     ManagePages.name: (routeData) {
       final args = routeData.argsAs<ManagePagesArgs>();
-      return _i15.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i6.ManagePagesView(key: args.key, content: args.content),
+          child: _i8.ManagePagesView(key: args.key, content: args.content),
           fullscreenDialog: true);
     },
     Archive.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i7.ArchiveView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i9.ArchiveView());
     },
     ContentReader.name: (routeData) {
       final args = routeData.argsAs<ContentReaderArgs>();
-      return _i15.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i8.ContentReaderView(key: args.key, content: args.content),
+          child: _i10.ContentReaderView(key: args.key, content: args.content),
           fullscreenDialog: true);
     },
     ChangesHistory.name: (routeData) {
       final args = routeData.argsAs<ChangesHistoryArgs>();
-      return _i15.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i9.ChangesHistoryView(
+          child: _i11.ChangesHistoryView(
               key: args.key,
               story: args.story,
               onRestorePressed: args.onRestorePressed,
@@ -87,22 +97,22 @@ class AppRouter extends _i15.RootStackRouter {
     },
     Detail.name: (routeData) {
       final args = routeData.argsAs<DetailArgs>();
-      return _i15.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i10.DetailView(
+          child: _i12.DetailView(
               key: args.key,
               initialStory: args.initialStory,
               intialFlow: args.intialFlow));
     },
     Main.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i11.MainView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i13.MainView());
     },
     Home.name: (routeData) {
       final args = routeData.argsAs<HomeArgs>();
-      return _i15.MaterialPageX<dynamic>(
+      return _i17.MaterialPageX<dynamic>(
           routeData: routeData,
-          child: _i12.HomeView(
+          child: _i14.HomeView(
               key: args.key,
               onTabChange: args.onTabChange,
               onYearChange: args.onYearChange,
@@ -110,41 +120,59 @@ class AppRouter extends _i15.RootStackRouter {
               onScrollControllerReady: args.onScrollControllerReady));
     },
     Explore.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i13.ExploreView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i15.ExploreView());
     },
     Setting.name: (routeData) {
-      return _i15.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i14.SettingView());
+      return _i17.MaterialPageX<dynamic>(
+          routeData: routeData, child: const _i16.SettingView());
     }
   };
 
   @override
-  List<_i15.RouteConfig> get routes => [
-        _i15.RouteConfig('/#redirect',
+  List<_i17.RouteConfig> get routes => [
+        _i17.RouteConfig('/#redirect',
             path: '/', redirectTo: '/main', fullMatch: true),
-        _i15.RouteConfig(DeveloperMode.name, path: '/developer-mode-view'),
-        _i15.RouteConfig(NicknameCreator.name,
+        _i17.RouteConfig(Lock.name, path: '/lock'),
+        _i17.RouteConfig(Security.name, path: '/security'),
+        _i17.RouteConfig(DeveloperMode.name, path: '/developer-mode-view'),
+        _i17.RouteConfig(NicknameCreator.name,
             path: '/landing/nickname-creator'),
-        _i15.RouteConfig(InitPickColor.name, path: '/landing/init-pick-color'),
-        _i15.RouteConfig(AppStarter.name, path: 'landing/app-starter'),
-        _i15.RouteConfig(ThemeSetting.name, path: '/theme-setting'),
-        _i15.RouteConfig(ManagePages.name, path: '/manage-pages'),
-        _i15.RouteConfig(Archive.name, path: '/archive'),
-        _i15.RouteConfig(ContentReader.name, path: '/content-reader'),
-        _i15.RouteConfig(ChangesHistory.name, path: '/changes-history'),
-        _i15.RouteConfig(Detail.name, path: '/detail'),
-        _i15.RouteConfig(Main.name, path: '/main', children: [
-          _i15.RouteConfig(Home.name, path: 'home', parent: Main.name),
-          _i15.RouteConfig(Explore.name, path: 'explore', parent: Main.name),
-          _i15.RouteConfig(Setting.name, path: 'setting', parent: Main.name)
+        _i17.RouteConfig(InitPickColor.name, path: '/landing/init-pick-color'),
+        _i17.RouteConfig(AppStarter.name, path: 'landing/app-starter'),
+        _i17.RouteConfig(ThemeSetting.name, path: '/theme-setting'),
+        _i17.RouteConfig(ManagePages.name, path: '/manage-pages'),
+        _i17.RouteConfig(Archive.name, path: '/archive'),
+        _i17.RouteConfig(ContentReader.name, path: '/content-reader'),
+        _i17.RouteConfig(ChangesHistory.name, path: '/changes-history'),
+        _i17.RouteConfig(Detail.name, path: '/detail'),
+        _i17.RouteConfig(Main.name, path: '/main', children: [
+          _i17.RouteConfig(Home.name, path: 'home', parent: Main.name),
+          _i17.RouteConfig(Explore.name, path: 'explore', parent: Main.name),
+          _i17.RouteConfig(Setting.name, path: 'setting', parent: Main.name)
         ])
       ];
 }
 
 /// generated route for
-/// [_i1.DeveloperModeView]
-class DeveloperMode extends _i15.PageRouteInfo<void> {
+/// [_i1.LockView]
+class Lock extends _i17.PageRouteInfo<void> {
+  const Lock() : super(Lock.name, path: '/lock');
+
+  static const String name = 'Lock';
+}
+
+/// generated route for
+/// [_i2.SecurityView]
+class Security extends _i17.PageRouteInfo<void> {
+  const Security() : super(Security.name, path: '/security');
+
+  static const String name = 'Security';
+}
+
+/// generated route for
+/// [_i3.DeveloperModeView]
+class DeveloperMode extends _i17.PageRouteInfo<void> {
   const DeveloperMode()
       : super(DeveloperMode.name, path: '/developer-mode-view');
 
@@ -152,8 +180,8 @@ class DeveloperMode extends _i15.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i2.NicknameCreatorView]
-class NicknameCreator extends _i15.PageRouteInfo<void> {
+/// [_i4.NicknameCreatorView]
+class NicknameCreator extends _i17.PageRouteInfo<void> {
   const NicknameCreator()
       : super(NicknameCreator.name, path: '/landing/nickname-creator');
 
@@ -161,8 +189,8 @@ class NicknameCreator extends _i15.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i3.InitPickColorView]
-class InitPickColor extends _i15.PageRouteInfo<void> {
+/// [_i5.InitPickColorView]
+class InitPickColor extends _i17.PageRouteInfo<void> {
   const InitPickColor()
       : super(InitPickColor.name, path: '/landing/init-pick-color');
 
@@ -170,25 +198,25 @@ class InitPickColor extends _i15.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.AppStarterView]
-class AppStarter extends _i15.PageRouteInfo<void> {
+/// [_i6.AppStarterView]
+class AppStarter extends _i17.PageRouteInfo<void> {
   const AppStarter() : super(AppStarter.name, path: 'landing/app-starter');
 
   static const String name = 'AppStarter';
 }
 
 /// generated route for
-/// [_i5.ThemeSettingView]
-class ThemeSetting extends _i15.PageRouteInfo<void> {
+/// [_i7.ThemeSettingView]
+class ThemeSetting extends _i17.PageRouteInfo<void> {
   const ThemeSetting() : super(ThemeSetting.name, path: '/theme-setting');
 
   static const String name = 'ThemeSetting';
 }
 
 /// generated route for
-/// [_i6.ManagePagesView]
-class ManagePages extends _i15.PageRouteInfo<ManagePagesArgs> {
-  ManagePages({_i16.Key? key, required _i17.StoryContentModel content})
+/// [_i8.ManagePagesView]
+class ManagePages extends _i17.PageRouteInfo<ManagePagesArgs> {
+  ManagePages({_i18.Key? key, required _i19.StoryContentModel content})
       : super(ManagePages.name,
             path: '/manage-pages',
             args: ManagePagesArgs(key: key, content: content));
@@ -199,9 +227,9 @@ class ManagePages extends _i15.PageRouteInfo<ManagePagesArgs> {
 class ManagePagesArgs {
   const ManagePagesArgs({this.key, required this.content});
 
-  final _i16.Key? key;
+  final _i18.Key? key;
 
-  final _i17.StoryContentModel content;
+  final _i19.StoryContentModel content;
 
   @override
   String toString() {
@@ -210,17 +238,17 @@ class ManagePagesArgs {
 }
 
 /// generated route for
-/// [_i7.ArchiveView]
-class Archive extends _i15.PageRouteInfo<void> {
+/// [_i9.ArchiveView]
+class Archive extends _i17.PageRouteInfo<void> {
   const Archive() : super(Archive.name, path: '/archive');
 
   static const String name = 'Archive';
 }
 
 /// generated route for
-/// [_i8.ContentReaderView]
-class ContentReader extends _i15.PageRouteInfo<ContentReaderArgs> {
-  ContentReader({_i16.Key? key, required _i17.StoryContentModel content})
+/// [_i10.ContentReaderView]
+class ContentReader extends _i17.PageRouteInfo<ContentReaderArgs> {
+  ContentReader({_i18.Key? key, required _i19.StoryContentModel content})
       : super(ContentReader.name,
             path: '/content-reader',
             args: ContentReaderArgs(key: key, content: content));
@@ -231,9 +259,9 @@ class ContentReader extends _i15.PageRouteInfo<ContentReaderArgs> {
 class ContentReaderArgs {
   const ContentReaderArgs({this.key, required this.content});
 
-  final _i16.Key? key;
+  final _i18.Key? key;
 
-  final _i17.StoryContentModel content;
+  final _i19.StoryContentModel content;
 
   @override
   String toString() {
@@ -242,12 +270,12 @@ class ContentReaderArgs {
 }
 
 /// generated route for
-/// [_i9.ChangesHistoryView]
-class ChangesHistory extends _i15.PageRouteInfo<ChangesHistoryArgs> {
+/// [_i11.ChangesHistoryView]
+class ChangesHistory extends _i17.PageRouteInfo<ChangesHistoryArgs> {
   ChangesHistory(
-      {_i16.Key? key,
-      required _i18.StoryModel story,
-      required void Function(_i17.StoryContentModel) onRestorePressed,
+      {_i18.Key? key,
+      required _i20.StoryModel story,
+      required void Function(_i19.StoryContentModel) onRestorePressed,
       required void Function(List<String>) onDeletePressed})
       : super(ChangesHistory.name,
             path: '/changes-history',
@@ -267,11 +295,11 @@ class ChangesHistoryArgs {
       required this.onRestorePressed,
       required this.onDeletePressed});
 
-  final _i16.Key? key;
+  final _i18.Key? key;
 
-  final _i18.StoryModel story;
+  final _i20.StoryModel story;
 
-  final void Function(_i17.StoryContentModel) onRestorePressed;
+  final void Function(_i19.StoryContentModel) onRestorePressed;
 
   final void Function(List<String>) onDeletePressed;
 
@@ -282,12 +310,12 @@ class ChangesHistoryArgs {
 }
 
 /// generated route for
-/// [_i10.DetailView]
-class Detail extends _i15.PageRouteInfo<DetailArgs> {
+/// [_i12.DetailView]
+class Detail extends _i17.PageRouteInfo<DetailArgs> {
   Detail(
-      {_i16.Key? key,
-      required _i18.StoryModel initialStory,
-      required _i19.DetailViewFlow intialFlow})
+      {_i18.Key? key,
+      required _i20.StoryModel initialStory,
+      required _i21.DetailViewFlow intialFlow})
       : super(Detail.name,
             path: '/detail',
             args: DetailArgs(
@@ -300,11 +328,11 @@ class DetailArgs {
   const DetailArgs(
       {this.key, required this.initialStory, required this.intialFlow});
 
-  final _i16.Key? key;
+  final _i18.Key? key;
 
-  final _i18.StoryModel initialStory;
+  final _i20.StoryModel initialStory;
 
-  final _i19.DetailViewFlow intialFlow;
+  final _i21.DetailViewFlow intialFlow;
 
   @override
   String toString() {
@@ -313,23 +341,23 @@ class DetailArgs {
 }
 
 /// generated route for
-/// [_i11.MainView]
-class Main extends _i15.PageRouteInfo<void> {
-  const Main({List<_i15.PageRouteInfo>? children})
+/// [_i13.MainView]
+class Main extends _i17.PageRouteInfo<void> {
+  const Main({List<_i17.PageRouteInfo>? children})
       : super(Main.name, path: '/main', initialChildren: children);
 
   static const String name = 'Main';
 }
 
 /// generated route for
-/// [_i12.HomeView]
-class Home extends _i15.PageRouteInfo<HomeArgs> {
+/// [_i14.HomeView]
+class Home extends _i17.PageRouteInfo<HomeArgs> {
   Home(
-      {_i16.Key? key,
+      {_i18.Key? key,
       required void Function(int) onTabChange,
       required void Function(int) onYearChange,
       required void Function(void Function()) onListReloaderReady,
-      required void Function(_i16.ScrollController) onScrollControllerReady})
+      required void Function(_i18.ScrollController) onScrollControllerReady})
       : super(Home.name,
             path: 'home',
             args: HomeArgs(
@@ -350,7 +378,7 @@ class HomeArgs {
       required this.onListReloaderReady,
       required this.onScrollControllerReady});
 
-  final _i16.Key? key;
+  final _i18.Key? key;
 
   final void Function(int) onTabChange;
 
@@ -358,7 +386,7 @@ class HomeArgs {
 
   final void Function(void Function()) onListReloaderReady;
 
-  final void Function(_i16.ScrollController) onScrollControllerReady;
+  final void Function(_i18.ScrollController) onScrollControllerReady;
 
   @override
   String toString() {
@@ -367,16 +395,16 @@ class HomeArgs {
 }
 
 /// generated route for
-/// [_i13.ExploreView]
-class Explore extends _i15.PageRouteInfo<void> {
+/// [_i15.ExploreView]
+class Explore extends _i17.PageRouteInfo<void> {
   const Explore() : super(Explore.name, path: 'explore');
 
   static const String name = 'Explore';
 }
 
 /// generated route for
-/// [_i14.SettingView]
-class Setting extends _i15.PageRouteInfo<void> {
+/// [_i16.SettingView]
+class Setting extends _i17.PageRouteInfo<void> {
   const Setting() : super(Setting.name, path: 'setting');
 
   static const String name = 'Setting';

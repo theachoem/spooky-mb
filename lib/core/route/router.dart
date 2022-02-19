@@ -9,15 +9,27 @@ import 'package:spooky/ui/views/developer_mode/developer_mode_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/init_pick_color/init_pick_color_view.dart';
+import 'package:spooky/ui/views/lock/lock_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/ui/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/ui/views/nickname_creator/nickname_creator_view.dart';
+import 'package:spooky/ui/views/security/security_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/views/theme_setting/theme_setting_view.dart';
 
 /// Use for generator route params only. use normal `Navigator.of(context)`
 @MaterialAutoRouter(
   routes: <AutoRoute>[
+    MaterialRoute(
+      page: LockView,
+      name: 'Lock',
+      path: SpRouteConfig.lock,
+    ),
+    MaterialRoute(
+      page: SecurityView,
+      name: 'Security',
+      path: SpRouteConfig.security,
+    ),
     MaterialRoute(
       page: DeveloperModeView,
       name: 'DeveloperMode',

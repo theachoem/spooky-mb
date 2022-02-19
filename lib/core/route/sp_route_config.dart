@@ -13,9 +13,11 @@ import 'package:spooky/ui/views/developer_mode/developer_mode_view.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/init_pick_color/init_pick_color_view.dart';
+import 'package:spooky/ui/views/lock/lock_view.dart';
 import 'package:spooky/ui/views/main/main_view.dart';
 import 'package:spooky/ui/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/ui/views/nickname_creator/nickname_creator_view.dart';
+import 'package:spooky/ui/views/security/security_view.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/views/theme_setting/theme_setting_view.dart';
 
@@ -30,6 +32,8 @@ class SpRouteConfig {
     this.settings,
   });
 
+  static const String lock = '/lock';
+  static const String security = '/security';
   static const String themeSetting = '/theme-setting';
   static const String managePages = '/manage-pages';
   static const String archive = '/archive';
@@ -185,6 +189,18 @@ class SpRouteConfig {
         fullscreenDialog: true,
         fillColor: M3Color.of(context).background,
         route: (context) => NicknameCreatorView(),
+      ),
+      security: DefaultRouteSetting(
+        title: "Security",
+        canSwap: false,
+        fullscreenDialog: false,
+        route: (context) => SecurityView(),
+      ),
+      lock: DefaultRouteSetting(
+        title: "Lock",
+        canSwap: false,
+        fullscreenDialog: false,
+        route: (context) => LockView(),
       ),
       developerModeView: DefaultRouteSetting(
         title: "Developer Mode",

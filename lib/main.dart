@@ -23,7 +23,9 @@ void main() async {
   tz.initializeTimeZones();
   FileHelper.initialFile();
 
-  await DesktopWindow.setMinWindowSize(Size(320, 510));
+  if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
+    await DesktopWindow.setMinWindowSize(Size(320, 510));
+  }
 
   await AppNotification().initialize();
   await InitialStoryTabService.initialize();

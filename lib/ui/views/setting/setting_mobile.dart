@@ -28,6 +28,13 @@ class _SettingMobile extends StatelessWidget {
               ),
             ),
             ListTile(
+              leading: const Icon(Icons.lock),
+              title: const Text("Security"),
+              onTap: () {
+                Navigator.of(context).pushNamed(SpRouteConfig.security);
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.archive),
               title: const Text("Archive"),
               onTap: () {
