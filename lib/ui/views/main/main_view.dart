@@ -3,6 +3,7 @@ library main_view;
 import 'package:flutter/rendering.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/core/services/security_service.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
@@ -26,9 +27,18 @@ part 'main_mobile.dart';
 part 'main_tablet.dart';
 part 'main_desktop.dart';
 
-class MainView extends StatelessWidget {
+class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
 
+  static _MainViewState? of(BuildContext context) {
+    return context.findAncestorStateOfType<_MainViewState>();
+  }
+
+  @override
+  State<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainViewModel>.reactive(
