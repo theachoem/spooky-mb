@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
-import 'package:spooky/core/types/response_code.dart';
+import 'package:spooky/core/types/response_code_type.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
-import 'package:spooky/ui/views/detail/detail_view_flow_type.dart';
+import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/ui/views/detail/detail_view_model_helper.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
@@ -36,7 +36,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   Map<int, QuillController> quillControllers = {};
   Map<int, FocusNode> focusNodes = {};
 
-  DetailViewFlow flowType;
+  DetailViewFlowType flowType;
   StoryContentModel getInitialStoryContent(StoryModel story) {
     if (story.changes.isNotEmpty) {
       return story.changes.last;
@@ -78,8 +78,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     openOn = DateTime.now();
     currentContent = getInitialStoryContent(currentStory);
     pageController = PageController();
-    readOnlyNotifier = ValueNotifier(flowType == DetailViewFlow.update);
-    hasChangeNotifer = ValueNotifier(flowType == DetailViewFlow.create);
+    readOnlyNotifier = ValueNotifier(flowType == DetailViewFlowType.update);
+    hasChangeNotifer = ValueNotifier(flowType == DetailViewFlowType.create);
     quillControllerInitedNotifier = ValueNotifier(false);
     toolbarVisibleNotifier = ValueNotifier(false);
     titleFocusNode = FocusNode();
@@ -163,19 +163,19 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     // Set currentContent is required. It will be used in buildStory()
     currentContent = content;
 
-    ResponseCode code = await _save(restore: true);
+    ResponseCodeType code = await _save(restore: true);
     String message;
 
     switch (code) {
-      case ResponseCode.success:
-        flowType = DetailViewFlow.update;
+      case ResponseCodeType.success:
+        flowType = DetailViewFlowType.update;
         notifyListeners();
         message = "Restored";
         break;
-      case ResponseCode.noChange:
+      case ResponseCodeType.noChange:
         message = "Document has no changes";
         break;
-      case ResponseCode.fail:
+      case ResponseCodeType.fail:
         message = "Restore unsuccessfully!";
         break;
     }
@@ -186,7 +186,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
         SpRouteConfig.detail,
         arguments: DetailArgs(
           initialStory: currentStory,
-          intialFlow: DetailViewFlow.update,
+          intialFlow: DetailViewFlowType.update,
         ),
       );
     });
@@ -206,7 +206,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
         SpRouteConfig.detail,
         arguments: DetailArgs(
           initialStory: currentStory,
-          intialFlow: DetailViewFlow.update,
+          intialFlow: DetailViewFlowType.update,
         ),
       );
     });
@@ -218,38 +218,38 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     bool shouldRefresh = true,
     bool shouldShowSnackbar = true,
   }) async {
-    ResponseCode code = await _save(force: force);
+    ResponseCodeType code = await _save(force: force);
     String message;
 
     switch (code) {
-      case ResponseCode.success:
-        flowType = DetailViewFlow.update;
+      case ResponseCodeType.success:
+        flowType = DetailViewFlowType.update;
         if (shouldRefresh) notifyListeners();
         message = "Saved";
         break;
-      case ResponseCode.noChange:
+      case ResponseCodeType.noChange:
         message = "Document has no changes";
         break;
-      case ResponseCode.fail:
+      case ResponseCodeType.fail:
         message = "Save unsuccessfully!";
         break;
     }
 
-    if (shouldShowSnackbar || code != ResponseCode.success) {
+    if (shouldShowSnackbar || code != ResponseCodeType.success) {
       App.of(context)?.showSpSnackBar(message);
     }
   }
 
   @mustCallSuper
-  Future<ResponseCode> _save({bool restore = false, bool force = false}) async {
-    if (!hasChange && !force) return ResponseCode.noChange;
+  Future<ResponseCodeType> _save({bool restore = false, bool force = false}) async {
+    if (!hasChange && !force) return ResponseCodeType.noChange;
     StoryModel? result = await write(restore: restore);
     if (result != null && result.changes.isNotEmpty) {
       currentStory = result;
       currentContent = result.changes.last;
-      return ResponseCode.success;
+      return ResponseCodeType.success;
     }
-    return ResponseCode.fail;
+    return ResponseCodeType.fail;
   }
 
   @mustCallSuper
@@ -281,10 +281,10 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   bool hasAutosaved = false;
   Future<void> autosave() async {
     if (hasChange) {
-      ResponseCode code = await _save();
+      ResponseCodeType code = await _save();
       Future.delayed(ConfigConstant.fadeDuration).then((value) {
         switch (code) {
-          case ResponseCode.success:
+          case ResponseCodeType.success:
             hasAutosaved = true;
             AppNotification().displayNotification(
               plainTitle: "Document is saved",
@@ -292,9 +292,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
               payload: currentStory,
             );
             break;
-          case ResponseCode.noChange:
+          case ResponseCodeType.noChange:
             break;
-          case ResponseCode.fail:
+          case ResponseCodeType.fail:
             AppNotification().displayNotification(
               plainTitle: "Document isn't saved!",
               plainBody: "Error",

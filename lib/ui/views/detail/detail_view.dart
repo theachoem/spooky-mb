@@ -3,7 +3,7 @@ library detail_view;
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
-import 'package:spooky/ui/views/detail/detail_view_flow_type.dart';
+import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/ui/views/detail/local_widgets/detail_editor.dart';
 import 'package:spooky/ui/views/detail/local_widgets/detail_scaffold.dart';
 import 'package:spooky/ui/views/detail/local_widgets/detail_toolbar.dart';
@@ -25,7 +25,7 @@ class DetailView extends StatelessWidget {
   }) : super(key: key);
 
   final StoryModel initialStory;
-  final DetailViewFlow intialFlow;
+  final DetailViewFlowType intialFlow;
 
   @override
   Widget build(BuildContext context) {

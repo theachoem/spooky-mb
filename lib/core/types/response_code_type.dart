@@ -1,4 +1,4 @@
-enum ResponseCode {
+enum ResponseCodeType {
   success,
   noChange,
   fail,

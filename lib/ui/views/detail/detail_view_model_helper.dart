@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/ui/views/detail/detail_view_flow_type.dart';
+import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 
 class DetailViewModelHelper {
@@ -26,7 +26,7 @@ class DetailViewModelHelper {
   static StoryModel buildStory(
     StoryModel currentStory,
     StoryContentModel currentContent,
-    DetailViewFlow flowType,
+    DetailViewFlowType flowType,
     Map<int, QuillController> quillControllers,
     TextEditingController titleController,
     DateTime openOn,
@@ -42,12 +42,12 @@ class DetailViewModelHelper {
     currentContent = buildContent(currentContent, quillControllers, titleController, openOn);
 
     switch (flowType) {
-      case DetailViewFlow.create:
+      case DetailViewFlowType.create:
         story = currentStory.copyWith(
           changes: [currentContent],
         );
         break;
-      case DetailViewFlow.update:
+      case DetailViewFlowType.update:
         currentStory.addChange(currentContent);
         story = currentStory;
         break;
