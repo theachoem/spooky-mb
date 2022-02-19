@@ -1,7 +1,6 @@
 library security_service;
 
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
