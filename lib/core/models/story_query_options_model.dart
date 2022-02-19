@@ -1,4 +1,4 @@
-import 'package:spooky/core/file_managers/types/file_path_type.dart';
+import 'package:spooky/core/types/file_path_type.dart';
 
 class StoryQueryOptionsModel {
   final int? year;

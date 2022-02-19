@@ -18,7 +18,7 @@ import '../../ui/views/archive/archive_view.dart' as _i9;
 import '../../ui/views/changes_history/changes_history_view.dart' as _i11;
 import '../../ui/views/content_reader/content_reader_view.dart' as _i10;
 import '../../ui/views/detail/detail_view.dart' as _i12;
-import '../../ui/views/detail/detail_view_model.dart' as _i22;
+import '../../ui/views/detail/detail_view_flow_type.dart' as _i22;
 import '../../ui/views/developer_mode/developer_mode_view.dart' as _i3;
 import '../../ui/views/explore/explore_view.dart' as _i15;
 import '../../ui/views/home/home_view.dart' as _i14;

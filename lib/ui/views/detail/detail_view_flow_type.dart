@@ -1,0 +1,4 @@
+enum DetailViewFlow {
+  create,
+  update,
+}

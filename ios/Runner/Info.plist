@@ -48,5 +48,7 @@
 		<string>en</string>
 		<string>km</string>
 	</array>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Spooky uses FaceID to log you in.</string>
 </dict>
 </plist>

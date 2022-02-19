@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
+import 'package:spooky/core/types/biometrics_lock_flow_type.dart';
+import 'package:spooky/core/types/lock_type.dart';
 
 class SecurityService {
   static final LocalAuthentication _localAuth = LocalAuthentication();
@@ -28,11 +30,24 @@ class SecurityService {
     }
   }
 
-  Future<void> _authentication(BuildContext context) async {
+  Future<void> _authentication(
+    BuildContext context,
+    BiometricsLockFlowType flow,
+  ) async {
     if (hasLocalAuth) {
       bool authenticated = await _localAuth.authenticate(localizedReason: "Unlock to open the app");
       if (authenticated) {
         Navigator.of(context).maybePop();
+        switch (flow) {
+          case BiometricsLockFlowType.set:
+            _storage.setLock(LockType.biometric, null);
+            break;
+          case BiometricsLockFlowType.remove:
+            _storage.clearLock();
+            break;
+          case BiometricsLockFlowType.unlock:
+            break;
+        }
       }
     }
   }
@@ -52,22 +67,23 @@ class SecurityService {
           secret: secret,
         );
         break;
+      // TODO: password lock
       case LockType.password:
         if (secret == null) _storage.clearLock();
         break;
       case LockType.biometric:
-        _showBiometricsLock(context);
+        _showBiometricsLock(context, BiometricsLockFlowType.unlock);
         break;
     }
   }
 
-  void _showBiometricsLock(BuildContext context) {
+  void _showBiometricsLock(BuildContext context, BiometricsLockFlowType flow) {
     screenLock(
       context: context,
       correctString: '',
       customizedButtonChild: Icon(Icons.fingerprint),
-      customizedButtonTap: () => _authentication(context),
-      didOpened: () => _authentication(context),
+      customizedButtonTap: () => _authentication(context, flow),
+      didOpened: () => _authentication(context, flow),
     );
   }
 
@@ -82,7 +98,6 @@ class SecurityService {
     }
 
     Completer<bool> confirmOwnership = Completer();
-
     screenLock(
       context: context,
       correctString: secret,
@@ -92,6 +107,10 @@ class SecurityService {
 
     await confirmOwnership.future;
     Navigator.of(context).pop();
+  }
+
+  Future<void> setBiometricsLock(BuildContext context) async {
+    return _showBiometricsLock(context, BiometricsLockFlowType.set);
   }
 
   Future<bool> setPinLock(BuildContext context, {int digit = 4}) async {
@@ -143,9 +162,11 @@ class SecurityService {
           canCancel: true,
         );
         break;
+      // TODO: implement password
       case LockType.password:
         break;
       case LockType.biometric:
+        _showBiometricsLock(context, BiometricsLockFlowType.remove);
         break;
     }
     await clear();

@@ -4,6 +4,7 @@ import 'package:spooky/core/storages/base_storages/enum_storage.dart';
 import 'package:spooky/core/storages/base_storages/secure_storage.dart';
 import 'package:spooky/core/storages/storage_adapters/base_storage_adapter.dart';
 import 'package:spooky/core/storages/storage_adapters/secure_storage_adapter.dart';
+import 'package:spooky/core/types/lock_type.dart';
 
 part 'lock_secret_storage.dart';
 part 'lock_type_storage.dart';

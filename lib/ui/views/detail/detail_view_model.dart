@@ -4,21 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
-import 'package:spooky/core/file_managers/types/response_code.dart';
+import 'package:spooky/core/types/response_code.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
+import 'package:spooky/ui/views/detail/detail_view_flow_type.dart';
 import 'package:spooky/ui/views/detail/detail_view_model_helper.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
-
-enum DetailViewFlow {
-  create,
-  update,
-}
 
 class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver {
   late DateTime openOn;

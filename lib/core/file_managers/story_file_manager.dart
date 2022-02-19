@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/file_managers/base_file_manager.dart';
-import 'package:spooky/core/file_managers/types/file_path_type.dart';
+import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';

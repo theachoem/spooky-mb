@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/ui/views/detail/detail_view_model.dart';
+import 'package:spooky/ui/views/detail/detail_view_flow_type.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 
 class DetailViewModelHelper {

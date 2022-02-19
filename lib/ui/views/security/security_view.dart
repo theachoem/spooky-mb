@@ -1,9 +1,7 @@
 library security_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
-import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
-import 'package:spooky/ui/views/lock/types/lock_flow_type.dart';
+import 'package:spooky/core/types/lock_type.dart';
 import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_sections_tiles.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
