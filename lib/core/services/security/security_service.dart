@@ -12,19 +12,26 @@ part './biometrics_service.dart';
 part './password_service.dart';
 part './pin_code_service.dart';
 part './security_informations.dart';
+part './base_lock_service.dart';
 
 class SecurityService {
-  static _SecurityInformations info = _SecurityInformations();
-  static Future<void> initialize() => info.initialize();
+  static Future<void> initialize() => _lockInfo.initialize();
+  static final _SecurityInformations _lockInfo = _SecurityInformations();
+
+  _SecurityInformations get lockInfo => _lockInfo;
+
+  _PinCodeService get pinCodeService => _PinCodeService(lockInfo);
+  _BiometricsService get biometricsService => _BiometricsService(lockInfo);
+  _PasswordService get passwordService => _PasswordService(lockInfo);
 
   Future<void> showLockIfHas(BuildContext? context) async {
     if (context == null) return;
 
-    SecurityObject? value = await getLock();
+    SecurityObject? value = await lockInfo.getLock();
     LockType? type = value?.type;
     String? secret = value?.secret;
     if (secret == null || type == null) {
-      info._storage.clearLock();
+      lockInfo._storage.clearLock();
       return;
     }
 
@@ -45,22 +52,22 @@ class SecurityService {
   }
 
   Future<void> _showBiometricsLock(BuildContext context, BiometricsLockFlowType flow) async {
-    if (info.hasLocalAuth) {
-      bool authenticated = await info._localAuth.authenticate(localizedReason: "Unlock to open the app");
+    if (lockInfo.hasLocalAuth) {
+      bool authenticated = await lockInfo._localAuth.authenticate(localizedReason: "Unlock to open the app");
       if (authenticated) {
         switch (flow) {
           case BiometricsLockFlowType.set:
             String matchedSecret = await setPinLock(context);
-            info._storage.setLock(LockType.biometric, matchedSecret);
+            lockInfo._storage.setLock(LockType.biometric, matchedSecret);
             break;
           case BiometricsLockFlowType.remove:
-            info._storage.clearLock();
+            lockInfo._storage.clearLock();
             break;
           case BiometricsLockFlowType.unlock:
             break;
         }
       } else {
-        SecurityObject? lock = await getLock();
+        SecurityObject? lock = await lockInfo.getLock();
         if (lock == null) return;
         switch (flow) {
           case BiometricsLockFlowType.set:
@@ -103,7 +110,7 @@ class SecurityService {
   Future<String> setPinLock(BuildContext context, {int digit = 4}) async {
     Completer<String> confirmNewPassword = Completer();
 
-    SecurityObject? lock = await getLock();
+    SecurityObject? lock = await lockInfo.getLock();
     if (lock?.type == LockType.pin && lock?.secret != null) {
       await _showPinLock(
         context: context,
@@ -127,7 +134,7 @@ class SecurityService {
     Navigator.of(context).maybePop();
 
     try {
-      info._storage.setLock(LockType.pin, matchedSecret);
+      lockInfo._storage.setLock(LockType.pin, matchedSecret);
       return matchedSecret;
     } catch (e) {
       return matchedSecret;
@@ -135,7 +142,7 @@ class SecurityService {
   }
 
   Future<void> removeLock(BuildContext context) async {
-    SecurityObject? value = await getLock();
+    SecurityObject? value = await lockInfo.getLock();
     LockType? type = value?.type;
     String? secret = value?.secret;
 
@@ -156,9 +163,6 @@ class SecurityService {
         await _showBiometricsLock(context, BiometricsLockFlowType.remove);
         break;
     }
-    await clear();
+    await lockInfo.clear();
   }
-
-  Future<SecurityObject?> getLock() => info._storage.getLock();
-  Future<void> clear() => info._storage.clearLock();
 }

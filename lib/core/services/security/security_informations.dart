@@ -1,5 +1,6 @@
 part of security_service;
 
+// store basic info & methods for security_service
 class _SecurityInformations {
   final LocalAuthentication _localAuth = LocalAuthentication();
   final SecurityStorage _storage = SecurityStorage();
@@ -23,4 +24,7 @@ class _SecurityInformations {
       _hasIris = availableBiometrics.contains(BiometricType.iris);
     }
   }
+
+  Future<SecurityObject?> getLock() => _storage.getLock();
+  Future<void> clear() => _storage.clearLock();
 }

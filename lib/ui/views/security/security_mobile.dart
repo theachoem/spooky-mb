@@ -74,7 +74,7 @@ class _SecurityMobile extends StatelessWidget {
           subtitle: Text("4 digit"),
           onTap: () => onPinCodePressed(context),
         ),
-        if (viewModel.service.hasLocalAuth)
+        if (viewModel.service.info.hasLocalAuth)
           ListTile(
             leading: SizedBox(height: 40, child: Icon(Icons.fingerprint)),
             trailing: Radio(value: LockType.biometric, groupValue: lockedType, onChanged: (value) {}),
