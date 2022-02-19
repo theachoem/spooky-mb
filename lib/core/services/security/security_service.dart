@@ -49,6 +49,7 @@ class SecurityService with _SecurityServiceMixin {
         await pinCodeService.unlock(_PinCodeOptions(
           context: context,
           object: object,
+          lockType: LockType.pin,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -56,6 +57,7 @@ class SecurityService with _SecurityServiceMixin {
         await passwordService.unlock(_PasswordOptions(
           context: context,
           object: object,
+          lockType: LockType.password,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -63,6 +65,7 @@ class SecurityService with _SecurityServiceMixin {
         await biometricsService.unlock(_BiometricsOptions(
           context: context,
           object: object,
+          lockType: LockType.biometric,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -83,6 +86,7 @@ class SecurityService with _SecurityServiceMixin {
         await pinCodeService.set(_PinCodeOptions(
           context: context,
           object: null,
+          lockType: LockType.pin,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -90,6 +94,7 @@ class SecurityService with _SecurityServiceMixin {
         await passwordService.set(_PasswordOptions(
           context: context,
           object: null,
+          lockType: LockType.password,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -97,11 +102,13 @@ class SecurityService with _SecurityServiceMixin {
         await biometricsService.set(_BiometricsOptions(
           context: context,
           object: null,
+          lockType: LockType.biometric,
           next: (bool authenticated) async {
             if (authenticated) {
               return pinCodeService.set(_PinCodeOptions(
                 context: context,
                 object: null,
+                lockType: LockType.biometric,
                 next: (bool authenticated) async => authenticated,
               ));
             } else {
@@ -125,6 +132,7 @@ class SecurityService with _SecurityServiceMixin {
         await pinCodeService.update(_PinCodeOptions(
           context: context,
           object: object,
+          lockType: LockType.pin,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -132,6 +140,7 @@ class SecurityService with _SecurityServiceMixin {
         await passwordService.update(_PasswordOptions(
           context: context,
           object: object,
+          lockType: LockType.password,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -139,6 +148,7 @@ class SecurityService with _SecurityServiceMixin {
         await biometricsService.update(_BiometricsOptions(
           context: context,
           object: object,
+          lockType: LockType.biometric,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -157,6 +167,7 @@ class SecurityService with _SecurityServiceMixin {
         await pinCodeService.remove(_PinCodeOptions(
           context: context,
           object: object,
+          lockType: LockType.pin,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -164,6 +175,7 @@ class SecurityService with _SecurityServiceMixin {
         await passwordService.remove(_PasswordOptions(
           context: context,
           object: object,
+          lockType: LockType.password,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -171,11 +183,13 @@ class SecurityService with _SecurityServiceMixin {
         await biometricsService.remove(_BiometricsOptions(
           context: context,
           object: object,
+          lockType: LockType.biometric,
           next: (bool authenticated) async {
-            if (authenticated) {
+            if (!authenticated) {
               bool _authenticated = await pinCodeService.unlock(_PinCodeOptions(
                 context: context,
                 object: null,
+                lockType: LockType.biometric,
                 next: (bool authenticated) async => authenticated,
               ));
               if (_authenticated) await lockInfo._storage.clearLock();

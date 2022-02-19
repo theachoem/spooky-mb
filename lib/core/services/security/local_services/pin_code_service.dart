@@ -28,7 +28,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
       },
     );
     if (matchedSecret != null) {
-      info._storage.setLock(LockType.pin, matchedSecret);
+      info._storage.setLock(option.lockType, matchedSecret);
       return option.next(true);
     } else {
       return option.next(false);
@@ -41,6 +41,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
       _PinCodeOptions(
         context: option.context,
         object: option.object,
+        lockType: option.lockType,
         next: (e) async => e,
       ),
     );
@@ -48,6 +49,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
       return set(_PinCodeOptions(
         context: option.context,
         object: null,
+        lockType: option.lockType,
         next: option.next,
       ));
     } else {
