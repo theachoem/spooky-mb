@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:spooky/core/storage_adapters/base_storage_adapter.dart';
+import 'package:spooky/core/storages/storage_adapters/base_storage_adapter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DefaultStorageAdapter<T> extends BaseStorageAdapter<T> {

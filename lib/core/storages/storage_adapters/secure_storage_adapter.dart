@@ -1,5 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:spooky/core/storage_adapters/base_storage_adapter.dart';
+import 'package:spooky/core/storages/storage_adapters/base_storage_adapter.dart';
 
 class SecureStorageAdapter extends BaseStorageAdapter<String> {
   FlutterSecureStorage storage = const FlutterSecureStorage();

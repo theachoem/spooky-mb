@@ -1,4 +1,4 @@
-import 'package:spooky/core/storage_adapters/base_storage_adapter.dart';
+import 'package:spooky/core/storages/storage_adapters/base_storage_adapter.dart';
 
 abstract class BaseStorage<T> {
   String get key => runtimeType.toString();
