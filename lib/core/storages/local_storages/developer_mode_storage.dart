@@ -1,3 +1,3 @@
-import 'package:spooky/core/base_storages/bool_storage.dart';
+import 'package:spooky/core/storages/base_storages/bool_storage.dart';
 
 class DeveloperModeStorage extends BoolPreferenceStorage {}

@@ -1,4 +1,4 @@
-import 'package:spooky/core/base_storages/enum_storage.dart';
+import 'package:spooky/core/storages/base_storages/enum_storage.dart';
 
 enum LocalAuthType {
   pin,

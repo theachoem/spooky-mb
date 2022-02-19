@@ -1,4 +1,4 @@
-import 'package:spooky/core/base_storages/share_preference_storage.dart';
+import 'package:spooky/core/storages/base_storages/share_preference_storage.dart';
 
 abstract class BoolPreferenceStorage extends SharePreferenceStorage<bool> {
   Future<void> toggle() async {

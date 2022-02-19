@@ -1,4 +1,4 @@
-import 'package:spooky/core/base_storages/share_preference_storage.dart';
+import 'package:spooky/core/storages/base_storages/share_preference_storage.dart';
 
 class InitialStoryTabStorage extends SharePreferenceStorage<Map> {
   Future<void> setInitialTab(int? year, int? month) async {

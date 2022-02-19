@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spooky/core/base_storages/enum_storage.dart';
+import 'package:spooky/core/storages/base_storages/enum_storage.dart';
 
 class FakeEnumStorage extends EnumPreferenceStorage<FakeType> {
   @override
