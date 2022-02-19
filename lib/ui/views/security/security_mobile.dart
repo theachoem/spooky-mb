@@ -19,7 +19,10 @@ class _SecurityMobile extends StatelessWidget {
           return ListView(
             children: SpSectionsTiles.divide(
               context: context,
-              sections: [buildLockMethods(lockedType, context), if (lockedType != null) buildOtherSetting()],
+              sections: [
+                buildLockMethods(lockedType, context),
+                if (lockedType != null) buildOtherSetting(),
+              ],
             ),
           );
         },
@@ -74,7 +77,7 @@ class _SecurityMobile extends StatelessWidget {
           subtitle: Text("4 digit"),
           onTap: () => onPinCodePressed(context),
         ),
-        if (viewModel.service.hasLocalAuth)
+        if (viewModel.service.lockInfo.hasLocalAuth)
           ListTile(
             leading: SizedBox(height: 40, child: Icon(Icons.fingerprint)),
             trailing: Radio(value: LockType.biometric, groupValue: lockedType, onChanged: (value) {}),
@@ -134,10 +137,12 @@ class _SecurityMobile extends StatelessWidget {
       noLockTitle: "Add PIN code",
       removeLockTitle: "Remove PIN code",
       onSetPressed: () async {
-        await viewModel.service.setPinLock(context, digit: 4);
+        await viewModel.service.set(context: context, type: LockType.pin);
+        await viewModel.load();
       },
       onRemovePressed: () async {
-        await viewModel.service.removeLock(context);
+        await viewModel.service.remove(context: context, type: LockType.pin);
+        await viewModel.load();
       },
     );
   }
@@ -150,10 +155,12 @@ class _SecurityMobile extends StatelessWidget {
       noLockTitle: "Add Biometrics",
       removeLockTitle: "Remove Biometrics",
       onSetPressed: () async {
-        await viewModel.service.setBiometricsLock(context);
+        await viewModel.service.set(context: context, type: LockType.biometric);
+        await viewModel.load();
       },
       onRemovePressed: () async {
-        await viewModel.service.removeBiometricsLock(context);
+        await viewModel.service.remove(context: context, type: LockType.biometric);
+        await viewModel.load();
       },
     );
   }

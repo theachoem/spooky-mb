@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/services/security_service.dart';
+import 'package:spooky/core/services/security/security_service.dart';
 import 'package:spooky/core/storages/local_storages/security/lock_life_circle_duration_storage.dart';
 import 'package:spooky/core/types/lock_type.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
@@ -21,7 +21,7 @@ class SecurityViewModel extends BaseViewModel {
   }
 
   Future<void> load() async {
-    service.getLock().then((e) {
+    service.lockInfo.getLock().then((e) {
       lockedTypeNotifier.value = e?.type;
     });
     lockLifeCircleDurationStorage.read().then((value) {
