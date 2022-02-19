@@ -24,12 +24,7 @@ class _SecurityMobile extends StatelessWidget {
                   title: Text("PIN code"),
                   subtitle: Text("4 digit"),
                   onTap: () {
-                    Navigator.of(context).pushNamed(
-                      SpRouteConfig.lock,
-                      arguments: LockArgs(
-                        flowType: LockFlowType.setPin,
-                      ),
-                    );
+                    viewModel.service.setPinLock(context, digit: 4);
                   },
                 ),
                 ListTile(

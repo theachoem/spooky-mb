@@ -38,4 +38,9 @@ class SecurityStorage {
         return SecurityObject(lock, secret);
     }
   }
+
+  Future<void> clearLock() async {
+    _lockTypeStorage.remove();
+    _lockSecretStorage.remove();
+  }
 }

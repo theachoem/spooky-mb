@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/services/security_service.dart';
+import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
@@ -21,29 +22,23 @@ import 'package:spooky/utils/util_widgets/measure_size.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
-import 'main_view_model.dart';
+import 'package:flutter_screen_lock/flutter_screen_lock.dart';
+import 'package:spooky/ui/views/main/main_view_model.dart';
 
 part 'main_mobile.dart';
 part 'main_tablet.dart';
 part 'main_desktop.dart';
 
-class MainView extends StatefulWidget {
+class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
 
-  static _MainViewState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_MainViewState>();
-  }
-
-  @override
-  State<MainView> createState() => _MainViewState();
-}
-
-class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainViewModel>.reactive(
       viewModelBuilder: () => MainViewModel(),
-      onModelReady: (model) {},
+      onModelReady: (model) {
+        SecurityService().showLockIfHas(context);
+      },
       disposeViewModel: false,
       builder: (context, model, child) {
         return SpScreenTypeLayout(

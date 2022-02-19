@@ -9,6 +9,12 @@ class SecurityViewModel extends BaseViewModel {
 
   SecurityViewModel() {
     lockedTypeNotifier = ValueNotifier(null);
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      load();
+    });
+  }
+
+  Future<void> load() async {
     service.getLock().then((e) {
       lockedTypeNotifier.value = e?.type;
     });
