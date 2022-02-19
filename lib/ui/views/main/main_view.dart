@@ -22,7 +22,6 @@ import 'package:spooky/utils/util_widgets/measure_size.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:spooky/ui/views/main/main_view_model.dart';
 
 part 'main_mobile.dart';
@@ -37,7 +36,7 @@ class MainView extends StatelessWidget {
     return ViewModelBuilder<MainViewModel>.reactive(
       viewModelBuilder: () => MainViewModel(),
       onModelReady: (model) {
-        SecurityService().showLockIfHas(context);
+        model.service.showLockIfHas(context);
       },
       disposeViewModel: false,
       builder: (context, model, child) {

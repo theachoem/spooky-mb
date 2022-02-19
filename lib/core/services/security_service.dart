@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:local_auth/local_auth.dart';
@@ -38,12 +37,14 @@ class SecurityService {
     }
   }
 
-  Future<void> showLockIfHas(BuildContext context) async {
+  Future<void> showLockIfHas(BuildContext? context) async {
+    if (context == null) return;
+
     SecurityObject? value = await getLock();
     LockType? type = value?.type;
     String? secret = value?.secret;
-
     if (type == null) return;
+
     switch (type) {
       case LockType.pin:
         await _showPinLock(
@@ -125,6 +126,29 @@ class SecurityService {
     } catch (e) {
       return false;
     }
+  }
+
+  Future<void> removeLock(BuildContext context) async {
+    SecurityObject? value = await getLock();
+    LockType? type = value?.type;
+    String? secret = value?.secret;
+
+    if (type == null) return;
+    switch (type) {
+      case LockType.pin:
+        if (secret == null) break;
+        await _showPinLock(
+          context: context,
+          secret: secret,
+          canCancel: true,
+        );
+        break;
+      case LockType.password:
+        break;
+      case LockType.biometric:
+        break;
+    }
+    await clear();
   }
 
   Future<SecurityObject?> getLock() => _storage.getLock();

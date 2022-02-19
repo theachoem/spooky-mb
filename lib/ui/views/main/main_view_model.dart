@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/app.dart';
+import 'package:spooky/core/services/security_service.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 
-class MainViewModel extends BaseViewModel with ScheduleMixin {
+class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
   late final ValueNotifier<bool> shouldScrollToTopNotifier;
   late final ValueNotifier<double?> bottomNavigationHeight;
+
+  final SecurityService service = SecurityService();
 
   Map<int, ScrollController> scrollControllers = {};
   ScrollController? get currentScrollController {
@@ -33,6 +37,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     year = date.year;
     month = date.month;
     day = date.day;
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
@@ -40,6 +45,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     shouldShowBottomNavNotifier.dispose();
     shouldScrollToTopNotifier.dispose();
     bottomNavigationHeight.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -85,7 +91,26 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
       scheduleAction(() {
         shouldShowBottomNavNotifier.value = value;
         fixedHideBnv = fixed;
-      });
+      }, key: ValueKey("setShouldHideBottomNav"));
+    }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        cancelTimer(ValueKey("setShouldHideBottomNav"));
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        scheduleAction(
+          () => service.showLockIfHas(App.navigatorKey.currentContext),
+          key: ValueKey("setShouldHideBottomNav"),
+          duration: Duration(seconds: 20),
+        );
+        break;
     }
   }
 }

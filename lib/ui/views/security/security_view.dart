@@ -1,5 +1,6 @@
 library security_view;
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
 import 'package:spooky/ui/views/lock/types/lock_flow_type.dart';
