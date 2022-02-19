@@ -18,20 +18,21 @@ import '../../ui/views/archive/archive_view.dart' as _i9;
 import '../../ui/views/changes_history/changes_history_view.dart' as _i11;
 import '../../ui/views/content_reader/content_reader_view.dart' as _i10;
 import '../../ui/views/detail/detail_view.dart' as _i12;
-import '../../ui/views/detail/detail_view_model.dart' as _i21;
+import '../../ui/views/detail/detail_view_model.dart' as _i22;
 import '../../ui/views/developer_mode/developer_mode_view.dart' as _i3;
 import '../../ui/views/explore/explore_view.dart' as _i15;
 import '../../ui/views/home/home_view.dart' as _i14;
 import '../../ui/views/init_pick_color/init_pick_color_view.dart' as _i5;
 import '../../ui/views/lock/lock_view.dart' as _i1;
+import '../../ui/views/lock/types/lock_flow_type.dart' as _i19;
 import '../../ui/views/main/main_view.dart' as _i13;
 import '../../ui/views/manage_pages/manage_pages_view.dart' as _i8;
 import '../../ui/views/nickname_creator/nickname_creator_view.dart' as _i4;
 import '../../ui/views/security/security_view.dart' as _i2;
 import '../../ui/views/setting/setting_view.dart' as _i16;
 import '../../ui/views/theme_setting/theme_setting_view.dart' as _i7;
-import '../models/story_content_model.dart' as _i19;
-import '../models/story_model.dart' as _i20;
+import '../models/story_content_model.dart' as _i20;
+import '../models/story_model.dart' as _i21;
 
 class AppRouter extends _i17.RootStackRouter {
   AppRouter([_i18.GlobalKey<_i18.NavigatorState>? navigatorKey])
@@ -40,8 +41,10 @@ class AppRouter extends _i17.RootStackRouter {
   @override
   final Map<String, _i17.PageFactory> pagesMap = {
     Lock.name: (routeData) {
+      final args = routeData.argsAs<LockArgs>();
       return _i17.MaterialPageX<dynamic>(
-          routeData: routeData, child: const _i1.LockView());
+          routeData: routeData,
+          child: _i1.LockView(key: args.key, flowType: args.flowType));
     },
     Security.name: (routeData) {
       return _i17.MaterialPageX<dynamic>(
@@ -156,10 +159,25 @@ class AppRouter extends _i17.RootStackRouter {
 
 /// generated route for
 /// [_i1.LockView]
-class Lock extends _i17.PageRouteInfo<void> {
-  const Lock() : super(Lock.name, path: '/lock');
+class Lock extends _i17.PageRouteInfo<LockArgs> {
+  Lock({_i18.Key? key, required _i19.LockFlowType flowType})
+      : super(Lock.name,
+            path: '/lock', args: LockArgs(key: key, flowType: flowType));
 
   static const String name = 'Lock';
+}
+
+class LockArgs {
+  const LockArgs({this.key, required this.flowType});
+
+  final _i18.Key? key;
+
+  final _i19.LockFlowType flowType;
+
+  @override
+  String toString() {
+    return 'LockArgs{key: $key, flowType: $flowType}';
+  }
 }
 
 /// generated route for
@@ -216,7 +234,7 @@ class ThemeSetting extends _i17.PageRouteInfo<void> {
 /// generated route for
 /// [_i8.ManagePagesView]
 class ManagePages extends _i17.PageRouteInfo<ManagePagesArgs> {
-  ManagePages({_i18.Key? key, required _i19.StoryContentModel content})
+  ManagePages({_i18.Key? key, required _i20.StoryContentModel content})
       : super(ManagePages.name,
             path: '/manage-pages',
             args: ManagePagesArgs(key: key, content: content));
@@ -229,7 +247,7 @@ class ManagePagesArgs {
 
   final _i18.Key? key;
 
-  final _i19.StoryContentModel content;
+  final _i20.StoryContentModel content;
 
   @override
   String toString() {
@@ -248,7 +266,7 @@ class Archive extends _i17.PageRouteInfo<void> {
 /// generated route for
 /// [_i10.ContentReaderView]
 class ContentReader extends _i17.PageRouteInfo<ContentReaderArgs> {
-  ContentReader({_i18.Key? key, required _i19.StoryContentModel content})
+  ContentReader({_i18.Key? key, required _i20.StoryContentModel content})
       : super(ContentReader.name,
             path: '/content-reader',
             args: ContentReaderArgs(key: key, content: content));
@@ -261,7 +279,7 @@ class ContentReaderArgs {
 
   final _i18.Key? key;
 
-  final _i19.StoryContentModel content;
+  final _i20.StoryContentModel content;
 
   @override
   String toString() {
@@ -274,8 +292,8 @@ class ContentReaderArgs {
 class ChangesHistory extends _i17.PageRouteInfo<ChangesHistoryArgs> {
   ChangesHistory(
       {_i18.Key? key,
-      required _i20.StoryModel story,
-      required void Function(_i19.StoryContentModel) onRestorePressed,
+      required _i21.StoryModel story,
+      required void Function(_i20.StoryContentModel) onRestorePressed,
       required void Function(List<String>) onDeletePressed})
       : super(ChangesHistory.name,
             path: '/changes-history',
@@ -297,9 +315,9 @@ class ChangesHistoryArgs {
 
   final _i18.Key? key;
 
-  final _i20.StoryModel story;
+  final _i21.StoryModel story;
 
-  final void Function(_i19.StoryContentModel) onRestorePressed;
+  final void Function(_i20.StoryContentModel) onRestorePressed;
 
   final void Function(List<String>) onDeletePressed;
 
@@ -314,8 +332,8 @@ class ChangesHistoryArgs {
 class Detail extends _i17.PageRouteInfo<DetailArgs> {
   Detail(
       {_i18.Key? key,
-      required _i20.StoryModel initialStory,
-      required _i21.DetailViewFlow intialFlow})
+      required _i21.StoryModel initialStory,
+      required _i22.DetailViewFlow intialFlow})
       : super(Detail.name,
             path: '/detail',
             args: DetailArgs(
@@ -330,9 +348,9 @@ class DetailArgs {
 
   final _i18.Key? key;
 
-  final _i20.StoryModel initialStory;
+  final _i21.StoryModel initialStory;
 
-  final _i21.DetailViewFlow intialFlow;
+  final _i22.DetailViewFlow intialFlow;
 
   @override
   String toString() {

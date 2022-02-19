@@ -200,7 +200,13 @@ class SpRouteConfig {
         title: "Lock",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => LockView(),
+        route: (context) {
+          Object? arguments = settings?.arguments;
+          if (arguments is LockArgs) {
+            return LockView(flowType: arguments.flowType);
+          }
+          return buildNotFound();
+        },
       ),
       developerModeView: DefaultRouteSetting(
         title: "Developer Mode",

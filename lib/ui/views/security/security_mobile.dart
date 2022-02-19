@@ -19,12 +19,26 @@ class _SecurityMobile extends StatelessWidget {
             leading: SizedBox(height: 40, child: Icon(Icons.pin)),
             title: Text("PIN code"),
             subtitle: Text("4 digit"),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                SpRouteConfig.lock,
+                arguments: LockArgs(
+                  flowType: LockFlowType.setPin,
+                ),
+              );
+            },
           ),
           ListTile(
             leading: SizedBox(height: 40, child: Icon(Icons.password)),
             title: Text("Password"),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed(
+                SpRouteConfig.lock,
+                arguments: LockArgs(
+                  flowType: LockFlowType.setPassword,
+                ),
+              );
+            },
           ),
           ListTile(
             leading: SizedBox(height: 40, child: Icon(Icons.settings)),
