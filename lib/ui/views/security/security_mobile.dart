@@ -17,42 +17,72 @@ class _SecurityMobile extends StatelessWidget {
         valueListenable: viewModel.lockedTypeNotifier,
         builder: (context, lockedType, child) {
           return ListView(
-            children: ListTile.divideTiles(
+            children: SpSectionsTiles.divide(
               context: context,
-              tiles: [
-                ListTile(
-                  leading: SizedBox(height: 40, child: Icon(Icons.pin)),
-                  trailing: Radio(value: LockType.pin, groupValue: lockedType, onChanged: (value) {}),
-                  title: Text("PIN code"),
-                  subtitle: Text("4 digit"),
-                  onTap: () => onPinCodePressed(context),
-                ),
-                ListTile(
-                  leading: SizedBox(height: 40, child: Icon(Icons.password)),
-                  trailing: Radio(value: LockType.password, groupValue: lockedType, onChanged: (value) {}),
-                  title: Text("Password"),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(
-                      SpRouteConfig.lock,
-                      arguments: LockArgs(
-                        flowType: LockFlowType.setPassword,
-                      ),
-                    );
-                  },
-                ),
-                if (viewModel.service.hasLocalAuth)
-                  ListTile(
-                    leading: SizedBox(height: 40, child: Icon(Icons.settings)),
-                    trailing: Radio(value: LockType.biometric, groupValue: lockedType, onChanged: (value) {}),
-                    title: Text("Phone"),
-                    subtitle: Text("Unlock app base on your phone lock"),
-                    onTap: () {},
-                  ),
-              ],
-            ).toList(),
+              sections: [buildLockMethods(lockedType, context), if (lockedType != null) buildOtherSetting()],
+            ),
           );
         },
       ),
+    );
+  }
+
+  SpSectionContents buildOtherSetting() {
+    return SpSectionContents(
+      headline: "Other Setting",
+      tiles: [
+        ValueListenableBuilder<int>(
+          valueListenable: viewModel.lockLifeCircleDurationNotifier,
+          builder: (context, seconds, child) {
+            return ListTile(
+              leading: SizedBox(height: 40, child: Icon(Icons.update_sharp)),
+              title: Text("Lock Life circle"),
+              subtitle: Text("$seconds seconds"),
+              onTap: () async {
+                DateTime? date = await SpDatePicker.showSecondsPicker(context, seconds);
+                viewModel.setLockLifeCircleDuration(date?.second);
+              },
+            );
+          },
+        )
+      ],
+    );
+  }
+
+  SpSectionContents buildLockMethods(LockType? lockedType, BuildContext context) {
+    return SpSectionContents(
+      headline: "Lock Methods",
+      tiles: [
+        // TODO: Implement set password
+        // ListTile(
+        //   leading: SizedBox(height: 40, child: Icon(Icons.password)),
+        //   trailing: Radio(value: LockType.password, groupValue: lockedType, onChanged: (value) {}),
+        //   title: Text("Password"),
+        //   onTap: () {
+        //     Navigator.of(context).pushNamed(
+        //       SpRouteConfig.lock,
+        //       arguments: LockArgs(
+        //         flowType: LockFlowType.setPassword,
+        //       ),
+        //     );
+        //   },
+        // ),
+        ListTile(
+          leading: SizedBox(height: 40, child: Icon(Icons.pin)),
+          trailing: Radio(value: LockType.pin, groupValue: lockedType, onChanged: (value) {}),
+          title: Text("PIN code"),
+          subtitle: Text("4 digit"),
+          onTap: () => onPinCodePressed(context),
+        ),
+        if (viewModel.service.hasLocalAuth)
+          ListTile(
+            leading: SizedBox(height: 40, child: Icon(Icons.settings)),
+            trailing: Radio(value: LockType.biometric, groupValue: lockedType, onChanged: (value) {}),
+            title: Text("Phone"),
+            subtitle: Text("Unlock app base on your phone lock"),
+            onTap: () {},
+          ),
+      ],
     );
   }
 

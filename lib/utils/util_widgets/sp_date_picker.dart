@@ -47,6 +47,25 @@ class SpDatePicker {
     );
   }
 
+  static Future<DateTime?> showSecondsPicker(
+    BuildContext context,
+    int initialSeconds,
+  ) {
+    DateTime now = DateTime.now();
+    return showPicker(
+      context: context,
+      dateFormat: 'ss',
+      initialDate: DateTime(
+        now.year,
+        now.month,
+        now.day,
+        now.hour,
+        now.minute,
+        initialSeconds,
+      ),
+    );
+  }
+
   static Future<DateTime?> showDatePicker(
     BuildContext context,
     DateTime initialDate,
