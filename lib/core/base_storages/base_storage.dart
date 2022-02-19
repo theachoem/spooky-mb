@@ -1,4 +1,4 @@
-import 'package:spooky/core/base_storages/storage_adapters/base_storage_adapter.dart';
+import 'package:spooky/core/storage_adapters/base_storage_adapter.dart';
 
 abstract class BaseStorage<T> {
   String get key => runtimeType.toString();
@@ -8,7 +8,8 @@ abstract class BaseStorage<T> {
     return await (await adapter).read(key: key);
   }
 
-  Future<void> write(T value) async {
+  Future<void> write(T? value) async {
+    if (value == null) return remove();
     await (await adapter).write(key: key, value: value);
   }
 

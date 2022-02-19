@@ -1,12 +1,12 @@
-import 'package:spooky/core/base_storages/map_preference_storage.dart';
+import 'package:spooky/core/base_storages/share_preference_storage.dart';
 
-class InitialStoryTabStorage extends MapPreferenceStorage {
+class InitialStoryTabStorage extends SharePreferenceStorage<Map> {
   Future<void> setInitialTab(int? year, int? month) async {
-    return writeMap({'year': year, 'month': month});
+    return write({'year': year, 'month': month});
   }
 
   Future<DateTime> getInitialTab() async {
-    Map<dynamic, dynamic>? result = await super.readMap();
+    Map<dynamic, dynamic>? result = await super.read();
     int? year = _getValueByKey(result, 'year');
     int? month = _getValueByKey(result, 'month');
 
