@@ -1,3 +1,5 @@
+library security_service;
+
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
@@ -6,29 +8,14 @@ import 'package:spooky/core/storages/local_storages/security/security_storage.da
 import 'package:spooky/core/types/biometrics_lock_flow_type.dart';
 import 'package:spooky/core/types/lock_type.dart';
 
+part './biometrics_service.dart';
+part './password_service.dart';
+part './pin_code_service.dart';
+part './security_informations.dart';
+
 class SecurityService {
-  static final LocalAuthentication _localAuth = LocalAuthentication();
-  static final SecurityStorage _storage = SecurityStorage();
-
-  static bool? _hasFaceID;
-  static bool? _hasFingerprint;
-  static bool? _hasIris;
-
-  bool get hasFaceID => _hasFaceID ?? false;
-  bool get hasFingerprint => _hasFingerprint ?? false;
-  bool get hasIris => _hasIris ?? false;
-
-  bool get hasLocalAuth => hasFaceID || hasFingerprint || hasIris;
-
-  static Future<void> initialize() async {
-    bool canCheckBiometrics = await _localAuth.canCheckBiometrics && await _localAuth.isDeviceSupported();
-    if (canCheckBiometrics) {
-      List<BiometricType> availableBiometrics = await _localAuth.getAvailableBiometrics();
-      _hasFaceID = availableBiometrics.contains(BiometricType.face);
-      _hasFaceID = availableBiometrics.contains(BiometricType.fingerprint);
-      _hasIris = availableBiometrics.contains(BiometricType.iris);
-    }
-  }
+  static _SecurityInformations info = _SecurityInformations();
+  static Future<void> initialize() => info.initialize();
 
   Future<void> showLockIfHas(BuildContext? context) async {
     if (context == null) return;
@@ -37,7 +24,7 @@ class SecurityService {
     LockType? type = value?.type;
     String? secret = value?.secret;
     if (secret == null || type == null) {
-      _storage.clearLock();
+      info._storage.clearLock();
       return;
     }
 
@@ -58,16 +45,16 @@ class SecurityService {
   }
 
   Future<void> _showBiometricsLock(BuildContext context, BiometricsLockFlowType flow) async {
-    if (hasLocalAuth) {
-      bool authenticated = await _localAuth.authenticate(localizedReason: "Unlock to open the app");
+    if (info.hasLocalAuth) {
+      bool authenticated = await info._localAuth.authenticate(localizedReason: "Unlock to open the app");
       if (authenticated) {
         switch (flow) {
           case BiometricsLockFlowType.set:
             String matchedSecret = await setPinLock(context);
-            _storage.setLock(LockType.biometric, matchedSecret);
+            info._storage.setLock(LockType.biometric, matchedSecret);
             break;
           case BiometricsLockFlowType.remove:
-            _storage.clearLock();
+            info._storage.clearLock();
             break;
           case BiometricsLockFlowType.unlock:
             break;
@@ -140,7 +127,7 @@ class SecurityService {
     Navigator.of(context).maybePop();
 
     try {
-      _storage.setLock(LockType.pin, matchedSecret);
+      info._storage.setLock(LockType.pin, matchedSecret);
       return matchedSecret;
     } catch (e) {
       return matchedSecret;
@@ -172,6 +159,6 @@ class SecurityService {
     await clear();
   }
 
-  Future<SecurityObject?> getLock() => _storage.getLock();
-  Future<void> clear() => _storage.clearLock();
+  Future<SecurityObject?> getLock() => info._storage.getLock();
+  Future<void> clear() => info._storage.clearLock();
 }
