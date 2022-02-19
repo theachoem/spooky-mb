@@ -4,10 +4,30 @@ import 'package:stacked/stacked.dart';
 
 class MainViewModel extends BaseViewModel with ScheduleMixin {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
+  late final ValueNotifier<bool> shouldScrollToTopNotifier;
   late final ValueNotifier<double?> bottomNavigationHeight;
+
+  Map<int, ScrollController> scrollControllers = {};
+  ScrollController? get currentScrollController {
+    if (scrollControllers.containsKey(activeIndex)) {
+      return scrollControllers[activeIndex];
+    }
+    return null;
+  }
+
+  void setScrollController({
+    required int index,
+    required ScrollController controller,
+  }) {
+    scrollControllers[index] = controller;
+  }
+
+  // bnv - bottom navigatoin
+  bool fixedHideBnv = false;
 
   MainViewModel() {
     shouldShowBottomNavNotifier = ValueNotifier(true);
+    shouldScrollToTopNotifier = ValueNotifier(false);
     bottomNavigationHeight = ValueNotifier(null);
     DateTime date = DateTime.now();
     year = date.year;
@@ -18,6 +38,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   @override
   void dispose() {
     shouldShowBottomNavNotifier.dispose();
+    shouldScrollToTopNotifier.dispose();
     bottomNavigationHeight.dispose();
     super.dispose();
   }
@@ -52,9 +73,19 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     this.month = month;
   }
 
-  void setShowBottomNav(bool value) {
-    scheduleAction(() {
+  void setShouldScrollToTop(bool value) {
+    shouldScrollToTopNotifier.value = value;
+  }
+
+  void setShouldHideBottomNav(bool value, [bool fixed = false]) {
+    if (fixed) {
       shouldShowBottomNavNotifier.value = value;
-    });
+      fixedHideBnv = fixed;
+    } else if (shouldShowBottomNavNotifier.value || !fixedHideBnv) {
+      scheduleAction(() {
+        shouldShowBottomNavNotifier.value = value;
+        fixedHideBnv = fixed;
+      });
+    }
   }
 }

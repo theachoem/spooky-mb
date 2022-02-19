@@ -1,7 +1,6 @@
 library init_pick_color_view;
 
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:bubble_lens/bubble_lens.dart';
 import 'package:responsive_builder/responsive_builder.dart';

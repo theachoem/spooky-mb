@@ -39,7 +39,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        controller: PrimaryScrollController.of(context),
+        controller: widget.viewModel.scrollController,
         headerSliverBuilder: headerSliverBuilder,
         body: SpTabView(
           controller: controller,

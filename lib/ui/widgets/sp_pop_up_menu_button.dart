@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rect_getter/rect_getter.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 
@@ -58,7 +59,7 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      RenderObject? renderObject = Overlay.of(context)?.context.findRenderObject();
+      RenderObject? renderObject = Overlay.of(App.navigatorKey.currentContext ?? context)?.context.findRenderObject();
       if (renderObject is RenderBox) overlay = renderObject;
     });
   }

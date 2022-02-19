@@ -17,10 +17,30 @@ class HomeViewModel extends IndexTrackingViewModel {
 
   final void Function(int index) onTabChange;
   final void Function(int year) onYearChange;
-  late final void Function(void Function()) onListReloaderReady;
-  HomeViewModel(this.onTabChange, this.onYearChange, this.onListReloaderReady) {
+
+  final void Function(void Function()) onListReloaderReady;
+  final void Function(ScrollController controller) onScrollControllerReady;
+
+  late final ScrollController scrollController;
+
+  HomeViewModel(
+    this.onTabChange,
+    this.onYearChange,
+    this.onListReloaderReady,
+    this.onScrollControllerReady,
+  ) {
     year = InitialStoryTabService.initial.year;
     month = InitialStoryTabService.initial.month;
+    scrollController = ScrollController();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      onScrollControllerReady(scrollController);
+    });
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
   }
 
   void setYear(int? selectedYear) {

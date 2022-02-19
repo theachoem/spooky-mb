@@ -156,6 +156,7 @@ class SpRouteConfig {
               onTabChange: arguments.onTabChange,
               onYearChange: arguments.onYearChange,
               onListReloaderReady: arguments.onListReloaderReady,
+              onScrollControllerReady: arguments.onScrollControllerReady,
             );
           }
           return buildNotFound();

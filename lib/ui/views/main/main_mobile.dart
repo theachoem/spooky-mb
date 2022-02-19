@@ -19,46 +19,61 @@ class _MainMobile extends StatelessWidget {
       bottomNavigationBar: buildBottomNavigationBar(tabs),
       body: buildPagesListener(
         child: buildPages(tabs, context),
+        context: context,
       ),
     );
   }
 
   Widget buildPagesListener({
     required Widget child,
+    required BuildContext context,
   }) {
-    return NotificationListener<UserScrollNotification>(
-      child: child,
+    double height = MediaQuery.of(context).size.height;
+    return NotificationListener<ScrollNotification>(
       onNotification: (notification) {
-        ScrollDirection direction = notification.direction;
-        double maxScrollExtent = notification.metrics.maxScrollExtent;
-
-        // some screen list view can't be scroll
-        if (maxScrollExtent == 0) {
-          if (direction == ScrollDirection.idle) {
-            return false;
-          } else {
-            viewModel.setShowBottomNav(true);
-            return true;
-          }
+        double offset = notification.metrics.pixels;
+        // viewModel.currentScrollController return value
+        // that not actually an desire offset, so we prevent it
+        if (offset != viewModel.currentScrollController?.offset && offset != 0) {
+          viewModel.setShouldScrollToTop(offset > height / 2);
+          return true;
         }
-
-        switch (notification.direction) {
-          case ScrollDirection.idle:
-            return true;
-          case ScrollDirection.forward:
-            WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-              viewModel.setShowBottomNav(true);
-            });
-            break;
-          case ScrollDirection.reverse:
-            WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-              viewModel.setShowBottomNav(false);
-            });
-            break;
-        }
-
         return false;
       },
+      child: NotificationListener<UserScrollNotification>(
+        child: child,
+        onNotification: (notification) {
+          ScrollDirection direction = notification.direction;
+          double maxScrollExtent = notification.metrics.maxScrollExtent;
+
+          // some screen list view can't be scroll
+          if (maxScrollExtent == 0) {
+            if (direction == ScrollDirection.idle) {
+              return false;
+            } else {
+              viewModel.setShouldHideBottomNav(true);
+              return true;
+            }
+          }
+
+          switch (notification.direction) {
+            case ScrollDirection.idle:
+              return true;
+            case ScrollDirection.forward:
+              WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+                viewModel.setShouldHideBottomNav(true);
+              });
+              break;
+            case ScrollDirection.reverse:
+              WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+                viewModel.setShouldHideBottomNav(false);
+              });
+              break;
+          }
+
+          return false;
+        },
+      ),
     );
   }
 
@@ -72,6 +87,7 @@ class _MainMobile extends StatelessWidget {
           opacity: index == viewModel.activeIndex ? 1 : 0,
           child: buildTabItem(
             item: tabs[index],
+            index: index,
             context: context,
           ),
         );
@@ -124,26 +140,15 @@ class _MainMobile extends StatelessWidget {
 
   Widget buildFloatingActionButton(BuildContext context) {
     return ValueListenableBuilder<bool>(
-      valueListenable: viewModel.shouldShowBottomNavNotifier,
-      builder: (context, allowToAdd, child) {
+      valueListenable: viewModel.shouldScrollToTopNotifier,
+      builder: (context, shouldScrollToTop, child) {
         return SpShowHideAnimator(
           shouldShow: viewModel.activeIndex == 0,
-          child: FloatingActionButton.extended(
-            backgroundColor: allowToAdd ? null : M3Color.of(context).primary,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            label: SpCrossFade(
-              firstChild: const Text("Add"),
-              secondChild: const Text("Scroll to Top"),
-              showFirst: allowToAdd,
-            ),
-            icon: SpAnimatedIcons(
-              firstChild: const Icon(Icons.edit, key: ValueKey(Icons.edit)),
-              secondChild: const Icon(Icons.arrow_upward, key: ValueKey(Icons.arrow_upward)),
-              showFirst: allowToAdd,
-            ),
-            onPressed: () async {
-              if (!allowToAdd) {
-                await PrimaryScrollController.of(context)
+          child: SpTapEffect(
+            effects: [SpTapEffectType.scaleDown],
+            onTap: () async {
+              if (shouldScrollToTop) {
+                await viewModel.currentScrollController
                     ?.animateTo(0.0, duration: ConfigConstant.duration, curve: ConfigConstant.scrollToTopCurve);
                 viewModel.shouldShowBottomNavNotifier.value = true;
               } else {
@@ -151,6 +156,27 @@ class _MainMobile extends StatelessWidget {
                 if (date != null) onConfirm(date, context);
               }
             },
+            onLongPressed: () {
+              viewModel.setShouldHideBottomNav(
+                !viewModel.shouldShowBottomNavNotifier.value,
+                true,
+              );
+            },
+            child: FloatingActionButton.extended(
+              backgroundColor: !shouldScrollToTop ? null : M3Color.of(context).primary,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              label: SpCrossFade(
+                firstChild: const Text("Add"),
+                secondChild: const Text("Back"),
+                showFirst: !shouldScrollToTop,
+              ),
+              icon: SpAnimatedIcons(
+                firstChild: const Icon(Icons.edit, key: ValueKey(Icons.edit)),
+                secondChild: const Icon(Icons.arrow_upward, key: ValueKey(Icons.arrow_upward)),
+                showFirst: !shouldScrollToTop,
+              ),
+              onPressed: null,
+            ),
           ),
         );
       },
@@ -160,6 +186,7 @@ class _MainMobile extends StatelessWidget {
   Widget buildTabItem({
     required MainTabBarItem item,
     required BuildContext context,
+    required int index,
   }) {
     Widget screen;
     switch (item.routeName) {
@@ -169,6 +196,12 @@ class _MainMobile extends StatelessWidget {
           onYearChange: (int year) => viewModel.year = year,
           onListReloaderReady: (void Function() callback) {
             viewModel.storyListReloader = callback;
+          },
+          onScrollControllerReady: (ScrollController controller) {
+            viewModel.setScrollController(
+              index: index,
+              controller: controller,
+            );
           },
         );
         break;

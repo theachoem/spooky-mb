@@ -106,7 +106,8 @@ class AppRouter extends _i15.RootStackRouter {
               key: args.key,
               onTabChange: args.onTabChange,
               onYearChange: args.onYearChange,
-              onListReloaderReady: args.onListReloaderReady));
+              onListReloaderReady: args.onListReloaderReady,
+              onScrollControllerReady: args.onScrollControllerReady));
     },
     Explore.name: (routeData) {
       return _i15.MaterialPageX<dynamic>(
@@ -327,14 +328,16 @@ class Home extends _i15.PageRouteInfo<HomeArgs> {
       {_i16.Key? key,
       required void Function(int) onTabChange,
       required void Function(int) onYearChange,
-      required void Function(void Function()) onListReloaderReady})
+      required void Function(void Function()) onListReloaderReady,
+      required void Function(_i16.ScrollController) onScrollControllerReady})
       : super(Home.name,
             path: 'home',
             args: HomeArgs(
                 key: key,
                 onTabChange: onTabChange,
                 onYearChange: onYearChange,
-                onListReloaderReady: onListReloaderReady));
+                onListReloaderReady: onListReloaderReady,
+                onScrollControllerReady: onScrollControllerReady));
 
   static const String name = 'Home';
 }
@@ -344,7 +347,8 @@ class HomeArgs {
       {this.key,
       required this.onTabChange,
       required this.onYearChange,
-      required this.onListReloaderReady});
+      required this.onListReloaderReady,
+      required this.onScrollControllerReady});
 
   final _i16.Key? key;
 
@@ -354,9 +358,11 @@ class HomeArgs {
 
   final void Function(void Function()) onListReloaderReady;
 
+  final void Function(_i16.ScrollController) onScrollControllerReady;
+
   @override
   String toString() {
-    return 'HomeArgs{key: $key, onTabChange: $onTabChange, onYearChange: $onYearChange, onListReloaderReady: $onListReloaderReady}';
+    return 'HomeArgs{key: $key, onTabChange: $onTabChange, onYearChange: $onYearChange, onListReloaderReady: $onListReloaderReady, onScrollControllerReady: $onScrollControllerReady}';
   }
 }
 
