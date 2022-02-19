@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spooky/core/storages/color_storage.dart';
+import 'package:spooky/core/storages/local_storages/color_storage.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/utils/constants/util_colors_constant.dart';
 export '../../utils/extensions/color_extension.dart';

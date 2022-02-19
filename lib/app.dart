@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/app_builder.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
-import 'package:spooky/core/storages/color_storage.dart';
-import 'package:spooky/core/storages/nickname_storage.dart';
+import 'package:spooky/core/storages/local_storages/color_storage.dart';
+import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/main.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';

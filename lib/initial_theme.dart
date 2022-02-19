@@ -1,6 +1,6 @@
 import 'package:flutter/scheduler.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/core/storages/theme_mode_storage.dart';
+import 'package:spooky/core/storages/local_storages/theme_mode_storage.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:flutter/material.dart';
 
