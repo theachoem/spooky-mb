@@ -1,9 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spooky/core/base_storages/base_storage.dart';
+import 'package:spooky/core/base_storages/storage_adapters/base_storage_adapter.dart';
+import 'package:spooky/core/base_storages/storage_adapters/default_stroage_adapter.dart';
 
-abstract class EnumPreferenceStorage<T> {
+abstract class EnumPreferenceStorage<T> extends BaseStorage<T> {
+  @override
+  Future<BaseStorageAdapter<T>> get adapter async => DefaultStorageAdapter<T>();
+
   List<T> get values;
-
-  String get key => runtimeType.toString();
 
   Future<void> writeEnum(T value) async {
     SharedPreferences _instance = await SharedPreferences.getInstance();
@@ -17,10 +21,5 @@ abstract class EnumPreferenceStorage<T> {
       if ("$e" == result) return e;
     }
     return null;
-  }
-
-  Future<void> remove() async {
-    SharedPreferences _instance = await SharedPreferences.getInstance();
-    await _instance.remove(key);
   }
 }

@@ -35,14 +35,14 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
   }
 
   Future<void> setModeFromStorage() async {
-    return storage.readBool().then((value) {
+    return storage.read().then((value) {
       return setDeveloperMode(value == true);
     });
   }
 
   void setDeveloperMode(bool value) {
     App.of(context)?.developerModeNotifier.value = value;
-    storage.writeBool(value: value);
+    storage.write(value);
   }
 
   @override

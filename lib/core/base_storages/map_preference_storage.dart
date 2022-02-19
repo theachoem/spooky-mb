@@ -1,13 +1,18 @@
 import 'dart:convert';
-import 'package:spooky/core/base_storages/share_preference_storage.dart';
+import 'package:spooky/core/base_storages/base_storage.dart';
+import 'package:spooky/core/base_storages/storage_adapters/base_storage_adapter.dart';
+import 'package:spooky/core/base_storages/storage_adapters/default_stroage_adapter.dart';
 
-abstract class MapPreferenceStorage<T, U> extends SharePreferenceStorage {
+abstract class MapPreferenceStorage<T, U> extends BaseStorage<String> {
+  @override
+  Future<BaseStorageAdapter<String>> get adapter async => DefaultStorageAdapter<String>();
+
   Future<void> writeMap(Map<T, U> value) async {
-    await super.write(jsonEncode(value));
+    return (await adapter).write(key: key, value: jsonEncode(value));
   }
 
   Future<Map<T, U>?> readMap() async {
-    String? value = await super.read();
+    String? value = await (await adapter).read(key: key);
     if (value == null) return null;
     try {
       Map<T, U> result = jsonDecode(value);

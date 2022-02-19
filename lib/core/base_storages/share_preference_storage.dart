@@ -1,31 +1,8 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spooky/core/base_storages/base_storage.dart';
+import 'package:spooky/core/base_storages/storage_adapters/base_storage_adapter.dart';
+import 'package:spooky/core/base_storages/storage_adapters/default_stroage_adapter.dart';
 
-abstract class SharePreferenceStorage {
-  String get key => runtimeType.toString();
-
-  Future<dynamic> read() async {
-    final storage = await SharedPreferences.getInstance();
-    return storage.get(key);
-  }
-
-  Future<void> write(dynamic value) async {
-    if (value == null) {
-      remove();
-      return;
-    }
-
-    assert(value is int || value is String);
-    final storage = await SharedPreferences.getInstance();
-
-    if (value is int) {
-      await storage.setInt(key, value);
-    } else {
-      await storage.setString(key, value);
-    }
-  }
-
-  Future<void> remove() async {
-    final storage = await SharedPreferences.getInstance();
-    await storage.remove(key);
-  }
+abstract class SharePreferenceStorage<T> extends BaseStorage<T> {
+  @override
+  Future<BaseStorageAdapter<T>> get adapter async => DefaultStorageAdapter<T>();
 }
