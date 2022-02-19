@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/services/security_service.dart';
+import 'package:spooky/core/storages/local_storages/security/lock_life_circle_duration_storage.dart';
+import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 
@@ -105,11 +107,13 @@ class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObse
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
-        scheduleAction(
-          () => service.showLockIfHas(App.navigatorKey.currentContext),
-          key: ValueKey("setShouldHideBottomNav"),
-          duration: Duration(seconds: 20),
-        );
+        LockLifeCircleDurationStorage().read().then((e) {
+          scheduleAction(
+            () => service.showLockIfHas(App.navigatorKey.currentContext),
+            key: ValueKey("setShouldHideBottomNav"),
+            duration: Duration(seconds: e ?? AppConstant.lockLifeDefaultCircleDuration.inSeconds),
+          );
+        });
         break;
     }
   }

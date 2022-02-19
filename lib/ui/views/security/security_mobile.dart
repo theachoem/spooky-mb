@@ -76,29 +76,37 @@ class _SecurityMobile extends StatelessWidget {
         ),
         if (viewModel.service.hasLocalAuth)
           ListTile(
-            leading: SizedBox(height: 40, child: Icon(Icons.settings)),
+            leading: SizedBox(height: 40, child: Icon(Icons.fingerprint)),
             trailing: Radio(value: LockType.biometric, groupValue: lockedType, onChanged: (value) {}),
-            title: Text("Phone"),
-            subtitle: Text("Unlock app base on your phone lock"),
-            onTap: () {},
+            title: Text("Biometrics"),
+            subtitle: Text("Unlock app base on biometric"),
+            onTap: () => onBiometricsPressed(context),
           ),
       ],
     );
   }
 
-  Future<void> onPinCodePressed(BuildContext context) async {
-    bool hasLock = viewModel.lockedTypeNotifier.value != null;
+  Future<void> onPressed({
+    required LockType type,
+    required BuildContext context,
+    required String hasLockTitle,
+    required String noLockTitle,
+    required String removeLockTitle,
+    required Future<void> Function() onSetPressed,
+    required Future<void> Function() onRemovePressed,
+  }) async {
+    bool hasLock = viewModel.lockedTypeNotifier.value == type;
     String? value = await showModalActionSheet(
       context: context,
       actions: [
         SheetAction(
-          label: hasLock ? "Update PIN code" : "Add PIN code",
+          label: hasLock ? hasLockTitle : noLockTitle,
           key: "add_update",
           icon: hasLock ? Icons.update : Icons.add,
         ),
         if (hasLock)
           SheetAction(
-            label: "Remove PIN code",
+            label: removeLockTitle,
             key: "remove",
             isDestructiveAction: true,
             icon: Icons.remove,
@@ -107,14 +115,46 @@ class _SecurityMobile extends StatelessWidget {
     );
     switch (value) {
       case "add_update":
-        await viewModel.service.setPinLock(context, digit: 4);
+        await onSetPressed();
         viewModel.load();
         break;
       case "remove":
-        await viewModel.service.removeLock(context);
+        await onRemovePressed();
         viewModel.load();
         break;
       default:
     }
+  }
+
+  Future<void> onPinCodePressed(BuildContext context) async {
+    return onPressed(
+      type: LockType.pin,
+      context: context,
+      hasLockTitle: "Update PIN code",
+      noLockTitle: "Add PIN code",
+      removeLockTitle: "Remove PIN code",
+      onSetPressed: () async {
+        await viewModel.service.setPinLock(context, digit: 4);
+      },
+      onRemovePressed: () async {
+        await viewModel.service.removeLock(context);
+      },
+    );
+  }
+
+  Future<void> onBiometricsPressed(BuildContext context) async {
+    return onPressed(
+      type: LockType.biometric,
+      context: context,
+      hasLockTitle: "Update Biometrics",
+      noLockTitle: "Add Biometrics",
+      removeLockTitle: "Remove Biometrics",
+      onSetPressed: () async {
+        await viewModel.service.setBiometricsLock(context);
+      },
+      onRemovePressed: () async {
+        await viewModel.service.removeBiometricsLock(context);
+      },
+    );
   }
 }
