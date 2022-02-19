@@ -21,7 +21,7 @@ class SecurityViewModel extends BaseViewModel {
   }
 
   Future<void> load() async {
-    service.getLock().then((e) {
+    service.lockInfo.getLock().then((e) {
       lockedTypeNotifier.value = e?.type;
     });
     lockLifeCircleDurationStorage.read().then((value) {

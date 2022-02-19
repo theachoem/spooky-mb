@@ -11,7 +11,7 @@ part 'lock_type_storage.dart';
 
 class SecurityObject {
   // secret can be password, passcode
-  final String? secret;
+  final String secret;
   final LockType type;
 
   SecurityObject(this.type, this.secret);
@@ -21,7 +21,7 @@ class SecurityStorage {
   final _LockTypeStorage _lockTypeStorage = _LockTypeStorage();
   final _LockSecretStorage _lockSecretStorage = _LockSecretStorage();
 
-  Future<void> setLock(LockType type, [String? secret]) async {
+  Future<void> setLock(LockType type, String secret) async {
     _lockTypeStorage.writeEnum(type);
     _lockSecretStorage.write(secret);
   }
@@ -36,6 +36,7 @@ class SecurityStorage {
         if (secret == null) return null;
         return SecurityObject(lock, secret);
       case LockType.biometric:
+        if (secret == null) return null;
         return SecurityObject(lock, secret);
     }
   }

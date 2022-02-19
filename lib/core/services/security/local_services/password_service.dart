@@ -5,8 +5,8 @@ class _PasswordService extends _BaseLockService<_PasswordOptions> {
   _PasswordService(this.info);
 
   @override
-  Future<bool> remove(_PasswordOptions option) {
-    // TODO: implement remove
+  Future<bool> unlock(_PasswordOptions option) {
+    // TODO: implement unlock
     throw UnimplementedError();
   }
 
@@ -17,14 +17,14 @@ class _PasswordService extends _BaseLockService<_PasswordOptions> {
   }
 
   @override
-  Future<bool> unlock(_PasswordOptions option) {
-    // TODO: implement unlock
+  Future<bool> update(_PasswordOptions option) {
+    // TODO: implement update
     throw UnimplementedError();
   }
 
   @override
-  Future<bool> update(_PasswordOptions option) {
-    // TODO: implement update
+  Future<bool> remove(_PasswordOptions option) {
+    // TODO: implement remove
     throw UnimplementedError();
   }
 }
