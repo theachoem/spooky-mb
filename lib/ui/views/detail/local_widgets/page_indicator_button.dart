@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
+import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
@@ -80,24 +81,34 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
               onTap: callback,
               child: SpCrossFade(
                 showFirst: widget.pagesCount > 1,
-                secondChild: const SizedBox.shrink(),
-                firstChild: Center(
-                  child: Container(
-                    // padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1),
-                    height: ConfigConstant.iconSize3,
-                    alignment: Alignment.center,
-                    child: SpCrossFade(
-                      showFirst: lastReportedPage.isEven,
-                      firstChild: buildPageNumber(context),
-                      secondChild: buildPageNumber(context),
-                    ),
-                  ),
-                ),
+                firstChild: buildAnimated(context),
+                secondChild: buildAnimated(context),
               ),
             );
           },
         );
       }),
+    );
+  }
+
+  Widget buildAnimated(BuildContext context) {
+    return Container(
+      height: kToolbarHeight,
+      alignment: Alignment.center,
+      child: SpAnimatedIcons(
+        showFirst: widget.pagesCount > 1,
+        secondChild: AnimatedContainer(
+          width: ConfigConstant.objectHeight1,
+          duration: ConfigConstant.fadeDuration,
+          child: Icon(Icons.menu_book_rounded),
+          alignment: Alignment.center,
+        ),
+        firstChild: Container(
+          height: ConfigConstant.iconSize3,
+          alignment: Alignment.center,
+          child: buildPageNumber(context),
+        ),
+      ),
     );
   }
 
