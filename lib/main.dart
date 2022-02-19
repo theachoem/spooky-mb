@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:desktop_window/desktop_window.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
@@ -21,6 +22,8 @@ void main() async {
 
   tz.initializeTimeZones();
   FileHelper.initialFile();
+
+  await DesktopWindow.setMinWindowSize(Size(320, 510));
 
   await AppNotification().initialize();
   await InitialStoryTabService.initialize();

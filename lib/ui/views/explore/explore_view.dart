@@ -1,6 +1,6 @@
 library explore_view;
 
-import 'package:responsive_builder/responsive_builder.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'explore_view_model.dart';
@@ -16,11 +16,9 @@ class ExploreView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<ExploreViewModel>.reactive(
       viewModelBuilder: () => ExploreViewModel(),
-      onModelReady: (model) {
-        // Do something once your model is initialized
-      },
+      onModelReady: (model) {},
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _ExploreMobile(model),
           desktop: _ExploreDesktop(model),
           tablet: _ExploreTablet(model),

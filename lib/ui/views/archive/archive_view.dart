@@ -1,13 +1,13 @@
 library archive_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/ui/views/home/local_widgets/story_query_list.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,7 @@ class ArchiveView extends StatelessWidget {
       viewModelBuilder: () => ArchiveViewModel(),
       onModelReady: (model) {},
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _ArchiveMobile(model),
           desktop: _ArchiveDesktop(model),
           tablet: _ArchiveTablet(model),

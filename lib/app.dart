@@ -83,6 +83,8 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
       home: spAppIntiailized ? MainView() : AppStarterView(),
       theme: lightTheme,
       darkTheme: darkTheme,
+      debugShowCheckedModeBanner: false,
+      debugShowMaterialGrid: false,
       builder: (context, child) => AppBuilder(child: child),
       onGenerateRoute: (settings) => SpRouteConfig(context: context, settings: settings).generate(),
     );

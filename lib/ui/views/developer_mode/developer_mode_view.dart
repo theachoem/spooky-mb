@@ -3,10 +3,10 @@ library developer_mode_view;
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:restart_app/restart_app.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class DeveloperModeView extends StatelessWidget {
       viewModelBuilder: () => DeveloperModeViewModel(),
       onModelReady: (model) {},
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _DeveloperModeMobile(model),
           desktop: _DeveloperModeDesktop(model),
           tablet: _DeveloperModeTablet(model),

@@ -1,6 +1,5 @@
 library detail_view;
 
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -8,6 +7,7 @@ import 'package:spooky/ui/views/detail/local_widgets/detail_editor.dart';
 import 'package:spooky/ui/views/detail/local_widgets/detail_scaffold.dart';
 import 'package:spooky/ui/views/detail/local_widgets/detail_toolbar.dart';
 import 'package:spooky/ui/widgets/sp_page_view/sp_page_view.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'detail_view_model.dart';
@@ -34,7 +34,7 @@ class DetailView extends StatelessWidget {
       builder: (context, model, child) {
         return WillPopScope(
           onWillPop: () => onWillPop(model, context),
-          child: ScreenTypeLayout(
+          child: SpScreenTypeLayout(
             mobile: _DetailMobile(model),
             desktop: _DetailDesktop(model),
             tablet: _DetailTablet(model),

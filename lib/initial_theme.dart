@@ -56,6 +56,8 @@ class _InitialThemeState extends State<InitialTheme> {
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: mode,
+      debugShowCheckedModeBanner: false,
+      debugShowMaterialGrid: false,
       theme: buildThemeData(ThemeConstant.colorScheme(Brightness.light)),
       darkTheme: buildThemeData(ThemeConstant.colorScheme(Brightness.dark)),
       home: App(themeMode: mode),

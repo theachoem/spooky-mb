@@ -1,10 +1,10 @@
 library home_view;
 
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/file_managers/types/file_path_type.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_app_bar.dart';
 import 'package:spooky/ui/views/home/local_widgets/story_query_list.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_tab_view.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:stacked/stacked.dart';
@@ -36,7 +36,7 @@ class HomeView extends StatelessWidget {
       onModelReady: (model) {},
       disposeViewModel: false,
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _HomeMobile(model),
           desktop: _HomeDesktop(model),
           tablet: _HomeTablet(model),

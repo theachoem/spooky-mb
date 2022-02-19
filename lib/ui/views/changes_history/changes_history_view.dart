@@ -1,7 +1,6 @@
 library changes_history_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/route/sp_route_config.dart';
@@ -10,6 +9,7 @@ import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_icon_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_button.dart';
 import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
+import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:stacked/stacked.dart';
@@ -45,7 +45,7 @@ class ChangesHistoryView extends StatelessWidget {
       },
       onModelReady: (model) {},
       builder: (context, model, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _ChangesHistoryMobile(model),
           desktop: _ChangesHistoryDesktop(model),
           tablet: _ChangesHistoryTablet(model),
