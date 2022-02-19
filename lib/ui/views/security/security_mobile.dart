@@ -13,41 +13,48 @@ class _SecurityMobile extends StatelessWidget {
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
       ),
-      body: ListView(
-        children: ListTile.divideTiles(context: context, tiles: [
-          ListTile(
-            leading: SizedBox(height: 40, child: Icon(Icons.pin)),
-            title: Text("PIN code"),
-            subtitle: Text("4 digit"),
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                SpRouteConfig.lock,
-                arguments: LockArgs(
-                  flowType: LockFlowType.setPin,
+      body: ValueListenableBuilder(
+          valueListenable: viewModel.lockedTypeNotifier,
+          builder: (context, lockedType, child) {
+            return ListView(
+              children: ListTile.divideTiles(context: context, tiles: [
+                ListTile(
+                  leading: SizedBox(height: 40, child: Icon(Icons.pin)),
+                  trailing: Radio(value: LockedType.pin, groupValue: lockedType, onChanged: (value) {}),
+                  title: Text("PIN code"),
+                  subtitle: Text("4 digit"),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      SpRouteConfig.lock,
+                      arguments: LockArgs(
+                        flowType: LockFlowType.setPin,
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-          ListTile(
-            leading: SizedBox(height: 40, child: Icon(Icons.password)),
-            title: Text("Password"),
-            onTap: () {
-              Navigator.of(context).pushNamed(
-                SpRouteConfig.lock,
-                arguments: LockArgs(
-                  flowType: LockFlowType.setPassword,
+                ListTile(
+                  leading: SizedBox(height: 40, child: Icon(Icons.password)),
+                  trailing: Radio(value: LockedType.password, groupValue: lockedType, onChanged: (value) {}),
+                  title: Text("Password"),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      SpRouteConfig.lock,
+                      arguments: LockArgs(
+                        flowType: LockFlowType.setPassword,
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
-          ),
-          ListTile(
-            leading: SizedBox(height: 40, child: Icon(Icons.settings)),
-            title: Text("Phone"),
-            subtitle: Text("Unlock app base on your phone lock"),
-            onTap: () {},
-          ),
-        ]).toList(),
-      ),
+                ListTile(
+                  leading: SizedBox(height: 40, child: Icon(Icons.settings)),
+                  trailing: Radio(value: LockedType.biometric, groupValue: lockedType, onChanged: (value) {}),
+                  title: Text("Phone"),
+                  subtitle: Text("Unlock app base on your phone lock"),
+                  onTap: () {},
+                ),
+              ]).toList(),
+            );
+          }),
     );
   }
 }
