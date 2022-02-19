@@ -20,8 +20,12 @@ class _SecurityInformations {
     if (canCheckBiometrics) {
       List<BiometricType> availableBiometrics = await _localAuth.getAvailableBiometrics();
       _hasFaceID = availableBiometrics.contains(BiometricType.face);
-      _hasFaceID = availableBiometrics.contains(BiometricType.fingerprint);
+      _hasFingerprint = availableBiometrics.contains(BiometricType.fingerprint);
       _hasIris = availableBiometrics.contains(BiometricType.iris);
+    } else {
+      _hasFaceID = false;
+      _hasFingerprint = false;
+      _hasIris = false;
     }
   }
 

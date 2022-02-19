@@ -744,6 +744,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  open_settings:
+    dependency: "direct main"
+    description:
+      name: open_settings
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.2"
   package_config:
     dependency: transitive
     description:

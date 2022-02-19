@@ -5,7 +5,7 @@ import 'package:spooky/core/types/lock_type.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:stacked/stacked.dart';
 
-class SecurityViewModel extends BaseViewModel {
+class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
   final SecurityService service = SecurityService();
   final LockLifeCircleDurationStorage lockLifeCircleDurationStorage = LockLifeCircleDurationStorage();
 
@@ -18,6 +18,7 @@ class SecurityViewModel extends BaseViewModel {
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       load();
     });
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   Future<void> load() async {
@@ -34,11 +35,33 @@ class SecurityViewModel extends BaseViewModel {
   void dispose() {
     lockedTypeNotifier.dispose();
     lockLifeCircleDurationNotifier.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
   void setLockLifeCircleDuration(int? second) {
     lockLifeCircleDurationStorage.write(second);
     load();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+
+    switch (state) {
+      case AppLifecycleState.resumed:
+        // user may close app to add finger print,
+        // we call to refresh it,
+        SecurityService.initialize().then((value) {
+          notifyListeners();
+        });
+        break;
+      case AppLifecycleState.inactive:
+        break;
+      case AppLifecycleState.paused:
+        break;
+      case AppLifecycleState.detached:
+        break;
+    }
   }
 }

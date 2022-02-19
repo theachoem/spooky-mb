@@ -54,7 +54,29 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
   Future<bool> _authentication([
     String title = "Unlock to open the app",
   ]) async {
-    bool authenticated = await info._localAuth.authenticate(localizedReason: title);
-    return authenticated;
+    try {
+      return info._localAuth.authenticate(
+        localizedReason: title,
+        useErrorDialogs: true,
+        stickyAuth: true,
+      );
+    } on PlatformException catch (e) {
+      switch (e.code) {
+        case code.lockedOut:
+          break;
+        case code.notAvailable:
+          OpenSettings.openSecuritySetting();
+          break;
+        case code.notEnrolled:
+          break;
+        case code.otherOperatingSystem:
+          break;
+        case code.passcodeNotSet:
+          break;
+        case code.permanentlyLockedOut:
+          break;
+      }
+    }
+    return false;
   }
 }
