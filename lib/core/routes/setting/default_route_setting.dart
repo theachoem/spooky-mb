@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/route/setting/base_route_setting.dart';
+import 'package:spooky/core/routes/setting/base_route_setting.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DefaultRouteSetting<T> extends BaseRouteSetting<T> {

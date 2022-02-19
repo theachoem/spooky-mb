@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/route/setting/base_route_setting.dart';
-import 'package:spooky/core/route/sp_page_route.dart';
+import 'package:spooky/core/routes/setting/base_route_setting.dart';
+import 'package:spooky/core/routes/sp_page_route.dart';
 
 class AnimatedRouteSetting<T> extends BaseRouteSetting<T> {
   AnimatedRouteSetting({

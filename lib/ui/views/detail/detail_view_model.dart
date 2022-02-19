@@ -8,7 +8,7 @@ import 'package:spooky/core/file_managers/types/response_code.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notifications/app_notification.dart';
-import 'package:spooky/core/route/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/ui/views/detail/detail_view_model_helper.dart';
 import 'package:spooky/utils/constants/config_constant.dart';

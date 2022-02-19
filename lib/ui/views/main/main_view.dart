@@ -2,7 +2,7 @@ library main_view;
 
 import 'package:flutter/rendering.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/route/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';

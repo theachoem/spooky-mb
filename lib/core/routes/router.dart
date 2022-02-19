@@ -1,5 +1,5 @@
 import 'package:auto_route/annotations.dart';
-import 'package:spooky/core/route/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/ui/views/app_starter/app_starter_view.dart';
 import 'package:spooky/ui/views/archive/archive_view.dart';
 import 'package:spooky/ui/views/changes_history/changes_history_view.dart';

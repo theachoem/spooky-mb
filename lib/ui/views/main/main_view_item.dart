@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/route/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 
 class MainTabBarItem {
   final GlobalKey<NavigatorState> navigatorKey;

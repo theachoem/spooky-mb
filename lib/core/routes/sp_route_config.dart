@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/route/router.gr.dart';
-import 'package:spooky/core/route/setting/animated_route_setting.dart';
-import 'package:spooky/core/route/setting/base_route_setting.dart';
-import 'package:spooky/core/route/setting/default_route_setting.dart';
+import 'package:spooky/core/routes/router.gr.dart';
+import 'package:spooky/core/routes/setting/animated_route_setting.dart';
+import 'package:spooky/core/routes/setting/base_route_setting.dart';
+import 'package:spooky/core/routes/setting/default_route_setting.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/archive/archive_view.dart';
 import 'package:spooky/ui/views/changes_history/changes_history_view.dart';
