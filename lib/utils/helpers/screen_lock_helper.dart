@@ -53,6 +53,7 @@ class ScreenLockHelper {
 
   static InputButtonConfig inputButtonConfig(TextTheme textTheme, ColorScheme colorScheme) {
     return InputButtonConfig(
+      clearOnLongPressed: true,
       textStyle: textTheme.headlineSmall?.copyWith(color: colorScheme.secondary),
       buttonStyle: ButtonStyle(
         overlayColor: MaterialStateProperty.all(Colors.transparent),
