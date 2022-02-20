@@ -3,6 +3,7 @@ import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:spooky/core/routes/screen_lock_route.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/screen_lock_helper.dart';
 
 /// originally [screenLock],
@@ -68,7 +69,12 @@ Future<T?> enhancedScreenLock<T>({
           customizedButtonChild: customizedButtonChild,
           footer: footer,
           deleteButton: deleteButton,
-          cancelButton: cancelButton,
+          cancelButton: Container(
+            margin: const EdgeInsets.all(ConfigConstant.margin0),
+            child: FittedBox(
+              child: Text("Cancel", style: textTheme.headlineSmall),
+            ),
+          ),
           title: title,
           confirmTitle: confirmTitle,
           inputController: inputController,

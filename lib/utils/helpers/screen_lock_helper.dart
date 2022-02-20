@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
-import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
 class ScreenLockHelper {
-  static SpAnimatedIcons dotBuilder(bool enabled, SecretConfig config) {
-    animatedContainer(Color color) {
-      return AnimatedContainer(
-        duration: ConfigConstant.fadeDuration,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: color,
-          border: Border.all(width: config.borderSize, color: config.borderColor),
-        ),
-        width: config.width,
-        height: config.height,
-      );
-    }
-
-    return SpAnimatedIcons(
-      showFirst: enabled,
-      firstChild: animatedContainer(config.enabledColor),
-      secondChild: animatedContainer(config.disabledColor),
+  static Widget dotBuilder(bool enabled, SecretConfig config) {
+    return Container(
+      width: config.width,
+      height: config.height,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: enabled ? config.enabledColor : config.disabledColor,
+        border: Border.all(width: config.borderSize, color: config.borderColor),
+      ),
     );
   }
 
   static SecretsConfig secretsConfig(ColorScheme colorScheme) {
     return SecretsConfig(
+      padding: const EdgeInsets.only(top: 24, bottom: ConfigConstant.objectHeight2),
       secretConfig: SecretConfig(
         borderColor: colorScheme.onBackground,
         enabledColor: colorScheme.onBackground,
         disabledColor: Color.fromARGB(0, 8, 6, 6),
+        width: 12,
+        height: 12,
         build: (context, {required config, required enabled}) => ScreenLockHelper.dotBuilder(enabled, config),
       ),
     );
@@ -62,7 +55,6 @@ class ScreenLockHelper {
     return InputButtonConfig(
       textStyle: textTheme.headlineSmall?.copyWith(color: colorScheme.secondary),
       buttonStyle: ButtonStyle(
-        animationDuration: Duration(microseconds: 10),
         overlayColor: MaterialStateProperty.all(Colors.transparent),
         backgroundColor: MaterialStateProperty.resolveWith(
           (states) {

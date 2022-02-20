@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
-import 'package:animations/animations.dart';
 
 typedef _LockBuilder = ScreenLock Function(
   BuildContext context,
@@ -44,10 +43,8 @@ class ScreenLockRoute<T> extends PageRoute<T> {
     Animation<double> secondaryAnimation,
     Widget child,
   ) {
-    return FadeScaleTransition(
-      animation: animation,
-      child: child,
-    );
+    PageTransitionsTheme theme = Theme.of(context).pageTransitionsTheme;
+    return theme.buildTransitions(this, context, animation, secondaryAnimation, child);
   }
 
   @override
