@@ -61,66 +61,27 @@ class StoryList extends StatelessWidget {
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.zero,
             separatorBuilder: (context, index) {
-              return Divider(
-                indent: 16 + 20 + 16 + 4 + 16,
-                color: M3Color.of(context).secondary.m3Opacity.opacity016,
-                height: 0,
+              return buildAnimatedTileWrapper(
+                child: Divider(
+                  indent: 16 + 20 + 16 + 4 + 16,
+                  color: M3Color.of(context).secondary.m3Opacity.opacity016,
+                  height: 0,
+                ),
               );
             },
             itemBuilder: (context, index) {
-              final StoryModel content = stories![index];
-              if (onDelete != null && onUnarchive != null) {
-                return Dismissible(
-                  key: ValueKey(content.file?.path),
-                  background: buildDismissibleBackground(
-                    context: context,
-                    iconData: Icons.delete,
-                    alignment: Alignment.centerLeft,
-                    backgroundColor: M3Color.of(context).error,
-                    foregroundColor: M3Color.of(context).onError,
-                    label: "Delete",
-                  ),
-                  secondaryBackground: buildDismissibleBackground(
-                    context: context,
-                    iconData: Icons.unarchive,
-                    alignment: Alignment.centerRight,
-                    backgroundColor: M3Color.of(context).primary,
-                    foregroundColor: M3Color.of(context).onPrimary,
-                    label: "Unarchive",
-                  ),
-                  confirmDismiss: (direction) async {
-                    switch (direction) {
-                      case DismissDirection.startToEnd:
-                        if (onDelete != null) return onDelete!(content);
-                        return false;
-                      case DismissDirection.vertical:
-                        return false;
-                      case DismissDirection.horizontal:
-                        return false;
-                      case DismissDirection.endToStart:
-                        if (onDelete != null) return onUnarchive!(content);
-                        return false;
-                      case DismissDirection.up:
-                        return false;
-                      case DismissDirection.down:
-                        return false;
-                      case DismissDirection.none:
-                        return false;
-                    }
-                  },
-                  child: buildStoryTile(
-                    story: content,
-                    context: context,
-                    previousStory: storyAt(index - 1),
-                  ),
-                );
-              }
-              return buildStoryTile(
-                story: content,
-                context: context,
-                previousStory: storyAt(index - 1),
+              return buildAnimatedTileWrapper(
+                child: buildConfiguredTile(index, context),
               );
             },
+          ),
+          IgnorePointer(
+            child: Center(
+              child: Visibility(
+                visible: stories == null,
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            ),
           ),
           IgnorePointer(
             child: Visibility(
@@ -133,6 +94,81 @@ class StoryList extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildAnimatedTileWrapper({required Widget child}) {
+    return TweenAnimationBuilder<int>(
+      duration: ConfigConstant.duration,
+      tween: IntTween(begin: 0, end: 1),
+      child: child,
+      builder: (BuildContext context, int value, Widget? child) {
+        return AnimatedContainer(
+          duration: ConfigConstant.duration,
+          transform: Matrix4.identity()..translate(0.0, value == 1 ? 0 : -ConfigConstant.margin2),
+          child: AnimatedOpacity(
+            duration: ConfigConstant.duration,
+            opacity: value == 1 ? 1.0 : 0.0,
+            curve: Curves.ease,
+            child: child,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildConfiguredTile(int index, BuildContext context) {
+    final StoryModel content = stories![index];
+    if (onDelete != null && onUnarchive != null) {
+      return Dismissible(
+        key: ValueKey(content.file?.path),
+        background: buildDismissibleBackground(
+          context: context,
+          iconData: Icons.delete,
+          alignment: Alignment.centerLeft,
+          backgroundColor: M3Color.of(context).error,
+          foregroundColor: M3Color.of(context).onError,
+          label: "Delete",
+        ),
+        secondaryBackground: buildDismissibleBackground(
+          context: context,
+          iconData: Icons.unarchive,
+          alignment: Alignment.centerRight,
+          backgroundColor: M3Color.of(context).primary,
+          foregroundColor: M3Color.of(context).onPrimary,
+          label: "Unarchive",
+        ),
+        confirmDismiss: (direction) async {
+          switch (direction) {
+            case DismissDirection.startToEnd:
+              if (onDelete != null) return onDelete!(content);
+              return false;
+            case DismissDirection.vertical:
+              return false;
+            case DismissDirection.horizontal:
+              return false;
+            case DismissDirection.endToStart:
+              if (onDelete != null) return onUnarchive!(content);
+              return false;
+            case DismissDirection.up:
+              return false;
+            case DismissDirection.down:
+              return false;
+            case DismissDirection.none:
+              return false;
+          }
+        },
+        child: buildStoryTile(
+          story: content,
+          context: context,
+          previousStory: storyAt(index - 1),
+        ),
+      );
+    }
+    return buildStoryTile(
+      story: content,
+      context: context,
+      previousStory: storyAt(index - 1),
     );
   }
 
