@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
+import 'package:spooky/core/routes/screen_lock_route.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/theme/m3/m3_text_theme.dart';
+import 'package:spooky/utils/helpers/screen_lock_helper.dart';
 
 /// originally [screenLock],
 /// copied to update some API.
-Future<T?> enhnacedScreenLock<T>({
+Future<T?> enhancedScreenLock<T>({
   required BuildContext context,
   required String correctString,
-  ScreenLockConfig screenLockConfig = const ScreenLockConfig(),
-  SecretsConfig secretsConfig = const SecretsConfig(),
-  InputButtonConfig inputButtonConfig = const InputButtonConfig(),
   bool canCancel = true,
   bool confirmation = false,
   int digits = 4,
@@ -25,27 +26,28 @@ Future<T?> enhnacedScreenLock<T>({
   Widget? footer,
   Widget? cancelButton,
   Widget? deleteButton,
-  Widget title = const HeadingTitle(text: 'Please enter passcode.'),
-  Widget confirmTitle = const HeadingTitle(text: 'Please enter confirm passcode.'),
+  Widget title = const HeadingTitle(text: 'Please enter passcode'),
+  Widget confirmTitle = const HeadingTitle(text: 'Please enter confirm passcode'),
   InputController? inputController,
-  bool withBlur = true,
 }) {
+  ColorScheme colorScheme = M3Color.of(context);
+  TextTheme textTheme = M3TextTheme.of(context);
+
+  InputButtonConfig inputButtonConfig = ScreenLockHelper.inputButtonConfig(textTheme, colorScheme);
+  SecretsConfig secretsConfig = ScreenLockHelper.secretsConfig(colorScheme);
+  ScreenLockConfig screenLockConfig = ScreenLockHelper.screenLockConfig(colorScheme, context, textTheme);
+
   return Navigator.push<T>(
     context,
-    PageRouteBuilder<T>(
-      opaque: false,
-      barrierColor: Colors.black.withOpacity(0.8),
-      pageBuilder: (
+    ScreenLockRoute(
+      barrierColor: screenLockConfig.backgroundColor,
+      builder: (
         BuildContext context,
         Animation<double> animation,
-        Animation<double> secodaryAnimation,
+        Animation<double> _,
       ) {
         animation.addStatusListener((status) {
-          if (status == AnimationStatus.completed) {
-            if (didOpened != null) {
-              didOpened();
-            }
-          }
+          if (status == AnimationStatus.completed && didOpened != null) didOpened();
         });
         return ScreenLock(
           correctString: correctString,
@@ -70,27 +72,7 @@ Future<T?> enhnacedScreenLock<T>({
           title: title,
           confirmTitle: confirmTitle,
           inputController: inputController,
-          withBlur: withBlur,
-        );
-      },
-      transitionsBuilder: (
-        BuildContext context,
-        Animation<double> animation,
-        Animation<double> secondaryAnimation,
-        Widget child,
-      ) {
-        return SlideTransition(
-          position: Tween<Offset>(
-            begin: const Offset(0.0, 2.4),
-            end: Offset.zero,
-          ).animate(animation),
-          child: SlideTransition(
-            position: Tween<Offset>(
-              begin: Offset.zero,
-              end: const Offset(0.0, 2.4),
-            ).animate(secondaryAnimation),
-            child: child,
-          ),
+          withBlur: true,
         );
       },
     ),
