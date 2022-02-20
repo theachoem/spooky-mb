@@ -5,13 +5,26 @@ abstract class _BaseLockOptions {
   final SecurityObject? object;
   final Future<bool> Function(bool authenticated) next;
   final LockType lockType;
+  final LockFlowType flowType;
 
   _BaseLockOptions({
     required this.context,
     required this.object,
     required this.lockType,
     required this.next,
+    required this.flowType,
   });
+
+  bool get canCancel {
+    switch (flowType) {
+      case LockFlowType.unlock:
+        return false;
+      case LockFlowType.remove:
+      case LockFlowType.set:
+      case LockFlowType.update:
+        return true;
+    }
+  }
 }
 
 class _BiometricsOptions extends _BaseLockOptions {
@@ -20,7 +33,8 @@ class _BiometricsOptions extends _BaseLockOptions {
     required SecurityObject? object,
     required LockType lockType,
     required Future<bool> Function(bool authenticated) next,
-  }) : super(context: context, object: object, lockType: lockType, next: next);
+    required LockFlowType flowType,
+  }) : super(context: context, object: object, lockType: lockType, next: next, flowType: flowType);
 }
 
 class _PasswordOptions extends _BaseLockOptions {
@@ -29,7 +43,8 @@ class _PasswordOptions extends _BaseLockOptions {
     required SecurityObject? object,
     required LockType lockType,
     required Future<bool> Function(bool authenticated) next,
-  }) : super(context: context, object: object, lockType: lockType, next: next);
+    required LockFlowType flowType,
+  }) : super(context: context, object: object, lockType: lockType, next: next, flowType: flowType);
 }
 
 class _PinCodeOptions extends _BaseLockOptions {
@@ -38,5 +53,6 @@ class _PinCodeOptions extends _BaseLockOptions {
     required SecurityObject? object,
     required LockType lockType,
     required Future<bool> Function(bool authenticated) next,
-  }) : super(context: context, object: object, lockType: lockType, next: next);
+    required LockFlowType flowType,
+  }) : super(context: context, object: object, lockType: lockType, next: next, flowType: flowType);
 }

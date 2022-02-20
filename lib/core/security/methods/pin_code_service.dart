@@ -7,11 +7,13 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
   @override
   Future<bool> unlock(_PinCodeOptions option) async {
     assert(option.object != null);
+
     bool authenticated = await _confirmOwnership(
       context: option.context,
       secret: option.object!.secret,
-      canCancel: false,
+      canCancel: option.canCancel,
     );
+
     return option.next(authenticated);
   }
 
@@ -21,7 +23,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
       digits: 4,
       context: option.context,
       correctString: '',
-      title: const HeadingTitle(text: 'Please enter new passcode.'),
+      title: const HeadingTitle(text: 'Please enter new passcode'),
       confirmation: true,
       didConfirmed: (matchedSecret) {
         Navigator.of(option.context).pop(matchedSecret);
@@ -42,6 +44,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
         context: option.context,
         object: option.object,
         lockType: option.lockType,
+        flowType: LockFlowType.update,
         next: (e) async => e,
       ),
     );
@@ -50,6 +53,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
         context: option.context,
         object: null,
         lockType: option.lockType,
+        flowType: LockFlowType.set,
         next: option.next,
       ));
     } else {
@@ -63,7 +67,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
     bool authenticated = await _confirmOwnership(
       context: option.context,
       secret: option.object!.secret,
-      canCancel: true,
+      canCancel: option.canCancel,
     );
     if (authenticated) await info.clear();
     return option.next(authenticated);

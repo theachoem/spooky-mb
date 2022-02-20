@@ -18,7 +18,7 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
         bool authenticated = await _authentication();
         if (authenticated) Navigator.of(option.context).pop(true);
       },
-      canCancel: false,
+      canCancel: option.canCancel,
       didOpened: () async {
         bool authenticated = await _authentication();
         if (authenticated) Navigator.of(option.context).pop(true);

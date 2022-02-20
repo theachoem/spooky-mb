@@ -1,5 +1,6 @@
 enum LockFlowType {
-  setPin,
-  setPassword,
   unlock,
+  set,
+  update,
+  remove,
 }

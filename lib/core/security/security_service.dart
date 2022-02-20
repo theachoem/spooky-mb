@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:open_settings/open_settings.dart';
+import 'package:spooky/ui/views/lock/types/lock_flow_type.dart';
 import 'package:spooky/utils/util_widgets/screen_lock.dart';
 import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
 import 'package:spooky/core/types/lock_type.dart';
@@ -39,6 +40,7 @@ class SecurityService with _SecurityServiceMixin {
   Future<void> unlock({
     required BuildContext context,
     required LockType type,
+    LockFlowType flowType = LockFlowType.unlock,
   }) async {
     SecurityObject? object = await getObject(lockInfo);
     if (object == null) return;
@@ -49,6 +51,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.pin,
+          flowType: flowType,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -57,6 +60,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.password,
+          flowType: flowType,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -65,6 +69,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.biometric,
+          flowType: flowType,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -86,6 +91,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: null,
           lockType: LockType.pin,
+          flowType: LockFlowType.set,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -94,6 +100,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: null,
           lockType: LockType.password,
+          flowType: LockFlowType.set,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -101,6 +108,7 @@ class SecurityService with _SecurityServiceMixin {
         await biometricsService.set(_BiometricsOptions(
           context: context,
           object: null,
+          flowType: LockFlowType.set,
           lockType: LockType.biometric,
           next: (bool authenticated) async {
             if (authenticated) {
@@ -108,6 +116,7 @@ class SecurityService with _SecurityServiceMixin {
                 context: context,
                 object: null,
                 lockType: LockType.biometric,
+                flowType: LockFlowType.set,
                 next: (bool authenticated) async => authenticated,
               ));
             } else {
@@ -132,6 +141,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.pin,
+          flowType: LockFlowType.update,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -140,6 +150,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.password,
+          flowType: LockFlowType.update,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -148,6 +159,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.biometric,
+          flowType: LockFlowType.update,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -167,6 +179,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.pin,
+          flowType: LockFlowType.remove,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -175,6 +188,7 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.password,
+          flowType: LockFlowType.remove,
           next: (bool authenticated) async => authenticated,
         ));
         break;
@@ -183,12 +197,14 @@ class SecurityService with _SecurityServiceMixin {
           context: context,
           object: object,
           lockType: LockType.biometric,
+          flowType: LockFlowType.remove,
           next: (bool authenticated) async {
             if (!authenticated) {
               bool _authenticated = await pinCodeService.unlock(_PinCodeOptions(
                 context: context,
                 object: null,
                 lockType: LockType.biometric,
+                flowType: LockFlowType.remove,
                 next: (bool authenticated) async => authenticated,
               ));
               if (_authenticated) await lockInfo._storage.clearLock();
