@@ -5,7 +5,6 @@ import 'package:stacked/stacked.dart';
 
 class MainViewModel extends BaseViewModel with ScheduleMixin {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
-  late final ValueNotifier<bool> shouldScrollToTopNotifier;
   late final ValueNotifier<double?> bottomNavigationHeight;
 
   final SecurityService service = SecurityService();
@@ -27,7 +26,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
 
   MainViewModel() {
     shouldShowBottomNavNotifier = ValueNotifier(true);
-    shouldScrollToTopNotifier = ValueNotifier(false);
     bottomNavigationHeight = ValueNotifier(null);
     DateTime date = DateTime.now();
     year = date.year;
@@ -38,7 +36,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   @override
   void dispose() {
     shouldShowBottomNavNotifier.dispose();
-    shouldScrollToTopNotifier.dispose();
     bottomNavigationHeight.dispose();
     super.dispose();
   }
@@ -71,10 +68,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
 
   void onTabChange(int month) {
     this.month = month;
-  }
-
-  void setShouldScrollToTop(bool value) {
-    shouldScrollToTopNotifier.value = value;
   }
 
   void setShouldShowBottomNav(bool value) {

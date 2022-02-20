@@ -17,44 +17,7 @@ class _MainMobile extends StatelessWidget {
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
       bottomNavigationBar: buildBottomNavigationBar(tabs),
-      body: buildPagesListener(
-        child: buildPages(tabs, context),
-        context: context,
-      ),
-    );
-  }
-
-  Widget buildPagesListener({
-    required Widget child,
-    required BuildContext context,
-  }) {
-    double height = MediaQuery.of(context).size.height;
-    return NotificationListener<ScrollNotification>(
-      child: child,
-      onNotification: (notification) {
-        double offset = notification.metrics.pixels;
-
-        switch (Theme.of(context).platform) {
-          case TargetPlatform.android:
-          case TargetPlatform.iOS:
-            // viewModel.currentScrollController return value
-            // that not actually an desire offset, so we prevent it
-            if (offset != viewModel.currentScrollController?.offset && offset != 0) {
-              viewModel.setShouldScrollToTop(offset > height / 2);
-              return true;
-            }
-            break;
-          case TargetPlatform.fuchsia:
-          case TargetPlatform.linux:
-          case TargetPlatform.macOS:
-          case TargetPlatform.windows:
-            double windowOffset = viewModel.currentScrollController?.offset ?? 0.0;
-            viewModel.setShouldScrollToTop(windowOffset > 0);
-            return true;
-        }
-
-        return false;
-      },
+      body: buildPages(tabs, context),
     );
   }
 
@@ -120,43 +83,27 @@ class _MainMobile extends StatelessWidget {
   }
 
   Widget buildFloatingActionButton(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: viewModel.shouldScrollToTopNotifier,
-      builder: (context, shouldScrollToTop, child) {
-        return SpShowHideAnimator(
-          shouldShow: viewModel.activeIndex == 0,
-          child: SpTapEffect(
-            effects: [SpTapEffectType.scaleDown],
-            onTap: () async {
-              if (shouldScrollToTop) {
-                await viewModel.currentScrollController
-                    ?.animateTo(0.0, duration: ConfigConstant.duration, curve: ConfigConstant.scrollToTopCurve);
-              } else {
-                DateTime? date = await SpDatePicker.showDayPicker(context, viewModel.date);
-                if (date != null) onConfirm(date, context);
-              }
-            },
-            onLongPressed: () {
-              viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value);
-            },
-            child: FloatingActionButton.extended(
-              backgroundColor: !shouldScrollToTop ? null : M3Color.of(context).primary,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-              label: SpCrossFade(
-                firstChild: const Text("Add"),
-                secondChild: const Text("Back"),
-                showFirst: !shouldScrollToTop,
-              ),
-              icon: SpAnimatedIcons(
-                firstChild: const Icon(Icons.edit, key: ValueKey(Icons.edit)),
-                secondChild: const Icon(Icons.arrow_upward, key: ValueKey(Icons.arrow_upward)),
-                showFirst: !shouldScrollToTop,
-              ),
-              onPressed: null,
-            ),
+    return SpShowHideAnimator(
+      shouldShow: viewModel.activeIndex == 0,
+      child: SpTapEffect(
+        effects: [SpTapEffectType.scaleDown],
+        onTap: () async {
+          DateTime? date = await SpDatePicker.showDayPicker(context, viewModel.date);
+          if (date != null) onConfirm(date, context);
+        },
+        onLongPressed: () {
+          viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value);
+        },
+        child: FloatingActionButton.extended(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          label: const Text("Add"),
+          icon: const Icon(
+            Icons.edit,
+            key: ValueKey(Icons.edit),
           ),
-        );
-      },
+          onPressed: null,
+        ),
+      ),
     );
   }
 
