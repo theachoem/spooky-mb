@@ -8,6 +8,7 @@ class _SecurityMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
+        leading: SpPopButton(),
         title: Text(
           "Security",
           style: Theme.of(context).appBarTheme.titleTextStyle,

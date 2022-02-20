@@ -11,12 +11,12 @@ import 'package:spooky/core/storages/local_storages/security/security_storage.da
 import 'package:spooky/core/types/lock_type.dart';
 import 'package:local_auth/error_codes.dart' as code;
 
-part './local_services/biometrics_service.dart';
-part './local_services/password_service.dart';
-part './local_services/pin_code_service.dart';
+part './methods/biometrics_service.dart';
+part './methods/password_service.dart';
+part './methods/pin_code_service.dart';
 part './helpers/security_informations.dart';
 part './helpers/security_service_mixin.dart';
-part './local_services/base_lock_service.dart';
+part './methods/base_lock_service.dart';
 part './helpers/options.dart';
 
 class SecurityService with _SecurityServiceMixin {
