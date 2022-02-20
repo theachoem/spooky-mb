@@ -28,9 +28,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObse
     scrollControllers[index] = controller;
   }
 
-  // bnv - bottom navigatoin
-  bool fixedHideBnv = false;
-
   MainViewModel() {
     shouldShowBottomNavNotifier = ValueNotifier(true);
     shouldScrollToTopNotifier = ValueNotifier(false);
@@ -85,16 +82,8 @@ class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObse
     shouldScrollToTopNotifier.value = value;
   }
 
-  void setShouldHideBottomNav(bool value, [bool fixed = false]) {
-    if (fixed) {
-      shouldShowBottomNavNotifier.value = value;
-      fixedHideBnv = fixed;
-    } else if (shouldShowBottomNavNotifier.value || !fixedHideBnv) {
-      scheduleAction(() {
-        shouldShowBottomNavNotifier.value = value;
-        fixedHideBnv = fixed;
-      }, key: ValueKey("setShouldHideBottomNav"));
-    }
+  void setShouldShowBottomNav(bool value) {
+    shouldShowBottomNavNotifier.value = value;
   }
 
   @override
@@ -102,7 +91,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObse
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.resumed:
-        cancelTimer(ValueKey("setShouldHideBottomNav"));
+        cancelTimer(ValueKey("SecurityService"));
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
@@ -110,7 +99,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObse
         LockLifeCircleDurationStorage().read().then((e) {
           scheduleAction(
             () => service.showLockIfHas(App.navigatorKey.currentContext),
-            key: ValueKey("setShouldHideBottomNav"),
+            key: ValueKey("SecurityService"),
             duration: Duration(seconds: e ?? AppConstant.lockLifeDefaultCircleDuration.inSeconds),
           );
         });

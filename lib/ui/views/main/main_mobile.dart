@@ -30,6 +30,7 @@ class _MainMobile extends StatelessWidget {
   }) {
     double height = MediaQuery.of(context).size.height;
     return NotificationListener<ScrollNotification>(
+      child: child,
       onNotification: (notification) {
         double offset = notification.metrics.pixels;
 
@@ -54,40 +55,6 @@ class _MainMobile extends StatelessWidget {
 
         return false;
       },
-      child: NotificationListener<UserScrollNotification>(
-        child: child,
-        onNotification: (notification) {
-          ScrollDirection direction = notification.direction;
-          double maxScrollExtent = notification.metrics.maxScrollExtent;
-
-          // some screen list view can't be scroll
-          if (maxScrollExtent == 0) {
-            if (direction == ScrollDirection.idle) {
-              return false;
-            } else {
-              viewModel.setShouldHideBottomNav(true);
-              return true;
-            }
-          }
-
-          switch (notification.direction) {
-            case ScrollDirection.idle:
-              return true;
-            case ScrollDirection.forward:
-              WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-                viewModel.setShouldHideBottomNav(true);
-              });
-              break;
-            case ScrollDirection.reverse:
-              WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-                viewModel.setShouldHideBottomNav(false);
-              });
-              break;
-          }
-
-          return false;
-        },
-      ),
     );
   }
 
@@ -164,17 +131,13 @@ class _MainMobile extends StatelessWidget {
               if (shouldScrollToTop) {
                 await viewModel.currentScrollController
                     ?.animateTo(0.0, duration: ConfigConstant.duration, curve: ConfigConstant.scrollToTopCurve);
-                viewModel.shouldShowBottomNavNotifier.value = true;
               } else {
                 DateTime? date = await SpDatePicker.showDayPicker(context, viewModel.date);
                 if (date != null) onConfirm(date, context);
               }
             },
             onLongPressed: () {
-              viewModel.setShouldHideBottomNav(
-                !viewModel.shouldShowBottomNavNotifier.value,
-                true,
-              );
+              viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value);
             },
             child: FloatingActionButton.extended(
               backgroundColor: !shouldScrollToTop ? null : M3Color.of(context).primary,

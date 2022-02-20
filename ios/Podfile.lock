@@ -26,6 +26,8 @@ PODS:
     - Flutter
   - local_auth (0.0.1):
     - Flutter
+  - open_settings (0.0.1):
+    - Flutter
   - OrderedSet (5.0.0)
   - package_info_plus (0.4.5):
     - Flutter
@@ -51,6 +53,7 @@ DEPENDENCIES:
   - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
+  - open_settings (from `.symlinks/plugins/open_settings/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
@@ -85,6 +88,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   local_auth:
     :path: ".symlinks/plugins/local_auth/ios"
+  open_settings:
+    :path: ".symlinks/plugins/open_settings/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_ios:
@@ -108,6 +113,7 @@ SPEC CHECKSUMS:
   gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
   image_picker: 0d37d1cb66231c2473a0e3ccb8d062d0c2b3d297
   local_auth: 1740f55d7af0a2e2a8684ce225fe79d8931e808c
+  open_settings: 9628e736cb2738fd1dc84159565755c214478158
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider_ios: 7d7ce634493af4477d156294792024ec3485acd5

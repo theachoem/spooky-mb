@@ -1,13 +1,9 @@
 library main_view;
 
-import 'package:flutter/rendering.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
-import 'package:spooky/core/security/security_service.dart';
-import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
-import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/main/main_view_item.dart';
@@ -44,9 +40,9 @@ class MainView extends StatelessWidget {
         return SpScreenTypeLayout(
           listener: (info) {
             if (info.isSmall) {
-              model.setShouldHideBottomNav(false, true);
+              model.setShouldShowBottomNav(false);
             } else {
-              model.setShouldHideBottomNav(true, true);
+              model.setShouldShowBottomNav(true);
             }
           },
           mobile: _MainMobile(model),
