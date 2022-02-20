@@ -1,5 +1,7 @@
 library main_view;
 
+import 'dart:io';
+
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -32,17 +34,13 @@ class MainView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ViewModelBuilder<MainViewModel>.reactive(
       viewModelBuilder: () => MainViewModel(),
-      onModelReady: (model) {
-        model.service.showLockIfHas(context);
-      },
+      onModelReady: (model) => model.service.showLockIfHas(context),
       disposeViewModel: false,
       builder: (context, model, child) {
         return SpScreenTypeLayout(
           listener: (info) {
-            if (info.isSmall) {
-              model.setShouldShowBottomNav(false);
-            } else {
-              model.setShouldShowBottomNav(true);
+            if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
+              model.setShouldShowBottomNav(!info.isSmall);
             }
           },
           mobile: _MainMobile(model),
