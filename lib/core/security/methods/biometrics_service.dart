@@ -52,13 +52,14 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
   }
 
   Future<bool> _authentication([
-    String title = "Unlock to open the app",
+    String localizedReason = "Unlock to open the app",
   ]) async {
     try {
       return info._localAuth.authenticate(
-        localizedReason: title,
+        localizedReason: localizedReason,
         useErrorDialogs: true,
-        stickyAuth: true,
+        stickyAuth: false,
+        biometricOnly: true,
       );
     } on PlatformException catch (e) {
       switch (e.code) {
