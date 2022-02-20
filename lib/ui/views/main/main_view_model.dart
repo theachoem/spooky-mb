@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/app.dart';
 import 'package:spooky/core/security/security_service.dart';
-import 'package:spooky/core/storages/local_storages/security/lock_life_circle_duration_storage.dart';
-import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 
-class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver {
+class MainViewModel extends BaseViewModel with ScheduleMixin {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
   late final ValueNotifier<bool> shouldScrollToTopNotifier;
   late final ValueNotifier<double?> bottomNavigationHeight;
@@ -36,7 +33,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObse
     year = date.year;
     month = date.month;
     day = date.day;
-    WidgetsBinding.instance?.addObserver(this);
   }
 
   @override
@@ -44,7 +40,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObse
     shouldShowBottomNavNotifier.dispose();
     shouldScrollToTopNotifier.dispose();
     bottomNavigationHeight.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
   }
 
@@ -84,26 +79,5 @@ class MainViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObse
 
   void setShouldShowBottomNav(bool value) {
     shouldShowBottomNavNotifier.value = value;
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    switch (state) {
-      case AppLifecycleState.resumed:
-        cancelTimer(ValueKey("SecurityService"));
-        break;
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.paused:
-      case AppLifecycleState.detached:
-        LockLifeCircleDurationStorage().read().then((e) {
-          scheduleAction(
-            () => service.showLockIfHas(App.navigatorKey.currentContext),
-            key: ValueKey("SecurityService"),
-            duration: Duration(seconds: e ?? AppConstant.lockLifeDefaultCircleDuration.inSeconds),
-          );
-        });
-        break;
-    }
   }
 }
