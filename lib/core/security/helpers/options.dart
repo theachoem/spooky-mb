@@ -21,7 +21,6 @@ abstract class _BaseLockOptions {
         return false;
       case LockFlowType.remove:
       case LockFlowType.set:
-      case LockFlowType.update:
         return true;
     }
   }

@@ -35,16 +35,6 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
   }
 
   @override
-  Future<bool> update(_BiometricsOptions option) async {
-    bool authenticated = await unlock(option);
-    if (authenticated) {
-      return set(option);
-    } else {
-      return authenticated;
-    }
-  }
-
-  @override
   Future<bool> remove(_BiometricsOptions option) async {
     bool authenticated = await _authentication();
     if (authenticated) await info._storage.clearLock();

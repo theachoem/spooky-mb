@@ -30,49 +30,45 @@ class SecurityService with _SecurityServiceMixin {
   _BiometricsService get biometricsService => _BiometricsService(lockInfo);
   _PasswordService get passwordService => _PasswordService(lockInfo);
 
-  Future<void> showLockIfHas(BuildContext? context) async {
-    if (context == null) return;
+  Future<bool> showLockIfHas(BuildContext context) async {
     SecurityObject? object = await getObject(lockInfo);
-    if (object == null) return;
+    if (object == null) return true;
     return unlock(context: context, type: object.type);
   }
 
-  Future<void> unlock({
+  Future<bool> unlock({
     required BuildContext context,
     required LockType type,
     LockFlowType flowType = LockFlowType.unlock,
   }) async {
     SecurityObject? object = await getObject(lockInfo);
-    if (object == null) return;
+    if (object == null) return true;
 
     switch (type) {
       case LockType.pin:
-        await pinCodeService.unlock(_PinCodeOptions(
+        return pinCodeService.unlock(_PinCodeOptions(
           context: context,
           object: object,
           lockType: LockType.pin,
           flowType: flowType,
           next: (bool authenticated) async => authenticated,
         ));
-        break;
       case LockType.password:
-        await passwordService.unlock(_PasswordOptions(
+        return passwordService.unlock(_PasswordOptions(
           context: context,
           object: object,
           lockType: LockType.password,
           flowType: flowType,
           next: (bool authenticated) async => authenticated,
         ));
-        break;
       case LockType.biometric:
-        await biometricsService.unlock(_BiometricsOptions(
+        return biometricsService.unlock(_BiometricsOptions(
           context: context,
           object: object,
           lockType: LockType.biometric,
           flowType: flowType,
           next: (bool authenticated) async => authenticated,
         ));
-        break;
     }
   }
 
@@ -128,72 +124,54 @@ class SecurityService with _SecurityServiceMixin {
     }
   }
 
+  // to update: unlock -> remove -> set
   Future<void> update({
     required BuildContext context,
     required LockType type,
   }) async {
     SecurityObject? object = await getObject(lockInfo);
     if (object == null) return;
+    await remove(context: context, type: object.type);
 
-    switch (type) {
-      case LockType.pin:
-        await pinCodeService.update(_PinCodeOptions(
-          context: context,
-          object: object,
-          lockType: LockType.pin,
-          flowType: LockFlowType.update,
-          next: (bool authenticated) async => authenticated,
-        ));
-        break;
-      case LockType.password:
-        await passwordService.update(_PasswordOptions(
-          context: context,
-          object: object,
-          lockType: LockType.password,
-          flowType: LockFlowType.update,
-          next: (bool authenticated) async => authenticated,
-        ));
-        break;
-      case LockType.biometric:
-        await biometricsService.update(_BiometricsOptions(
-          context: context,
-          object: object,
-          lockType: LockType.biometric,
-          flowType: LockFlowType.update,
-          next: (bool authenticated) async => authenticated,
-        ));
-        break;
+    // make sure object = null before call set
+    SecurityObject? removedObject = await getObject(lockInfo);
+    if (removedObject == null) {
+      await set(context: context, type: type);
+
+      // in case it fail, we set lock
+      SecurityObject? setObject = await getObject(lockInfo);
+      if (setObject == null) {
+        lockInfo._storage.setLock(object.type, object.secret);
+      }
     }
   }
 
-  Future<void> remove({
+  Future<bool> remove({
     required BuildContext context,
     required LockType type,
   }) async {
     SecurityObject? object = await getObject(lockInfo);
-    if (object == null) return;
+    if (object == null) return true;
 
     switch (type) {
       case LockType.pin:
-        await pinCodeService.remove(_PinCodeOptions(
+        return pinCodeService.remove(_PinCodeOptions(
           context: context,
           object: object,
           lockType: LockType.pin,
           flowType: LockFlowType.remove,
           next: (bool authenticated) async => authenticated,
         ));
-        break;
       case LockType.password:
-        await passwordService.remove(_PasswordOptions(
+        return passwordService.remove(_PasswordOptions(
           context: context,
           object: object,
           lockType: LockType.password,
           flowType: LockFlowType.remove,
           next: (bool authenticated) async => authenticated,
         ));
-        break;
       case LockType.biometric:
-        await biometricsService.remove(_BiometricsOptions(
+        return biometricsService.remove(_BiometricsOptions(
           context: context,
           object: object,
           lockType: LockType.biometric,
@@ -214,7 +192,6 @@ class SecurityService with _SecurityServiceMixin {
             }
           },
         ));
-        break;
     }
   }
 }

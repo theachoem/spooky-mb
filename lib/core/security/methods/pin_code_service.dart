@@ -38,30 +38,6 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
   }
 
   @override
-  Future<bool> update(_PinCodeOptions option) async {
-    bool authenticated = await unlock(
-      _PinCodeOptions(
-        context: option.context,
-        object: option.object,
-        lockType: option.lockType,
-        flowType: LockFlowType.update,
-        next: (e) async => e,
-      ),
-    );
-    if (authenticated) {
-      return set(_PinCodeOptions(
-        context: option.context,
-        object: null,
-        lockType: option.lockType,
-        flowType: LockFlowType.set,
-        next: option.next,
-      ));
-    } else {
-      return option.next(false);
-    }
-  }
-
-  @override
   Future<bool> remove(_PinCodeOptions option) async {
     assert(option.object != null);
     bool authenticated = await _confirmOwnership(

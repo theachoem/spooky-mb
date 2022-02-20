@@ -17,12 +17,6 @@ class _PasswordService extends _BaseLockService<_PasswordOptions> {
   }
 
   @override
-  Future<bool> update(_PasswordOptions option) {
-    // TODO: implement update
-    throw UnimplementedError();
-  }
-
-  @override
   Future<bool> remove(_PasswordOptions option) {
     // TODO: implement remove
     throw UnimplementedError();
