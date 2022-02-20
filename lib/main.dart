@@ -21,7 +21,7 @@ void main() async {
   await M3Color.initialize();
 
   tz.initializeTimeZones();
-  FileHelper.initialFile();
+  await FileHelper.initialFile();
 
   if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
     await DesktopWindow.setMinWindowSize(Size(320, 510));
@@ -30,6 +30,7 @@ void main() async {
   await AppNotification().initialize();
   await InitialStoryTabService.initialize();
   spAppIntiailized = await NicknameStorage().read() != null;
+  FlutterError.onError = (details) => debugException(details);
 
   runApp(
     Phoenix(
@@ -38,6 +39,49 @@ void main() async {
         fallbackLocale: AppConstant.fallbackLocale,
         path: 'assets/translations',
         child: const InitialTheme(),
+      ),
+    ),
+  );
+}
+
+void debugException(FlutterErrorDetails details) {
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text("ERROR"),
+        ),
+        body: ListView(
+          children: [
+            Text("Summary: ${details.summary.toDescription()}"),
+            Divider(),
+            Text("toStringDeep: ${details.summary.toStringDeep()}"),
+            Divider(),
+            Text("Exception: ${details.exception}"),
+            Divider(),
+            Text("ExceptionStr: ${details.exceptionAsString()}"),
+            Divider(),
+            Text(
+              "InformationCollector: ${details.informationCollector != null ? details.informationCollector!().join("\n") : null}",
+            ),
+            Divider(),
+            Text(
+              "stackFilter: ${details.stackFilter}",
+            ),
+            Divider(),
+            Text(
+              "stack: ${details.stack}",
+            ),
+            Divider(),
+            Text(
+              "library: ${details.library}",
+            ),
+            Divider(),
+            Text(
+              "library: ${details.silent}",
+            ),
+          ],
+        ),
       ),
     ),
   );
