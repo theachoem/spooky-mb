@@ -15,8 +15,12 @@ class FileHelper {
       _exposedDirectory = Directory.current;
       _directory = Directory.current;
     } else {
-      _exposedDirectory = await getApplicationDocumentsDirectory();
       _directory = await getApplicationSupportDirectory();
+      if (Platform.isAndroid) {
+        _exposedDirectory = await getExternalStorageDirectory();
+      } else {
+        _exposedDirectory = await getApplicationDocumentsDirectory();
+      }
     }
   }
 

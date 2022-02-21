@@ -19,10 +19,14 @@ class ExportFileManager extends BaseFileManager {
   }
 
   String displayPath(FileSystemEntity file) {
-    return file.path.replaceFirst(
-      (FileHelper.exposedDirectory.path.split("/")..removeLast()).join("/"),
-      "~",
-    );
+    if (Platform.isAndroid) {
+      return file.path;
+    } else {
+      return file.path.replaceFirst(
+        (FileHelper.exposedDirectory.path.split("/")..removeLast()).join("/"),
+        "~",
+      );
+    }
   }
 
   @override
