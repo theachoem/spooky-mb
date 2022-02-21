@@ -100,23 +100,48 @@ class _SecurityMobile extends StatelessWidget {
     required Future<void> Function() onRemovePressed,
   }) async {
     bool hasLock = viewModel.lockedTypeNotifier.value == type;
+
+    SheetAction<String>? firstOption;
+    SheetAction<String>? secondOption;
+
+    if (hasLock) {
+      switch (type) {
+        case LockType.biometric:
+          break;
+        case LockType.pin:
+        case LockType.password:
+          firstOption = SheetAction(
+            label: hasLockTitle,
+            key: "add_update",
+            icon: Icons.update,
+          );
+          break;
+      }
+      secondOption = SheetAction(
+        label: removeLockTitle,
+        key: "remove",
+        isDestructiveAction: true,
+        icon: Icons.remove,
+      );
+    } else {
+      firstOption = SheetAction(
+        label: noLockTitle,
+        key: "add_update",
+        icon: Icons.add,
+      );
+    }
+
+    List<SheetAction<String>> actions = [
+      if (firstOption != null) firstOption,
+      if (secondOption != null) secondOption,
+    ];
+
+    if (actions.isEmpty) return;
     String? value = await showModalActionSheet(
       context: context,
-      actions: [
-        SheetAction(
-          label: hasLock ? hasLockTitle : noLockTitle,
-          key: "add_update",
-          icon: hasLock ? Icons.update : Icons.add,
-        ),
-        if (hasLock)
-          SheetAction(
-            label: removeLockTitle,
-            key: "remove",
-            isDestructiveAction: true,
-            icon: Icons.remove,
-          ),
-      ],
+      actions: actions,
     );
+
     switch (value) {
       case "add_update":
         await onSetPressed();
