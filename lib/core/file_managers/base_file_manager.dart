@@ -78,4 +78,22 @@ abstract class BaseFileManager {
       }
     });
   }
+
+  Future<File?> copyFile(File sourceFile, String destination) async {
+    File file = File(destination);
+    if (!sourceFile.existsSync()) return null;
+    return beforeExec<File?>(() async {
+      await ensureFileExist(file);
+      try {
+        await file.writeAsString(await sourceFile.readAsString());
+        return file;
+      } on FileSystemException catch (e) {
+        if (kDebugMode) {
+          print("RENAME: osError: ${e.osError}");
+          print("RENAME: path: ${e.path}");
+          print("RENAME: message: ${e.message}");
+        }
+      }
+    });
+  }
 }

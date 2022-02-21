@@ -1,6 +1,9 @@
 import 'dart:io';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
 import 'package:spooky/core/file_managers/archive_file_manager.dart';
+import 'package:spooky/core/file_managers/export_file_manager.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -255,7 +258,41 @@ class StoryList extends StatelessWidget {
                 }
               },
             ),
+          buildExportOption(context, story),
         ];
+      },
+    );
+  }
+
+  SpPopMenuItem buildExportOption(BuildContext context, StoryModel model) {
+    final manager = ExportFileManager();
+    FileSystemEntity? exportedFile = manager.hasExported(model.file);
+    bool hasExported = exportedFile != null;
+    return SpPopMenuItem(
+      title: hasExported ? "Exported" : "Export",
+      leadingIconData: hasExported ? Icons.download_done : Icons.download,
+      onPressed: () async {
+        if (model.file != null && !hasExported) await manager.exportFile(model.file!);
+        FileSystemEntity? exportedFile = manager.hasExported(model.file);
+        if (exportedFile != null) {
+          String? clickedKey = await showModalActionSheet(
+            context: context,
+            title: "Exported",
+            message: manager.displayPath(exportedFile),
+            actions: [
+              SheetAction(
+                label: "Open File",
+                key: "open",
+              ),
+            ],
+          );
+          switch (clickedKey) {
+            case "open":
+              await OpenFile.open(exportedFile.path);
+              break;
+            default:
+          }
+        }
       },
     );
   }

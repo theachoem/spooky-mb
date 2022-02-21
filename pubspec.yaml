@@ -55,6 +55,7 @@ dependencies:
       url: git@github.com:juniorise/flutter_screen_lock.git
       ref: master
   open_settings: ^2.0.2
+  open_file: ^3.2.1
 
 dev_dependencies:
   flutter_test:
