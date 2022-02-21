@@ -101,39 +101,39 @@ class _SecurityMobile extends StatelessWidget {
   }) async {
     bool hasLock = viewModel.lockedTypeNotifier.value == type;
 
-    SheetAction<String>? firstOption;
-    SheetAction<String>? secondOption;
+    SheetAction<String>? setOption;
+    SheetAction<String>? removeOption;
 
-    if (hasLock) {
-      switch (type) {
-        case LockType.biometric:
-          break;
-        case LockType.pin:
-        case LockType.password:
-          firstOption = SheetAction(
-            label: hasLockTitle,
-            key: "add_update",
-            icon: Icons.update,
-          );
-          break;
-      }
-      secondOption = SheetAction(
-        label: removeLockTitle,
-        key: "remove",
-        isDestructiveAction: true,
-        icon: Icons.remove,
-      );
-    } else {
-      firstOption = SheetAction(
-        label: noLockTitle,
-        key: "add_update",
-        icon: Icons.add,
-      );
+    setOption = SheetAction(
+      label: hasLock ? hasLockTitle : noLockTitle,
+      key: "add_update",
+      icon: hasLock ? Icons.update : Icons.add,
+    );
+
+    removeOption = SheetAction(
+      label: removeLockTitle,
+      key: "remove",
+      isDestructiveAction: true,
+      icon: Icons.remove,
+    );
+
+    // should display remove
+    if (!hasLock) removeOption = null;
+
+    // should display set or update
+    switch (type) {
+      case LockType.pin:
+        break;
+      case LockType.password:
+        break;
+      case LockType.biometric:
+        if (hasLock) setOption = null;
+        break;
     }
 
     List<SheetAction<String>> actions = [
-      if (firstOption != null) firstOption,
-      if (secondOption != null) secondOption,
+      if (setOption != null) setOption,
+      if (removeOption != null) removeOption,
     ];
 
     if (actions.isEmpty) return;
@@ -145,11 +145,11 @@ class _SecurityMobile extends StatelessWidget {
     switch (value) {
       case "add_update":
         await onSetPressed();
-        viewModel.load();
+        await viewModel.load();
         break;
       case "remove":
         await onRemovePressed();
-        viewModel.load();
+        await viewModel.load();
         break;
       default:
     }
