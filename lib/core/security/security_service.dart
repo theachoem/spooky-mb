@@ -124,6 +124,7 @@ class SecurityService with _SecurityServiceMixin {
     }
   }
 
+  /// NOTE: no need to update for biometric
   // to update: unlock -> remove -> set
   Future<void> update({
     required BuildContext context,
