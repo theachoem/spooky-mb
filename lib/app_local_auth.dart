@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:spooky/core/security/security_service.dart';
+import 'package:spooky/core/services/open_file_url_service.dart';
 import 'package:spooky/core/storages/local_storages/security/lock_life_circle_duration_storage.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
@@ -33,7 +34,10 @@ class _AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver
     if (Platform.isAndroid || Platform.isIOS) {
       SecurityService.initialize();
     }
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) => showLock());
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      OpenFileUrlService.getOpenFileUrl(context);
+      showLock();
+    });
     WidgetsBinding.instance?.addObserver(this);
   }
 
@@ -56,6 +60,7 @@ class _AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver
     switch (state) {
       case AppLifecycleState.resumed:
         cancelTimer(ValueKey("SecurityService"));
+        OpenFileUrlService.getOpenFileUrl(context);
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
