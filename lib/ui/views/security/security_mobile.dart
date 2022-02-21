@@ -33,19 +33,28 @@ class _SecurityMobile extends StatelessWidget {
 
   SpSectionContents buildOtherSetting() {
     return SpSectionContents(
-      headline: "Other Setting",
+      headline: "Settings",
       tiles: [
         ValueListenableBuilder<int>(
           valueListenable: viewModel.lockLifeCircleDurationNotifier,
           builder: (context, seconds, child) {
-            return ListTile(
-              leading: SizedBox(height: 40, child: Icon(Icons.update_sharp)),
-              title: Text("Lock Life circle"),
-              subtitle: Text("$seconds seconds"),
-              onTap: () async {
-                DateTime? date = await SpDatePicker.showSecondsPicker(context, seconds);
-                viewModel.setLockLifeCircleDuration(date?.second);
-              },
+            return Tooltip(
+              message: "Lock application when inactive for $seconds seconds",
+              child: ListTile(
+                leading: SizedBox(height: 40, child: Icon(Icons.update_sharp)),
+                title: Text("Lock life circle"),
+                subtitle: Text("$seconds seconds"),
+                onTap: () async {
+                  DateTime? date = await SpDatePicker.showSecondsPicker(context, seconds);
+                  if (date == null) return;
+                  if (date.second > 10) {
+                    viewModel.setLockLifeCircleDuration(date.second);
+                  } else {
+                    App.of(context)?.showSpSnackBar("10 seconds minimum");
+                    viewModel.setLockLifeCircleDuration(10);
+                  }
+                },
+              ),
             );
           },
         )
