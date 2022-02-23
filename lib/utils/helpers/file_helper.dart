@@ -7,16 +7,20 @@ class FileHelper {
   static Directory get directory => _directory!;
   static Directory? _directory;
 
-  static Directory get supportDirectory => _supportDirectory!;
-  static Directory? _supportDirectory;
+  static Directory get exposedDirectory => _exposedDirectory!;
+  static Directory? _exposedDirectory;
 
   static Future<void> initialFile() async {
     if (spFlutterTest) {
+      _exposedDirectory = Directory.current;
       _directory = Directory.current;
-      _supportDirectory = Directory.current;
     } else {
-      _directory = await getApplicationDocumentsDirectory();
-      _supportDirectory = await getApplicationSupportDirectory();
+      _directory = await getApplicationSupportDirectory();
+      if (Platform.isAndroid) {
+        _exposedDirectory = await getExternalStorageDirectory();
+      } else {
+        _exposedDirectory = await getApplicationDocumentsDirectory();
+      }
     }
   }
 
