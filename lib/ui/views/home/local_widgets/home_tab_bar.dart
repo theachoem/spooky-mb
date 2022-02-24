@@ -57,16 +57,24 @@ class HomeTabBar extends StatelessWidget implements PreferredSizeWidget {
           tabs.length,
           (index) {
             final text = tabs[index];
-            return SpTapEffect(
-              onTap: () {
-                if (onTap != null) onTap!(index);
-                tabController?.animateTo(index);
-              },
-              behavior: HitTestBehavior.opaque,
+            return AnimatedBuilder(
+              animation: tabController!.animation!,
               child: Container(
                 padding: const EdgeInsets.all(8.0),
                 child: Text(text),
               ),
+              builder: (context, child) {
+                return SpTapEffect(
+                  onTap: tabController.index == index
+                      ? null
+                      : () {
+                          if (onTap != null) onTap!(index);
+                          tabController.animateTo(index);
+                        },
+                  behavior: HitTestBehavior.opaque,
+                  child: child ?? SizedBox.shrink(),
+                );
+              },
             );
           },
         ),
