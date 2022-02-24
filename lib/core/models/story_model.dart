@@ -58,6 +58,7 @@ class StoryModel extends BaseRouteModel {
     );
   }
 
+  bool get starred => changes.last.starred == true;
   StoryModel copyWithStarred(bool value) {
     StoryContentModel last = changes.removeLast();
     last = last.copyWith(starred: value, updatedAt: DateTime.now());
