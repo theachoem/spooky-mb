@@ -183,11 +183,10 @@ class _StoryTileState extends State<StoryTile> {
     return story.changes.last;
   }
 
-  void view(StoryModel story, BuildContext context) {
+  Future<void> view(StoryModel story, BuildContext context) async {
     DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlowType.update);
-    Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
-      if (value is StoryModel && value != story) widget.onRefresh();
-    });
+    await Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args);
+    reloadStory();
   }
 
   Widget buildMonogram(
