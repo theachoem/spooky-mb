@@ -1,11 +1,18 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
+import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/home/local_widgets/story_tile.dart';
 import 'package:spooky/ui/widgets/sp_dimissable_background.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
-class StoryList extends StatelessWidget {
+class StoryList extends StatefulWidget {
   const StoryList({
     Key? key,
     required this.onRefresh,
@@ -23,6 +30,13 @@ class StoryList extends StatelessWidget {
   final String emptyMessage;
   final EdgeInsets itemPadding;
 
+  @override
+  State<StoryList> createState() => _StoryListState();
+}
+
+class _StoryListState extends State<StoryList> with ScheduleMixin {
+  SortType? sortType;
+
   StoryModel? storyAt(int index) {
     if (stories?.isNotEmpty == true) {
       if (index >= 0 && stories!.length > index) {
@@ -32,14 +46,96 @@ class StoryList extends StatelessWidget {
     return null;
   }
 
+  List<StoryModel>? get stories {
+    List<StoryModel>? _stories = widget.stories;
+    switch (sortType) {
+      case SortType.oldToNew:
+      case null:
+        return _stories;
+      case SortType.newToOld:
+        return _stories?.reversed.toList();
+      case SortType.starred:
+        _stories?.sort(((a, b) => b.starred == true ? 1 : -1));
+        return _stories;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    SortTypeStorage().readEnum().then((value) {
+      sortType = value ?? SortType.oldToNew;
+      // set state if stories isn't load yet.
+      // list will be update on stories loaded
+      if (stories != null) {
+        setState(() {});
+      }
+    });
+  }
+
+  String sortTitle(SortType? type) {
+    switch (type) {
+      case SortType.oldToNew:
+        return "Old to New";
+      case SortType.newToOld:
+        return "New to Old";
+      case SortType.starred:
+        return "Starred";
+      case null:
+        return "null";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    if (onDelete != null || onUnarchive != null) {
-      assert(onDelete != null);
-      assert(onUnarchive != null);
+    if (widget.onDelete != null || widget.onUnarchive != null) {
+      assert(widget.onDelete != null);
+      assert(widget.onUnarchive != null);
     }
     return RefreshIndicator(
-      onRefresh: onRefresh,
+      onRefresh: () async {
+        Completer completer = Completer();
+
+        scheduleAction(() async {
+          SortType? _sortType = await showConfirmationDialog(
+            context: context,
+            title: "Reorder Your Stories",
+            initialSelectedActionKey: sortType,
+            actions: [
+              AlertDialogAction(
+                key: SortType.newToOld,
+                label: sortTitle(SortType.newToOld),
+              ),
+              AlertDialogAction(
+                key: SortType.starred,
+                label: sortTitle(SortType.starred),
+              ),
+              AlertDialogAction(
+                key: SortType.oldToNew,
+                label: sortTitle(SortType.oldToNew),
+              ),
+            ].map((e) {
+              return AlertDialogAction<SortType>(
+                key: e.key,
+                isDefaultAction: e.key == sortType,
+                label: e.label,
+              );
+            }).toList(),
+          );
+
+          if (_sortType != null) {
+            setState(() {
+              sortType = _sortType;
+              SortTypeStorage().writeEnum(sortType!);
+            });
+          }
+
+          completer.complete(1);
+        });
+
+        await completer.future;
+        return await widget.onRefresh();
+      },
       child: Stack(
         children: [
           ListView.separated(
@@ -64,7 +160,7 @@ class StoryList extends StatelessWidget {
           IgnorePointer(
             child: Center(
               child: Visibility(
-                visible: stories == null,
+                visible: sortType == null || stories == null,
                 child: CircularProgressIndicator.adaptive(),
               ),
             ),
@@ -74,7 +170,7 @@ class StoryList extends StatelessWidget {
               visible: stories?.isEmpty == true,
               child: Container(
                 alignment: Alignment.center,
-                child: Text(emptyMessage),
+                child: Text(widget.emptyMessage),
               ),
             ),
           ),
@@ -85,6 +181,7 @@ class StoryList extends StatelessWidget {
 
   Widget buildAnimatedTileWrapper({required Widget child}) {
     return TweenAnimationBuilder<int>(
+      key: UniqueKey(),
       duration: ConfigConstant.duration,
       tween: IntTween(begin: 0, end: 1),
       child: child,
@@ -105,7 +202,7 @@ class StoryList extends StatelessWidget {
 
   Widget buildConfiguredTile(int index, BuildContext context) {
     final StoryModel content = stories![index];
-    if (onDelete != null && onUnarchive != null) {
+    if (widget.onDelete != null && widget.onUnarchive != null) {
       return Dismissible(
         key: ValueKey(content.file?.path),
         background: buildDismissibleBackground(
@@ -127,14 +224,14 @@ class StoryList extends StatelessWidget {
         confirmDismiss: (direction) async {
           switch (direction) {
             case DismissDirection.startToEnd:
-              if (onDelete != null) return onDelete!(content);
+              if (widget.onDelete != null) return widget.onDelete!(content);
               return false;
             case DismissDirection.vertical:
               return false;
             case DismissDirection.horizontal:
               return false;
             case DismissDirection.endToStart:
-              if (onDelete != null) return onUnarchive!(content);
+              if (widget.onDelete != null) return widget.onUnarchive!(content);
               return false;
             case DismissDirection.up:
               return false;
@@ -148,8 +245,8 @@ class StoryList extends StatelessWidget {
           story: content,
           context: context,
           previousStory: storyAt(index - 1),
-          itemPadding: itemPadding,
-          onRefresh: onRefresh,
+          itemPadding: widget.itemPadding,
+          onRefresh: () => widget.onRefresh(),
         ),
       );
     }
@@ -157,8 +254,8 @@ class StoryList extends StatelessWidget {
       story: content,
       context: context,
       previousStory: storyAt(index - 1),
-      itemPadding: itemPadding,
-      onRefresh: onRefresh,
+      itemPadding: widget.itemPadding,
+      onRefresh: () => widget.onRefresh(),
     );
   }
 
