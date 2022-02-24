@@ -12,6 +12,7 @@ class StoryContentModel extends BaseModel with ComparableMixin {
   final String? title;
   final String? plainText;
   final DateTime createdAt;
+  final DateTime? updatedAt;
 
   // List: Returns JSON-serializable version of quill delta.
   List<List<dynamic>>? pages;
@@ -24,6 +25,7 @@ class StoryContentModel extends BaseModel with ComparableMixin {
     required this.plainText,
     required this.createdAt,
     required this.pages,
+    this.updatedAt,
   });
 
   StoryContentModel copyWith({
@@ -33,6 +35,7 @@ class StoryContentModel extends BaseModel with ComparableMixin {
     String? title,
     String? plainText,
     DateTime? createdAt,
+    DateTime? updatedAt,
     List<List<dynamic>>? pages,
   }) {
     return StoryContentModel(
@@ -42,6 +45,7 @@ class StoryContentModel extends BaseModel with ComparableMixin {
       title: title ?? this.title,
       plainText: plainText ?? this.plainText,
       createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
       pages: pages ?? this.pages,
     );
   }
@@ -69,6 +73,7 @@ class StoryContentModel extends BaseModel with ComparableMixin {
         feeling = null,
         plainText = null,
         title = null,
+        updatedAt = null,
         pages = [[]];
 
   @override

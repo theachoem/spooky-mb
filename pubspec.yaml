@@ -50,10 +50,7 @@ dependencies:
   bubble_lens: ^2.0.0
   desktop_window: ^0.4.0
   local_auth: ^1.1.11
-  flutter_screen_lock: # ^5.0.5
-    git:
-      url: git@github.com:juniorise/flutter_screen_lock.git
-      ref: master
+  flutter_screen_lock: ^5.0.6
   open_settings: ^2.0.2
   open_file: ^3.2.1
 

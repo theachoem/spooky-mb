@@ -144,7 +144,7 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
                 child: Icon(e.leadingIconData, color: e.titleStyle?.color),
               )
             : null,
-        title: Text(e.title, textAlign: TextAlign.left),
+        title: Text(e.title, textAlign: TextAlign.left, style: e.titleStyle),
         subtitle: e.subtitle != null ? Text(e.subtitle!, textAlign: TextAlign.left) : null,
       ),
     );

@@ -58,6 +58,13 @@ class StoryModel extends BaseRouteModel {
     );
   }
 
+  StoryModel copyWithStarred(bool value) {
+    StoryContentModel last = changes.removeLast();
+    last = last.copyWith(starred: value, updatedAt: DateTime.now());
+    changes.add(last);
+    return this;
+  }
+
   void removeChangeById(String id) {
     return changes.removeWhere((e) => e.id == id);
   }

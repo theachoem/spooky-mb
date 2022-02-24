@@ -17,6 +17,9 @@ StoryContentModel _$StoryContentModelFromJson(Map<String, dynamic> json) =>
       pages: (json['pages'] as List<dynamic>?)
           ?.map((e) => e as List<dynamic>)
           .toList(),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
     );
 
 Map<String, dynamic> _$StoryContentModelToJson(StoryContentModel instance) =>
@@ -27,5 +30,6 @@ Map<String, dynamic> _$StoryContentModelToJson(StoryContentModel instance) =>
       'title': instance.title,
       'plain_text': instance.plainText,
       'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
       'pages': instance.pages,
     };
