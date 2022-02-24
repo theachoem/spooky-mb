@@ -4,6 +4,7 @@ import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
+import 'package:spooky/utils/helpers/quill_helper.dart';
 
 class DetailViewModelHelper {
   static StoryContentModel buildContent(
@@ -12,12 +13,12 @@ class DetailViewModelHelper {
     TextEditingController titleController,
     DateTime openOn,
   ) {
-    var pages = pagesData(currentContent, quillControllers).values.toList();
+    final pages = pagesData(currentContent, quillControllers).values.toList();
+    final root = AppHelper.listItem(quillControllers.values, 0)?.document.root ?? Document.fromJson(pages.first).root;
     return currentContent.copyWith(
       id: openOn.millisecondsSinceEpoch.toString(),
       title: titleController.text,
-      plainText: AppHelper.listItem(quillControllers.values, 0)?.document.toPlainText() ??
-          Document.fromJson(pages.first).toPlainText(),
+      plainText: QuillHelper.toPlainText(root),
       pages: pages,
       createdAt: DateTime.now(),
     );
