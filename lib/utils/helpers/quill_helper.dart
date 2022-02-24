@@ -1,8 +1,6 @@
 // ignore_for_file: implementation_imports
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter_quill/flutter_quill.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:flutter_quill/src/models/documents/attribute.dart' as attribute;
 import 'package:flutter_quill/src/models/documents/nodes/block.dart' as block;
 import 'package:flutter_quill/src/models/documents/nodes/node.dart' as node;

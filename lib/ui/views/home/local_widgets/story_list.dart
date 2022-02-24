@@ -1,18 +1,12 @@
 import 'dart:async';
-import 'dart:io';
-
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
-import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/home/local_widgets/story_tile.dart';
 import 'package:spooky/ui/widgets/sp_dimissable_background.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
-class StoryList extends StatefulWidget {
+class StoryList extends StatelessWidget {
   const StoryList({
     Key? key,
     required this.onRefresh,
@@ -30,13 +24,6 @@ class StoryList extends StatefulWidget {
   final String emptyMessage;
   final EdgeInsets itemPadding;
 
-  @override
-  State<StoryList> createState() => _StoryListState();
-}
-
-class _StoryListState extends State<StoryList> with ScheduleMixin {
-  SortType? sortType;
-
   StoryModel? storyAt(int index) {
     if (stories?.isNotEmpty == true) {
       if (index >= 0 && stories!.length > index) {
@@ -46,96 +33,14 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
     return null;
   }
 
-  List<StoryModel>? get stories {
-    List<StoryModel>? _stories = widget.stories;
-    switch (sortType) {
-      case SortType.oldToNew:
-      case null:
-        return _stories;
-      case SortType.newToOld:
-        return _stories?.reversed.toList();
-      case SortType.starred:
-        _stories?.sort(((a, b) => b.starred == true ? 1 : -1));
-        return _stories;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    SortTypeStorage().readEnum().then((value) {
-      sortType = value ?? SortType.oldToNew;
-      // set state if stories isn't load yet.
-      // list will be update on stories loaded
-      if (stories != null) {
-        setState(() {});
-      }
-    });
-  }
-
-  String sortTitle(SortType? type) {
-    switch (type) {
-      case SortType.oldToNew:
-        return "Old to New";
-      case SortType.newToOld:
-        return "New to Old";
-      case SortType.starred:
-        return "Starred";
-      case null:
-        return "null";
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    if (widget.onDelete != null || widget.onUnarchive != null) {
-      assert(widget.onDelete != null);
-      assert(widget.onUnarchive != null);
+    if (onDelete != null || onUnarchive != null) {
+      assert(onDelete != null);
+      assert(onUnarchive != null);
     }
     return RefreshIndicator(
-      onRefresh: () async {
-        Completer completer = Completer();
-
-        scheduleAction(() async {
-          SortType? _sortType = await showConfirmationDialog(
-            context: context,
-            title: "Reorder Your Stories",
-            initialSelectedActionKey: sortType,
-            actions: [
-              AlertDialogAction(
-                key: SortType.newToOld,
-                label: sortTitle(SortType.newToOld),
-              ),
-              AlertDialogAction(
-                key: SortType.starred,
-                label: sortTitle(SortType.starred),
-              ),
-              AlertDialogAction(
-                key: SortType.oldToNew,
-                label: sortTitle(SortType.oldToNew),
-              ),
-            ].map((e) {
-              return AlertDialogAction<SortType>(
-                key: e.key,
-                isDefaultAction: e.key == sortType,
-                label: e.label,
-              );
-            }).toList(),
-          );
-
-          if (_sortType != null) {
-            setState(() {
-              sortType = _sortType;
-              SortTypeStorage().writeEnum(sortType!);
-            });
-          }
-
-          completer.complete(1);
-        });
-
-        await completer.future;
-        return await widget.onRefresh();
-      },
+      onRefresh: () => onRefresh(),
       child: Stack(
         children: [
           ListView.separated(
@@ -144,6 +49,7 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
             padding: EdgeInsets.zero,
             separatorBuilder: (context, index) {
               return buildAnimatedTileWrapper(
+                index: index,
                 child: Divider(
                   indent: 16 + 20 + 16 + 4 + 16,
                   color: M3Color.of(context).secondary.m3Opacity.opacity016,
@@ -153,6 +59,7 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
             },
             itemBuilder: (context, index) {
               return buildAnimatedTileWrapper(
+                index: index,
                 child: buildConfiguredTile(index, context),
               );
             },
@@ -160,7 +67,7 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
           IgnorePointer(
             child: Center(
               child: Visibility(
-                visible: sortType == null || stories == null,
+                visible: stories == null,
                 child: CircularProgressIndicator.adaptive(),
               ),
             ),
@@ -170,7 +77,7 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
               visible: stories?.isEmpty == true,
               child: Container(
                 alignment: Alignment.center,
-                child: Text(widget.emptyMessage),
+                child: Text(emptyMessage),
               ),
             ),
           ),
@@ -179,16 +86,18 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
     );
   }
 
-  Widget buildAnimatedTileWrapper({required Widget child}) {
+  Widget buildAnimatedTileWrapper({
+    required Widget child,
+    required int index,
+  }) {
     return TweenAnimationBuilder<int>(
-      key: UniqueKey(),
+      key: ValueKey(stories?[index].file?.path),
       duration: ConfigConstant.duration,
       tween: IntTween(begin: 0, end: 1),
       child: child,
       builder: (BuildContext context, int value, Widget? child) {
         return AnimatedContainer(
           duration: ConfigConstant.duration,
-          transform: Matrix4.identity()..translate(0.0, value == 1 ? 0 : -ConfigConstant.margin2),
           child: AnimatedOpacity(
             duration: ConfigConstant.duration,
             opacity: value == 1 ? 1.0 : 0.0,
@@ -202,7 +111,7 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
 
   Widget buildConfiguredTile(int index, BuildContext context) {
     final StoryModel content = stories![index];
-    if (widget.onDelete != null && widget.onUnarchive != null) {
+    if (onDelete != null && onUnarchive != null) {
       return Dismissible(
         key: ValueKey(content.file?.path),
         background: buildDismissibleBackground(
@@ -224,14 +133,14 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
         confirmDismiss: (direction) async {
           switch (direction) {
             case DismissDirection.startToEnd:
-              if (widget.onDelete != null) return widget.onDelete!(content);
+              if (onDelete != null) return onDelete!(content);
               return false;
             case DismissDirection.vertical:
               return false;
             case DismissDirection.horizontal:
               return false;
             case DismissDirection.endToStart:
-              if (widget.onDelete != null) return widget.onUnarchive!(content);
+              if (onDelete != null) return onUnarchive!(content);
               return false;
             case DismissDirection.up:
               return false;
@@ -245,8 +154,8 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
           story: content,
           context: context,
           previousStory: storyAt(index - 1),
-          itemPadding: widget.itemPadding,
-          onRefresh: () => widget.onRefresh(),
+          itemPadding: itemPadding,
+          onRefresh: () => onRefresh(),
         ),
       );
     }
@@ -254,8 +163,8 @@ class _StoryListState extends State<StoryList> with ScheduleMixin {
       story: content,
       context: context,
       previousStory: storyAt(index - 1),
-      itemPadding: widget.itemPadding,
-      onRefresh: () => widget.onRefresh(),
+      itemPadding: itemPadding,
+      onRefresh: () => onRefresh(),
     );
   }
 

@@ -1,9 +1,12 @@
 library setting_view;
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
+import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/views/developer_mode/developer_mode_view.dart';
 import 'package:spooky/ui/widgets/sp_app_version.dart';

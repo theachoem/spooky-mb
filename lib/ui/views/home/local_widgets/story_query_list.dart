@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
+import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
+import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/ui/views/home/local_widgets/story_list.dart';
 
 class StoryQueryList extends StatefulWidget {
@@ -45,11 +47,25 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   }
 
   Future<void> load() async {
-    var result = await storyFileManager.fetchAll(widget.queryOptions) ?? [];
+    SortType? sortType = await SortTypeStorage().readEnum();
+    List<StoryModel> result = await storyFileManager.fetchAll(widget.queryOptions) ?? [];
+
+    switch (sortType) {
+      case SortType.oldToNew:
+      case null:
+        result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
+        break;
+      case SortType.newToOld:
+        result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
+        result = result.reversed.toList();
+        break;
+      case SortType.starred:
+        result.sort(((a, b) => b.starred == true ? 1 : -1));
+    }
+
     if (result != stories) {
       setState(() {
         stories = result;
-        stories?.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
       });
     }
   }
