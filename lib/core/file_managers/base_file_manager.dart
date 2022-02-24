@@ -94,6 +94,7 @@ abstract class BaseFileManager {
           print("RENAME: message: ${e.message}");
         }
       }
+      return null;
     });
   }
 }
