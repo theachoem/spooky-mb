@@ -47,7 +47,9 @@ class _StoryTileState extends State<StoryTile> {
   final StoryFileManager storyManager = StoryFileManager();
 
   StoryModel? get previousStory => widget.previousStory;
+
   bool get starred => _content(story).starred == true;
+  Color? get starredColor => starred ? M3Color.of(context).error : null;
 
   late StoryModel story;
 
@@ -137,7 +139,7 @@ class _StoryTileState extends State<StoryTile> {
           SpPopMenuItem(
             title: starred ? "Unstarred" : "Starred",
             leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
-            titleStyle: starred ? TextStyle(color: M3Color.of(context).primary) : null,
+            titleStyle: TextStyle(color: starredColor),
             onPressed: () => toggleStarred(),
           ),
           buildExportOption(context, story),
@@ -183,11 +185,10 @@ class _StoryTileState extends State<StoryTile> {
     return story.changes.last;
   }
 
-  void view(StoryModel story, BuildContext context) {
+  Future<void> view(StoryModel story, BuildContext context) async {
     DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlowType.update);
-    Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
-      if (value is StoryModel && value != story) widget.onRefresh();
-    });
+    await Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args);
+    reloadStory();
   }
 
   Widget buildMonogram(
@@ -323,7 +324,7 @@ class _StoryTileState extends State<StoryTile> {
           firstChild: Icon(
             Icons.favorite,
             size: ConfigConstant.iconSize1,
-            color: M3Color.of(context).error,
+            color: starredColor,
           ),
         ),
         ConfigConstant.sizedBoxW0,
