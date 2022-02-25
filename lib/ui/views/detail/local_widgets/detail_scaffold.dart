@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/core/file_managers/archive_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';

@@ -1,13 +1,11 @@
 import 'dart:io';
-
-import 'package:spooky/core/file_managers/base_file_manager.dart';
-import 'package:spooky/core/types/file_path_type.dart';
+import 'package:spooky/core/file_manager/base/base_file_manager.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
 class ExportFileManager extends BaseFileManager {
   Future<File?> exportFile(File file) async {
     String exportDestination = file.path.replaceFirst(FileHelper.directory.path, FileHelper.exposedDirectory.path);
-    return copyFile(file, exportDestination);
+    return copy(file, exportDestination);
   }
 
   FileSystemEntity? hasExported(File? file) {
@@ -28,7 +26,4 @@ class ExportFileManager extends BaseFileManager {
       );
     }
   }
-
-  @override
-  FilePathType get filePath => throw UnimplementedError();
 }

@@ -3,9 +3,9 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
-import 'package:spooky/core/file_managers/archive_file_manager.dart';
-import 'package:spooky/core/file_managers/export_file_manager.dart';
-import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/export_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/story_manager.dart';
+import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
@@ -43,7 +43,7 @@ class StoryTile extends StatefulWidget {
 
 class _StoryTileState extends State<StoryTile> {
   final ArchiveFileManager manager = ArchiveFileManager();
-  final StoryFileManager storyManager = StoryFileManager();
+  final StoryManager storyManager = StoryManager();
 
   StoryModel? get previousStory => widget.previousStory;
 
@@ -60,7 +60,7 @@ class _StoryTileState extends State<StoryTile> {
 
   // reload current story only
   Future<void> reloadStory() async {
-    StoryModel? _story = await storyManager.fetchOne(story.file ?? story.path.toFile());
+    StoryModel? _story = await storyManager.fetchOne(story.writableFile);
     if (_story != null) {
       setState(() => story = _story);
     } else {
@@ -70,7 +70,7 @@ class _StoryTileState extends State<StoryTile> {
 
   Future<void> toggleStarred() async {
     StoryModel _story = story.copyWithStarred(!starred);
-    File? file = await storyManager.writeStory(_story);
+    FileSystemEntity? file = await storyManager.write(_story.writableFile, _story);
     if (file != null) await reloadStory();
   }
 
@@ -116,7 +116,7 @@ class _StoryTileState extends State<StoryTile> {
                 );
 
                 if (pathDate != null) {
-                  File? file = await storyManager.updatePathDate(story, pathDate);
+                  FileSystemEntity? file = await storyManager.updatePathDate(story, pathDate);
                   if (file != null) {
                     widget.onRefresh();
                   }

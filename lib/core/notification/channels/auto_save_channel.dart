@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
-import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notification/channels/base_notification_channel.dart';
 import 'package:spooky/core/types/notification_channel_types.dart';
@@ -46,7 +46,7 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
     File file = File(path);
     if (!file.existsSync()) return;
 
-    StoryModel? story = await StoryFileManager().fetchOne(file);
+    StoryModel? story = await StoryManager().fetchOne(file);
     if (story == null) return;
 
     String? message;

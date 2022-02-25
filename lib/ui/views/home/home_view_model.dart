@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
@@ -13,7 +13,7 @@ class HomeViewModel extends IndexTrackingViewModel {
   late int year;
   late int month;
 
-  final StoryFileManager storyFileManager = StoryFileManager();
+  final StoryManager storyManager = StoryManager();
 
   final void Function(int index) onTabChange;
   final void Function(int year) onYearChange;
@@ -51,11 +51,11 @@ class HomeViewModel extends IndexTrackingViewModel {
   }
 
   Future<List<int>> fetchYears() async {
-    Directory root = Directory(storyFileManager.rootPath);
-    if (await root.exists()) {
-      await storyFileManager.ensureDirExist(root);
+    Directory docsPath = storyManager.directory;
+    if (await docsPath.exists()) {
+      await storyManager.ensureDirExist(docsPath);
 
-      List<FileSystemEntity> result = root.listSync();
+      List<FileSystemEntity> result = docsPath.listSync();
       List<String> years = result.map((e) {
         return e.absolute.path.split("/").last;
       }).toList();
@@ -73,9 +73,9 @@ class HomeViewModel extends IndexTrackingViewModel {
   }
 
   int get docsCount {
-    Directory root = Directory(storyFileManager.rootPath + "/" + "$year");
-    if (root.existsSync()) {
-      List<FileSystemEntity> result = root.listSync(recursive: true);
+    Directory docsPath = Directory(storyManager.directory.path + "/" + "$year");
+    if (docsPath.existsSync()) {
+      List<FileSystemEntity> result = docsPath.listSync(recursive: true);
       return result.where((e) {
         return e is File && e.path.endsWith(AppConstant.documentExstension);
       }).length;
