@@ -4,13 +4,6 @@ class _MainMobile extends StatelessWidget {
   final MainViewModel viewModel;
   const _MainMobile(this.viewModel);
 
-  void onConfirm(DateTime date, BuildContext context) {
-    DetailArgs args = DetailArgs(initialStory: StoryModel.fromDate(date), intialFlow: DetailViewFlowType.create);
-    Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
-      if (viewModel.storyListReloader != null && value != null) viewModel.storyListReloader!();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     List<MainTabBarItem> tabs = MainTabBar.items;
@@ -87,21 +80,7 @@ class _MainMobile extends StatelessWidget {
       shouldShow: viewModel.activeIndex == 0,
       child: SpTapEffect(
         effects: [SpTapEffectType.scaleDown],
-        onTap: () async {
-          ListLayoutType? layout = await SpListLayoutBuilder.get();
-
-          DateTime? date;
-          switch (layout) {
-            case ListLayoutType.single:
-              date = await SpDatePicker.showMonthDayPicker(context, viewModel.date);
-              break;
-            case ListLayoutType.tabs:
-              date = await SpDatePicker.showDayPicker(context, viewModel.date);
-              break;
-          }
-
-          if (date != null) onConfirm(date, context);
-        },
+        onTap: () => viewModel.createStory(context),
         onLongPressed: () {
           viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value);
         },

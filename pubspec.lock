@@ -807,15 +807,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
-  page_turn:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: "2.0.2"
-      resolved-ref: "906aa449c1d0460d4a0661bd7d366846a1d43c82"
-      url: "git@github.com:juniorise/page_turn.git"
-    source: git
-    version: "2.0.2"
   path:
     dependency: transitive
     description:
@@ -942,6 +933,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.0"
+  quick_actions:
+    dependency: "direct main"
+    description:
+      name: quick_actions
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.0+9"
+  quick_actions_platform_interface:
+    dependency: transitive
+    description:
+      name: quick_actions_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.2"
   quiver:
     dependency: transitive
     description:
