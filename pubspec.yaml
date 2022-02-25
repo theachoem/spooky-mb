@@ -48,6 +48,7 @@ dependencies:
   open_settings: ^2.0.2
   open_file: ^3.2.1
   quick_actions: ^0.6.0+9
+  expandable_text: ^2.2.0
 
 dev_dependencies:
   flutter_test:

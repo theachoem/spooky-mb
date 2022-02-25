@@ -323,6 +323,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  expandable_text:
+    dependency: "direct main"
+    description:
+      name: expandable_text
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.2.0"
   fake_async:
     dependency: transitive
     description:

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
 import 'package:spooky/core/file_managers/archive_file_manager.dart';
@@ -258,11 +259,16 @@ class _StoryTileState extends State<StoryTile> {
                 if (content.plainText != null && content.plainText!.trim().length > 1)
                   Container(
                     margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : kToolbarHeight + 16),
-                    child: Text(
+                    child: ExpandableText(
                       body(content),
-                      style: M3TextTheme.of(context).bodyMedium,
+                      expandText: 'show more',
+                      collapseText: "show less",
                       maxLines: 5,
-                      overflow: TextOverflow.ellipsis,
+                      animation: true,
+                      collapseOnTextTap: false,
+                      style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onSurface),
+                      linkColor: M3Color.of(context).onSurface,
+                      linkStyle: TextStyle(fontWeight: FontWeight.w300),
                     ),
                   ),
                 buildChips(images, content, story),
