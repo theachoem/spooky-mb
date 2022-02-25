@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
-import 'package:spooky/ui/views/detail/detail_view_model.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
 import 'package:spooky/ui/widgets/sp_cross_fade.dart';
 import 'package:spooky/ui/widgets/sp_pop_up_menu_button.dart';
@@ -12,12 +12,12 @@ class PageIndicatorButton extends StatefulWidget {
     Key? key,
     required this.controller,
     required this.pagesCount,
-    required this.viewModel,
+    required this.quillControllerGetter,
   }) : super(key: key);
 
   final PageController controller;
   final int pagesCount;
-  final DetailViewModel viewModel;
+  final QuillController? Function(int page) quillControllerGetter;
 
   @override
   State<PageIndicatorButton> createState() => _PageIndicatorButtonState();
@@ -46,7 +46,7 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
 
   @override
   void dispose() {
-    widget.controller.removeListener(listener);
+    if (widget.controller.hasClients) widget.controller.removeListener(listener);
     super.dispose();
   }
 
@@ -66,12 +66,13 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
               ),
               SpPopMenuItem(
                 title: "Characters",
-                subtitle: widget.viewModel.currentQuillController?.document.toPlainText().length.toString(),
+                subtitle: widget.quillControllerGetter(lastReportedPage)?.document.toPlainText().length.toString(),
                 leadingIconData: Icons.text_snippet,
               ),
               SpPopMenuItem(
                 title: "Words",
-                subtitle: widget.viewModel.currentQuillController?.document.toPlainText().split(" ").length.toString(),
+                subtitle:
+                    widget.quillControllerGetter(lastReportedPage)?.document.toPlainText().split(" ").length.toString(),
                 leadingIconData: Icons.text_format,
               ),
             ];

@@ -23,12 +23,6 @@ dependencies:
     git:
       url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git
       ref: 3.0.1
-
-  page_turn:
-    git:
-      url: git@github.com:juniorise/page_turn.git
-      ref: 2.0.2
-
   stacked_services: ^0.8.16
   logger: ^1.1.0
   auto_route: ^3.2.2
@@ -74,7 +68,6 @@ flutter:
     - assets/
     - assets/translations/
     - assets/fonts/Quicksand/OFL.txt
-    - assets/sounds/
 
   fonts:
     - family: Quicksand

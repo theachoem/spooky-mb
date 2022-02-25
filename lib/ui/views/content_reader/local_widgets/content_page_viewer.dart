@@ -7,8 +7,10 @@ class ContentPageViewer extends StatefulWidget {
   const ContentPageViewer({
     Key? key,
     required this.document,
+    required this.onControllerReady,
   }) : super(key: key);
 
+  final void Function(editor.QuillController controller) onControllerReady;
   final List<dynamic>? document;
 
   @override
@@ -22,6 +24,7 @@ class ContentPageViewerState extends State<ContentPageViewer> {
   @override
   void initState() {
     controller = getDocumentController();
+    widget.onControllerReady(controller);
     super.initState();
   }
 

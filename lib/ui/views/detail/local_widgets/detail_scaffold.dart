@@ -107,7 +107,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
         PageIndicatorButton(
           controller: widget.viewModel.pageController,
           pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
-          viewModel: widget.viewModel,
+          quillControllerGetter: (page) => widget.viewModel.quillControllers[page],
         ),
         buildMoreVertButton(),
       ],
@@ -120,18 +120,6 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
     return SpPopupMenuButton(
       fromAppBar: true,
       items: (context) => [
-        SpPopMenuItem(
-          title: "View in PageTurn",
-          leadingIconData: Icons.menu_book_rounded,
-          onPressed: () {
-            Navigator.of(context).pushNamed(
-              SpRouteConfig.contentReader,
-              arguments: ContentReaderArgs(
-                content: widget.viewModel.currentContent,
-              ),
-            );
-          },
-        ),
         if ((widget.viewModel.currentContent.pages ?? []).length > 1)
           SpPopMenuItem(
             title: "Manage Pages",

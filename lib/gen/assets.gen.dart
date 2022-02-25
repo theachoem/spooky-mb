@@ -13,40 +13,6 @@ class $AssetsFontsGen {
   $AssetsFontsQuicksandGen get quicksand => const $AssetsFontsQuicksandGen();
 }
 
-class $AssetsSoundsGen {
-  const $AssetsSoundsGen();
-
-  /// File path: assets/sounds/page-flip-01a.mp3
-  String get pageFlip01a => 'assets/sounds/page-flip-01a.mp3';
-
-  /// File path: assets/sounds/page-flip-02.mp3
-  String get pageFlip02 => 'assets/sounds/page-flip-02.mp3';
-
-  /// File path: assets/sounds/page-flip-03.mp3
-  String get pageFlip03 => 'assets/sounds/page-flip-03.mp3';
-
-  /// File path: assets/sounds/page-flip-10.mp3
-  String get pageFlip10 => 'assets/sounds/page-flip-10.mp3';
-
-  /// File path: assets/sounds/page-flip-4.mp3
-  String get pageFlip4 => 'assets/sounds/page-flip-4.mp3';
-
-  /// File path: assets/sounds/page-flip-5.mp3
-  String get pageFlip5 => 'assets/sounds/page-flip-5.mp3';
-
-  /// File path: assets/sounds/page-flip-6.mp3
-  String get pageFlip6 => 'assets/sounds/page-flip-6.mp3';
-
-  /// File path: assets/sounds/page-flip-7.mp3
-  String get pageFlip7 => 'assets/sounds/page-flip-7.mp3';
-
-  /// File path: assets/sounds/page-flip-8.mp3
-  String get pageFlip8 => 'assets/sounds/page-flip-8.mp3';
-
-  /// File path: assets/sounds/page-flip-9.mp3
-  String get pageFlip9 => 'assets/sounds/page-flip-9.mp3';
-}
-
 class $AssetsTranslationsGen {
   const $AssetsTranslationsGen();
 
@@ -68,7 +34,6 @@ class Assets {
   Assets._();
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
-  static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
 
