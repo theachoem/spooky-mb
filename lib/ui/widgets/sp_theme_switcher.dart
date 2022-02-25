@@ -31,7 +31,12 @@ class SpThemeSwitcher extends StatefulWidget {
       context: context,
       title: "Theme",
       initialSelectedActionKey: InitialTheme.of(context)?.mode.name,
-      actions: themeModeActions..add(AlertDialogAction(key: "setting", label: "Go to Setting")),
+      actions: themeModeActions
+        ..add(AlertDialogAction(
+          key: "setting",
+          label: "Go to Setting",
+          isDefaultAction: true,
+        )),
     );
     if (result != null) {
       switch (result) {

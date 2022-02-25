@@ -117,7 +117,7 @@ class StoryList extends StatelessWidget {
 
         switch (layoutType) {
           case ListLayoutType.single:
-            topPadding = 24.0;
+            topPadding = 16.0;
             if (storyForCompare != previousStoryForCompare) {
               separator = buildSingleLayoutSeparator(context, index);
             } else {

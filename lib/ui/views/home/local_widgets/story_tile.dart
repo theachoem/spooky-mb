@@ -303,12 +303,12 @@ class _StoryTileState extends State<StoryTile> {
         SpChip(
           labelText: "${content.pages?.length} Pages",
         ),
-      SpDeveloperVisibility(
-        child: SpChip(
-          avatar: Icon(Icons.developer_board, size: ConfigConstant.iconSize1),
-          labelText: FileHelper.fileName(story.file!.path),
-        ),
-      ),
+      // SpDeveloperVisibility(
+      //   child: SpChip(
+      //     avatar: Icon(Icons.developer_board, size: ConfigConstant.iconSize1),
+      //     labelText: FileHelper.fileName(story.file!.path),
+      //   ),
+      // ),
     ];
   }
 
