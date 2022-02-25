@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/security/security_service.dart';
+import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/ui/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
+import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 
 class MainViewModel extends BaseViewModel with ScheduleMixin {
@@ -72,5 +78,28 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
 
   void setShouldShowBottomNav(bool value) {
     shouldShowBottomNavNotifier.value = value;
+  }
+
+  Future<void> createStory(BuildContext context) async {
+    ListLayoutType? layout = await SpListLayoutBuilder.get();
+
+    DateTime? date;
+    switch (layout) {
+      case ListLayoutType.single:
+        date = await SpDatePicker.showMonthDayPicker(context, this.date);
+        break;
+      case ListLayoutType.tabs:
+        date = await SpDatePicker.showDayPicker(context, this.date);
+        break;
+    }
+
+    if (date != null) onConfirm(date, context);
+  }
+
+  void onConfirm(DateTime date, BuildContext context) {
+    DetailArgs args = DetailArgs(initialStory: StoryModel.fromDate(date), intialFlow: DetailViewFlowType.create);
+    Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
+      if (storyListReloader != null && value != null) storyListReloader!();
+    });
   }
 }

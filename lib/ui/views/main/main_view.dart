@@ -2,23 +2,20 @@ library main_view;
 
 import 'dart:io';
 
+import 'package:quick_actions/quick_actions.dart';
 import 'package:spooky/app_local_auth.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
-import 'package:spooky/core/types/detail_view_flow_type.dart';
-import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/core/types/quick_actions_type.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
 import 'package:spooky/ui/views/home/home_view.dart';
 import 'package:spooky/ui/views/main/main_view_item.dart';
 import 'package:spooky/ui/views/setting/setting_view.dart';
 import 'package:spooky/ui/widgets/sp_bottom_navaigation_bar.dart';
-import 'package:spooky/ui/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_show_hide_animator.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/util_widgets/measure_size.dart';
-import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/ui/views/main/main_view_model.dart';
@@ -35,7 +32,7 @@ class MainView extends StatelessWidget {
     return AppLocalAuth(
       child: ViewModelBuilder<MainViewModel>.reactive(
         viewModelBuilder: () => MainViewModel(),
-        onModelReady: (model) {},
+        onModelReady: (model) => onModelReady(model, context),
         disposeViewModel: false,
         builder: (context, model, child) {
           return SpScreenTypeLayout(
@@ -51,5 +48,38 @@ class MainView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void onModelReady(MainViewModel model, BuildContext context) {
+    QuickActions quickActions = const QuickActions();
+    quickActions.initialize((shortcutType) {
+      QuickActionsType? type;
+      for (QuickActionsType item in QuickActionsType.values) {
+        if (shortcutType == item.name) {
+          type = item;
+          break;
+        }
+      }
+      switch (type) {
+        case QuickActionsType.create:
+          model.createStory(context);
+          break;
+        case null:
+          break;
+      }
+    });
+
+    quickActions.setShortcutItems(
+      QuickActionsType.values.map((e) {
+        return ShortcutItem(localizedTitle: quickActionLabel(e), type: e.name);
+      }).toList(),
+    );
+  }
+
+  String quickActionLabel(QuickActionsType type) {
+    switch (type) {
+      case QuickActionsType.create:
+        return "Create New Story";
+    }
   }
 }

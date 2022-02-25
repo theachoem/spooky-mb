@@ -47,6 +47,7 @@ dependencies:
   flutter_screen_lock: ^5.0.6
   open_settings: ^2.0.2
   open_file: ^3.2.1
+  quick_actions: ^0.6.0+9
 
 dev_dependencies:
   flutter_test:
