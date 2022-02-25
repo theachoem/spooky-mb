@@ -1,4 +1,5 @@
 import 'package:spooky/core/types/file_path_type.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 
 class StoryQueryOptionsModel {
   final int? year;
@@ -14,8 +15,9 @@ class StoryQueryOptionsModel {
   });
 
   // docs/2021/1/12
-  String toPath() {
+  String toPath([String? parent]) {
     List<String> paths = [
+      parent ?? FileHelper.directory.absolute.path,
       filePath.name,
       if (year != null) "$year",
       if (month != null) "$month",

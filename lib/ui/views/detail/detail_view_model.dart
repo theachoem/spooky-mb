@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 import 'package:spooky/core/models/story_content_model.dart';
@@ -32,7 +32,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   late final ValueNotifier<bool> quillControllerInitedNotifier;
   late final ValueNotifier<bool> toolbarVisibleNotifier;
 
-  StoryFileManager storyFileManager = StoryFileManager();
+  StoryManager storyManager = StoryManager();
   Map<int, QuillController> quillControllers = {};
   Map<int, FocusNode> focusNodes = {};
 
@@ -264,11 +264,10 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       restore,
     );
 
-    File? result = await storyFileManager.writeStory(story);
+    FileSystemEntity? result = await storyManager.write(story.writableFile, story);
     if (kDebugMode) {
       print("+++ Write +++");
-      print("Success: ${storyFileManager.success}");
-      print("Message: ${storyFileManager.error}");
+      print("Message: ${storyManager.error}");
       print("Path: ${result?.absolute.path}");
     }
 

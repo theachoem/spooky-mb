@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
@@ -25,7 +25,7 @@ class StoryQueryList extends StatefulWidget {
 }
 
 class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClientMixin {
-  final StoryFileManager storyFileManager = StoryFileManager();
+  final StoryManager storyManager = StoryManager();
   List<StoryModel>? stories;
 
   @override
@@ -48,7 +48,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
 
   Future<void> load() async {
     SortType? sortType = await SortTypeStorage().readEnum();
-    List<StoryModel> result = await storyFileManager.fetchAll(widget.queryOptions) ?? [];
+    List<StoryModel> result = await storyManager.fetchAll(options: widget.queryOptions) ?? [];
 
     switch (sortType) {
       case SortType.oldToNew:

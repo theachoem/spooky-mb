@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:spooky/core/file_manager/file_manager_mixin.dart';
+import 'package:spooky/core/file_manager/base/file_manager_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 
-abstract class FileManagerService<T extends BaseModel> with FileManagerMixin {
+abstract class BaseFileManager<T extends BaseModel> with FileManagerMixin {
   Future<FileSystemEntity?> write(File file, T content) async {
     return beforeExec(() async {
       await ensureFileExist(file);

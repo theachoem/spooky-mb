@@ -19,6 +19,9 @@ class StoryModel extends BaseModel {
   @JsonKey(ignore: true)
   final File? file;
 
+  @JsonKey(ignore: true)
+  File get writableFile => file ?? path.toFile();
+
   StoryModel({
     required this.id,
     required this.path,

@@ -20,6 +20,13 @@ mixin FileManagerMixin {
     return null;
   }
 
+  Future<void> ensureDirExist(Directory directory) async {
+    bool exists = await directory.exists();
+    if (!exists) {
+      await directory.create(recursive: true);
+    }
+  }
+
   Future<void> ensureFileExist(File file) async {
     bool exists = await file.exists();
     if (!exists) {

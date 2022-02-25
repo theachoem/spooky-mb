@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
-import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/helper_manager.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
@@ -13,7 +13,7 @@ class HomeViewModel extends IndexTrackingViewModel {
   late int year;
   late int month;
 
-  final StoryFileManager storyFileManager = StoryFileManager();
+  final HelpManager helpManager = HelpManager();
 
   final void Function(int index) onTabChange;
   final void Function(int year) onYearChange;
@@ -51,9 +51,9 @@ class HomeViewModel extends IndexTrackingViewModel {
   }
 
   Future<List<int>> fetchYears() async {
-    Directory root = Directory(storyFileManager.rootPath);
+    Directory root = helpManager.root;
     if (await root.exists()) {
-      await storyFileManager.ensureDirExist(root);
+      await helpManager.ensureDirExist(root);
 
       List<FileSystemEntity> result = root.listSync();
       List<String> years = result.map((e) {
@@ -73,7 +73,7 @@ class HomeViewModel extends IndexTrackingViewModel {
   }
 
   int get docsCount {
-    Directory root = Directory(storyFileManager.rootPath + "/" + "$year");
+    Directory root = Directory(helpManager.root.path + "/" + "$year");
     if (root.existsSync()) {
       List<FileSystemEntity> result = root.listSync(recursive: true);
       return result.where((e) {
