@@ -14,8 +14,6 @@ class ArchiveFileManager extends BaseFileManager {
   }
 
   Future<File?> archiveDocument(StoryModel story) async {
-    File fileToMove = story.file ?? story.path.toFile();
-
     String destinationFilePath;
     if (story.file != null) {
       String removed = FileHelper.removeDirectory(story.file!.path);
@@ -25,18 +23,16 @@ class ArchiveFileManager extends BaseFileManager {
     } else {
       destinationFilePath = story.path.copyWith(filePath: FilePathType.archive).toFullPath();
     }
-
-    return move(fileToMove, destinationFilePath);
+    return move(story.writableFile, destinationFilePath);
   }
 
   Future<File?> unarchiveDocument(StoryModel story) async {
-    File fileToMove = story.path.toFile();
+    File fileToMove = story.writableFile;
     String destinationFilePath = story.path.copyWith(filePath: FilePathType.docs).toFullPath();
     return move(fileToMove, destinationFilePath);
   }
 
   Future<FileSystemEntity?> deleteDocument(StoryModel story) async {
-    File fileToDelete = story.file ?? story.path.toFile();
-    return delete(fileToDelete);
+    return delete(story.writableFile);
   }
 }

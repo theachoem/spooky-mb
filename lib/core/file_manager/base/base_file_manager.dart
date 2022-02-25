@@ -11,7 +11,7 @@ abstract class BaseFileManager<T extends BaseModel> with FileManagerMixin {
       await ensureFileExist(file);
       String json = AppHelper.prettifyJson(content.toJson());
       file = await file.writeAsString(json);
-      return file.delete();
+      return file;
     });
   }
 

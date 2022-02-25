@@ -60,7 +60,7 @@ class _StoryTileState extends State<StoryTile> {
 
   // reload current story only
   Future<void> reloadStory() async {
-    StoryModel? _story = await storyManager.fetchOne(story.file ?? story.path.toFile());
+    StoryModel? _story = await storyManager.fetchOne(story.writableFile);
     if (_story != null) {
       setState(() => story = _story);
     } else {

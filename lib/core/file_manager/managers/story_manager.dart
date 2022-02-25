@@ -3,8 +3,11 @@ import 'package:spooky/core/file_manager/base/base_story_manager.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
+import 'package:spooky/core/types/file_path_type.dart';
 
 class StoryManager extends BaseStoryManager<StoryModel> {
+  Directory get directory => Directory(root.path + "/" + FilePathType.docs.name);
+
   @override
   StoryModel objectTransformer(Map<String, dynamic> json, File file, [StoryQueryOptionsModel? options]) {
     StoryModel story = StoryModel.fromJson(json);
@@ -16,14 +19,13 @@ class StoryManager extends BaseStoryManager<StoryModel> {
     StoryModel story,
     DateTime newDatePath,
   ) async {
-    File fileToMove = story.file ?? story.path.toFile();
     PathModel newPath = PathModel.fromDateTime(newDatePath).copyWith(
       filePath: story.path.filePath,
       fileName: story.path.fileName,
     );
 
     File? newFile = await move(
-      fileToMove,
+      story.writableFile,
       newPath.toFullPath(),
     );
 
