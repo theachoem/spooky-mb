@@ -1,15 +1,14 @@
 import 'dart:io';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:spooky/core/models/base_route_model.dart';
+import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
 
 part 'story_model.g.dart';
 
 @JsonSerializable()
-class StoryModel extends BaseRouteModel {
+class StoryModel extends BaseModel {
   final String id;
 
   // path model is sorted when display to user.
@@ -85,14 +84,4 @@ class StoryModel extends BaseRouteModel {
 
   @override
   String? get objectId => id;
-
-  @override
-  String get displayRouteName => Detail.name;
-
-  @override
-  Map<String, String> get routePayload {
-    return {
-      "path": path.toPath(),
-    };
-  }
 }
