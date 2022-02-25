@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/ui/widgets/sp_animated_icon.dart';
@@ -26,21 +27,35 @@ class SpThemeSwitcher extends StatefulWidget {
   }
 
   static Future<void> onLongPress(BuildContext context) async {
-    ThemeMode? result = await showConfirmationDialog(
+    String? result = await showConfirmationDialog(
       context: context,
       title: "Theme",
-      initialSelectedActionKey: InitialTheme.of(context)?.mode,
-      actions: themeModeActions,
+      initialSelectedActionKey: InitialTheme.of(context)?.mode.name,
+      actions: themeModeActions..add(AlertDialogAction(key: "setting", label: "Go to Setting")),
     );
     if (result != null) {
-      InitialTheme.of(context)?.setThemeMode(result);
+      switch (result) {
+        case "setting":
+          Navigator.of(context).pushNamed(SpRouteConfig.themeSetting);
+          break;
+        default:
+          ThemeMode? themeMode;
+          for (ThemeMode element in ThemeMode.values) {
+            if (result == element.name) {
+              themeMode = element;
+              break;
+            }
+          }
+          InitialTheme.of(context)?.setThemeMode(themeMode);
+          break;
+      }
     }
   }
 
-  static List<AlertDialogAction<ThemeMode>> get themeModeActions {
+  static List<AlertDialogAction<String>> get themeModeActions {
     return ThemeMode.values.map((e) {
       return AlertDialogAction(
-        key: e,
+        key: e.name,
         label: e.name.capitalize,
       );
     }).toList();

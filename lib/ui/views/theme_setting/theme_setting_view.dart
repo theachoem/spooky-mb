@@ -3,6 +3,7 @@ library theme_setting_view;
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/core/types/sort_type.dart';

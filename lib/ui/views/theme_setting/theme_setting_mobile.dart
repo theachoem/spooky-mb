@@ -61,6 +61,9 @@ class _ThemeSettingMobile extends StatelessWidget {
             color: M3Color.currentPrimaryColor,
           ),
         ),
+        onLongPress: () {
+          Navigator.of(context).pushNamed(SpRouteConfig.initPickColor);
+        },
         onTap: () {
           callback();
         },

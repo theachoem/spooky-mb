@@ -12,6 +12,12 @@ class _AppStarterMobile extends StatelessWidget {
         systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).primary),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
+        actions: [
+          SpThemeSwitcher(
+            backgroundColor: Colors.transparent,
+            color: M3Color.of(context).onPrimary,
+          ),
+        ],
       ),
       body: Container(
         alignment: Alignment.center,

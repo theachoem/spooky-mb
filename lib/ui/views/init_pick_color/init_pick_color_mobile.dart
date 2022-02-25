@@ -15,11 +15,7 @@ class _InitPickColorMobile extends StatelessWidget {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         automaticallyImplyLeading: false,
-        title: Text(
-          "What's your favorite color?",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-          overflow: TextOverflow.fade,
-        ),
+        title: buildTitle(),
         actions: [
           SpThemeSwitcher(backgroundColor: Colors.transparent),
           SpIconButton(
@@ -59,6 +55,43 @@ class _InitPickColorMobile extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  FutureBuilder<int> buildTitle() {
+    return FutureBuilder(
+      future: Future.delayed(ConfigConstant.duration).then((value) => 1),
+      builder: (context, snapshot) {
+        return SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: RichText(
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            text: TextSpan(
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+              children: [
+                TextSpan(text: "What's your "),
+                WidgetSpan(
+                  child: SpCrossFade(
+                    showFirst: snapshot.data == 1,
+                    duration: ConfigConstant.duration,
+                    firstChild: SizedBox(
+                      child: Text(
+                        "favorite color?",
+                        style: Theme.of(context).appBarTheme.titleTextStyle,
+                      ),
+                    ),
+                    secondChild: Text(
+                      "",
+                      style: Theme.of(context).appBarTheme.titleTextStyle,
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 
