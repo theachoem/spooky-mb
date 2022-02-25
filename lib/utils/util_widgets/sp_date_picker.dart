@@ -104,4 +104,19 @@ class SpDatePicker {
       dateFormat: 'yyyy-MMMM-dd',
     );
   }
+
+  static Future<DateTime?> showMonthDayPicker(
+    BuildContext context,
+    DateTime initialDate,
+  ) {
+    DateTime utc = DateTime(initialDate.year, initialDate.month, 0).toUtc();
+    int days = DateTime(initialDate.year, initialDate.month + 1, 0).toUtc().difference(utc).inDays;
+    return showPicker(
+      context: context,
+      initialDate: initialDate,
+      minDateTime: DateTime(initialDate.year, 1, 1),
+      maxDateTime: DateTime(initialDate.year, 12, days),
+      dateFormat: 'yyyy-MMMM-dd',
+    );
+  }
 }

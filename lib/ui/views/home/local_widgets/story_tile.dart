@@ -199,31 +199,34 @@ class _StoryTileState extends State<StoryTile> {
   ) {
     // bool sameDay = previousStory?.path != null ? story.path.sameDayAs(previousStory!.path) : false;
     DateTime displayDate = story.path.toDateTime();
-    return Column(
-      children: [
-        ConfigConstant.sizedBoxH0,
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 20 * 2),
-          child: Text(
-            DateFormatHelper.toDay().format(displayDate).toString(),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
+    return Container(
+      color: M3Color.of(context).background,
+      child: Column(
+        children: [
+          ConfigConstant.sizedBoxH0,
+          ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 20 * 2),
+            child: Text(
+              DateFormatHelper.toDay().format(displayDate).toString(),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-        ConfigConstant.sizedBoxH0,
-        CircleAvatar(
-          radius: 20,
-          backgroundColor: dayColors.keys.contains(displayDate.weekday)
-              ? dayColors[displayDate.weekday]
-              : M3Color.of(context).primary,
-          foregroundColor: M3Color.of(context).onPrimary,
-          child: Text(
-            displayDate.day.toString(),
-            style: M3TextTheme.of(context).bodyLarge?.copyWith(color: M3Color.of(context).onPrimary),
+          ConfigConstant.sizedBoxH0,
+          CircleAvatar(
+            radius: 20,
+            backgroundColor: dayColors.keys.contains(displayDate.weekday)
+                ? dayColors[displayDate.weekday]
+                : M3Color.of(context).primary,
+            foregroundColor: M3Color.of(context).onPrimary,
+            child: Text(
+              displayDate.day.toString(),
+              style: M3TextTheme.of(context).bodyLarge?.copyWith(color: M3Color.of(context).onPrimary),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

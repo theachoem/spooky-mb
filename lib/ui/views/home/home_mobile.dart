@@ -14,7 +14,9 @@ class _HomeMobile extends StatefulWidget {
 
 class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderStateMixin {
   late TabController controller;
+  ListLayoutType? layoutType;
 
+  // doesn't needed in single list
   // {
   //   1: reloaderPage1(),
   //   .
@@ -27,6 +29,13 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   void initState() {
     super.initState();
     controller = TabController(length: 12, vsync: this, initialIndex: widget.viewModel.month - 1);
+    SpListLayoutBuilder.get().then((value) {
+      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        setState(() {
+          layoutType = value;
+        });
+      });
+    });
   }
 
   @override
@@ -41,31 +50,62 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       body: NestedScrollView(
         controller: widget.viewModel.scrollController,
         headerSliverBuilder: headerSliverBuilder,
-        body: SpTabView(
-          controller: controller,
-          listener: (controller) {
-            int monthIndex = (controller.animation?.value.round() ?? controller.index) + 1;
-            if (listReloaderMap.containsKey(monthIndex)) {
-              widget.viewModel.onListReloaderReady(listReloaderMap[monthIndex]!);
-            }
-            widget.viewModel.onTabChange(monthIndex);
-          },
-          children: List.generate(
-            controller.length,
-            (index) {
-              return StoryQueryList(
-                queryOptions: StoryQueryOptionsModel(
-                  filePath: FilePathType.docs,
-                  year: widget.viewModel.year,
-                  month: index + 1,
-                ),
-                onListReloaderReady: (reloader) {
-                  listReloaderMap[index + 1] = reloader;
-                },
-              );
+        body: buildLayouts(),
+      ),
+    );
+  }
+
+  Widget buildLayouts() {
+    switch (layoutType) {
+      case ListLayoutType.single:
+        return buildSingleLayout();
+      case ListLayoutType.tabs:
+        return buildTabLayout();
+      case null:
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+    }
+  }
+
+  Widget buildSingleLayout() {
+    return StoryQueryList(
+      queryOptions: StoryQueryOptionsModel(
+        filePath: FilePathType.docs,
+        year: widget.viewModel.year,
+      ),
+      onListReloaderReady: (reloader) {
+        // set reloader directly
+        widget.viewModel.onListReloaderReady(reloader);
+      },
+    );
+  }
+
+  Widget buildTabLayout() {
+    return SpTabView(
+      controller: controller,
+      listener: (controller) {
+        // set reloader on listen to tabs
+        int monthIndex = (controller.animation?.value.round() ?? controller.index) + 1;
+        if (listReloaderMap.containsKey(monthIndex)) {
+          widget.viewModel.onListReloaderReady(listReloaderMap[monthIndex]!);
+        }
+        widget.viewModel.onTabChange(monthIndex);
+      },
+      children: List.generate(
+        controller.length,
+        (index) {
+          return StoryQueryList(
+            queryOptions: StoryQueryOptionsModel(
+              filePath: FilePathType.docs,
+              year: widget.viewModel.year,
+              month: index + 1,
+            ),
+            onListReloaderReady: (reloader) {
+              listReloaderMap[index + 1] = reloader;
             },
-          ),
-        ),
+          );
+        },
       ),
     );
   }
@@ -82,6 +122,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       tabController: controller,
       viewModel: widget.viewModel,
       onTap: (index) {
+        widget.viewModel.onTabChange(index + 1);
         // if (index == controller.index) {
         //   PrimaryScrollController.of(context)?.animateTo(
         //     0,

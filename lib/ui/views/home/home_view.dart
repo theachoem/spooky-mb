@@ -2,8 +2,10 @@ library home_view;
 
 import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
+import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/ui/views/home/local_widgets/home_app_bar.dart';
 import 'package:spooky/ui/views/home/local_widgets/story_query_list.dart';
+import 'package:spooky/ui/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_tab_view.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';

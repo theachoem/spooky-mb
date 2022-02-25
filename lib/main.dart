@@ -30,7 +30,7 @@ void main() async {
   await AppNotification().initialize();
   await InitialStoryTabService.initialize();
   spAppIntiailized = await NicknameStorage().read() != null;
-  FlutterError.onError = (details) => debugException(details);
+  // FlutterError.onError = (details) => debugException(details);
 
   runApp(
     Phoenix(
