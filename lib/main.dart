@@ -11,12 +11,16 @@ import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 bool spFlutterTest = Platform.environment.containsKey('FLUTTER_TEST');
 bool spAppIntiailized = false;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   await EasyLocalization.ensureInitialized();
   await M3Color.initialize();
 
