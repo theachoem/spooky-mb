@@ -60,10 +60,10 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
 
   void onTapCancel() => controller.reverse();
   void onTapDown() => controller.forward();
-  void onTapUp() => controller.reverse().then((value) => widget.onTap!());
+  void onTapUp() => controller.reverse();
+
   void onDoubleTap() async {
     await controller.forward();
-    widget.onDoubleTap!();
     await controller.reverse();
   }
 
@@ -72,11 +72,12 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
     if (widget.onTap != null) {
       return GestureDetector(
         behavior: widget.behavior,
+        onTap: widget.onTap,
+        onDoubleTap: widget.onDoubleTap,
         onLongPress: widget.onLongPressed,
-        onTapDown: (detail) => onTapDown(),
-        onTapUp: (detail) => onTapUp(),
-        onTapCancel: () => onTapCancel(),
-        onDoubleTap: widget.onDoubleTap != null ? () => onDoubleTap() : null,
+        onPanDown: (detail) => onTapDown(),
+        onPanEnd: (detail) => onTapUp(),
+        onPanCancel: () => onTapCancel(),
         child: buildChild(controller),
       );
     } else {
