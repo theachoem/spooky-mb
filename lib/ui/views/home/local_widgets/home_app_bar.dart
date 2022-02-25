@@ -65,7 +65,6 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
 
   ListLayoutType? layoutType;
   void handle() async {
-    await Future.delayed(Duration(seconds: 1));
     ListLayoutType layoutType = this.layoutType = await SpListLayoutBuilder.get();
     switch (layoutType) {
       case ListLayoutType.single:
@@ -82,11 +81,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
     return AnimatedBuilder(
       animation: controller,
       child: _FakeChild(
-        flexibleSpace: FlexibleSpaceBar(
-          collapseMode: CollapseMode.pin,
-          stretchModes: const [StretchMode.zoomBackground],
-          background: buildBackground(),
-        ),
+        flexibleSpace: buildBackground(),
         tabBar: HomeTabBar(
           height: 40,
           onTap: widget.onTap,
@@ -105,8 +100,16 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
           pinned: true,
           floating: true,
           stretch: true,
-          expandedHeight: kToolbarHeight + lerpDouble(0.0, 48.0, animationValue)! + 32.0 + 16.0,
-          flexibleSpace: child.flexibleSpace,
+          expandedHeight: kToolbarHeight +
+              lerpDouble(0.0, 48.0, animationValue)! +
+              lerpDouble(8.0, 0.0, animationValue)! +
+              32.0 +
+              16.0,
+          flexibleSpace: FlexibleSpaceBar(
+            collapseMode: hasTabs ? CollapseMode.pin : CollapseMode.parallax,
+            stretchModes: const [StretchMode.zoomBackground],
+            background: child.flexibleSpace,
+          ),
           bottom: HomeTabBarWrapper(
             height: hasTabs ? 48 + 8 : 0,
             child: child.tabBar,

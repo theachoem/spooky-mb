@@ -96,7 +96,7 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
   Widget build(BuildContext context) {
     return SpIconButton(
       icon: getThemeModeIcon(context),
-      backgroundColor: widget.backgroundColor ?? M3Color.of(context).primaryContainer,
+      backgroundColor: widget.backgroundColor ?? M3Color.of(context).readOnly.surface5,
       onLongPress: () async {
         await SpThemeSwitcher.onLongPress(context);
       },

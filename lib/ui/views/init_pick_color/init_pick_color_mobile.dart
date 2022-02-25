@@ -64,31 +64,27 @@ class _InitPickColorMobile extends StatelessWidget {
       builder: (context, snapshot) {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
-          child: RichText(
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            text: TextSpan(
-              style: Theme.of(context).appBarTheme.titleTextStyle,
-              children: [
-                TextSpan(text: "What's your "),
-                WidgetSpan(
-                  child: SpCrossFade(
-                    showFirst: snapshot.data == 1,
-                    duration: ConfigConstant.duration,
-                    firstChild: SizedBox(
-                      child: Text(
-                        "favorite color?",
-                        style: Theme.of(context).appBarTheme.titleTextStyle,
-                      ),
-                    ),
-                    secondChild: Text(
-                      "",
-                      style: Theme.of(context).appBarTheme.titleTextStyle,
-                    ),
-                  ),
-                )
-              ],
-            ),
+          physics: const ScrollPhysics(),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "What's your ",
+                style: Theme.of(context).appBarTheme.titleTextStyle,
+              ),
+              SpCrossFade(
+                showFirst: snapshot.data == 1,
+                duration: ConfigConstant.duration,
+                firstChild: Text(
+                  "favorite color?",
+                  style: Theme.of(context).appBarTheme.titleTextStyle,
+                ),
+                secondChild: Text(
+                  "",
+                  style: Theme.of(context).appBarTheme.titleTextStyle,
+                ),
+              ),
+            ],
           ),
         );
       },

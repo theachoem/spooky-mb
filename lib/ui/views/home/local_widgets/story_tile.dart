@@ -249,7 +249,7 @@ class _StoryTileState extends State<StoryTile> {
               children: [
                 if (hasTitle)
                   Container(
-                    margin: const EdgeInsets.only(bottom: ConfigConstant.margin0, right: kToolbarHeight),
+                    margin: const EdgeInsets.only(bottom: ConfigConstant.margin0, right: kToolbarHeight + 16),
                     child: Text(
                       content.title ?? "content.title",
                       style: M3TextTheme.of(context).titleMedium,
@@ -259,7 +259,7 @@ class _StoryTileState extends State<StoryTile> {
                   ),
                 if (content.plainText != null && content.plainText!.trim().length > 1)
                   Container(
-                    margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : kToolbarHeight),
+                    margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : kToolbarHeight + 16),
                     child: Text(
                       body(content),
                       style: M3TextTheme.of(context).bodyMedium,

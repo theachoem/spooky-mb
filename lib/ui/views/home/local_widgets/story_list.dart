@@ -47,25 +47,11 @@ class StoryList extends StatelessWidget {
       onRefresh: () => onRefresh(),
       child: Stack(
         children: [
-          Positioned(
-            left: 16.0 + 20,
-            top: 0,
-            bottom: 0,
-            child: SpListLayoutBuilder(
-              builder: (context, layoutType, loaded) {
-                switch (layoutType) {
-                  case ListLayoutType.single:
-                    return VerticalDivider(width: 1);
-                  case ListLayoutType.tabs:
-                    return SizedBox.shrink();
-                }
-              },
-            ),
-          ),
+          buildTimelineDivider(),
           ListView.builder(
             itemCount: stories?.length ?? 0,
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.only(bottom: kToolbarHeight),
+            padding: EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
             itemBuilder: (context, index) {
               return buildAnimatedTileWrapper(
                 index: index,
@@ -77,24 +63,54 @@ class StoryList extends StatelessWidget {
               );
             },
           ),
-          IgnorePointer(
-            child: Center(
-              child: Visibility(
-                visible: stories == null,
-                child: CircularProgressIndicator.adaptive(),
-              ),
-            ),
-          ),
-          IgnorePointer(
-            child: Visibility(
-              visible: stories?.isEmpty == true,
-              child: Container(
-                alignment: Alignment.center,
-                child: Text(emptyMessage),
-              ),
-            ),
-          ),
+          buildLoading(),
+          buildEmpty(),
         ],
+      ),
+    );
+  }
+
+  Widget buildEmpty() {
+    return IgnorePointer(
+      child: Visibility(
+        visible: stories?.isEmpty == true,
+        child: Container(
+          alignment: Alignment.center,
+          child: Text(emptyMessage),
+        ),
+      ),
+    );
+  }
+
+  Widget buildLoading() {
+    return IgnorePointer(
+      child: Center(
+        child: Visibility(
+          visible: stories == null,
+          child: CircularProgressIndicator.adaptive(),
+        ),
+      ),
+    );
+  }
+
+  Widget buildTimelineDivider() {
+    return Positioned(
+      left: 16.0 + 20,
+      top: 0,
+      bottom: 0,
+      child: AnimatedOpacity(
+        opacity: stories?.isNotEmpty == true ? 1 : 0,
+        duration: ConfigConstant.fadeDuration,
+        child: SpListLayoutBuilder(
+          builder: (context, layoutType, loaded) {
+            switch (layoutType) {
+              case ListLayoutType.single:
+                return VerticalDivider(width: 1);
+              case ListLayoutType.tabs:
+                return SizedBox.shrink();
+            }
+          },
+        ),
       ),
     );
   }
@@ -113,11 +129,9 @@ class StoryList extends StatelessWidget {
     return SpListLayoutBuilder(
       builder: (context, layoutType, loaded) {
         Widget separator;
-        double topPadding = 0.0;
 
         switch (layoutType) {
           case ListLayoutType.single:
-            topPadding = 16.0;
             if (storyForCompare != previousStoryForCompare) {
               separator = buildSingleLayoutSeparator(context, index);
             } else {
@@ -131,7 +145,6 @@ class StoryList extends StatelessWidget {
 
         return Column(
           children: [
-            if (index == 0) SizedBox(height: topPadding),
             separator,
             child,
           ],
@@ -141,15 +154,14 @@ class StoryList extends StatelessWidget {
   }
 
   Widget buildTabLayoutSeparator(int index) {
-    double? indent = 16 + 20 + 16 + 4 + 16;
     return SpListLayoutBuilder(
       builder: (context, layoutType, loaded) {
         switch (layoutType) {
           case ListLayoutType.single:
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           case ListLayoutType.tabs:
             if (index == 0) return SizedBox.shrink();
-            return Divider(indent: indent, height: 0);
+            return const Divider(height: 0);
         }
       },
     );
@@ -157,28 +169,32 @@ class StoryList extends StatelessWidget {
 
   Widget buildSingleLayoutSeparator(BuildContext context, int index) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
-      child: Row(
-        children: [
-          const SizedBox(width: 16.0 + 1),
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8.0,
-              vertical: 6.0,
+      padding: const EdgeInsets.only(top: ConfigConstant.margin2),
+      child: Container(
+        color: M3Color.of(context).background,
+        child: Row(
+          children: [
+            const SizedBox(width: 16.0 + 1),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 6.0,
+              ),
+              decoration: BoxDecoration(
+                color: M3Color.of(context).readOnly.surface2,
+                borderRadius: ConfigConstant.circlarRadius2,
+              ),
+              child: Text(
+                DateFormatHelper.toNameOfMonth().format(stories![index].path.toDateTime()),
+                style: M3TextTheme.of(context).labelSmall,
+              ),
             ),
-            decoration: BoxDecoration(
-              color: M3Color.of(context).readOnly.surface2,
-              borderRadius: ConfigConstant.circlarRadius2,
-            ),
-            child: Text(
-              DateFormatHelper.toNameOfMonth().format(stories![index].path.toDateTime()),
-              style: M3TextTheme.of(context).labelSmall,
-            ),
-          ),
-          Expanded(
-            child: Divider(height: 0, indent: ConfigConstant.margin2),
-          )
-        ],
+            if (index != 0)
+              Expanded(
+                child: const Divider(height: 0),
+              )
+          ],
+        ),
       ),
     );
   }
