@@ -7,10 +7,18 @@ class _NotificationConfig {
     assert(channel.length == notifications.length);
   }
 
+  BaseNotificationChannel? channelByType(NotificationChannelTypes type) {
+    return notificationsMap[type];
+  }
+
+  Map<NotificationChannelTypes, BaseNotificationChannel> get notificationsMap {
+    return {
+      NotificationChannelTypes.autoSave: AutoSaveChannel(),
+    };
+  }
+
   List<BaseNotificationChannel> get notifications {
-    return [
-      AutoSaveChannel(),
-    ];
+    return notificationsMap.values.toList();
   }
 
   List<NotificationChannel> get channels {
