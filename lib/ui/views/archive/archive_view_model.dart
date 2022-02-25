@@ -1,6 +1,5 @@
 import 'dart:io';
-
-import 'package:spooky/core/file_managers/archive_file_manager.dart';
+import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:stacked/stacked.dart';
 
