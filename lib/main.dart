@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:spooky/core/notifications/app_notification.dart';
+import 'package:spooky/core/notification/notification_service.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/initial_theme.dart';
@@ -31,10 +31,11 @@ void main() async {
     await DesktopWindow.setMinWindowSize(Size(320, 510));
   }
 
-  await AppNotification().initialize();
   await InitialStoryTabService.initialize();
   spAppIntiailized = await NicknameStorage().read() != null;
   // FlutterError.onError = (details) => debugException(details);
+
+  NotificationService.initialize();
 
   runApp(
     Phoenix(

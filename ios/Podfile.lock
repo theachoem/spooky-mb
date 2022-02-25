@@ -6,6 +6,8 @@ PODS:
   - AppAuth/ExternalUserAgent (1.4.0)
   - audioplayers (0.0.1):
     - Flutter
+  - awesome_notifications (0.0.3):
+    - Flutter
   - device_info_plus (0.0.1):
     - Flutter
   - Firebase/CoreOnly (8.11.0):
@@ -91,6 +93,7 @@ PODS:
 
 DEPENDENCIES:
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
+  - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
@@ -131,6 +134,8 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   audioplayers:
     :path: ".symlinks/plugins/audioplayers/ios"
+  awesome_notifications:
+    :path: ".symlinks/plugins/awesome_notifications/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_core:
@@ -175,6 +180,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
   audioplayers: 455322b54050b30ea4b1af7cd9e9d105f74efa8c
+  awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   Firebase: 44dd9724c84df18b486639e874f31436eaa9a20c
   firebase_core: 08f6a85f62060111de5e98d6a214810d11365de9
@@ -208,6 +214,6 @@ SPEC CHECKSUMS:
   url_launcher_ios: 02f1989d4e14e998335b02b67a7590fa34f971af
   video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
 
-PODFILE CHECKSUM: a75497545d4391e2d394c3668e20cfb1c2bbd4aa
+PODFILE CHECKSUM: fe0e1ee7f3d1f7d00b11b474b62dd62134535aea
 
 COCOAPODS: 1.11.2

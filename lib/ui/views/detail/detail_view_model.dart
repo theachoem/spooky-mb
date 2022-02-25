@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_managers/story_file_manager.dart';
+import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/notifications/app_notification.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
@@ -286,19 +286,23 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
         switch (code) {
           case ResponseCodeType.success:
             hasAutosaved = true;
-            AppNotification().displayNotification(
-              plainTitle: "Document is saved",
-              plainBody: "Saved",
-              payload: currentStory,
+            AutoSaveChannel().show(
+              title: "Document is saved",
+              body: "Saved",
+              payload: AutoSavePayload(
+                currentStory.file?.path ?? currentStory.path.toFullPath(),
+              ),
             );
             break;
           case ResponseCodeType.noChange:
             break;
           case ResponseCodeType.fail:
-            AppNotification().displayNotification(
-              plainTitle: "Document isn't saved!",
-              plainBody: "Error",
-              payload: currentStory,
+            AutoSaveChannel().show(
+              title: "Document isn't saved!",
+              body: "Error",
+              payload: AutoSavePayload(
+                currentStory.file?.path ?? currentStory.path.toFullPath(),
+              ),
             );
             break;
         }
