@@ -1,10 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/home/local_widgets/story_tile.dart';
 import 'package:spooky/ui/widgets/sp_dimissable_background.dart';
+import 'package:spooky/ui/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/helpers/date_format_helper.dart';
 
 class StoryList extends StatelessWidget {
   const StoryList({
@@ -43,24 +47,33 @@ class StoryList extends StatelessWidget {
       onRefresh: () => onRefresh(),
       child: Stack(
         children: [
-          ListView.separated(
+          Positioned(
+            left: 16.0 + 20,
+            top: 0,
+            bottom: 0,
+            child: SpListLayoutBuilder(
+              builder: (context, layoutType, loaded) {
+                switch (layoutType) {
+                  case ListLayoutType.single:
+                    return VerticalDivider(width: 1);
+                  case ListLayoutType.tabs:
+                    return SizedBox.shrink();
+                }
+              },
+            ),
+          ),
+          ListView.builder(
             itemCount: stories?.length ?? 0,
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.zero,
-            separatorBuilder: (context, index) {
-              return buildAnimatedTileWrapper(
-                index: index,
-                child: Divider(
-                  indent: 16 + 20 + 16 + 4 + 16,
-                  color: M3Color.of(context).secondary.m3Opacity.opacity016,
-                  height: 0,
-                ),
-              );
-            },
+            padding: EdgeInsets.only(bottom: kToolbarHeight),
             itemBuilder: (context, index) {
               return buildAnimatedTileWrapper(
                 index: index,
-                child: buildConfiguredTile(index, context),
+                child: buildSeparatorTile(
+                  index: index,
+                  context: context,
+                  child: buildConfiguredTile(index, context),
+                ),
               );
             },
           ),
@@ -81,6 +94,90 @@ class StoryList extends StatelessWidget {
               ),
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildSeparatorTile({
+    required int index,
+    required BuildContext context,
+    required Widget child,
+  }) {
+    StoryModel? story = storyAt(index);
+    StoryModel? previousStory = storyAt(index - 1);
+
+    String storyForCompare = "${story?.path.year} ${story?.path.month}";
+    String previousStoryForCompare = "${previousStory?.path.year} ${previousStory?.path.month}";
+
+    return SpListLayoutBuilder(
+      builder: (context, layoutType, loaded) {
+        Widget separator;
+        double topPadding = 0.0;
+
+        switch (layoutType) {
+          case ListLayoutType.single:
+            topPadding = 24.0;
+            if (storyForCompare != previousStoryForCompare) {
+              separator = buildSingleLayoutSeparator(context, index);
+            } else {
+              separator = buildTabLayoutSeparator(index);
+            }
+            break;
+          case ListLayoutType.tabs:
+            separator = buildTabLayoutSeparator(index);
+            break;
+        }
+
+        return Column(
+          children: [
+            if (index == 0) SizedBox(height: topPadding),
+            separator,
+            child,
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildTabLayoutSeparator(int index) {
+    double? indent = 16 + 20 + 16 + 4 + 16;
+    return SpListLayoutBuilder(
+      builder: (context, layoutType, loaded) {
+        switch (layoutType) {
+          case ListLayoutType.single:
+            return SizedBox.shrink();
+          case ListLayoutType.tabs:
+            if (index == 0) return SizedBox.shrink();
+            return Divider(indent: indent, height: 0);
+        }
+      },
+    );
+  }
+
+  Widget buildSingleLayoutSeparator(BuildContext context, int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
+      child: Row(
+        children: [
+          const SizedBox(width: 16.0 + 1),
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 8.0,
+              vertical: 6.0,
+            ),
+            decoration: BoxDecoration(
+              color: M3Color.of(context).readOnly.surface2,
+              borderRadius: ConfigConstant.circlarRadius2,
+            ),
+            child: Text(
+              DateFormatHelper.toNameOfMonth().format(stories![index].path.toDateTime()),
+              style: M3TextTheme.of(context).labelSmall,
+            ),
+          ),
+          Expanded(
+            child: Divider(height: 0, indent: ConfigConstant.margin2),
+          )
         ],
       ),
     );

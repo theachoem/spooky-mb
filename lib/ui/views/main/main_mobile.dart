@@ -88,7 +88,18 @@ class _MainMobile extends StatelessWidget {
       child: SpTapEffect(
         effects: [SpTapEffectType.scaleDown],
         onTap: () async {
-          DateTime? date = await SpDatePicker.showDayPicker(context, viewModel.date);
+          ListLayoutType? layout = await SpListLayoutBuilder.get();
+
+          DateTime? date;
+          switch (layout) {
+            case ListLayoutType.single:
+              date = await SpDatePicker.showMonthDayPicker(context, viewModel.date);
+              break;
+            case ListLayoutType.tabs:
+              date = await SpDatePicker.showDayPicker(context, viewModel.date);
+              break;
+          }
+
           if (date != null) onConfirm(date, context);
         },
         onLongPressed: () {
