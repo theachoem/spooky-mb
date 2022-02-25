@@ -12,7 +12,6 @@ class SpTapEffect extends StatefulWidget {
     Key? key,
     required this.child,
     required this.onTap,
-    this.onDoubleTap,
     this.duration = const Duration(milliseconds: 100),
     this.vibrate = false,
     this.behavior = HitTestBehavior.opaque,
@@ -26,7 +25,6 @@ class SpTapEffect extends StatefulWidget {
   final List<SpTapEffectType> effects;
   final void Function()? onTap;
   final void Function()? onLongPressed;
-  final void Function()? onDoubleTap;
   final Duration duration;
   final bool vibrate;
   final HitTestBehavior? behavior;
@@ -60,11 +58,13 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
 
   void onTapCancel() => controller.reverse();
   void onTapDown() => controller.forward();
-  void onTapUp() => controller.reverse();
+  void onTapUp() {
+    if (widget.onTap != null) widget.onTap!();
+    controller.reverse();
+  }
 
   void onDoubleTap() async {
-    await controller.forward();
-    await controller.reverse();
+    controller.forward().then((value) => controller.reverse());
   }
 
   @override
@@ -72,12 +72,10 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
     if (widget.onTap != null) {
       return GestureDetector(
         behavior: widget.behavior,
-        onTap: widget.onTap,
-        onDoubleTap: widget.onDoubleTap,
         onLongPress: widget.onLongPressed,
-        onPanDown: (detail) => onTapDown(),
-        onPanEnd: (detail) => onTapUp(),
-        onPanCancel: () => onTapCancel(),
+        onTapDown: (detail) => onTapDown(),
+        onTapUp: (detail) => onTapUp(),
+        onTapCancel: () => onTapCancel(),
         child: buildChild(controller),
       );
     } else {

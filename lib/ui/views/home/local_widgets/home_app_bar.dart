@@ -105,11 +105,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
               lerpDouble(8.0, 0.0, animationValue)! +
               32.0 +
               16.0,
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: hasTabs ? CollapseMode.pin : CollapseMode.parallax,
-            stretchModes: const [StretchMode.zoomBackground],
-            background: child.flexibleSpace,
-          ),
+          flexibleSpace: child.flexibleSpace,
           bottom: HomeTabBarWrapper(
             height: hasTabs ? 48 + 8 : 0,
             child: child.tabBar,
@@ -121,26 +117,30 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
   }
 
   Widget buildBackground() {
-    return Container(
-      padding: EdgeInsets.fromLTRB(16.0, statusBarHeight + 24.0 + 4.0, 16.0, 0),
-      child: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              buildTitle(),
-              ConfigConstant.sizedBoxH0,
-              SpTapEffect(
-                onTap: () => widget.viewModel.pickYear(context),
-                child: Text(
-                  widget.subtitle,
-                  style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+    return FlexibleSpaceBar(
+      collapseMode: CollapseMode.pin,
+      stretchModes: const [StretchMode.zoomBackground],
+      background: Container(
+        padding: EdgeInsets.fromLTRB(16.0, statusBarHeight + 24.0 + 4.0, 16.0, 0),
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildTitle(),
+                ConfigConstant.sizedBoxH0,
+                SpTapEffect(
+                  onTap: () => widget.viewModel.pickYear(context),
+                  child: Text(
+                    widget.subtitle,
+                    style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+                  ),
                 ),
-              ),
-            ],
-          ),
-          buildThemeSwitcherButton()
-        ],
+              ],
+            ),
+            buildThemeSwitcherButton()
+          ],
+        ),
       ),
     );
   }

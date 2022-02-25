@@ -82,7 +82,6 @@ class _StoryTileState extends State<StoryTile> {
       dyGetter: (double dy) => dy + ConfigConstant.margin2,
       builder: (callback) {
         return SpTapEffect(
-          onDoubleTap: () => toggleStarred(),
           onTap: () => view(story, context),
           onLongPressed: () => callback(),
           child: Padding(
@@ -322,24 +321,27 @@ class _StoryTileState extends State<StoryTile> {
   }
 
   Widget buildTime(BuildContext context, StoryContentModel content) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        SpAnimatedIcons(
-          showFirst: starred,
-          secondChild: const SizedBox(),
-          firstChild: Icon(
-            Icons.favorite,
-            size: ConfigConstant.iconSize1,
-            color: starredColor,
+    return SpTapEffect(
+      onTap: () => toggleStarred(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SpAnimatedIcons(
+            showFirst: starred,
+            secondChild: const SizedBox(),
+            firstChild: Icon(
+              Icons.favorite,
+              size: ConfigConstant.iconSize1,
+              color: starredColor,
+            ),
           ),
-        ),
-        ConfigConstant.sizedBoxW0,
-        Text(
-          DateFormatHelper.timeFormat().format(content.createdAt),
-          style: M3TextTheme.of(context).bodySmall,
-        ),
-      ],
+          ConfigConstant.sizedBoxW0,
+          Text(
+            DateFormatHelper.timeFormat().format(content.createdAt),
+            style: M3TextTheme.of(context).bodySmall,
+          ),
+        ],
+      ),
     );
   }
 }
