@@ -9,6 +9,7 @@ import 'package:spooky/core/file_manager/story_writers/objects/delete_change_obj
 import 'package:spooky/core/file_manager/story_writers/objects/restore_story_object.dart';
 import 'package:spooky/core/file_manager/story_writers/objects/update_page_object.dart';
 import 'package:spooky/core/file_manager/story_writers/restore_story_writer.dart';
+import 'package:spooky/utils/helpers/story_writer_helper.dart';
 import 'package:spooky/core/file_manager/story_writers/update_page_writer.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -36,9 +37,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   bool get hasChange {
     if (currentStory.changes.isEmpty) return true;
-    return DefaultStoryWriter()
-        .buildContent(currentContent, quillControllers, titleController, openOn)
-        .hasChanges(currentStory.changes.last);
+    return StoryWriteHelper.buildContent(
+      currentContent,
+      quillControllers,
+      titleController,
+      openOn,
+    ).hasChanges(currentStory.changes.last);
   }
 
   void onChange(Document _) {

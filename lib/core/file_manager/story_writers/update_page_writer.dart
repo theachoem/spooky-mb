@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/story_writers/base_story_writer.dart';
 import 'package:spooky/core/file_manager/story_writers/objects/update_page_object.dart';
+import 'package:spooky/utils/helpers/story_writer_helper.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
@@ -32,7 +33,7 @@ class UpdatePageWriter extends BaseStoryWriter<UpdatePageObject> {
 
   @override
   StoryModel buildStory(UpdatePageObject object) {
-    StoryContentModel content = buildContent(
+    StoryContentModel content = StoryWriteHelper.buildContent(
       object.viewModel.currentContent,
       object.viewModel.quillControllers,
       object.viewModel.titleController,
