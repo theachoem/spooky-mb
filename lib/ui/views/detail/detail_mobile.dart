@@ -7,7 +7,7 @@ class _DetailMobile extends StatelessWidget {
   ValueNotifier<bool> get readOnlyNotifier => viewModel.readOnlyNotifier;
   TextEditingController get titleController => viewModel.titleController;
   ValueNotifier<bool> get hasChangeNotifer => viewModel.hasChangeNotifer;
-  List<List<dynamic>> get documents => viewModel.documents;
+  List<List<dynamic>> get pages => viewModel.currentContent.pages ?? [];
 
   @override
   Widget build(BuildContext context) {
@@ -17,36 +17,35 @@ class _DetailMobile extends StatelessWidget {
       toolbarBuilder: () => DetailToolbars(viewModel: viewModel),
       readOnlyNotifier: readOnlyNotifier,
       hasChangeNotifer: hasChangeNotifer,
-      onSave: (context) => viewModel.save(context),
+      onSave: (context) => viewModel.save(),
       viewModel: viewModel,
     );
   }
 
   Widget buildEditor(BuildContext context) {
-    if (documents.isEmpty) return Center(child: Text("No documents found"));
+    if (pages.isEmpty) return Center(child: Text("No documents found"));
     return FocusScope(
       onFocusChange: (bool focused) {
         viewModel.toolbarVisibleNotifier.value = focused || !viewModel.titleFocusNode.hasFocus;
       },
       child: SpPageView(
-        itemCount: documents.length,
+        itemCount: pages.length,
         controller: viewModel.pageController,
         physics: const ClampingScrollPhysics(),
         onPageChanged: (int index) {
           // if title has focus,
           // body shouldn't request focus
-          if (viewModel.titleFocusNode.hasFocus) return;
-          viewModel.focusNodes[index]?.requestFocus();
+          if (!viewModel.titleFocusNode.hasFocus) {
+            viewModel.focusNodeAt(index)?.requestFocus();
+          }
         },
         itemBuilder: (context, index) {
           return DetailEditor(
-            document: documents[index],
+            document: pages[index],
             readOnlyNotifier: readOnlyNotifier,
             onChange: (_) => viewModel.onChange(_),
             onControllerReady: (controller) => viewModel.setQuillController(index, controller),
-            onFocusNodeReady: (focusNode) {
-              viewModel.focusNodes[index] = focusNode;
-            },
+            onFocusNodeReady: (focusNode) => viewModel.setFocusNode(index, focusNode),
           );
         },
       ),
