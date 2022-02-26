@@ -11,7 +11,7 @@ import 'package:spooky/ui/widgets/sp_page_view/sp_page_view.dart';
 import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
-import 'detail_view_model.dart';
+import 'package:spooky/ui/views/detail/detail_view_model.dart';
 
 part 'detail_mobile.dart';
 part 'detail_tablet.dart';
@@ -30,7 +30,7 @@ class DetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelBuilder<DetailViewModel>.reactive(
-      viewModelBuilder: () => DetailViewModel(initialStory, intialFlow),
+      viewModelBuilder: () => DetailViewModel(currentStory: initialStory, flowType: intialFlow),
       onModelReady: (model) {},
       builder: (context, model, child) {
         return WillPopScope(
@@ -46,7 +46,7 @@ class DetailView extends StatelessWidget {
   }
 
   Future<bool> onWillPop(DetailViewModel model, BuildContext context) async {
-    if (model.hasChange) await model.save(context);
+    if (model.hasChange) await model.save();
     Navigator.of(context).pop(model.currentStory);
     return true;
   }

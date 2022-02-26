@@ -131,7 +131,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               }
               ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
               Navigator.of(context).pushNamed(SpRouteConfig.managePages, arguments: arguments).then((value) {
-                if (value is StoryContentModel) widget.viewModel.updatePage(context, value);
+                if (value is StoryContentModel) widget.viewModel.updatePages(value);
               });
             },
           ),
@@ -140,6 +140,10 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
             title: "Archive",
             leadingIconData: Icons.archive,
             onPressed: () async {
+              if (widget.viewModel.hasChange) {
+                App.of(context)?.showSpSnackBar("Please save document first");
+                return;
+              }
               OkCancelResult result = await showOkCancelAlertDialog(
                 context: context,
                 useRootNavigator: true,
@@ -162,10 +166,14 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
           title: "Changes History",
           leadingIconData: Icons.history,
           onPressed: () async {
+            if (widget.viewModel.hasChange) {
+              App.of(context)?.showSpSnackBar("Please save document first");
+              return;
+            }
             ChangesHistoryArgs arguments = ChangesHistoryArgs(
               story: widget.viewModel.currentStory,
-              onRestorePressed: (content) => widget.viewModel.restore(content, context),
-              onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds, context),
+              onRestorePressed: (content) => widget.viewModel.restore(content.id),
+              onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds),
             );
             Navigator.of(context).pushNamed(
               SpRouteConfig.changesHistory,

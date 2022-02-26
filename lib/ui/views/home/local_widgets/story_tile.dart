@@ -180,7 +180,13 @@ class _StoryTileState extends State<StoryTile> {
   }
 
   StoryContentModel _content(StoryModel story) {
-    return story.changes.last;
+    DateTime date = DateTime.now();
+    return story.changes.isNotEmpty
+        ? story.changes.last
+        : StoryContentModel.create(
+            createdAt: date,
+            id: date.millisecondsSinceEpoch.toString(),
+          );
   }
 
   Future<void> view(StoryModel story, BuildContext context) async {

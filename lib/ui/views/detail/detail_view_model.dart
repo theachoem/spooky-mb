@@ -1,118 +1,67 @@
-import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:spooky/app.dart';
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
-import 'package:spooky/core/notification/channels/auto_save_channel.dart';
-import 'package:spooky/core/types/response_code_type.dart';
+import 'package:spooky/core/file_manager/story_writers/auto_save_story_writer.dart';
+import 'package:spooky/core/file_manager/story_writers/default_story_writer.dart';
+import 'package:spooky/core/file_manager/story_writers/delete_change_writer.dart';
+import 'package:spooky/core/file_manager/story_writers/objects/auto_save_story_object.dart';
+import 'package:spooky/core/file_manager/story_writers/objects/default_story_object.dart';
+import 'package:spooky/core/file_manager/story_writers/objects/delete_change_object.dart';
+import 'package:spooky/core/file_manager/story_writers/objects/restore_story_object.dart';
+import 'package:spooky/core/file_manager/story_writers/objects/update_page_object.dart';
+import 'package:spooky/core/file_manager/story_writers/restore_story_writer.dart';
+import 'package:spooky/ui/views/detail/detail_view_model_getter.dart';
+import 'package:spooky/utils/helpers/story_writer_helper.dart';
+import 'package:spooky/core/file_manager/story_writers/update_page_writer.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
-import 'package:spooky/ui/views/detail/detail_view_model_helper.dart';
+import 'package:spooky/ui/views/detail/local_mixins/detail_view_model_ui_mixin.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 
-class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver {
-  late DateTime openOn;
-
+class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver, DetailViewModelUiMixin {
   late StoryModel currentStory;
+  late DetailViewFlowType flowType;
   late StoryContentModel currentContent;
-  late PageController pageController;
 
-  late final ValueNotifier<bool> readOnlyNotifier;
-  late final TextEditingController titleController;
-  late final ValueNotifier<bool> hasChangeNotifer;
-  late final FocusNode titleFocusNode;
-
-  // has 1 or more controller inited
-  late final ValueNotifier<bool> quillControllerInitedNotifier;
-  late final ValueNotifier<bool> toolbarVisibleNotifier;
-
-  StoryManager storyManager = StoryManager();
-  Map<int, QuillController> quillControllers = {};
-  Map<int, FocusNode> focusNodes = {};
-
-  DetailViewFlowType flowType;
-  StoryContentModel getInitialStoryContent(StoryModel story) {
-    if (story.changes.isNotEmpty) {
-      return story.changes.last;
-    } else {
-      return StoryContentModel.create(
-        createdAt: DateTime(story.path.year, story.path.month, story.path.day),
-        id: openOn.millisecondsSinceEpoch.toString(),
-      );
-    }
+  DetailViewModelGetter get info {
+    return DetailViewModelGetter(
+      currentStory: currentStory,
+      flowType: flowType,
+      currentContent: currentContent,
+      title: titleController.text,
+      hasChange: hasChange,
+      quillControllers: quillControllers,
+      openOn: openOn,
+    );
   }
 
-  int? get currentIndex => pageController.hasClients ? pageController.page?.toInt() : null;
-  FocusNode? get currentFocusNode {
-    if (focusNodes.containsKey(currentIndex)) {
-      return focusNodes[currentIndex];
-    }
-    return null;
-  }
-
-  void setQuillController(int index, QuillController controller) {
-    quillControllers[index] = controller;
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      if (quillControllerInitedNotifier.value) return;
-      quillControllerInitedNotifier.value = true;
-    });
-  }
-
-  QuillController? get currentQuillController {
-    if (quillControllers.containsKey(currentIndex)) {
-      return quillControllers[currentIndex];
-    }
-    return null;
-  }
-
-  DetailViewModel(
-    this.currentStory,
-    this.flowType,
-  ) {
-    openOn = DateTime.now();
-    currentContent = getInitialStoryContent(currentStory);
-    pageController = PageController();
-    readOnlyNotifier = ValueNotifier(flowType == DetailViewFlowType.update);
-    hasChangeNotifer = ValueNotifier(flowType == DetailViewFlowType.create);
-    quillControllerInitedNotifier = ValueNotifier(false);
-    toolbarVisibleNotifier = ValueNotifier(false);
-    titleFocusNode = FocusNode();
-    titleController = TextEditingController(text: currentContent.title);
-
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _setListener();
-    });
-
+  DetailViewModel({
+    required this.currentStory,
+    required this.flowType,
+  }) {
+    currentContent = initialContent(currentStory);
+    initMixinState(flowType, currentContent);
     WidgetsBinding.instance?.addObserver(this);
+    setListener();
   }
 
-  void _setListener() {
-    readOnlyNotifier.addListener(() {
-      if (readOnlyNotifier.value) {
-        currentFocusNode?.unfocus();
-      } else {
-        currentFocusNode?.requestFocus();
-      }
+  bool get hasChange {
+    if (currentStory.changes.isEmpty) return true;
+    return StoryWriteHelper.buildContent(
+      currentContent,
+      quillControllers,
+      titleController.text,
+      openOn,
+    ).hasChanges(currentStory.changes.last);
+  }
+
+  void onChange(Document _) {
+    scheduleAction(() {
       hasChangeNotifer.value = hasChange;
-      toolbarVisibleNotifier.value = !readOnlyNotifier.value;
     });
-
-    titleController.addListener(() {
-      scheduleAction(() {
-        hasChangeNotifer.value = hasChange;
-      });
-    });
-  }
-
-  List<List<dynamic>> get documents {
-    List<List<dynamic>>? pages = currentContent.pages;
-    return pages ?? [];
   }
 
   void addPage() {
@@ -120,213 +69,78 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     notifyListeners();
     Future.delayed(ConfigConstant.fadeDuration).then((value) {
       pageController.animateToPage(
-        documents.length - 1,
+        currentContent.pages!.length - 1,
         duration: ConfigConstant.duration,
         curve: Curves.ease,
       );
     });
   }
 
-  void onChange(Document document) {
-    scheduleAction(() {
-      hasChangeNotifer.value = hasChange;
+  void saveStates(StoryModel story) {
+    flowType = DetailViewFlowType.update;
+    currentStory = story;
+    currentContent = story.changes.last;
+    notifyListeners();
+  }
+
+  // if user close app, we store initial tab on home
+  // so they new it is saved.
+  Future<void> autosave() async {
+    if (!hasChange) return;
+    InitialStoryTabService.setInitialTab(currentStory.path.year, currentStory.path.month);
+    AutoSaveStoryWriter writer = AutoSaveStoryWriter();
+    StoryModel? story = await writer.save(AutoSaveStoryObject(info));
+    if (story != null) saveStates(story);
+  }
+
+  Future<void> save() async {
+    DefaultStoryWriter writer = DefaultStoryWriter();
+    StoryModel? story = await writer.save(DefaultStoryObject(info));
+    if (story != null) saveStates(story);
+  }
+
+  Future<void> deleteChange(List<String> contentIds) async {
+    DeleteChangeWriter writer = DeleteChangeWriter();
+    StoryModel? story = await writer.save(DeleteChangeObject(info, contentIds: contentIds));
+    if (story != null) saveStates(story);
+  }
+
+  /// restore and updatePages will be push replace to same screen instead.
+  /// so, no need to saveStates(story)
+  Future<void> restore(String contentId) async {
+    RestoreStoryWriter writer = RestoreStoryWriter();
+    await writer.save(RestoreStoryObject(info, contentId: contentId));
+  }
+
+  Future<void> updatePages(StoryContentModel value) async {
+    UpdatePageWriter writer = UpdatePageWriter();
+    await writer.save(UpdatePageObject(info, pages: value.pages));
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
+    if (shouldSaveInStates.contains(state)) autosave();
+    if (state == AppLifecycleState.resumed) hasChangeNotifer.value = hasChange;
+    super.didChangeAppLifecycleState(state);
+  }
+
+  @mustCallSuper
+  void setListener() {
+    readOnlyNotifier.addListener(() {
+      readOnlyNotifier.value ? currentFocusNode?.unfocus() : hasChangeNotifer.value = hasChange;
+      toolbarVisibleNotifier.value = !readOnlyNotifier.value;
+    });
+    titleController.addListener(() {
+      scheduleAction(() {
+        hasChangeNotifer.value = hasChange;
+      });
     });
   }
 
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      pageController.dispose();
-      readOnlyNotifier.dispose();
-      titleController.dispose();
-      hasChangeNotifer.dispose();
-      quillControllerInitedNotifier.dispose();
-    });
     WidgetsBinding.instance?.removeObserver(this);
-  }
-
-  bool get hasChange {
-    if (currentStory.changes.isEmpty) return true;
-    return DetailViewModelHelper.buildContent(
-      currentContent,
-      quillControllers,
-      titleController,
-      openOn,
-    ).hasChanges(currentStory.changes.last);
-  }
-
-  Future<void> restore(StoryContentModel content, BuildContext context) async {
-    // save current version which may not saved
-    await _save();
-
-    // Set currentContent is required. It will be used in buildStory()
-    currentContent = content;
-
-    ResponseCodeType code = await _save(restore: true);
-    String message;
-
-    switch (code) {
-      case ResponseCodeType.success:
-        flowType = DetailViewFlowType.update;
-        notifyListeners();
-        message = "Restored";
-        break;
-      case ResponseCodeType.noChange:
-        message = "Document has no changes";
-        break;
-      case ResponseCodeType.fail:
-        message = "Restore unsuccessfully!";
-        break;
-    }
-    App.of(context)?.showSpSnackBar(message);
-
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      Navigator.of(context).popAndPushNamed(
-        SpRouteConfig.detail,
-        arguments: DetailArgs(
-          initialStory: currentStory,
-          intialFlow: DetailViewFlowType.update,
-        ),
-      );
-    });
-  }
-
-  Future<void> deleteChange(List<String> contentIds, BuildContext context) async {
-    currentStory.removeChangeByIds(contentIds);
-    return save(context, force: true);
-  }
-
-  Future<void> updatePage(BuildContext context, StoryContentModel value) async {
-    currentContent.pages = value.pages;
-    quillControllers.clear();
-    await save(context, force: true, shouldRefresh: false, shouldShowSnackbar: false);
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      Navigator.of(context).pushReplacementNamed(
-        SpRouteConfig.detail,
-        arguments: DetailArgs(
-          initialStory: currentStory,
-          intialFlow: DetailViewFlowType.update,
-        ),
-      );
-    });
-  }
-
-  Future<void> save(
-    BuildContext context, {
-    bool force = false,
-    bool shouldRefresh = true,
-    bool shouldShowSnackbar = true,
-  }) async {
-    ResponseCodeType code = await _save(force: force);
-    String message;
-
-    switch (code) {
-      case ResponseCodeType.success:
-        flowType = DetailViewFlowType.update;
-        if (shouldRefresh) notifyListeners();
-        message = "Saved";
-        break;
-      case ResponseCodeType.noChange:
-        message = "Document has no changes";
-        break;
-      case ResponseCodeType.fail:
-        message = "Save unsuccessfully!";
-        break;
-    }
-
-    if (shouldShowSnackbar || code != ResponseCodeType.success) {
-      App.of(context)?.showSpSnackBar(message);
-    }
-  }
-
-  @mustCallSuper
-  Future<ResponseCodeType> _save({bool restore = false, bool force = false}) async {
-    if (!hasChange && !force) return ResponseCodeType.noChange;
-    StoryModel? result = await write(restore: restore);
-    if (result != null && result.changes.isNotEmpty) {
-      currentStory = result;
-      currentContent = result.changes.last;
-      return ResponseCodeType.success;
-    }
-    return ResponseCodeType.fail;
-  }
-
-  @mustCallSuper
-  Future<StoryModel?> write({bool restore = false}) async {
-    StoryModel story = DetailViewModelHelper.buildStory(
-      currentStory,
-      currentContent,
-      flowType,
-      quillControllers,
-      titleController,
-      openOn,
-      restore,
-    );
-
-    FileSystemEntity? result = await storyManager.write(story.writableFile, story);
-    if (kDebugMode) {
-      print("+++ Write +++");
-      print("Message: ${storyManager.error}");
-      print("Path: ${result?.absolute.path}");
-    }
-
-    if (result != null) {
-      return story;
-    }
-    return null;
-  }
-
-  bool hasAutosaved = false;
-  Future<void> autosave() async {
-    if (hasChange) {
-      ResponseCodeType code = await _save();
-      Future.delayed(ConfigConstant.fadeDuration).then((value) {
-        switch (code) {
-          case ResponseCodeType.success:
-            hasAutosaved = true;
-            AutoSaveChannel().show(
-              title: "Document is saved",
-              body: "Saved",
-              payload: AutoSavePayload(
-                currentStory.file?.path ?? currentStory.path.toFullPath(),
-              ),
-            );
-            break;
-          case ResponseCodeType.noChange:
-            break;
-          case ResponseCodeType.fail:
-            AutoSaveChannel().show(
-              title: "Document isn't saved!",
-              body: "Error",
-              payload: AutoSavePayload(
-                currentStory.file?.path ?? currentStory.path.toFullPath(),
-              ),
-            );
-            break;
-        }
-      });
-    }
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
-    if (shouldSaveInStates.contains(state)) {
-      autosave();
-
-      // if user close app, we store initial tab on home
-      // so they new it is saved.
-      InitialStoryTabService.setInitialTab(
-        currentStory.path.year,
-        currentStory.path.month,
-      );
-    }
-    super.didChangeAppLifecycleState(state);
-
-    if (state == AppLifecycleState.resumed && hasAutosaved) {
-      hasAutosaved = false;
-      hasChangeNotifer.value = hasChange;
-    }
   }
 }
