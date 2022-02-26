@@ -4,6 +4,7 @@ import 'package:spooky/core/file_manager/story_writers/objects/auto_save_story_o
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/types/response_code_type.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 
 class AutoSaveStoryWriter extends DefaultStoryWriter<AutoSaveStoryObject> {
   @override
@@ -25,23 +26,25 @@ class AutoSaveStoryWriter extends DefaultStoryWriter<AutoSaveStoryObject> {
     required ResponseCodeType responseCode,
     required String message,
   }) {
-    switch (responseCode) {
-      case ResponseCodeType.success:
-        AutoSaveChannel().show(
-          title: message,
-          body: "Saved",
-          payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
-        );
-        break;
-      case ResponseCodeType.noChange:
-        break;
-      case ResponseCodeType.fail:
-        AutoSaveChannel().show(
-          title: message,
-          body: "Error",
-          payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
-        );
-        break;
-    }
+    Future.delayed(ConfigConstant.fadeDuration).then((_) {
+      switch (responseCode) {
+        case ResponseCodeType.success:
+          AutoSaveChannel().show(
+            title: message,
+            body: "Saved",
+            payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
+          );
+          break;
+        case ResponseCodeType.noChange:
+          break;
+        case ResponseCodeType.fail:
+          AutoSaveChannel().show(
+            title: message,
+            body: "Error",
+            payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
+          );
+          break;
+      }
+    });
   }
 }

@@ -66,6 +66,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   // if user close app, we store initial tab on home
   // so they new it is saved.
   Future<void> autosave() async {
+    if (!hasChange) return;
     InitialStoryTabService.setInitialTab(currentStory.path.year, currentStory.path.month);
     AutoSaveStoryWriter writer = AutoSaveStoryWriter();
     StoryModel? writenStory = await writer.save(AutoSaveStoryObject(this));
