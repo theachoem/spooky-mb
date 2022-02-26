@@ -37,17 +37,17 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
   StoryModel buildStory(T object) {
     StoryModel story;
     StoryContentModel content = StoryWriteHelper.buildContent(
-      object.viewModel.currentContent,
-      object.viewModel.quillControllers,
-      object.viewModel.titleController,
-      object.viewModel.openOn,
+      object.info.currentContent,
+      object.info.quillControllers,
+      object.info.title,
+      object.info.openOn,
     );
-    switch (object.viewModel.flowType) {
+    switch (object.info.flowType) {
       case DetailViewFlowType.create:
-        story = object.viewModel.currentStory.copyWith(changes: [content]);
+        story = object.info.currentStory.copyWith(changes: [content]);
         break;
       case DetailViewFlowType.update:
-        story = object.viewModel.currentStory..addChange(content);
+        story = object.info.currentStory..addChange(content);
         break;
     }
     return story;

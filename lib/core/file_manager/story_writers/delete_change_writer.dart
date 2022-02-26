@@ -13,17 +13,17 @@ class DeleteChangeWriter extends DefaultStoryWriter<DeleteChangeObject> {
   StoryModel buildStory(DeleteChangeObject object) {
     StoryModel story;
     StoryContentModel content = StoryWriteHelper.buildContent(
-      object.viewModel.currentContent,
-      object.viewModel.quillControllers,
-      object.viewModel.titleController,
+      object.info.currentContent,
+      object.info.quillControllers,
+      object.info.title,
       DateTime.now(),
     );
-    switch (object.viewModel.flowType) {
+    switch (object.info.flowType) {
       case DetailViewFlowType.create:
-        story = object.viewModel.currentStory.copyWith(changes: [content]);
+        story = object.info.currentStory.copyWith(changes: [content]);
         break;
       case DetailViewFlowType.update:
-        story = object.viewModel.currentStory..addChange(content);
+        story = object.info.currentStory..addChange(content);
         break;
     }
     story.removeChangeByIds(object.contentIds);

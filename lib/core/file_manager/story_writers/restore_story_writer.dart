@@ -54,8 +54,8 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
 
   @override
   StoryModel buildStory(RestoreStoryObject object) {
-    StoryModel story = super.buildStory(object);
-    Iterable<StoryContentModel> selected = object.viewModel.currentStory.changes.where((e) => e.id == object.contentId);
+    StoryModel story = object.info.currentStory;
+    Iterable<StoryContentModel> selected = object.info.currentStory.changes.where((e) => e.id == object.contentId);
     if (selected.isNotEmpty) {
       StoryContentModel content = selected.last;
       story.removeChangeById(content.id);

@@ -9,7 +9,7 @@ class _ManagePagesMobile extends StatelessWidget {
     return WillPopScope(
       onWillPop: () async => onWillPop(context),
       child: Scaffold(
-        appBar: AppBar(
+        appBar: MorphingAppBar(
           leading: const SpPopButton(),
           title: Text("Manage Page", style: Theme.of(context).appBarTheme.titleTextStyle),
           actions: buildActionsButton(context),

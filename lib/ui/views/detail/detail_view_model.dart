@@ -9,6 +9,7 @@ import 'package:spooky/core/file_manager/story_writers/objects/delete_change_obj
 import 'package:spooky/core/file_manager/story_writers/objects/restore_story_object.dart';
 import 'package:spooky/core/file_manager/story_writers/objects/update_page_object.dart';
 import 'package:spooky/core/file_manager/story_writers/restore_story_writer.dart';
+import 'package:spooky/ui/views/detail/detail_view_model_getter.dart';
 import 'package:spooky/utils/helpers/story_writer_helper.dart';
 import 'package:spooky/core/file_manager/story_writers/update_page_writer.dart';
 import 'package:spooky/core/models/story_content_model.dart';
@@ -25,6 +26,18 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   late DetailViewFlowType flowType;
   late StoryContentModel currentContent;
 
+  DetailViewModelGetter get info {
+    return DetailViewModelGetter(
+      currentStory: currentStory,
+      flowType: flowType,
+      currentContent: currentContent,
+      title: titleController.text,
+      hasChange: hasChange,
+      quillControllers: quillControllers,
+      openOn: openOn,
+    );
+  }
+
   DetailViewModel({
     required this.currentStory,
     required this.flowType,
@@ -32,7 +45,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     currentContent = initialContent(currentStory);
     initMixinState(flowType, currentContent);
     WidgetsBinding.instance?.addObserver(this);
-    _setListener();
+    setListener();
   }
 
   bool get hasChange {
@@ -40,7 +53,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     return StoryWriteHelper.buildContent(
       currentContent,
       quillControllers,
-      titleController,
+      titleController.text,
       openOn,
     ).hasChanges(currentStory.changes.last);
   }
@@ -63,43 +76,45 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     });
   }
 
-  // if user close app, we store initial tab on home
-  // so they new it is saved.
-  Future<void> autosave() async {
-    if (!hasChange) return;
-    InitialStoryTabService.setInitialTab(currentStory.path.year, currentStory.path.month);
-    AutoSaveStoryWriter writer = AutoSaveStoryWriter();
-    StoryModel? story = await writer.save(AutoSaveStoryObject(this));
-    if (story != null) saved(story);
-  }
-
-  void saved(StoryModel story) {
+  void saveStates(StoryModel story) {
     flowType = DetailViewFlowType.update;
     currentStory = story;
     currentContent = story.changes.last;
     notifyListeners();
   }
 
+  // if user close app, we store initial tab on home
+  // so they new it is saved.
+  Future<void> autosave() async {
+    if (!hasChange) return;
+    InitialStoryTabService.setInitialTab(currentStory.path.year, currentStory.path.month);
+    AutoSaveStoryWriter writer = AutoSaveStoryWriter();
+    StoryModel? story = await writer.save(AutoSaveStoryObject(info));
+    if (story != null) saveStates(story);
+  }
+
   Future<void> save() async {
     DefaultStoryWriter writer = DefaultStoryWriter();
-    StoryModel? story = await writer.save(DefaultStoryObject(this));
-    if (story != null) saved(story);
+    StoryModel? story = await writer.save(DefaultStoryObject(info));
+    if (story != null) saveStates(story);
   }
 
   Future<void> deleteChange(List<String> contentIds) async {
     DeleteChangeWriter writer = DeleteChangeWriter();
-    StoryModel? story = await writer.save(DeleteChangeObject(this, contentIds: contentIds));
-    if (story != null) saved(story);
+    StoryModel? story = await writer.save(DeleteChangeObject(info, contentIds: contentIds));
+    if (story != null) saveStates(story);
   }
 
+  /// restore and updatePages will be push replace to same screen instead.
+  /// so, no need to saveStates(story)
   Future<void> restore(String contentId) async {
     RestoreStoryWriter writer = RestoreStoryWriter();
-    await writer.save(RestoreStoryObject(this, contentId: contentId));
+    await writer.save(RestoreStoryObject(info, contentId: contentId));
   }
 
   Future<void> updatePages(StoryContentModel value) async {
     UpdatePageWriter writer = UpdatePageWriter();
-    await writer.save(UpdatePageObject(this, pages: value.pages));
+    await writer.save(UpdatePageObject(info, pages: value.pages));
   }
 
   @override
@@ -110,7 +125,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     super.didChangeAppLifecycleState(state);
   }
 
-  void _setListener() {
+  @mustCallSuper
+  void setListener() {
     readOnlyNotifier.addListener(() {
       readOnlyNotifier.value ? currentFocusNode?.unfocus() : hasChangeNotifer.value = hasChange;
       toolbarVisibleNotifier.value = !readOnlyNotifier.value;

@@ -26,20 +26,12 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
 
   Future<StoryModel?> save(T object) async {
     FileSystemEntity? result;
-    bool hasChange = object.viewModel.hasChange;
+    bool hasChange = object.info.hasChange;
     if (hasChange || force) {
       StoryModel story = buildStory(object);
       result = await storyManager.write(story.writableFile, story);
-      if (kDebugMode) {
-        print("+++ Write +++");
-        print("Message: ${storyManager.error}");
-        print("Path: ${result?.absolute.path}");
-      }
-      if (result != null && result is File) {
-        return _nextSuccess(result);
-      } else {
-        return _nextError(result);
-      }
+      log(result);
+      return result is File ? _nextSuccess(result) : _nextError(result);
     } else {
       return _nextNoChange();
     }
@@ -64,5 +56,13 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     StoryModel? story = await storyManager.fetchOne(result);
     onSaved(story: story, file: result, responseCode: code, message: message);
     return story;
+  }
+
+  void log(FileSystemEntity? result) {
+    if (kDebugMode) {
+      print("+++ Write +++");
+      print("Message: ${storyManager.error}");
+      print("Path: ${result?.absolute.path}");
+    }
   }
 }

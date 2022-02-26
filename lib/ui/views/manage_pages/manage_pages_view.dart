@@ -15,6 +15,7 @@ import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:stacked/stacked.dart';
 import 'package:flutter/material.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'manage_pages_view_model.dart';
 
 part 'manage_pages_mobile.dart';
