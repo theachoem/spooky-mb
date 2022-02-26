@@ -45,7 +45,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     );
 
     AutoSaveStoryWriter writer = AutoSaveStoryWriter();
-    await writer.save(AutoSaveStoryObject(this));
+    StoryModel? writenStory = await writer.save(AutoSaveStoryObject(this));
+    if (writenStory != null) hasAutosaved = true;
   }
 
   Future<void> save() async {

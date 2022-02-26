@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/file_manager/story_writers/objects/base_writer_object.dart';
 import 'package:spooky/core/models/story_content_model.dart';
@@ -11,6 +12,7 @@ import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 
 abstract class BaseStoryWriter<T extends BaseWriterObject> {
+  BuildContext? get context => App.navigatorKey.currentContext;
   final StoryManager storyManager = StoryManager();
 
   StoryModel buildStory(T object);
@@ -25,31 +27,28 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   });
 
   /// `writeStory` story we used to write
-  Future<void> _onSaved(
+  Future<StoryModel?> _next(
     StoryModel writeStory,
     FileSystemEntity? result,
   ) async {
     if (result != null && result is File) {
       ResponseCodeType responseCode = ResponseCodeType.success;
       StoryModel? story = await storyManager.fetchOne(result);
-      return onSaved(
+      onSaved(
         story: story,
         file: result,
         responseCode: responseCode,
         message: buildMessage(responseCode),
       );
+      return story;
     } else {
       ResponseCodeType responseCode = ResponseCodeType.success;
-      return onSaved(
-        story: null,
-        file: result,
-        responseCode: responseCode,
-        message: buildMessage(responseCode),
-      );
+      onSaved(story: null, file: result, responseCode: responseCode, message: buildMessage(responseCode));
+      return null;
     }
   }
 
-  Future<void> save(T object) async {
+  Future<StoryModel?> save(T object) async {
     StoryModel story = buildStory(object);
     FileSystemEntity? result = await storyManager.write(story.writableFile, story);
     if (kDebugMode) {
@@ -57,7 +56,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
       print("Message: ${storyManager.error}");
       print("Path: ${result?.absolute.path}");
     }
-    return _onSaved(story, result);
+    return _next(story, result);
   }
 
   StoryContentModel buildContent(
