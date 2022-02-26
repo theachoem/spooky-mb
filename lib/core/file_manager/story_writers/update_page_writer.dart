@@ -11,6 +11,9 @@ import 'package:spooky/core/types/response_code_type.dart';
 
 class UpdatePageWriter extends BaseStoryWriter<UpdatePageObject> {
   @override
+  bool get force => true;
+
+  @override
   void onSaved({
     required StoryModel? story,
     required FileSystemEntity? file,

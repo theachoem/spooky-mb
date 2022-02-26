@@ -10,6 +10,9 @@ import 'package:spooky/core/types/response_code_type.dart';
 
 class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
   @override
+  bool get force => true;
+
+  @override
   String buildMessage(ResponseCodeType responseCode) {
     switch (responseCode) {
       case ResponseCodeType.success:
@@ -52,9 +55,14 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
   @override
   StoryModel buildStory(RestoreStoryObject object) {
     StoryModel story = super.buildStory(object);
-    StoryContentModel content = object.viewModel.currentContent;
-    story.removeChangeById(content.id);
-    story.addChange(content.restore(content));
-    return story;
+    Iterable<StoryContentModel> selected = object.viewModel.currentStory.changes.where((e) => e.id == object.contentId);
+    if (selected.isNotEmpty) {
+      StoryContentModel content = selected.last;
+      story.removeChangeById(content.id);
+      story.addChange(content.restore(content));
+      return story;
+    } else {
+      return story;
+    }
   }
 }

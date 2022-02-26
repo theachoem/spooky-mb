@@ -6,7 +6,7 @@ import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:stacked/stacked.dart';
 
 mixin DetailViewModelUiMixin on BaseViewModel {
-  late final DateTime openOn;
+  final DateTime openOn = DateTime.now();
 
   late final ValueNotifier<bool> readOnlyNotifier;
   late final ValueNotifier<bool> hasChangeNotifer;
@@ -18,8 +18,6 @@ mixin DetailViewModelUiMixin on BaseViewModel {
 
   final Map<int, FocusNode> _focusNodes = {};
   final Map<int, QuillController> quillControllers = {};
-
-  bool hasAutosaved = true;
 
   void setQuillController(int index, QuillController controller) {
     quillControllers[index] = controller;
@@ -52,7 +50,6 @@ mixin DetailViewModelUiMixin on BaseViewModel {
   }
 
   void initMixinState(DetailViewFlowType flowType, StoryContentModel content) {
-    openOn = DateTime.now();
     readOnlyNotifier = ValueNotifier(flowType == DetailViewFlowType.update);
     hasChangeNotifer = ValueNotifier(flowType == DetailViewFlowType.create);
     toolbarVisibleNotifier = ValueNotifier(false);

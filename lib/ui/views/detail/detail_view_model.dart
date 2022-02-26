@@ -69,26 +69,27 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     if (!hasChange) return;
     InitialStoryTabService.setInitialTab(currentStory.path.year, currentStory.path.month);
     AutoSaveStoryWriter writer = AutoSaveStoryWriter();
-    StoryModel? writenStory = await writer.save(AutoSaveStoryObject(this));
-    if (writenStory != null) hasAutosaved = true;
+    StoryModel? story = await writer.save(AutoSaveStoryObject(this));
+    if (story != null) saved(story);
+  }
+
+  void saved(StoryModel story) {
+    flowType = DetailViewFlowType.update;
+    currentStory = story;
+    currentContent = story.changes.last;
+    notifyListeners();
   }
 
   Future<void> save() async {
     DefaultStoryWriter writer = DefaultStoryWriter();
     StoryModel? story = await writer.save(DefaultStoryObject(this));
-    if (story != null) {
-      flowType = DetailViewFlowType.update;
-      notifyListeners();
-    }
+    if (story != null) saved(story);
   }
 
   Future<void> deleteChange(List<String> contentIds) async {
     DeleteChangeWriter writer = DeleteChangeWriter();
     StoryModel? story = await writer.save(DeleteChangeObject(this, contentIds: contentIds));
-    if (story != null) {
-      flowType = DetailViewFlowType.update;
-      notifyListeners();
-    }
+    if (story != null) saved(story);
   }
 
   Future<void> restore(String contentId) async {
@@ -104,16 +105,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
-
-    bool shouldAutoSave = shouldSaveInStates.contains(state);
-    if (shouldAutoSave) autosave();
-
-    bool shouldSetHasChange = state == AppLifecycleState.resumed && hasAutosaved;
-    if (shouldSetHasChange) {
-      hasAutosaved = false;
-      hasChangeNotifer.value = hasChange;
-    }
-
+    if (shouldSaveInStates.contains(state)) autosave();
+    if (state == AppLifecycleState.resumed) hasChangeNotifer.value = hasChange;
     super.didChangeAppLifecycleState(state);
   }
 

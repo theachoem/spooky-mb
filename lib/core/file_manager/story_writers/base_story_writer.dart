@@ -11,6 +11,8 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   BuildContext? get context => App.navigatorKey.currentContext;
   final StoryManager storyManager = StoryManager();
 
+  bool get force => false;
+
   StoryModel buildStory(T object);
   String buildMessage(ResponseCodeType responseCode);
 
@@ -25,7 +27,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   Future<StoryModel?> save(T object) async {
     FileSystemEntity? result;
     bool hasChange = object.viewModel.hasChange;
-    if (hasChange) {
+    if (hasChange || force) {
       StoryModel story = buildStory(object);
       result = await storyManager.write(story.writableFile, story);
       if (kDebugMode) {
@@ -33,19 +35,19 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
         print("Message: ${storyManager.error}");
         print("Path: ${result?.absolute.path}");
       }
-    }
-    if (result != null && result is File) {
-      return _nextSuccess(result);
-    } else if (!hasChange) {
-      return _nextNoChange();
+      if (result != null && result is File) {
+        return _nextSuccess(result);
+      } else {
+        return _nextError(result);
+      }
     } else {
-      return _nextError(result);
+      return _nextNoChange();
     }
   }
 
   Future<StoryModel?> _nextNoChange() async {
     ResponseCodeType code = ResponseCodeType.noChange;
-    String message = buildMessage(ResponseCodeType.noChange);
+    String message = buildMessage(code);
     onSaved(story: null, file: null, responseCode: code, message: message);
     return null;
   }
@@ -58,7 +60,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
 
   Future<StoryModel?> _nextSuccess(File result) async {
     ResponseCodeType code = ResponseCodeType.success;
-    String message = buildMessage(ResponseCodeType.noChange);
+    String message = buildMessage(code);
     StoryModel? story = await storyManager.fetchOne(result);
     onSaved(story: story, file: result, responseCode: code, message: message);
     return story;
