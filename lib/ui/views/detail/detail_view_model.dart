@@ -15,6 +15,7 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_model_ui_mixin.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:stacked/stacked.dart';
 
@@ -22,6 +23,16 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   late StoryModel currentStory;
   late DetailViewFlowType flowType;
   late StoryContentModel currentContent;
+
+  DetailViewModel({
+    required this.currentStory,
+    required this.flowType,
+  }) {
+    currentContent = initialContent(currentStory);
+    initMixinState(flowType, currentContent);
+    WidgetsBinding.instance?.addObserver(this);
+    _setListener();
+  }
 
   bool get hasChange {
     if (currentStory.changes.isEmpty) return true;
@@ -36,14 +47,22 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     });
   }
 
-  Future<void> autosave() async {
-    // if user close app, we store initial tab on home
-    // so they new it is saved.
-    InitialStoryTabService.setInitialTab(
-      currentStory.path.year,
-      currentStory.path.month,
-    );
+  void addPage() {
+    currentContent.addPage();
+    notifyListeners();
+    Future.delayed(ConfigConstant.fadeDuration).then((value) {
+      pageController.animateToPage(
+        currentContent.pages!.length - 1,
+        duration: ConfigConstant.duration,
+        curve: Curves.ease,
+      );
+    });
+  }
 
+  // if user close app, we store initial tab on home
+  // so they new it is saved.
+  Future<void> autosave() async {
+    InitialStoryTabService.setInitialTab(currentStory.path.year, currentStory.path.month);
     AutoSaveStoryWriter writer = AutoSaveStoryWriter();
     StoryModel? writenStory = await writer.save(AutoSaveStoryObject(this));
     if (writenStory != null) hasAutosaved = true;
@@ -51,43 +70,30 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   Future<void> save() async {
     DefaultStoryWriter writer = DefaultStoryWriter();
-    await writer.save(DefaultStoryObject(this));
+    StoryModel? story = await writer.save(DefaultStoryObject(this));
+    if (story != null) {
+      flowType = DetailViewFlowType.update;
+      notifyListeners();
+    }
   }
 
   Future<void> deleteChange(List<String> contentIds) async {
     DeleteChangeWriter writer = DeleteChangeWriter();
-    await writer.save(
-      DeleteChangeObject(this, contentIds: contentIds),
-    );
+    StoryModel? story = await writer.save(DeleteChangeObject(this, contentIds: contentIds));
+    if (story != null) {
+      flowType = DetailViewFlowType.update;
+      notifyListeners();
+    }
   }
 
   Future<void> restore(String contentId) async {
     RestoreStoryWriter writer = RestoreStoryWriter();
-    await writer.save(
-      RestoreStoryObject(this, contentId: contentId),
-    );
+    await writer.save(RestoreStoryObject(this, contentId: contentId));
   }
 
   Future<void> updatePages(StoryContentModel value) async {
     UpdatePageWriter writer = UpdatePageWriter();
-    await writer.save(
-      UpdatePageObject(this, pages: value.pages),
-    );
-  }
-
-  DetailViewModel({
-    required this.currentStory,
-    required this.flowType,
-  }) {
-    currentContent = initialContent(currentStory);
-    initMixinState(flowType, currentContent);
-    WidgetsBinding.instance?.addObserver(this);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
+    await writer.save(UpdatePageObject(this, pages: value.pages));
   }
 
   @override
@@ -104,5 +110,23 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     }
 
     super.didChangeAppLifecycleState(state);
+  }
+
+  void _setListener() {
+    readOnlyNotifier.addListener(() {
+      readOnlyNotifier.value ? currentFocusNode?.unfocus() : hasChangeNotifer.value = hasChange;
+      toolbarVisibleNotifier.value = !readOnlyNotifier.value;
+    });
+    titleController.addListener(() {
+      scheduleAction(() {
+        hasChangeNotifer.value = hasChange;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
   }
 }

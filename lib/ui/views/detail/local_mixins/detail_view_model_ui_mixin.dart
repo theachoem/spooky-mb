@@ -21,9 +21,23 @@ mixin DetailViewModelUiMixin on BaseViewModel {
 
   bool hasAutosaved = true;
 
-  void setQuillController(int index, QuillController controller) {}
-  void setFocusNode(int index, FocusNode focusNode) {}
-  void addPage() {}
+  void setQuillController(int index, QuillController controller) {
+    quillControllers[index] = controller;
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      if (quillControllerInitedNotifier.value) return;
+      quillControllerInitedNotifier.value = true;
+    });
+  }
+
+  void setFocusNode(int index, FocusNode focusNode) {
+    _focusNodes[index] = focusNode;
+  }
+
+  int? get currentIndex => pageController.hasClients ? pageController.page?.toInt() : null;
+  FocusNode? get currentFocusNode {
+    if (_focusNodes.containsKey(currentIndex)) return _focusNodes[currentIndex];
+    return null;
+  }
 
   FocusNode? focusNodeAt(int index) => _focusNodes[index];
   StoryContentModel initialContent(StoryModel story) {
