@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/storages/local_storages/theme_mode_storage.dart';
@@ -70,6 +71,7 @@ class _InitialThemeState extends State<InitialTheme> {
       backgroundColor: colors.background,
       primaryColor: colors.primary,
       colorScheme: colors,
+      cupertinoOverrideTheme: const CupertinoThemeData(textTheme: CupertinoTextThemeData()),
     );
   }
 }
