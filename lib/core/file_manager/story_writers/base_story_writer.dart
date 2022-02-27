@@ -22,15 +22,15 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     required String message,
   });
 
-  ResponseCodeType? validate(T object) {
+  String? validate(T object) {
     bool validated = object.info.hasChange;
-    if (!validated) return ResponseCodeType.noChange;
+    if (!validated) return buildMessage(ResponseCodeType.noChange);
     return null;
   }
 
   Future<StoryModel?> save(T object) async {
     FileSystemEntity? result;
-    ResponseCodeType? validation = validate(object);
+    String? validation = validate(object);
     if (validation == null) {
       StoryModel story = buildStory(object);
       result = await storyManager.write(story.writableFile, story);
@@ -41,9 +41,9 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     }
   }
 
-  Future<StoryModel?> _nextError(FileSystemEntity? result, [ResponseCodeType? validation]) async {
-    ResponseCodeType code = validation ?? ResponseCodeType.fail;
-    onSaved(story: null, file: result, responseCode: code, message: buildMessage(code));
+  Future<StoryModel?> _nextError(FileSystemEntity? result, [String? validation]) async {
+    ResponseCodeType code = ResponseCodeType.fail;
+    onSaved(story: null, file: result, responseCode: code, message: validation ?? buildMessage(code));
     return null;
   }
 

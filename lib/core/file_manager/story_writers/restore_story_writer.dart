@@ -10,7 +10,7 @@ import 'package:spooky/core/types/response_code_type.dart';
 
 class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
   @override
-  ResponseCodeType? validate(RestoreStoryObject object) {
+  String? validate(RestoreStoryObject object) {
     return null;
   }
 

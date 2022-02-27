@@ -10,7 +10,7 @@ import 'package:spooky/core/types/response_code_type.dart';
 
 class UpdatePageWriter extends BaseStoryWriter<UpdatePageObject> {
   @override
-  ResponseCodeType? validate(UpdatePageObject object) {
+  String? validate(UpdatePageObject object) {
     return null;
   }
 
