@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/story_writers/base_story_writer.dart';
-import 'package:spooky/core/file_manager/story_writers/mixins/force_save_mixin.dart';
 import 'package:spooky/core/file_manager/story_writers/objects/update_page_object.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -9,7 +8,12 @@ import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 
-class UpdatePageWriter extends BaseStoryWriter<UpdatePageObject> with ForceSaveMixin {
+class UpdatePageWriter extends BaseStoryWriter<UpdatePageObject> {
+  @override
+  ResponseCodeType? validate(UpdatePageObject object) {
+    return null;
+  }
+
   @override
   void onSaved({
     required StoryModel? story,
