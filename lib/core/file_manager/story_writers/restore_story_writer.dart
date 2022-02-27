@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/story_writers/default_story_writer.dart';
+import 'package:spooky/core/file_manager/story_writers/mixins/force_save_mixin.dart';
 import 'package:spooky/core/file_manager/story_writers/objects/restore_story_object.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -8,10 +9,7 @@ import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 
-class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
-  @override
-  bool get force => true;
-
+class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> with ForceSaveMixin {
   @override
   String buildMessage(ResponseCodeType responseCode) {
     switch (responseCode) {
