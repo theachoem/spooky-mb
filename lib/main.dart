@@ -12,7 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
+import 'package:spooky/firebase_options.dart';
+// import 'package:spooky/utils/helpers/debug_error_exception.dart';
 
 bool spFlutterTest = Platform.environment.containsKey('FLUTTER_TEST');
 bool spAppIntiailized = false;
@@ -33,7 +34,7 @@ void main() async {
 
   await InitialStoryTabService.initialize();
   spAppIntiailized = await NicknameStorage().read() != null;
-  // FlutterError.onError = (details) => debugException(details);
+  // FlutterError.onError = (details) => DebugErrorException.run(details);
 
   NotificationService.initialize();
 
@@ -44,49 +45,6 @@ void main() async {
         fallbackLocale: AppConstant.fallbackLocale,
         path: 'assets/translations',
         child: const InitialTheme(),
-      ),
-    ),
-  );
-}
-
-void debugException(FlutterErrorDetails details) {
-  runApp(
-    MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("ERROR"),
-        ),
-        body: ListView(
-          children: [
-            Text("Summary: ${details.summary.toDescription()}"),
-            Divider(),
-            Text("toStringDeep: ${details.summary.toStringDeep()}"),
-            Divider(),
-            Text("Exception: ${details.exception}"),
-            Divider(),
-            Text("ExceptionStr: ${details.exceptionAsString()}"),
-            Divider(),
-            Text(
-              "InformationCollector: ${details.informationCollector != null ? details.informationCollector!().join("\n") : null}",
-            ),
-            Divider(),
-            Text(
-              "stackFilter: ${details.stackFilter}",
-            ),
-            Divider(),
-            Text(
-              "stack: ${details.stack}",
-            ),
-            Divider(),
-            Text(
-              "library: ${details.library}",
-            ),
-            Divider(),
-            Text(
-              "library: ${details.silent}",
-            ),
-          ],
-        ),
       ),
     ),
   );

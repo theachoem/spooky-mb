@@ -3,7 +3,7 @@ library main_view;
 import 'dart:io';
 
 import 'package:quick_actions/quick_actions.dart';
-import 'package:spooky/app_local_auth.dart';
+import 'package:spooky/utils/util_widgets/app_local_auth.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/types/quick_actions_type.dart';
 import 'package:spooky/ui/views/explore/explore_view.dart';
