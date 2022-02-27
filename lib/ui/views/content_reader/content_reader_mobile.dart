@@ -6,13 +6,10 @@ class _ContentReaderMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async => true,
-      child: Scaffold(
-        backgroundColor: M3Color.of(context).background,
-        appBar: buildAppBar(context),
-        body: buildBody(context),
-      ),
+    return Scaffold(
+      backgroundColor: M3Color.of(context).background,
+      appBar: buildAppBar(context),
+      body: buildBody(context),
     );
   }
 
@@ -25,13 +22,11 @@ class _ContentReaderMobile extends StatelessWidget {
           pagesCount: viewModel.content.pages?.length ?? 0,
           quillControllerGetter: (index) => viewModel.quillControllers[index],
         ),
-        ConfigConstant.sizedBoxW2,
+        SizedBox(width: (viewModel.content.pages ?? []).length > 1 ? 16.0 : 8.0)
       ],
-      systemOverlayStyle:
-          M3Color.of(context).brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
       title: Text(
         viewModel.content.title ?? "No title",
-        style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(color: M3Color.of(context).onPrimaryContainer),
+        style: Theme.of(context).appBarTheme.titleTextStyle,
       ),
     );
   }
