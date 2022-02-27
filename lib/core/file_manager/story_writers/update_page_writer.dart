@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/story_writers/base_story_writer.dart';
 import 'package:spooky/core/file_manager/story_writers/objects/update_page_object.dart';
-import 'package:spooky/utils/helpers/story_writer_helper.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
@@ -11,7 +10,9 @@ import 'package:spooky/core/types/response_code_type.dart';
 
 class UpdatePageWriter extends BaseStoryWriter<UpdatePageObject> {
   @override
-  bool get force => true;
+  String? validate(UpdatePageObject object) {
+    return null;
+  }
 
   @override
   void onSaved({

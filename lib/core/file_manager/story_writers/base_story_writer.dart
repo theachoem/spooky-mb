@@ -11,8 +11,6 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   BuildContext? get context => App.navigatorKey.currentContext;
   final StoryManager storyManager = StoryManager();
 
-  bool get force => false;
-
   StoryModel buildStory(T object);
   String buildMessage(ResponseCodeType responseCode);
 
@@ -24,29 +22,28 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     required String message,
   });
 
+  String? validate(T object) {
+    bool validated = object.info.hasChange;
+    if (!validated) return buildMessage(ResponseCodeType.noChange);
+    return null;
+  }
+
   Future<StoryModel?> save(T object) async {
     FileSystemEntity? result;
-    bool hasChange = object.info.hasChange;
-    if (hasChange || force) {
+    String? validation = validate(object);
+    if (validation == null) {
       StoryModel story = buildStory(object);
       result = await storyManager.write(story.writableFile, story);
       log(result);
       return result is File ? _nextSuccess(result) : _nextError(result);
     } else {
-      return _nextNoChange();
+      return _nextError(result, validation);
     }
   }
 
-  Future<StoryModel?> _nextNoChange() async {
-    ResponseCodeType code = ResponseCodeType.noChange;
-    String message = buildMessage(code);
-    onSaved(story: null, file: null, responseCode: code, message: message);
-    return null;
-  }
-
-  Future<StoryModel?> _nextError(FileSystemEntity? result) async {
+  Future<StoryModel?> _nextError(FileSystemEntity? result, [String? validation]) async {
     ResponseCodeType code = ResponseCodeType.fail;
-    onSaved(story: null, file: result, responseCode: code, message: buildMessage(code));
+    onSaved(story: null, file: result, responseCode: code, message: validation ?? buildMessage(code));
     return null;
   }
 

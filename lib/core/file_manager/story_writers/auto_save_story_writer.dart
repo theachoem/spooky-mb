@@ -12,10 +12,10 @@ class AutoSaveStoryWriter extends DefaultStoryWriter<AutoSaveStoryObject> {
     switch (responseCode) {
       case ResponseCodeType.success:
         return "Document is saved";
-      case ResponseCodeType.noChange:
-        return "";
       case ResponseCodeType.fail:
         return "Document isn't saved!";
+      default:
+        return buildMessage(responseCode);
     }
   }
 

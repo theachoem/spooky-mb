@@ -10,17 +10,19 @@ import 'package:spooky/core/types/response_code_type.dart';
 
 class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
   @override
-  bool get force => true;
+  String? validate(RestoreStoryObject object) {
+    return null;
+  }
 
   @override
   String buildMessage(ResponseCodeType responseCode) {
     switch (responseCode) {
       case ResponseCodeType.success:
         return "Restored";
-      case ResponseCodeType.noChange:
-        return "Document has no changes";
       case ResponseCodeType.fail:
         return "Restore unsuccessfully!";
+      default:
+        return buildMessage(responseCode);
     }
   }
 

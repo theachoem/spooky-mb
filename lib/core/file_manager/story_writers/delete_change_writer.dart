@@ -7,7 +7,16 @@ import 'package:spooky/utils/helpers/story_writer_helper.dart';
 
 class DeleteChangeWriter extends DefaultStoryWriter<DeleteChangeObject> {
   @override
-  bool get force => true;
+  String? validate(DeleteChangeObject object) {
+    Set<String> toRemove = (object.contentIds..sort()).toSet();
+    Set<String> changes = (object.info.currentStory.changes.map((e) => e.id)..toList()).toSet();
+    changes.removeWhere((id) => toRemove.contains(id));
+    if (changes.length > 1) {
+      return null;
+    } else {
+      return "At least one page change";
+    }
+  }
 
   @override
   StoryModel buildStory(DeleteChangeObject object) {
