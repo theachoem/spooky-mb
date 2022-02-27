@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/file_manager/story_writers/base_story_writer.dart';
+import 'package:spooky/core/file_manager/story_writers/default_story_writer.dart';
 import 'package:spooky/core/file_manager/story_writers/objects/update_page_object.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -8,7 +8,7 @@ import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 
-class UpdatePageWriter extends BaseStoryWriter<UpdatePageObject> {
+class UpdatePageWriter extends DefaultStoryWriter<UpdatePageObject> {
   @override
   String? validate(UpdatePageObject object) {
     return null;
@@ -37,18 +37,13 @@ class UpdatePageWriter extends BaseStoryWriter<UpdatePageObject> {
 
   @override
   StoryModel buildStory(UpdatePageObject object) {
-    StoryContentModel content = object.info.currentContent;
-    content.pages = object.pages;
+    StoryModel story = super.buildStory(object);
+    StoryContentModel newContent = story.changes.last;
 
-    StoryModel story;
-    switch (object.info.flowType) {
-      case DetailViewFlowType.create:
-        story = object.info.currentStory.copyWith(changes: [content]);
-        break;
-      case DetailViewFlowType.update:
-        story = object.info.currentStory..addChange(content);
-        break;
-    }
+    // update pages
+    newContent.pages = object.pages;
+    story.removeChangeById(newContent.id);
+    story.addChange(newContent);
 
     return story;
   }
