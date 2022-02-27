@@ -15,10 +15,10 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> with For
     switch (responseCode) {
       case ResponseCodeType.success:
         return "Restored";
-      case ResponseCodeType.noChange:
-        return "Document has no changes";
       case ResponseCodeType.fail:
         return "Restore unsuccessfully!";
+      default:
+        return buildMessage(responseCode);
     }
   }
 

@@ -14,10 +14,10 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
     switch (responseCode) {
       case ResponseCodeType.success:
         return "Saved";
-      case ResponseCodeType.noChange:
-        return "Document has no changes";
       case ResponseCodeType.fail:
         return "Save unsuccessfully!";
+      default:
+        return buildMessage(responseCode);
     }
   }
 
