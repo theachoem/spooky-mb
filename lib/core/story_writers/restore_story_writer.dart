@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/file_manager/story_writers/default_story_writer.dart';
-import 'package:spooky/core/file_manager/story_writers/objects/restore_story_object.dart';
+import 'package:spooky/core/story_writers/default_story_writer.dart';
+import 'package:spooky/core/story_writers/objects/restore_story_object.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';

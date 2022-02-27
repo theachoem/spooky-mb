@@ -1,5 +1,5 @@
-import 'package:spooky/core/file_manager/story_writers/default_story_writer.dart';
-import 'package:spooky/core/file_manager/story_writers/objects/delete_change_object.dart';
+import 'package:spooky/core/story_writers/default_story_writer.dart';
+import 'package:spooky/core/story_writers/objects/delete_change_object.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';

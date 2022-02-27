@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
-import 'package:spooky/core/file_manager/story_writers/objects/base_writer_object.dart';
+import 'package:spooky/core/story_writers/objects/base_writer_object.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 

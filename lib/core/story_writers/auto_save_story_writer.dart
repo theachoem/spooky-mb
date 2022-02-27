@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:spooky/core/file_manager/story_writers/default_story_writer.dart';
-import 'package:spooky/core/file_manager/story_writers/objects/auto_save_story_object.dart';
+import 'package:spooky/core/story_writers/default_story_writer.dart';
+import 'package:spooky/core/story_writers/objects/auto_save_story_object.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/types/response_code_type.dart';
