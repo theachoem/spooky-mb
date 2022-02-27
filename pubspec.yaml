@@ -18,7 +18,7 @@ dependencies:
   stacked: ^2.2.8
   injectable: ^1.5.3
   json_annotation: ^4.4.0
-  flutter_quill: ^4.0.1
+  flutter_quill: ^4.0.5
   flutter_cupertino_datetime_picker:
     git:
       url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git

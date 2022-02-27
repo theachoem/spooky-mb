@@ -9,6 +9,7 @@ import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/core/storages/local_storages/show_chips_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
@@ -286,16 +287,27 @@ class _StoryTileState extends State<StoryTile> {
     );
   }
 
-  Wrap buildChips(Set<String> images, StoryContentModel content, StoryModel story) {
-    return Wrap(
-      children: getChipList(images, content, story).map(
-        (child) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 4.0),
-            child: child,
+  Widget buildChips(Set<String> images, StoryContentModel content, StoryModel story) {
+    return StreamBuilder<bool?>(
+      stream: ShowChipsStorage.controller.stream,
+      builder: (context, snapshot) {
+        if (snapshot.data == true) {
+          return Wrap(
+            children: getChipList(images, content, story).map(
+              (child) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: child,
+                );
+              },
+            ).toList(),
           );
-        },
-      ).toList(),
+        } else {
+          return Wrap(
+            children: [Text("DD")],
+          );
+        }
+      },
     );
   }
 

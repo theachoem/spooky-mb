@@ -23,6 +23,18 @@ class _ThemeSettingMobile extends StatelessWidget {
               tiles: [
                 buildColorThemeTile(),
                 buildThemeModeTile(context),
+                StreamBuilder<bool?>(
+                  stream: ShowChipsStorage.controller.stream,
+                  builder: (context, snapshot) {
+                    return SwitchListTile.adaptive(
+                      value: snapshot.data == true,
+                      title: Text("Show chips on story"),
+                      onChanged: (value) {
+                        ShowChipsStorage.set(value);
+                      },
+                    );
+                  },
+                ),
               ],
             ),
             SpSectionContents(
