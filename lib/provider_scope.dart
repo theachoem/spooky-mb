@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/providers/theme_mode_provider.dart';
@@ -25,6 +26,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<NicknameProvider>(
           create: (context) => NicknameProvider(),
+        ),
+        ListenableProvider<DeveloperModeProvider>(
+          create: (context) => DeveloperModeProvider(),
         ),
       ],
       child: child,

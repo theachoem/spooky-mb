@@ -28,7 +28,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with ScaffoldMessengerMixin {
-  late final ValueNotifier<bool> developerModeNotifier;
   late TextTheme textTheme;
 
   Color currentSeedColor = M3Color.currentPrimaryColor;
@@ -36,20 +35,8 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
   ThemeData get darkTheme => ThemeConfig.dark().themeData;
 
   @override
-  void initState() {
-    textTheme = ThemeConfig.buildTextTheme();
-    developerModeNotifier = ValueNotifier(false);
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    developerModeNotifier.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    textTheme = ThemeConfig.buildTextTheme();
     return MaterialApp(
       navigatorKey: App.navigatorKey,
       themeMode: widget.themeMode,
