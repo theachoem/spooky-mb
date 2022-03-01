@@ -9,6 +9,24 @@ import 'package:flutter/widgets.dart';
 
 class $GoogleFontsGen {
   const $GoogleFontsGen();
+
+  /// File path: google_fonts/OFL.txt
+  String get ofl => 'google_fonts/OFL.txt';
+
+  /// File path: google_fonts/Quicksand-Bold.ttf
+  String get quicksandBold => 'google_fonts/Quicksand-Bold.ttf';
+
+  /// File path: google_fonts/Quicksand-Light.ttf
+  String get quicksandLight => 'google_fonts/Quicksand-Light.ttf';
+
+  /// File path: google_fonts/Quicksand-Medium.ttf
+  String get quicksandMedium => 'google_fonts/Quicksand-Medium.ttf';
+
+  /// File path: google_fonts/Quicksand-Regular.ttf
+  String get quicksandRegular => 'google_fonts/Quicksand-Regular.ttf';
+
+  /// File path: google_fonts/Quicksand-SemiBold.ttf
+  String get quicksandSemiBold => 'google_fonts/Quicksand-SemiBold.ttf';
 }
 
 class $AssetsTranslationsGen {
