@@ -13,7 +13,7 @@ class ViewModelProvider<T extends BaseViewModel> extends StatelessWidget {
 
   final Create<T> create;
   final Widget? child;
-  final void Function(T viewModel)? onModelReady;
+  final void Function(BuildContext context, T viewModel)? onModelReady;
   final Widget Function(BuildContext context, T viewModel, Widget? child) builder;
 
   @override
@@ -25,7 +25,7 @@ class ViewModelProvider<T extends BaseViewModel> extends StatelessWidget {
         T viewModel = Provider.of<T>(context);
         if (onModelReady != null) {
           WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-            onModelReady!(viewModel);
+            onModelReady!(context, viewModel);
           });
         }
         return builder(context, viewModel, child);

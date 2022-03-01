@@ -2,8 +2,8 @@ library setting_view;
 
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/views/developer_mode/developer_mode_view.dart';
@@ -25,14 +25,13 @@ class SettingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider(
+    return ViewModelProvider<SettingViewModel>(
       create: (BuildContext context) => SettingViewModel(),
-      builder: (context, child) {
-        SettingViewModel model = Provider.of<SettingViewModel>(context);
+      builder: (context, viewModel, child) {
         return SpScreenTypeLayout(
-          mobile: _SettingMobile(model),
-          desktop: _SettingDesktop(model),
-          tablet: _SettingTablet(model),
+          mobile: _SettingMobile(viewModel),
+          desktop: _SettingDesktop(viewModel),
+          tablet: _SettingTablet(viewModel),
         );
       },
     );

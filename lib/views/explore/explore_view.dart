@@ -1,8 +1,7 @@
 library explore_view;
 
-import 'package:provider/provider.dart';
+import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
-
 import 'package:flutter/material.dart';
 import 'explore_view_model.dart';
 
@@ -15,14 +14,13 @@ class ExploreView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider(
+    return ViewModelProvider<ExploreViewModel>(
       create: (BuildContext context) => ExploreViewModel(),
-      builder: (context, child) {
-        ExploreViewModel model = Provider.of<ExploreViewModel>(context);
+      builder: (context, viewModel, child) {
         return SpScreenTypeLayout(
-          mobile: _ExploreMobile(model),
-          desktop: _ExploreDesktop(model),
-          tablet: _ExploreTablet(model),
+          mobile: _ExploreMobile(viewModel),
+          desktop: _ExploreDesktop(viewModel),
+          tablet: _ExploreTablet(viewModel),
         );
       },
     );

@@ -1,8 +1,8 @@
 library archive_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
@@ -10,7 +10,6 @@ import 'package:spooky/views/home/local_widgets/story_query_list.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
-
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'archive_view_model.dart';
@@ -24,14 +23,13 @@ class ArchiveView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider(
+    return ViewModelProvider<ArchiveViewModel>(
       create: (BuildContext context) => ArchiveViewModel(),
-      builder: (context, child) {
-        ArchiveViewModel model = Provider.of<ArchiveViewModel>(context);
+      builder: (context, viewModel, child) {
         return SpScreenTypeLayout(
-          mobile: _ArchiveMobile(model),
-          desktop: _ArchiveDesktop(model),
-          tablet: _ArchiveTablet(model),
+          mobile: _ArchiveMobile(viewModel),
+          desktop: _ArchiveDesktop(viewModel),
+          tablet: _ArchiveTablet(viewModel),
         );
       },
     );

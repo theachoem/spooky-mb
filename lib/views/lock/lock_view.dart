@@ -1,7 +1,7 @@
 library lock_view;
 
-import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/views/lock/types/lock_flow_type.dart';
 import 'package:spooky/widgets/sp_button.dart';
@@ -24,14 +24,13 @@ class LockView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider(
+    return ViewModelProvider<LockViewModel>(
       create: (BuildContext context) => LockViewModel(flowType),
-      builder: (context, child) {
-        LockViewModel model = Provider.of<LockViewModel>(context);
+      builder: (context, viewModel, child) {
         return ScreenTypeLayout(
-          mobile: _LockMobile(model),
-          desktop: _LockDesktop(model),
-          tablet: _LockTablet(model),
+          mobile: _LockMobile(viewModel),
+          desktop: _LockDesktop(viewModel),
+          tablet: _LockTablet(viewModel),
         );
       },
     );
