@@ -19,25 +19,7 @@ bool spFlutterTest = Platform.environment.containsKey('FLUTTER_TEST');
 bool spAppIntiailized = false;
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
-  await EasyLocalization.ensureInitialized();
-  await M3Color.initialize();
-
-  tz.initializeTimeZones();
-  await FileHelper.initialFile();
-
-  if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-    await DesktopWindow.setMinWindowSize(Size(320, 510));
-  }
-
-  await InitialStoryTabService.initialize();
-  spAppIntiailized = await NicknameStorage().read() != null;
-  // FlutterError.onError = (details) => DebugErrorException.run(details);
-
-  NotificationService.initialize();
-
+  await _initialize();
   runApp(
     Phoenix(
       child: EasyLocalization(
@@ -48,4 +30,25 @@ void main() async {
       ),
     ),
   );
+}
+
+Future<void> _initialize() async {
+  // core
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await EasyLocalization.ensureInitialized();
+  tz.initializeTimeZones();
+  await FileHelper.initialFile();
+
+  // ui
+  spAppIntiailized = await NicknameStorage().read() != null;
+  NotificationService.initialize();
+  await M3Color.initialize();
+  await InitialStoryTabService.initialize();
+  if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
+    await DesktopWindow.setMinWindowSize(Size(320, 510));
+  }
+
+  // debug
+  // FlutterError.onError = (details) => DebugErrorException.run(details);
 }
