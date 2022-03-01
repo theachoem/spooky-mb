@@ -7,10 +7,26 @@
 
 import 'package:flutter/widgets.dart';
 
-class $AssetsFontsGen {
-  const $AssetsFontsGen();
+class $GoogleFontsGen {
+  const $GoogleFontsGen();
 
-  $AssetsFontsQuicksandGen get quicksand => const $AssetsFontsQuicksandGen();
+  /// File path: google_fonts/OFL.txt
+  String get ofl => 'google_fonts/OFL.txt';
+
+  /// File path: google_fonts/Quicksand-Bold.ttf
+  String get quicksandBold => 'google_fonts/Quicksand-Bold.ttf';
+
+  /// File path: google_fonts/Quicksand-Light.ttf
+  String get quicksandLight => 'google_fonts/Quicksand-Light.ttf';
+
+  /// File path: google_fonts/Quicksand-Medium.ttf
+  String get quicksandMedium => 'google_fonts/Quicksand-Medium.ttf';
+
+  /// File path: google_fonts/Quicksand-Regular.ttf
+  String get quicksandRegular => 'google_fonts/Quicksand-Regular.ttf';
+
+  /// File path: google_fonts/Quicksand-SemiBold.ttf
+  String get quicksandSemiBold => 'google_fonts/Quicksand-SemiBold.ttf';
 }
 
 class $AssetsTranslationsGen {
@@ -23,18 +39,11 @@ class $AssetsTranslationsGen {
   String get km => 'assets/translations/km.json';
 }
 
-class $AssetsFontsQuicksandGen {
-  const $AssetsFontsQuicksandGen();
-
-  /// File path: assets/fonts/Quicksand/OFL.txt
-  String get ofl => 'assets/fonts/Quicksand/OFL.txt';
-}
-
 class Assets {
   Assets._();
 
-  static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
+  static const $GoogleFontsGen googleFonts = $GoogleFontsGen();
 }
 
 class AssetGenImage extends AssetImage {

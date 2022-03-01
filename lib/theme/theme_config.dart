@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/theme/theme_constant.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/extensions/color_scheme_extension.dart';
 
 class ThemeConfig {
   final bool isDarkMode;
@@ -12,8 +12,8 @@ class ThemeConfig {
   ThemeConfig.dark() : isDarkMode = true;
   ThemeConfig.light() : isDarkMode = false;
 
-  ColorScheme get _light => ThemeConstant.colorScheme(Brightness.light);
-  ColorScheme get _dark => ThemeConstant.colorScheme(Brightness.dark);
+  ColorScheme get _light => colorScheme(Brightness.light);
+  ColorScheme get _dark => colorScheme(Brightness.dark);
 
   final Color splashColor = Colors.transparent;
 
@@ -38,7 +38,7 @@ class ThemeConfig {
         titleTextStyle: textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        extendedTextStyle: ThemeConstant.defaultTextTheme.labelLarge,
+        extendedTextStyle: textTheme.labelLarge,
       ),
       tabBarTheme: TabBarTheme(
         labelColor: colorScheme.primary,
@@ -109,7 +109,115 @@ class ThemeConfig {
     );
   }
 
+  static String fontFamily = ThemeConstant.defaultFontFamily;
+  static FontWeight fontWeight = ThemeConstant.defaultFontWeight;
   static TextTheme buildTextTheme() {
-    return ThemeConstant.defaultTextTheme;
+    return GoogleFonts.getTextTheme(
+      fontFamily,
+      defaultTextTheme,
+    );
+  }
+
+  static ColorScheme colorScheme(Brightness brightness) {
+    return brightness == Brightness.dark ? M3Color.darkScheme! : M3Color.lightScheme!;
+  }
+
+  static FontWeight fontWeightGetter(FontWeight defaultWeight) {
+    Map<int, FontWeight> fontWeights = {
+      0: FontWeight.w100,
+      1: FontWeight.w200,
+      2: FontWeight.w300,
+      3: FontWeight.w400,
+      4: FontWeight.w500,
+      5: FontWeight.w600,
+      6: FontWeight.w700,
+      7: FontWeight.w800,
+      8: FontWeight.w900,
+    };
+    if (defaultWeight == FontWeight.w400) {
+      return fontWeight;
+    } else {
+      int index = fontWeight.index - 1;
+      if (fontWeights.containsKey(index)) {
+        return fontWeights[index]!;
+      } else {
+        return fontWeight;
+      }
+    }
+  }
+
+  static TextTheme get defaultTextTheme {
+    return TextTheme(
+      displayLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 57,
+        letterSpacing: -0.25,
+      ),
+      displayMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 45,
+      ),
+      displaySmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 36,
+        letterSpacing: 0.5,
+      ),
+      headlineLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 32,
+      ),
+      headlineMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 28,
+      ),
+      headlineSmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 24,
+      ),
+      titleLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 22,
+      ),
+      titleMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 16,
+        letterSpacing: 0.1,
+      ),
+      titleSmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w500),
+        fontSize: 14,
+        letterSpacing: 0.1,
+      ),
+      labelLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w500),
+        fontSize: 14,
+        letterSpacing: 0.1,
+      ),
+      labelMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w500),
+        fontSize: 12,
+        letterSpacing: 0.5,
+      ),
+      labelSmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w500),
+        fontSize: 11,
+        letterSpacing: 0.5,
+      ),
+      bodyLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 16,
+        letterSpacing: 0.5,
+      ),
+      bodyMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 14,
+        letterSpacing: 0.25,
+      ),
+      bodySmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 12,
+        letterSpacing: 0.4,
+      ),
+    );
   }
 }

@@ -11,6 +11,7 @@ import 'package:spooky/views/content_reader/content_reader_view.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/developer_mode/developer_mode_view.dart';
 import 'package:spooky/views/explore/explore_view.dart';
+import 'package:spooky/views/font_manager/font_manager_view.dart';
 import 'package:spooky/views/home/home_view.dart';
 import 'package:spooky/views/init_pick_color/init_pick_color_view.dart';
 import 'package:spooky/views/lock/lock_view.dart';
@@ -32,6 +33,7 @@ class SpRouteConfig {
     this.settings,
   });
 
+  static const String fontManager = '/font-manager';
   static const String lock = '/lock';
   static const String security = '/security';
   static const String themeSetting = '/theme-setting';
@@ -74,6 +76,12 @@ class SpRouteConfig {
 
   Map<String, BaseRouteSetting> get routes {
     return {
+      fontManager: DefaultRouteSetting(
+        title: "Font Manager",
+        canSwap: false,
+        fullscreenDialog: false,
+        route: (context) => FontManagerView(),
+      ),
       themeSetting: DefaultRouteSetting(
         title: "Theme Setting",
         canSwap: false,

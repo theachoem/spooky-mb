@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/storages/local_storages/color_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
+import 'package:spooky/theme/theme_constant.dart';
 
 class ColorSeedProvider extends ChangeNotifier {
-  TextTheme textTheme = ThemeConfig.buildTextTheme();
-
   Color currentSeedColor = M3Color.currentPrimaryColor;
   ThemeData get lightTheme => ThemeConfig.light().themeData;
   ThemeData get darkTheme => ThemeConfig.dark().themeData;
@@ -14,6 +13,22 @@ class ColorSeedProvider extends ChangeNotifier {
     await ColorStorage().write(color?.value);
     await M3Color.initialize();
     if (color != null) currentSeedColor = color;
+    notifyListeners();
+  }
+
+  Future<void> updateFont(String fontFamily) async {
+    ThemeConfig.fontFamily = fontFamily;
+    notifyListeners();
+  }
+
+  Future<void> updateFontWeight(FontWeight fontWeight) async {
+    ThemeConfig.fontWeight = fontWeight;
+    notifyListeners();
+  }
+
+  void resetFontStyle() {
+    ThemeConfig.fontFamily = ThemeConstant.defaultFontFamily;
+    ThemeConfig.fontWeight = ThemeConstant.defaultFontWeight;
     notifyListeners();
   }
 }

@@ -53,6 +53,8 @@ dependencies:
   firebase_core: ^1.13.1
   awesome_notifications: ^0.6.21
   provider: ^6.0.2
+  google_fonts: ^2.3.1
+  url_launcher: ^6.0.20
 
 dev_dependencies:
   flutter_test:
@@ -72,14 +74,5 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - google_fonts/
     - assets/translations/
-    - assets/fonts/Quicksand/OFL.txt
-
-  fonts:
-    - family: Quicksand
-      fonts:
-        - asset: assets/fonts/Quicksand/static/Quicksand-Bold.ttf
-        - asset: assets/fonts/Quicksand/static/Quicksand-Light.ttf
-        - asset: assets/fonts/Quicksand/static/Quicksand-Medium.ttf
-        - asset: assets/fonts/Quicksand/static/Quicksand-Regular.ttf
-        - asset: assets/fonts/Quicksand/static/Quicksand-SemiBold.ttf

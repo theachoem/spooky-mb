@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/notification/notification_service.dart';
@@ -41,6 +43,12 @@ Future<void> _initialize() async {
   if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
     await DesktopWindow.setMinWindowSize(Size(320, 510));
   }
+
+  // license
+  LicenseRegistry.addLicense(() async* {
+    final license = await rootBundle.loadString('google_fonts/OFL.txt');
+    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
+  });
 
   // debug
   // FlutterError.onError = (details) => DebugErrorException.run(details);
