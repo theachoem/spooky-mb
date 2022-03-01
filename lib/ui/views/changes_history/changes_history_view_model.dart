@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:stacked/stacked.dart';
 
-class ChangesHistoryViewModel extends BaseViewModel {
+class ChangesHistoryViewModel extends ChangeNotifier {
   final StoryModel story;
   final void Function(StoryContentModel content) onRestorePressed;
   final void Function(List<String> contentIds) onDeletePressed;

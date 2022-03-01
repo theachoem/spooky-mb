@@ -1,5 +1,5 @@
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class NicknameCreatorViewModel extends BaseViewModel {
+class NicknameCreatorViewModel extends ChangeNotifier {
   String nickname = "";
 }

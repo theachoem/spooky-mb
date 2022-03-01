@@ -1,5 +1,6 @@
 library detail_view;
 
+import 'package:provider/provider.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -9,7 +10,7 @@ import 'package:spooky/ui/views/detail/local_widgets/detail_scaffold.dart';
 import 'package:spooky/ui/views/detail/local_widgets/detail_toolbar.dart';
 import 'package:spooky/ui/widgets/sp_page_view/sp_page_view.dart';
 import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
-import 'package:stacked/stacked.dart';
+
 import 'package:flutter/material.dart';
 import 'package:spooky/ui/views/detail/detail_view_model.dart';
 
@@ -29,10 +30,10 @@ class DetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<DetailViewModel>.reactive(
-      viewModelBuilder: () => DetailViewModel(currentStory: initialStory, flowType: intialFlow),
-      onModelReady: (model) {},
-      builder: (context, model, child) {
+    return ListenableProvider(
+      create: (BuildContext context) => DetailViewModel(currentStory: initialStory, flowType: intialFlow),
+      builder: (context, child) {
+        DetailViewModel model = Provider.of<DetailViewModel>(context);
         return WillPopScope(
           onWillPop: () => onWillPop(model, context),
           child: SpScreenTypeLayout(

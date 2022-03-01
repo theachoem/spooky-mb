@@ -1,5 +1,5 @@
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class InitPickColorViewModel extends BaseViewModel {
+class InitPickColorViewModel extends ChangeNotifier {
   InitPickColorViewModel();
 }

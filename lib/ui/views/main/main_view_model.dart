@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:quick_actions/quick_actions.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/core/types/quick_actions_type.dart';
 import 'package:spooky/ui/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
-import 'package:stacked/stacked.dart';
 
-class MainViewModel extends BaseViewModel with ScheduleMixin {
+class MainViewModel extends ChangeNotifier with ScheduleMixin {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
   late final ValueNotifier<double?> bottomNavigationHeight;
 
+  final BuildContext context;
   final SecurityService service = SecurityService();
 
   Map<int, ScrollController> scrollControllers = {};
@@ -30,13 +32,16 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     scrollControllers[index] = controller;
   }
 
-  MainViewModel() {
+  MainViewModel(this.context) {
     shouldShowBottomNavNotifier = ValueNotifier(true);
     bottomNavigationHeight = ValueNotifier(null);
     DateTime date = DateTime.now();
     year = date.year;
     month = date.month;
     day = date.day;
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      onModelReady(context);
+    });
   }
 
   @override
@@ -101,5 +106,38 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
       if (storyListReloader != null && value != null) storyListReloader!();
     });
+  }
+
+  void onModelReady(BuildContext context) {
+    QuickActions quickActions = const QuickActions();
+    quickActions.initialize((shortcutType) {
+      QuickActionsType? type;
+      for (QuickActionsType item in QuickActionsType.values) {
+        if (shortcutType == item.name) {
+          type = item;
+          break;
+        }
+      }
+      switch (type) {
+        case QuickActionsType.create:
+          createStory(context);
+          break;
+        case null:
+          break;
+      }
+    });
+
+    quickActions.setShortcutItems(
+      QuickActionsType.values.map((e) {
+        return ShortcutItem(localizedTitle: quickActionLabel(e), type: e.name);
+      }).toList(),
+    );
+  }
+
+  String quickActionLabel(QuickActionsType type) {
+    switch (type) {
+      case QuickActionsType.create:
+        return "Create New Story";
+    }
   }
 }

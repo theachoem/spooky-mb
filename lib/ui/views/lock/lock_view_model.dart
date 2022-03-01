@@ -1,7 +1,7 @@
 import 'package:spooky/ui/views/lock/types/lock_flow_type.dart';
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class LockViewModel extends BaseViewModel {
+class LockViewModel extends ChangeNotifier {
   final LockFlowType flowType;
 
   LockViewModel(this.flowType);

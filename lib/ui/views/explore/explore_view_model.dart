@@ -1,7 +1,7 @@
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class ExploreViewModel extends BaseViewModel {
+class ExploreViewModel extends ChangeNotifier {
   ExploreViewModel();
-  
+
   // Add ViewModel specific code here
 }

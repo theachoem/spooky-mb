@@ -1,5 +1,6 @@
 library home_view;
 
+import 'package:provider/provider.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
@@ -9,7 +10,7 @@ import 'package:spooky/ui/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_tab_view.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
-import 'package:stacked/stacked.dart';
+
 import 'package:flutter/material.dart';
 import 'home_view_model.dart';
 
@@ -33,11 +34,15 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<HomeViewModel>.reactive(
-      viewModelBuilder: () => HomeViewModel(onTabChange, onYearChange, onListReloaderReady, onScrollControllerReady),
-      onModelReady: (model) {},
-      disposeViewModel: false,
-      builder: (context, model, child) {
+    return ListenableProvider(
+      create: (BuildContext context) => HomeViewModel(
+        onTabChange,
+        onYearChange,
+        onListReloaderReady,
+        onScrollControllerReady,
+      ),
+      builder: (context, child) {
+        HomeViewModel model = Provider.of<HomeViewModel>(context);
         return SpScreenTypeLayout(
           mobile: _HomeMobile(model),
           desktop: _HomeDesktop(model),

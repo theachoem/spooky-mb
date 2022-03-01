@@ -1,5 +1,5 @@
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class AppStarterViewModel extends BaseViewModel {
+class AppStarterViewModel extends ChangeNotifier {
   AppStarterViewModel();
 }

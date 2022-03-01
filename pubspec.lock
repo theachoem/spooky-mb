@@ -63,14 +63,14 @@ packages:
       name: auto_route
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.2"
+    version: "3.2.4"
   auto_route_generator:
     dependency: "direct dev"
     description:
       name: auto_route_generator
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.1"
+    version: "3.2.3"
   awesome_notifications:
     dependency: "direct main"
     description:
@@ -962,7 +962,7 @@ packages:
     source: hosted
     version: "4.2.4"
   provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: provider
       url: "https://pub.dartlang.org"
@@ -1148,20 +1148,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
-  stacked:
-    dependency: "direct main"
-    description:
-      name: stacked
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.2.8"
   stacked_services:
     dependency: "direct main"
     description:
       name: stacked_services
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.8.16"
+    version: "0.8.17"
   stream_channel:
     dependency: transitive
     description:

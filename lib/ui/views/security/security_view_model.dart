@@ -3,9 +3,8 @@ import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/storages/local_storages/security/lock_life_circle_duration_storage.dart';
 import 'package:spooky/core/types/lock_type.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
-import 'package:stacked/stacked.dart';
 
-class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
+class SecurityViewModel extends ChangeNotifier with WidgetsBindingObserver {
   final SecurityService service = SecurityService();
   final LockLifeCircleDurationStorage lockLifeCircleDurationStorage = LockLifeCircleDurationStorage();
 

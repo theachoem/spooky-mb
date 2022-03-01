@@ -3,6 +3,7 @@ library init_pick_color_view;
 import 'dart:math';
 
 import 'package:bubble_lens/bubble_lens.dart';
+import 'package:provider/provider.dart';
 
 import 'package:spooky/app.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
@@ -15,7 +16,7 @@ import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/ui/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/constants/util_colors_constant.dart';
-import 'package:stacked/stacked.dart';
+
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'init_pick_color_view_model.dart';
@@ -29,10 +30,10 @@ class InitPickColorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<InitPickColorViewModel>.reactive(
-      viewModelBuilder: () => InitPickColorViewModel(),
-      onModelReady: (model) {},
-      builder: (context, model, child) {
+    return ListenableProvider(
+      create: (BuildContext context) => InitPickColorViewModel(),
+      builder: (context, child) {
+        InitPickColorViewModel model = Provider.of<InitPickColorViewModel>(context);
         return SpScreenTypeLayout(
           mobile: _InitPickColorMobile(model),
           desktop: _InitPickColorDesktop(model),

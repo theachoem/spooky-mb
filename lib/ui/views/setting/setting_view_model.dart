@@ -1,7 +1,7 @@
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class SettingViewModel extends BaseViewModel {
+class SettingViewModel extends ChangeNotifier {
   SettingViewModel();
-  
+
   // Add ViewModel specific code here
 }

@@ -1,6 +1,7 @@
 library manage_pages_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:provider/provider.dart';
 
 import 'package:spooky/app.dart';
 import 'package:spooky/core/models/story_content_model.dart';
@@ -13,7 +14,7 @@ import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
-import 'package:stacked/stacked.dart';
+
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'manage_pages_view_model.dart';
@@ -32,10 +33,10 @@ class ManagePagesView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<ManagePagesViewModel>.reactive(
-      viewModelBuilder: () => ManagePagesViewModel(content),
-      onModelReady: (model) {},
-      builder: (context, model, child) {
+    return ListenableProvider(
+      create: (BuildContext context) => ManagePagesViewModel(content),
+      builder: (context, child) {
+        ManagePagesViewModel model = Provider.of<ManagePagesViewModel>(context);
         return SpScreenTypeLayout(
           mobile: _ManagePagesMobile(model),
           desktop: _ManagePagesDesktop(model),

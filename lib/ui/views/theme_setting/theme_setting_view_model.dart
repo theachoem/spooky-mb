@@ -1,5 +1,5 @@
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class ThemeSettingViewModel extends BaseViewModel {
+class ThemeSettingViewModel extends ChangeNotifier {
   ThemeSettingViewModel();
 }

@@ -1,11 +1,12 @@
 library lock_view;
 
+import 'package:provider/provider.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/ui/views/lock/types/lock_flow_type.dart';
 import 'package:spooky/ui/widgets/sp_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:stacked/stacked.dart';
+
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'lock_view_model.dart';
@@ -23,10 +24,10 @@ class LockView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<LockViewModel>.reactive(
-      viewModelBuilder: () => LockViewModel(flowType),
-      onModelReady: (model) {},
-      builder: (context, model, child) {
+    return ListenableProvider(
+      create: (BuildContext context) => LockViewModel(flowType),
+      builder: (context, child) {
+        LockViewModel model = Provider.of<LockViewModel>(context);
         return ScreenTypeLayout(
           mobile: _LockMobile(model),
           desktop: _LockDesktop(model),

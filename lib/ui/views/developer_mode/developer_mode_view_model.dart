@@ -1,5 +1,5 @@
-import 'package:stacked/stacked.dart';
+import 'package:flutter/material.dart';
 
-class DeveloperModeViewModel extends BaseViewModel {
+class DeveloperModeViewModel extends ChangeNotifier {
   DeveloperModeViewModel();
 }

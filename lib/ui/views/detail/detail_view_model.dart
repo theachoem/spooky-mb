@@ -19,9 +19,8 @@ import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/ui/views/detail/local_mixins/detail_view_model_ui_mixin.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
-import 'package:stacked/stacked.dart';
 
-class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver, DetailViewModelUiMixin {
+class DetailViewModel extends ChangeNotifier with ScheduleMixin, WidgetsBindingObserver, DetailViewModelUiMixin {
   late StoryModel currentStory;
   late DetailViewFlowType flowType;
   late StoryContentModel currentContent;

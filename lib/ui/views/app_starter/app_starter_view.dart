@@ -12,7 +12,7 @@ import 'package:spooky/ui/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/ui/widgets/sp_tap_effect.dart';
 import 'package:spooky/ui/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:stacked/stacked.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'app_starter_view_model.dart';
 
@@ -25,10 +25,10 @@ class AppStarterView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<AppStarterViewModel>.reactive(
-      viewModelBuilder: () => AppStarterViewModel(),
-      onModelReady: (model) {},
-      builder: (context, model, child) {
+    return ListenableProvider(
+      create: (BuildContext context) => AppStarterViewModel(),
+      builder: (context, child) {
+        AppStarterViewModel model = Provider.of<AppStarterViewModel>(context);
         return SpScreenTypeLayout(
           mobile: _AppStarterMobile(model),
           desktop: _AppStarterDesktop(model),

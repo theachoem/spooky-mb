@@ -3,9 +3,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
-import 'package:stacked/stacked.dart';
 
-mixin DetailViewModelUiMixin on BaseViewModel {
+mixin DetailViewModelUiMixin on ChangeNotifier {
   final DateTime openOn = DateTime.now();
 
   late final ValueNotifier<bool> readOnlyNotifier;
