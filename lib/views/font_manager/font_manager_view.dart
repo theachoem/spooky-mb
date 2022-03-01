@@ -8,6 +8,7 @@ import 'package:spooky/providers/color_seed_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/views/font_manager/local_widgets/font_manager_search_delegate.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';

@@ -15,6 +15,7 @@ class _FontManagerMobile extends StatelessWidget {
         ),
         actions: [
           buildTogglePreview(context),
+          buildFontWeightButton(context),
           buildFontInfo(),
           buildSearch(context),
         ],
@@ -42,8 +43,33 @@ class _FontManagerMobile extends StatelessWidget {
     );
   }
 
-  SpIconButton buildSearch(BuildContext context) {
+  Widget buildFontWeightButton(BuildContext context) {
     return SpIconButton(
+      tooltip: "Font Weight",
+      icon: Icon(Icons.line_weight),
+      onPressed: () async {
+        FontWeight? fontWeight = await showConfirmationDialog(
+          context: context,
+          title: "Font Weight",
+          initialSelectedActionKey: ThemeConfig.fontWeight,
+          actions: FontWeight.values.map((e) {
+            return AlertDialogAction(
+              key: e,
+              isDefaultAction: e == ThemeConfig.fontWeight,
+              label: e.toString().split(".").last,
+            );
+          }).toList(),
+        );
+        if (fontWeight != null) {
+          context.read<ColorSeedProvider>().updateFontWeight(fontWeight);
+        }
+      },
+    );
+  }
+
+  Widget buildSearch(BuildContext context) {
+    return SpIconButton(
+      tooltip: "Search fonts",
       icon: Icon(Icons.search),
       onPressed: () {
         showSearch(
@@ -59,12 +85,13 @@ class _FontManagerMobile extends StatelessWidget {
     );
   }
 
-  SpPopupMenuButton buildFontInfo() {
+  Widget buildFontInfo() {
     return SpPopupMenuButton(
       items: (BuildContext context) {
         String provider = "https://fonts.google.com";
         return [
           SpPopMenuItem(
+            leadingIconData: Icons.font_download,
             title: "Current font",
             subtitle: ThemeConfig.fontFamily,
             onPressed: () async {
@@ -81,6 +108,7 @@ class _FontManagerMobile extends StatelessWidget {
             },
           ),
           SpPopMenuItem(
+            leadingIconData: Icons.web,
             title: "Provider",
             subtitle: provider,
             onPressed: () async {
@@ -89,10 +117,18 @@ class _FontManagerMobile extends StatelessWidget {
               }
             },
           ),
+          SpPopMenuItem(
+            leadingIconData: Icons.restore,
+            title: "Reset Font Style",
+            onPressed: () async {
+              context.read<ColorSeedProvider>().resetFontStyle();
+            },
+          ),
         ];
       },
       builder: (void Function() callback) {
         return SpIconButton(
+          tooltip: "Font info",
           icon: Icon(Icons.info),
           onPressed: () {
             callback();
@@ -105,7 +141,7 @@ class _FontManagerMobile extends StatelessWidget {
   Widget buildTogglePreview(BuildContext context) {
     return SpIconButton(
       tooltip: "Preview Font",
-      icon: Icon(Icons.preview),
+      icon: Icon(Icons.preview_outlined),
       onPressed: () async {
         if (!viewModel.preview) {
           OkCancelResult response = await showOkCancelAlertDialog(
@@ -125,58 +161,5 @@ class _FontManagerMobile extends StatelessWidget {
         }
       },
     );
-  }
-}
-
-class FontManagerSearchDelegate extends SearchDelegate {
-  final List<String> fonts;
-  final void Function(String fontFamily) onPressed;
-
-  FontManagerSearchDelegate({
-    required this.fonts,
-    required this.onPressed,
-  });
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return SpPopButton();
-  }
-
-  @override
-  void showResults(BuildContext context) {}
-
-  @override
-  Widget buildResults(BuildContext context) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> _suggestions = suggestions();
-    return ListView.builder(
-      itemCount: _suggestions.length,
-      itemBuilder: (context, index) {
-        String item = _suggestions[index];
-        return ListTile(
-          title: Text(item),
-          onTap: () async {
-            onPressed(item);
-            await Future.delayed(ConfigConstant.fadeDuration);
-            close(context, _suggestions);
-          },
-        );
-      },
-    );
-  }
-
-  List<String> suggestions() {
-    return fonts.where((element) {
-      return element.toLowerCase().contains(query.trim().toLowerCase());
-    }).toList();
   }
 }

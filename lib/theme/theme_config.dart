@@ -109,15 +109,115 @@ class ThemeConfig {
     );
   }
 
-  static String fontFamily = "Quicksand";
+  static String fontFamily = ThemeConstant.defaultFontFamily;
+  static FontWeight fontWeight = ThemeConstant.defaultFontWeight;
   static TextTheme buildTextTheme() {
     return GoogleFonts.getTextTheme(
       fontFamily,
-      ThemeConstant.defaultTextTheme,
+      defaultTextTheme,
     );
   }
 
   static ColorScheme colorScheme(Brightness brightness) {
     return brightness == Brightness.dark ? M3Color.darkScheme! : M3Color.lightScheme!;
+  }
+
+  static FontWeight fontWeightGetter(FontWeight defaultWeight) {
+    Map<int, FontWeight> fontWeights = {
+      0: FontWeight.w100,
+      1: FontWeight.w200,
+      2: FontWeight.w300,
+      3: FontWeight.w400,
+      4: FontWeight.w500,
+      5: FontWeight.w600,
+      6: FontWeight.w700,
+      7: FontWeight.w800,
+      8: FontWeight.w900,
+    };
+    if (defaultWeight == FontWeight.w400) {
+      return fontWeight;
+    } else {
+      int index = fontWeight.index - 1;
+      if (fontWeights.containsKey(index)) {
+        return fontWeights[index]!;
+      } else {
+        return fontWeight;
+      }
+    }
+  }
+
+  static TextTheme get defaultTextTheme {
+    return TextTheme(
+      displayLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 57,
+        letterSpacing: -0.25,
+      ),
+      displayMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 45,
+      ),
+      displaySmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 36,
+        letterSpacing: 0.5,
+      ),
+      headlineLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 32,
+      ),
+      headlineMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 28,
+      ),
+      headlineSmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 24,
+      ),
+      titleLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 22,
+      ),
+      titleMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 16,
+        letterSpacing: 0.1,
+      ),
+      titleSmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w500),
+        fontSize: 14,
+        letterSpacing: 0.1,
+      ),
+      labelLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w500),
+        fontSize: 14,
+        letterSpacing: 0.1,
+      ),
+      labelMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w500),
+        fontSize: 12,
+        letterSpacing: 0.5,
+      ),
+      labelSmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w500),
+        fontSize: 11,
+        letterSpacing: 0.5,
+      ),
+      bodyLarge: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 16,
+        letterSpacing: 0.5,
+      ),
+      bodyMedium: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 14,
+        letterSpacing: 0.25,
+      ),
+      bodySmall: TextStyle(
+        fontWeight: fontWeightGetter(FontWeight.w400),
+        fontSize: 12,
+        letterSpacing: 0.4,
+      ),
+    );
   }
 }
