@@ -10,7 +10,7 @@ class _FontManagerMobile extends StatelessWidget {
       appBar: MorphingAppBar(
         leading: SpPopButton(),
         title: Text(
-          "Theme",
+          "Font Manager",
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
         actions: [
@@ -129,7 +129,7 @@ class _FontManagerMobile extends StatelessWidget {
       builder: (void Function() callback) {
         return SpIconButton(
           tooltip: "Font info",
-          icon: Icon(Icons.info),
+          icon: Icon(Icons.info_outline),
           onPressed: () {
             callback();
           },

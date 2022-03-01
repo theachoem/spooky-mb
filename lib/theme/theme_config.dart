@@ -137,7 +137,7 @@ class ThemeConfig {
     if (defaultWeight == FontWeight.w400) {
       return fontWeight;
     } else {
-      int index = fontWeight.index - 1;
+      int index = fontWeight.index + 1;
       if (fontWeights.containsKey(index)) {
         return fontWeights[index]!;
       } else {
