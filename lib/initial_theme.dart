@@ -1,67 +1,29 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:spooky/app.dart';
-import 'package:spooky/core/storages/local_storages/theme_mode_storage.dart';
+import 'package:provider/provider.dart';
+import 'package:spooky/providers/theme_mode_provider.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:flutter/material.dart';
 
-// InitialTheme is uesed to minimal theme as much as possible
+// InitialTheme is used to minimal theme as much as possible
 // which will be use in eg. dialog.
-class InitialTheme extends StatefulWidget {
+class InitialTheme extends StatelessWidget {
   const InitialTheme({
     Key? key,
+    required this.builder,
   }) : super(key: key);
 
-  static _InitialThemeState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_InitialThemeState>();
-  }
-
-  @override
-  State<InitialTheme> createState() => _InitialThemeState();
-}
-
-class _InitialThemeState extends State<InitialTheme> {
-  ThemeMode mode = ThemeMode.system;
-  ThemeModeStorage storage = ThemeModeStorage();
-
-  @override
-  void initState() {
-    super.initState();
-    storage.readEnum().then(setThemeMode);
-  }
-
-  void setThemeMode(ThemeMode? value) {
-    if (value != null && value != mode) {
-      setState(() {
-        mode = value;
-        storage.writeEnum(mode);
-      });
-      setState(() {});
-    }
-  }
-
-  bool toggleThemeMode() {
-    if (mode == ThemeMode.system) {
-      Brightness? brightness = SchedulerBinding.instance?.window.platformBrightness;
-      bool isDarkMode = brightness == Brightness.dark;
-      setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
-      return !isDarkMode;
-    } else {
-      bool isDarkMode = mode == ThemeMode.dark;
-      setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
-      return !isDarkMode;
-    }
-  }
+  final Widget Function(ThemeMode mode) builder;
 
   @override
   Widget build(BuildContext context) {
+    ThemeModeProvider provider = Provider.of<ThemeModeProvider>(context, listen: true);
     return MaterialApp(
-      themeMode: mode,
+      themeMode: provider.mode,
       debugShowCheckedModeBanner: false,
       debugShowMaterialGrid: false,
       theme: buildThemeData(ThemeConstant.colorScheme(Brightness.light)),
       darkTheme: buildThemeData(ThemeConstant.colorScheme(Brightness.dark)),
-      home: App(themeMode: mode),
+      home: builder(provider.mode),
     );
   }
 
