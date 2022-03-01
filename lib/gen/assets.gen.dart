@@ -7,10 +7,8 @@
 
 import 'package:flutter/widgets.dart';
 
-class $AssetsFontsGen {
-  const $AssetsFontsGen();
-
-  $AssetsFontsQuicksandGen get quicksand => const $AssetsFontsQuicksandGen();
+class $GoogleFontsGen {
+  const $GoogleFontsGen();
 }
 
 class $AssetsTranslationsGen {
@@ -23,18 +21,11 @@ class $AssetsTranslationsGen {
   String get km => 'assets/translations/km.json';
 }
 
-class $AssetsFontsQuicksandGen {
-  const $AssetsFontsQuicksandGen();
-
-  /// File path: assets/fonts/Quicksand/OFL.txt
-  String get ofl => 'assets/fonts/Quicksand/OFL.txt';
-}
-
 class Assets {
   Assets._();
 
-  static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
+  static const $GoogleFontsGen googleFonts = $GoogleFontsGen();
 }
 
 class AssetGenImage extends AssetImage {

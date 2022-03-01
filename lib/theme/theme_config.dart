@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/theme/theme_constant.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/extensions/color_scheme_extension.dart';
 
 class ThemeConfig {
   final bool isDarkMode;
@@ -12,8 +12,8 @@ class ThemeConfig {
   ThemeConfig.dark() : isDarkMode = true;
   ThemeConfig.light() : isDarkMode = false;
 
-  ColorScheme get _light => ThemeConstant.colorScheme(Brightness.light);
-  ColorScheme get _dark => ThemeConstant.colorScheme(Brightness.dark);
+  ColorScheme get _light => colorScheme(Brightness.light);
+  ColorScheme get _dark => colorScheme(Brightness.dark);
 
   final Color splashColor = Colors.transparent;
 
@@ -38,7 +38,7 @@ class ThemeConfig {
         titleTextStyle: textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        extendedTextStyle: ThemeConstant.defaultTextTheme.labelLarge,
+        extendedTextStyle: textTheme.labelLarge,
       ),
       tabBarTheme: TabBarTheme(
         labelColor: colorScheme.primary,
@@ -109,7 +109,15 @@ class ThemeConfig {
     );
   }
 
+  static String fontFamily = "Quicksand";
   static TextTheme buildTextTheme() {
-    return ThemeConstant.defaultTextTheme;
+    return GoogleFonts.getTextTheme(
+      fontFamily,
+      ThemeConstant.defaultTextTheme,
+    );
+  }
+
+  static ColorScheme colorScheme(Brightness brightness) {
+    return brightness == Brightness.dark ? M3Color.darkScheme! : M3Color.lightScheme!;
   }
 }
