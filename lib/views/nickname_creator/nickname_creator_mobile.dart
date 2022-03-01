@@ -51,11 +51,11 @@ class _NicknameCreatorMobile extends StatelessWidget {
             label: "Done",
             onTap: () {
               if (viewModel.nickname.trim().isNotEmpty) {
-                App.of(context)?.setNickname(viewModel.nickname);
-                App.of(context)?.clearSpSnackBars();
+                context.read<NicknameProvider>().setNickname(viewModel.nickname);
+                MessengerService.instance.clearSpSnackBars();
                 Navigator.of(context).pushNamed(SpRouteConfig.initPickColor);
               } else {
-                App.of(context)?.showSpSnackBar("Nickname must not empty!");
+                MessengerService.instance.showSnackBar("Nickname must not empty!");
               }
             },
           ),

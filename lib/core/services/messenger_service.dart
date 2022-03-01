@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 
-// only use in app.dart
-mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
+class MessengerService {
+  MessengerService._();
+  static final MessengerService instance = MessengerService._();
+
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? scaffoldFeatureController;
   BuildContext? get _context => App.navigatorKey.currentContext;
   ScaffoldMessengerState? get _state {
@@ -12,7 +14,7 @@ mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
     return null;
   }
 
-  ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>? showSpMaterialBanner(String message) {
+  ScaffoldFeatureController<MaterialBanner, MaterialBannerClosedReason>? showMaterialBanner(String message) {
     return _state?.showMaterialBanner(
       MaterialBanner(
         content: Text(message),
@@ -28,7 +30,7 @@ mixin ScaffoldMessengerMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSpSnackBar(String message, {bool success = true}) {
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSnackBar(String message, {bool success = true}) {
     clearSpSnackBars();
     return _state?.showSnackBar(
       SnackBar(

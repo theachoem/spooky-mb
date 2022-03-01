@@ -28,7 +28,8 @@ class _ArchiveMobile extends StatelessWidget {
           switch (result) {
             case OkCancelResult.ok:
               bool success = await viewModel.delete(story);
-              App.of(context)?.showSpSnackBar(success ? "Delete successfully!" : "Delete unsuccessfully!");
+              String message = success ? "Delete successfully!" : "Delete unsuccessfully!";
+              MessengerService.instance.showSnackBar(message);
               return success;
             case OkCancelResult.cancel:
               return false;
@@ -47,7 +48,8 @@ class _ArchiveMobile extends StatelessWidget {
           switch (result) {
             case OkCancelResult.ok:
               bool success = await viewModel.unarchiveDocument(story);
-              App.of(context)?.showSpSnackBar(success ? "Unarchive successfully!" : "Unarchive unsuccessfully!");
+              String message = success ? "Unarchive successfully!" : "Unarchive unsuccessfully!";
+              MessengerService.instance.showSnackBar(message);
               return success;
             case OkCancelResult.cancel:
               return false;

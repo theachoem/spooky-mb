@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/app.dart';
+import 'package:provider/provider.dart';
+import 'package:spooky/providers/developer_mode_provider.dart';
 
 class SpDeveloperVisibility extends StatelessWidget {
   const SpDeveloperVisibility({
@@ -11,14 +12,11 @@ class SpDeveloperVisibility extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ValueNotifier<bool>? notifier = App.of(context)?.developerModeNotifier;
-    if (notifier == null) return SizedBox.shrink();
-    return ValueListenableBuilder<bool>(
-      valueListenable: App.of(context)!.developerModeNotifier,
+    return Consumer<DeveloperModeProvider>(
       child: child,
-      builder: (context, isDeveloperMode, child) {
+      builder: (context, provider, child) {
         return Visibility(
-          visible: isDeveloperMode,
+          visible: provider.developerModeOn,
           child: child ?? SizedBox.shrink(),
         );
       },

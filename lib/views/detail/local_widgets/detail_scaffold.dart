@@ -1,8 +1,8 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
@@ -126,7 +126,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
             leadingIconData: Icons.edit,
             onPressed: () async {
               if (widget.viewModel.hasChange) {
-                App.of(context)?.showSpSnackBar("Please save document first");
+                MessengerService.instance.showSnackBar("Please save document first");
                 return;
               }
               ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
@@ -141,7 +141,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
             leadingIconData: Icons.archive,
             onPressed: () async {
               if (widget.viewModel.hasChange) {
-                App.of(context)?.showSpSnackBar("Please save document first");
+                MessengerService.instance.showSnackBar("Please save document first");
                 return;
               }
               OkCancelResult result = await showOkCancelAlertDialog(
@@ -153,7 +153,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
                 case OkCancelResult.ok:
                   File? file = await manager.archiveDocument(widget.viewModel.currentStory);
                   if (file != null) {
-                    App.of(context)?.showSpSnackBar("Archived!");
+                    MessengerService.instance.showSnackBar("Archived!");
                   }
                   Navigator.of(context).maybePop(widget.viewModel.currentStory);
                   break;
@@ -167,7 +167,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
           leadingIconData: Icons.history,
           onPressed: () async {
             if (widget.viewModel.hasChange) {
-              App.of(context)?.showSpSnackBar("Please save document first");
+              MessengerService.instance.showSnackBar("Please save document first");
               return;
             }
             ChangesHistoryArgs arguments = ChangesHistoryArgs(
@@ -240,7 +240,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
                   await widget.onSave(context);
                 } else {
                   // clear to avoid snack bar on top of "SAVE" fab.
-                  App.of(context)?.clearSpSnackBars();
+                  MessengerService.instance.clearSpSnackBars();
                 }
               },
               shape: RoundedRectangleBorder(

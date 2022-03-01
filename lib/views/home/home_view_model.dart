@@ -1,10 +1,11 @@
 import 'dart:io';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/app.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
+import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 
@@ -116,13 +117,13 @@ class HomeViewModel extends BaseViewModel {
       title: "What should I call you?",
       textFields: [
         DialogTextField(
-          initialText: App.of(context)?.nicknameNotifier.value,
+          initialText: context.read<NicknameProvider>().name,
           keyboardType: TextInputType.name,
         ),
       ],
     );
     if (nickname?.isNotEmpty == true) {
-      App.of(context)?.setNickname(nickname![0]);
+      context.read<NicknameProvider>().setNickname(nickname![0]);
     }
   }
 }

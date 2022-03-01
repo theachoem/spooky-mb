@@ -50,7 +50,7 @@ class _SecurityMobile extends StatelessWidget {
                   if (date.second > 10) {
                     viewModel.setLockLifeCircleDuration(date.second);
                   } else {
-                    App.of(context)?.showSpSnackBar("10 seconds minimum");
+                    MessengerService.instance.showSnackBar("10 seconds minimum");
                     viewModel.setLockLifeCircleDuration(10);
                   }
                 },
