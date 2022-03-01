@@ -7,6 +7,7 @@ import 'package:spooky/views/content_reader/content_reader_view.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/developer_mode/developer_mode_view.dart';
 import 'package:spooky/views/explore/explore_view.dart';
+import 'package:spooky/views/font_manager/font_manager_view.dart';
 import 'package:spooky/views/home/home_view.dart';
 import 'package:spooky/views/init_pick_color/init_pick_color_view.dart';
 import 'package:spooky/views/lock/lock_view.dart';
@@ -17,9 +18,15 @@ import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/theme_setting/theme_setting_view.dart';
 
-/// Use for generator route params only. use normal `Navigator.of(context)`
+/// Use for generator route params only.
+/// To navigate, use normal `Navigator.of(context)` instead.
 @MaterialAutoRouter(
   routes: <AutoRoute>[
+    MaterialRoute(
+      page: FontManagerView,
+      name: 'FontManager',
+      path: SpRouteConfig.fontManager,
+    ),
     MaterialRoute(
       page: LockView,
       name: 'Lock',

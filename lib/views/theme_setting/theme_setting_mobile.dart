@@ -23,15 +23,16 @@ class _ThemeSettingMobile extends StatelessWidget {
               tiles: [
                 buildColorThemeTile(),
                 buildThemeModeTile(context),
-                Consumer<ShowChipsProvider>(
-                  builder: (context, provider, child) {
-                    return SwitchListTile.adaptive(
-                      value: provider.shouldShow,
-                      title: Text("Show chips on story"),
-                      onChanged: (value) {
-                        provider.set(value);
-                      },
-                    );
+              ],
+            ),
+            SpSectionContents(
+              headline: "Font",
+              tiles: [
+                ListTile(
+                  title: Text("Font Manager"),
+                  leading: Icon(Icons.font_download),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SpRouteConfig.fontManager);
                   },
                 ),
               ],
@@ -42,10 +43,30 @@ class _ThemeSettingMobile extends StatelessWidget {
                 buildLayoutTile(context),
                 buildSortTile(context),
               ],
+            ),
+            SpSectionContents(
+              headline: "Other",
+              tiles: [
+                buildShowChipTile(),
+              ],
             )
           ],
         ),
       ),
+    );
+  }
+
+  Consumer<ShowChipsProvider> buildShowChipTile() {
+    return Consumer<ShowChipsProvider>(
+      builder: (context, provider, child) {
+        return SwitchListTile.adaptive(
+          value: provider.shouldShow,
+          title: Text("Show chips on story"),
+          onChanged: (value) {
+            provider.set(value);
+          },
+        );
+      },
     );
   }
 
