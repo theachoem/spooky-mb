@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
+import 'package:spooky/providers/theme_mode_provider.dart';
 
 // global provider
 class ProviderScope extends StatelessWidget {
@@ -17,6 +18,9 @@ class ProviderScope extends StatelessWidget {
       providers: [
         ListenableProvider<ShowChipsProvider>(
           create: (context) => ShowChipsProvider(),
+        ),
+        ListenableProvider<ThemeModeProvider>(
+          create: (context) => ThemeModeProvider(),
         ),
       ],
       child: child,

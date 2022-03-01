@@ -73,8 +73,8 @@ class _App extends StatelessWidget {
     );
   }
 
-// InitialTheme is used to minimal theme as much as possible
-// which will be use in eg. dialog.
+  // InitialTheme is used to minimal theme as much as possible
+  // which will be use in eg. dialog.
   Widget buildInitialTheme() {
     return InitialTheme(
       builder: (mode) => App(themeMode: mode),
