@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/utils/util_widgets/app_builder.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/storages/local_storages/color_storage.dart';
-import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/main.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
@@ -29,7 +28,6 @@ class App extends StatefulWidget {
 }
 
 class _AppState extends State<App> with ScaffoldMessengerMixin {
-  late final ValueNotifier<String> nicknameNotifier;
   late final ValueNotifier<bool> developerModeNotifier;
   late TextTheme textTheme;
 
@@ -40,34 +38,12 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
   @override
   void initState() {
     textTheme = ThemeConfig.buildTextTheme();
-    nicknameNotifier = ValueNotifier("");
     developerModeNotifier = ValueNotifier(false);
     super.initState();
-    NicknameStorage().read().then((value) {
-      if (value is String) {
-        nicknameNotifier.value = value;
-      }
-    });
-    nicknameNotifier.addListener(() {
-      spAppIntiailized = nicknameNotifier.value.trim().isNotEmpty;
-    });
-  }
-
-  void setNickname(String value) {
-    if (value != nicknameNotifier.value && value.trim().isNotEmpty) {
-      nicknameNotifier.value = value;
-      NicknameStorage().write(value);
-    }
-  }
-
-  void clearNickname() {
-    NicknameStorage().remove();
-    nicknameNotifier.value = "";
   }
 
   @override
   void dispose() {
-    nicknameNotifier.dispose();
     developerModeNotifier.dispose();
     super.dispose();
   }

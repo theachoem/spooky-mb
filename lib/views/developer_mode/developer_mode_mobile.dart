@@ -18,15 +18,14 @@ class _DeveloperModeMobile extends StatelessWidget {
         children: ListTile.divideTiles(
           context: context,
           tiles: [
-            ValueListenableBuilder<String>(
-              valueListenable: App.of(context)!.nicknameNotifier,
-              builder: (context, value, child) {
+            Consumer<NicknameProvider>(
+              builder: (context, provider, child) {
                 return ListTile(
                   title: Text("Reset Nickname"),
-                  subtitle: Text(value.isNotEmpty ? value : "Empty"),
+                  subtitle: Text(provider.name?.isNotEmpty == true ? provider.name! : "Empty"),
                   trailing: Icon(Icons.keyboard_arrow_right),
                   onTap: () {
-                    App.of(context)?.clearNickname();
+                    provider.clearNickname();
                     App.of(context)?.showSpSnackBar("Cleared");
                   },
                 );

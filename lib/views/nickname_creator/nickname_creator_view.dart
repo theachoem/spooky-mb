@@ -1,8 +1,10 @@
 library nickname_creator_view;
 
+import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/widgets/sp_button.dart';

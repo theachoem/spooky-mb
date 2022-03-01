@@ -51,7 +51,7 @@ class _NicknameCreatorMobile extends StatelessWidget {
             label: "Done",
             onTap: () {
               if (viewModel.nickname.trim().isNotEmpty) {
-                App.of(context)?.setNickname(viewModel.nickname);
+                context.read<NicknameProvider>().setNickname(viewModel.nickname);
                 App.of(context)?.clearSpSnackBars();
                 Navigator.of(context).pushNamed(SpRouteConfig.initPickColor);
               } else {

@@ -1,8 +1,8 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:spooky/app.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/views/home/local_widgets/home_tab_bar.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
@@ -148,11 +148,10 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
   Widget buildTitle() {
     return SpTapEffect(
       onTap: () => widget.viewModel.openNicknameEditor(context),
-      child: ValueListenableBuilder<String?>(
-        valueListenable: App.of(context)!.nicknameNotifier,
-        builder: (context, value, child) {
+      child: Consumer<NicknameProvider>(
+        builder: (context, provider, child) {
           return Text(
-            "Hello $value",
+            "Hello ${provider.name}",
             style: textTheme.headline6?.copyWith(color: colorScheme.primary),
           );
         },
