@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:spooky/core/base/base_view_model.dart';
 
-class SettingViewModel extends ChangeNotifier {
+class SettingViewModel extends BaseViewModel {
   SettingViewModel();
 
   // Add ViewModel specific code here

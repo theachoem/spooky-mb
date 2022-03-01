@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:spooky/core/base/base_view_model.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
@@ -8,7 +8,7 @@ import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 
-class HomeViewModel extends ChangeNotifier {
+class HomeViewModel extends BaseViewModel {
   late int year;
   late int month;
 

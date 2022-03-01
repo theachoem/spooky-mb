@@ -2,8 +2,8 @@ library theme_setting_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
-import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/storages/local_storages/show_chips_storage.dart';
 import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
@@ -35,14 +35,13 @@ class ThemeSettingView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider(
+    return ViewModelProvider<ThemeSettingViewModel>(
       create: (BuildContext context) => ThemeSettingViewModel(),
-      builder: (context, child) {
-        ThemeSettingViewModel model = Provider.of<ThemeSettingViewModel>(context);
+      builder: (context, viewModel, child) {
         return SpScreenTypeLayout(
-          mobile: _ThemeSettingMobile(model),
-          desktop: _ThemeSettingDesktop(model),
-          tablet: _ThemeSettingTablet(model),
+          mobile: _ThemeSettingMobile(viewModel),
+          desktop: _ThemeSettingDesktop(viewModel),
+          tablet: _ThemeSettingTablet(viewModel),
         );
       },
     );

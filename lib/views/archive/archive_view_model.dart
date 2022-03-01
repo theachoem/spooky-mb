@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:flutter/material.dart';
+import 'package:spooky/core/base/base_view_model.dart';
 
-class ArchiveViewModel extends ChangeNotifier {
+class ArchiveViewModel extends BaseViewModel {
   final ArchiveFileManager fileManager = ArchiveFileManager();
 
   Future<bool> unarchiveDocument(StoryModel story) async {

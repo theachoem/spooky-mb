@@ -9,8 +9,9 @@ import 'package:spooky/core/types/quick_actions_type.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
+import 'package:spooky/core/base/base_view_model.dart';
 
-class MainViewModel extends ChangeNotifier with ScheduleMixin {
+class MainViewModel extends BaseViewModel with ScheduleMixin {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
   late final ValueNotifier<double?> bottomNavigationHeight;
 

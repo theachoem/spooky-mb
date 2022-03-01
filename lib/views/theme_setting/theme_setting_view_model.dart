@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:spooky/core/base/base_view_model.dart';
 
-class ThemeSettingViewModel extends ChangeNotifier {
+class ThemeSettingViewModel extends BaseViewModel {
   ThemeSettingViewModel();
 }

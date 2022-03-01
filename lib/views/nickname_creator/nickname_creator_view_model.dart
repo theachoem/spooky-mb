@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:spooky/core/base/base_view_model.dart';
 
-class NicknameCreatorViewModel extends ChangeNotifier {
+class NicknameCreatorViewModel extends BaseViewModel {
   String nickname = "";
 }

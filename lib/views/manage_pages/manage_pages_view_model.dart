@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_content_model.dart';
-
+import 'package:spooky/core/base/base_view_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 
 class DocumentKeyModel {
@@ -13,7 +13,7 @@ class DocumentKeyModel {
   });
 }
 
-class ManagePagesViewModel extends ChangeNotifier {
+class ManagePagesViewModel extends BaseViewModel {
   late final ValueNotifier<bool> hasChangeNotifier;
   final StoryContentModel content;
   List<DocumentKeyModel> documents = [];

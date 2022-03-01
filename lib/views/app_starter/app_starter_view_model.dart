@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
+import 'package:spooky/core/base/base_view_model.dart';
 
-class AppStarterViewModel extends ChangeNotifier {
+class AppStarterViewModel extends BaseViewModel {
   AppStarterViewModel();
 }
