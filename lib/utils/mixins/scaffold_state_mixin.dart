@@ -34,7 +34,7 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   Widget buildSheet(BuildContext context);
 
   void toggleSpBottomSheet() async {
-    MessengerService.instance.clearSpSnackBars();
+    MessengerService.instance.clearSnackBars();
     if (!isSpBottomSheetOpenNotifer.value) {
       persistentBottomSheetController = scaffoldkey.currentState?.showBottomSheet((context) {
         return BottomSheet(

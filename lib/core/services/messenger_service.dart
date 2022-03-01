@@ -31,7 +31,7 @@ class MessengerService {
   }
 
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSnackBar(String message, {bool success = true}) {
-    clearSpSnackBars();
+    clearSnackBars();
     return _state?.showSnackBar(
       SnackBar(
         content: Text(message),
@@ -45,11 +45,11 @@ class MessengerService {
     );
   }
 
-  void clearSpSnackBars() {
+  void clearSnackBars() {
     return _state?.clearSnackBars();
   }
 
-  void hideSpCurrentMaterialBanner() {
+  void hideCurrentMaterialBanner() {
     return _state?.hideCurrentMaterialBanner();
   }
 }

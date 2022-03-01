@@ -240,7 +240,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
                   await widget.onSave(context);
                 } else {
                   // clear to avoid snack bar on top of "SAVE" fab.
-                  MessengerService.instance.clearSpSnackBars();
+                  MessengerService.instance.clearSnackBars();
                 }
               },
               shape: RoundedRectangleBorder(
