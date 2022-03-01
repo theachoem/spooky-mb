@@ -1,7 +1,8 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
-import 'package:spooky/initial_theme.dart';
+import 'package:spooky/providers/theme_mode_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
@@ -23,14 +24,14 @@ class SpThemeSwitcher extends StatefulWidget {
   State<SpThemeSwitcher> createState() => _SpThemeSwitcherState();
 
   static bool onPress(BuildContext context) {
-    return InitialTheme.of(context)?.toggleThemeMode() == true;
+    return context.read<ThemeModeProvider>().toggleThemeMode() == true;
   }
 
   static Future<void> onLongPress(BuildContext context) async {
     String? result = await showConfirmationDialog(
       context: context,
       title: "Theme",
-      initialSelectedActionKey: InitialTheme.of(context)?.mode.name,
+      initialSelectedActionKey: context.read<ThemeModeProvider>().mode.name,
       actions: themeModeActions
         ..add(AlertDialogAction(
           key: "setting",
@@ -51,7 +52,7 @@ class SpThemeSwitcher extends StatefulWidget {
               break;
             }
           }
-          InitialTheme.of(context)?.setThemeMode(themeMode);
+          context.read<ThemeModeProvider>().setThemeMode(themeMode);
           break;
       }
     }
