@@ -152,7 +152,7 @@ class _ManagePagesMobile extends StatelessWidget {
       ),
       confirmDismiss: (direction) async {
         bool success = viewModel.deleteAt(index);
-        if (!success) App.of(context)?.showSpSnackBar("Pages can't be less than 1");
+        if (!success) MessengerService.instance.showSnackBar("Pages can't be less than 1");
         return success;
       },
       child: child,

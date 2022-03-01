@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/app.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 
 mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   late ValueNotifier<bool> isSpBottomSheetOpenNotifer;
@@ -34,7 +34,7 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   Widget buildSheet(BuildContext context);
 
   void toggleSpBottomSheet() async {
-    App.of(context)?.clearSpSnackBars();
+    MessengerService.instance.clearSpSnackBars();
     if (!isSpBottomSheetOpenNotifer.value) {
       persistentBottomSheetController = scaffoldkey.currentState?.showBottomSheet((context) {
         return BottomSheet(

@@ -92,7 +92,7 @@ class _SettingMobile extends StatelessWidget {
                     DateFormatHelper.toDay().format(DateTime(2020, 1, index - 1)),
                     style: TextStyle(color: M3Color.of(context).onPrimary),
                   ),
-                  onTap: () => App.of(context)?.updateColor(color),
+                  onTap: () => context.read<ColorSeedProvider>().updateColor(color),
                   tileColor: color,
                 ),
               ),

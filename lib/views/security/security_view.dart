@@ -1,8 +1,8 @@
 library security_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:spooky/app.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/lock_type.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';

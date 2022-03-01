@@ -26,7 +26,7 @@ class _DeveloperModeMobile extends StatelessWidget {
                   trailing: Icon(Icons.keyboard_arrow_right),
                   onTap: () {
                     provider.clearNickname();
-                    App.of(context)?.showSpSnackBar("Cleared");
+                    MessengerService.instance.showSnackBar("Cleared");
                   },
                 );
               },

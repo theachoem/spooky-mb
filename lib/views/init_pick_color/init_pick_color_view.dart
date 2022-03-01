@@ -2,9 +2,10 @@ library init_pick_color_view;
 
 import 'dart:math';
 import 'package:bubble_lens/bubble_lens.dart';
-import 'package:spooky/app.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/providers/color_seed_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';

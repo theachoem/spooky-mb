@@ -92,6 +92,7 @@ class _InitPickColorMobile extends StatelessWidget {
   }
 
   Widget buildColorPicker(BuildContext context, double width) {
+    ColorSeedProvider colorSeedProvider = context.read<ColorSeedProvider>();
     return Center(
       child: Container(
         decoration: BoxDecoration(
@@ -106,10 +107,10 @@ class _InitPickColorMobile extends StatelessWidget {
             width: size(width),
             height: size(width),
             widgets: materialColors.map((color) {
-              bool selected = App.of(context)?.currentSeedColor == color;
+              bool selected = colorSeedProvider.currentSeedColor == color;
               return SpTapEffect(
                 effects: [SpTapEffectType.scaleDown],
-                onTap: () => App.of(context)?.updateColor(color),
+                onTap: () => colorSeedProvider.updateColor(color),
                 child: AnimatedContainer(
                   duration: ConfigConstant.fadeDuration,
                   decoration: BoxDecoration(

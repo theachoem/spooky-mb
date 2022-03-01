@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/providers/color_seed_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/providers/theme_mode_provider.dart';
 
-// global provider
+// global providers
 class ProviderScope extends StatelessWidget {
   const ProviderScope({
     Key? key,
@@ -29,6 +30,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<DeveloperModeProvider>(
           create: (context) => DeveloperModeProvider(),
+        ),
+        ListenableProvider<ColorSeedProvider>(
+          create: (context) => ColorSeedProvider(),
         ),
       ],
       child: child,
