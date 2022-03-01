@@ -18,7 +18,7 @@ class ViewModelProvider<T extends BaseViewModel> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListenableProvider<T>(
+    return ChangeNotifierProvider<T>(
       create: (BuildContext context) => create(context),
       child: child,
       builder: (context, child) {

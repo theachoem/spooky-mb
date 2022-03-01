@@ -6,6 +6,7 @@ import 'package:spooky/core/notification/notification_service.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/initial_theme.dart';
+import 'package:spooky/provider_scope.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,9 @@ void main() async {
         supportedLocales: AppConstant.supportedLocales,
         fallbackLocale: AppConstant.fallbackLocale,
         path: 'assets/translations',
-        child: const InitialTheme(),
+        child: ProviderScope(
+          child: const InitialTheme(),
+        ),
       ),
     ),
   );

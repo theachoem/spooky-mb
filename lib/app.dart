@@ -3,7 +3,6 @@ import 'package:spooky/utils/util_widgets/app_builder.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/storages/local_storages/color_storage.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
-import 'package:spooky/core/storages/local_storages/show_chips_storage.dart';
 import 'package:spooky/main.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
@@ -71,9 +70,6 @@ class _AppState extends State<App> with ScaffoldMessengerMixin {
     nicknameNotifier.dispose();
     developerModeNotifier.dispose();
     super.dispose();
-
-    // close all stream controller
-    ShowChipsStorage.controller.close();
   }
 
   @override

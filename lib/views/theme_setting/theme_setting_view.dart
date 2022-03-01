@@ -2,15 +2,16 @@ library theme_setting_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
-import 'package:spooky/core/storages/local_storages/show_chips_storage.dart';
 import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/widgets/sp_color_picker.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
