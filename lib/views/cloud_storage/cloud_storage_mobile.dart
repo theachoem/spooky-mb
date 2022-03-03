@@ -7,9 +7,34 @@ class _CloudStorageMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('CloudStorageMobile'),
+      appBar: MorphingAppBar(
+        leading: SpPopButton(),
+        title: Text(
+          "Developer",
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
       ),
+      body: viewModel.files != null
+          ? buildFileList(files: viewModel.files!)
+          : const Center(child: CircularProgressIndicator()),
+    );
+  }
+
+  Widget buildFileList({required CloudFileListModel files}) {
+    return ListView.builder(
+      itemCount: files.files.length,
+      itemBuilder: (context, index) {
+        CloudFileModel file = files.files[index];
+        return ListTile(
+          title: Text(file.fileName ?? file.id),
+          trailing: SpIconButton(
+            icon: Icon(Icons.delete),
+            onPressed: () {
+              viewModel.delete(file);
+            },
+          ),
+        );
+      },
     );
   }
 }

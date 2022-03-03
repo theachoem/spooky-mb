@@ -25,8 +25,8 @@ class GoogleAuthService {
     await storage.writeMap(map);
   }
 
-  Future<void> signInSilently() async {
-    GoogleSignInAccount? account = await googleSignIn.signInSilently();
+  Future<void> signInSilently({bool reAuthenticate = false}) async {
+    GoogleSignInAccount? account = await googleSignIn.signInSilently(reAuthenticate: reAuthenticate);
     if (account != null) {
       await writeToStorage(account);
     } else {

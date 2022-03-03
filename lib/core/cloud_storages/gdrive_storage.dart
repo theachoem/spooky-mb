@@ -17,6 +17,19 @@ class GDriveStorage extends BaseCloudStorage {
   }
 
   @override
+  Future<T?> execHandler<T>(Future<T?> Function() request) async {
+    return request().onError((e, stackTrace) async {
+      if (e is drive.DetailedApiRequestError) {
+        if (e.status == 401) {
+          await GoogleAuthService.instance.signInSilently(reAuthenticate: true);
+          return request();
+        }
+      }
+      return null;
+    });
+  }
+
+  @override
   Future<CloudFileModel?> delete(Map<String, dynamic> options) async {
     String fileId = options['file_id'];
     drive.DriveApi? driveApi = await driveClient;
@@ -47,7 +60,7 @@ class GDriveStorage extends BaseCloudStorage {
         drive.File last = files.last;
         if (last.id != null) {
           return CloudFileModel(
-            fileName: last.originalFilename,
+            fileName: last.name,
             id: last.id!,
           );
         }
@@ -59,23 +72,22 @@ class GDriveStorage extends BaseCloudStorage {
 
   @override
   Future<CloudFileListModel?> list(Map<String, dynamic> options) async {
+    String? nextToken = options['next_token'];
     drive.DriveApi? driveApi = await driveClient;
+
     if (driveApi != null) {
-      drive.FileList fileList = await driveApi.files.list(
-        spaces: "appDataFolder",
-      );
+      drive.FileList fileList = await driveApi.files.list(spaces: "appDataFolder", pageToken: nextToken);
       List<drive.File>? files = fileList.files;
       List<CloudFileModel> list = [];
       files?.forEach((e) {
-        if (e.id != null) {
-          list.add(CloudFileModel(fileName: e.name, id: e.id!));
-        }
+        if (e.id != null) list.add(CloudFileModel(fileName: e.name, id: e.id!));
       });
       return CloudFileListModel(
         files: list,
         nextToken: fileList.nextPageToken,
       );
     }
+
     return null;
   }
 
@@ -141,7 +153,7 @@ class GDriveStorage extends BaseCloudStorage {
 
       if (recieved.id != null) {
         return CloudFileModel(
-          fileName: recieved.originalFilename,
+          fileName: recieved.name,
           id: recieved.id!,
         );
       }

@@ -20,9 +20,9 @@ class _SettingMobile extends StatelessWidget {
           tiles: [
             ListTile(
               leading: const Icon(Icons.person),
-              title: const Text("Google Account"),
+              title: const Text("Cloud Storage"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => GoogleAccountView()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CloudStorageView()));
               },
             ),
             SpDeveloperVisibility(
