@@ -1,31 +1,27 @@
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:spooky/core/api/authentication/google_auth_service.dart';
 import 'package:spooky/core/base/base_view_model.dart';
-import 'package:spooky/core/cloud_storages/base_cloud_storage.dart';
-import 'package:spooky/core/cloud_storages/gdrive_storage.dart';
-import 'package:spooky/core/models/cloud_file_list_model.dart';
-import 'package:spooky/core/models/cloud_file_model.dart';
 
 class CloudStorageViewModel extends BaseViewModel {
-  BaseCloudStorage cloudStorage = GDriveStorage();
-  CloudFileListModel? files;
+  final GoogleAuthService googleAuth = GoogleAuthService.instance;
+  GoogleSignInAccount? googleUser;
 
   CloudStorageViewModel() {
     load();
   }
 
   Future<void> load() async {
-    CloudFileListModel? result = await cloudStorage.execHandler(() async {
-      return cloudStorage.list({
-        "next_token": files?.nextToken,
-      });
+    await googleAuth.googleSignIn.isSignedIn().then((signedIn) async {
+      if (signedIn) {
+        await googleAuth.signInSilently();
+        googleUser = googleAuth.googleSignIn.currentUser;
+        notifyListeners();
+      }
     });
-    files = result;
-    notifyListeners();
   }
 
-  Future<void> delete(CloudFileModel file) async {
-    await cloudStorage.execHandler(() async {
-      return cloudStorage.delete({'file_id': file.id});
-    });
-    await load();
+  Future<void> signInWithGoogle() async {
+    await googleAuth.signIn();
+    load();
   }
 }
