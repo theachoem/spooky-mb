@@ -93,6 +93,7 @@ class _StoryTileState extends State<StoryTile> {
       return storage.write({
         "file": story.writableFile,
         "file_id": fileId,
+        "description": _content(story).title,
       });
     });
 

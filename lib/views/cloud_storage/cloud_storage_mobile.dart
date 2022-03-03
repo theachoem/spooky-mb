@@ -26,7 +26,7 @@ class _CloudStorageMobile extends StatelessWidget {
       itemBuilder: (context, index) {
         CloudFileModel file = files.files[index];
         return ListTile(
-          title: Text(file.fileName ?? file.id),
+          title: Text(file.description ?? file.fileName ?? file.id),
           trailing: SpIconButton(
             icon: Icon(Icons.delete),
             onPressed: () {

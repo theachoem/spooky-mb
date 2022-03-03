@@ -39,6 +39,7 @@ class GDriveStorage extends BaseCloudStorage {
       return CloudFileModel(
         id: fileId,
         fileName: null,
+        description: null,
       );
     }
     return null;
@@ -65,6 +66,7 @@ class GDriveStorage extends BaseCloudStorage {
             return CloudFileModel(
               fileName: last.name,
               id: last.id!,
+              description: last.description,
             );
           }
         }
@@ -74,6 +76,7 @@ class GDriveStorage extends BaseCloudStorage {
           return CloudFileModel(
             fileName: result.name,
             id: result.id!,
+            description: result.description,
           );
         }
       }
@@ -92,7 +95,13 @@ class GDriveStorage extends BaseCloudStorage {
       List<drive.File>? files = fileList.files;
       List<CloudFileModel> list = [];
       files?.forEach((e) {
-        if (e.id != null) list.add(CloudFileModel(fileName: e.name, id: e.id!));
+        if (e.id != null) {
+          list.add(CloudFileModel(
+            fileName: e.name,
+            id: e.id!,
+            description: e.description,
+          ));
+        }
       });
       return CloudFileListModel(
         files: list,
@@ -143,12 +152,15 @@ class GDriveStorage extends BaseCloudStorage {
   @override
   Future<CloudFileModel?> write(Map<String, dynamic> options) async {
     File file = options['file'];
+    String? description = options['description'];
     String? fileId = options['file_id'];
     bool shouldCreate = fileId == null;
 
     drive.DriveApi? driveApi = await driveClient;
     if (driveApi != null) {
       drive.File fileToUpload = drive.File();
+      fileToUpload.description = description;
+
       drive.File recieved;
       if (shouldCreate) {
         fileToUpload.name = FileHelper.fileName(file.path);
@@ -175,6 +187,7 @@ class GDriveStorage extends BaseCloudStorage {
         return CloudFileModel(
           fileName: recieved.name,
           id: recieved.id!,
+          description: recieved.description,
         );
       }
     }
