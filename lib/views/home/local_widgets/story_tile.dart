@@ -16,6 +16,7 @@ import 'package:spooky/core/types/cloud_storage_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_tile_chips.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
@@ -84,7 +85,10 @@ class _StoryTileState extends State<StoryTile> {
     // if file exist, should update instead.
     if (cloudId != null) {
       CloudFileModel? result = await storage.execHandler(() {
-        return storage.exist({'file_id': cloudId});
+        return storage.exist({
+          'file_id': cloudId,
+          'file_name': FileHelper.fileName(story.writableFile.path),
+        });
       });
       fileId = result?.id;
     }

@@ -55,7 +55,7 @@ class GDriveStorage extends BaseCloudStorage {
     if (driveApi != null) {
       if (fileName != null) {
         drive.FileList? fileList = await driveApi.files.list(
-          $fields: "name = '$fileName'",
+          q: "name = '$fileName'",
           spaces: "appDataFolder",
         );
 
