@@ -53,12 +53,20 @@ class GDriveStorage extends BaseCloudStorage {
     drive.DriveApi? driveApi = await driveClient;
 
     if (driveApi != null) {
-      if (fileName != null) {
+      if (fileId != null) {
+        Object result = await driveApi.files.get(fileId);
+        if (result is drive.File) {
+          return CloudFileModel(
+            fileName: result.name,
+            id: result.id!,
+            description: result.description,
+          );
+        }
+      } else if (fileName != null) {
         drive.FileList? fileList = await driveApi.files.list(
           q: "name = '$fileName'",
           spaces: "appDataFolder",
         );
-
         List<drive.File>? files = fileList.files;
         if (files != null && files.isNotEmpty == true) {
           drive.File last = files.last;
@@ -69,15 +77,6 @@ class GDriveStorage extends BaseCloudStorage {
               description: last.description,
             );
           }
-        }
-      } else if (fileId != null) {
-        Object result = await driveApi.files.get(fileId);
-        if (result is drive.File) {
-          return CloudFileModel(
-            fileName: result.name,
-            id: result.id!,
-            description: result.description,
-          );
         }
       }
     }
