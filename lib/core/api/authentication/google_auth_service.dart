@@ -7,7 +7,11 @@ class GoogleAuthService {
   static GoogleAuthService get instance => GoogleAuthService._();
   GoogleAuthService._();
 
-  final GoogleSignIn googleSignIn = GoogleSignIn.standard(scopes: [drive.DriveApi.driveAppdataScope]);
+  final GoogleSignIn googleSignIn = GoogleSignIn.standard(scopes: [
+    drive.DriveApi.driveAppdataScope,
+    drive.DriveApi.driveFileScope,
+  ]);
+
   final GoogleAuthHeadersStorage storage = GoogleAuthHeadersStorage();
 
   Future<GoogleAuthClient?> get client async {

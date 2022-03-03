@@ -19,12 +19,37 @@ class _GoogleAccountMobile extends StatelessWidget {
       body: ListView(
         children: [
           buildAccountTile(),
-          SpButton(
-            label: "Text",
-            onTap: () {
-              viewModel.driveService.fetchAll();
-            },
-          )
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: SpButton(
+              label: "Fetch",
+              onTap: () {
+                viewModel.load();
+              },
+            ),
+          ),
+          Column(
+            children: viewModel.stories.map((e) {
+              return StoryTile(
+                story: e,
+                context: context,
+                itemPadding: EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+                onRefresh: () async {},
+              );
+            }).toList(),
+          ),
+          if (user != null)
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SpButton(
+                backgroundColor: M3Color.of(context).error,
+                foregroundColor: M3Color.of(context).onError,
+                label: "Log out",
+                onTap: () {
+                  viewModel.logOut();
+                },
+              ),
+            ),
         ],
       ),
     );
