@@ -126,7 +126,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
       headline: "Info",
       tiles: [
         ListTile(
-          title: Text("Font"),
+          title: Text("Selected Font"),
           subtitle: Text(ThemeConfig.fontFamily),
           trailing: Icon(Icons.keyboard_arrow_right),
           onTap: () async {
@@ -164,7 +164,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
               const SizedBox(width: ConfigConstant.margin0),
               Expanded(
                 child: Text(
-                  "Open on web browser",
+                  "These will be opened on browser",
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(color: M3Color.of(context).primary),

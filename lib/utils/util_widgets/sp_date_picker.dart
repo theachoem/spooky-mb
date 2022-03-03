@@ -23,9 +23,8 @@ class SpDatePicker {
       maxDateTime: maxDateTime,
       pickerTheme: DateTimePickerTheme(
         backgroundColor: color.primary,
-        itemTextStyle: TextStyle(
-          fontFamilyFallback: M3TextTheme.of(context).bodyText1?.fontFamilyFallback,
-        ).copyWith(color: color.onPrimary),
+        itemTextStyle:
+            TextStyle(fontFamily: M3TextTheme.of(context).bodyText1?.fontFamily).copyWith(color: color.onPrimary),
         cancelTextStyle: TextStyle(color: color.onPrimary),
         confirmTextStyle: TextStyle(color: color.onPrimary),
         buttonStyle: TextButton.styleFrom(
