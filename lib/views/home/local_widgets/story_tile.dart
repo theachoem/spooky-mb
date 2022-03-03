@@ -3,19 +3,22 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
-import 'package:provider/provider.dart';
+import 'package:spooky/core/cloud_storages/gdrive_storage.dart';
 import 'package:spooky/core/file_manager/managers/export_file_manager.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
+import 'package:spooky/core/models/cloud_file_model.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/types/cloud_storage_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
-import 'package:spooky/providers/show_chips_provider.dart';
+import 'package:spooky/views/home/local_widgets/story_tile_chips.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
-import 'package:spooky/widgets/sp_chip.dart';
+import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -46,6 +49,7 @@ class StoryTile extends StatefulWidget {
 class _StoryTileState extends State<StoryTile> {
   final ArchiveFileManager manager = ArchiveFileManager();
   final StoryManager storyManager = StoryManager();
+  late final ValueNotifier<bool> loadingNotifier;
 
   StoryModel? get previousStory => widget.previousStory;
 
@@ -53,12 +57,6 @@ class _StoryTileState extends State<StoryTile> {
   Color? get starredColor => starred ? M3Color.of(context).error : null;
 
   late StoryModel story;
-
-  @override
-  void initState() {
-    story = widget.story;
-    super.initState();
-  }
 
   // reload current story only
   Future<void> reloadStory() async {
@@ -74,6 +72,51 @@ class _StoryTileState extends State<StoryTile> {
     StoryModel _story = story.copyWithStarred(!starred);
     FileSystemEntity? file = await storyManager.write(_story.writableFile, _story);
     if (file != null) await reloadStory();
+  }
+
+  Future<void> sync() async {
+    loadingNotifier.value = true;
+    GDriveStorage storage = GDriveStorage();
+
+    String? cloudId = story.cloudID(CloudStorageType.drive);
+    String? fileId;
+
+    // if file exist, should update instead.
+    if (cloudId != null) {
+      CloudFileModel? result = await storage.execHandler(() {
+        return storage.exist({'file_id': cloudId});
+      });
+      fileId = result?.id;
+    }
+
+    CloudFileModel? result = await storage.execHandler(() {
+      return storage.write({
+        "file": story.writableFile,
+        "file_id": fileId,
+      });
+    });
+
+    if (result != null) {
+      StoryModel _story = story.copyWithSync(result.id, CloudStorageType.drive);
+      FileSystemEntity? file = await storyManager.write(_story.writableFile, _story);
+      if (file != null) await reloadStory();
+    }
+
+    loadingNotifier.value = false;
+    MessengerService.instance.showSnackBar("Synced");
+  }
+
+  @override
+  void initState() {
+    story = widget.story;
+    loadingNotifier = ValueNotifier(false);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    loadingNotifier.dispose();
+    super.dispose();
   }
 
   @override
@@ -142,6 +185,12 @@ class _StoryTileState extends State<StoryTile> {
             titleStyle: TextStyle(color: starredColor),
             onPressed: () => toggleStarred(),
           ),
+          if (!story.synced)
+            SpPopMenuItem(
+              title: "Sync to cloud",
+              leadingIconData: Icons.cloud_upload,
+              onPressed: () => sync(),
+            ),
           buildExportOption(context, story),
         ];
       },
@@ -236,6 +285,14 @@ class _StoryTileState extends State<StoryTile> {
     );
   }
 
+  double get contentRightMargin {
+    if (!story.synced) {
+      return kToolbarHeight + 16 + 24;
+    } else {
+      return kToolbarHeight + 16;
+    }
+  }
+
   Widget buildContent(BuildContext context, StoryModel story) {
     Set<String> images = {};
     StoryContentModel content = _content(story);
@@ -255,7 +312,7 @@ class _StoryTileState extends State<StoryTile> {
               children: [
                 if (hasTitle)
                   Container(
-                    margin: const EdgeInsets.only(bottom: ConfigConstant.margin0, right: kToolbarHeight + 16),
+                    margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: contentRightMargin),
                     child: Text(
                       content.title ?? "content.title",
                       style: M3TextTheme.of(context).titleMedium,
@@ -265,7 +322,7 @@ class _StoryTileState extends State<StoryTile> {
                   ),
                 if (content.plainText != null && content.plainText!.trim().length > 1)
                   Container(
-                    margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : kToolbarHeight + 16),
+                    margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : contentRightMargin),
                     child: ExpandableText(
                       body(content),
                       expandText: 'show more',
@@ -298,78 +355,52 @@ class _StoryTileState extends State<StoryTile> {
   }
 
   Widget buildTime(BuildContext context, StoryContentModel content) {
-    return SpTapEffect(
-      onTap: () => toggleStarred(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          SpAnimatedIcons(
-            showFirst: starred,
-            secondChild: const SizedBox(),
-            firstChild: Icon(
-              Icons.favorite,
-              size: ConfigConstant.iconSize1,
-              color: starredColor,
-            ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        buildSyncIcon(),
+        ConfigConstant.sizedBoxW0,
+        SpAnimatedIcons(
+          showFirst: starred,
+          secondChild: const SizedBox(),
+          firstChild: Icon(
+            Icons.favorite,
+            size: ConfigConstant.iconSize1,
+            color: starredColor,
           ),
-          ConfigConstant.sizedBoxW0,
-          Text(
-            DateFormatHelper.timeFormat().format(content.createdAt),
-            style: M3TextTheme.of(context).bodySmall,
-          ),
-        ],
-      ),
+        ),
+        ConfigConstant.sizedBoxW0,
+        Text(
+          DateFormatHelper.timeFormat().format(content.createdAt),
+          style: M3TextTheme.of(context).bodySmall,
+        ),
+      ],
     );
   }
-}
 
-class StoryTileChips extends StatelessWidget {
-  const StoryTileChips({
-    Key? key,
-    required this.images,
-    required this.content,
-    required this.story,
-  }) : super(key: key);
-
-  final Set<String> images;
-  final StoryContentModel content;
-  final StoryModel story;
-
-  @override
-  Widget build(BuildContext context) {
-    ShowChipsProvider provider = Provider.of<ShowChipsProvider>(context, listen: true);
-    if (!provider.shouldShow) return const SizedBox.shrink();
-    return Wrap(
-      children: getChipList(images, content, story).map(
-        (child) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 4.0),
-            child: child,
+  Widget buildSyncIcon() {
+    return SpAnimatedIcons(
+      showFirst: !story.synced,
+      secondChild: const SizedBox.square(dimension: ConfigConstant.iconSize1),
+      firstChild: ValueListenableBuilder<bool>(
+        valueListenable: loadingNotifier,
+        builder: (context, loading, child) {
+          return SpCrossFade(
+            firstChild: Icon(
+              Icons.cloud_off_outlined,
+              size: ConfigConstant.iconSize1,
+            ),
+            secondChild: AnimatedContainer(
+              duration: ConfigConstant.fadeDuration,
+              margin: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin0),
+              width: ConfigConstant.iconSize1,
+              height: ConfigConstant.iconSize1,
+              child: CircularProgressIndicator.adaptive(strokeWidth: 2),
+            ),
+            showFirst: !loading,
           );
         },
-      ).toList(),
+      ),
     );
-  }
-
-  List<Widget> getChipList(Set<String> images, StoryContentModel content, StoryModel story) {
-    return [
-      if (images.isNotEmpty)
-        SpChip(
-          labelText: "${images.length} Images",
-          avatar: CircleAvatar(
-            backgroundImage: NetworkImage(images.first),
-          ),
-        ),
-      if ((content.pages?.length ?? 0) > 1)
-        SpChip(
-          labelText: "${content.pages?.length} Pages",
-        ),
-      // SpDeveloperVisibility(
-      //   child: SpChip(
-      //     avatar: Icon(Icons.developer_board, size: ConfigConstant.iconSize1),
-      //     labelText: FileHelper.fileName(story.file!.path),
-      //   ),
-      // ),
-    ];
   }
 }

@@ -46,22 +46,34 @@ class GDriveStorage extends BaseCloudStorage {
 
   @override
   Future<CloudFileModel?> exist(Map<String, dynamic> options) async {
-    String fileName = options['file_name'];
+    String? fileName = options['file_name'];
+    String? fileId = options['file_id'];
+
     drive.DriveApi? driveApi = await driveClient;
 
     if (driveApi != null) {
-      drive.FileList? fileList = await driveApi.files.list(
-        $fields: "name = '$fileName'",
-        spaces: "appDataFolder",
-      );
+      if (fileName != null) {
+        drive.FileList? fileList = await driveApi.files.list(
+          $fields: "name = '$fileName'",
+          spaces: "appDataFolder",
+        );
 
-      List<drive.File>? files = fileList.files;
-      if (files != null && files.isNotEmpty == true) {
-        drive.File last = files.last;
-        if (last.id != null) {
+        List<drive.File>? files = fileList.files;
+        if (files != null && files.isNotEmpty == true) {
+          drive.File last = files.last;
+          if (last.id != null) {
+            return CloudFileModel(
+              fileName: last.name,
+              id: last.id!,
+            );
+          }
+        }
+      } else if (fileId != null) {
+        Object result = await driveApi.files.get(fileId);
+        if (result is drive.File) {
           return CloudFileModel(
-            fileName: last.name,
-            id: last.id!,
+            fileName: result.name,
+            id: result.id!,
           );
         }
       }
@@ -131,25 +143,33 @@ class GDriveStorage extends BaseCloudStorage {
   @override
   Future<CloudFileModel?> write(Map<String, dynamic> options) async {
     File file = options['file'];
+    String? fileId = options['file_id'];
+    bool shouldCreate = fileId == null;
 
     drive.DriveApi? driveApi = await driveClient;
     if (driveApi != null) {
       drive.File fileToUpload = drive.File();
-      fileToUpload.name = FileHelper.removeDirectory(file.path);
-      fileToUpload.parents = ["appDataFolder"];
-      fileToUpload.driveId = FileHelper.fileName(file.path);
-      fileToUpload.properties = {
-        "synced_at": DateTime.now().millisecondsSinceEpoch.toString(),
-      };
-
-      drive.File recieved = await driveApi.files.create(
-        fileToUpload,
-        useContentAsIndexableText: true,
-        uploadMedia: drive.Media(
-          file.openRead(),
-          file.lengthSync(),
-        ),
-      );
+      drive.File recieved;
+      if (shouldCreate) {
+        fileToUpload.name = FileHelper.fileName(file.path);
+        fileToUpload.parents = ["appDataFolder"];
+        recieved = await driveApi.files.create(
+          fileToUpload,
+          uploadMedia: drive.Media(
+            file.openRead(),
+            file.lengthSync(),
+          ),
+        );
+      } else {
+        recieved = await driveApi.files.update(
+          fileToUpload,
+          fileId,
+          uploadMedia: drive.Media(
+            file.openRead(),
+            file.lengthSync(),
+          ),
+        );
+      }
 
       if (recieved.id != null) {
         return CloudFileModel(
