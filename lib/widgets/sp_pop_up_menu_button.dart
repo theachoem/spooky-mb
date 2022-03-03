@@ -9,12 +9,14 @@ class SpPopMenuItem {
   final String? subtitle;
   final void Function()? onPressed;
   final TextStyle? titleStyle;
+  final TextStyle? subtitleStyle;
   IconData? leadingIconData;
 
   SpPopMenuItem({
     required this.title,
     this.onPressed,
     this.titleStyle,
+    this.subtitleStyle,
     this.leadingIconData,
     this.subtitle,
   });
@@ -145,7 +147,13 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
               )
             : null,
         title: Text(e.title, textAlign: TextAlign.left, style: e.titleStyle),
-        subtitle: e.subtitle != null ? Text(e.subtitle!, textAlign: TextAlign.left) : null,
+        subtitle: e.subtitle != null
+            ? Text(
+                e.subtitle!,
+                textAlign: TextAlign.left,
+                style: e.subtitleStyle,
+              )
+            : null,
       ),
     );
   }
