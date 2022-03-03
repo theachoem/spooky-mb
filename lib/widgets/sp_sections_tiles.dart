@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
@@ -27,7 +28,7 @@ class SpSectionsTiles extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Text(
             sections[i].headline,
-            style: M3TextTheme.of(context).titleSmall,
+            style: M3TextTheme.of(context).titleSmall?.copyWith(color: M3Color.of(context).primary),
           ),
         ),
         ConfigConstant.sizedBoxH0,
