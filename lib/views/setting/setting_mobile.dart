@@ -18,6 +18,13 @@ class _SettingMobile extends StatelessWidget {
         children: ListTile.divideTiles(
           context: context,
           tiles: [
+            ListTile(
+              leading: const Icon(Icons.person),
+              title: const Text("Google Account"),
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => GoogleAccountView()));
+              },
+            ),
             SpDeveloperVisibility(
               child: ListTile(
                 leading: const Icon(Icons.developer_mode),
