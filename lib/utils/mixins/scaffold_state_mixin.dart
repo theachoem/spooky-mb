@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/widgets/sp_animated_icon.dart';
+import 'package:spooky/widgets/sp_icon_button.dart';
 
 mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   late ValueNotifier<bool> isSpBottomSheetOpenNotifer;
@@ -50,5 +52,23 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
       persistentBottomSheetController?.close();
     }
     isSpBottomSheetOpenNotifer.value = !isSpBottomSheetOpenNotifer.value;
+  }
+
+  Widget buildMoreButton() {
+    return ValueListenableBuilder<bool>(
+      valueListenable: isSpBottomSheetOpenNotifer,
+      builder: (context, value, child) {
+        return SpIconButton(
+          icon: SpAnimatedIcons(
+            firstChild: Icon(Icons.more_vert),
+            secondChild: Icon(Icons.clear),
+            showFirst: !isSpBottomSheetOpenNotifer.value,
+          ),
+          onPressed: () {
+            toggleSpBottomSheet();
+          },
+        );
+      },
+    );
   }
 }

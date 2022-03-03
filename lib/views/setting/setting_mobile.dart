@@ -19,20 +19,18 @@ class _SettingMobile extends StatelessWidget {
           context: context,
           tiles: [
             ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text("Google Account"),
+              leading: const Icon(Icons.cloud),
+              title: const Text("Cloud Storage"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => GoogleAccountView()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CloudStorageView()));
               },
             ),
-            SpDeveloperVisibility(
-              child: ListTile(
-                leading: const Icon(Icons.developer_mode),
-                title: const Text("Developer"),
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeveloperModeView()));
-                },
-              ),
+            ListTile(
+              leading: const Icon(Icons.color_lens),
+              title: const Text("Theme"),
+              onTap: () {
+                Navigator.of(context).pushNamed(SpRouteConfig.themeSetting);
+              },
             ),
             ListTile(
               leading: const Icon(Icons.lock),
@@ -48,12 +46,14 @@ class _SettingMobile extends StatelessWidget {
                 Navigator.of(context).pushNamed(SpRouteConfig.archive);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.color_lens),
-              title: const Text("Theme"),
-              onTap: () {
-                Navigator.of(context).pushNamed(SpRouteConfig.themeSetting);
-              },
+            SpDeveloperVisibility(
+              child: ListTile(
+                leading: const Icon(Icons.developer_mode),
+                title: const Text("Developer"),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeveloperModeView()));
+                },
+              ),
             ),
             ListTile(
               leading: const Icon(Icons.privacy_tip),

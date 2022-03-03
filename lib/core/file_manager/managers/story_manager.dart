@@ -30,7 +30,13 @@ class StoryManager extends BaseStoryManager<StoryModel> {
     );
 
     if (newFile != null) {
-      return write(newFile, story.copyWith(path: newPath));
+      return write(
+        newFile,
+        story.copyWith(
+          path: newPath,
+          synced: false,
+        ),
+      );
     }
 
     return null;
