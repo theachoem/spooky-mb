@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/views/font_manager/local_widgets/preview_trailing.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 
 class FontManagerSearchDelegate extends SearchDelegate {
@@ -38,6 +39,7 @@ class FontManagerSearchDelegate extends SearchDelegate {
         String item = _suggestions[index];
         return ListTile(
           title: Text(item),
+          trailing: PreviewTrailing(fontFamily: item, context: context),
           onTap: () async {
             onPressed(item);
             await Future.delayed(ConfigConstant.fadeDuration);

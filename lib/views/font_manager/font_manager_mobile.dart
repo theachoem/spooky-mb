@@ -31,60 +31,13 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           String name = font.key;
           return ListTile(
             title: Text(name),
-            trailing: Wrap(
-              crossAxisAlignment: WrapCrossAlignment.center,
-              alignment: WrapAlignment.center,
-              children: [
-                SpCrossFade(
-                  duration: ConfigConstant.duration,
-                  showFirst: name == ThemeConfig.fontFamily,
-                  firstChild: Icon(Icons.check, color: M3Color.of(context).primary),
-                  secondChild: SizedBox.square(dimension: ConfigConstant.iconSize2),
-                ),
-                SpPopupMenuButton(
-                  items: (BuildContext context) {
-                    return [
-                      SpPopMenuItem(
-                        title: "Sample",
-                        subtitle:
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-                        subtitleStyle: font.value(),
-                      ),
-                    ];
-                  },
-                  builder: (callback) {
-                    return SpIconButton(
-                      icon: Icon(Icons.preview),
-                      onPressed: () => callback(),
-                    );
-                  },
-                ),
-              ],
-            ),
+            trailing: PreviewTrailing(fontFamily: name, context: context),
             onTap: () {
               context.read<ColorSeedProvider>().updateFont(name);
             },
           );
         },
       ),
-    );
-  }
-
-  Widget buildMoreButton() {
-    return ValueListenableBuilder<bool>(
-      valueListenable: isSpBottomSheetOpenNotifer,
-      builder: (context, value, child) {
-        return SpIconButton(
-          icon: SpAnimatedIcons(
-            firstChild: Icon(Icons.more_vert),
-            secondChild: Icon(Icons.clear),
-            showFirst: !isSpBottomSheetOpenNotifer.value,
-          ),
-          onPressed: () {
-            toggleSpBottomSheet();
-          },
-        );
-      },
     );
   }
 
@@ -138,7 +91,10 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
             });
 
             if (await canLaunch(queryUri.toString())) {
-              launch(queryUri.toString(), forceWebView: true);
+              launch(
+                queryUri.toString(),
+                forceSafariVC: true,
+              );
             }
           },
         ),
@@ -148,7 +104,10 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           trailing: Icon(Icons.keyboard_arrow_right),
           onTap: () async {
             if (await canLaunch(provider)) {
-              launch(provider, forceWebView: true);
+              launch(
+                provider,
+                forceSafariVC: true,
+              );
             }
           },
         ),
