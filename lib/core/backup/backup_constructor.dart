@@ -4,7 +4,8 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 
-class BackupRestoreService {
+// construct backup file
+class BackupConstructor {
   final StoryManager manager = StoryManager();
 
   // 2020_1646123928000.json

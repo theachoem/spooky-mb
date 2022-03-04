@@ -26,4 +26,5 @@ const _$FilePathTypeEnumMap = {
   FilePathType.user: 'user',
   FilePathType.docs: 'docs',
   FilePathType.archive: 'archive',
+  FilePathType.backups: 'backups',
 };

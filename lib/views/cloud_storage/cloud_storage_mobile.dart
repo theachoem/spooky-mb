@@ -15,30 +15,58 @@ class _CloudStorageMobile extends StatelessWidget {
         ),
       ),
       body: ListView(
-        children: ListTile.divideTiles(
+        children: SpSectionsTiles.divide(
           context: context,
-          tiles: [
-            ListTile(
-              title: Text(viewModel.googleUser?.email ?? "Connect with Google Drive"),
-              subtitle: viewModel.googleUser?.displayName != null ? Text(viewModel.googleUser!.displayName!) : null,
-              leading: CircleAvatar(child: Icon(CommunityMaterialIcons.google_drive)),
-              trailing: Icon(Icons.keyboard_arrow_right),
-              onTap: () async {
-                if (viewModel.googleUser != null) {
-                  DeveloperModeProvider provider = Provider.of<DeveloperModeProvider>(context, listen: false);
-                  if (provider.developerModeOn) {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return _CloudFileList();
-                    }));
-                  }
-                } else {
-                  viewModel.signInWithGoogle();
-                }
-              },
+          sections: [
+            SpSectionContents(
+              headline: "Cloud Service",
+              tiles: [
+                ListTile(
+                  title: Text(viewModel.googleUser?.email ?? "Connect with Google Drive"),
+                  subtitle: viewModel.googleUser?.displayName != null ? Text(viewModel.googleUser!.displayName!) : null,
+                  leading: CircleAvatar(child: Icon(CommunityMaterialIcons.google_drive)),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: () async {
+                    if (viewModel.googleUser != null) {
+                      DeveloperModeProvider provider = Provider.of<DeveloperModeProvider>(context, listen: false);
+                      if (provider.developerModeOn) {
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                          return _CloudFileList();
+                        }));
+                      }
+                    } else {
+                      viewModel.signInWithGoogle();
+                    }
+                  },
+                ),
+              ],
             ),
+            if (viewModel.years != null) buildYearsSection(context),
           ],
-        ).toList(),
+        ),
       ),
+    );
+  }
+
+  SpSectionContents buildYearsSection(BuildContext context) {
+    return SpSectionContents(
+      headline: "Years",
+      tiles: viewModel.years!.map((e) {
+        Set<int> loadingYears = viewModel.loadingYears;
+        return ListTile(
+          title: Text(e.year.toString()),
+          onTap: e.synced ? null : () => viewModel.backup(e.year),
+          trailing: SpAnimatedIcons(
+            showFirst: e.synced,
+            firstChild: Icon(Icons.check, color: M3Color.of(context).primary),
+            secondChild: SpAnimatedIcons(
+              showFirst: !loadingYears.contains(e.year),
+              firstChild: Icon(Icons.backup),
+              secondChild: CircularProgressIndicator.adaptive(),
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 }
@@ -102,8 +130,27 @@ class _CloudFileListState extends State<_CloudFileList> {
       itemCount: files.files.length,
       itemBuilder: (context, index) {
         CloudFileModel file = files.files[index];
+        String fileName = file.description ?? file.fileName ?? file.id;
+
+        String? year;
+        DateTime? createAt;
+
+        try {
+          String removedExt = fileName.replaceAll(".json", "");
+          List<String> splitted = removedExt.split("_");
+          if (splitted.length == 2) {
+            year = int.parse(splitted[0]).toString();
+            createAt = DateTime.parse(splitted[1]);
+          }
+        } catch (e) {
+          if (kDebugMode) {
+            print("ERROR: $e");
+          }
+        }
+
         return ListTile(
-          title: Text(file.description ?? file.fileName ?? file.id),
+          title: Text(year ?? fileName),
+          subtitle: createAt != null ? Text("Created at " + DateFormatHelper.dateTimeFormat().format(createAt)) : null,
           trailing: SpIconButton(
             icon: Icon(Icons.delete),
             onPressed: () {

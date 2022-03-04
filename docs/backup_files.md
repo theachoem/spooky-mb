@@ -4,10 +4,9 @@ To backup them, we group them by each year & then upload them to cloud storage. 
 
 File name should be:
 ```sh
-# year + "_" + createAt millisecond since epoch
-2020_1646123928000.json
-2020_1646123921303.json
-2021_1646123921303.json
+# year + "_" + createAt toIso8601String + .json
+2022_2022-03-05T02:30:57.218875.json
+2022_2022-03-05T02:30:57.218875.json
 ```
 
 Store each year as json which contain all stories:
@@ -17,4 +16,9 @@ Store each year as json which contain all stories:
   'created_at': instance.createdAt.toIso8601String(),
   'stories': instance.stories.map((e) => e.toJson()).toList(),
 }
+```
+
+Once it backup, store them as file in backups/ folder
+```
+
 ```

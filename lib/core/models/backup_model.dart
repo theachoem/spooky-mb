@@ -1,10 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 
 part 'backup_model.g.dart';
 
 @JsonSerializable()
-class BackupModel {
+class BackupModel extends BaseModel {
   final int year;
   final DateTime createdAt;
   final List<StoryModel> stories;
@@ -15,11 +16,15 @@ class BackupModel {
     required this.stories,
   });
 
-  // 2020_1646123928000.json
+  // 2022_2022-03-05T02:30:57.218875.json
   String get fileName {
-    return "$year" "_" "${createdAt.millisecondsSinceEpoch}" ".json";
+    return "$year" "_" "${createdAt.toIso8601String()}" ".json";
   }
 
+  @override
   Map<String, dynamic> toJson() => _$BackupModelToJson(this);
   factory BackupModel.fromJson(Map<String, dynamic> json) => _$BackupModelFromJson(json);
+
+  @override
+  String? get objectId => fileName;
 }

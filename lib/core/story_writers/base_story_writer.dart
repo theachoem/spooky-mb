@@ -33,7 +33,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     String? validation = validate(object);
     if (validation == null) {
       StoryModel story = buildStory(object);
-      result = await storyManager.write(story.writableFile, story.copyWith(synced: false));
+      result = await storyManager.write(story.writableFile, story);
       log(result);
       return result is File ? _nextSuccess(result) : _nextError(result);
     } else {
