@@ -1,11 +1,7 @@
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
-import 'package:spooky/core/models/backup_model.dart';
-import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/models/story_query_options_model.dart';
-import 'package:spooky/core/types/file_path_type.dart';
+part of backup;
 
 // construct backup file
-class BackupConstructor {
+mixin BackupConstructor {
   final StoryManager manager = StoryManager();
 
   // 2020_1646123928000.json
