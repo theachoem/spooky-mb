@@ -19,8 +19,10 @@ class SpSectionsTiles extends StatelessWidget {
   static List<Widget> divide({
     required BuildContext context,
     required List<SpSectionContents> sections,
+    bool showTopDivider = false,
   }) {
     return [
+      if (showTopDivider) const Divider(height: 1),
       for (int i = 0; i < sections.length; i++) ...[
         ConfigConstant.sizedBoxH1,
         ConfigConstant.sizedBoxH2,

@@ -39,6 +39,21 @@ class _CloudStorageMobile extends StatelessWidget {
                     }
                   },
                 ),
+                SpDeveloperVisibility(
+                  child: ListTile(
+                    leading: CircleAvatar(child: Icon(CommunityMaterialIcons.restore)),
+                    title: Text("View Restore"),
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return RestoreView();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                )
               ],
             ),
             if (viewModel.years != null) buildYearsSection(context),
@@ -130,27 +145,11 @@ class _CloudFileListState extends State<_CloudFileList> {
       itemCount: files.files.length,
       itemBuilder: (context, index) {
         CloudFileModel file = files.files[index];
-        String fileName = file.description ?? file.fileName ?? file.id;
-
-        String? year;
-        DateTime? createAt;
-
-        try {
-          String removedExt = fileName.replaceAll(".json", "");
-          List<String> splitted = removedExt.split("_");
-          if (splitted.length == 2) {
-            year = int.parse(splitted[0]).toString();
-            createAt = DateTime.parse(splitted[1]);
-          }
-        } catch (e) {
-          if (kDebugMode) {
-            print("ERROR: $e");
-          }
-        }
+        BackupDisplayModel display = BackupDisplayModel.fromCloudModel(file);
 
         return ListTile(
-          title: Text(year ?? fileName),
-          subtitle: createAt != null ? Text("Created at " + DateFormatHelper.dateTimeFormat().format(createAt)) : null,
+          title: Text(display.fileName),
+          subtitle: display.displayCreateAt != null ? Text("Created at " + display.displayCreateAt!) : null,
           trailing: SpIconButton(
             icon: Icon(Icons.delete),
             onPressed: () {
