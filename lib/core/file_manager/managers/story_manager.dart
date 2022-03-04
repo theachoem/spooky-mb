@@ -41,4 +41,25 @@ class StoryManager extends BaseStoryManager<StoryModel> {
 
     return null;
   }
+
+  Future<Set<int>?> fetchYears() async {
+    Directory docsPath = directory;
+    if (await docsPath.exists()) {
+      await ensureDirExist(docsPath);
+
+      List<FileSystemEntity> result = docsPath.listSync();
+      Set<String> years = result.map((e) {
+        return e.absolute.path.split("/").last;
+      }).toSet();
+
+      Set<int> yearsInt = {};
+      for (String e in years) {
+        int? y = int.tryParse(e);
+        if (y != null) yearsInt.add(y);
+      }
+
+      return yearsInt;
+    }
+    return null;
+  }
 }
