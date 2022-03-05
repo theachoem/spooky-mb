@@ -88,7 +88,13 @@ class MessengerService {
       }),
       builder: (context, snapshot) {
         return AlertDialog(
-          content: CircularProgressIndicator.adaptive(),
+          content: Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.center,
+            children: [
+              CircularProgressIndicator.adaptive(),
+            ],
+          ),
         );
       },
     );

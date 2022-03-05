@@ -39,20 +39,18 @@ class _CloudStorageMobile extends StatelessWidget {
                     }
                   },
                 ),
-                SpDeveloperVisibility(
-                  child: ListTile(
-                    leading: CircleAvatar(child: Icon(CommunityMaterialIcons.restore)),
-                    title: Text("View Restore"),
-                    onTap: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) {
-                            return RestoreView();
-                          },
-                        ),
-                      );
-                    },
-                  ),
+                ListTile(
+                  leading: CircleAvatar(child: Icon(CommunityMaterialIcons.restore)),
+                  title: Text("View Backups"),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return RestoreView();
+                        },
+                      ),
+                    );
+                  },
                 )
               ],
             ),
