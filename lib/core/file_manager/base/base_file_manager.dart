@@ -4,8 +4,11 @@ import 'package:flutter/foundation.dart';
 import 'package:spooky/core/file_manager/base/file_manager_mixin.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 
 abstract class BaseFileManager<T extends BaseModel> with FileManagerMixin {
+  Directory get root => FileHelper.directory;
+
   Future<FileSystemEntity?> write(File file, T content) async {
     return beforeExec(() async {
       await ensureFileExist(file);
@@ -17,7 +20,8 @@ abstract class BaseFileManager<T extends BaseModel> with FileManagerMixin {
 
   Future<FileSystemEntity?> delete(File file) async {
     return beforeExec(() async {
-      return file.delete();
+      if (file.existsSync()) return file.delete();
+      return null;
     });
   }
 

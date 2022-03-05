@@ -1,10 +1,8 @@
 import 'dart:io';
-
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/types/cloud_storage_type.dart';
 
 part 'story_model.g.dart';
 
@@ -23,24 +21,11 @@ class StoryModel extends BaseModel {
   @JsonKey(ignore: true)
   File get writableFile => file ?? path.toFile();
 
-  // sync infos
-  final bool synced;
-  final Map<String, String>? cloudIds;
-
-  String? cloudID(CloudStorageType type) {
-    if (cloudIds != null && cloudIds?.containsKey(type.name) == true) {
-      return cloudIds?[type.name];
-    }
-    return null;
-  }
-
   StoryModel({
     required this.id,
     required this.path,
-    this.synced = false,
     this.file,
     this.changes = const [],
-    this.cloudIds,
   });
 
   factory StoryModel.fromNow() {
@@ -65,16 +50,12 @@ class StoryModel extends BaseModel {
     PathModel? path,
     File? file,
     List<StoryContentModel>? changes,
-    bool? synced,
-    Map<String, String>? cloudIds,
   }) {
     return StoryModel(
       id: id ?? this.id,
       path: path ?? this.path,
       file: file ?? this.file,
       changes: changes ?? this.changes,
-      synced: synced ?? this.synced,
-      cloudIds: cloudIds ?? this.cloudIds,
     );
   }
 
@@ -84,12 +65,6 @@ class StoryModel extends BaseModel {
     last = last.copyWith(starred: value, updatedAt: DateTime.now());
     changes.add(last);
     return this;
-  }
-
-  StoryModel copyWithSync(String id, CloudStorageType type) {
-    Map<String, String> cloudIds = this.cloudIds ?? {};
-    cloudIds[type.name] = id;
-    return copyWith(synced: true, cloudIds: cloudIds);
   }
 
   void removeChangeById(String id) {

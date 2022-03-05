@@ -51,25 +51,9 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<List<int>> fetchYears() async {
-    Directory docsPath = storyManager.directory;
-    if (await docsPath.exists()) {
-      await storyManager.ensureDirExist(docsPath);
-
-      List<FileSystemEntity> result = docsPath.listSync();
-      List<String> years = result.map((e) {
-        return e.absolute.path.split("/").last;
-      }).toList();
-
-      Set<int> yearsInt = {};
-      for (String e in years) {
-        int? y = int.tryParse(e);
-        if (y != null) yearsInt.add(y);
-      }
-
-      yearsInt.add(year);
-      return yearsInt.toList();
-    }
-    return [year];
+    Set<int> years = await storyManager.fetchYears() ?? {};
+    years.add(year);
+    return years.toList();
   }
 
   int get docsCount {

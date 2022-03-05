@@ -1,3 +1,8 @@
+import 'dart:async';
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 
@@ -51,5 +56,41 @@ class MessengerService {
 
   void hideCurrentMaterialBanner() {
     return _state?.hideCurrentMaterialBanner();
+  }
+
+  Future<T?> showLoading<T>({
+    required Future<T?> Function() future,
+    required BuildContext context,
+  }) async {
+    Completer<T> completer = Completer();
+    future().then((value) => completer.complete(value));
+
+    if (!kIsWeb && Platform.isIOS) {
+      return showCupertinoDialog<T>(
+        context: context,
+        builder: (context) => _loadingBuilder<T>(context, completer),
+        barrierDismissible: false,
+      );
+    } else {
+      return showDialog<T>(
+        context: context,
+        builder: (context) => _loadingBuilder<T>(context, completer),
+        barrierDismissible: false,
+      );
+    }
+  }
+
+  Widget _loadingBuilder<T>(BuildContext context, Completer<T> future) {
+    return FutureBuilder<T>(
+      future: future.future.then((value) {
+        Navigator.of(context).pop(value);
+        return value;
+      }),
+      builder: (context, snapshot) {
+        return AlertDialog(
+          content: CircularProgressIndicator.adaptive(),
+        );
+      },
+    );
   }
 }

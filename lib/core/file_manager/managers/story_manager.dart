@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:spooky/core/file_manager/base/base_story_manager.dart';
+import 'package:spooky/core/file_manager/managers/backup_file_manager.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
@@ -32,13 +33,42 @@ class StoryManager extends BaseStoryManager<StoryModel> {
     if (newFile != null) {
       return write(
         newFile,
-        story.copyWith(
-          path: newPath,
-          synced: false,
-        ),
+        story.copyWith(path: newPath),
       );
     }
 
+    return null;
+  }
+
+  Future<Set<int>?> fetchYears() async {
+    Directory docsPath = directory;
+    if (await docsPath.exists()) {
+      await ensureDirExist(docsPath);
+
+      List<FileSystemEntity> result = docsPath.listSync();
+      Set<String> years = result.map((e) {
+        return e.absolute.path.split("/").last;
+      }).toSet();
+
+      Set<int> yearsInt = {};
+      for (String e in years) {
+        int? y = int.tryParse(e);
+        if (y != null) yearsInt.add(y);
+      }
+
+      return yearsInt;
+    }
+    return null;
+  }
+
+  @override
+  Future<FileSystemEntity?> write(File file, StoryModel content) async {
+    FileSystemEntity? written = await super.write(file, content);
+    if (written != null) {
+      // call to unsyced
+      await BackupFileManager().unsynced(content.path.year);
+      return written;
+    }
     return null;
   }
 }

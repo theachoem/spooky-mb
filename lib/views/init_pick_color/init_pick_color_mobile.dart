@@ -29,9 +29,12 @@ class _InitPickColorMobile extends StatelessWidget {
         margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + ConfigConstant.margin2),
         child: Builder(builder: (context) {
           return SpButton(
-            label: "Done",
+            label: "Next",
             onTap: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
+              // Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return RestoreView();
+              }));
             },
           );
         }),

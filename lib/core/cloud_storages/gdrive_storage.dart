@@ -192,4 +192,36 @@ class GDriveStorage extends BaseCloudStorage {
     }
     return null;
   }
+
+  Future<String?> get(Map<String, dynamic> options) async {
+    CloudFileModel file = options['file'];
+    drive.DriveApi? driveApi = await driveClient;
+
+    if (driveApi != null) {
+      CloudFileModel? fileInfo = await exist({'file_id': file.id});
+      if (fileInfo != null) {
+        Object? media = await driveApi.files.get(
+          fileInfo.id,
+          downloadOptions: drive.DownloadOptions.fullMedia,
+        );
+
+        if (media is drive.Media) {
+          List<int> dataStore = [];
+
+          Completer completer = Completer();
+          media.stream.listen(
+            (data) => dataStore.insertAll(dataStore.length, data),
+            onDone: () => completer.complete(true),
+            onError: (error) {},
+          );
+
+          await completer.future;
+          String cloudContent = utf8.decode(dataStore);
+          return cloudContent;
+        }
+      }
+    }
+
+    return null;
+  }
 }
