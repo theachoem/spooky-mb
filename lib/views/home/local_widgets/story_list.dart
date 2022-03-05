@@ -18,6 +18,8 @@ class StoryList extends StatelessWidget {
     this.emptyMessage = "Empty",
     this.onDelete,
     this.onUnarchive,
+    this.controller,
+    this.viewOnly = false,
     this.itemPadding = const EdgeInsets.all(ConfigConstant.margin2),
   }) : super(key: key);
 
@@ -26,7 +28,9 @@ class StoryList extends StatelessWidget {
   final Future<bool> Function(StoryModel story)? onUnarchive;
   final List<StoryModel>? stories;
   final String emptyMessage;
+  final bool viewOnly;
   final EdgeInsets itemPadding;
+  final ScrollController? controller;
 
   StoryModel? storyAt(int index) {
     if (stories?.isNotEmpty == true) {
@@ -49,16 +53,20 @@ class StoryList extends StatelessWidget {
         children: [
           buildTimelineDivider(),
           ListView.builder(
+            controller: controller,
             itemCount: stories?.length ?? 0,
             physics: const AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
             itemBuilder: (context, index) {
-              return buildAnimatedTileWrapper(
-                index: index,
-                child: buildSeparatorTile(
+              return IgnorePointer(
+                ignoring: viewOnly,
+                child: buildAnimatedTileWrapper(
                   index: index,
-                  context: context,
-                  child: buildConfiguredTile(index, context),
+                  child: buildSeparatorTile(
+                    index: index,
+                    context: context,
+                    child: buildConfiguredTile(index, context),
+                  ),
                 ),
               );
             },

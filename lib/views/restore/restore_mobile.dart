@@ -7,6 +7,7 @@ class _RestoreMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: buildBottomNavigation(context),
       body: CustomScrollView(
         slivers: [
           buildAppBar(context),
@@ -38,20 +39,10 @@ class _RestoreMobile extends StatelessWidget {
                 if (viewModel.fileList != null)
                   SpSectionContents(
                     headline: "Backups",
-                    tiles: viewModel.fileList?.files.map(
-                          (e) {
-                            BackupDisplayModel display = BackupDisplayModel.fromCloudModel(e);
-                            return ListTile(
-                              title: Text(display.fileName),
-                              subtitle: display.displayCreateAt != null
-                                  ? Text("Created at " + display.displayCreateAt!)
-                                  : null,
-                              onTap: () {
-                                viewModel.restore(context, e);
-                              },
-                            );
-                          },
-                        ).toList() ??
+                    tiles: viewModel.fileList?.files.map((e) {
+                          BackupDisplayModel display = BackupDisplayModel.fromCloudModel(e);
+                          return buildYearTile(context, e, display);
+                        }).toList() ??
                         [],
                   )
               ],
@@ -59,6 +50,83 @@ class _RestoreMobile extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  SpPopupMenuButton buildYearTile(
+    BuildContext context,
+    CloudFileModel e,
+    BackupDisplayModel display,
+  ) {
+    return SpPopupMenuButton(
+      dxGetter: (dx) => MediaQuery.of(context).size.width,
+      items: (context) {
+        return [
+          SpPopMenuItem(
+            title: "Restore",
+            leadingIconData: Icons.restore,
+            onPressed: () => viewModel.restore(context, e),
+          ),
+          SpPopMenuItem(
+            title: "View",
+            leadingIconData: Icons.list,
+            onPressed: () async {
+              BackupModel? result =
+                  await MessengerService.instance.showLoading(future: () => viewModel.download(e), context: context);
+              if (result == null) return;
+              showModalBottomSheet(
+                context: context,
+                isScrollControlled: true,
+                isDismissible: true,
+                useRootNavigator: true,
+                builder: (context) {
+                  return DraggableScrollableSheet(
+                    expand: false,
+                    builder: (context, controller) {
+                      return Scaffold(
+                        body: StoryList(
+                          viewOnly: true,
+                          controller: controller,
+                          onRefresh: () async {},
+                          stories: result.stories,
+                        ),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          ),
+        ];
+      },
+      builder: (callback) {
+        return ListTile(
+          title: Text("Stories in " + display.fileName),
+          subtitle: display.displayCreateAt != null ? Text("Created at " + display.displayCreateAt!) : null,
+          onTap: () => callback(),
+        );
+      },
+    );
+  }
+
+  Widget buildBottomNavigation(BuildContext context) {
+    return Wrap(
+      alignment: WrapAlignment.center,
+      children: [
+        Container(
+          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: SpButton(
+            label: "Done",
+            onTap: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
+            },
+          ),
+        ),
+        SizedBox(
+          width: double.infinity,
+          height: MediaQuery.of(context).padding.bottom + ConfigConstant.margin2,
+        ),
+      ],
     );
   }
 

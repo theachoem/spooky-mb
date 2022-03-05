@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:spooky/core/api/authentication/google_auth_service.dart';
 import 'package:spooky/core/base/base_view_model.dart';
@@ -17,7 +18,9 @@ class RestoreViewModel extends BaseViewModel {
   GoogleSignInAccount? googleUser;
 
   CloudFileListModel? fileList;
-  // RestoreViewModel() {}
+  RestoreViewModel() {
+    load();
+  }
 
   Future<void> load() async {
     await loadAuthentication();
@@ -40,19 +43,34 @@ class RestoreViewModel extends BaseViewModel {
     load();
   }
 
-  Future<void> restore(BuildContext context, CloudFileModel file) async {
-    MessengerService.instance.showSnackBar("Loading");
+  Map<String, BackupModel> cacheDownloadRestores = {};
+  Future<BackupModel?> download(CloudFileModel file) async {
+    if (cacheDownloadRestores.containsKey(file.id)) {
+      return cacheDownloadRestores[file.id]!;
+    } else {
+      GDriveBackupStorage storage = GDriveBackupStorage();
+      String? content = await storage.get({"file": file});
+      if (content != null) {
+        dynamic map = jsonDecode(content);
+        BackupModel backup = BackupModel.fromJson(map);
+        cacheDownloadRestores[file.id] = backup;
+        return backup;
+      }
+    }
+    return null;
+  }
 
-    GDriveBackupStorage storage = GDriveBackupStorage();
-    String? content = await storage.get({"file": file});
-    if (content != null) {
-      dynamic map = jsonDecode(content);
-      BackupModel backup = BackupModel.fromJson(map);
+  Future<bool> restore(BuildContext context, CloudFileModel file) async {
+    BackupModel? backup = await MessengerService.instance.showLoading(future: () => download(file), context: context);
+    if (backup != null) {
       for (StoryModel e in backup.stories) {
         await StoryManager().write(e.path.toFile(), e);
       }
     }
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      MessengerService.instance.showSnackBar("Restored");
+    });
 
-    MessengerService.instance.showSnackBar("Synced");
+    return true;
   }
 }
