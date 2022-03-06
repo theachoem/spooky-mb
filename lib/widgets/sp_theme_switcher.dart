@@ -1,7 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/theme_mode_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';

@@ -27,7 +27,6 @@ import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/theme_setting/theme_setting_view.dart';
 
 export 'router.gr.dart';
-export 'sp_route_extension.dart';
 
 class SpRouteConfig {
   final RouteSettings? settings;
@@ -48,15 +47,14 @@ class SpRouteConfig {
     SpRouter router = SpRouter.notFound;
 
     for (SpRouter element in SpRouter.values) {
-      if (settings?.name == element.name) {
+      if (settings?.name == element.path) {
         router = element;
         break;
       }
     }
 
     BaseRouteSetting? setting = routes[router];
-    Route route = setting!.toRoute(context, settings);
-    return route;
+    return setting!.toRoute(context, settings);
   }
 
   BaseRouteSetting _buildRoute(SpRouter router) {

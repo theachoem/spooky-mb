@@ -32,9 +32,7 @@ class _InitPickColorMobile extends StatelessWidget {
             label: "Next",
             onTap: () {
               // Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return const RestoreView();
-              }));
+              Navigator.of(context).pushNamed(SpRouter.restore.path);
             },
           );
         }),

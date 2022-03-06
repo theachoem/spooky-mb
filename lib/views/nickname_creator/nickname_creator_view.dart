@@ -2,7 +2,6 @@ library nickname_creator_view;
 
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/providers/nickname_provider.dart';

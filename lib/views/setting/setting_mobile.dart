@@ -22,7 +22,7 @@ class _SettingMobile extends StatelessWidget {
               leading: const Icon(Icons.cloud),
               title: const Text("Cloud Storage"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CloudStorageView()));
+                Navigator.of(context).pushNamed(SpRouter.cloudStorage.path);
               },
             ),
             ListTile(
@@ -51,7 +51,7 @@ class _SettingMobile extends StatelessWidget {
                 leading: const Icon(Icons.developer_mode),
                 title: const Text("Developer"),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DeveloperModeView()));
+                  Navigator.of(context).pushNamed(SpRouter.developerModeView.path);
                 },
               ),
             ),

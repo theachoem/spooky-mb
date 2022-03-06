@@ -33,13 +33,7 @@ class _CloudStorageMobile extends StatelessWidget {
                   leading: const CircleAvatar(child: Icon(CommunityMaterialIcons.restore)),
                   title: const Text("View Backups"),
                   onTap: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return const RestoreView();
-                        },
-                      ),
-                    );
+                    Navigator.of(context).pushNamed(SpRouter.restore.path);
                   },
                 )
               ],
