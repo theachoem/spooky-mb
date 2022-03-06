@@ -19,7 +19,7 @@ class FontManagerSearchDelegate extends SearchDelegate {
 
   @override
   Widget? buildLeading(BuildContext context) {
-    return SpPopButton();
+    return const SpPopButton();
   }
 
   @override

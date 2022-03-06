@@ -17,7 +17,7 @@ class SpDeveloperVisibility extends StatelessWidget {
       builder: (context, provider, child) {
         return Visibility(
           visible: provider.developerModeOn,
-          child: child ?? SizedBox.shrink(),
+          child: child ?? const SizedBox.shrink(),
         );
       },
     );

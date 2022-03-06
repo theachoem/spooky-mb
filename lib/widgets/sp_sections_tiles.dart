@@ -35,7 +35,7 @@ class SpSectionsTiles extends StatelessWidget {
         ),
         ConfigConstant.sizedBoxH0,
         ...sections[i].tiles,
-        if (i != sections.length - 1) Divider(height: 0),
+        if (i != sections.length - 1) const Divider(height: 0),
       ]
     ];
   }

@@ -55,7 +55,7 @@ class _AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.resumed:
-        cancelTimer(ValueKey("SecurityService"));
+        cancelTimer(const ValueKey("SecurityService"));
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
@@ -63,7 +63,7 @@ class _AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver
         LockLifeCircleDurationStorage().read().then((e) {
           scheduleAction(
             () => showLock(),
-            key: ValueKey("SecurityService"),
+            key: const ValueKey("SecurityService"),
             duration: Duration(seconds: e ?? AppConstant.lockLifeDefaultCircleDuration.inSeconds),
           );
         });

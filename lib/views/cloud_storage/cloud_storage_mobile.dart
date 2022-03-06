@@ -8,7 +8,7 @@ class _CloudStorageMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: SpPopButton(),
+        leading: const SpPopButton(),
         title: Text(
           "Cloud Storage",
           style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -30,13 +30,13 @@ class _CloudStorageMobile extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: CircleAvatar(child: Icon(CommunityMaterialIcons.restore)),
-                  title: Text("View Backups"),
+                  leading: const CircleAvatar(child: Icon(CommunityMaterialIcons.restore)),
+                  title: const Text("View Backups"),
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) {
-                          return RestoreView();
+                          return const RestoreView();
                         },
                       ),
                     );
@@ -61,11 +61,17 @@ class _CloudStorageMobile extends StatelessWidget {
           onTap: e.synced ? null : () => viewModel.backup(e.year),
           trailing: SpCrossFade(
             showFirst: e.synced,
+            alignment: Alignment.bottomRight,
             firstChild: Text("Synced"),
             secondChild: SpAnimatedIcons(
               showFirst: !loadingYears.contains(e.year),
-              firstChild: Icon(Icons.backup),
-              secondChild: CircularProgressIndicator.adaptive(),
+              firstChild: const Icon(Icons.backup),
+              secondChild: AspectRatio(
+                aspectRatio: 1,
+                child: Center(
+                  child: const CircularProgressIndicator.adaptive(),
+                ),
+              ),
             ),
           ),
         );

@@ -22,7 +22,7 @@ class _SettingMobile extends StatelessWidget {
               leading: const Icon(Icons.cloud),
               title: const Text("Cloud Storage"),
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CloudStorageView()));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const CloudStorageView()));
               },
             ),
             ListTile(
@@ -51,7 +51,7 @@ class _SettingMobile extends StatelessWidget {
                 leading: const Icon(Icons.developer_mode),
                 title: const Text("Developer"),
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => DeveloperModeView()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const DeveloperModeView()));
                 },
               ),
             ),
@@ -62,8 +62,8 @@ class _SettingMobile extends StatelessWidget {
                 PackageInfo info = await PackageInfo.fromPlatform();
                 about.showLicensePage(
                   context: context,
-                  applicationIcon: Padding(
-                    padding: const EdgeInsets.all(ConfigConstant.margin2),
+                  applicationIcon: const Padding(
+                    padding: EdgeInsets.all(ConfigConstant.margin2),
                     child: FlutterLogo(
                       size: ConfigConstant.iconSize4,
                     ),
@@ -74,7 +74,7 @@ class _SettingMobile extends StatelessWidget {
                 );
               },
             ),
-            SpAppVersion(),
+            const SpAppVersion(),
           ],
         ).toList(),
       ),

@@ -101,7 +101,7 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
         secondChild: AnimatedContainer(
           width: ConfigConstant.objectHeight1,
           duration: ConfigConstant.fadeDuration,
-          child: Icon(Icons.menu_book_rounded),
+          child: const Icon(Icons.menu_book_rounded),
           alignment: Alignment.center,
         ),
         firstChild: Container(

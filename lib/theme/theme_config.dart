@@ -21,7 +21,7 @@ class ThemeConfig {
     ColorScheme colorScheme = isDarkMode ? _dark : _light;
     TextTheme textTheme = buildTextTheme();
     return ThemeData(
-      // platform: TargetPlatform.android,
+      platform: TargetPlatform.android,
       useMaterial3: true,
       primaryColor: colorScheme.primary,
       backgroundColor: colorScheme.background,

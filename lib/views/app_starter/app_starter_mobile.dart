@@ -36,7 +36,7 @@ class _AppStarterMobile extends StatelessWidget {
       alignment: WrapAlignment.center,
       children: [
         buildPolicyAlert(context),
-        SizedBox(height: 16.0, width: double.infinity),
+        const SizedBox(height: 16.0, width: double.infinity),
         buildSignUpButton(context),
         SizedBox(
           width: double.infinity,
@@ -63,7 +63,7 @@ class _AppStarterMobile extends StatelessWidget {
       text: TextSpan(
         style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onPrimary),
         children: [
-          TextSpan(text: "By tapping on “Sign up & Accept”, you agree to the "),
+          const TextSpan(text: "By tapping on “Sign up & Accept”, you agree to the "),
           WidgetSpan(
             child: SpTapEffect(
               onTap: () {},

@@ -819,7 +819,7 @@ class _PackageLicensePageState extends State<_PackageLicensePage> {
     if (widget.scrollController == null) {
       page = Scaffold(
         appBar: MorphingAppBar(
-          leading: SpPopButton(),
+          leading: const SpPopButton(),
           title: _PackageLicensePageTitle(
             title,
             subtitle,

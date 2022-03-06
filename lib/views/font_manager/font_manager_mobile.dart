@@ -14,7 +14,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
     return Scaffold(
       key: scaffoldkey,
       appBar: MorphingAppBar(
-        leading: SpPopButton(),
+        leading: const SpPopButton(),
         title: Text(
           "Font Manager",
           style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -44,7 +44,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
   Widget buildSearch(BuildContext context) {
     return SpIconButton(
       tooltip: "Search fonts",
-      icon: Icon(Icons.search),
+      icon: const Icon(Icons.search),
       onPressed: () {
         showSearch(
           context: context,
@@ -79,9 +79,9 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
       headline: "Info",
       tiles: [
         ListTile(
-          title: Text("Selected Font"),
+          title: const Text("Selected Font"),
           subtitle: Text(ThemeConfig.fontFamily),
-          trailing: Icon(Icons.keyboard_arrow_right),
+          trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
             Uri? uri = Uri.tryParse(provider);
             if (uri == null) return;
@@ -99,9 +99,9 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           },
         ),
         ListTile(
-          title: Text("Provider"),
-          subtitle: Text("font.google.com"),
-          trailing: Icon(Icons.keyboard_arrow_right),
+          title: const Text("Provider"),
+          subtitle: const Text("font.google.com"),
+          trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
             if (await canLaunch(provider)) {
               launch(
@@ -141,8 +141,8 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
       headline: "Setting",
       tiles: [
         ListTile(
-          title: Text("Font Weight"),
-          trailing: Icon(Icons.keyboard_arrow_right),
+          title: const Text("Font Weight"),
+          trailing: const Icon(Icons.keyboard_arrow_right),
           subtitle: Text(widget.viewModel.trimFontWeight(ThemeConfig.fontWeight)),
           onTap: () async {
             FontWeight? fontWeight = await showConfirmationDialog(
@@ -163,8 +163,8 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           },
         ),
         ListTile(
-          title: Text("Restore Default Style"),
-          trailing: Icon(Icons.keyboard_arrow_right),
+          title: const Text("Restore Default Style"),
+          trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () {
             context.read<ColorSeedProvider>().resetFontStyle();
           },

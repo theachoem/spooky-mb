@@ -46,13 +46,13 @@ class _ManagePagesMobile extends StatelessWidget {
           return SpAnimatedIcons(
             showFirst: viewModel.hasChangeNotifier.value,
             firstChild: Center(
-              key: ValueKey(Icons.refresh_outlined),
+              key: const ValueKey(Icons.refresh_outlined),
               child: SpIconButton(
-                icon: Icon(Icons.refresh_outlined),
+                icon: const Icon(Icons.refresh_outlined),
                 onPressed: () => viewModel.reload(),
               ),
             ),
-            secondChild: SizedBox.shrink(key: ValueKey("SizeBox")),
+            secondChild: const SizedBox.shrink(key: ValueKey("SizeBox")),
           );
         },
       ),
@@ -61,9 +61,9 @@ class _ManagePagesMobile extends StatelessWidget {
         builder: (context, value, child) {
           return SpAnimatedIcons(
             firstChild: Center(
-              key: ValueKey(Icons.save),
+              key: const ValueKey(Icons.save),
               child: SpIconButton(
-                icon: Icon(Icons.save),
+                icon: const Icon(Icons.save),
                 onPressed: () async {
                   bool hasDeleteSomePage = viewModel.content.pages?.length != viewModel.documents.length;
                   OkCancelResult result = await showOkCancelAlertDialog(
@@ -86,7 +86,7 @@ class _ManagePagesMobile extends StatelessWidget {
                 },
               ),
             ),
-            secondChild: SizedBox.shrink(key: ValueKey("SizeBox")),
+            secondChild: const SizedBox.shrink(key: ValueKey("SizeBox")),
             showFirst: viewModel.hasChangeNotifier.value,
           );
         },
@@ -118,7 +118,7 @@ class _ManagePagesMobile extends StatelessWidget {
         ListTile(
           title: Text(item.key.toString()),
           subtitle: text.isEmpty ? null : Text(text, maxLines: 1),
-          trailing: Icon(Icons.reorder),
+          trailing: const Icon(Icons.reorder),
         ),
         const Divider(height: 0)
       ],

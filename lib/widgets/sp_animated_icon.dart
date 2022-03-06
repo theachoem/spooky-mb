@@ -22,13 +22,13 @@ class SpAnimatedIcons extends StatelessWidget {
 
     if (firstChild.key == null) {
       _firstChild = SizedBox(
-        key: ValueKey("1"),
+        key: const ValueKey("1"),
         child: firstChild,
       );
     }
     if (secondChild.key == null) {
       _secondChild = SizedBox(
-        key: ValueKey("2"),
+        key: const ValueKey("2"),
         child: secondChild,
       );
     }

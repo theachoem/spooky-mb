@@ -170,7 +170,7 @@ class _StoryTileState extends State<StoryTile> {
             title: "Exported",
             message: manager.displayPath(exportedFile),
             actions: [
-              SheetAction(
+              const SheetAction(
                 label: "Open File",
                 key: "open",
               ),
@@ -285,7 +285,7 @@ class _StoryTileState extends State<StoryTile> {
                       collapseOnTextTap: false,
                       style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onSurface),
                       linkColor: M3Color.of(context).onSurface,
-                      linkStyle: TextStyle(fontWeight: FontWeight.w300),
+                      linkStyle: const TextStyle(fontWeight: FontWeight.w300),
                     ),
                   ),
                 StoryTileChips(

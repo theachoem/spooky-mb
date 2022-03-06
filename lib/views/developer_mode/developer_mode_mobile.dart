@@ -8,7 +8,7 @@ class _DeveloperModeMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: SpPopButton(),
+        leading: const SpPopButton(),
         title: Text(
           "Developer",
           style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -21,9 +21,9 @@ class _DeveloperModeMobile extends StatelessWidget {
             Consumer<NicknameProvider>(
               builder: (context, provider, child) {
                 return ListTile(
-                  title: Text("Reset Nickname"),
+                  title: const Text("Reset Nickname"),
                   subtitle: Text(provider.name?.isNotEmpty == true ? provider.name! : "Empty"),
-                  trailing: Icon(Icons.keyboard_arrow_right),
+                  trailing: const Icon(Icons.keyboard_arrow_right),
                   onTap: () {
                     provider.clearNickname();
                     MessengerService.instance.showSnackBar("Cleared");
@@ -36,16 +36,16 @@ class _DeveloperModeMobile extends StatelessWidget {
                 children: [
                   Flexible(
                     child: ListTile(
-                      title: Text("Restart App"),
-                      subtitle: Text("Flutter Level"),
+                      title: const Text("Restart App"),
+                      subtitle: const Text("Flutter Level"),
                       onTap: () => Phoenix.rebirth(context),
                     ),
                   ),
-                  VerticalDivider(width: 0),
+                  const VerticalDivider(width: 0),
                   Flexible(
                     child: ListTile(
-                      title: Text("Restart App"),
-                      subtitle: Text("Native Level"),
+                      title: const Text("Restart App"),
+                      subtitle: const Text("Native Level"),
                       onTap: () => Restart.restartApp(),
                     ),
                   ),
@@ -57,9 +57,9 @@ class _DeveloperModeMobile extends StatelessWidget {
               builder: (context, snapshot) {
                 PackageInfo? info = snapshot.data;
                 return ListTile(
-                  title: Text("Package Infos"),
+                  title: const Text("Package Infos"),
                   subtitle: info != null ? Text(info.version) : null,
-                  trailing: Icon(Icons.keyboard_arrow_right),
+                  trailing: const Icon(Icons.keyboard_arrow_right),
                   onTap: () async {
                     showOkAlertDialog(
                       context: context,

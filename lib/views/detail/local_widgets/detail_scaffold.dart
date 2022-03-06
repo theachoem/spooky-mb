@@ -60,7 +60,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
       builder: (context, readOnly, child) {
         return SpCrossFade(
           showFirst: !readOnly,
-          secondChild: SizedBox.shrink(),
+          secondChild: const SizedBox.shrink(),
           firstChild: Material(
             color: Theme.of(context).canvasColor,
             child: Padding(
@@ -70,7 +70,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
                 // update toolbar state once a controller is inited
                 valueListenable: widget.viewModel.quillControllerInitedNotifier,
                 builder: (context, inited, child) {
-                  return widget.toolbarBuilder() ?? SizedBox.shrink();
+                  return widget.toolbarBuilder() ?? const SizedBox.shrink();
                 },
               ),
             ),
@@ -88,8 +88,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
         ValueListenableBuilder<bool>(
           valueListenable: widget.readOnlyNotifier,
           child: SpIconButton(
-            icon: Icon(Icons.add_chart),
-            key: ValueKey(Icons.add_chart),
+            icon: const Icon(Icons.add_chart),
+            key: const ValueKey(Icons.add_chart),
             onPressed: () {
               widget.viewModel.addPage();
             },

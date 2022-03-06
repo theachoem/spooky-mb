@@ -12,7 +12,7 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
     bool authenticate = await enhancedScreenLock(
       context: option.context,
       correctString: option.object!.secret,
-      customizedButtonChild: Icon(Icons.fingerprint),
+      customizedButtonChild: const Icon(Icons.fingerprint),
       didUnlocked: () => Navigator.of(option.context).pop(true),
       customizedButtonTap: () async {
         bool authenticated = await _authentication();

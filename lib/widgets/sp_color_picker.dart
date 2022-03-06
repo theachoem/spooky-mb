@@ -52,7 +52,7 @@ class SpColorPicker extends StatefulWidget {
     bool isDarkMode = Theme.of(context).colorScheme.brightness == Brightness.dark;
     final ColorSwatch blackWhiteColor = ColorSwatch(
       isDarkMode ? 0xFFFFFFFF : 0xFF000000,
-      {50: Color(0xff000000), 100: Color(0xffffffff)},
+      const {50: Color(0xff000000), 100: Color(0xffffffff)},
     );
     return blackWhiteColor;
   }
@@ -85,7 +85,7 @@ class _SpColorPickerState extends State<SpColorPicker> {
   }
 
   void _setCurrentColor() {
-    Future.delayed(Duration(milliseconds: 1)).then((value) {
+    Future.delayed(const Duration(milliseconds: 1)).then((value) {
       for (ColorSwatch e in _colorsSwatch) {
         final _colorSwatches = _getMaterialColorShades(e);
         if (_colorSwatches.contains(widget.currentColor)) {
@@ -137,7 +137,7 @@ class _SpColorPickerState extends State<SpColorPicker> {
       _colorNormal = _getMaterialColorShades(color!);
       _colorsMap = listToTreeMap(_colorNormal);
     });
-    Future.delayed(Duration(milliseconds: 100)).then((value) {
+    Future.delayed(const Duration(milliseconds: 100)).then((value) {
       if (widget.currentColor != null && _colorNormal.contains(widget.currentColor)) {
         setState(() {
           currentSelectedColor = widget.currentColor;
@@ -253,7 +253,7 @@ class SpColorItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(1.0),
         child: SpTapEffect(
-          effects: [
+          effects: const [
             // SpTapEffectType.touchableOpacity,
             SpTapEffectType.border,
           ],

@@ -30,12 +30,12 @@ class _ChangesHistoryMobile extends StatelessWidget {
   Widget buildPopButton() {
     return SpAnimatedIcons(
       showFirst: !viewModel.editing,
-      firstChild: SpPopButton(
+      firstChild: const SpPopButton(
         key: ValueKey("PopButtonOnViewing"),
       ),
       secondChild: SpIconButton(
-        icon: Icon(Icons.clear),
-        key: ValueKey("PopButtonOnEditing"),
+        icon: const Icon(Icons.clear),
+        key: const ValueKey("PopButtonOnEditing"),
         onPressed: () {
           viewModel.toggleEditing();
         },
@@ -70,8 +70,8 @@ class _ChangesHistoryMobile extends StatelessWidget {
         return SpAnimatedIcons(
           showFirst: viewModel.editing && viewModel.selectedNotifier.value.isNotEmpty,
           firstChild: SpIconButton(
-            icon: Icon(Icons.delete),
-            key: ValueKey(Icons.delete),
+            icon: const Icon(Icons.delete),
+            key: const ValueKey(Icons.delete),
             onPressed: () async {
               OkCancelResult result = await showOkCancelAlertDialog(
                 context: context,
@@ -92,7 +92,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               }
             },
           ),
-          secondChild: SizedBox.shrink(
+          secondChild: const SizedBox.shrink(
             key: ValueKey("SizeBox"),
           ),
         );
@@ -155,7 +155,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               subtitle: buildSubtitle(content, context),
               trailing: SpCrossFade(
                 showFirst: !viewModel.editing,
-                firstChild: SizedBox(
+                firstChild: const SizedBox(
                   height: ConfigConstant.objectHeight1,
                   child: Icon(Icons.more_vert),
                 ),
@@ -210,7 +210,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
       "Created at $date",
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(fontWeight: FontWeight.w500),
+      style: const TextStyle(fontWeight: FontWeight.w500),
     );
   }
 }

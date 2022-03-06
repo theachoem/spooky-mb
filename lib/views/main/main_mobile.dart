@@ -64,7 +64,7 @@ class _MainMobile extends StatelessWidget {
                 curve: Curves.ease,
                 child: Wrap(
                   children: [
-                    child2 ?? SizedBox.shrink(),
+                    child2 ?? const SizedBox.shrink(),
                   ],
                 ),
               ),
@@ -79,7 +79,7 @@ class _MainMobile extends StatelessWidget {
     return SpShowHideAnimator(
       shouldShow: viewModel.activeIndex == 0,
       child: SpTapEffect(
-        effects: [SpTapEffectType.scaleDown],
+        effects: const [SpTapEffectType.scaleDown],
         onTap: () => viewModel.createStory(context),
         onLongPressed: () {
           viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value);
@@ -120,10 +120,10 @@ class _MainMobile extends StatelessWidget {
         );
         break;
       case SpRouteConfig.explore:
-        screen = ExploreView();
+        screen = const ExploreView();
         break;
       case SpRouteConfig.setting:
-        screen = SettingView();
+        screen = const SettingView();
         break;
       default:
         screen = SpRouteConfig.buildNotFound();

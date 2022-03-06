@@ -33,7 +33,7 @@ class SpThemeSwitcher extends StatefulWidget {
       title: "Theme",
       initialSelectedActionKey: context.read<ThemeModeProvider>().mode.name,
       actions: themeModeActions
-        ..add(AlertDialogAction(
+        ..add(const AlertDialogAction(
           key: "setting",
           label: "Go to Setting",
           isDefaultAction: true,
@@ -113,8 +113,8 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
     Color _color = widget.color ?? M3Color.of(context).primary;
     return SpAnimatedIcons(
       duration: ConfigConstant.duration * 3,
-      firstChild: Icon(Icons.dark_mode, color: _color, key: ValueKey(Brightness.dark)),
-      secondChild: Icon(Icons.light_mode, color: _color, key: ValueKey(Brightness.light)),
+      firstChild: Icon(Icons.dark_mode, color: _color, key: const ValueKey(Brightness.dark)),
+      secondChild: Icon(Icons.light_mode, color: _color, key: const ValueKey(Brightness.light)),
       showFirst: isDarkMode,
     );
   }

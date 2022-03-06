@@ -80,13 +80,13 @@ class SpRouteConfig {
         title: "Font Manager",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => FontManagerView(),
+        route: (context) => const FontManagerView(),
       ),
       themeSetting: DefaultRouteSetting(
         title: "Theme Setting",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => ThemeSettingView(),
+        route: (context) => const ThemeSettingView(),
       ),
       managePages: DefaultRouteSetting(
         title: "Manage Pages",
@@ -102,7 +102,7 @@ class SpRouteConfig {
         title: "Archive",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => ArchiveView(),
+        route: (context) => const ArchiveView(),
       ),
       contentReader: DefaultRouteSetting(
         title: "Content Reader",
@@ -149,13 +149,13 @@ class SpRouteConfig {
         title: "Main",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => MainView(),
+        route: (context) => const MainView(),
       ),
       main: DefaultRouteSetting(
         title: "Main",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => MainView(),
+        route: (context) => const MainView(),
       ),
       home: DefaultRouteSetting(
         title: "Home",
@@ -178,31 +178,31 @@ class SpRouteConfig {
         title: "Explore",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => ExploreView(),
+        route: (context) => const ExploreView(),
       ),
       setting: DefaultRouteSetting(
         title: "Setting",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => SettingView(),
+        route: (context) => const SettingView(),
       ),
       initPickColor: AnimatedRouteSetting(
         title: "Pick Color",
         fullscreenDialog: true,
         fillColor: M3Color.of(context).background,
-        route: (context) => InitPickColorView(),
+        route: (context) => const InitPickColorView(),
       ),
       nicknameCreator: AnimatedRouteSetting(
         title: "Nickname Creator",
         fullscreenDialog: true,
         fillColor: M3Color.of(context).background,
-        route: (context) => NicknameCreatorView(),
+        route: (context) => const NicknameCreatorView(),
       ),
       security: DefaultRouteSetting(
         title: "Security",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => SecurityView(),
+        route: (context) => const SecurityView(),
       ),
       lock: DefaultRouteSetting(
         title: "Lock",
@@ -220,7 +220,7 @@ class SpRouteConfig {
         title: "Developer Mode",
         canSwap: false,
         fullscreenDialog: false,
-        route: (context) => DeveloperModeView(),
+        route: (context) => const DeveloperModeView(),
       ),
       notFound: DefaultRouteSetting(
         title: "Not Found",
@@ -234,7 +234,7 @@ class SpRouteConfig {
   static Widget buildNotFound() {
     return Scaffold(
       appBar: AppBar(),
-      body: Center(
+      body: const Center(
         child: Text("Not found"),
       ),
     );

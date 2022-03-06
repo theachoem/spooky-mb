@@ -27,7 +27,7 @@ class PreviewTrailing extends StatelessWidget {
           duration: ConfigConstant.duration,
           showFirst: fontFamily == ThemeConfig.fontFamily,
           firstChild: Icon(Icons.check, color: M3Color.of(context).primary),
-          secondChild: SizedBox.square(dimension: ConfigConstant.iconSize2),
+          secondChild: const SizedBox.square(dimension: ConfigConstant.iconSize2),
         ),
         SpPopupMenuButton(
           items: (BuildContext context) {
@@ -42,7 +42,7 @@ class PreviewTrailing extends StatelessWidget {
           },
           builder: (callback) {
             return SpIconButton(
-              icon: Icon(Icons.preview),
+              icon: const Icon(Icons.preview),
               onPressed: () => callback(),
             );
           },

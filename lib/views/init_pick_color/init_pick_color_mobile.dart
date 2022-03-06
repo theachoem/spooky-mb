@@ -17,9 +17,9 @@ class _InitPickColorMobile extends StatelessWidget {
         automaticallyImplyLeading: false,
         title: buildTitle(),
         actions: [
-          SpThemeSwitcher(backgroundColor: Colors.transparent),
+          const SpThemeSwitcher(backgroundColor: Colors.transparent),
           SpIconButton(
-            icon: Icon(Icons.clear),
+            icon: const Icon(Icons.clear),
             onPressed: () => Navigator.maybePop(context),
           ),
         ],
@@ -33,7 +33,7 @@ class _InitPickColorMobile extends StatelessWidget {
             onTap: () {
               // Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return RestoreView();
+                return const RestoreView();
               }));
             },
           );
@@ -112,7 +112,7 @@ class _InitPickColorMobile extends StatelessWidget {
             widgets: materialColors.map((color) {
               bool selected = colorSeedProvider.currentSeedColor == color;
               return SpTapEffect(
-                effects: [SpTapEffectType.scaleDown],
+                effects: const [SpTapEffectType.scaleDown],
                 onTap: () => colorSeedProvider.updateColor(color),
                 child: AnimatedContainer(
                   duration: ConfigConstant.fadeDuration,
@@ -126,7 +126,7 @@ class _InitPickColorMobile extends StatelessWidget {
                   child: SpCrossFade(
                     showFirst: selected,
                     duration: ConfigConstant.duration * 3,
-                    secondChild: SizedBox(width: ConfigConstant.iconSize3),
+                    secondChild: const SizedBox(width: ConfigConstant.iconSize3),
                     firstChild: Icon(
                       Icons.check,
                       color: M3Color.of(context).onPrimary,

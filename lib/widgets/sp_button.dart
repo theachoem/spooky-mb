@@ -21,7 +21,7 @@ class SpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SpTapEffect(
       onTap: onTap,
-      effects: [SpTapEffectType.scaleDown],
+      effects: const [SpTapEffectType.scaleDown],
       child: TextButton(
         onPressed: null,
         child: Text(

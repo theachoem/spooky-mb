@@ -4,31 +4,36 @@ class _RestoreMobile extends StatelessWidget {
   final RestoreViewModel viewModel;
   const _RestoreMobile(this.viewModel);
 
+  double get expandedHeight => 200;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: buildBottomNavigation(context),
       extendBody: true,
-      body: CustomScrollView(
-        slivers: [
-          buildAppBar(context),
-          SliverFillRemaining(
-            child: RefreshIndicator(
-              onRefresh: () => viewModel.load(),
-              child: ListView(
-                physics: AlwaysScrollableScrollPhysics(),
-                children: SpSectionsTiles.divide(
-                  showTopDivider: true,
-                  context: context,
-                  sections: [
-                    buildCloudServices(),
-                    if (viewModel.fileList != null) buildBackups(context),
-                  ],
+      body: RefreshIndicator(
+        displacement: expandedHeight / 2,
+        onRefresh: () => viewModel.load(),
+        child: CustomScrollView(
+          slivers: [
+            buildAppBar(context),
+            SliverPadding(
+              padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + kToolbarHeight + 16.0),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  SpSectionsTiles.divide(
+                    showTopDivider: true,
+                    context: context,
+                    sections: [
+                      buildCloudServices(),
+                      if (viewModel.fileList != null) buildBackups(context),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -43,11 +48,12 @@ class _RestoreMobile extends StatelessWidget {
           return Stack(
             children: [
               buildYearsTile(context: context, item: e),
-              Container(
-                height: 4.0,
-                width: double.infinity,
-                color: M3Color.of(context).background,
-              ),
+              if (index == 0)
+                Container(
+                  height: 4.0,
+                  width: double.infinity,
+                  color: M3Color.of(context).background,
+                ),
             ],
           );
         },
@@ -176,7 +182,7 @@ class _RestoreMobile extends StatelessWidget {
 
   MorphingSliverAppBar buildAppBar(BuildContext context) {
     return MorphingSliverAppBar(
-      expandedHeight: 200,
+      expandedHeight: expandedHeight,
       backgroundColor: M3Color.of(context).background,
       leading: SpPopButton(),
       pinned: true,
@@ -224,14 +230,16 @@ class _RestoreMobile extends StatelessWidget {
           builder: (context, value, child) {
             return SpCrossFade(
               showFirst: !viewModel.showSkipNotifier.value,
-              firstChild: SizedBox.shrink(),
-              secondChild: SpButton(
-                label: "Skip",
-                backgroundColor: Colors.transparent,
-                foregroundColor: Theme.of(context).appBarTheme.titleTextStyle?.color,
-                onTap: () {
-                  Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
-                },
+              firstChild: const SizedBox.shrink(),
+              secondChild: Center(
+                child: SpButton(
+                  label: "Skip",
+                  backgroundColor: Colors.transparent,
+                  foregroundColor: Theme.of(context).appBarTheme.titleTextStyle?.color,
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
+                  },
+                ),
               ),
             );
           },

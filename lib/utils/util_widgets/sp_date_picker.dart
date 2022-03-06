@@ -29,7 +29,7 @@ class SpDatePicker {
         confirmTextStyle: TextStyle(color: color.onPrimary),
         buttonStyle: TextButton.styleFrom(
           splashFactory: null,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         ),
       ),
       onCancel: () => completer.complete(null),

@@ -8,7 +8,7 @@ class _ThemeSettingMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: SpPopButton(),
+        leading: const SpPopButton(),
         title: Text(
           "Theme",
           style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -29,8 +29,8 @@ class _ThemeSettingMobile extends StatelessWidget {
               headline: "Font",
               tiles: [
                 ListTile(
-                  title: Text("Font Manager"),
-                  leading: Icon(Icons.font_download),
+                  title: const Text("Font Manager"),
+                  leading: const Icon(Icons.font_download),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouteConfig.fontManager);
                   },
@@ -61,7 +61,7 @@ class _ThemeSettingMobile extends StatelessWidget {
       builder: (context, provider, child) {
         return SwitchListTile.adaptive(
           value: provider.shouldShow,
-          title: Text("Show chips on story"),
+          title: const Text("Show chips on story"),
           onChanged: (value) {
             provider.set(value);
           },
@@ -83,7 +83,7 @@ class _ThemeSettingMobile extends StatelessWidget {
       );
     }, childBuilder: (context, callback) {
       return ListTile(
-        title: Text("Color"),
+        title: const Text("Color"),
         trailing: SizedBox(
           width: 48,
           child: SpColorItem(
@@ -111,7 +111,7 @@ class _ThemeSettingMobile extends StatelessWidget {
         secondChild: Text(mode.name.capitalize),
         showFirst: M3Color.of(context).brightness == Brightness.dark,
       ),
-      trailing: SpThemeSwitcher(backgroundColor: Colors.transparent),
+      trailing: const SpThemeSwitcher(backgroundColor: Colors.transparent),
       onTap: () => SpThemeSwitcher?.onPress(context),
       onLongPress: () => SpThemeSwitcher?.onLongPress(context),
     );

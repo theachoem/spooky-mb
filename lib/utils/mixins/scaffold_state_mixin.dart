@@ -60,8 +60,8 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
       builder: (context, value, child) {
         return SpIconButton(
           icon: SpAnimatedIcons(
-            firstChild: Icon(Icons.more_vert),
-            secondChild: Icon(Icons.clear),
+            firstChild: const Icon(Icons.more_vert),
+            secondChild: const Icon(Icons.clear),
             showFirst: !isSpBottomSheetOpenNotifer.value,
           ),
           onPressed: () {

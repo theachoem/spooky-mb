@@ -105,7 +105,7 @@ class HomeTabBar extends StatelessWidget {
                           tabController.animateTo(index);
                         },
                   behavior: HitTestBehavior.opaque,
-                  child: child ?? SizedBox.shrink(),
+                  child: child ?? const SizedBox.shrink(),
                 );
               },
             );

@@ -17,7 +17,7 @@ class _LockMobile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Enter your password"),
+          const Text("Enter your password"),
           TextFormField(
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.continueAction,
@@ -26,7 +26,7 @@ class _LockMobile extends StatelessWidget {
             style: M3TextTheme.of(context).headlineLarge,
             onChanged: (String value) {},
             initialValue: "",
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: "------",
               border: InputBorder.none,
               errorText: "",

@@ -11,5 +11,5 @@ class AppConstant {
 
   static const fallbackLocale = Locale('en');
   static const String documentExstension = "json";
-  static Duration lockLifeDefaultCircleDuration = Duration(seconds: 20);
+  static Duration lockLifeDefaultCircleDuration = const Duration(seconds: 20);
 }

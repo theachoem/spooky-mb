@@ -24,7 +24,7 @@ bool spAppIntiailized = false;
 
 void main() async {
   await _initialize();
-  runApp(_App());
+  runApp(const _App());
 }
 
 Future<void> _initialize() async {
@@ -41,7 +41,7 @@ Future<void> _initialize() async {
   await M3Color.initialize();
   await InitialStoryTabService.initialize();
   if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-    await DesktopWindow.setMinWindowSize(Size(320, 510));
+    await DesktopWindow.setMinWindowSize(const Size(320, 510));
   }
 
   // license

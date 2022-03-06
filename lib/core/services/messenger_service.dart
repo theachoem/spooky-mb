@@ -91,7 +91,7 @@ class MessengerService {
           content: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             alignment: WrapAlignment.center,
-            children: [
+            children: const [
               CircularProgressIndicator.adaptive(),
             ],
           ),

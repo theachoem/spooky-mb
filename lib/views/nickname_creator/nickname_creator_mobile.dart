@@ -18,7 +18,7 @@ class _NicknameCreatorMobile extends StatelessWidget {
         ),
         actions: [
           SpIconButton(
-            icon: Icon(Icons.clear),
+            icon: const Icon(Icons.clear),
             onPressed: () => Navigator.maybePop(context),
           ),
         ],
@@ -30,7 +30,7 @@ class _NicknameCreatorMobile extends StatelessWidget {
           style: M3TextTheme.of(context).headlineLarge,
           onChanged: (String value) => viewModel.nickname = value,
           initialValue: viewModel.nickname,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: "Nickname",
             border: InputBorder.none,
             errorText: "",

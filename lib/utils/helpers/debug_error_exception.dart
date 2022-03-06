@@ -6,34 +6,34 @@ class DebugErrorException {
       MaterialApp(
         home: Scaffold(
           appBar: AppBar(
-            title: Text("ERROR"),
+            title: const Text("ERROR"),
           ),
           body: ListView(
             children: [
               Text("Summary: ${details.summary.toDescription()}"),
-              Divider(),
+              const Divider(),
               Text("toStringDeep: ${details.summary.toStringDeep()}"),
-              Divider(),
+              const Divider(),
               Text("Exception: ${details.exception}"),
-              Divider(),
+              const Divider(),
               Text("ExceptionStr: ${details.exceptionAsString()}"),
-              Divider(),
+              const Divider(),
               Text(
                 "InformationCollector: ${details.informationCollector != null ? details.informationCollector!().join("\n") : null}",
               ),
-              Divider(),
+              const Divider(),
               Text(
                 "stackFilter: ${details.stackFilter}",
               ),
-              Divider(),
+              const Divider(),
               Text(
                 "stack: ${details.stack}",
               ),
-              Divider(),
+              const Divider(),
               Text(
                 "library: ${details.library}",
               ),
-              Divider(),
+              const Divider(),
               Text(
                 "library: ${details.silent}",
               ),

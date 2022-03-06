@@ -56,7 +56,7 @@ class StoryList extends StatelessWidget {
             controller: controller,
             itemCount: stories?.length ?? 0,
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
+            padding: const EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
             itemBuilder: (context, index) {
               return IgnorePointer(
                 ignoring: viewOnly,
@@ -95,7 +95,7 @@ class StoryList extends StatelessWidget {
       child: Center(
         child: Visibility(
           visible: stories == null,
-          child: CircularProgressIndicator.adaptive(),
+          child: const CircularProgressIndicator.adaptive(),
         ),
       ),
     );
@@ -113,9 +113,9 @@ class StoryList extends StatelessWidget {
           builder: (context, layoutType, loaded) {
             switch (layoutType) {
               case ListLayoutType.single:
-                return VerticalDivider(width: 1);
+                return const VerticalDivider(width: 1);
               case ListLayoutType.tabs:
-                return SizedBox.shrink();
+                return const SizedBox.shrink();
             }
           },
         ),
@@ -168,7 +168,7 @@ class StoryList extends StatelessWidget {
           case ListLayoutType.single:
             return const SizedBox.shrink();
           case ListLayoutType.tabs:
-            if (index == 0) return SizedBox.shrink();
+            if (index == 0) return const SizedBox.shrink();
             return const Divider(height: 0);
         }
       },
@@ -198,8 +198,8 @@ class StoryList extends StatelessWidget {
               ),
             ),
             if (index != 0)
-              Expanded(
-                child: const Divider(height: 0),
+              const Expanded(
+                child: Divider(height: 0),
               )
           ],
         ),

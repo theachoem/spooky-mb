@@ -1,5 +1,7 @@
 library restore_view;
 
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/models/backup_display_model.dart';

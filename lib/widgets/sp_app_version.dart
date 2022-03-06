@@ -26,7 +26,7 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
     counterNotifier.addListener(() {
       scheduleAction(
         () => counterNotifier.value = 0,
-        duration: Duration(seconds: 1),
+        duration: const Duration(seconds: 1),
       );
     });
   }
@@ -43,7 +43,7 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
       future: PackageInfo.fromPlatform(),
       builder: (context, snapshot) {
         PackageInfo? info = snapshot.data;
-        if (info == null) return SizedBox.shrink();
+        if (info == null) return const SizedBox.shrink();
         return GestureDetector(
           onTap: () {
             int left = 20 - counterNotifier.value;

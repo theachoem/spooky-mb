@@ -36,11 +36,11 @@ class GoogleAccountTile extends StatelessWidget {
             return ListTile(
               title: Text(provider.googleUser?.email ?? "Google Drive"),
               subtitle: Text(provider.googleUser?.displayName ?? "Connect to restore backups"),
-              leading: CircleAvatar(child: Icon(CommunityMaterialIcons.google_drive)),
+              leading: const CircleAvatar(child: Icon(CommunityMaterialIcons.google_drive)),
               trailing: SpAnimatedIcons(
                 showFirst: provider.googleUser == null,
-                firstChild: Icon(Icons.login),
-                secondChild: Icon(Icons.more_vert),
+                firstChild: const Icon(Icons.login),
+                secondChild: const Icon(Icons.more_vert),
               ),
               onTap: provider.googleUser != null
                   ? callback

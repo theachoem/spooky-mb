@@ -41,7 +41,7 @@ class _DetailToolbarsState extends State<DetailToolbars> {
       child: buildBypassChildren(),
       builder: (context, value, Widget? child) {
         child as _List;
-        if (child.children.isEmpty) return SizedBox.shrink();
+        if (child.children.isEmpty) return const SizedBox.shrink();
         return ValueListenableBuilder<bool>(
           valueListenable: widget.viewModel.toolbarVisibleNotifier,
           builder: (context, toolbarShouldVisible, _) {

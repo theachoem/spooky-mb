@@ -21,7 +21,7 @@ class ScreenLockHelper {
       secretConfig: SecretConfig(
         borderColor: colorScheme.onBackground,
         enabledColor: colorScheme.onBackground,
-        disabledColor: Color.fromARGB(0, 8, 6, 6),
+        disabledColor: const Color.fromARGB(0, 8, 6, 6),
         width: 12,
         height: 12,
         build: (context, {required config, required enabled}) => ScreenLockHelper.dotBuilder(enabled, config),

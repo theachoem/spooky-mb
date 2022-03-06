@@ -23,7 +23,7 @@ class _DetailMobile extends StatelessWidget {
   }
 
   Widget buildEditor(BuildContext context) {
-    if (pages.isEmpty) return Center(child: Text("No documents found"));
+    if (pages.isEmpty) return const Center(child: Text("No documents found"));
     return FocusScope(
       onFocusChange: (bool focused) {
         viewModel.toolbarVisibleNotifier.value = focused || !viewModel.titleFocusNode.hasFocus;

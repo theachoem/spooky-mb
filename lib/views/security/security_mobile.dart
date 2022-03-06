@@ -8,7 +8,7 @@ class _SecurityMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: SpPopButton(),
+        leading: const SpPopButton(),
         title: Text(
           "Security",
           style: Theme.of(context).appBarTheme.titleTextStyle,
@@ -41,8 +41,8 @@ class _SecurityMobile extends StatelessWidget {
             return Tooltip(
               message: "Lock application when inactive for $seconds seconds",
               child: ListTile(
-                leading: SizedBox(height: 40, child: Icon(Icons.update_sharp)),
-                title: Text("Lock life circle"),
+                leading: const SizedBox(height: 40, child: Icon(Icons.update_sharp)),
+                title: const Text("Lock life circle"),
                 subtitle: Text("$seconds seconds"),
                 onTap: () async {
                   DateTime? date = await SpDatePicker.showSecondsPicker(context, seconds);
@@ -81,18 +81,18 @@ class _SecurityMobile extends StatelessWidget {
         //   },
         // ),
         ListTile(
-          leading: SizedBox(height: 40, child: Icon(Icons.pin)),
+          leading: const SizedBox(height: 40, child: Icon(Icons.pin)),
           trailing: Radio(value: LockType.pin, groupValue: lockedType, onChanged: (value) {}),
-          title: Text("PIN code"),
-          subtitle: Text("4 digit"),
+          title: const Text("PIN code"),
+          subtitle: const Text("4 digit"),
           onTap: () => onPinCodePressed(context),
         ),
         if (viewModel.service.lockInfo.hasLocalAuth)
           ListTile(
-            leading: SizedBox(height: 40, child: Icon(Icons.fingerprint)),
+            leading: const SizedBox(height: 40, child: Icon(Icons.fingerprint)),
             trailing: Radio(value: LockType.biometric, groupValue: lockedType, onChanged: (value) {}),
-            title: Text("Biometrics"),
-            subtitle: Text("Unlock app base on biometric"),
+            title: const Text("Biometrics"),
+            subtitle: const Text("Unlock app base on biometric"),
             onTap: () => onBiometricsPressed(context),
           ),
       ],
