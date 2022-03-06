@@ -1,5 +1,3 @@
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:spooky/core/api/authentication/google_auth_service.dart';
 import 'package:spooky/core/backup/backup_service.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/file_manager/managers/backup_file_manager.dart';
@@ -17,8 +15,6 @@ class YearCloudModel {
 }
 
 class CloudStorageViewModel extends BaseViewModel {
-  final GoogleAuthService googleAuth = GoogleAuthService.instance;
-  GoogleSignInAccount? googleUser;
   List<YearCloudModel>? years;
 
   CloudStorageViewModel() {
@@ -27,7 +23,6 @@ class CloudStorageViewModel extends BaseViewModel {
 
   Future<void> load() async {
     await loadYears();
-    await loadAuthentication();
     notifyListeners();
   }
 
@@ -49,20 +44,6 @@ class CloudStorageViewModel extends BaseViewModel {
       }
       years = _years;
     }
-  }
-
-  Future<void> loadAuthentication() async {
-    await googleAuth.googleSignIn.isSignedIn().then((signedIn) async {
-      if (signedIn) {
-        await googleAuth.signInSilently();
-        googleUser = googleAuth.googleSignIn.currentUser;
-      }
-    });
-  }
-
-  Future<void> signInWithGoogle() async {
-    await googleAuth.signIn();
-    load();
   }
 
   Future<void> backup(int year) async {

@@ -42,9 +42,7 @@ class GoogleAuthService {
   }
 
   Future<void> signOut() async {
-    GoogleSignInAccount? account = await googleSignIn.signOut();
-    if (account != null) {
-      await storage.remove();
-    }
+    await googleSignIn.signOut();
+    await storage.remove();
   }
 }

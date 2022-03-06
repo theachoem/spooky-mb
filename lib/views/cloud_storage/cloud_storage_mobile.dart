@@ -21,22 +21,12 @@ class _CloudStorageMobile extends StatelessWidget {
             SpSectionContents(
               headline: "Cloud Service",
               tiles: [
-                ListTile(
-                  title: Text(viewModel.googleUser?.email ?? "Connect with Google Drive"),
-                  subtitle: viewModel.googleUser?.displayName != null ? Text(viewModel.googleUser!.displayName!) : null,
-                  leading: CircleAvatar(child: Icon(CommunityMaterialIcons.google_drive)),
-                  trailing: Icon(Icons.keyboard_arrow_right),
-                  onTap: () async {
-                    if (viewModel.googleUser != null) {
-                      DeveloperModeProvider provider = Provider.of<DeveloperModeProvider>(context, listen: false);
-                      if (provider.developerModeOn) {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                          return _CloudFileList();
-                        }));
-                      }
-                    } else {
-                      viewModel.signInWithGoogle();
-                    }
+                GoogleAccountTile(
+                  onSignOut: () {
+                    viewModel.load();
+                  },
+                  onSignIn: () {
+                    viewModel.load();
                   },
                 ),
                 ListTile(
@@ -69,9 +59,9 @@ class _CloudStorageMobile extends StatelessWidget {
         return ListTile(
           title: Text(e.year.toString()),
           onTap: e.synced ? null : () => viewModel.backup(e.year),
-          trailing: SpAnimatedIcons(
+          trailing: SpCrossFade(
             showFirst: e.synced,
-            firstChild: Icon(Icons.check, color: M3Color.of(context).primary),
+            firstChild: Text("Synced"),
             secondChild: SpAnimatedIcons(
               showFirst: !loadingYears.contains(e.year),
               firstChild: Icon(Icons.backup),
@@ -80,82 +70,6 @@ class _CloudStorageMobile extends StatelessWidget {
           ),
         );
       }).toList(),
-    );
-  }
-}
-
-class _CloudFileList extends StatefulWidget {
-  const _CloudFileList({Key? key}) : super(key: key);
-
-  @override
-  State<_CloudFileList> createState() => _CloudFileListState();
-}
-
-class _CloudFileListState extends State<_CloudFileList> {
-  BaseCloudStorage cloudStorage = GDriveStorage();
-  CloudFileListModel? files;
-
-  @override
-  void initState() {
-    super.initState();
-    load();
-  }
-
-  Future<void> load() async {
-    CloudFileListModel? result = await cloudStorage.execHandler(() async {
-      return cloudStorage.list({
-        "next_token": files?.nextToken,
-      });
-    });
-    setState(() => files = result);
-  }
-
-  Future<void> delete(CloudFileModel file) async {
-    await cloudStorage.execHandler(() async {
-      return cloudStorage.delete({'file_id': file.id});
-    });
-    await load();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MorphingAppBar(
-        leading: SpPopButton(),
-        title: Text(
-          "Drive Storage",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
-      ),
-      body: files != null ? buildFileList(files: files!) : const Center(child: CircularProgressIndicator()),
-    );
-  }
-
-  Widget buildFileList({required CloudFileListModel files}) {
-    if (files.files.isEmpty) {
-      return Center(
-        child: Text("Empty"),
-      );
-    }
-
-    return ListView.builder(
-      physics: ScrollPhysics(),
-      itemCount: files.files.length,
-      itemBuilder: (context, index) {
-        CloudFileModel file = files.files[index];
-        BackupDisplayModel display = BackupDisplayModel.fromCloudModel(file);
-
-        return ListTile(
-          title: Text(display.fileName),
-          subtitle: display.displayCreateAt != null ? Text("Created at " + display.displayCreateAt!) : null,
-          trailing: SpIconButton(
-            icon: Icon(Icons.delete),
-            onPressed: () {
-              delete(file);
-            },
-          ),
-        );
-      },
     );
   }
 }

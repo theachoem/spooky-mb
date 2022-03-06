@@ -1,12 +1,11 @@
 import 'dart:convert';
-
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:spooky/core/api/authentication/google_auth_service.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/cloud_storages/gdrive_backup_storage.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
+import 'package:spooky/core/models/backup_display_model.dart';
 import 'package:spooky/core/models/backup_model.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
@@ -14,33 +13,31 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 
 class RestoreViewModel extends BaseViewModel {
-  final GoogleAuthService googleAuth = GoogleAuthService.instance;
-  GoogleSignInAccount? googleUser;
+  late final ValueNotifier<bool> showSkipNotifier;
 
+  Map<String, List<CloudFileModel>>? groupByYear;
   CloudFileListModel? fileList;
   RestoreViewModel() {
     load();
+    showSkipNotifier = ValueNotifier<bool>(true);
+  }
+
+  void setGroupByYear() {
+    Map<String, List<CloudFileModel>> groups = {};
+    for (CloudFileModel e in fileList?.files ?? []) {
+      BackupDisplayModel display = BackupDisplayModel.fromCloudModel(e);
+      List<CloudFileModel>? type = groups[display.fileName];
+      type != null ? type.add(e) : type = [e];
+      groups[display.fileName] = type;
+    }
+    groupByYear = groups;
   }
 
   Future<void> load() async {
-    await loadAuthentication();
     GDriveBackupStorage storage = GDriveBackupStorage();
     fileList = await storage.execHandler(() => storage.list({"next_token": fileList?.nextToken}));
+    setGroupByYear();
     notifyListeners();
-  }
-
-  Future<void> loadAuthentication() async {
-    await googleAuth.googleSignIn.isSignedIn().then((signedIn) async {
-      if (signedIn) {
-        await googleAuth.signInSilently();
-        googleUser = googleAuth.googleSignIn.currentUser;
-      }
-    });
-  }
-
-  Future<void> signInWithGoogle() async {
-    await googleAuth.signIn();
-    load();
   }
 
   Map<String, BackupModel> cacheDownloadRestores = {};
@@ -68,9 +65,47 @@ class RestoreViewModel extends BaseViewModel {
       }
     }
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showSkipNotifier.value = false;
       MessengerService.instance.showSnackBar("Restored");
     });
 
     return true;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      showSkipNotifier.dispose();
+    });
+  }
+
+  Future<void> delete(BuildContext context, CloudFileModel file) async {
+    OkCancelResult result = await showOkCancelAlertDialog(
+      context: context,
+      title: "Are you sure to delete?",
+      message: "You can't undo this action",
+      okLabel: "Delete",
+      isDestructiveAction: true,
+    );
+    switch (result) {
+      case OkCancelResult.ok:
+        GDriveBackupStorage storage = GDriveBackupStorage();
+        bool? success = await MessengerService.instance.showLoading(
+          future: () async {
+            await storage.execHandler(() async {
+              return storage.delete({'file_id': file.id});
+            });
+            await load();
+            return fileList?.files.map((e) => e.id).contains(file.id) == true;
+          },
+          context: context,
+        );
+        String message = success == true ? "Delete successfully!" : "Delete unsuccessfully!";
+        MessengerService.instance.showSnackBar(message);
+        break;
+      case OkCancelResult.cancel:
+        break;
+    }
   }
 }
