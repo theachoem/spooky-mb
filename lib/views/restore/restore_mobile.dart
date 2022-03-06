@@ -168,7 +168,7 @@ class _RestoreMobile extends StatelessWidget {
           child: SpButton(
             label: "Done",
             onTap: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
+              Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
             },
           ),
         ),
@@ -237,7 +237,7 @@ class _RestoreMobile extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   foregroundColor: Theme.of(context).appBarTheme.titleTextStyle?.color,
                   onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
+                    Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
                   },
                 ),
               ),

@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/story_writers/default_story_writer.dart';
 import 'package:spooky/core/story_writers/objects/update_page_object.dart';
 import 'package:spooky/core/models/story_content_model.dart';
@@ -26,7 +27,7 @@ class UpdatePageWriter extends DefaultStoryWriter<UpdatePageObject> {
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       Navigator.of(context).pushReplacementNamed(
-        SpRouteConfig.detail,
+        SpRouter.detail.path,
         arguments: DetailArgs(
           initialStory: story,
           intialFlow: DetailViewFlowType.update,

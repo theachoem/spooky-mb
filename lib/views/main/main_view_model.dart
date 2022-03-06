@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
@@ -99,7 +100,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
 
   void onConfirm(DateTime date, BuildContext context) {
     DetailArgs args = DetailArgs(initialStory: StoryModel.fromDate(date), intialFlow: DetailViewFlowType.create);
-    Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args).then((value) {
+    Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args).then((value) {
       if (storyListReloader != null && value != null) storyListReloader!();
     });
   }

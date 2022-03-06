@@ -29,21 +29,21 @@ class _SettingMobile extends StatelessWidget {
               leading: const Icon(Icons.color_lens),
               title: const Text("Theme"),
               onTap: () {
-                Navigator.of(context).pushNamed(SpRouteConfig.themeSetting);
+                Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
               },
             ),
             ListTile(
               leading: const Icon(Icons.lock),
               title: const Text("Security"),
               onTap: () {
-                Navigator.of(context).pushNamed(SpRouteConfig.security);
+                Navigator.of(context).pushNamed(SpRouter.security.path);
               },
             ),
             ListTile(
               leading: const Icon(Icons.archive),
               title: const Text("Archive"),
               onTap: () {
-                Navigator.of(context).pushNamed(SpRouteConfig.archive);
+                Navigator.of(context).pushNamed(SpRouter.archive.path);
               },
             ),
             SpDeveloperVisibility(

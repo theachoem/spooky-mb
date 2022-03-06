@@ -32,7 +32,7 @@ class _ThemeSettingMobile extends StatelessWidget {
                   title: const Text("Font Manager"),
                   leading: const Icon(Icons.font_download),
                   onTap: () {
-                    Navigator.of(context).pushNamed(SpRouteConfig.fontManager);
+                    Navigator.of(context).pushNamed(SpRouter.fontManager.path);
                   },
                 ),
               ],
@@ -94,7 +94,7 @@ class _ThemeSettingMobile extends StatelessWidget {
           ),
         ),
         onLongPress: () {
-          Navigator.of(context).pushNamed(SpRouteConfig.initPickColor);
+          Navigator.of(context).pushNamed(SpRouter.initPickColor.path);
         },
         onTap: () {
           callback();

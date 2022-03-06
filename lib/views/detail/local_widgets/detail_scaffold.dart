@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_content_model.dart';
@@ -130,7 +131,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
                 return;
               }
               ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
-              Navigator.of(context).pushNamed(SpRouteConfig.managePages, arguments: arguments).then((value) {
+              Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
                 if (value is StoryContentModel) widget.viewModel.updatePages(value);
               });
             },
@@ -176,7 +177,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds),
             );
             Navigator.of(context).pushNamed(
-              SpRouteConfig.changesHistory,
+              SpRouter.changesHistory.path,
               arguments: arguments,
             );
           },

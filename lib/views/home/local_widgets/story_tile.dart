@@ -9,6 +9,7 @@ import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
@@ -199,7 +200,7 @@ class _StoryTileState extends State<StoryTile> {
 
   Future<void> view(StoryModel story, BuildContext context) async {
     DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlowType.update);
-    await Navigator.of(context).pushNamed(SpRouteConfig.detail, arguments: args);
+    await Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args);
     reloadStory();
   }
 

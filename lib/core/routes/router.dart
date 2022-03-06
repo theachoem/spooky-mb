@@ -1,5 +1,4 @@
 import 'package:auto_route/annotations.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
 import 'package:spooky/views/archive/archive_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
@@ -25,74 +24,60 @@ import 'package:spooky/views/theme_setting/theme_setting_view.dart';
     MaterialRoute(
       page: FontManagerView,
       name: 'FontManager',
-      path: SpRouteConfig.fontManager,
     ),
     MaterialRoute(
       page: LockView,
       name: 'Lock',
-      path: SpRouteConfig.lock,
     ),
     MaterialRoute(
       page: SecurityView,
       name: 'Security',
-      path: SpRouteConfig.security,
     ),
     MaterialRoute(
       page: DeveloperModeView,
       name: 'DeveloperMode',
-      path: SpRouteConfig.developerModeView,
     ),
     MaterialRoute(
       page: NicknameCreatorView,
       name: 'NicknameCreator',
-      path: SpRouteConfig.nicknameCreator,
     ),
     MaterialRoute(
       page: InitPickColorView,
       name: 'InitPickColor',
-      path: SpRouteConfig.initPickColor,
     ),
     MaterialRoute(
       page: AppStarterView,
       name: 'AppStarter',
-      path: SpRouteConfig.appStarter,
     ),
     MaterialRoute(
       page: ThemeSettingView,
       name: 'ThemeSetting',
-      path: SpRouteConfig.themeSetting,
     ),
     MaterialRoute(
       page: ManagePagesView,
       name: 'ManagePages',
-      path: SpRouteConfig.managePages,
       fullscreenDialog: true,
     ),
     MaterialRoute(
       page: ArchiveView,
       name: 'Archive',
-      path: SpRouteConfig.archive,
     ),
     MaterialRoute(
       page: ContentReaderView,
       name: 'ContentReader',
-      path: SpRouteConfig.contentReader,
       fullscreenDialog: true,
     ),
     MaterialRoute(
       page: ChangesHistoryView,
       name: 'ChangesHistory',
-      path: SpRouteConfig.changesHistory,
     ),
     MaterialRoute(
       name: 'Detail',
       page: DetailView,
-      path: SpRouteConfig.detail,
     ),
     MaterialRoute(
       name: 'Main',
       page: MainView,
-      path: SpRouteConfig.main,
       children: [
         MaterialRoute(
           name: 'Home',
