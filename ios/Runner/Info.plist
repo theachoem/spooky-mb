@@ -70,5 +70,11 @@
 			</array>
 		</dict>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Spooky needs to access to the Photos library to add photo to your stories.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Spooky needs to access to the Camera to take picture and add to your stories.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs to access to the Microphone</string>
 </dict>
 </plist>

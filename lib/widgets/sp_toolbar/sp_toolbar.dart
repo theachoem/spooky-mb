@@ -4,6 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_color_button.dart';
+import 'package:spooky/widgets/sp_toolbar/sp_image_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_link_style_button.dart';
 
 /// [QuillToolbar]
@@ -125,17 +126,19 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
               controller: controller,
               iconTheme: iconTheme,
             ),
-            // ImageButton(
-            //   icon: Icons.image,
-            //   iconSize: toolbarIconSize,
-            //   controller: controller,
-            //   onImagePickCallback: (){},
-            //   filePickImpl: filePickImpl,
-            //   webImagePickImpl: webImagePickImpl,
-            //   mediaPickSettingSelector: mediaPickSettingSelector,
-            //   iconTheme: iconTheme,
-            //   dialogTheme: dialogTheme,
-            // ),
+            SpImageButton(
+              icon: Icons.image,
+              iconSize: toolbarIconSize,
+              controller: controller,
+              onImagePickCallback: (file) async {
+                return file.path;
+              },
+              // filePickImpl: filePickImpl,
+              // webImagePickImpl: webImagePickImpl,
+              // mediaPickSettingSelector: mediaPickSettingSelector,
+              iconTheme: iconTheme,
+              // dialogTheme: dialogTheme,
+            ),
             // VideoButton(
             //   icon: Icons.movie_creation,
             //   iconSize: toolbarIconSize,
