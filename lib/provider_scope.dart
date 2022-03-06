@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/providers/color_seed_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
@@ -33,6 +34,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<ColorSeedProvider>(
           create: (context) => ColorSeedProvider(),
+        ),
+        ListenableProvider<CloudServiceProvider>(
+          create: (context) => CloudServiceProvider(),
         ),
       ],
       child: child,

@@ -15,6 +15,22 @@ class BackupDisplayModel {
     }
   }
 
+  String? get displayDate {
+    if (createAt != null) {
+      return DateFormatHelper.dateFormat().format(createAt!);
+    } else {
+      return null;
+    }
+  }
+
+  String? get displayTime {
+    if (createAt != null) {
+      return DateFormatHelper.timeFormat().format(createAt!);
+    } else {
+      return null;
+    }
+  }
+
   factory BackupDisplayModel.fromCloudModel(CloudFileModel file) {
     String fileName = file.description ?? file.fileName ?? file.id;
 
