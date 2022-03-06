@@ -126,7 +126,7 @@ class _MainMobile extends StatelessWidget {
         screen = const SettingView();
         break;
       default:
-        screen = SpRouteConfig.buildNotFound();
+        screen = const NotFoundView();
         break;
     }
     return screen;

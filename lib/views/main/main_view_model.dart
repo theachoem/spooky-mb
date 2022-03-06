@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';

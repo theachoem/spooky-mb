@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/routes/router.gr.dart';
 import 'package:spooky/core/routes/setting/animated_route_setting.dart';
 import 'package:spooky/core/routes/setting/base_route_setting.dart';
 import 'package:spooky/core/routes/setting/default_route_setting.dart';
@@ -21,12 +20,11 @@ import 'package:spooky/views/lock/lock_view.dart';
 import 'package:spooky/views/main/main_view.dart';
 import 'package:spooky/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/views/nickname_creator/nickname_creator_view.dart';
+import 'package:spooky/views/not_found/not_found_view.dart';
 import 'package:spooky/views/restore/restore_view.dart';
 import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/theme_setting/theme_setting_view.dart';
-
-export 'router.gr.dart';
 
 class SpRouteConfig {
   final RouteSettings? settings;
@@ -37,24 +35,26 @@ class SpRouteConfig {
     required this.context,
     this.settings,
   }) {
-    routes.clear();
-    for (SpRouter path in SpRouter.values) {
-      routes[path] = _buildRoute(path);
-    }
+    _setup();
   }
 
   Route<dynamic> generate() {
     SpRouter router = SpRouter.notFound;
-
     for (SpRouter element in SpRouter.values) {
       if (settings?.name == element.path) {
         router = element;
         break;
       }
     }
-
     BaseRouteSetting? setting = routes[router];
     return setting!.toRoute(context, settings);
+  }
+
+  void _setup() {
+    routes.clear();
+    for (SpRouter path in SpRouter.values) {
+      routes[path] = _buildRoute(path);
+    }
   }
 
   BaseRouteSetting _buildRoute(SpRouter router) {
@@ -90,7 +90,7 @@ class SpRouteConfig {
             if (arguments is LockArgs) {
               return LockView(flowType: arguments.flowType);
             }
-            return buildNotFound();
+            return NotFoundView();
           },
         );
       case SpRouter.security:
@@ -115,7 +115,7 @@ class SpRouteConfig {
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is ManagePagesArgs) return ManagePagesView(content: arguments.content);
-            return buildNotFound();
+            return NotFoundView();
           },
         );
       case SpRouter.archive:
@@ -133,7 +133,7 @@ class SpRouteConfig {
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is ContentReaderArgs) return ContentReaderView(content: arguments.content);
-            return buildNotFound();
+            return NotFoundView();
           },
         );
       case SpRouter.changesHistory:
@@ -150,7 +150,7 @@ class SpRouteConfig {
                 onDeletePressed: arguments.onDeletePressed,
               );
             }
-            return buildNotFound();
+            return NotFoundView();
           },
         );
       case SpRouter.detail:
@@ -166,7 +166,7 @@ class SpRouteConfig {
                 intialFlow: arguments.intialFlow,
               );
             }
-            return buildNotFound();
+            return NotFoundView();
           },
         );
       case SpRouter.main:
@@ -191,7 +191,7 @@ class SpRouteConfig {
                 onScrollControllerReady: arguments.onScrollControllerReady,
               );
             }
-            return buildNotFound();
+            return NotFoundView();
           },
         );
       case SpRouter.explore:
@@ -241,17 +241,8 @@ class SpRouteConfig {
           title: "Not Found",
           canSwap: false,
           fullscreenDialog: false,
-          route: (context) => buildNotFound(),
+          route: (context) => NotFoundView(),
         );
     }
-  }
-
-  static Widget buildNotFound() {
-    return Scaffold(
-      appBar: AppBar(),
-      body: const Center(
-        child: Text("Not found"),
-      ),
-    );
   }
 }

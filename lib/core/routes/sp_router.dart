@@ -1,4 +1,5 @@
 export 'sp_route_extension.dart';
+export 'router.gr.dart';
 
 enum SpRouter {
   restore,
