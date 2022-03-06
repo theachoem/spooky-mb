@@ -54,13 +54,13 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
     isSpBottomSheetOpenNotifer.value = !isSpBottomSheetOpenNotifer.value;
   }
 
-  Widget buildMoreButton() {
+  Widget buildMoreButton([IconData icon = Icons.more_vert]) {
     return ValueListenableBuilder<bool>(
       valueListenable: isSpBottomSheetOpenNotifer,
       builder: (context, value, child) {
         return SpIconButton(
           icon: SpAnimatedIcons(
-            firstChild: const Icon(Icons.more_vert),
+            firstChild: Icon(icon),
             secondChild: const Icon(Icons.clear),
             showFirst: !isSpBottomSheetOpenNotifer.value,
           ),

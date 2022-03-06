@@ -21,7 +21,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
         ),
         actions: [
           buildSearch(context),
-          buildMoreButton(),
+          buildMoreButton(Icons.settings),
         ],
       ),
       body: ListView.builder(
@@ -29,12 +29,9 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
         itemBuilder: (context, index) {
           final font = widget.viewModel.fonts[index];
           String name = font.key;
-          return ListTile(
-            title: Text(name),
-            trailing: PreviewTrailing(fontFamily: name, context: context),
-            onTap: () {
-              context.read<ColorSeedProvider>().updateFont(name);
-            },
+          return FontTile(
+            fontFamily: name,
+            onFontUpdated: () {},
           );
         },
       ),
@@ -145,11 +142,17 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           trailing: const Icon(Icons.keyboard_arrow_right),
           subtitle: Text(widget.viewModel.trimFontWeight(ThemeConfig.fontWeight)),
           onTap: () async {
+            // removed 100 and 900
+            // since we have two type of weight in theme
+            List<FontWeight> weights = FontWeight.values.toList();
+            weights.removeAt(0);
+            weights.removeLast();
+
             FontWeight? fontWeight = await showConfirmationDialog(
               context: context,
               title: "Font Weight",
               initialSelectedActionKey: ThemeConfig.fontWeight,
-              actions: FontWeight.values.map((e) {
+              actions: weights.map((e) {
                 return AlertDialogAction(
                   key: e,
                   isDefaultAction: e == ThemeConfig.fontWeight,

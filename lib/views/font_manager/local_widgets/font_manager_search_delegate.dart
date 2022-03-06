@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/views/font_manager/local_widgets/preview_trailing.dart';
+import 'package:spooky/views/font_manager/local_widgets/font_tile.dart';
+import 'package:spooky/widgets/sp_animated_icon.dart';
+import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 
 class FontManagerSearchDelegate extends SearchDelegate {
@@ -14,7 +16,13 @@ class FontManagerSearchDelegate extends SearchDelegate {
 
   @override
   List<Widget>? buildActions(BuildContext context) {
-    return [];
+    return [
+      SpAnimatedIcons(
+        firstChild: SpIconButton(icon: Icon(Icons.clear), onPressed: () => query = ""),
+        secondChild: const SizedBox.shrink(),
+        showFirst: query.trim().isNotEmpty,
+      ),
+    ];
   }
 
   @override
@@ -37,11 +45,9 @@ class FontManagerSearchDelegate extends SearchDelegate {
       itemCount: _suggestions.length,
       itemBuilder: (context, index) {
         String item = _suggestions[index];
-        return ListTile(
-          title: Text(item),
-          trailing: PreviewTrailing(fontFamily: item, context: context),
-          onTap: () async {
-            onPressed(item);
+        return FontTile(
+          fontFamily: item,
+          onFontUpdated: () async {
             await Future.delayed(ConfigConstant.fadeDuration);
             close(context, _suggestions);
           },

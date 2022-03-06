@@ -10,7 +10,7 @@ import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/views/font_manager/local_widgets/font_manager_search_delegate.dart';
-import 'package:spooky/views/font_manager/local_widgets/preview_trailing.dart';
+import 'package:spooky/views/font_manager/local_widgets/font_tile.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';

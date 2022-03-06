@@ -11,6 +11,7 @@ class SpPopMenuItem {
   final TextStyle? titleStyle;
   final TextStyle? subtitleStyle;
   IconData? leadingIconData;
+  IconData? trailingIconData;
 
   SpPopMenuItem({
     required this.title,
@@ -18,6 +19,7 @@ class SpPopMenuItem {
     this.titleStyle,
     this.subtitleStyle,
     this.leadingIconData,
+    this.trailingIconData,
     this.subtitle,
   });
 }
@@ -147,6 +149,7 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
               )
             : null,
         title: Text(e.title, textAlign: TextAlign.left, style: e.titleStyle),
+        trailing: e.trailingIconData != null ? Icon(e.trailingIconData) : null,
         subtitle: e.subtitle != null
             ? Text(
                 e.subtitle!,

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -123,6 +125,7 @@ class ThemeConfig {
   }
 
   static FontWeight fontWeightGetter(FontWeight defaultWeight) {
+    int changeBy = defaultWeight == FontWeight.w400 ? 0 : 1;
     Map<int, FontWeight> fontWeights = {
       0: FontWeight.w100,
       1: FontWeight.w200,
@@ -134,16 +137,8 @@ class ThemeConfig {
       7: FontWeight.w800,
       8: FontWeight.w900,
     };
-    if (defaultWeight == FontWeight.w400) {
-      return fontWeight;
-    } else {
-      int index = fontWeight.index + 1;
-      if (fontWeights.containsKey(index)) {
-        return fontWeights[index]!;
-      } else {
-        return fontWeight;
-      }
-    }
+    int index = fontWeight.index + changeBy;
+    return fontWeights[max(min(8, index), 0)]!;
   }
 
   static TextTheme get defaultTextTheme {

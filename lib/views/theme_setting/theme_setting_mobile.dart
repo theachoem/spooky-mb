@@ -111,7 +111,7 @@ class _ThemeSettingMobile extends StatelessWidget {
         secondChild: Text(mode.name.capitalize),
         showFirst: M3Color.of(context).brightness == Brightness.dark,
       ),
-      trailing: const SpThemeSwitcher(backgroundColor: Colors.transparent),
+      trailing: SpThemeSwitcher(backgroundColor: Colors.transparent),
       onTap: () => SpThemeSwitcher?.onPress(context),
       onLongPress: () => SpThemeSwitcher?.onLongPress(context),
     );
