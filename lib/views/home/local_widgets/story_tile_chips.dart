@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/widgets/sp_chip.dart';
+import 'dart:convert';
 
 class StoryTileChips extends StatelessWidget {
   const StoryTileChips({
@@ -35,13 +39,7 @@ class StoryTileChips extends StatelessWidget {
 
   List<Widget> getChipList(Set<String> images, StoryContentModel content, StoryModel story) {
     return [
-      if (images.isNotEmpty)
-        SpChip(
-          labelText: "${images.length} Images",
-          avatar: CircleAvatar(
-            backgroundImage: NetworkImage(images.first),
-          ),
-        ),
+      if (images.isNotEmpty) buildImageChip(images),
       if ((content.pages?.length ?? 0) > 1)
         SpChip(
           labelText: "${content.pages?.length} Pages",
@@ -53,5 +51,22 @@ class StoryTileChips extends StatelessWidget {
       //   ),
       // ),
     ];
+  }
+
+  SpChip buildImageChip(Set<String> images) {
+    String url = images.first;
+    final imageUrl = standardizeImageUrl(url);
+    return SpChip(
+      labelText: "${images.length} Images",
+      avatar: CircleAvatar(
+        backgroundImage: imageByUrl(imageUrl),
+      ),
+    );
+  }
+
+  ImageProvider imageByUrl(String imageUrl) {
+    if (isImageBase64(imageUrl)) return MemoryImage(base64.decode(imageUrl));
+    if (imageUrl.startsWith('http')) return NetworkImage(imageUrl);
+    return FileImage(File(imageUrl));
   }
 }
