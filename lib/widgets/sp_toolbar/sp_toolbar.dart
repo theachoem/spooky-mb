@@ -4,6 +4,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_color_button.dart';
+import 'package:spooky/widgets/sp_toolbar/sp_link_style_button.dart';
 
 /// [QuillToolbar]
 class SpToolbar extends StatefulWidget {
@@ -231,17 +232,17 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
               isIncrease: false,
               iconTheme: iconTheme,
             ),
-            // VerticalDivider(
-            //   indent: 12,
-            //   endIndent: 12,
-            //   color: colorScheme.onSurface,
-            // ),
-            // LinkStyleButton(
-            //   controller: controller,
-            //   iconSize: toolbarIconSize,
-            //   iconTheme: iconTheme,
-            //   dialogTheme: dialogTheme,
-            // ),
+            VerticalDivider(
+              indent: 12,
+              endIndent: 12,
+              color: colorScheme.onSurface,
+            ),
+            SpLinkStyleButton(
+              controller: controller,
+              iconSize: toolbarIconSize,
+              iconTheme: iconTheme,
+              dialogTheme: null,
+            ),
           ].map((e) {
             return Padding(
               padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
