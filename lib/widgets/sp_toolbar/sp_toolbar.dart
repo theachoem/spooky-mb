@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_color_button.dart';
 
+/// [QuillToolbar]
 class SpToolbar extends StatefulWidget {
   const SpToolbar({
     Key? key,
@@ -20,11 +22,7 @@ class SpToolbar extends StatefulWidget {
   State<SpToolbar> createState() => _SpToolbarState();
 }
 
-/// [QuillToolbar]
 class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
-  final double toolbarIconSize = 24;
-
-  QuillController get controller => widget.controller;
   QuillIconTheme get iconTheme {
     return QuillIconTheme(
       iconSelectedColor: colorScheme.onSecondaryContainer,
@@ -36,7 +34,8 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
     );
   }
 
-  Widget get spaceBetween => const SizedBox(width: 4);
+  double get toolbarIconSize => 24;
+  QuillController get controller => widget.controller;
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +43,7 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
       constraints: BoxConstraints.tightFor(height: kToolbarHeight),
       color: Theme.of(context).appBarTheme.backgroundColor,
       child: SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1),
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -157,11 +157,7 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
             //   webVideoPickImpl: webVideoPickImpl,
             //   iconTheme: iconTheme,
             // ),
-            VerticalDivider(
-              indent: 12,
-              endIndent: 12,
-              color: colorScheme.onSurface,
-            ),
+            buildDivider(),
             SelectAlignmentButton(
               controller: controller,
               iconSize: toolbarIconSize,
@@ -171,28 +167,20 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
               showRightAlignment: true,
               showJustifyAlignment: true,
             ),
-            ToggleStyleButton(
-              attribute: Attribute.rtl,
-              controller: controller,
-              icon: Icons.format_textdirection_r_to_l,
-              iconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-            ),
-            VerticalDivider(
-              indent: 12,
-              endIndent: 12,
-              color: Colors.grey.shade400,
-            ),
+            // ToggleStyleButton(
+            //   attribute: Attribute.rtl,
+            //   controller: controller,
+            //   icon: Icons.format_textdirection_r_to_l,
+            //   iconSize: toolbarIconSize,
+            //   iconTheme: iconTheme,
+            // ),
+            buildDivider(),
             SelectHeaderStyleButton(
               controller: controller,
               iconSize: toolbarIconSize,
               iconTheme: iconTheme,
             ),
-            VerticalDivider(
-              indent: 12,
-              endIndent: 12,
-              color: colorScheme.onSurface,
-            ),
+            buildDivider(),
             ToggleStyleButton(
               attribute: Attribute.ol,
               controller: controller,
@@ -221,11 +209,7 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
               iconSize: toolbarIconSize,
               iconTheme: iconTheme,
             ),
-            VerticalDivider(
-              indent: 12,
-              endIndent: 12,
-              color: Colors.grey.shade400,
-            ),
+            buildDivider(),
             ToggleStyleButton(
               attribute: Attribute.blockQuote,
               controller: controller,
@@ -250,7 +234,7 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
             // VerticalDivider(
             //   indent: 12,
             //   endIndent: 12,
-            //   color: Colors.grey.shade400,
+            //   color: colorScheme.onSurface,
             // ),
             // LinkStyleButton(
             //   controller: controller,
@@ -258,9 +242,22 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
             //   iconTheme: iconTheme,
             //   dialogTheme: dialogTheme,
             // ),
-          ],
+          ].map((e) {
+            return Padding(
+              padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+              child: e,
+            );
+          }).toList(),
         ),
       ),
+    );
+  }
+
+  Widget buildDivider() {
+    return VerticalDivider(
+      indent: 12,
+      endIndent: 12,
+      color: colorScheme.onSurface.withOpacity(0.5),
     );
   }
 }
