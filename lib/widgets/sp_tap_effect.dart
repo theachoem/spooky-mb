@@ -56,10 +56,15 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
     super.dispose();
   }
 
+  void onTap() {
+    if (widget.onTap != null) widget.onTap!();
+    Feedback.forTap(context);
+  }
+
   void onTapCancel() => controller.reverse();
   void onTapDown() => controller.forward();
   void onTapUp() {
-    if (widget.onTap != null) widget.onTap!();
+    onTap();
     controller.reverse();
   }
 
