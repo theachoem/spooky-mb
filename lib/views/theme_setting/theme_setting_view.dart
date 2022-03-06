@@ -4,7 +4,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/core/types/sort_type.dart';

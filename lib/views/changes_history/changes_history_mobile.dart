@@ -115,7 +115,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               title: "View Story",
               onPressed: () {
                 Navigator.of(context).pushNamed(
-                  SpRouteConfig.contentReader,
+                  SpRouter.contentReader.path,
                   arguments: ContentReaderArgs(content: content),
                 );
               },

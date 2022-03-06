@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/story_writers/default_story_writer.dart';
 import 'package:spooky/core/story_writers/objects/restore_story_object.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
-import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 
@@ -45,7 +45,7 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       Navigator.of(context).popAndPushNamed(
-        SpRouteConfig.detail,
+        SpRouter.detail.path,
         arguments: DetailArgs(
           initialStory: story,
           intialFlow: DetailViewFlowType.update,

@@ -11,5 +11,5 @@ abstract class BaseRouteSetting<T> {
     required this.fullscreenDialog,
   });
 
-  Route<T>? toRoute(BuildContext context, RouteSettings? settings);
+  Route<T> toRoute(BuildContext context, RouteSettings? settings);
 }

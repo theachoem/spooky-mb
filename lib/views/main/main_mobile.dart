@@ -103,8 +103,8 @@ class _MainMobile extends StatelessWidget {
     required int index,
   }) {
     Widget screen;
-    switch (item.routeName) {
-      case SpRouteConfig.home:
+    switch (item.router) {
+      case SpRouter.home:
         screen = HomeView(
           onTabChange: viewModel.onTabChange,
           onYearChange: (int year) => viewModel.year = year,
@@ -119,14 +119,14 @@ class _MainMobile extends StatelessWidget {
           },
         );
         break;
-      case SpRouteConfig.explore:
+      case SpRouter.explore:
         screen = const ExploreView();
         break;
-      case SpRouteConfig.setting:
+      case SpRouter.setting:
         screen = const SettingView();
         break;
       default:
-        screen = SpRouteConfig.buildNotFound();
+        screen = const NotFoundView();
         break;
     }
     return screen;

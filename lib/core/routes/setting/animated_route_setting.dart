@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/setting/base_route_setting.dart';
-import 'package:spooky/core/routes/sp_page_route.dart';
+import 'package:spooky/core/routes/page_routes/animated_page_route.dart';
 
 class AnimatedRouteSetting<T> extends BaseRouteSetting<T> {
   AnimatedRouteSetting({
@@ -13,8 +13,8 @@ class AnimatedRouteSetting<T> extends BaseRouteSetting<T> {
   final Color? fillColor;
 
   @override
-  Route<T>? toRoute(BuildContext context, RouteSettings? settings) {
-    return SpPageRoute.sharedAxis<T>(
+  Route<T> toRoute(BuildContext context, RouteSettings? settings) {
+    return AnimatedPageRoute.sharedAxis<T>(
       builder: route,
       settings: settings?.copyWith(arguments: this),
       fillColor: fillColor,

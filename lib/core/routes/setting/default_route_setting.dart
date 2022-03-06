@@ -13,7 +13,7 @@ class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
   final bool canSwap;
 
   @override
-  Route<T>? toRoute(BuildContext context, RouteSettings? settings) {
+  Route<T> toRoute(BuildContext context, RouteSettings? settings) {
     switch (Theme.of(context).platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:

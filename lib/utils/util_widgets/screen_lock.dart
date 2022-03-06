@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
-import 'package:spooky/core/routes/screen_lock_route.dart';
+import 'package:spooky/core/routes/page_routes/screen_lock_route.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';

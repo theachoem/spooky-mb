@@ -139,23 +139,20 @@ class AppRouter extends _i18.RootStackRouter {
 
   @override
   List<_i18.RouteConfig> get routes => [
-        _i18.RouteConfig('/#redirect',
-            path: '/', redirectTo: '/main', fullMatch: true),
-        _i18.RouteConfig(FontManager.name, path: '/font-manager'),
-        _i18.RouteConfig(Lock.name, path: '/lock'),
-        _i18.RouteConfig(Security.name, path: '/security'),
+        _i18.RouteConfig(FontManager.name, path: '/font-manager-view'),
+        _i18.RouteConfig(Lock.name, path: '/lock-view'),
+        _i18.RouteConfig(Security.name, path: '/security-view'),
         _i18.RouteConfig(DeveloperMode.name, path: '/developer-mode-view'),
-        _i18.RouteConfig(NicknameCreator.name,
-            path: '/landing/nickname-creator'),
-        _i18.RouteConfig(InitPickColor.name, path: '/landing/init-pick-color'),
-        _i18.RouteConfig(AppStarter.name, path: 'landing/app-starter'),
-        _i18.RouteConfig(ThemeSetting.name, path: '/theme-setting'),
-        _i18.RouteConfig(ManagePages.name, path: '/manage-pages'),
-        _i18.RouteConfig(Archive.name, path: '/archive'),
-        _i18.RouteConfig(ContentReader.name, path: '/content-reader'),
-        _i18.RouteConfig(ChangesHistory.name, path: '/changes-history'),
-        _i18.RouteConfig(Detail.name, path: '/detail'),
-        _i18.RouteConfig(Main.name, path: '/main', children: [
+        _i18.RouteConfig(NicknameCreator.name, path: '/nickname-creator-view'),
+        _i18.RouteConfig(InitPickColor.name, path: '/init-pick-color-view'),
+        _i18.RouteConfig(AppStarter.name, path: '/app-starter-view'),
+        _i18.RouteConfig(ThemeSetting.name, path: '/theme-setting-view'),
+        _i18.RouteConfig(ManagePages.name, path: '/manage-pages-view'),
+        _i18.RouteConfig(Archive.name, path: '/archive-view'),
+        _i18.RouteConfig(ContentReader.name, path: '/content-reader-view'),
+        _i18.RouteConfig(ChangesHistory.name, path: '/changes-history-view'),
+        _i18.RouteConfig(Detail.name, path: '/detail-view'),
+        _i18.RouteConfig(Main.name, path: '/', children: [
           _i18.RouteConfig(Home.name, path: 'home', parent: Main.name),
           _i18.RouteConfig(Explore.name, path: 'explore', parent: Main.name),
           _i18.RouteConfig(Setting.name, path: 'setting', parent: Main.name)
@@ -166,7 +163,7 @@ class AppRouter extends _i18.RootStackRouter {
 /// generated route for
 /// [_i1.FontManagerView]
 class FontManager extends _i18.PageRouteInfo<void> {
-  const FontManager() : super(FontManager.name, path: '/font-manager');
+  const FontManager() : super(FontManager.name, path: '/font-manager-view');
 
   static const String name = 'FontManager';
 }
@@ -176,7 +173,7 @@ class FontManager extends _i18.PageRouteInfo<void> {
 class Lock extends _i18.PageRouteInfo<LockArgs> {
   Lock({_i19.Key? key, required _i20.LockFlowType flowType})
       : super(Lock.name,
-            path: '/lock', args: LockArgs(key: key, flowType: flowType));
+            path: '/lock-view', args: LockArgs(key: key, flowType: flowType));
 
   static const String name = 'Lock';
 }
@@ -197,7 +194,7 @@ class LockArgs {
 /// generated route for
 /// [_i3.SecurityView]
 class Security extends _i18.PageRouteInfo<void> {
-  const Security() : super(Security.name, path: '/security');
+  const Security() : super(Security.name, path: '/security-view');
 
   static const String name = 'Security';
 }
@@ -215,7 +212,7 @@ class DeveloperMode extends _i18.PageRouteInfo<void> {
 /// [_i5.NicknameCreatorView]
 class NicknameCreator extends _i18.PageRouteInfo<void> {
   const NicknameCreator()
-      : super(NicknameCreator.name, path: '/landing/nickname-creator');
+      : super(NicknameCreator.name, path: '/nickname-creator-view');
 
   static const String name = 'NicknameCreator';
 }
@@ -224,7 +221,7 @@ class NicknameCreator extends _i18.PageRouteInfo<void> {
 /// [_i6.InitPickColorView]
 class InitPickColor extends _i18.PageRouteInfo<void> {
   const InitPickColor()
-      : super(InitPickColor.name, path: '/landing/init-pick-color');
+      : super(InitPickColor.name, path: '/init-pick-color-view');
 
   static const String name = 'InitPickColor';
 }
@@ -232,7 +229,7 @@ class InitPickColor extends _i18.PageRouteInfo<void> {
 /// generated route for
 /// [_i7.AppStarterView]
 class AppStarter extends _i18.PageRouteInfo<void> {
-  const AppStarter() : super(AppStarter.name, path: 'landing/app-starter');
+  const AppStarter() : super(AppStarter.name, path: '/app-starter-view');
 
   static const String name = 'AppStarter';
 }
@@ -240,7 +237,7 @@ class AppStarter extends _i18.PageRouteInfo<void> {
 /// generated route for
 /// [_i8.ThemeSettingView]
 class ThemeSetting extends _i18.PageRouteInfo<void> {
-  const ThemeSetting() : super(ThemeSetting.name, path: '/theme-setting');
+  const ThemeSetting() : super(ThemeSetting.name, path: '/theme-setting-view');
 
   static const String name = 'ThemeSetting';
 }
@@ -250,7 +247,7 @@ class ThemeSetting extends _i18.PageRouteInfo<void> {
 class ManagePages extends _i18.PageRouteInfo<ManagePagesArgs> {
   ManagePages({_i19.Key? key, required _i21.StoryContentModel content})
       : super(ManagePages.name,
-            path: '/manage-pages',
+            path: '/manage-pages-view',
             args: ManagePagesArgs(key: key, content: content));
 
   static const String name = 'ManagePages';
@@ -272,7 +269,7 @@ class ManagePagesArgs {
 /// generated route for
 /// [_i10.ArchiveView]
 class Archive extends _i18.PageRouteInfo<void> {
-  const Archive() : super(Archive.name, path: '/archive');
+  const Archive() : super(Archive.name, path: '/archive-view');
 
   static const String name = 'Archive';
 }
@@ -282,7 +279,7 @@ class Archive extends _i18.PageRouteInfo<void> {
 class ContentReader extends _i18.PageRouteInfo<ContentReaderArgs> {
   ContentReader({_i19.Key? key, required _i21.StoryContentModel content})
       : super(ContentReader.name,
-            path: '/content-reader',
+            path: '/content-reader-view',
             args: ContentReaderArgs(key: key, content: content));
 
   static const String name = 'ContentReader';
@@ -310,7 +307,7 @@ class ChangesHistory extends _i18.PageRouteInfo<ChangesHistoryArgs> {
       required void Function(_i21.StoryContentModel) onRestorePressed,
       required void Function(List<String>) onDeletePressed})
       : super(ChangesHistory.name,
-            path: '/changes-history',
+            path: '/changes-history-view',
             args: ChangesHistoryArgs(
                 key: key,
                 story: story,
@@ -349,7 +346,7 @@ class Detail extends _i18.PageRouteInfo<DetailArgs> {
       required _i22.StoryModel initialStory,
       required _i23.DetailViewFlowType intialFlow})
       : super(Detail.name,
-            path: '/detail',
+            path: '/detail-view',
             args: DetailArgs(
                 key: key, initialStory: initialStory, intialFlow: intialFlow));
 
@@ -376,7 +373,7 @@ class DetailArgs {
 /// [_i14.MainView]
 class Main extends _i18.PageRouteInfo<void> {
   const Main({List<_i18.PageRouteInfo>? children})
-      : super(Main.name, path: '/main', initialChildren: children);
+      : super(Main.name, path: '/', initialChildren: children);
 
   static const String name = 'Main';
 }

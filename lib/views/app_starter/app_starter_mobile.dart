@@ -52,7 +52,7 @@ class _AppStarterMobile extends StatelessWidget {
       backgroundColor: M3Color.of(context).onPrimary,
       foregroundColor: M3Color.of(context).primary,
       onTap: () {
-        Navigator.of(context).pushNamed(SpRouteConfig.nicknameCreator);
+        Navigator.of(context).pushNamed(SpRouter.nicknameCreator.path);
       },
     );
   }
