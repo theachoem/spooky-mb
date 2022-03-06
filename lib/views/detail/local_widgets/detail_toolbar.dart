@@ -2,6 +2,7 @@ import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/widgets/sp_toolbar/sp_toolbar.dart';
 
 class DetailToolbars extends StatefulWidget {
   const DetailToolbars({
@@ -65,11 +66,14 @@ class _DetailToolbarsState extends State<DetailToolbars> {
   Widget buildBypassChildren() {
     return _List(
       children: widget.viewModel.quillControllers.values.map((controller) {
-        return editor.QuillToolbar.basic(
+        return SpToolbar(
           controller: controller,
-          multiRowsDisplay: false,
-          toolbarIconSize: ConfigConstant.iconSize2,
         );
+        // return editor.QuillToolbar.basic(
+        //   controller: controller,
+        //   multiRowsDisplay: false,
+        //   toolbarIconSize: ConfigConstant.iconSize2,
+        // );
       }).toList(),
     );
   }
