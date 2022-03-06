@@ -56,6 +56,7 @@ dependencies:
   google_fonts: ^2.3.1
   url_launcher: ^6.0.20
   community_material_icon: ^5.9.55
+  animated_clipper: ^0.2.0+2
 
 dev_dependencies:
   flutter_test:

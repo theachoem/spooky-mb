@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
+import 'package:spooky/widgets/sp_toolbar/sp_color_button.dart';
 
 class SpToolbar extends StatefulWidget {
   const SpToolbar({
@@ -103,14 +104,14 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
               controller: controller,
               iconTheme: iconTheme,
             ),
-            ColorButton(
+            SpColorButton(
               icon: Icons.color_lens,
               iconSize: toolbarIconSize,
               controller: controller,
               background: false,
               iconTheme: iconTheme,
             ),
-            ColorButton(
+            SpColorButton(
               icon: Icons.format_color_fill,
               iconSize: toolbarIconSize,
               controller: controller,

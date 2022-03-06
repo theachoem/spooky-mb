@@ -1,4 +1,3 @@
-import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:flutter/material.dart';

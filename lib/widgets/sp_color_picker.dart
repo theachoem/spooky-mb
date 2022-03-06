@@ -5,30 +5,6 @@ import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/constants/util_colors_constant.dart';
 
-/// final map = {
-///   0: [0, 1, 2, 3],
-///   1: [4, 5, 6, 7],
-///   2: [8, 9, 10, 11],
-///   3: [12, 13, 14, 15],
-///   4: [16, 17, 18, 19],
-///   5: [20]
-/// };
-///
-Map<int, List<int>> listToTreeMap(List<dynamic> _list, {int rowLength = 5}) {
-  Map<int, List<int>> map = {};
-  for (int c = 0; c <= _list.length ~/ rowLength; c++) {
-    List<int> children = [];
-    for (int r = c; r < c + rowLength; r++) {
-      int index = c * (rowLength - 1) + r;
-      if (index <= _list.length - 1) children.add(index);
-    }
-    map[c] = children;
-  }
-
-  map.removeWhere((key, value) => value.isEmpty);
-  return map;
-}
-
 enum SpColorPickerLevel {
   one,
   two,
@@ -62,10 +38,35 @@ class SpColorPicker extends StatefulWidget {
 }
 
 /// value 2 at end is border width `all(1)`
-const double onPickingSwatchHeight = 34 * 4 + ConfigConstant.margin2 * 2 + ConfigConstant.margin1 * 4 + 2;
-const double onPickingColorHeight = 34 * 2 + ConfigConstant.margin2 * 2 + ConfigConstant.margin1 * 2 - 4 + 2;
+const double spOnPickingSwatchHeight = 34 * 4 + ConfigConstant.margin2 * 2 + ConfigConstant.margin1 * 4 + 2;
+const double spOnPickingColorHeight = 34 * 2 + ConfigConstant.margin2 * 2 + ConfigConstant.margin1 * 2 - 4 + 2;
+const double spColorPickerMinWidth = 246.0;
 
 class _SpColorPickerState extends State<SpColorPicker> {
+  /// final map = {
+  ///   0: [0, 1, 2, 3],
+  ///   1: [4, 5, 6, 7],
+  ///   2: [8, 9, 10, 11],
+  ///   3: [12, 13, 14, 15],
+  ///   4: [16, 17, 18, 19],
+  ///   5: [20]
+  /// };
+  ///
+  Map<int, List<int>> listToTreeMap(List<dynamic> _list, {int rowLength = 5}) {
+    Map<int, List<int>> map = {};
+    for (int c = 0; c <= _list.length ~/ rowLength; c++) {
+      List<int> children = [];
+      for (int r = c; r < c + rowLength; r++) {
+        int index = c * (rowLength - 1) + r;
+        if (index <= _list.length - 1) children.add(index);
+      }
+      map[c] = children;
+    }
+
+    map.removeWhere((key, value) => value.isEmpty);
+    return map;
+  }
+
   Color? currentSelectedColor;
   Color? currentSelectedColorsSwatch;
 
@@ -149,19 +150,19 @@ class _SpColorPickerState extends State<SpColorPicker> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: onPickingSwatchHeight,
-      alignment: Alignment.topRight,
+      height: spOnPickingSwatchHeight,
+      alignment: Alignment.bottomRight,
       child: SpCrossFade(
-        alignment: Alignment.topRight,
         showFirst: !isColorChildPicking,
+        duration: ConfigConstant.fadeDuration,
         firstChild: buildColorListWrapper(
           context: context,
           child: buildColorListing(context),
-          height: onPickingSwatchHeight,
+          height: spOnPickingSwatchHeight,
         ),
         secondChild: buildColorListWrapper(
           context: context,
-          height: _colorsMap!.length == 1 ? onPickingColorHeight - 32 - 12 : onPickingColorHeight,
+          height: _colorsMap!.length == 1 ? spOnPickingColorHeight - 32 - 12 : spOnPickingColorHeight,
           child: buildColorListing(context),
         ),
       ),
@@ -174,14 +175,18 @@ class _SpColorPickerState extends State<SpColorPicker> {
     required double height,
   }) {
     return Container(
-      padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(bottom: ConfigConstant.margin2 - 8),
+      constraints: BoxConstraints(minWidth: spColorPickerMinWidth),
       height: height,
-      decoration: BoxDecoration(
-        color: M3Color.of(context).background,
-        borderRadius: ConfigConstant.circlarRadius2,
-        border: Border.all(color: M3Color.of(context).onBackground.withOpacity(0.1), width: 1),
+      alignment: Alignment.center,
+      child: Container(
+        padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(bottom: ConfigConstant.margin2 - 8),
+        decoration: BoxDecoration(
+          color: M3Color.of(context).background,
+          borderRadius: ConfigConstant.circlarRadius2,
+          border: Border.all(color: M3Color.of(context).onBackground.withOpacity(0.1), width: 1),
+        ),
+        child: child,
       ),
-      child: child,
     );
   }
 
