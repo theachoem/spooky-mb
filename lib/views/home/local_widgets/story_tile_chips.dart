@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:provider/provider.dart';
@@ -66,7 +67,7 @@ class StoryTileChips extends StatelessWidget {
 
   ImageProvider imageByUrl(String imageUrl) {
     if (isImageBase64(imageUrl)) return MemoryImage(base64.decode(imageUrl));
-    if (imageUrl.startsWith('http')) return NetworkImage(imageUrl);
+    if (imageUrl.startsWith('http')) return CachedNetworkImageProvider(imageUrl);
     return FileImage(File(imageUrl));
   }
 }
