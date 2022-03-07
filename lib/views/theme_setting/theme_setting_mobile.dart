@@ -47,6 +47,7 @@ class _ThemeSettingMobile extends StatelessWidget {
             SpSectionContents(
               headline: "Other",
               tiles: [
+                buildMaxLineTile(),
                 buildShowChipTile(),
               ],
             )
@@ -54,6 +55,41 @@ class _ThemeSettingMobile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget buildMaxLineTile() {
+    return Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
+      return ListTile(
+        title: Text("Max line"),
+        subtitle: Text(provider.maxLine.toString()),
+        trailing: Icon(Icons.keyboard_arrow_right),
+        onTap: () {
+          showTextInputDialog(
+            context: context,
+            title: "Set max line",
+            textFields: [
+              DialogTextField(
+                keyboardType: TextInputType.number,
+                initialText: provider.maxLine.toString(),
+                validator: (String? data) {
+                  if (data != null) {
+                    int? value = int.tryParse(data);
+                    if (value != null) {
+                      return null;
+                    }
+                  }
+                  return "Invalid number";
+                },
+              ),
+            ],
+          ).then((value) {
+            if (value?.isNotEmpty == true) {
+              provider.setMaxLine(int.tryParse(value!.first));
+            }
+          });
+        },
+      );
+    });
   }
 
   Consumer<ShowChipsProvider> buildShowChipTile() {

@@ -10,6 +10,7 @@ import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/providers/color_seed_provider.dart';
 import 'package:spooky/providers/theme_mode_provider.dart';
+import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/widgets/sp_color_picker.dart';

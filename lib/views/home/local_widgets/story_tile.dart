@@ -3,12 +3,14 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:open_file/open_file.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/file_manager/managers/export_file_manager.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
@@ -276,17 +278,19 @@ class _StoryTileState extends State<StoryTile> {
                 if (content.plainText != null && content.plainText!.trim().length > 1)
                   Container(
                     margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : contentRightMargin),
-                    child: ExpandableText(
-                      body(content),
-                      expandText: 'show more',
-                      collapseText: "show less",
-                      maxLines: 5,
-                      animation: true,
-                      collapseOnTextTap: false,
-                      style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onSurface),
-                      linkColor: M3Color.of(context).onSurface,
-                      linkStyle: const TextStyle(fontWeight: FontWeight.w300),
-                    ),
+                    child: Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
+                      return ExpandableText(
+                        body(content),
+                        expandText: 'show more',
+                        collapseText: "show less",
+                        maxLines: provider.maxLine,
+                        animation: true,
+                        collapseOnTextTap: false,
+                        style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onSurface),
+                        linkColor: M3Color.of(context).onSurface,
+                        linkStyle: const TextStyle(fontWeight: FontWeight.w300),
+                      );
+                    }),
                   ),
                 StoryTileChips(
                   images: images,

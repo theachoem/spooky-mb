@@ -6,6 +6,7 @@ import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/providers/theme_mode_provider.dart';
+import 'package:spooky/providers/tile_max_line_provider.dart';
 
 // global providers
 class ProviderScope extends StatelessWidget {
@@ -37,6 +38,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<CloudServiceProvider>(
           create: (context) => CloudServiceProvider(),
+        ),
+        ListenableProvider<TileMaxLineProvider>(
+          create: (context) => TileMaxLineProvider(),
         ),
       ],
       child: child,
