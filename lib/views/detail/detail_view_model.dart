@@ -99,10 +99,11 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     if (story != null) saveStates(story);
   }
 
-  Future<void> deleteChange(List<String> contentIds) async {
+  Future<StoryModel> deleteChange(List<String> contentIds) async {
     DeleteChangeWriter writer = DeleteChangeWriter();
     StoryModel? story = await writer.save(DeleteChangeObject(info, contentIds: contentIds));
     if (story != null) saveStates(story);
+    return currentStory;
   }
 
   /// restore and updatePages will be push replace to same screen instead.

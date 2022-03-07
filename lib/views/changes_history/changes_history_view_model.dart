@@ -4,9 +4,9 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 
 class ChangesHistoryViewModel extends BaseViewModel {
-  final StoryModel story;
+  StoryModel story;
   final void Function(StoryContentModel content) onRestorePressed;
-  final void Function(List<String> contentIds) onDeletePressed;
+  final Future<StoryModel> Function(List<String> contentIds) onDeletePressed;
 
   bool _editing = false;
   bool get editing => _editing;
@@ -26,6 +26,12 @@ class ChangesHistoryViewModel extends BaseViewModel {
     selectedNotifier = ValueNotifier({});
   }
 
+  void delele() async {
+    StoryModel value = await onDeletePressed(selectedNotifier.value.toList());
+    story = value;
+    notifyListeners();
+  }
+
   @override
   void notifyListeners() {
     super.notifyListeners();
@@ -33,6 +39,12 @@ class ChangesHistoryViewModel extends BaseViewModel {
       Set<String> value = {...selectedNotifier.value}..clear();
       selectedNotifier.value = value;
     }
+
+    // make sure select id is in story
+    final list = story.changes.map((e) => e.id);
+    Set<String> value = selectedNotifier.value;
+    value.removeWhere((e) => !list.contains(e));
+    selectedNotifier.value = value;
   }
 
   @override

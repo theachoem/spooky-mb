@@ -82,10 +82,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               );
               switch (result) {
                 case OkCancelResult.ok:
-                  viewModel.onDeletePressed(
-                    viewModel.selectedNotifier.value.toList(),
-                  );
-                  Navigator.of(context).maybePop();
+                  viewModel.delele();
                   break;
                 case OkCancelResult.cancel:
                   break;

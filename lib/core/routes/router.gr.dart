@@ -10,6 +10,8 @@
 //
 // ignore_for_file: type=lint
 
+import 'dart:async' as _i23;
+
 import 'package:auto_route/auto_route.dart' as _i18;
 import 'package:flutter/material.dart' as _i19;
 
@@ -33,7 +35,7 @@ import '../../views/setting/setting_view.dart' as _i17;
 import '../../views/theme_setting/theme_setting_view.dart' as _i8;
 import '../models/story_content_model.dart' as _i21;
 import '../models/story_model.dart' as _i22;
-import '../types/detail_view_flow_type.dart' as _i23;
+import '../types/detail_view_flow_type.dart' as _i24;
 
 class AppRouter extends _i18.RootStackRouter {
   AppRouter([_i19.GlobalKey<_i19.NavigatorState>? navigatorKey])
@@ -305,7 +307,8 @@ class ChangesHistory extends _i18.PageRouteInfo<ChangesHistoryArgs> {
       {_i19.Key? key,
       required _i22.StoryModel story,
       required void Function(_i21.StoryContentModel) onRestorePressed,
-      required void Function(List<String>) onDeletePressed})
+      required _i23.Future<_i22.StoryModel> Function(List<String>)
+          onDeletePressed})
       : super(ChangesHistory.name,
             path: '/changes-history-view',
             args: ChangesHistoryArgs(
@@ -330,7 +333,7 @@ class ChangesHistoryArgs {
 
   final void Function(_i21.StoryContentModel) onRestorePressed;
 
-  final void Function(List<String>) onDeletePressed;
+  final _i23.Future<_i22.StoryModel> Function(List<String>) onDeletePressed;
 
   @override
   String toString() {
@@ -344,7 +347,7 @@ class Detail extends _i18.PageRouteInfo<DetailArgs> {
   Detail(
       {_i19.Key? key,
       required _i22.StoryModel initialStory,
-      required _i23.DetailViewFlowType intialFlow})
+      required _i24.DetailViewFlowType intialFlow})
       : super(Detail.name,
             path: '/detail-view',
             args: DetailArgs(
@@ -361,7 +364,7 @@ class DetailArgs {
 
   final _i22.StoryModel initialStory;
 
-  final _i23.DetailViewFlowType intialFlow;
+  final _i24.DetailViewFlowType intialFlow;
 
   @override
   String toString() {
