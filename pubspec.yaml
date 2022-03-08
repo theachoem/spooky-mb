@@ -58,7 +58,9 @@ dependencies:
   community_material_icon: ^5.9.55
   animated_clipper: ^0.2.0+2
   cached_network_image: ^3.2.0
-  fuzzy: ^0.3.0
+  fuzzy: 0.4.0-nullsafety.0
+  flutter_sticky_header: ^0.6.1
+  azlistview: ^2.0.0
 
 dev_dependencies:
   flutter_test:

@@ -16,6 +16,45 @@ class SpSectionContents {
 class SpSectionsTiles extends StatelessWidget {
   const SpSectionsTiles({Key? key}) : super(key: key);
 
+  static Column header({
+    required BuildContext context,
+    required String headline,
+    IconData? leadingIcon,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ConfigConstant.sizedBoxH1,
+        ConfigConstant.sizedBoxH2,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: RichText(
+            textAlign: TextAlign.start,
+            text: TextSpan(
+              style: M3TextTheme.of(context).titleSmall?.copyWith(color: M3Color.of(context).primary),
+              children: [
+                TextSpan(text: headline),
+                if (leadingIcon != null)
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4.0),
+                      child: Icon(
+                        leadingIcon,
+                        color: M3Color.of(context).primary,
+                        size: ConfigConstant.iconSize1 - 4.0,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ),
+        ConfigConstant.sizedBoxH0,
+      ],
+    );
+  }
+
   static List<Widget> divide({
     required BuildContext context,
     required List<SpSectionContents> sections,
@@ -24,18 +63,9 @@ class SpSectionsTiles extends StatelessWidget {
     return [
       if (showTopDivider) const Divider(height: 1),
       for (int i = 0; i < sections.length; i++) ...[
-        ConfigConstant.sizedBoxH1,
-        ConfigConstant.sizedBoxH2,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Text(
-            sections[i].headline,
-            style: M3TextTheme.of(context).titleSmall?.copyWith(color: M3Color.of(context).primary),
-          ),
-        ),
-        ConfigConstant.sizedBoxH0,
+        ...header(context: context, headline: sections[i].headline).children,
         ...sections[i].tiles,
-        if (i != sections.length - 1) const Divider(height: 0),
+        if (i != sections.length - 1) const Divider(height: 1),
       ]
     ];
   }

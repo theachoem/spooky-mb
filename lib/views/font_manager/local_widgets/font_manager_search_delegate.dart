@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fuzzy/data/result.dart';
+import 'package:fuzzy/fuzzy.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/font_manager/local_widgets/font_tile.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
@@ -8,11 +10,12 @@ import 'package:spooky/widgets/sp_pop_button.dart';
 class FontManagerSearchDelegate extends SearchDelegate {
   final List<String> fonts;
   final void Function(String fontFamily) onPressed;
+  final Fuzzy<String> fuzzy;
 
   FontManagerSearchDelegate({
     required this.fonts,
     required this.onPressed,
-  });
+  }) : fuzzy = Fuzzy(fonts, options: FuzzyOptions(isCaseSensitive: false));
 
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -57,8 +60,8 @@ class FontManagerSearchDelegate extends SearchDelegate {
   }
 
   List<String> suggestions() {
-    return fonts.where((element) {
-      return element.toLowerCase().contains(query.trim().toLowerCase());
-    }).toList();
+    List<Result<String>> result = fuzzy.search(query.trim());
+    // result.sort((a, b) => a.score.compareTo(b.score));
+    return result.map((e) => e.item).toList();
   }
 }

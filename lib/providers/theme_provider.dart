@@ -25,12 +25,10 @@ class ThemeProvider extends ChangeNotifier {
 
   Future<void> load() async {
     theme = await storage.readObject();
-    print("READ: ${theme?.toJson()}");
     notifyListeners();
   }
 
   Future<void> updateTheme(ThemeModel _theme) async {
-    print("WRITE: ${_theme.toJson()}");
     await storage.writeObject(_theme);
     return load();
   }

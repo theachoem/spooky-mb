@@ -24,16 +24,8 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           buildMoreButton(Icons.settings),
         ],
       ),
-      body: ListView.builder(
-        itemCount: widget.viewModel.fonts.length,
-        itemBuilder: (context, index) {
-          final font = widget.viewModel.fonts[index];
-          String name = font.key;
-          return FontTile(
-            fontFamily: name,
-            onFontUpdated: () {},
-          );
-        },
+      body: FontList(
+        fonts: widget.viewModel.fonts,
       ),
     );
   }
@@ -46,7 +38,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
         showSearch(
           context: context,
           delegate: FontManagerSearchDelegate(
-            fonts: widget.viewModel.fonts.map((e) => e.key).toList(),
+            fonts: widget.viewModel.allFonts,
             onPressed: (String fontFamily) {
               context.read<ThemeProvider>().updateFont(fontFamily);
             },
