@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 
 class FontTile extends StatelessWidget {
@@ -37,10 +39,20 @@ class FontTile extends StatelessWidget {
         bool selected = notifier.fontFamily == fontFamily;
         return ListTile(
           onTap: callback,
-          title: Text(
-            fontFamily,
-            style: TextStyle(
-              color: selected ? M3Color.of(context).primary : null,
+          title: Text(fontFamily),
+          leading: CircleAvatar(
+            backgroundColor: Colors.transparent,
+            child: SpCrossFade(
+              showFirst: selected,
+              duration: ConfigConstant.duration * 3,
+              firstChild: Icon(
+                Icons.check,
+                color: M3Color.of(context).primary,
+                size: ConfigConstant.iconSize2,
+              ),
+              secondChild: SizedBox(
+                width: ConfigConstant.iconSize2,
+              ),
             ),
           ),
           tileColor: M3Color.of(context).surface,

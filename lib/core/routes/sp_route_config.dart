@@ -61,7 +61,6 @@ class SpRouteConfig {
     switch (router) {
       case SpRouter.restore:
         return AnimatedRouteSetting(
-          title: "Restore",
           fullscreenDialog: false,
           fillColor: M3Color.of(context).background,
           route: (context) {
@@ -75,21 +74,18 @@ class SpRouteConfig {
         );
       case SpRouter.cloudStorage:
         return DefaultRouteSetting(
-          title: "Cloud Storage",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const CloudStorageView(),
         );
       case SpRouter.fontManager:
         return DefaultRouteSetting(
-          title: "Font Manager",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const FontManagerView(),
         );
       case SpRouter.lock:
         return DefaultRouteSetting(
-          title: "Lock",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) {
@@ -102,21 +98,18 @@ class SpRouteConfig {
         );
       case SpRouter.security:
         return DefaultRouteSetting(
-          title: "Security",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const SecurityView(),
         );
       case SpRouter.themeSetting:
         return DefaultRouteSetting(
-          title: "Theme Setting",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const ThemeSettingView(),
         );
       case SpRouter.managePages:
         return DefaultRouteSetting(
-          title: "Manage Pages",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) {
@@ -127,14 +120,12 @@ class SpRouteConfig {
         );
       case SpRouter.archive:
         return DefaultRouteSetting(
-          title: "Archive",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const ArchiveView(),
         );
       case SpRouter.contentReader:
         return DefaultRouteSetting(
-          title: "Content Reader",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) {
@@ -145,7 +136,6 @@ class SpRouteConfig {
         );
       case SpRouter.changesHistory:
         return DefaultRouteSetting(
-          title: "Changes History",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) {
@@ -162,7 +152,6 @@ class SpRouteConfig {
         );
       case SpRouter.detail:
         return DefaultRouteSetting<StoryModel>(
-          title: "Detail",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) {
@@ -178,14 +167,12 @@ class SpRouteConfig {
         );
       case SpRouter.main:
         return DefaultRouteSetting(
-          title: "Main",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const MainView(),
         );
       case SpRouter.home:
         return DefaultRouteSetting(
-          title: "Home",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) {
@@ -203,28 +190,24 @@ class SpRouteConfig {
         );
       case SpRouter.explore:
         return DefaultRouteSetting(
-          title: "Explore",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const ExploreView(),
         );
       case SpRouter.setting:
         return DefaultRouteSetting(
-          title: "Setting",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const SettingView(),
         );
       case SpRouter.appStarter:
         return DefaultRouteSetting(
-          title: "Setting",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const AppStarterView(),
         );
       case SpRouter.initPickColor:
         return AnimatedRouteSetting(
-          title: "Pick Color",
           fullscreenDialog: true,
           fillColor: M3Color.of(context).background,
           route: (context) {
@@ -238,21 +221,18 @@ class SpRouteConfig {
         );
       case SpRouter.nicknameCreator:
         return AnimatedRouteSetting(
-          title: "Nickname Creator",
           fullscreenDialog: true,
           fillColor: M3Color.of(context).background,
           route: (context) => const NicknameCreatorView(),
         );
-      case SpRouter.developerModeView:
+      case SpRouter.developerMode:
         return DefaultRouteSetting(
-          title: "Developer Mode",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const DeveloperModeView(),
         );
       case SpRouter.notFound:
         return DefaultRouteSetting(
-          title: "Not Found",
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => NotFoundView(),

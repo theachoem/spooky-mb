@@ -8,10 +8,7 @@ class _LockMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        title: Text(
-          "Lock",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

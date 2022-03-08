@@ -9,10 +9,7 @@ class _DeveloperModeMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: Text(
-          "Developer",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
       ),
       body: ListView(
         children: ListTile.divideTiles(

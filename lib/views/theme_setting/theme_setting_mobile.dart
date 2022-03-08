@@ -9,10 +9,7 @@ class _ThemeSettingMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: Text(
-          "Theme",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
       ),
       body: ListView(
         children: SpSectionsTiles.divide(
@@ -29,7 +26,7 @@ class _ThemeSettingMobile extends StatelessWidget {
               headline: "Font",
               tiles: [
                 ListTile(
-                  title: const Text("Font Manager"),
+                  title: const Text("Font Book"),
                   leading: const Icon(Icons.font_download),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.fontManager.path);

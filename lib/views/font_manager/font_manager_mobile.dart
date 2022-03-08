@@ -15,10 +15,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
       key: scaffoldkey,
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: Text(
-          "Font Manager",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
         actions: [
           buildSearch(context),
           buildMoreButton(Icons.settings),
@@ -63,6 +60,22 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
     );
   }
 
+  void openWeb(String url) async {
+    if (await canLaunch(url)) {
+      var result = await showOkCancelAlertDialog(
+        context: context,
+        title: "Open browser",
+        message: url,
+      );
+      if (result == OkCancelResult.ok) {
+        launch(
+          url,
+          forceSafariVC: true,
+        );
+      }
+    }
+  }
+
   SpSectionContents buildInfoSection(String provider, BuildContext context) {
     ThemeProvider notifier = Provider.of<ThemeProvider>(context, listen: false);
     return SpSectionContents(
@@ -80,12 +93,15 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
               "query": notifier.fontFamily,
             });
 
-            if (await canLaunch(queryUri.toString())) {
-              launch(
-                queryUri.toString(),
-                forceSafariVC: true,
-              );
-            }
+            openWeb(queryUri.toString());
+          },
+        ),
+        ListTile(
+          title: const Text("Total"),
+          subtitle: Text(widget.viewModel.allFonts.length.toString() + " fonts"),
+          trailing: const Icon(Icons.keyboard_arrow_right),
+          onTap: () async {
+            openWeb(provider);
           },
         ),
         ListTile(
@@ -93,35 +109,9 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           subtitle: const Text("font.google.com"),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
-            if (await canLaunch(provider)) {
-              launch(
-                provider,
-                forceSafariVC: true,
-              );
-            }
+            openWeb(provider);
           },
         ),
-        Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.info,
-                size: ConfigConstant.iconSize1,
-                color: M3Color.of(context).primary,
-              ),
-              const SizedBox(width: ConfigConstant.margin0),
-              Expanded(
-                child: Text(
-                  "These will be opened on browser",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyle(color: M3Color.of(context).primary),
-                ),
-              ),
-            ],
-          ),
-        )
       ],
     );
   }

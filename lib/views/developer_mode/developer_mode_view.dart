@@ -8,6 +8,7 @@ import 'package:restart_app/restart_app.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/providers/nickname_provider.dart';
+import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';

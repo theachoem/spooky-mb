@@ -9,10 +9,7 @@ class _CloudStorageMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: Text(
-          "Cloud Storage",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
       ),
       body: ListView(
         children: SpSectionsTiles.divide(

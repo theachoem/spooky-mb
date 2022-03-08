@@ -39,10 +39,55 @@ extension SpRouterExtension on SpRouter {
         return '/landing/init-pick-color';
       case SpRouter.nicknameCreator:
         return '/landing/nickname-creator';
-      case SpRouter.developerModeView:
-        return '/developer-mode-view';
+      case SpRouter.developerMode:
+        return '/developer-mode';
       case SpRouter.notFound:
         return '/not-found';
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case SpRouter.restore:
+        return 'Restore';
+      case SpRouter.cloudStorage:
+        return 'Cloud Storage';
+      case SpRouter.fontManager:
+        return 'Font Manager';
+      case SpRouter.lock:
+        return 'Lock';
+      case SpRouter.security:
+        return 'Security';
+      case SpRouter.themeSetting:
+        return 'Theme';
+      case SpRouter.managePages:
+        return 'Manage pages';
+      case SpRouter.archive:
+        return 'Archive';
+      case SpRouter.contentReader:
+        return 'Content Reader';
+      case SpRouter.changesHistory:
+        return 'Changes History';
+      case SpRouter.detail:
+        return 'Detail';
+      case SpRouter.main:
+        return 'Main';
+      case SpRouter.home:
+        return 'Home';
+      case SpRouter.explore:
+        return 'Explore';
+      case SpRouter.setting:
+        return 'Eetting';
+      case SpRouter.appStarter:
+        return 'App Starter';
+      case SpRouter.initPickColor:
+        return 'Init Pick Color';
+      case SpRouter.nicknameCreator:
+        return 'Nickname Creator';
+      case SpRouter.developerMode:
+        return 'Developer';
+      case SpRouter.notFound:
+        return 'Not Found';
     }
   }
 }

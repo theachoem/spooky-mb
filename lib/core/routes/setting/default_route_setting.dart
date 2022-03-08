@@ -4,11 +4,10 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
   DefaultRouteSetting({
-    required String title,
     required this.canSwap,
     required Widget Function(dynamic p1) route,
     required bool fullscreenDialog,
-  }) : super(route: route, title: title, fullscreenDialog: fullscreenDialog);
+  }) : super(route: route, fullscreenDialog: fullscreenDialog);
 
   final bool canSwap;
 

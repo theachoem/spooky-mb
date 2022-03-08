@@ -9,10 +9,7 @@ class _SecurityMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: Text(
-          "Security",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
       ),
       body: ValueListenableBuilder<LockType?>(
         valueListenable: viewModel.lockedTypeNotifier,
