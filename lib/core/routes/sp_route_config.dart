@@ -60,11 +60,18 @@ class SpRouteConfig {
   BaseRouteSetting _buildRoute(SpRouter router) {
     switch (router) {
       case SpRouter.restore:
-        return DefaultRouteSetting(
+        return AnimatedRouteSetting(
           title: "Restore",
-          canSwap: false,
           fullscreenDialog: false,
-          route: (context) => const RestoreView(),
+          fillColor: M3Color.of(context).background,
+          route: (context) {
+            Object? arguments = settings?.arguments;
+            if (arguments is RestoreArgs) {
+              return RestoreView(showSkipButton: arguments.showSkipButton);
+            } else {
+              return RestoreView(showSkipButton: false);
+            }
+          },
         );
       case SpRouter.cloudStorage:
         return DefaultRouteSetting(
@@ -220,7 +227,14 @@ class SpRouteConfig {
           title: "Pick Color",
           fullscreenDialog: true,
           fillColor: M3Color.of(context).background,
-          route: (context) => const InitPickColorView(),
+          route: (context) {
+            Object? arguments = settings?.arguments;
+            if (arguments is InitPickColorArgs) {
+              return InitPickColorView(showNextButton: arguments.showNextButton);
+            } else {
+              return InitPickColorView(showNextButton: false);
+            }
+          },
         );
       case SpRouter.nicknameCreator:
         return AnimatedRouteSetting(

@@ -8,7 +8,7 @@ import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/widgets/sp_button.dart';
-import 'package:spooky/widgets/sp_icon_button.dart';
+import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:flutter/material.dart';

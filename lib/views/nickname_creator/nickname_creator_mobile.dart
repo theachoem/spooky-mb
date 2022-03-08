@@ -9,7 +9,7 @@ class _NicknameCreatorMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).background),
-        backgroundColor: Colors.transparent,
+        backgroundColor: M3Color.of(context).background,
         elevation: 0.0,
         automaticallyImplyLeading: false,
         title: Text(
@@ -17,10 +17,7 @@ class _NicknameCreatorMobile extends StatelessWidget {
           style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(color: M3Color.of(context).onBackground),
         ),
         actions: [
-          SpIconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () => Navigator.maybePop(context),
-          ),
+          const SpPopButton(forceCloseButton: true),
         ],
       ),
       body: Center(
@@ -53,7 +50,12 @@ class _NicknameCreatorMobile extends StatelessWidget {
               if (viewModel.nickname.trim().isNotEmpty) {
                 context.read<NicknameProvider>().setNickname(viewModel.nickname);
                 MessengerService.instance.clearSnackBars();
-                Navigator.of(context).pushNamed(SpRouter.initPickColor.path);
+                Navigator.of(context).pushNamed(
+                  SpRouter.initPickColor.path,
+                  arguments: InitPickColorArgs(
+                    showNextButton: true,
+                  ),
+                );
               } else {
                 MessengerService.instance.showSnackBar("Nickname must not empty!");
               }

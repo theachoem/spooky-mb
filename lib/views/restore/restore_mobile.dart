@@ -9,7 +9,7 @@ class _RestoreMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: buildBottomNavigation(context),
+      bottomNavigationBar: viewModel.showSkipButton ? buildBottomNavigation(context) : null,
       extendBody: true,
       body: RefreshIndicator(
         displacement: expandedHeight / 2,
@@ -163,14 +163,23 @@ class _RestoreMobile extends StatelessWidget {
     return Wrap(
       alignment: WrapAlignment.center,
       children: [
-        Container(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: SpButton(
-            label: "Done",
-            onTap: () {
-              Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
-            },
-          ),
+        ValueListenableBuilder(
+          valueListenable: viewModel.showSkipNotifier,
+          builder: (context, value, child) {
+            return SpCrossFade(
+              showFirst: viewModel.showSkipNotifier.value,
+              firstChild: const SizedBox(width: double.infinity),
+              secondChild: Container(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                child: SpButton(
+                  label: "Done",
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
+                  },
+                ),
+              ),
+            );
+          },
         ),
         SizedBox(
           width: double.infinity,
@@ -225,25 +234,26 @@ class _RestoreMobile extends StatelessWidget {
         ),
       ),
       actions: [
-        ValueListenableBuilder(
-          valueListenable: viewModel.showSkipNotifier,
-          builder: (context, value, child) {
-            return SpCrossFade(
-              showFirst: !viewModel.showSkipNotifier.value,
-              firstChild: const SizedBox.shrink(),
-              secondChild: Center(
-                child: SpButton(
-                  label: "Skip",
-                  backgroundColor: Colors.transparent,
-                  foregroundColor: Theme.of(context).appBarTheme.titleTextStyle?.color,
-                  onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
-                  },
+        if (viewModel.showSkipButton)
+          ValueListenableBuilder(
+            valueListenable: viewModel.showSkipNotifier,
+            builder: (context, value, child) {
+              return SpCrossFade(
+                showFirst: !viewModel.showSkipNotifier.value,
+                firstChild: const SizedBox.shrink(),
+                secondChild: Center(
+                  child: SpButton(
+                    label: "Skip",
+                    backgroundColor: Colors.transparent,
+                    foregroundColor: Theme.of(context).appBarTheme.titleTextStyle?.color,
+                    onTap: () {
+                      Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
+                    },
+                  ),
                 ),
-              ),
-            );
-          },
-        ),
+              );
+            },
+          ),
       ],
     );
   }

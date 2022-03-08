@@ -13,9 +13,9 @@ class AnimatedPageRoute {
   }) {
     return PageRouteBuilder<T>(
       pageBuilder: (context, animation, secondaryAnimation) => builder(context),
-      settings: settings,
-      maintainState: maintainState,
       fullscreenDialog: fullscreenDialog,
+      maintainState: maintainState,
+      settings: settings,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeThroughTransition(
           fillColor: fillColor,
@@ -34,6 +34,9 @@ class AnimatedPageRoute {
     bool fullscreenDialog = false,
   }) {
     return PageRouteBuilder<T>(
+      fullscreenDialog: fullscreenDialog,
+      maintainState: maintainState,
+      settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => builder(context),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return FadeScaleTransition(animation: animation, child: child);
@@ -50,6 +53,9 @@ class AnimatedPageRoute {
     SharedAxisTransitionType type = SharedAxisTransitionType.scaled,
   }) {
     return PageRouteBuilder<T>(
+      fullscreenDialog: fullscreenDialog,
+      maintainState: maintainState,
+      settings: settings,
       pageBuilder: (context, animation, secondaryAnimation) => builder(context),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SharedAxisTransition(

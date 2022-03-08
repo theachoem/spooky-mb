@@ -14,10 +14,11 @@ import 'package:spooky/core/services/messenger_service.dart';
 
 class RestoreViewModel extends BaseViewModel {
   late final ValueNotifier<bool> showSkipNotifier;
+  final bool showSkipButton;
 
   Map<String, List<CloudFileModel>>? groupByYear;
   CloudFileListModel? fileList;
-  RestoreViewModel() {
+  RestoreViewModel(this.showSkipButton) {
     load();
     showSkipNotifier = ValueNotifier<bool>(true);
   }

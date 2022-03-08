@@ -8,16 +8,18 @@ class SpPopButton extends StatelessWidget {
     this.color,
     this.backgroundColor,
     this.onPressed,
+    this.forceCloseButton = false,
   }) : super(key: key);
 
   final Color? color;
   final Color? backgroundColor;
   final VoidCallback? onPressed;
+  final bool forceCloseButton;
 
   @override
   Widget build(BuildContext context) {
     ModalRoute<Object?>? parentRoute = ModalRoute.of(context);
-    bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog;
+    bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog || forceCloseButton;
     return Center(
       child: SpIconButton(
         backgroundColor: backgroundColor,

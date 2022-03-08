@@ -25,12 +25,17 @@ part 'restore_tablet.dart';
 part 'restore_desktop.dart';
 
 class RestoreView extends StatelessWidget {
-  const RestoreView({Key? key}) : super(key: key);
+  const RestoreView({
+    Key? key,
+    required this.showSkipButton,
+  }) : super(key: key);
+
+  final bool showSkipButton;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<RestoreViewModel>(
-      create: (context) => RestoreViewModel(),
+      create: (context) => RestoreViewModel(showSkipButton),
       builder: (context, viewModel, child) {
         return SpScreenTypeLayout(
           mobile: _RestoreMobile(viewModel),

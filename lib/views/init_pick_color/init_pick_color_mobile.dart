@@ -12,31 +12,32 @@ class _InitPickColorMobile extends StatelessWidget {
       extendBodyBehindAppBar: true,
       appBar: MorphingAppBar(
         systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).background),
-        backgroundColor: Colors.transparent,
+        backgroundColor: M3Color.of(context).background,
         elevation: 0.0,
-        automaticallyImplyLeading: false,
         title: buildTitle(),
+        automaticallyImplyLeading: false,
         actions: [
-          const SpThemeSwitcher(backgroundColor: Colors.transparent),
-          SpIconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () => Navigator.maybePop(context),
-          ),
+          const SpPopButton(forceCloseButton: true),
         ],
       ),
-      bottomNavigationBar: Container(
-        alignment: Alignment.bottomCenter,
-        margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + ConfigConstant.margin2),
-        child: Builder(builder: (context) {
-          return SpButton(
-            label: "Next",
-            onTap: () {
-              // Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
-              Navigator.of(context).pushNamed(SpRouter.restore.path);
-            },
-          );
-        }),
-      ),
+      bottomNavigationBar: viewModel.showNextButton
+          ? Container(
+              alignment: Alignment.bottomCenter,
+              margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + ConfigConstant.margin2),
+              child: SpButton(
+                label: "Next",
+                onTap: () {
+                  // Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
+                  Navigator.of(context).pushNamed(
+                    SpRouter.restore.path,
+                    arguments: RestoreArgs(
+                      showSkipButton: true,
+                    ),
+                  );
+                },
+              ),
+            )
+          : null,
       body: FutureBuilder<int>(
         future: Future.delayed(ConfigConstant.duration ~/ 2).then((value) => 1),
         builder: (context, snapshot) {
@@ -48,9 +49,13 @@ class _InitPickColorMobile extends StatelessWidget {
               curve: Curves.ease,
               duration: ConfigConstant.fadeDuration,
               transform: Matrix4.identity()..translate(0.0, selected ? 0.0 : 4.0),
-              child: buildColorPicker(
-                context,
-                width,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildColorPicker(context, width),
+                  const SpThemeSwitcher(backgroundColor: Colors.transparent),
+                ],
               ),
             ),
           );
@@ -59,10 +64,11 @@ class _InitPickColorMobile extends StatelessWidget {
     );
   }
 
-  FutureBuilder<int> buildTitle() {
-    return FutureBuilder(
-      future: Future.delayed(ConfigConstant.duration).then((value) => 1),
-      builder: (context, snapshot) {
+  Widget buildTitle() {
+    return TweenAnimationBuilder<int>(
+      tween: IntTween(begin: 0, end: 100),
+      duration: ConfigConstant.duration,
+      builder: (context, value, child) {
         return SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           physics: const ScrollPhysics(),
@@ -74,7 +80,7 @@ class _InitPickColorMobile extends StatelessWidget {
                 style: Theme.of(context).appBarTheme.titleTextStyle,
               ),
               SpCrossFade(
-                showFirst: snapshot.data == 1,
+                showFirst: value == 100,
                 duration: ConfigConstant.duration,
                 firstChild: Text(
                   "favorite color?",

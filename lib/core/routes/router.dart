@@ -13,6 +13,7 @@ import 'package:spooky/views/lock/lock_view.dart';
 import 'package:spooky/views/main/main_view.dart';
 import 'package:spooky/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/views/nickname_creator/nickname_creator_view.dart';
+import 'package:spooky/views/restore/restore_view.dart';
 import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/theme_setting/theme_setting_view.dart';
@@ -21,6 +22,10 @@ import 'package:spooky/views/theme_setting/theme_setting_view.dart';
 /// To navigate, use normal `Navigator.of(context)` instead.
 @MaterialAutoRouter(
   routes: <AutoRoute>[
+    MaterialRoute(
+      page: RestoreView,
+      name: 'Restore',
+    ),
     MaterialRoute(
       page: FontManagerView,
       name: 'FontManager',
