@@ -109,9 +109,11 @@ packages:
   bubble_lens:
     dependency: "direct main"
     description:
-      name: bubble_lens
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: main
+      resolved-ref: "85c006d216af68b6168c4ffbb9217781701bc732"
+      url: "git@github.com:juniorise/bubble_lens.git"
+    source: git
     version: "2.0.0"
   build:
     dependency: transitive

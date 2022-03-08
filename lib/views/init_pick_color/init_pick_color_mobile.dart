@@ -109,7 +109,7 @@ class _InitPickColorMobile extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(size(width) / 2),
-          child: EnhancedBubbleLens(
+          child: BubbleLens(
             duration: ConfigConstant.fadeDuration,
             width: size(width),
             height: size(width),
