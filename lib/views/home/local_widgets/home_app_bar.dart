@@ -162,7 +162,9 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
   Widget buildThemeSwitcherButton() {
     return Positioned(
       right: 0,
-      child: SpThemeSwitcher(),
+      child: SpThemeSwitcher(
+        streamWithTheme: false,
+      ),
     );
   }
 }

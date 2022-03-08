@@ -15,10 +15,12 @@ class SpThemeSwitcher extends StatefulWidget {
     Key? key,
     this.backgroundColor,
     this.color,
+    this.streamWithTheme = true,
   }) : super(key: key);
 
   final Color? backgroundColor;
   final Color? color;
+  final bool streamWithTheme;
 
   @override
   State<SpThemeSwitcher> createState() => _SpThemeSwitcherState();
@@ -84,13 +86,15 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
   @override
   void didUpdateWidget(covariant SpThemeSwitcher oldWidget) {
     super.didUpdateWidget(oldWidget);
-    scheduleAction(() {
-      if (_isDarkMode != isDarkModeFromTheme) {
-        setState(() {
-          _isDarkMode = isDarkModeFromTheme;
-        });
-      }
-    });
+    if (widget.streamWithTheme) {
+      scheduleAction(() {
+        if (_isDarkMode != isDarkModeFromTheme) {
+          setState(() {
+            _isDarkMode = isDarkModeFromTheme;
+          });
+        }
+      });
+    }
   }
 
   @override
