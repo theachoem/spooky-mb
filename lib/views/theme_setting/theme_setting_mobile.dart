@@ -9,10 +9,7 @@ class _ThemeSettingMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: Text(
-          "Theme",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
       ),
       body: ListView(
         children: SpSectionsTiles.divide(

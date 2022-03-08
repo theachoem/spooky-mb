@@ -8,10 +8,7 @@ class _ArchiveMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        title: Text(
-          'Archive',
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
       ),
       body: StoryQueryList(

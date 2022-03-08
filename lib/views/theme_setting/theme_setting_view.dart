@@ -12,6 +12,7 @@ import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
+import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_color_picker.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';

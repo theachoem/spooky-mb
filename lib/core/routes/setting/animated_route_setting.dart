@@ -6,9 +6,8 @@ class AnimatedRouteSetting<T> extends BaseRouteSetting<T> {
   AnimatedRouteSetting({
     required this.fillColor,
     required Widget Function(dynamic p1) route,
-    required String title,
     required bool fullscreenDialog,
-  }) : super(route: route, title: title, fullscreenDialog: fullscreenDialog);
+  }) : super(route: route, fullscreenDialog: fullscreenDialog);
 
   final Color? fillColor;
 

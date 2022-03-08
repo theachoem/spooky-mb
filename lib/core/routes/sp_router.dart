@@ -20,6 +20,6 @@ enum SpRouter {
   appStarter,
   initPickColor,
   nicknameCreator,
-  developerModeView,
+  developerMode,
   notFound
 }

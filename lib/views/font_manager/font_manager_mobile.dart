@@ -15,10 +15,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
       key: scaffoldkey,
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: Text(
-          "Font Book",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+        title: const SpAppBarTitle(),
         actions: [
           buildSearch(context),
           buildMoreButton(Icons.settings),

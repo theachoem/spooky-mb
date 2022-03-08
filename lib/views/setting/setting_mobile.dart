@@ -20,28 +20,28 @@ class _SettingMobile extends StatelessWidget {
           tiles: [
             ListTile(
               leading: const Icon(Icons.cloud),
-              title: const Text("Cloud Storage"),
+              title: Text(SpRouter.cloudStorage.title),
               onTap: () {
                 Navigator.of(context).pushNamed(SpRouter.cloudStorage.path);
               },
             ),
             ListTile(
               leading: const Icon(Icons.color_lens),
-              title: const Text("Theme"),
+              title: Text(SpRouter.themeSetting.title),
               onTap: () {
                 Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
               },
             ),
             ListTile(
               leading: const Icon(Icons.lock),
-              title: const Text("Security"),
+              title: Text(SpRouter.security.title),
               onTap: () {
                 Navigator.of(context).pushNamed(SpRouter.security.path);
               },
             ),
             ListTile(
               leading: const Icon(Icons.archive),
-              title: const Text("Archive"),
+              title: Text(SpRouter.archive.title),
               onTap: () {
                 Navigator.of(context).pushNamed(SpRouter.archive.path);
               },
@@ -49,9 +49,9 @@ class _SettingMobile extends StatelessWidget {
             SpDeveloperVisibility(
               child: ListTile(
                 leading: const Icon(Icons.developer_mode),
-                title: const Text("Developer"),
+                title: Text(SpRouter.developerMode.title),
                 onTap: () {
-                  Navigator.of(context).pushNamed(SpRouter.developerModeView.path);
+                  Navigator.of(context).pushNamed(SpRouter.developerMode.path);
                 },
               ),
             ),

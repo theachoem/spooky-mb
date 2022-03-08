@@ -4,6 +4,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/views/lock/types/lock_flow_type.dart';
+import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 

@@ -8,6 +8,7 @@ import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/views/font_manager/local_widgets/font_list.dart';
 import 'package:spooky/views/font_manager/local_widgets/font_manager_search_delegate.dart';
+import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
