@@ -1,8 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spooky/core/storages/local_storages/color_storage.dart';
-import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/utils/constants/util_colors_constant.dart';
 export '../../utils/extensions/color_extension.dart';
 export '../../utils/extensions/color_scheme_extension.dart';
@@ -13,15 +11,17 @@ class M3Color {
     return Theme.of(context).colorScheme;
   }
 
-  static Color currentPrimaryColor = ThemeConstant.fallbackColor;
   static ColorScheme? darkScheme;
   static ColorScheme? lightScheme;
 
-  static Future<void> initialize() async {
-    int? color = await ColorStorage().read();
-    if (color != null) currentPrimaryColor = Color(color);
-    darkScheme = await M3Color.getScheme(true, currentPrimaryColor);
-    lightScheme = await M3Color.getScheme(false, currentPrimaryColor);
+  static ColorScheme colorScheme(Brightness brightness) {
+    return brightness == Brightness.dark ? darkScheme! : lightScheme!;
+  }
+
+  // call on read & write from theme storage
+  static Future<void> setSchemes(Color seedColor) async {
+    darkScheme = await M3Color.getScheme(true, seedColor);
+    lightScheme = await M3Color.getScheme(false, seedColor);
   }
 
   static Map<int, Color> dayColorsOf(BuildContext context) {

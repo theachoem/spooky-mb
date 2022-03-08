@@ -110,11 +110,11 @@ class _ThemeSettingMobile extends StatelessWidget {
     return SpOverlayEntryButton(floatingBuilder: (context, callback) {
       return SpColorPicker(
         blackWhite: SpColorPicker.getBlackWhite(context),
-        currentColor: M3Color.currentPrimaryColor,
+        currentColor: context.read<ThemeProvider>().colorSeed,
         onPickedColor: (color) async {
           callback();
           await Future.delayed(ConfigConstant.duration);
-          await context.read<ColorSeedProvider>().updateColor(color);
+          await context.read<ThemeProvider>().updateColor(color);
         },
       );
     }, childBuilder: (context, callback) {
@@ -126,7 +126,7 @@ class _ThemeSettingMobile extends StatelessWidget {
             size: ConfigConstant.iconSize2,
             onPressed: null,
             selected: true,
-            color: M3Color.currentPrimaryColor,
+            color: context.read<ThemeProvider>().colorSeed,
           ),
         ),
         onLongPress: () {
@@ -140,7 +140,7 @@ class _ThemeSettingMobile extends StatelessWidget {
   }
 
   ListTile buildThemeModeTile(BuildContext context) {
-    ThemeMode mode = context.read<ThemeModeProvider>().mode;
+    ThemeMode mode = context.read<ThemeProvider>().themeMode;
     return ListTile(
       title: SpCrossFade(
         firstChild: Text(mode.name.capitalize),

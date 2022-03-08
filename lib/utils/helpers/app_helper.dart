@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -38,5 +40,22 @@ class AppHelper {
     JsonEncoder encoder = const JsonEncoder.withIndent("  ");
     String prettyJson = encoder.convert(json);
     return prettyJson;
+  }
+
+  static FontWeight fontWeightGetter(FontWeight defaultWeight, FontWeight currentWeight) {
+    int changeBy = defaultWeight == FontWeight.w400 ? 0 : 1;
+    Map<int, FontWeight> fontWeights = {
+      0: FontWeight.w100,
+      1: FontWeight.w200,
+      2: FontWeight.w300,
+      3: FontWeight.w400,
+      4: FontWeight.w500,
+      5: FontWeight.w600,
+      6: FontWeight.w700,
+      7: FontWeight.w800,
+      8: FontWeight.w900,
+    };
+    int index = currentWeight.index + changeBy;
+    return fontWeights[max(min(8, index), 0)]!;
   }
 }

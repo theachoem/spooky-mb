@@ -5,9 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/notification/channels/base_notification_channel.dart';
+import 'package:spooky/core/storages/local_storages/theme_storage.dart';
 import 'package:spooky/core/types/notification_channel_types.dart';
 import 'package:spooky/core/notification/payloads/base_notification_payload.dart';
-import 'package:spooky/theme/m3/m3_color.dart';
 
 part './notification_config.dart';
 

@@ -5,7 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/providers/color_seed_provider.dart';
+import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_app_version.dart';
 import 'package:spooky/widgets/sp_developer_visibility.dart';
