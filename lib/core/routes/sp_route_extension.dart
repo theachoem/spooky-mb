@@ -53,7 +53,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.cloudStorage:
         return 'Cloud Storage';
       case SpRouter.fontManager:
-        return 'Font Manager';
+        return 'Font Book';
       case SpRouter.lock:
         return 'Lock';
       case SpRouter.security:

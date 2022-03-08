@@ -26,7 +26,7 @@ class _ThemeSettingMobile extends StatelessWidget {
               headline: "Font",
               tiles: [
                 ListTile(
-                  title: const Text("Font Book"),
+                  title: Text(SpRouter.fontManager.title),
                   leading: const Icon(Icons.font_download),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.fontManager.path);
