@@ -5,8 +5,9 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/gen/fonts.gen.dart';
 
 class FontBeanDisplay {
-  final String headline;
+  final String? headline;
   final IconData? iconData;
+
   FontBeanDisplay(
     this.headline,
     this.iconData,
@@ -35,7 +36,7 @@ class FontBean extends ISuspensionBean {
       case "#":
         return FontBeanDisplay("Others", null);
       default:
-        return FontBeanDisplay(tag, null);
+        return FontBeanDisplay("Fonts", null);
     }
   }
 }

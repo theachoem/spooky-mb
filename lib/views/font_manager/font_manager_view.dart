@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
-import 'package:spooky/theme/m3/m3_color.dart';
-import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/views/font_manager/local_widgets/font_list.dart';
 import 'package:spooky/views/font_manager/local_widgets/font_manager_search_delegate.dart';
