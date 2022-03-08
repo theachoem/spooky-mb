@@ -84,11 +84,11 @@ class _AppStarterMobile extends StatelessWidget {
     return SpOverlayEntryButton(floatingBuilder: (context, callback) {
       return SpColorPicker(
         blackWhite: SpColorPicker.getBlackWhite(context),
-        currentColor: M3Color.currentPrimaryColor,
+        currentColor: context.read<ThemeProvider>().colorSeed,
         onPickedColor: (color) async {
           callback();
           await Future.delayed(ConfigConstant.duration);
-          await context.read<ColorSeedProvider>().updateColor(color);
+          await context.read<ThemeProvider>().updateColor(color);
         },
       );
     }, childBuilder: (context, callback) {

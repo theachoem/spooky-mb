@@ -21,9 +21,6 @@ class DefaultStorageAdapter<T> extends BaseStorageAdapter<T> {
       result = instance.getString(key);
     } else if (T is List<String>) {
       result = instance.getStringList(key);
-    } else if (T is Map) {
-      String? map = instance.getString(key);
-      result = jsonDecode(map ?? "");
     } else {
       result = instance.get(key);
     }

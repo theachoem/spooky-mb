@@ -48,7 +48,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           delegate: FontManagerSearchDelegate(
             fonts: widget.viewModel.fonts.map((e) => e.key).toList(),
             onPressed: (String fontFamily) {
-              context.read<ColorSeedProvider>().updateFont(fontFamily);
+              context.read<ThemeProvider>().updateFont(fontFamily);
             },
           ),
         );
@@ -72,19 +72,20 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
   }
 
   SpSectionContents buildInfoSection(String provider, BuildContext context) {
+    ThemeProvider notifier = Provider.of<ThemeProvider>(context, listen: false);
     return SpSectionContents(
       headline: "Info",
       tiles: [
         ListTile(
           title: const Text("Selected Font"),
-          subtitle: Text(ThemeConfig.fontFamily),
+          subtitle: Text(notifier.fontFamily),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
             Uri? uri = Uri.tryParse(provider);
             if (uri == null) return;
 
             Uri queryUri = Uri(scheme: uri.scheme, host: uri.host, queryParameters: {
-              "query": ThemeConfig.fontFamily,
+              "query": notifier.fontFamily,
             });
 
             if (await canLaunch(queryUri.toString())) {
@@ -134,13 +135,14 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
   }
 
   SpSectionContents buildSettingSection(BuildContext context) {
+    ThemeProvider notifier = Provider.of<ThemeProvider>(context, listen: false);
     return SpSectionContents(
       headline: "Setting",
       tiles: [
         ListTile(
           title: const Text("Font Weight"),
           trailing: const Icon(Icons.keyboard_arrow_right),
-          subtitle: Text(widget.viewModel.trimFontWeight(ThemeConfig.fontWeight)),
+          subtitle: Text(widget.viewModel.trimFontWeight(notifier.fontWeight)),
           onTap: () async {
             // removed 100 and 900
             // since we have two type of weight in theme
@@ -151,17 +153,17 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
             FontWeight? fontWeight = await showConfirmationDialog(
               context: context,
               title: "Font Weight",
-              initialSelectedActionKey: ThemeConfig.fontWeight,
+              initialSelectedActionKey: notifier.fontWeight,
               actions: weights.map((e) {
                 return AlertDialogAction(
                   key: e,
-                  isDefaultAction: e == ThemeConfig.fontWeight,
+                  isDefaultAction: e == notifier.fontWeight,
                   label: widget.viewModel.trimFontWeight(e),
                 );
               }).toList(),
             );
             if (fontWeight != null) {
-              context.read<ColorSeedProvider>().updateFontWeight(fontWeight);
+              context.read<ThemeProvider>().updateFontWeight(fontWeight);
             }
           },
         ),
@@ -169,7 +171,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
           title: const Text("Restore Default Style"),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () {
-            context.read<ColorSeedProvider>().resetFontStyle();
+            context.read<ThemeProvider>().resetFontStyle();
           },
         ),
       ],

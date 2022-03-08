@@ -27,7 +27,7 @@ class _NotificationConfig {
         channelKey: e.channelKey.name,
         channelName: e.channelName,
         channelDescription: e.channelDescription,
-        defaultColor: M3Color.currentPrimaryColor,
+        defaultColor: ThemeStorage.theme.colorSeed,
         ledColor: Colors.white,
       );
     }).toList();
