@@ -103,14 +103,17 @@ class _InitPickColorMobile extends StatelessWidget {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(size(width) / 2),
-          child: BubbleLens(
+          child: EnhancedBubbleLens(
             duration: ConfigConstant.fadeDuration,
             width: size(width),
             height: size(width),
             widgets: materialColors.map((color) {
-              bool selected = themeProvider.colorSeed == color;
+              bool selected = themeProvider.colorSeed.value == color.value;
               return SpTapEffect(
-                effects: const [SpTapEffectType.scaleDown],
+                effects: const [
+                  SpTapEffectType.scaleDown,
+                  SpTapEffectType.touchableOpacity,
+                ],
                 onTap: () => themeProvider.updateColor(color),
                 child: AnimatedContainer(
                   duration: ConfigConstant.fadeDuration,
