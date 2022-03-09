@@ -56,19 +56,25 @@ class StoryTileChips extends StatelessWidget {
   }
 
   SpChip buildImageChip(Set<String> images) {
-    String url = images.first;
-    final imageUrl = standardizeImageUrl(url);
+    ImageProvider? imageProvider;
+
+    // loop to get validated one
+    for (String src in images) {
+      String imageUrl = standardizeImageUrl(src);
+      imageProvider = imageByUrl(imageUrl);
+      if (imageProvider != null) break;
+    }
+
     return SpChip(
       labelText: "${images.length} Images",
-      avatar: CircleAvatar(
-        backgroundImage: imageByUrl(imageUrl),
-      ),
+      avatar: imageProvider != null ? CircleAvatar(backgroundImage: imageProvider) : null,
     );
   }
 
-  ImageProvider imageByUrl(String imageUrl) {
+  ImageProvider? imageByUrl(String imageUrl) {
     if (isImageBase64(imageUrl)) return MemoryImage(base64.decode(imageUrl));
     if (imageUrl.startsWith('http')) return CachedNetworkImageProvider(imageUrl);
-    return FileImage(File(imageUrl));
+    if (File(imageUrl).existsSync()) return FileImage(File(imageUrl));
+    return null;
   }
 }
