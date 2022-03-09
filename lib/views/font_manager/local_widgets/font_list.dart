@@ -16,21 +16,27 @@ class FontList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AzListView(
-      data: fonts,
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + kToolbarHeight),
-      itemCount: fonts.length,
-      itemBuilder: (context, index) {
-        return buildFontTile(context, index);
+    return NotificationListener<OverscrollIndicatorNotification>(
+      onNotification: (overscroll) {
+        overscroll.disallowIndicator();
+        return true;
       },
-      indexBarMargin: const EdgeInsets.symmetric(horizontal: 8.0),
-      indexHintBuilder: (context, hint) {
-        return buildHint(context, hint);
-      },
-      susItemBuilder: (context, index) {
-        return buildSusWidget(context, index);
-      },
-      indexBarData: indexBarData,
+      child: AzListView(
+        data: fonts,
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + kToolbarHeight),
+        itemCount: fonts.length,
+        itemBuilder: (context, index) {
+          return buildFontTile(context, index);
+        },
+        indexBarMargin: const EdgeInsets.symmetric(horizontal: 8.0),
+        indexHintBuilder: (context, hint) {
+          return buildHint(context, hint);
+        },
+        susItemBuilder: (context, index) {
+          return buildSusWidget(context, index);
+        },
+        indexBarData: indexBarData,
+      ),
     );
   }
 
@@ -83,20 +89,13 @@ class FontList extends StatelessWidget {
 
     return Container(
       alignment: Alignment.centerLeft,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 16.0),
+      margin: EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.only(top: 16.0),
       color: M3Color.of(context).background,
       child: CircleAvatar(
         child: bean.display().iconData != null
-            ? Icon(
-                bean.display().iconData,
-                color: M3Color.of(context).onPrimary,
-              )
-            : Text(
-                bean.tag,
-                style: TextStyle(
-                  color: M3Color.of(context).onPrimary,
-                ),
-              ),
+            ? Icon(bean.display().iconData, color: M3Color.of(context).onPrimary)
+            : Text(bean.tag, style: TextStyle(color: M3Color.of(context).onPrimary)),
         backgroundColor: backgroundColor,
       ),
     );

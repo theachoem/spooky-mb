@@ -45,7 +45,14 @@ class FontManagerViewModel extends BaseViewModel {
   late final List<FontBean> fonts;
 
   final List<String> allFonts = GoogleFonts.asMap().keys.toList();
-  final List<String> recommended = [FontFamily.quicksand];
+  final List<String> recommended = [
+    FontFamily.quicksand,
+    "Poppins",
+    "Playfair Display",
+    "Comfortaa",
+    "Mali",
+    "Overpass Mono",
+  ];
 
   FontManagerViewModel() {
     fonts = _getBeans();
