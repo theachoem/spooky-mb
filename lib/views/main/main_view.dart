@@ -53,7 +53,9 @@ class MainView extends StatelessWidget {
   }
 
   void onModelReady(BuildContext context, MainViewModel viewModel) {
+    if (!(Platform.isAndroid || Platform.isIOS)) return;
     QuickActions quickActions = const QuickActions();
+
     quickActions.initialize((shortcutType) {
       QuickActionsType? type;
       for (QuickActionsType item in QuickActionsType.values) {

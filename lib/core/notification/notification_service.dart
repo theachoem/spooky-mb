@@ -1,5 +1,7 @@
 library notification_service;
 
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +18,8 @@ class NotificationService {
   static final _NotificationConfig config = _NotificationConfig();
 
   static Future<void> initialize() async {
+    if (!(Platform.isAndroid || Platform.isIOS)) return;
+
     await notifications.initialize(
       'resource://drawable/ic_notification',
       config.channels,
