@@ -7,6 +7,7 @@ import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/widgets/sp_app_version.dart';
 import 'package:spooky/widgets/sp_developer_visibility.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';

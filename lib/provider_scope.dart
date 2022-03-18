@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/cloud_service_provider.dart';
+import 'package:spooky/providers/google_pay_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
@@ -40,6 +41,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<TileMaxLineProvider>(
           create: (context) => TileMaxLineProvider(),
+        ),
+        ListenableProvider<GooglePayProvider>(
+          create: (context) => GooglePayProvider(),
         ),
       ],
       child: child,
