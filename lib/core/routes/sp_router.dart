@@ -21,5 +21,6 @@ enum SpRouter {
   initPickColor,
   nicknameCreator,
   developerMode,
-  notFound
+  addOn,
+  notFound,
 }

@@ -87,4 +87,8 @@ class GooglePayProvider extends ChangeNotifier {
       }
     }
   }
+
+  void restore() {
+    inAppPurchase.restorePurchases();
+  }
 }

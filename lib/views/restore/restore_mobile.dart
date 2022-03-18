@@ -189,50 +189,12 @@ class _RestoreMobile extends StatelessWidget {
     );
   }
 
-  MorphingSliverAppBar buildAppBar(BuildContext context) {
-    return MorphingSliverAppBar(
+  Widget buildAppBar(BuildContext context) {
+    return SpExpandedAppBar(
       expandedHeight: expandedHeight,
+      title: "Restore",
+      subtitle: "Connect with a Cloud Storage to restore your stories.",
       backgroundColor: M3Color.of(context).background,
-      leading: SpPopButton(),
-      pinned: true,
-      floating: true,
-      stretch: true,
-      title: Text(""),
-      elevation: Theme.of(context).appBarTheme.elevation,
-      flexibleSpace: FlexibleSpaceBar(
-        collapseMode: CollapseMode.none,
-        background: TweenAnimationBuilder<int>(
-          duration: ConfigConstant.fadeDuration,
-          tween: IntTween(begin: 0, end: 1),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 72.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Restore",
-                  style: Theme.of(context).appBarTheme.titleTextStyle,
-                  textAlign: TextAlign.center,
-                ),
-                ConfigConstant.sizedBoxH1,
-                Text(
-                  "Connect with a Cloud Storage to restore your stories.",
-                  style: Theme.of(context).textTheme.bodyMedium,
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          ),
-          builder: (context, value, child) {
-            return AnimatedOpacity(
-              opacity: value == 1 ? 1.0 : 0.0,
-              duration: ConfigConstant.fadeDuration,
-              child: child,
-            );
-          },
-        ),
-      ),
       actions: [
         if (viewModel.showSkipButton)
           ValueListenableBuilder(
