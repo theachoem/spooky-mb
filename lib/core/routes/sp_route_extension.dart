@@ -43,6 +43,8 @@ extension SpRouterExtension on SpRouter {
         return '/developer-mode';
       case SpRouter.notFound:
         return '/not-found';
+      case SpRouter.addOn:
+        return "/add-ons";
     }
   }
 
@@ -88,6 +90,8 @@ extension SpRouterExtension on SpRouter {
         return 'Developer';
       case SpRouter.notFound:
         return 'Not Found';
+      case SpRouter.addOn:
+        return 'Add-ons';
     }
   }
 }

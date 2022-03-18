@@ -13,11 +13,10 @@ import 'package:spooky/views/home/local_widgets/story_list.dart';
 import 'package:spooky/views/restore/local_widgets/google_account_tile.dart';
 import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
-import 'package:spooky/widgets/sp_pop_button.dart';
+import 'package:spooky/widgets/sp_expanded_app_bar.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'restore_view_model.dart';
 
 part 'restore_mobile.dart';
