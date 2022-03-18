@@ -40,6 +40,16 @@ class _SettingMobile extends StatelessWidget {
               },
             ),
             ListTile(
+              leading: const Icon(Icons.extension),
+              title: Text("Add-ons"),
+              onTap: () {
+                // Navigator.of(context).pushNamed(SpRouter.security.path);
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  return AddOnsView();
+                }));
+              },
+            ),
+            ListTile(
               leading: const Icon(Icons.archive),
               title: Text(SpRouter.archive.title),
               onTap: () {
