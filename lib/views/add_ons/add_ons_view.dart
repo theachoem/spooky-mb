@@ -13,17 +13,14 @@ import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
-import 'package:spooky/widgets/sp_app_bar_title.dart';
-import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_developer_visibility.dart';
-import 'package:spooky/widgets/sp_pop_button.dart';
+import 'package:spooky/widgets/sp_expanded_app_bar.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:spooky/views/add_ons/add_ons_view_model.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-import 'add_ons_view_model.dart';
 
 part 'add_ons_mobile.dart';
 part 'add_ons_tablet.dart';
@@ -35,7 +32,7 @@ class AddOnsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<AddOnsViewModel>(
-      create: (_) => AddOnsViewModel(),
+      create: (_) => AddOnsViewModel(context),
       onModelReady: (context, provider) {
         context.read<GooglePayProvider>().fetchProducts();
       },

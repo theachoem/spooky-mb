@@ -15,75 +15,92 @@ class _SettingMobile extends StatelessWidget {
       ),
       body: ListView(
         padding: const EdgeInsets.only(bottom: kToolbarHeight),
-        children: ListTile.divideTiles(
+        children: SpSectionsTiles.divide(
           context: context,
-          tiles: [
-            ListTile(
-              leading: const Icon(Icons.cloud),
-              title: Text(SpRouter.cloudStorage.title),
-              onTap: () {
-                Navigator.of(context).pushNamed(SpRouter.cloudStorage.path);
-              },
+          sections: [
+            SpSectionContents(
+              headline: "User",
+              tiles: [
+                ListTile(
+                  leading: const Icon(Icons.cloud),
+                  title: Text(SpRouter.cloudStorage.title),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SpRouter.cloudStorage.path);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.color_lens),
+                  title: Text(SpRouter.themeSetting.title),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.archive),
+                  title: Text(SpRouter.archive.title),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SpRouter.archive.path);
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              leading: const Icon(Icons.color_lens),
-              title: Text(SpRouter.themeSetting.title),
-              onTap: () {
-                Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
-              },
+            SpSectionContents(
+              headline: "Features",
+              tiles: [
+                ListTile(
+                  leading: const Icon(Icons.lock),
+                  title: Text(SpRouter.security.title),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SpRouter.security.path);
+                  },
+                ),
+                ListTile(
+                  leading: SizedBox(height: 40, child: Icon(Icons.extension, color: M3Color.of(context).primary)),
+                  title: Text(SpRouter.addOn.title),
+                  subtitle: Text(SpRouter.addOn.subtitle),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SpRouter.addOn.path);
+                  },
+                ),
+              ],
             ),
-            ListTile(
-              leading: const Icon(Icons.lock),
-              title: Text(SpRouter.security.title),
-              onTap: () {
-                Navigator.of(context).pushNamed(SpRouter.security.path);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.extension),
-              title: Text(SpRouter.addOn.title),
-              onTap: () {
-                Navigator.of(context).pushNamed(SpRouter.addOn.path);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.archive),
-              title: Text(SpRouter.archive.title),
-              onTap: () {
-                Navigator.of(context).pushNamed(SpRouter.archive.path);
-              },
-            ),
-            SpDeveloperVisibility(
-              child: ListTile(
-                leading: const Icon(Icons.developer_mode),
-                title: Text(SpRouter.developerMode.title),
-                onTap: () {
-                  Navigator.of(context).pushNamed(SpRouter.developerMode.path);
-                },
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.privacy_tip),
-              title: const Text("Licenses"),
-              onTap: () async {
-                PackageInfo info = await PackageInfo.fromPlatform();
-                about.showLicensePage(
-                  context: context,
-                  applicationIcon: const Padding(
-                    padding: EdgeInsets.all(ConfigConstant.margin2),
-                    child: FlutterLogo(
-                      size: ConfigConstant.iconSize4,
-                    ),
+            SpSectionContents(
+              headline: "Info",
+              tiles: [
+                SpDeveloperVisibility(
+                  child: ListTile(
+                    leading: const Icon(Icons.developer_mode),
+                    title: Text(SpRouter.developerMode.title),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(SpRouter.developerMode.path);
+                    },
                   ),
-                  applicationLegalese: "© ${DateTime.now().year} Juniorise",
-                  applicationVersion: info.version + "+" + info.buildNumber,
-                  applicationName: info.appName,
-                );
-              },
-            ),
-            const SpAppVersion(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.privacy_tip),
+                  title: const Text("Licenses"),
+                  onTap: () async {
+                    PackageInfo info = await PackageInfo.fromPlatform();
+                    about.showLicensePage(
+                      context: context,
+                      applicationIcon: const Padding(
+                        padding: EdgeInsets.all(ConfigConstant.margin2),
+                        child: FlutterLogo(
+                          size: ConfigConstant.iconSize4,
+                        ),
+                      ),
+                      applicationLegalese: "© ${DateTime.now().year} Juniorise",
+                      applicationVersion: info.version + "+" + info.buildNumber,
+                      applicationName: info.appName,
+                    );
+                  },
+                ),
+                const SpAppVersion(),
+              ],
+            )
           ],
-        ).toList(),
+        ),
       ),
     );
   }

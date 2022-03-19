@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 
 class SpExpandedAppBar extends StatelessWidget {
   const SpExpandedAppBar({
     Key? key,
     required this.expandedHeight,
-    required this.title,
-    required this.subtitle,
     required this.actions,
     this.backgroundColor,
   }) : super(key: key);
 
   final double expandedHeight;
-  final String title;
-  final String subtitle;
   final List<Widget> actions;
   final Color? backgroundColor;
 
@@ -42,13 +40,13 @@ class SpExpandedAppBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  title,
+                  SpAppBarTitle.router(context)?.title ?? "",
                   style: Theme.of(context).appBarTheme.titleTextStyle,
                   textAlign: TextAlign.center,
                 ),
                 ConfigConstant.sizedBoxH1,
                 Text(
-                  subtitle,
+                  SpAppBarTitle.router(context)?.subtitle ?? "",
                   style: Theme.of(context).textTheme.bodyMedium,
                   textAlign: TextAlign.center,
                 ),

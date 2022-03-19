@@ -7,10 +7,8 @@ class SpAppBarTitle extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
+  static SpRouter? router(BuildContext context) {
     String? name = ModalRoute.of(context)?.settings.name;
-
     SpRouter? router;
     for (SpRouter e in SpRouter.values) {
       if (e.path == name) {
@@ -18,12 +16,16 @@ class SpAppBarTitle extends StatelessWidget {
         break;
       }
     }
+    return router;
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return TweenAnimationBuilder(
       duration: ConfigConstant.fadeDuration,
       tween: IntTween(begin: 0, end: 1),
       child: Text(
-        router?.title ?? "",
+        router(context)?.title ?? "",
         style: Theme.of(context).appBarTheme.titleTextStyle,
       ),
       builder: (context, value, child) {

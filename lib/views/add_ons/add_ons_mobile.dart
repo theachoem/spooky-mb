@@ -4,73 +4,102 @@ class _AddOnsMobile extends StatelessWidget {
   final AddOnsViewModel viewModel;
   const _AddOnsMobile(this.viewModel);
 
+  double get expandedHeight => 200;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MorphingAppBar(
-        leading: SpPopButton(),
-        title: SpAppBarTitle(),
-      ),
       body: Consumer<GooglePayProvider>(
         builder: (context, provider, child) {
           return RefreshIndicator(
             onRefresh: () => provider.fetchProducts(),
-            child: ListView.separated(
-              padding: ConfigConstant.layoutPadding,
-              itemCount: viewModel.productList.products.length,
-              separatorBuilder: (context, index) => Divider(indent: kToolbarHeight - 8),
-              itemBuilder: (context, index) {
-                return ValueListenableBuilder<List<PurchaseDetails>>(
-                  valueListenable: provider.purchaseNotifier,
-                  builder: (context, purchaseDetails, child) {
-                    // local product
-                    ProductModel product = viewModel.productList.products[index];
-
-                    // host product
-                    Iterable<ProductDetails> result = provider.productDetails.where((e) => e.id == product.productId);
-                    ProductDetails? productDetails = result.isNotEmpty ? result.first : null;
-
-                    // purchase info
-                    Iterable<PurchaseDetails> _purchaseDetails =
-                        purchaseDetails.where((e) => e.productID == product.productId);
-                    PurchaseDetails? streamDetails = _purchaseDetails.isNotEmpty ? _purchaseDetails.first : null;
-                    IAPError? error = streamDetails?.error;
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        buildProductTile(
-                          context: context,
-                          index: index,
-                          product: product,
-                          onBuy: () {
-                            if (productDetails != null) {
-                              provider.buyProduct(productDetails);
-                            } else {
-                              MessengerService.instance.showSnackBar("Product unavailble");
-                            }
+            displacement: expandedHeight / 2,
+            child: CustomScrollView(
+              slivers: [
+                SpExpandedAppBar(
+                  expandedHeight: expandedHeight,
+                  actions: [],
+                ),
+                SliverPadding(
+                  padding: ConfigConstant.layoutPadding,
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        return ValueListenableBuilder<List<PurchaseDetails>>(
+                          valueListenable: provider.purchaseNotifier,
+                          builder: (context, purchaseDetails, child) {
+                            return buildWholeCard(
+                              index: index,
+                              provider: provider,
+                              purchaseDetails: purchaseDetails,
+                              context: context,
+                            );
                           },
-                        ),
-                        SpCrossFade(
-                          firstChild: buildMessage(context, streamDetails?.status.name.capitalize ?? ""),
-                          secondChild: const SizedBox(width: double.infinity),
-                          showFirst: streamDetails != null,
-                        ),
-                        SpCrossFade(
-                          firstChild: buildMessage(context, error?.message ?? "", true),
-                          secondChild: const SizedBox(width: double.infinity),
-                          showFirst: error?.message != null,
-                        ),
-                        buildDebugger(productDetails)
-                      ],
-                    );
-                  },
-                );
-              },
+                        );
+                      },
+                      childCount: viewModel.productList.products.length,
+                    ),
+                  ),
+                )
+              ],
             ),
           );
         },
       ),
+    );
+  }
+
+  Widget buildWholeCard({
+    required int index,
+    required GooglePayProvider provider,
+    required List<PurchaseDetails> purchaseDetails,
+    required BuildContext context,
+  }) {
+    // local product
+    ProductModel product = viewModel.productList.products[index];
+
+    // hosted product
+    Iterable<ProductDetails> result = provider.productDetails.where((e) => e.id == product.productId);
+    ProductDetails? productDetails = result.isNotEmpty ? result.first : null;
+
+    // purchase info
+    Iterable<PurchaseDetails> _purchaseDetails = purchaseDetails.where((e) => e.productID == product.productId);
+    PurchaseDetails? streamDetails = _purchaseDetails.isNotEmpty ? _purchaseDetails.first : null;
+    IAPError? error = streamDetails?.error;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildProductTile(
+          leadingIconData: product.icon,
+          context: context,
+          index: index,
+          title: product.title,
+          subtitle: productDetails?.description ?? product.description,
+          price: product.price,
+          onBuyPressed: () {
+            if (productDetails != null) {
+              provider.buyProduct(productDetails);
+            } else {
+              MessengerService.instance.showSnackBar("Product unavailble");
+            }
+          },
+          onTryPressed: () {
+            product.onTryPressed();
+          },
+        ),
+        SpCrossFade(
+          firstChild: buildMessage(context, streamDetails?.status.name.capitalize ?? ""),
+          secondChild: const SizedBox(width: double.infinity),
+          showFirst: streamDetails != null,
+        ),
+        SpCrossFade(
+          firstChild: buildMessage(context, error?.message ?? "", true),
+          secondChild: const SizedBox(width: double.infinity),
+          showFirst: error?.message != null,
+        ),
+        buildDebugger(productDetails)
+      ],
     );
   }
 
@@ -126,8 +155,12 @@ class _AddOnsMobile extends StatelessWidget {
   Widget buildProductTile({
     required BuildContext context,
     required int index,
-    required ProductModel product,
-    required void Function() onBuy,
+    required IconData leadingIconData,
+    required String title,
+    required String subtitle,
+    required String? price,
+    required void Function() onBuyPressed,
+    required void Function() onTryPressed,
   }) {
     Color? backgroundColor = M3Color.dayColorsOf(context)[index % 6 + 1];
     Color foregroundColor = M3Color.of(context).onPrimary;
@@ -139,7 +172,7 @@ class _AddOnsMobile extends StatelessWidget {
           CircleAvatar(
             backgroundColor: backgroundColor,
             foregroundColor: foregroundColor,
-            child: Icon(product.icon),
+            child: Icon(leadingIconData),
           ),
           ConfigConstant.sizedBoxW1,
           Expanded(
@@ -151,7 +184,13 @@ class _AddOnsMobile extends StatelessWidget {
                   SpPopMenuItem(
                     title: "Buy",
                     leadingIconData: Icons.payment,
-                    onPressed: onBuy,
+                    onPressed: onBuyPressed,
+                    titleStyle: TextStyle(color: backgroundColor),
+                  ),
+                  SpPopMenuItem(
+                    title: "Try",
+                    leadingIconData: Icons.play_arrow,
+                    onPressed: onTryPressed,
                   ),
                 ];
               },
@@ -162,7 +201,15 @@ class _AddOnsMobile extends StatelessWidget {
                   child: Stack(
                     children: [
                       buildWaves(circlarRadius, backgroundColor, foregroundColor),
-                      buildProductInfo(circlarRadius, product, foregroundColor, context, backgroundColor),
+                      buildProductInfo(
+                        circlarRadius: circlarRadius,
+                        title: title,
+                        subtitle: subtitle,
+                        foregroundColor: foregroundColor,
+                        context: context,
+                        backgroundColor: backgroundColor,
+                        price: price,
+                      ),
                     ],
                   ),
                 );
@@ -174,13 +221,15 @@ class _AddOnsMobile extends StatelessWidget {
     );
   }
 
-  Widget buildProductInfo(
-    BorderRadius circlarRadius,
-    ProductModel product,
-    Color foregroundColor,
-    BuildContext context,
-    Color? backgroundColor,
-  ) {
+  Widget buildProductInfo({
+    required BorderRadius circlarRadius,
+    required String title,
+    required String subtitle,
+    required String? price,
+    required Color foregroundColor,
+    required BuildContext context,
+    required Color? backgroundColor,
+  }) {
     return ClipRRect(
       borderRadius: circlarRadius,
       child: MaterialBanner(
@@ -188,20 +237,42 @@ class _AddOnsMobile extends StatelessWidget {
         padding: EdgeInsets.zero,
         elevation: 0.0,
         content: ListTile(
-          title: Text(
-            product.title,
-            style: TextStyle(color: foregroundColor),
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+          contentPadding: const EdgeInsets.only(right: ConfigConstant.margin2),
+          title: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+            child: Text(
+              title,
+              style: TextStyle(color: foregroundColor),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          subtitle: Text(
-            product.description,
-            style: TextStyle(color: foregroundColor),
-            maxLines: 2,
+          subtitle: Stack(
+            children: [
+              Text("", style: TextStyle(color: foregroundColor), maxLines: 1),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+                child: Text(
+                  subtitle,
+                  style: TextStyle(color: foregroundColor),
+                  maxLines: 1,
+                ),
+              ),
+              buildTextFade(backgroundColor, true),
+              buildTextFade(backgroundColor, false),
+            ],
           ),
-          trailing: Text(
-            product.price,
-            style: M3TextTheme.of(context).titleLarge?.copyWith(color: foregroundColor),
+          trailing: SpCrossFade(
+            showFirst: price == null,
+            firstChild: Text(
+              price ?? "",
+              style: M3TextTheme.of(context).titleLarge?.copyWith(color: foregroundColor),
+            ),
+            secondChild: Text(
+              price ?? "",
+              style: M3TextTheme.of(context).titleLarge?.copyWith(color: foregroundColor),
+            ),
           ),
         ),
         forceActionsBelow: true,
@@ -211,6 +282,31 @@ class _AddOnsMobile extends StatelessWidget {
             color: backgroundColor,
           ),
         ],
+      ),
+    );
+  }
+
+  Widget buildTextFade(Color? backgroundColor, [bool rtl = true]) {
+    List<Color> colors = [
+      backgroundColor ?? Colors.transparent,
+      backgroundColor?.withOpacity(0.9) ?? Colors.transparent,
+      backgroundColor?.withOpacity(0.0) ?? Colors.transparent,
+    ];
+
+    if (!rtl) {
+      colors = colors.reversed.toList();
+    }
+
+    return Positioned(
+      left: rtl ? 0 : null,
+      right: !rtl ? 0 : null,
+      top: 0,
+      bottom: 0,
+      child: Container(
+        width: 16.0,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(colors: colors),
+        ),
       ),
     );
   }

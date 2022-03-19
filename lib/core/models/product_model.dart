@@ -7,6 +7,7 @@ class ProductModel {
   final bool consumable;
   final IconData icon;
   final String price;
+  final void Function() onTryPressed;
 
   ProductModel({
     required this.productId,
@@ -15,5 +16,6 @@ class ProductModel {
     required this.consumable,
     required this.icon,
     required this.price,
+    required this.onTryPressed,
   });
 }

@@ -192,8 +192,6 @@ class _RestoreMobile extends StatelessWidget {
   Widget buildAppBar(BuildContext context) {
     return SpExpandedAppBar(
       expandedHeight: expandedHeight,
-      title: "Restore",
-      subtitle: "Connect with a Cloud Storage to restore your stories.",
       backgroundColor: M3Color.of(context).background,
       actions: [
         if (viewModel.showSkipButton)
