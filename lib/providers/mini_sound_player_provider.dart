@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_model.dart';
@@ -23,6 +24,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
 
   SoundModel? _currentSound;
   SoundModel? get currentSound => _currentSound;
+
   void _setCurrentSound(SoundModel? value) {
     _currentSound = value;
     notifyListeners();

@@ -120,7 +120,7 @@ class _MiniSoundPlayer extends StatelessWidget {
         child: Stack(
           children: [
             WeatherBg(
-              weatherType: WeatherType.middleRainy,
+              weatherType: provider.currentSound?.weatherType ?? WeatherType.heavyRainy,
               width: width,
               height: lerpDouble(
                 provider.playerMinHeight,
