@@ -13,8 +13,8 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
   late final MiniplayerController controller;
 
   final miniplayerPercentageDeclaration = 0.2;
-  final double playerMinHeight = 70;
-  final double playerMaxHeight = 350;
+  final double playerMinHeight = 48 + 16 * 2;
+  final double playerMaxHeight = 232;
   SoundListModel? soundsList;
 
   MiniSoundPlayerProvider() {

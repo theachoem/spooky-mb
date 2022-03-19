@@ -1,5 +1,6 @@
+import 'dart:math';
 import 'dart:ui';
-
+import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +8,11 @@ import 'package:spooky/core/models/sound_model.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/providers/user_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/extensions/string_extension.dart';
+import 'package:spooky/widgets/sp_animated_icon.dart';
+import 'package:spooky/widgets/sp_icon_button.dart';
 
 class MiniSoundPlayer extends StatelessWidget {
   const MiniSoundPlayer({Key? key}) : super(key: key);
@@ -16,7 +21,11 @@ class MiniSoundPlayer extends StatelessWidget {
   Widget build(BuildContext context) {
     UserProvider userProvider = Provider.of<UserProvider>(context);
     if (userProvider.relaxSoundPlayer) {
-      return _MiniSoundPlayer();
+      return LayoutBuilder(
+        builder: (context, constraint) {
+          return _MiniSoundPlayer(constraints: constraint);
+        },
+      );
     } else {
       return SizedBox.shrink();
     }
@@ -24,194 +33,290 @@ class MiniSoundPlayer extends StatelessWidget {
 }
 
 class _MiniSoundPlayer extends StatelessWidget {
-  const _MiniSoundPlayer({Key? key}) : super(key: key);
+  const _MiniSoundPlayer({
+    Key? key,
+    required this.constraints,
+  }) : super(key: key);
+
+  final BoxConstraints constraints;
+  Color get foregroundColor => Colors.white;
 
   @override
   Widget build(BuildContext context) {
     MiniSoundPlayerProvider provider = Provider.of<MiniSoundPlayerProvider>(context);
-    SoundModel? sound = provider.soundsList?.sounds.first;
     return Miniplayer(
       valueNotifier: provider.playerExpandProgress,
       minHeight: provider.playerMinHeight,
       maxHeight: provider.playerMaxHeight,
       controller: provider.controller,
       elevation: 4,
+      onDismissed: () => provider.currentlyPlaying.value = null,
       curve: Curves.easeOut,
       builder: (height, percentage) {
-        final bool miniplayer = percentage < provider.miniplayerPercentageDeclaration;
-        final double width = MediaQuery.of(context).size.width;
-        final maxImgSize = width * 0.4;
-        final img = AspectRatio(
-          aspectRatio: 1,
-          child: AnimatedContainer(
-            duration: ConfigConstant.fadeDuration,
-            decoration: BoxDecoration(
-              color: M3Color.of(context).primary,
-              borderRadius: BorderRadius.circular(
-                lerpDouble(0.0, ConfigConstant.radius2, percentage)!,
-              ),
-            ),
-            child: Icon(
-              Icons.music_note,
-              color: M3Color.of(context).onPrimary,
-            ),
-          ),
-        );
+        double width = MediaQuery.of(context).size.width;
+        double imageMarginRight = lerpDouble(width - provider.playerMinHeight, 0, percentage * 2.5)!;
 
-        final text = Text(provider.soundsList?.sounds.first.soundName ?? "", maxLines: 1);
-        final buttonPlay = IconButton(icon: Icon(Icons.pause), onPressed: provider.onTap);
-
-        final progressIndicator = LinearProgressIndicator(value: 0.3);
-
-        if (!miniplayer) {
-          var percentageExpandedPlayer = provider.percentageFromValueInRange(
-            min: provider.playerMaxHeight * provider.miniplayerPercentageDeclaration + provider.playerMinHeight,
-            max: provider.playerMaxHeight,
-            value: height,
-          );
-
-          if (percentageExpandedPlayer < 0) percentageExpandedPlayer = 0;
-          final paddingVertical = provider.valueFromPercentageInRange(
-            min: 0,
-            max: 10,
-            percentage: percentageExpandedPlayer,
-          );
-
-          final double heightWithoutPadding = height - paddingVertical * 2;
-          final double imageSize = heightWithoutPadding > maxImgSize ? maxImgSize : heightWithoutPadding;
-          final paddingLeft = provider.valueFromPercentageInRange(
-                min: 0,
-                max: width - imageSize,
-                percentage: percentageExpandedPlayer,
-              ) /
-              2;
-
-          final buttonSkipForward = IconButton(
-            icon: Icon(Icons.forward_30),
-            iconSize: 33,
-            onPressed: provider.onTap,
-          );
-
-          final buttonSkipBackwards = IconButton(
-            icon: Icon(Icons.replay_10),
-            iconSize: 33,
-            onPressed: provider.onTap,
-          );
-
-          final buttonPlayExpanded = IconButton(
-            icon: Icon(Icons.pause_circle_filled),
-            iconSize: 50,
-            onPressed: provider.onTap,
-          );
-
-          return Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: paddingLeft, top: paddingVertical, bottom: paddingVertical),
-                  child: SizedBox(
-                    height: imageSize,
-                    child: img,
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 33),
-                  child: Opacity(
-                    opacity: percentageExpandedPlayer,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Flexible(child: text),
-                        Flexible(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [buttonSkipBackwards, buttonPlayExpanded, buttonSkipForward],
-                          ),
-                        ),
-                        Flexible(child: progressIndicator),
-                        Container(),
-                        Container(),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          );
-        }
-
-        //Miniplayer
-        final percentageMiniplayer = provider.percentageFromValueInRange(
+        double percentageMiniplayer = provider.percentageFromValueInRange(
           min: provider.playerMinHeight,
           max: provider.playerMaxHeight * provider.miniplayerPercentageDeclaration + provider.playerMinHeight,
           value: height,
         );
 
-        final elementOpacity = 1 - 1 * percentageMiniplayer;
-        final progressIndicatorHeight = 4 - 4 * percentageMiniplayer;
+        double percentageExpandedPlayer = provider.percentageFromValueInRange(
+          min: provider.playerMaxHeight * provider.miniplayerPercentageDeclaration + provider.playerMinHeight,
+          max: provider.playerMaxHeight,
+          value: height,
+        );
 
-        return Column(
+        percentageMiniplayer = max(0.0, min(1.0, percentageMiniplayer));
+        percentageExpandedPlayer = max(0.0, min(1.0, percentageExpandedPlayer));
+
+        return Wrap(
           children: [
-            Expanded(
-              child: Row(
-                children: [
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxHeight: maxImgSize),
-                    child: img,
-                  ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 10),
-                      child: Opacity(
-                        opacity: elementOpacity,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              sound?.fileName ?? "Unknown",
-                              style: Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 16),
-                              maxLines: 1,
-                            ),
-                            Text(
-                              sound?.fileSize.toString() ?? "0 bytes",
-                              style: Theme.of(context).textTheme.bodyText2!.copyWith(
-                                    color: Theme.of(context).textTheme.bodyText2!.color!.withOpacity(0.55),
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.fullscreen),
-                    onPressed: () {
-                      provider.controller.animateToHeight(state: PanelState.MAX);
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 3),
-                    child: Opacity(
-                      opacity: elementOpacity,
-                      child: buttonPlay,
-                    ),
-                  ),
-                ],
-              ),
+            Stack(
+              children: [
+                buildCollapseContent(
+                  provider: provider,
+                  height: height,
+                  percentage: percentage,
+                  percentageMiniplayer: percentageMiniplayer,
+                ),
+                buildWeatherEffect(
+                  imageMarginRight: imageMarginRight,
+                  context: context,
+                  width: width,
+                  provider: provider,
+                  percentage: percentage,
+                  percentageExpandedPlayer: percentageExpandedPlayer,
+                ),
+                buildExpandedContent(
+                  provider,
+                  height,
+                  percentage,
+                  percentageExpandedPlayer,
+                  context,
+                ),
+              ],
+            )
+          ],
+        );
+      },
+    );
+  }
+
+  Widget buildWeatherEffect({
+    required double imageMarginRight,
+    required BuildContext context,
+    required double width,
+    required MiniSoundPlayerProvider provider,
+    required double percentage,
+    required double percentageExpandedPlayer,
+  }) {
+    return Container(
+      margin: EdgeInsets.only(right: max(0, imageMarginRight)),
+      child: Container(
+        clipBehavior: Clip.hardEdge,
+        decoration: BoxDecoration(color: M3Color.of(context).primary),
+        child: Stack(
+          children: [
+            WeatherBg(
+              weatherType: WeatherType.middleRainy,
+              width: width,
+              height: lerpDouble(
+                provider.playerMinHeight,
+                provider.playerMaxHeight,
+                percentage,
+              )!,
             ),
-            SizedBox(
-              height: progressIndicatorHeight,
-              child: Opacity(
-                opacity: elementOpacity,
-                child: progressIndicator,
-              ),
+            buildMusicManager(
+              percentage: percentage,
+              provider: provider,
+              percentageExpandedPlayer: percentageExpandedPlayer,
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  /// previus, play/pause, next button
+  Widget buildMusicManager({
+    required double percentage,
+    required MiniSoundPlayerProvider provider,
+    required double percentageExpandedPlayer,
+  }) {
+    return Positioned.fill(
+      child: Container(
+        margin: EdgeInsets.only(top: lerpDouble(0, 36, percentage)!),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildOptionButton(
+              iconData: Icons.keyboard_arrow_left,
+              percentage: percentage,
+              provider: provider,
+              percentageExpandedPlayer: percentageExpandedPlayer,
+              onTap: provider.onTap,
+            ),
+            buildExpandedPlayPauseButton(
+              provider: provider,
+              percentage: percentage,
+            ),
+            buildOptionButton(
+              iconData: Icons.keyboard_arrow_right,
+              percentage: percentage,
+              provider: provider,
+              percentageExpandedPlayer: percentageExpandedPlayer,
+              onTap: provider.onTap,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildOptionButton({
+    required IconData iconData,
+    required double percentage,
+    required MiniSoundPlayerProvider provider,
+    required double percentageExpandedPlayer,
+    required void Function() onTap,
+  }) {
+    return Visibility(
+      visible: percentage == 1,
+      child: TweenAnimationBuilder<int>(
+        duration: ConfigConstant.fadeDuration,
+        tween: IntTween(begin: 0, end: 100),
+        builder: (context, value, child) {
+          return Opacity(
+            opacity: value / 100,
+            child: SpIconButton(
+              onPressed: onTap,
+              icon: Icon(
+                iconData,
+                size: ConfigConstant.iconSize3,
+                color: foregroundColor,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildCollapseContent({
+    required MiniSoundPlayerProvider provider,
+    required double height,
+    required double percentage,
+    required double percentageMiniplayer,
+  }) {
+    return Positioned.fill(
+      right: 0.0,
+      bottom: 0.0,
+      child: Opacity(
+        opacity: 1 - max(0.0, min(1.0, percentageMiniplayer)),
+        child: IgnorePointer(
+          ignoring: 1 - percentage < 0.5,
+          child: Row(
+            children: [
+              Container(width: provider.playerMinHeight + 8.0),
+              buildCollapseTile(provider),
+              buildFullScreenButton(provider),
+              Container(width: 8.0),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildFullScreenButton(MiniSoundPlayerProvider provider) {
+    return SpIconButton(
+      icon: Icon(Icons.fullscreen),
+      onPressed: () {
+        provider.controller.animateToHeight(state: PanelState.MAX);
+      },
+    );
+  }
+
+  Widget buildCollapseTile(MiniSoundPlayerProvider provider) {
+    return Expanded(
+      child: AnimatedContainer(
+        duration: ConfigConstant.fadeDuration,
+        padding: const EdgeInsets.only(left: ConfigConstant.margin1),
+        alignment: Alignment.centerLeft,
+        child: ListTile(
+          contentPadding: EdgeInsets.zero,
+          title: Text(provider.sound?.soundName.capitalize ?? "Unknown", maxLines: 1),
+          subtitle: Text("Listening", maxLines: 1),
+        ),
+      ),
+    );
+  }
+
+  Widget buildExpandedContent(
+    MiniSoundPlayerProvider provider,
+    double height,
+    double percentage,
+    double percentageExpandedPlayer,
+    BuildContext context,
+  ) {
+    return Positioned.fill(
+      child: IgnorePointer(
+        ignoring: percentage < 0.5,
+        child: Opacity(
+          opacity: max(0.0, min(1.0, percentageExpandedPlayer)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                provider.soundsList?.sounds.first.soundName.capitalize ?? "",
+                maxLines: 1,
+                style: M3TextTheme.of(context).titleMedium?.copyWith(color: foregroundColor),
+              ),
+              SizedBox(height: ConfigConstant.margin2),
+              SizedBox(height: ConfigConstant.iconSize3)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildExpandedPlayPauseButton({
+    required MiniSoundPlayerProvider provider,
+    required double percentage,
+  }) {
+    return ValueListenableBuilder<SoundModel?>(
+      valueListenable: provider.currentlyPlaying,
+      builder: (context, currentPlaying, child) {
+        Color? color = Color.lerp(Colors.white, Colors.black, percentage);
+        return Container(
+          decoration: BoxDecoration(
+            color: Color.lerp(Colors.white.withOpacity(0.0), Colors.white, percentage),
+            shape: BoxShape.circle,
+          ),
+          child: SpIconButton(
+            icon: SpAnimatedIcons(
+              duration: ConfigConstant.duration * 1.5,
+              showFirst: currentPlaying != null,
+              firstChild: Icon(
+                Icons.pause,
+                size: ConfigConstant.iconSize2,
+                color: color,
+              ),
+              secondChild: Icon(
+                Icons.play_arrow,
+                size: ConfigConstant.iconSize2,
+                color: color,
+              ),
+            ),
+            onPressed: () {
+              provider.togglePlayPause();
+            },
+          ),
         );
       },
     );
