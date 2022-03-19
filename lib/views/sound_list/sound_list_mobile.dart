@@ -23,8 +23,8 @@ class _SoundListMobile extends StatelessWidget {
                 return CircleAvatar(
                   backgroundColor: M3Color.dayColorsOf(context)[index % 6 + 1],
                   child: SpAnimatedIcons(
-                    firstChild: Icon(Icons.pause),
-                    secondChild: Icon(Icons.music_note),
+                    firstChild: Icon(Icons.pause, color: M3Color.of(context).onPrimary),
+                    secondChild: Icon(Icons.music_note, color: M3Color.of(context).onPrimary),
                     showFirst: provider.currentSound == sound,
                   ),
                 );
