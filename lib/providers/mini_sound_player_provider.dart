@@ -14,7 +14,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
 
   final miniplayerPercentageDeclaration = 0.2;
   final double playerMinHeight = 70;
-  final double playerMaxHeight = 370;
+  final double playerMaxHeight = 350;
   SoundListModel? soundsList;
 
   MiniSoundPlayerProvider() {
@@ -23,6 +23,8 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
     controller = MiniplayerController();
     load();
   }
+
+  SoundModel? get sound => soundsList?.sounds.first;
 
   @override
   void dispose() {
@@ -40,6 +42,14 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
   }
 
   void onTap() {}
+  void togglePlayPause() {
+    currentlyPlaying.value = currentlyPlaying.value == null ? sound : null;
+  }
+
+  double offset(double percentage) {
+    double offset = (percentage - playerMinHeight) / (playerMaxHeight - playerMinHeight);
+    return offset;
+  }
 
   double valueFromPercentageInRange({required final double min, max, percentage}) {
     return percentage * (max - min) + min;

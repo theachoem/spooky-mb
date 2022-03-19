@@ -9,13 +9,43 @@ class _MainMobile extends StatelessWidget {
     List<MainTabBarItem> tabs = MainTabBar.items;
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
-      body: buildPages(tabs, context),
+      body: Stack(
+        children: [
+          buildPages(tabs, context),
+          buildBarrierColor(context),
+        ],
+      ),
       bottomNavigationBar: Wrap(
         children: [
           MiniSoundPlayer(),
+          Divider(height: 0),
           buildBottomNavigationBar(tabs),
         ],
       ),
+    );
+  }
+
+  Widget buildBarrierColor(BuildContext context) {
+    MiniSoundPlayerProvider miniSoundPlayerProvider = context.read<MiniSoundPlayerProvider>();
+    return ValueListenableBuilder<double>(
+      valueListenable: miniSoundPlayerProvider.playerExpandProgress,
+      builder: (context, percentage, child) {
+        double offset = miniSoundPlayerProvider.offset(percentage);
+        return Positioned.fill(
+          child: IgnorePointer(
+            ignoring: offset == 0.0,
+            child: GestureDetector(
+              onTap: () {
+                miniSoundPlayerProvider.controller.animateToHeight(height: miniSoundPlayerProvider.playerMinHeight);
+              },
+              child: Opacity(
+                opacity: offset,
+                child: Container(color: Colors.black54),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -104,10 +134,9 @@ class _MainMobile extends StatelessWidget {
         ),
       ),
       builder: (context, percentage, child) {
-        double offset = percentage / miniSoundPlayerProvider.playerMaxHeight;
-        return AnimatedOpacity(
-          duration: ConfigConstant.fadeDuration,
-          opacity: offset < 0.5 ? 1 : 0,
+        double offset = miniSoundPlayerProvider.offset(percentage);
+        return Opacity(
+          opacity: 1 - offset,
           child: child!,
         );
       },
