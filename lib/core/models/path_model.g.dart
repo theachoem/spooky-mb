@@ -25,6 +25,7 @@ Map<String, dynamic> _$PathModelToJson(PathModel instance) => <String, dynamic>{
 const _$FilePathTypeEnumMap = {
   FilePathType.user: 'user',
   FilePathType.docs: 'docs',
+  FilePathType.sounds: 'sounds',
   FilePathType.archive: 'archive',
   FilePathType.backups: 'backups',
 };

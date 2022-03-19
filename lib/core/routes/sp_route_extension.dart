@@ -45,6 +45,8 @@ extension SpRouterExtension on SpRouter {
         return '/not-found';
       case SpRouter.addOn:
         return "/add-ons";
+      case SpRouter.soundList:
+        return "/sounds";
     }
   }
 
@@ -92,6 +94,8 @@ extension SpRouterExtension on SpRouter {
         return 'Not Found';
       case SpRouter.addOn:
         return 'Add-ons';
+      case SpRouter.soundList:
+        return "Sounds";
     }
   }
 
@@ -139,6 +143,8 @@ extension SpRouterExtension on SpRouter {
         return 'Not Found';
       case SpRouter.addOn:
         return 'Add more functionality';
+      case SpRouter.soundList:
+        return "Sounds";
     }
   }
 }

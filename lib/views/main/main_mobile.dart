@@ -9,8 +9,43 @@ class _MainMobile extends StatelessWidget {
     List<MainTabBarItem> tabs = MainTabBar.items;
     return Scaffold(
       floatingActionButton: buildFloatingActionButton(context),
-      bottomNavigationBar: buildBottomNavigationBar(tabs),
-      body: buildPages(tabs, context),
+      body: Stack(
+        children: [
+          buildPages(tabs, context),
+          buildBarrierColor(context),
+        ],
+      ),
+      bottomNavigationBar: Wrap(
+        children: [
+          MiniSoundPlayer(),
+          Divider(height: 0),
+          buildBottomNavigationBar(tabs),
+        ],
+      ),
+    );
+  }
+
+  Widget buildBarrierColor(BuildContext context) {
+    MiniSoundPlayerProvider miniSoundPlayerProvider = context.read<MiniSoundPlayerProvider>();
+    return ValueListenableBuilder<double>(
+      valueListenable: miniSoundPlayerProvider.playerExpandProgressNotifier,
+      builder: (context, percentage, child) {
+        double offset = miniSoundPlayerProvider.offset(percentage);
+        return Positioned.fill(
+          child: IgnorePointer(
+            ignoring: offset == 0.0,
+            child: GestureDetector(
+              onTap: () {
+                miniSoundPlayerProvider.controller.animateToHeight(height: miniSoundPlayerProvider.playerMinHeight);
+              },
+              child: Opacity(
+                opacity: offset,
+                child: Container(color: Colors.black54),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -49,25 +84,25 @@ class _MainMobile extends StatelessWidget {
           }).toList(),
         ),
       ),
-      builder: (context, shouldShow, child1) {
+      builder: (context, shouldShow, child) {
         return ValueListenableBuilder(
           valueListenable: viewModel.bottomNavigationHeight,
-          child: child1,
-          builder: (context, height, child2) {
+          child: AnimatedOpacity(
+            opacity: shouldShow ? 1 : 1,
+            duration: ConfigConstant.fadeDuration,
+            curve: Curves.ease,
+            child: Wrap(
+              children: [
+                child ?? const SizedBox.shrink(),
+              ],
+            ),
+          ),
+          builder: (context, height, child) {
             return AnimatedContainer(
               height: shouldShow ? viewModel.bottomNavigationHeight.value : 0,
               duration: ConfigConstant.duration,
               curve: Curves.ease,
-              child: AnimatedOpacity(
-                opacity: shouldShow ? 1 : 1,
-                duration: ConfigConstant.fadeDuration,
-                curve: Curves.ease,
-                child: Wrap(
-                  children: [
-                    child2 ?? const SizedBox.shrink(),
-                  ],
-                ),
-              ),
+              child: child,
             );
           },
         );
@@ -76,24 +111,35 @@ class _MainMobile extends StatelessWidget {
   }
 
   Widget buildFloatingActionButton(BuildContext context) {
-    return SpShowHideAnimator(
-      shouldShow: viewModel.activeIndex == 0,
-      child: SpTapEffect(
-        effects: const [SpTapEffectType.scaleDown],
-        onTap: () => viewModel.createStory(context),
-        onLongPressed: () {
-          viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value);
-        },
-        child: FloatingActionButton.extended(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          label: const Text("Add"),
-          icon: const Icon(
-            Icons.edit,
-            key: ValueKey(Icons.edit),
+    MiniSoundPlayerProvider miniSoundPlayerProvider = context.read<MiniSoundPlayerProvider>();
+    return ValueListenableBuilder<double>(
+      valueListenable: miniSoundPlayerProvider.playerExpandProgressNotifier,
+      child: SpShowHideAnimator(
+        shouldShow: viewModel.activeIndex == 0,
+        child: SpTapEffect(
+          effects: const [SpTapEffectType.scaleDown],
+          onTap: () => viewModel.createStory(context),
+          onLongPressed: () {
+            viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value);
+          },
+          child: FloatingActionButton.extended(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            label: const Text("Add"),
+            onPressed: null,
+            icon: const Icon(
+              Icons.edit,
+              key: ValueKey(Icons.edit),
+            ),
           ),
-          onPressed: null,
         ),
       ),
+      builder: (context, percentage, child) {
+        double offset = miniSoundPlayerProvider.offset(percentage);
+        return Opacity(
+          opacity: 1 - offset,
+          child: child!,
+        );
+      },
     );
   }
 

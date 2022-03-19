@@ -22,5 +22,6 @@ enum SpRouter {
   nicknameCreator,
   developerMode,
   addOn,
+  soundList,
   notFound,
 }

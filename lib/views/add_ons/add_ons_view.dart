@@ -2,7 +2,6 @@ library add_ons_view;
 
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/models/product_model.dart';
@@ -17,6 +16,7 @@ import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_developer_visibility.dart';
 import 'package:spooky/widgets/sp_expanded_app_bar.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
+import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/views/add_ons/add_ons_view_model.dart';
 import 'package:wave/config.dart';
@@ -37,7 +37,7 @@ class AddOnsView extends StatelessWidget {
         context.read<GooglePayProvider>().fetchProducts();
       },
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
+        return SpScreenTypeLayout(
           mobile: _AddOnsMobile(viewModel),
           desktop: _AddOnsDesktop(viewModel),
           tablet: _AddOnsTablet(viewModel),

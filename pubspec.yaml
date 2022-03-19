@@ -67,6 +67,9 @@ dependencies:
   in_app_purchase: ^3.0.2
   simple_animations: ^4.0.1
   wave: ^0.2.0
+  miniplayer: ^1.0.1
+  firebase_storage: ^10.2.9
+  flutter_weather_bg_null_safety: ^1.0.0
 
 dev_dependencies:
   flutter_test:
@@ -88,3 +91,4 @@ flutter:
     - assets/
     - google_fonts/
     - assets/translations/
+    - backups/rain.json

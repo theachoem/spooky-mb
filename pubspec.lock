@@ -423,6 +423,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.1"
+  firebase_storage:
+    dependency: "direct main"
+    description:
+      name: firebase_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "10.2.9"
+  firebase_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_storage_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.1"
+  firebase_storage_web:
+    dependency: transitive
+    description:
+      name: firebase_storage_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.10"
   fixnum:
     dependency: transitive
     description:
@@ -594,6 +615,13 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_weather_bg_null_safety:
+    dependency: "direct main"
+    description:
+      name: flutter_weather_bg_null_safety
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -897,6 +925,13 @@ packages:
     dependency: transitive
     description:
       name: mime
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  miniplayer:
+    dependency: "direct main"
+    description:
+      name: miniplayer
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"

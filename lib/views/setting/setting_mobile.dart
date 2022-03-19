@@ -55,6 +55,13 @@ class _SettingMobile extends StatelessWidget {
                   },
                 ),
                 ListTile(
+                  leading: const Icon(Icons.music_note),
+                  title: Text(SpRouter.soundList.title),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SpRouter.soundList.path);
+                  },
+                ),
+                ListTile(
                   leading: SizedBox(height: 40, child: Icon(Icons.extension, color: M3Color.of(context).primary)),
                   title: Text(SpRouter.addOn.title),
                   subtitle: Text(SpRouter.addOn.subtitle),

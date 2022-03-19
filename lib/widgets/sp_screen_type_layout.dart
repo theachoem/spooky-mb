@@ -54,23 +54,24 @@ class SpScreenTypeLayout extends StatelessWidget {
       breakpoints: breakpoints,
       builder: (context, sizingInformation) {
         if (listener != null) listener!(sizingInformation);
-        return defaultValidator(context, sizingInformation.deviceScreenType, () {
-          switch (sizingInformation.deviceScreenType) {
-            case DeviceScreenType.tablet:
-              if (tablet != null) return tablet!(context);
-              break;
-            case DeviceScreenType.desktop:
-              if (desktop != null) return desktop!(context);
-              if (tablet != null) return tablet!(context);
-              break;
-            case DeviceScreenType.watch:
-              if (watch != null) return watch!(context);
-              break;
-            default:
-              return mobile(context);
-          }
-          return mobile(context);
-        });
+        return mobile(context);
+        // return defaultValidator(context, sizingInformation.deviceScreenType, () {
+        //   switch (sizingInformation.deviceScreenType) {
+        //     case DeviceScreenType.tablet:
+        //       if (tablet != null) return tablet!(context);
+        //       break;
+        //     case DeviceScreenType.desktop:
+        //       if (desktop != null) return desktop!(context);
+        //       if (tablet != null) return tablet!(context);
+        //       break;
+        //     case DeviceScreenType.watch:
+        //       if (watch != null) return watch!(context);
+        //       break;
+        //     default:
+        //       return mobile(context);
+        //   }
+        //   return mobile(context);
+        // });
       },
     );
   }

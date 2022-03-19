@@ -26,7 +26,9 @@ class ProductListModel {
         consumable: false,
         icon: Icons.music_note,
         price: "0.99\$",
-        onTryPressed: () {},
+        onTryPressed: () {
+          Navigator.of(context).pushNamed(SpRouter.soundList.path);
+        },
       ),
     ]);
   }
