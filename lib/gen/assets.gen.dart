@@ -36,6 +36,12 @@ class $GoogleFontsGen {
   String get quicksandSemiBold => 'google_fonts/Quicksand-SemiBold.ttf';
 }
 
+class $AssetsSoundsGen {
+  const $AssetsSoundsGen();
+
+  $AssetsSoundsRainsGen get rains => const $AssetsSoundsRainsGen();
+}
+
 class $AssetsTranslationsGen {
   const $AssetsTranslationsGen();
 
@@ -46,9 +52,18 @@ class $AssetsTranslationsGen {
   String get km => 'assets/translations/km.json';
 }
 
+class $AssetsSoundsRainsGen {
+  const $AssetsSoundsRainsGen();
+
+  /// File path: assets/sounds/rains/mixkit-forest-heavy-rain-loop-1226.wav
+  String get mixkitForestHeavyRainLoop1226 =>
+      'assets/sounds/rains/mixkit-forest-heavy-rain-loop-1226.wav';
+}
+
 class Assets {
   Assets._();
 
+  static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
   static const $BackupsGen backups = $BackupsGen();
   static const $GoogleFontsGen googleFonts = $GoogleFontsGen();

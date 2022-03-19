@@ -68,6 +68,7 @@ dependencies:
   simple_animations: ^4.0.1
   wave: ^0.2.0
   miniplayer: ^1.0.1
+  firebase_storage: ^10.2.9
 
 dev_dependencies:
   flutter_test:
@@ -91,3 +92,4 @@ flutter:
     - google_fonts/
     - assets/translations/
     - backups/rain.json
+    - assets/sounds/rains
