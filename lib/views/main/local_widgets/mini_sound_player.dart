@@ -4,7 +4,6 @@ import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/models/sound_model.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/providers/user_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -44,13 +43,14 @@ class _MiniSoundPlayer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MiniSoundPlayerProvider provider = Provider.of<MiniSoundPlayerProvider>(context);
+    if (provider.currentSound == null) return const SizedBox.shrink();
     return Miniplayer(
-      valueNotifier: provider.playerExpandProgress,
+      valueNotifier: provider.playerExpandProgressNotifier,
       minHeight: provider.playerMinHeight,
       maxHeight: provider.playerMaxHeight,
       controller: provider.controller,
       elevation: 4,
-      onDismissed: () => provider.currentlyPlaying.value = null,
+      onDismissed: () => provider.onDismissed(),
       curve: Curves.easeOut,
       builder: (height, percentage) {
         double width = MediaQuery.of(context).size.width;
@@ -157,7 +157,9 @@ class _MiniSoundPlayer extends StatelessWidget {
               percentage: percentage,
               provider: provider,
               percentageExpandedPlayer: percentageExpandedPlayer,
-              onTap: provider.onTap,
+              onTap: () {
+                provider.playPrevious();
+              },
             ),
             buildExpandedPlayPauseButton(
               provider: provider,
@@ -168,7 +170,9 @@ class _MiniSoundPlayer extends StatelessWidget {
               percentage: percentage,
               provider: provider,
               percentageExpandedPlayer: percentageExpandedPlayer,
-              onTap: provider.onTap,
+              onTap: () {
+                provider.playNext();
+              },
             ),
           ],
         ),
@@ -248,7 +252,7 @@ class _MiniSoundPlayer extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: ListTile(
           contentPadding: EdgeInsets.zero,
-          title: Text(provider.sound?.soundName.capitalize ?? "Unknown", maxLines: 1),
+          title: Text(provider.currentSound?.soundName.capitalize ?? "Unknown", maxLines: 1),
           subtitle: Text("Listening", maxLines: 1),
         ),
       ),
@@ -272,7 +276,7 @@ class _MiniSoundPlayer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                provider.soundsList?.sounds.first.soundName.capitalize ?? "",
+                provider.currentSound?.soundName.capitalize ?? "",
                 maxLines: 1,
                 style: M3TextTheme.of(context).titleMedium?.copyWith(color: foregroundColor),
               ),
@@ -289,8 +293,8 @@ class _MiniSoundPlayer extends StatelessWidget {
     required MiniSoundPlayerProvider provider,
     required double percentage,
   }) {
-    return ValueListenableBuilder<SoundModel?>(
-      valueListenable: provider.currentlyPlaying,
+    return ValueListenableBuilder<bool>(
+      valueListenable: provider.currentlyPlayingNotifier,
       builder: (context, currentPlaying, child) {
         Color? color = Color.lerp(Colors.white, Colors.black, percentage);
         return Container(
@@ -301,7 +305,7 @@ class _MiniSoundPlayer extends StatelessWidget {
           child: SpIconButton(
             icon: SpAnimatedIcons(
               duration: ConfigConstant.duration * 1.5,
-              showFirst: currentPlaying != null,
+              showFirst: !currentPlaying,
               firstChild: Icon(
                 Icons.pause,
                 size: ConfigConstant.iconSize2,

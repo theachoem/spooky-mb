@@ -15,12 +15,23 @@ class _SoundListMobile extends StatelessWidget {
         itemCount: viewModel.soundsList?.sounds.length ?? 0,
         itemBuilder: (context, index) {
           SoundModel sound = viewModel.soundsList!.sounds[index];
+          bool downloaded = viewModel.fileManager.downloaded(sound);
           return ListTile(
+            leading: CircleAvatar(
+              backgroundColor: M3Color.dayColorsOf(context)[index % 6 + 1],
+              child: Icon(Icons.music_note),
+            ),
             title: Text(sound.soundName.capitalize),
             subtitle: Text("${sound.fileSize / 1000000} mb"),
-            trailing: viewModel.fileManager.downloaded(sound) || sound.asset != null ? null : Icon(Icons.download),
-            onTap: () {
-              viewModel.download(sound);
+            trailing: downloaded ? null : Icon(Icons.download),
+            onTap: () async {
+              if (downloaded) {
+                context.read<MiniSoundPlayerProvider>().play(sound);
+              } else {
+                String? message = await MessengerService.instance
+                    .showLoading(future: () async => viewModel.download(sound), context: context);
+                MessengerService.instance.showSnackBar(message ?? "Fail");
+              }
             },
           );
         },

@@ -28,7 +28,7 @@ class _MainMobile extends StatelessWidget {
   Widget buildBarrierColor(BuildContext context) {
     MiniSoundPlayerProvider miniSoundPlayerProvider = context.read<MiniSoundPlayerProvider>();
     return ValueListenableBuilder<double>(
-      valueListenable: miniSoundPlayerProvider.playerExpandProgress,
+      valueListenable: miniSoundPlayerProvider.playerExpandProgressNotifier,
       builder: (context, percentage, child) {
         double offset = miniSoundPlayerProvider.offset(percentage);
         return Positioned.fill(
@@ -113,7 +113,7 @@ class _MainMobile extends StatelessWidget {
   Widget buildFloatingActionButton(BuildContext context) {
     MiniSoundPlayerProvider miniSoundPlayerProvider = context.read<MiniSoundPlayerProvider>();
     return ValueListenableBuilder<double>(
-      valueListenable: miniSoundPlayerProvider.playerExpandProgress,
+      valueListenable: miniSoundPlayerProvider.playerExpandProgressNotifier,
       child: SpShowHideAnimator(
         shouldShow: viewModel.activeIndex == 0,
         child: SpTapEffect(

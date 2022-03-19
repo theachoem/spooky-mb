@@ -616,7 +616,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_weather_bg_null_safety:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_weather_bg_null_safety
       url: "https://pub.dartlang.org"

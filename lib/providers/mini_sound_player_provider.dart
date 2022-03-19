@@ -1,49 +1,95 @@
-import 'dart:convert';
+import 'dart:io';
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:miniplayer/miniplayer.dart';
-import 'package:spooky/core/models/sound_list_model.dart';
+import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_model.dart';
-import 'package:spooky/gen/assets.gen.dart';
 
 class MiniSoundPlayerProvider extends ChangeNotifier {
-  late final ValueNotifier<SoundModel?> currentlyPlaying;
-  late final ValueNotifier<double> playerExpandProgress;
+  final SoundFileManager manager = SoundFileManager();
+  final AudioPlayer player = AudioPlayer(
+    mode: PlayerMode.MEDIA_PLAYER,
+    playerId: "rain",
+  );
+
+  late final ValueNotifier<bool> currentlyPlayingNotifier;
+  late final ValueNotifier<double> playerExpandProgressNotifier;
   late final MiniplayerController controller;
 
   final miniplayerPercentageDeclaration = 0.2;
   final double playerMinHeight = 48 + 16 * 2;
   final double playerMaxHeight = 232;
-  SoundListModel? soundsList;
+
+  SoundModel? _currentSound;
+  SoundModel? get currentSound => _currentSound;
+  void _setCurrentSound(SoundModel? value) {
+    _currentSound = value;
+    notifyListeners();
+  }
 
   MiniSoundPlayerProvider() {
-    currentlyPlaying = ValueNotifier(null);
-    playerExpandProgress = ValueNotifier(playerMinHeight);
+    currentlyPlayingNotifier = ValueNotifier(false);
+    playerExpandProgressNotifier = ValueNotifier(playerMinHeight);
     controller = MiniplayerController();
     load();
   }
 
-  SoundModel? get sound => soundsList?.sounds.first;
+  List<SoundModel>? downloadedSounds;
+  Future<void> load() async {
+    downloadedSounds = await manager.downloadedSound();
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      notifyListeners();
+    });
+  }
+
+  void play(SoundModel sound) async {
+    if (manager.downloaded(sound)) {
+      File? file = await manager.get(sound);
+      if (file != null) {
+        _setCurrentSound(sound);
+        await player.setReleaseMode(ReleaseMode.LOOP);
+        await player.play(file.path, isLocal: true);
+      }
+    }
+  }
+
+  void playNext() async {
+    if (downloadedSounds == null) return;
+    int index = downloadedSounds!.indexWhere((e) => currentSound?.fileName == e.fileName);
+    int validatedIndex = (index + 1) % downloadedSounds!.length;
+    play(downloadedSounds![validatedIndex]);
+  }
+
+  void playPrevious() {
+    if (downloadedSounds == null) return;
+    int index = downloadedSounds!.indexWhere((e) => currentSound?.fileName == e.fileName);
+    int validatedIndex = (index - 1) % downloadedSounds!.length;
+    play(downloadedSounds![validatedIndex]);
+  }
+
+  void onDismissed() {
+    _setCurrentSound(null);
+    currentlyPlayingNotifier.value = false;
+    player.stop();
+  }
 
   @override
   void dispose() {
-    currentlyPlaying.dispose();
-    playerExpandProgress.dispose();
+    currentlyPlayingNotifier.dispose();
+    playerExpandProgressNotifier.dispose();
     controller.dispose();
+    player.dispose();
     super.dispose();
   }
 
-  Future<void> load() async {
-    String str = await rootBundle.loadString(Assets.backups.rain);
-    dynamic json = jsonDecode(str);
-    soundsList = SoundListModel.fromJson(json);
-    notifyListeners();
-  }
-
-  void onTap() {}
   void togglePlayPause() {
-    currentlyPlaying.value = currentlyPlaying.value == null ? sound : null;
+    currentlyPlayingNotifier.value = !currentlyPlayingNotifier.value;
+    if (currentlyPlayingNotifier.value) {
+      player.pause();
+    } else {
+      player.resume();
+    }
   }
 
   double offset(double percentage) {

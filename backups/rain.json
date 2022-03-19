@@ -11,30 +11,14 @@
       "file_size": 2847402
     },
     {
-      "sound_name": "calm thunderstorm in the jungle",
-      "file_name": "mixkit-calm-thunderstorm-in-the-jungle-2415.wav",
-      "file_size": 8644330
-    },
-    {
       "sound_name": "downpour loop",
       "file_name": "mixkit-downpour-loop-1245.wav",
       "file_size": 2763282
     },
     {
-      "sound_name": "driving in the rain",
-      "file_name": "mixkit-driving-in-the-rain-1242.wav",
-      "file_size": 19116872
-    },
-    {
-      "sound_name": "evil storm atmosphere",
-      "file_name": "mixkit-evil-storm-atmosphere-2404.wav",
-      "file_size": 17591624
-    },
-    {
       "sound_name": "forest heavy rain loop",
       "file_name": "mixkit-forest-heavy-rain-loop-1226.wav",
-      "file_size": 1853934,
-      "asset": "assets/sounds/rains/mixkit-forest-heavy-rain-loop-1226.wav"
+      "file_size": 1853934
     },
     {
       "sound_name": "forest rain loop",
@@ -45,11 +29,6 @@
       "sound_name": "heavy rain",
       "file_name": "mixkit-heavy-rain-2403.wav",
       "file_size": 1326330
-    },
-    {
-      "sound_name": "heavy rain ambience",
-      "file_name": "mixkit-heavy-rain-ambience-1262.wav",
-      "file_size": 34394636
     },
     {
       "sound_name": "heavy rain and thunder ambience",
@@ -75,11 +54,6 @@
       "sound_name": "heavy rain on car glass interior",
       "file_name": "mixkit-heavy-rain-on-car-glass-interior-1248.wav",
       "file_size": 6993076
-    },
-    {
-      "sound_name": "heavy rain over metal roof",
-      "file_name": "mixkit-heavy-rain-over-metal-roof-1265.wav",
-      "file_size": 29916806
     },
     {
       "sound_name": "heavy rain storm",
@@ -112,11 +86,6 @@
       "file_size": 7057734
     },
     {
-      "sound_name": "light rain atmosphere",
-      "file_name": "mixkit-light-rain-atmosphere-2474.wav",
-      "file_size": 19288628
-    },
-    {
       "sound_name": "light rain loop",
       "file_name": "mixkit-light-rain-loop-1253.wav",
       "file_size": 6960060
@@ -127,11 +96,6 @@
       "file_size": 2646730
     },
     {
-      "sound_name": "light rain looping",
-      "file_name": "mixkit-light-rain-looping-1249.wav",
-      "file_size": 16968222
-    },
-    {
       "sound_name": "light rain on pavement",
       "file_name": "mixkit-light-rain-on-pavement-1251.wav",
       "file_size": 4697286
@@ -140,16 +104,6 @@
       "sound_name": "light rain with thunderstorm",
       "file_name": "mixkit-light-rain-with-thunderstorm-1290.wav",
       "file_size": 6483430
-    },
-    {
-      "sound_name": "long rain ambience",
-      "file_name": "mixkit-long-rain-ambience-1247.wav",
-      "file_size": 59129188
-    },
-    {
-      "sound_name": "rain ambien and thunder",
-      "file_name": "mixkit-rain-ambien-and-thunder-1256.wav",
-      "file_size": 11117296
     },
     {
       "sound_name": "rain and thunder crash",
@@ -165,11 +119,6 @@
       "sound_name": "rain in the jungle and birds",
       "file_name": "mixkit-rain-in-the-jungle-and-birds-2431.wav",
       "file_size": 7983320
-    },
-    {
-      "sound_name": "rain long loop",
-      "file_name": "mixkit-rain-long-loop-2394.wav",
-      "file_size": 10088346
     },
     {
       "sound_name": "rain loop",
@@ -192,16 +141,6 @@
       "file_size": 5593772
     },
     {
-      "sound_name": "thunder rumble and-light rain",
-      "file_name": "mixkit-thunder-rumble-and-light-rain-2401.wav",
-      "file_size": 4543030
-    },
-    {
-      "sound_name": "thunder rumble during a storm",
-      "file_name": "mixkit-thunder-rumble-during-a-storm-2395.wav",
-      "file_size": 9129430
-    },
-    {
       "sound_name": "thunder strike in storm",
       "file_name": "mixkit-thunder-strike-in-storm-2405.wav",
       "file_size": 1327068
@@ -222,11 +161,6 @@
       "file_size": 4961982
     },
     {
-      "sound_name": "thunderstorm and rain loop",
-      "file_name": "mixkit-thunderstorm-and-rain-loop-2402.wav",
-      "file_size": 9305830
-    },
-    {
       "sound_name": "thunderstorm background sound",
       "file_name": "mixkit-thunderstorm-background-sound-2398.wav",
       "file_size": 2613654
@@ -240,11 +174,6 @@
       "sound_name": "tropical rain storm",
       "file_name": "mixkit-tropical-rain-storm-1255.wav",
       "file_size": 7740704
-    },
-    {
-      "sound_name": "urban city ambience at night",
-      "file_name": "mixkit-urban-city-ambience-at-night-2678.wav",
-      "file_size": 33427790
     }
   ]
 }

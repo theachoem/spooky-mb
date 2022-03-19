@@ -1,8 +1,12 @@
 library sound_list_view;
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/models/sound_model.dart';
+import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/providers/mini_sound_player_provider.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
