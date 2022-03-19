@@ -16,17 +16,31 @@ class _SoundListMobile extends StatelessWidget {
         itemBuilder: (context, index) {
           SoundModel sound = viewModel.soundsList!.sounds[index];
           bool downloaded = viewModel.fileManager.downloaded(sound);
+          double fileSize = (sound.fileSize / 100000).roundToDouble() / 10;
           return ListTile(
-            leading: CircleAvatar(
-              backgroundColor: M3Color.dayColorsOf(context)[index % 6 + 1],
-              child: Icon(Icons.music_note),
+            leading: Consumer<MiniSoundPlayerProvider>(
+              builder: (context, provider, child) {
+                return CircleAvatar(
+                  backgroundColor: M3Color.dayColorsOf(context)[index % 6 + 1],
+                  child: SpAnimatedIcons(
+                    firstChild: Icon(Icons.pause),
+                    secondChild: Icon(Icons.music_note),
+                    showFirst: provider.currentSound == sound,
+                  ),
+                );
+              },
             ),
             title: Text(sound.soundName.capitalize),
-            subtitle: Text("${sound.fileSize / 1000000} mb"),
+            subtitle: Text("$fileSize mb"),
             trailing: downloaded ? null : Icon(Icons.download),
             onTap: () async {
               if (downloaded) {
-                context.read<MiniSoundPlayerProvider>().play(sound);
+                MiniSoundPlayerProvider provider = context.read<MiniSoundPlayerProvider>();
+                if (provider.currentSound != sound) {
+                  provider.play(sound);
+                } else {
+                  provider.onDismissed();
+                }
               } else {
                 String? message = await MessengerService.instance
                     .showLoading(future: () async => viewModel.download(sound), context: context);
