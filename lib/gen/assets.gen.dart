@@ -7,6 +7,13 @@
 
 import 'package:flutter/widgets.dart';
 
+class $BackupsGen {
+  const $BackupsGen();
+
+  /// File path: backups/rain.json
+  String get rain => 'backups/rain.json';
+}
+
 class $GoogleFontsGen {
   const $GoogleFontsGen();
 
@@ -43,6 +50,7 @@ class Assets {
   Assets._();
 
   static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
+  static const $BackupsGen backups = $BackupsGen();
   static const $GoogleFontsGen googleFonts = $GoogleFontsGen();
 }
 

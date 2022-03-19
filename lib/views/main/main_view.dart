@@ -1,14 +1,18 @@
 library main_view;
 
 import 'dart:io';
+import 'dart:ui';
+import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/types/quick_actions_type.dart';
+import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/utils/util_widgets/app_local_auth.dart';
 import 'package:spooky/views/explore/explore_view.dart';
 import 'package:spooky/views/home/home_view.dart';
+import 'package:spooky/views/main/local_widgets/mini_sound_player.dart';
 import 'package:spooky/views/main/main_view_item.dart';
 import 'package:spooky/views/not_found/not_found_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';

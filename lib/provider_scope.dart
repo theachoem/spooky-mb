@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/providers/google_pay_provider.dart';
+import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
+import 'package:spooky/providers/user_provider.dart';
 
 // global providers
 class ProviderScope extends StatelessWidget {
@@ -44,6 +46,12 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<GooglePayProvider>(
           create: (context) => GooglePayProvider(),
+        ),
+        ListenableProvider<MiniSoundPlayerProvider>(
+          create: (context) => MiniSoundPlayerProvider(),
+        ),
+        ListenableProvider<UserProvider>(
+          create: (context) => UserProvider(),
         ),
       ],
       child: child,
