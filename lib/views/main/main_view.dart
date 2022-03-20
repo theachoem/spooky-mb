@@ -1,7 +1,6 @@
 library main_view;
 
 import 'dart:io';
-import 'dart:ui';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:responsive_builder/responsive_builder.dart';

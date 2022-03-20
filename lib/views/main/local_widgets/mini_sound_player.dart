@@ -11,6 +11,7 @@ import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
+import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 
 class MiniSoundPlayer extends StatelessWidget {
@@ -131,6 +132,7 @@ class _MiniSoundPlayer extends StatelessWidget {
             buildMusicManager(
               percentage: percentage,
               provider: provider,
+              context: context,
               percentageExpandedPlayer: percentageExpandedPlayer,
             ),
           ],
@@ -142,6 +144,7 @@ class _MiniSoundPlayer extends StatelessWidget {
   /// previus, play/pause, next button
   Widget buildMusicManager({
     required double percentage,
+    required BuildContext context,
     required MiniSoundPlayerProvider provider,
     required double percentageExpandedPlayer,
   }) {
@@ -158,7 +161,7 @@ class _MiniSoundPlayer extends StatelessWidget {
               provider: provider,
               percentageExpandedPlayer: percentageExpandedPlayer,
               onTap: () {
-                provider.playPrevious();
+                provider.playPreviousNext(context: context, previous: false);
               },
             ),
             buildExpandedPlayPauseButton(
@@ -171,7 +174,7 @@ class _MiniSoundPlayer extends StatelessWidget {
               provider: provider,
               percentageExpandedPlayer: percentageExpandedPlayer,
               onTap: () {
-                provider.playNext();
+                provider.playPreviousNext(context: context, previous: true);
               },
             ),
           ],
@@ -253,7 +256,16 @@ class _MiniSoundPlayer extends StatelessWidget {
         child: ListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(provider.currentSound?.soundName.capitalize ?? "Unknown", maxLines: 1),
-          subtitle: Text("Listening", maxLines: 1),
+          subtitle: ValueListenableBuilder<bool>(
+            valueListenable: provider.currentlyPlayingNotifier,
+            builder: (context, listening, child) {
+              return SpCrossFade(
+                showFirst: listening,
+                firstChild: Text("Listening", maxLines: 1),
+                secondChild: Text("Pause", maxLines: 1),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -305,7 +317,7 @@ class _MiniSoundPlayer extends StatelessWidget {
           child: SpIconButton(
             icon: SpAnimatedIcons(
               duration: ConfigConstant.duration * 1.5,
-              showFirst: !currentPlaying,
+              showFirst: currentPlaying,
               firstChild: Icon(
                 Icons.pause,
                 size: ConfigConstant.iconSize2,

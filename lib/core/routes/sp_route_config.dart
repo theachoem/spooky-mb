@@ -248,7 +248,7 @@ class SpRouteConfig {
       case SpRouter.soundList:
         return DefaultRouteSetting(
           canSwap: false,
-          fullscreenDialog: false,
+          fullscreenDialog: true,
           route: (context) => SoundListView(),
         );
     }

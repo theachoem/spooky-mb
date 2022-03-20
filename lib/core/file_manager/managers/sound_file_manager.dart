@@ -32,6 +32,7 @@ class SoundFileManager extends BaseFileManager {
   }
 
   Future<List<SoundModel>> downloadedSound() async {
+    await ensureDirExist(directory);
     Iterable<FileSystemEntity> list = directory.listSync().whereType<File>();
     List<String> files = list.map((e) => FileHelper.fileName(e.path)).toList();
 

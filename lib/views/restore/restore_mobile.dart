@@ -160,32 +160,17 @@ class _RestoreMobile extends StatelessWidget {
   }
 
   Widget buildBottomNavigation(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      children: [
-        ValueListenableBuilder(
-          valueListenable: viewModel.showSkipNotifier,
-          builder: (context, value, child) {
-            return SpCrossFade(
-              showFirst: viewModel.showSkipNotifier.value,
-              firstChild: const SizedBox(width: double.infinity),
-              secondChild: Container(
-                padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-                child: SpButton(
-                  label: "Done",
-                  onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
-                  },
-                ),
-              ),
-            );
+    return ValueListenableBuilder(
+      valueListenable: viewModel.showSkipNotifier,
+      builder: (context, value, child) {
+        return SpSingleButtonBottomNavigation(
+          buttonLabel: "Done",
+          show: viewModel.showSkipNotifier.value,
+          onTap: () {
+            Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
           },
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: MediaQuery.of(context).padding.bottom + ConfigConstant.margin2,
-        ),
-      ],
+        );
+      },
     );
   }
 

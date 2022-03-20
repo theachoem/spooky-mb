@@ -31,26 +31,10 @@ class _LockMobile extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: buildBottomNavigation(context),
-    );
-  }
-
-  Widget buildBottomNavigation(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      children: [
-        Container(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: SpButton(
-            label: "Done",
-            onTap: () {},
-          ),
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: MediaQuery.of(context).padding.bottom + ConfigConstant.margin2,
-        ),
-      ],
+      bottomNavigationBar: SpSingleButtonBottomNavigation(
+        buttonLabel: "Done",
+        onTap: () {},
+      ),
     );
   }
 }

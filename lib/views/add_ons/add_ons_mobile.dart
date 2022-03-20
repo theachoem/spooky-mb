@@ -18,7 +18,9 @@ class _AddOnsMobile extends StatelessWidget {
               slivers: [
                 SpExpandedAppBar(
                   expandedHeight: expandedHeight,
-                  actions: [],
+                  actions: [
+                    SpThemeSwitcher(),
+                  ],
                 ),
                 SliverPadding(
                   padding: ConfigConstant.layoutPadding,
@@ -163,7 +165,7 @@ class _AddOnsMobile extends StatelessWidget {
     required void Function() onTryPressed,
   }) {
     Color? backgroundColor = M3Color.dayColorsOf(context)[index % 6 + 1];
-    Color foregroundColor = M3Color.of(context).onPrimary;
+    Color foregroundColor = M3Color.of(context).background;
     BorderRadius circlarRadius = ConfigConstant.circlarRadius1;
     return Container(
       margin: const EdgeInsets.only(bottom: ConfigConstant.margin1),
@@ -200,7 +202,12 @@ class _AddOnsMobile extends StatelessWidget {
                   effects: [SpTapEffectType.scaleDown],
                   child: Stack(
                     children: [
-                      buildWaves(circlarRadius, backgroundColor, foregroundColor),
+                      buildWaves(
+                        circlarRadius: circlarRadius,
+                        backgroundColor: backgroundColor,
+                        foregroundColor: foregroundColor,
+                        context: context,
+                      ),
                       buildProductInfo(
                         circlarRadius: circlarRadius,
                         title: title,
@@ -255,7 +262,7 @@ class _AddOnsMobile extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
                 child: Text(
                   subtitle,
-                  style: TextStyle(color: foregroundColor),
+                  style: TextStyle(color: foregroundColor.withOpacity(0.75)),
                   maxLines: 1,
                 ),
               ),
@@ -311,11 +318,12 @@ class _AddOnsMobile extends StatelessWidget {
     );
   }
 
-  Widget buildWaves(
-    BorderRadius circlarRadius,
-    Color? backgroundColor,
-    Color foregroundColor,
-  ) {
+  Widget buildWaves({
+    required BorderRadius circlarRadius,
+    required Color? backgroundColor,
+    required Color foregroundColor,
+    required BuildContext context,
+  }) {
     return Positioned.fill(
       child: Material(
         borderRadius: circlarRadius,
