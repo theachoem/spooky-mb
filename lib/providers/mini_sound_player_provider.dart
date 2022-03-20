@@ -41,6 +41,16 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     WidgetsBinding.instance?.addObserver(this);
   }
 
+  @override
+  void dispose() {
+    currentlyPlayingNotifier.dispose();
+    playerExpandProgressNotifier.dispose();
+    controller.dispose();
+    audioPlayers.forEach((key, value) => value.dispose());
+    super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
+  }
+
   void initPlayers() {
     audioPlayers = {};
     for (SoundType type in SoundType.values) {
@@ -56,9 +66,25 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     });
   }
 
+  void showDownloadMoreSound(BuildContext context) {
+    MessengerService.instance.showSnackBar(
+      "Download more sounds",
+      action: SnackBarAction(
+        label: "All sounds",
+        onPressed: () {
+          Navigator.of(context).pushNamed(SpRouter.soundList.path);
+        },
+      ),
+    );
+  }
+
+  void updatePlayingState() {
+    currentlyPlayingNotifier.value = hasPlaying;
+  }
+
   void play(SoundModel sound) async {
     audioPlayers[sound.type]?.play(sound);
-    currentlyPlayingNotifier.value = true;
+    updatePlayingState();
     notifyListeners();
   }
 
@@ -91,54 +117,54 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     }
   }
 
-  void showDownloadMoreSound(BuildContext context) {
-    MessengerService.instance.showSnackBar(
-      "Download more sounds",
-      action: SnackBarAction(
-        label: "All sounds",
-        onPressed: () {
-          Navigator.of(context).pushNamed(SpRouter.soundList.path);
-        },
-      ),
-    );
-  }
-
   void onDismissed() {
     audioPlayers.forEach((key, value) => value.stop());
-    currentlyPlayingNotifier.value = false;
+    updatePlayingState();
+
     // avoid show barier
     playerExpandProgressNotifier.value = playerMinHeight;
     notifyListeners();
   }
 
-  @override
-  void dispose() {
-    currentlyPlayingNotifier.dispose();
-    playerExpandProgressNotifier.dispose();
-    controller.dispose();
-    audioPlayers.forEach((key, value) => value.dispose());
-    super.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
+  void togglePlayPause() {
+    if (currentlyPlayingNotifier.value) {
+      for (SoundType type in SoundType.values) {
+        pause(type);
+      }
+    } else {
+      for (SoundType type in SoundType.values) {
+        resume(type);
+      }
+    }
   }
 
-  void togglePlayPause() {
-    for (SoundType type in SoundType.values) {
-      currentlyPlayingNotifier.value ? pause(type) : resume(type);
+  void stop(SoundType type) {
+    if (currentSound(type) != null) {
+      audioPlayers[type]?.stop();
+      updatePlayingState();
     }
   }
 
   void pause(SoundType type) {
-    if (currentlyPlayingNotifier.value && currentSound(type) != null) {
+    if (currentSound(type) != null) {
       audioPlayers[type]?.pause();
-      currentlyPlayingNotifier.value = false;
+      updatePlayingState();
     }
   }
 
   void resume(SoundType type) {
-    if (!currentlyPlayingNotifier.value && currentSound(type) != null) {
+    if (currentSound(type) != null) {
       audioPlayers[type]?.resume();
-      currentlyPlayingNotifier.value = true;
+      updatePlayingState();
     }
+  }
+
+  bool get hasPlaying {
+    return SoundType.values.map((type) {
+      return audioPlayers[type]?.playing == true;
+    }).where((playing) {
+      return playing;
+    }).isEmpty;
   }
 
   double offset(double percentage) {

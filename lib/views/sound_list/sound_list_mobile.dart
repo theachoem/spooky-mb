@@ -35,7 +35,11 @@ class _SoundListMobile extends StatelessWidget {
   Widget buildSounds(BuildContext context, SoundType type, int index) {
     List<SoundModel>? sounds = viewModel.soundsList?.sounds.where((e) => e.type == type).toList();
     return SliverStickyHeader(
-      header: buildHeader(context, type.name.capitalize),
+      header: buildHeader(
+        context: context,
+        text: type.name.capitalize,
+        type: type,
+      ),
       sliver: SliverPadding(
         padding: EdgeInsets.only(bottom: index == SoundType.values.length - 1 ? kToolbarHeight * 2 : 0.0),
         sliver: SliverList(
@@ -69,7 +73,7 @@ class _SoundListMobile extends StatelessWidget {
                     if (provider.currentSound(type)?.fileName != sound.fileName) {
                       provider.play(sound);
                     } else {
-                      provider.onDismissed();
+                      provider.stop(sound.type);
                     }
                   } else {
                     if (userProvider.purchased(ProductAsType.relexSound) || downloadedSounds.isEmpty) {
@@ -99,14 +103,55 @@ class _SoundListMobile extends StatelessWidget {
     );
   }
 
-  Container buildHeader(BuildContext context, String text) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: ConfigConstant.margin2, vertical: ConfigConstant.margin1),
-      color: M3Color.of(context).secondary,
-      child: Text(
-        text,
-        style: M3TextTheme.of(context).titleSmall?.copyWith(color: M3Color.of(context).onSecondary),
-      ),
+  Widget buildHeader({
+    required BuildContext context,
+    required String text,
+    required SoundType type,
+  }) {
+    return Material(
+      elevation: 1.0,
+      child: Consumer<MiniSoundPlayerProvider>(builder: (context, provider, child) {
+        AudioPlayer? player = provider.audioPlayers[type]?.player;
+        double volumn = player?.volume ?? 1.0;
+        return SpPopupMenuButton(
+          dxGetter: (dx) => MediaQuery.of(context).size.width,
+          dyGetter: (dy) => dy + kToolbarHeight + 8.0,
+          items: (context) {
+            return List.generate(4, (index) {
+              double _volumn = (index + 1) * 25;
+              return SpPopMenuItem(
+                title: _volumn.toInt().toString(),
+                trailingIconData: volumn * 100 == _volumn ? Icons.check : null,
+                onPressed: () {
+                  player?.setVolume(_volumn / 100);
+                },
+              );
+            });
+          },
+          builder: (callback) {
+            return ListTile(
+              onTap: callback,
+              title: Text(text),
+              tileColor: Theme.of(context).appBarTheme.backgroundColor,
+              trailing: StreamBuilder<double>(
+                stream: player?.volumeStream,
+                builder: (context, snapshot) {
+                  double volumn = player?.volume ?? 1.0;
+                  IconData iconData;
+                  if (volumn == 0.0) {
+                    iconData = Icons.volume_mute;
+                  } else if (volumn <= 0.5) {
+                    iconData = Icons.volume_down;
+                  } else {
+                    iconData = Icons.volume_up;
+                  }
+                  return Icon(iconData);
+                },
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }
