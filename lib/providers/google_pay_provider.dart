@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'dart:async';
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
+import 'package:spooky/core/models/product_list_model.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
+import 'package:spooky/utils/extensions/product_as_type_extension.dart';
 
 class GooglePayProvider extends ChangeNotifier {
   final InAppPurchase inAppPurchase = InAppPurchase.instance;
   late final ValueNotifier<List<PurchaseDetails>> purchaseNotifier;
   List<ProductDetails> productDetails = [];
 
-  final List<String> nonConsumableIds = ['font_book'];
-  final List<String> consumableIds = [];
+  late final List<String> nonConsumableIds;
+  late final List<String> consumableIds;
   Set<String> get productIds => <String>{...nonConsumableIds, ...consumableIds};
 
   GooglePayProvider() {
@@ -20,6 +22,11 @@ class GooglePayProvider extends ChangeNotifier {
       if (!available) return;
       inAppPurchase.purchaseStream.listen(listener);
     });
+
+    // get non & consumable with model
+    ProductListModel list = ProductListModel.getter();
+    nonConsumableIds = list.products.where((e) => !e.consumable).map((e) => e.type.productId).toList();
+    consumableIds = list.products.where((e) => e.consumable).map((e) => e.type.productId).toList();
   }
 
   Future<void> fetchProducts() async {

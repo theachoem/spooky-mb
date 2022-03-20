@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/core/types/product_as_type.dart';
+export 'package:spooky/utils/extensions/product_as_type_extension.dart';
 
 class ProductModel {
-  final String productId;
+  final ProductAsType type;
   final String title;
   final String description;
   final bool consumable;
@@ -10,7 +12,7 @@ class ProductModel {
   final void Function() onTryPressed;
 
   ProductModel({
-    required this.productId,
+    required this.type,
     required this.title,
     required this.description,
     required this.consumable,

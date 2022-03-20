@@ -70,6 +70,7 @@ dependencies:
   miniplayer: ^1.0.1
   firebase_storage: ^10.2.9
   flutter_weather_bg_null_safety: ^1.0.0
+  just_audio: ^0.9.20
 
 dev_dependencies:
   flutter_test:

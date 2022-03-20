@@ -4,6 +4,8 @@ PODS:
     - AppAuth/ExternalUserAgent (= 1.4.0)
   - AppAuth/Core (1.4.0)
   - AppAuth/ExternalUserAgent (1.4.0)
+  - audio_session (0.0.1):
+    - Flutter
   - audioplayers (0.0.1):
     - Flutter
   - awesome_notifications (0.0.3):
@@ -77,6 +79,8 @@ PODS:
     - Flutter
   - in_app_purchase_storekit (0.0.1):
     - Flutter
+  - just_audio (0.0.1):
+    - Flutter
   - local_auth (0.0.1):
     - Flutter
   - nanopb (2.30908.0):
@@ -108,6 +112,7 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - audioplayers (from `.symlinks/plugins/audioplayers/ios`)
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
@@ -122,6 +127,7 @@ DEPENDENCIES:
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
   - in_app_purchase_storekit (from `.symlinks/plugins/in_app_purchase_storekit/ios`)
+  - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - local_auth (from `.symlinks/plugins/local_auth/ios`)
   - open_file (from `.symlinks/plugins/open_file/ios`)
   - open_settings (from `.symlinks/plugins/open_settings/ios`)
@@ -152,6 +158,8 @@ SPEC REPOS:
     - Toast
 
 EXTERNAL SOURCES:
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
   audioplayers:
     :path: ".symlinks/plugins/audioplayers/ios"
   awesome_notifications:
@@ -180,6 +188,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/image_picker/ios"
   in_app_purchase_storekit:
     :path: ".symlinks/plugins/in_app_purchase_storekit/ios"
+  just_audio:
+    :path: ".symlinks/plugins/just_audio/ios"
   local_auth:
     :path: ".symlinks/plugins/local_auth/ios"
   open_file:
@@ -203,6 +213,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
+  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   audioplayers: 455322b54050b30ea4b1af7cd9e9d105f74efa8c
   awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
@@ -227,6 +238,7 @@ SPEC CHECKSUMS:
   GTMSessionFetcher: 43748f93435c2aa068b1cbe39655aaf600652e91
   image_picker: 0d37d1cb66231c2473a0e3ccb8d062d0c2b3d297
   in_app_purchase_storekit: 6dec89fe3b9698847ed4aaf65fde6c17491620ad
+  just_audio: baa7252489dbcf47a4c7cc9ca663e9661c99aafa
   local_auth: 1740f55d7af0a2e2a8684ce225fe79d8931e808c
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   open_file: 02eb5cb6b21264bd3a696876f5afbfb7ca4f4b7d

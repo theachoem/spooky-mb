@@ -32,12 +32,13 @@ class _SoundListMobile extends StatelessWidget {
           return ListTile(
             leading: Consumer<MiniSoundPlayerProvider>(
               builder: (context, provider, child) {
+                bool playing = provider.currentSound?.fileName == sound.fileName;
                 return CircleAvatar(
                   backgroundColor: M3Color.dayColorsOf(context)[index % 6 + 1],
                   child: SpAnimatedIcons(
                     firstChild: Icon(Icons.pause, color: M3Color.of(context).onPrimary),
                     secondChild: Icon(Icons.music_note, color: M3Color.of(context).onPrimary),
-                    showFirst: provider.currentSound == sound,
+                    showFirst: playing,
                   ),
                 );
               },
@@ -46,18 +47,32 @@ class _SoundListMobile extends StatelessWidget {
             subtitle: Text("$fileSize mb"),
             trailing: downloaded ? null : Icon(Icons.download),
             onTap: () async {
+              UserProvider userProvider = context.read<UserProvider>();
+              List<SoundModel> downloadedSounds = await viewModel.fileManager.downloadedSound();
               MiniSoundPlayerProvider provider = context.read<MiniSoundPlayerProvider>();
               if (downloaded) {
-                if (provider.currentSound != sound) {
+                if (provider.currentSound?.fileName != sound.fileName) {
                   provider.play(sound);
                 } else {
                   provider.onDismissed();
                 }
               } else {
-                String? message = await MessengerService.instance
-                    .showLoading(future: () async => viewModel.download(sound), context: context);
-                provider.load();
-                MessengerService.instance.showSnackBar(message ?? "Fail");
+                if (userProvider.purchased(ProductAsType.relexSound) || downloadedSounds.isEmpty) {
+                  String? message = await MessengerService.instance
+                      .showLoading(future: () async => viewModel.download(sound), context: context);
+                  provider.load();
+                  MessengerService.instance.showSnackBar(message ?? "Fail");
+                } else {
+                  MessengerService.instance.showSnackBar(
+                    "Purchase to download more.",
+                    action: SnackBarAction(
+                      label: "Add-ons",
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(SpRouter.addOn.path);
+                      },
+                    ),
+                  );
+                }
               }
             },
           );

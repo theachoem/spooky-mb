@@ -18,9 +18,7 @@ class _AddOnsMobile extends StatelessWidget {
               slivers: [
                 SpExpandedAppBar(
                   expandedHeight: expandedHeight,
-                  actions: [
-                    SpThemeSwitcher(),
-                  ],
+                  actions: [],
                 ),
                 SliverPadding(
                   padding: ConfigConstant.layoutPadding,
@@ -61,47 +59,51 @@ class _AddOnsMobile extends StatelessWidget {
     ProductModel product = viewModel.productList.products[index];
 
     // hosted product
-    Iterable<ProductDetails> result = provider.productDetails.where((e) => e.id == product.productId);
+    Iterable<ProductDetails> result = provider.productDetails.where((e) => e.id == product.type.productId);
     ProductDetails? productDetails = result.isNotEmpty ? result.first : null;
 
     // purchase info
-    Iterable<PurchaseDetails> _purchaseDetails = purchaseDetails.where((e) => e.productID == product.productId);
+    Iterable<PurchaseDetails> _purchaseDetails = purchaseDetails.where((e) => e.productID == product.type.productId);
     PurchaseDetails? streamDetails = _purchaseDetails.isNotEmpty ? _purchaseDetails.first : null;
     IAPError? error = streamDetails?.error;
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        buildProductTile(
-          leadingIconData: product.icon,
-          context: context,
-          index: index,
-          title: product.title,
-          subtitle: productDetails?.description ?? product.description,
-          price: product.price,
-          onBuyPressed: () {
-            if (productDetails != null) {
-              provider.buyProduct(productDetails);
-            } else {
-              MessengerService.instance.showSnackBar("Product unavailble");
-            }
-          },
-          onTryPressed: () {
-            product.onTryPressed();
-          },
-        ),
-        SpCrossFade(
-          firstChild: buildMessage(context, streamDetails?.status.name.capitalize ?? ""),
-          secondChild: const SizedBox(width: double.infinity),
-          showFirst: streamDetails != null,
-        ),
-        SpCrossFade(
-          firstChild: buildMessage(context, error?.message ?? "", true),
-          secondChild: const SizedBox(width: double.infinity),
-          showFirst: error?.message != null,
-        ),
-        buildDebugger(productDetails)
-      ],
+    return buildFadeInWrapper(
+      index: index,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          buildProductTile(
+            leadingIconData: product.icon,
+            context: context,
+            index: index,
+            title: product.title,
+            subtitle: productDetails?.description ?? product.description,
+            price: productDetails?.price,
+            type: product.type,
+            onBuyPressed: () {
+              if (productDetails != null) {
+                provider.buyProduct(productDetails);
+              } else {
+                MessengerService.instance.showSnackBar("Product unavailble");
+              }
+            },
+            onTryPressed: () {
+              product.onTryPressed();
+            },
+          ),
+          SpCrossFade(
+            firstChild: buildMessage(context, streamDetails?.status.name.capitalize ?? ""),
+            secondChild: const SizedBox(width: double.infinity),
+            showFirst: streamDetails != null,
+          ),
+          SpCrossFade(
+            firstChild: buildMessage(context, error?.message ?? "", true),
+            secondChild: const SizedBox(width: double.infinity),
+            showFirst: error?.message != null,
+          ),
+          // buildDebugger(productDetails)
+        ],
+      ),
     );
   }
 
@@ -163,6 +165,7 @@ class _AddOnsMobile extends StatelessWidget {
     required String? price,
     required void Function() onBuyPressed,
     required void Function() onTryPressed,
+    required ProductAsType type,
   }) {
     Color? backgroundColor = M3Color.dayColorsOf(context)[index % 6 + 1];
     Color foregroundColor = M3Color.of(context).background;
@@ -178,50 +181,83 @@ class _AddOnsMobile extends StatelessWidget {
           ),
           ConfigConstant.sizedBoxW1,
           Expanded(
-            child: SpPopupMenuButton(
-              dyGetter: (dy) => dy + kToolbarHeight,
-              dxGetter: (dx) => dx - 8.0,
-              items: (context) {
-                return [
-                  SpPopMenuItem(
-                    title: "Buy",
-                    leadingIconData: Icons.payment,
-                    onPressed: onBuyPressed,
-                    titleStyle: TextStyle(color: backgroundColor),
-                  ),
-                  SpPopMenuItem(
-                    title: "Try",
-                    leadingIconData: Icons.play_arrow,
-                    onPressed: onTryPressed,
-                  ),
-                ];
-              },
-              builder: (callback) {
-                return SpTapEffect(
-                  onTap: callback,
-                  effects: [SpTapEffectType.scaleDown],
-                  child: Stack(
-                    children: [
-                      buildWaves(
-                        circlarRadius: circlarRadius,
-                        backgroundColor: backgroundColor,
-                        foregroundColor: foregroundColor,
-                        context: context,
-                      ),
-                      buildProductInfo(
-                        circlarRadius: circlarRadius,
-                        title: title,
-                        subtitle: subtitle,
-                        foregroundColor: foregroundColor,
-                        context: context,
-                        backgroundColor: backgroundColor,
-                        price: price,
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+            child: Consumer<UserProvider>(builder: (context, provider, child) {
+              bool purchased = provider.purchased(type);
+              return SpPopupMenuButton(
+                dyGetter: (dy) => dy + kToolbarHeight,
+                dxGetter: (dx) => dx - 8.0,
+                items: (context) {
+                  return [
+                    SpPopMenuItem(
+                      title: "Buy",
+                      leadingIconData: Icons.payment,
+                      onPressed: onBuyPressed,
+                      titleStyle: TextStyle(color: backgroundColor),
+                    ),
+                    SpPopMenuItem(
+                      title: "Try",
+                      leadingIconData: Icons.play_arrow,
+                      onPressed: onTryPressed,
+                    ),
+                  ];
+                },
+                builder: (callback) {
+                  return SpTapEffect(
+                    onTap: () {
+                      if (!purchased) {
+                        callback();
+                      } else {
+                        onTryPressed();
+                      }
+                    },
+                    effects: [SpTapEffectType.scaleDown],
+                    child: Stack(
+                      children: [
+                        buildWaves(
+                          circlarRadius: circlarRadius,
+                          backgroundColor: backgroundColor,
+                          foregroundColor: foregroundColor,
+                          context: context,
+                        ),
+                        buildProductInfo(
+                          circlarRadius: circlarRadius,
+                          title: title,
+                          type: type,
+                          subtitle: subtitle,
+                          foregroundColor: foregroundColor,
+                          context: context,
+                          backgroundColor: backgroundColor,
+                          price: price,
+                        ),
+                        Positioned(
+                          right: ConfigConstant.margin2,
+                          bottom: ConfigConstant.margin2,
+                          child: SpAddOnVisibility(
+                            type: type,
+                            child: RichText(
+                              text: TextSpan(
+                                text: "Purchased ",
+                                style: M3TextTheme.of(context).labelSmall?.copyWith(color: backgroundColor),
+                                children: [
+                                  WidgetSpan(
+                                    child: Icon(
+                                      Icons.check,
+                                      color: backgroundColor,
+                                      size: ConfigConstant.iconSize1,
+                                    ),
+                                    alignment: PlaceholderAlignment.middle,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
+            }),
           ),
         ],
       ),
@@ -234,6 +270,7 @@ class _AddOnsMobile extends StatelessWidget {
     required String subtitle,
     required String? price,
     required Color foregroundColor,
+    required ProductAsType type,
     required BuildContext context,
     required Color? backgroundColor,
   }) {
@@ -284,9 +321,13 @@ class _AddOnsMobile extends StatelessWidget {
         ),
         forceActionsBelow: true,
         actions: [
-          Icon(
-            Icons.more_vert,
-            color: backgroundColor,
+          SpAddOnVisibility(
+            type: type,
+            reverse: true,
+            child: Icon(
+              Icons.more_vert,
+              color: backgroundColor,
+            ),
           ),
         ],
       ),
@@ -315,6 +356,23 @@ class _AddOnsMobile extends StatelessWidget {
           gradient: LinearGradient(colors: colors),
         ),
       ),
+    );
+  }
+
+  Widget buildFadeInWrapper({required Widget child, int? index}) {
+    return FutureBuilder(
+      future: Future.delayed(ConfigConstant.duration * (index ?? 0 + 1)).then((value) => 1),
+      builder: (context, snapshot) {
+        return AnimatedContainer(
+          duration: ConfigConstant.duration,
+          transform: Matrix4.identity()..translate(0.0, snapshot.data == 1 ? 0.0 : 8.0),
+          child: AnimatedOpacity(
+            duration: ConfigConstant.fadeDuration,
+            opacity: snapshot.data == 1 ? 1.0 : 0.0,
+            child: child,
+          ),
+        );
+      },
     );
   }
 

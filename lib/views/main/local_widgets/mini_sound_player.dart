@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
-import 'package:spooky/providers/user_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -19,16 +18,11 @@ class MiniSoundPlayer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider userProvider = Provider.of<UserProvider>(context);
-    if (userProvider.relaxSoundPlayer) {
-      return LayoutBuilder(
-        builder: (context, constraint) {
-          return _MiniSoundPlayer(constraints: constraint);
-        },
-      );
-    } else {
-      return SizedBox.shrink();
-    }
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        return _MiniSoundPlayer(constraints: constraint);
+      },
+    );
   }
 }
 
