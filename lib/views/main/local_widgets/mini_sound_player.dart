@@ -131,6 +131,7 @@ class _MiniSoundPlayer extends StatelessWidget {
             buildMusicManager(
               percentage: percentage,
               provider: provider,
+              context: context,
               percentageExpandedPlayer: percentageExpandedPlayer,
             ),
           ],
@@ -142,6 +143,7 @@ class _MiniSoundPlayer extends StatelessWidget {
   /// previus, play/pause, next button
   Widget buildMusicManager({
     required double percentage,
+    required BuildContext context,
     required MiniSoundPlayerProvider provider,
     required double percentageExpandedPlayer,
   }) {
@@ -158,7 +160,7 @@ class _MiniSoundPlayer extends StatelessWidget {
               provider: provider,
               percentageExpandedPlayer: percentageExpandedPlayer,
               onTap: () {
-                provider.playPrevious();
+                provider.playPreviousNext(context: context, previous: false);
               },
             ),
             buildExpandedPlayPauseButton(
@@ -171,7 +173,7 @@ class _MiniSoundPlayer extends StatelessWidget {
               provider: provider,
               percentageExpandedPlayer: percentageExpandedPlayer,
               onTap: () {
-                provider.playNext();
+                provider.playPreviousNext(context: context, previous: true);
               },
             ),
           ],

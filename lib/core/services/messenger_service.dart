@@ -35,17 +35,22 @@ class MessengerService {
     );
   }
 
-  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSnackBar(String message, {bool success = true}) {
+  ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSnackBar(
+    String message, {
+    bool success = true,
+    SnackBarAction? action,
+  }) {
     clearSnackBars();
     return _state?.showSnackBar(
       SnackBar(
         content: Text(message),
         behavior: SnackBarBehavior.floating,
         dismissDirection: DismissDirection.horizontal,
-        action: SnackBarAction(
-          label: MaterialLocalizations.of(_context!).okButtonLabel,
-          onPressed: () {},
-        ),
+        action: action ??
+            SnackBarAction(
+              label: MaterialLocalizations.of(_context!).okButtonLabel,
+              onPressed: () {},
+            ),
       ),
     );
   }

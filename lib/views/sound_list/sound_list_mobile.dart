@@ -11,6 +11,18 @@ class _SoundListMobile extends StatelessWidget {
         leading: SpPopButton(),
         title: SpAppBarTitle(),
       ),
+      extendBody: true,
+      bottomNavigationBar: Consumer<MiniSoundPlayerProvider>(
+        builder: (context, provider, child) {
+          return SpSingleButtonBottomNavigation(
+            show: provider.currentSound != null,
+            buttonLabel: "Listen with mini player",
+            onTap: () {
+              Navigator.of(context).popUntil((route) => route.isFirst);
+            },
+          );
+        },
+      ),
       body: ListView.builder(
         itemCount: viewModel.soundsList?.sounds.length ?? 0,
         itemBuilder: (context, index) {
@@ -34,8 +46,8 @@ class _SoundListMobile extends StatelessWidget {
             subtitle: Text("$fileSize mb"),
             trailing: downloaded ? null : Icon(Icons.download),
             onTap: () async {
+              MiniSoundPlayerProvider provider = context.read<MiniSoundPlayerProvider>();
               if (downloaded) {
-                MiniSoundPlayerProvider provider = context.read<MiniSoundPlayerProvider>();
                 if (provider.currentSound != sound) {
                   provider.play(sound);
                 } else {
@@ -44,6 +56,7 @@ class _SoundListMobile extends StatelessWidget {
               } else {
                 String? message = await MessengerService.instance
                     .showLoading(future: () async => viewModel.download(sound), context: context);
+                provider.load();
                 MessengerService.instance.showSnackBar(message ?? "Fail");
               }
             },

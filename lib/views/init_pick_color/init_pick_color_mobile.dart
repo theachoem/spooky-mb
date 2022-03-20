@@ -20,24 +20,18 @@ class _InitPickColorMobile extends StatelessWidget {
           const SpPopButton(forceCloseButton: true),
         ],
       ),
-      bottomNavigationBar: viewModel.showNextButton
-          ? Container(
-              alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + ConfigConstant.margin2),
-              child: SpButton(
-                label: "Next",
-                onTap: () {
-                  // Navigator.of(context).pushNamedAndRemoveUntil(SpRouteConfig.main, (_) => false);
-                  Navigator.of(context).pushNamed(
-                    SpRouter.restore.path,
-                    arguments: RestoreArgs(
-                      showSkipButton: true,
-                    ),
-                  );
-                },
-              ),
-            )
-          : null,
+      bottomNavigationBar: SpSingleButtonBottomNavigation(
+        buttonLabel: "Next",
+        show: viewModel.showNextButton,
+        onTap: () {
+          Navigator.of(context).pushNamed(
+            SpRouter.restore.path,
+            arguments: RestoreArgs(
+              showSkipButton: true,
+            ),
+          );
+        },
+      ),
       body: FutureBuilder<int>(
         future: Future.delayed(ConfigConstant.duration ~/ 2).then((value) => 1),
         builder: (context, snapshot) {

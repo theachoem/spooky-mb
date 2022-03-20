@@ -2,10 +2,11 @@ import 'dart:io';
 
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_model.dart';
+import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 
 class MiniSoundPlayerProvider extends ChangeNotifier {
   final SoundFileManager manager = SoundFileManager();
@@ -56,18 +57,30 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
     }
   }
 
-  void playNext() async {
-    if (downloadedSounds == null) return;
-    int index = downloadedSounds!.indexWhere((e) => currentSound?.fileName == e.fileName);
-    int validatedIndex = (index + 1) % downloadedSounds!.length;
-    play(downloadedSounds![validatedIndex]);
+  void playPreviousNext({
+    required BuildContext context,
+    required bool previous,
+  }) {
+    if (downloadedSounds?.isNotEmpty == true) {
+      int index = downloadedSounds!.indexWhere((e) => currentSound?.fileName == e.fileName);
+      int validatedIndex = (previous ? index - 1 : index + 1) % downloadedSounds!.length;
+      play(downloadedSounds![validatedIndex]);
+      if (validatedIndex == 0) {
+        showDownloadMoreSound(context);
+      }
+    }
   }
 
-  void playPrevious() {
-    if (downloadedSounds == null) return;
-    int index = downloadedSounds!.indexWhere((e) => currentSound?.fileName == e.fileName);
-    int validatedIndex = (index - 1) % downloadedSounds!.length;
-    play(downloadedSounds![validatedIndex]);
+  void showDownloadMoreSound(BuildContext context) {
+    MessengerService.instance.showSnackBar(
+      "Download more sounds",
+      action: SnackBarAction(
+        label: MaterialLocalizations.of(context).okButtonLabel,
+        onPressed: () {
+          Navigator.of(context).pushNamed(SpRouter.soundList.path);
+        },
+      ),
+    );
   }
 
   void onDismissed() {

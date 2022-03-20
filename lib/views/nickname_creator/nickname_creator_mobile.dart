@@ -39,34 +39,22 @@ class _NicknameCreatorMobile extends StatelessWidget {
   }
 
   Widget buildBottomNavigation(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.center,
-      children: [
-        Container(
-          padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: SpButton(
-            label: "Done",
-            onTap: () {
-              if (viewModel.nickname.trim().isNotEmpty) {
-                context.read<NicknameProvider>().setNickname(viewModel.nickname);
-                MessengerService.instance.clearSnackBars();
-                Navigator.of(context).pushNamed(
-                  SpRouter.initPickColor.path,
-                  arguments: InitPickColorArgs(
-                    showNextButton: true,
-                  ),
-                );
-              } else {
-                MessengerService.instance.showSnackBar("Nickname must not empty!");
-              }
-            },
-          ),
-        ),
-        SizedBox(
-          width: double.infinity,
-          height: MediaQuery.of(context).padding.bottom + ConfigConstant.margin2,
-        ),
-      ],
+    return SpSingleButtonBottomNavigation(
+      buttonLabel: "Next",
+      onTap: () {
+        if (viewModel.nickname.trim().isNotEmpty) {
+          context.read<NicknameProvider>().setNickname(viewModel.nickname);
+          MessengerService.instance.clearSnackBars();
+          Navigator.of(context).pushNamed(
+            SpRouter.initPickColor.path,
+            arguments: InitPickColorArgs(
+              showNextButton: true,
+            ),
+          );
+        } else {
+          MessengerService.instance.showSnackBar("Nickname must not empty!");
+        }
+      },
     );
   }
 }

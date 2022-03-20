@@ -28,7 +28,9 @@ class SoundListViewModel extends BaseViewModel {
     sounds.sort((a, b) => a.fileSize.compareTo(b.fileSize));
     soundsList = soundsList!.copyWith(sounds: sounds);
 
-    notifyListeners();
+    WidgetsBinding.instance?.addPersistentFrameCallback((timeStamp) {
+      notifyListeners();
+    });
   }
 
   Future<String> download(SoundModel sound) async {
@@ -37,10 +39,14 @@ class SoundListViewModel extends BaseViewModel {
 
     String ref = 'sounds/rains/' + sound.fileName;
     String file = fileManager.constructFile(sound.fileName);
-    TaskSnapshot snapshot = await FirebaseStorage.instance.ref(ref).writeToFile(File(file));
 
-    if (kDebugMode) {
-      print(snapshot.ref);
+    try {
+      TaskSnapshot snapshot = await FirebaseStorage.instance.ref(ref).writeToFile(File(file));
+      if (kDebugMode) {
+        print(snapshot.ref);
+      }
+    } catch (e) {
+      return e.toString();
     }
 
     WidgetsBinding.instance?.addPersistentFrameCallback((timeStamp) {
