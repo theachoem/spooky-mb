@@ -10,8 +10,8 @@ import 'package:flutter/widgets.dart';
 class $BackupsGen {
   const $BackupsGen();
 
-  /// File path: backups/rain.json
-  String get rain => 'backups/rain.json';
+  /// File path: backups/sounds.json
+  String get sounds => 'backups/sounds.json';
 }
 
 class $GoogleFontsGen {

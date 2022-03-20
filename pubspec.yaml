@@ -92,4 +92,4 @@ flutter:
     - assets/
     - google_fonts/
     - assets/translations/
-    - backups/rain.json
+    - backups/sounds.json
