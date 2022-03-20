@@ -8,7 +8,7 @@ import 'package:spooky/core/models/sound_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 
-class MiniSoundPlayerProvider extends ChangeNotifier {
+class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver {
   final SoundFileManager manager = SoundFileManager();
   final AudioPlayer player = AudioPlayer(
     mode: PlayerMode.MEDIA_PLAYER,
@@ -42,6 +42,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
     playerExpandProgressNotifier = ValueNotifier(playerMinHeight);
     controller = MiniplayerController();
     load();
+    WidgetsBinding.instance?.addObserver(this);
   }
 
   List<SoundModel>? downloadedSounds;
@@ -102,15 +103,25 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
     controller.dispose();
     player.dispose();
     super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
   }
 
   void togglePlayPause() {
-    if (currentlyPlayingNotifier.value) {
+    currentlyPlayingNotifier.value ? pause() : resume();
+  }
+
+  void pause() {
+    if (currentlyPlayingNotifier.value && currentSound != null) {
       player.pause();
-    } else {
-      player.resume();
+      currentlyPlayingNotifier.value = false;
     }
-    currentlyPlayingNotifier.value = !currentlyPlayingNotifier.value;
+  }
+
+  void resume() {
+    if (!currentlyPlayingNotifier.value && currentSound != null) {
+      player.resume();
+      currentlyPlayingNotifier.value = true;
+    }
   }
 
   double offset(double percentage) {
@@ -124,5 +135,20 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
 
   double percentageFromValueInRange({required final double min, max, value}) {
     return (value - min) / (max - min);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.resumed:
+        resume();
+        break;
+      case AppLifecycleState.inactive:
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+        pause();
+        break;
+    }
   }
 }
