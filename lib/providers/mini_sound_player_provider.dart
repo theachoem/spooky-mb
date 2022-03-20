@@ -28,7 +28,13 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
 
   void _setCurrentSound(SoundModel? value) {
     _currentSound = value;
+    currentlyPlayingNotifier.value = true;
     notifyListeners();
+
+    // avoid show barrier color
+    if (_currentSound == null) {
+      playerExpandProgressNotifier.value = playerMinHeight;
+    }
   }
 
   MiniSoundPlayerProvider() {
@@ -75,7 +81,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
     MessengerService.instance.showSnackBar(
       "Download more sounds",
       action: SnackBarAction(
-        label: MaterialLocalizations.of(context).okButtonLabel,
+        label: "All sounds",
         onPressed: () {
           Navigator.of(context).pushNamed(SpRouter.soundList.path);
         },
@@ -99,12 +105,12 @@ class MiniSoundPlayerProvider extends ChangeNotifier {
   }
 
   void togglePlayPause() {
-    currentlyPlayingNotifier.value = !currentlyPlayingNotifier.value;
     if (currentlyPlayingNotifier.value) {
       player.pause();
     } else {
       player.resume();
     }
+    currentlyPlayingNotifier.value = !currentlyPlayingNotifier.value;
   }
 
   double offset(double percentage) {
