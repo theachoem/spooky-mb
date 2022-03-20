@@ -1,20 +1,14 @@
-import 'dart:io';
-
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/core/services/loop_audio_seamlessly.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 
 class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver {
   final SoundFileManager manager = SoundFileManager();
-  final AudioPlayer player = AudioPlayer(
-    mode: PlayerMode.MEDIA_PLAYER,
-    playerId: "rain",
-  );
-
+  late final LoopAudioSeamlessly audioSeamlessly;
   late final ValueNotifier<bool> currentlyPlayingNotifier;
   late final ValueNotifier<double> playerExpandProgressNotifier;
   late final MiniplayerController controller;
@@ -23,24 +17,13 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   final double playerMinHeight = 48 + 16 * 2;
   final double playerMaxHeight = 232;
 
-  SoundModel? _currentSound;
-  SoundModel? get currentSound => _currentSound;
-
-  void _setCurrentSound(SoundModel? value) {
-    _currentSound = value;
-    currentlyPlayingNotifier.value = true;
-    notifyListeners();
-
-    // avoid show barrier color
-    if (_currentSound == null) {
-      playerExpandProgressNotifier.value = playerMinHeight;
-    }
-  }
+  SoundModel? get currentSound => audioSeamlessly.currentSound;
 
   MiniSoundPlayerProvider() {
     currentlyPlayingNotifier = ValueNotifier(false);
     playerExpandProgressNotifier = ValueNotifier(playerMinHeight);
     controller = MiniplayerController();
+    audioSeamlessly = LoopAudioSeamlessly();
     load();
     WidgetsBinding.instance?.addObserver(this);
   }
@@ -54,14 +37,9 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   }
 
   void play(SoundModel sound) async {
-    if (manager.downloaded(sound)) {
-      File? file = await manager.get(sound);
-      if (file != null) {
-        _setCurrentSound(sound);
-        await player.setReleaseMode(ReleaseMode.LOOP);
-        await player.play(file.path, isLocal: true);
-      }
-    }
+    audioSeamlessly.play(sound);
+    currentlyPlayingNotifier.value = true;
+    notifyListeners();
   }
 
   void playPreviousNext({
@@ -91,9 +69,11 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   }
 
   void onDismissed() {
-    _setCurrentSound(null);
+    audioSeamlessly.stop();
     currentlyPlayingNotifier.value = false;
-    player.stop();
+    // avoid show barier
+    playerExpandProgressNotifier.value = playerMinHeight;
+    notifyListeners();
   }
 
   @override
@@ -101,7 +81,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     currentlyPlayingNotifier.dispose();
     playerExpandProgressNotifier.dispose();
     controller.dispose();
-    player.dispose();
+    audioSeamlessly.dispose();
     super.dispose();
     WidgetsBinding.instance?.removeObserver(this);
   }
@@ -112,14 +92,14 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
 
   void pause() {
     if (currentlyPlayingNotifier.value && currentSound != null) {
-      player.pause();
+      audioSeamlessly.pause();
       currentlyPlayingNotifier.value = false;
     }
   }
 
   void resume() {
     if (!currentlyPlayingNotifier.value && currentSound != null) {
-      player.resume();
+      audioSeamlessly.resume();
       currentlyPlayingNotifier.value = true;
     }
   }
