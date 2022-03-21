@@ -7,6 +7,7 @@ part of 'sound_model.dart';
 // **************************************************************************
 
 SoundModel _$SoundModelFromJson(Map<String, dynamic> json) => SoundModel(
+      type: $enumDecode(_$SoundTypeEnumMap, json['type']),
       soundName: json['sound_name'] as String,
       fileName: json['file_name'] as String,
       fileSize: json['file_size'] as int,
@@ -15,11 +16,17 @@ SoundModel _$SoundModelFromJson(Map<String, dynamic> json) => SoundModel(
 
 Map<String, dynamic> _$SoundModelToJson(SoundModel instance) =>
     <String, dynamic>{
+      'type': _$SoundTypeEnumMap[instance.type],
       'sound_name': instance.soundName,
       'file_name': instance.fileName,
       'file_size': instance.fileSize,
       'weather_type': _$WeatherTypeEnumMap[instance.weatherType],
     };
+
+const _$SoundTypeEnumMap = {
+  SoundType.music: 'music',
+  SoundType.sound: 'sound',
+};
 
 const _$WeatherTypeEnumMap = {
   WeatherType.heavyRainy: 'heavyRainy',

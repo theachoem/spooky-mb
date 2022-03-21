@@ -8,6 +8,7 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_list_model.dart';
 import 'package:spooky/core/models/sound_model.dart';
+import 'package:spooky/core/types/sound_type.dart';
 import 'package:spooky/gen/assets.gen.dart';
 
 class SoundListViewModel extends BaseViewModel {
@@ -19,7 +20,7 @@ class SoundListViewModel extends BaseViewModel {
   }
 
   Future<void> load() async {
-    String str = await rootBundle.loadString(Assets.backups.rain);
+    String str = await rootBundle.loadString(Assets.backups.sounds);
     dynamic json = jsonDecode(str);
     soundsList = SoundListModel.fromJson(json);
 
@@ -37,8 +38,17 @@ class SoundListViewModel extends BaseViewModel {
     if (fileManager.downloaded(sound)) return "Downloaded";
     if (sound.fileSize > 10000000) return "File too big";
 
-    String ref = 'sounds/rains/' + sound.fileName;
     String file = fileManager.constructFile(sound.fileName);
+
+    String ref;
+    switch (sound.type) {
+      case SoundType.music:
+        ref = 'sounds/music/' + sound.fileName;
+        break;
+      case SoundType.sound:
+        ref = 'sounds/rains/' + sound.fileName;
+        break;
+    }
 
     try {
       TaskSnapshot snapshot = await FirebaseStorage.instance.ref(ref).writeToFile(File(file));

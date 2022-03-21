@@ -5,10 +5,11 @@ import 'package:spooky/core/models/sound_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/loop_audio_seamlessly.dart';
 import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/types/sound_type.dart';
 
 class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver {
   final SoundFileManager manager = SoundFileManager();
-  late final LoopAudioSeamlessly audioSeamlessly;
+  late final Map<SoundType, LoopAudioSeamlessly> audioPlayers;
   late final ValueNotifier<bool> currentlyPlayingNotifier;
   late final ValueNotifier<double> playerExpandProgressNotifier;
   late final MiniplayerController controller;
@@ -17,15 +18,44 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   final double playerMinHeight = 48 + 16 * 2;
   final double playerMaxHeight = 232;
 
-  SoundModel? get currentSound => audioSeamlessly.currentSound;
+  List<SoundModel> get currentSounds {
+    List<SoundModel> sounds = [];
+    for (SoundType type in SoundType.values) {
+      SoundModel? sound = currentSound(type);
+      if (sound != null) {
+        sounds.add(sound);
+      }
+    }
+    return sounds;
+  }
+
+  SoundModel? currentSound(SoundType type) => audioPlayers[type]?.currentSound;
+  // SoundType get baseSoundType => SoundType.sound;
 
   MiniSoundPlayerProvider() {
     currentlyPlayingNotifier = ValueNotifier(false);
     playerExpandProgressNotifier = ValueNotifier(playerMinHeight);
     controller = MiniplayerController();
-    audioSeamlessly = LoopAudioSeamlessly();
     load();
+    initPlayers();
     WidgetsBinding.instance?.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    currentlyPlayingNotifier.dispose();
+    playerExpandProgressNotifier.dispose();
+    controller.dispose();
+    audioPlayers.forEach((key, value) => value.dispose());
+    super.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
+  }
+
+  void initPlayers() {
+    audioPlayers = {};
+    for (SoundType type in SoundType.values) {
+      audioPlayers[type] = LoopAudioSeamlessly();
+    }
   }
 
   List<SoundModel>? downloadedSounds;
@@ -34,26 +64,6 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       notifyListeners();
     });
-  }
-
-  void play(SoundModel sound) async {
-    audioSeamlessly.play(sound);
-    currentlyPlayingNotifier.value = true;
-    notifyListeners();
-  }
-
-  void playPreviousNext({
-    required BuildContext context,
-    required bool previous,
-  }) {
-    if (downloadedSounds?.isNotEmpty == true) {
-      int index = downloadedSounds!.indexWhere((e) => currentSound?.fileName == e.fileName);
-      int validatedIndex = (previous ? index - 1 : index + 1) % downloadedSounds!.length;
-      play(downloadedSounds![validatedIndex]);
-      if (validatedIndex == 0) {
-        showDownloadMoreSound(context);
-      }
-    }
   }
 
   void showDownloadMoreSound(BuildContext context) {
@@ -68,40 +78,89 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     );
   }
 
-  void onDismissed() {
-    audioSeamlessly.stop();
-    currentlyPlayingNotifier.value = false;
-    // avoid show barier
-    playerExpandProgressNotifier.value = playerMinHeight;
+  void updatePlayingState() {
+    currentlyPlayingNotifier.value = hasPlaying;
     notifyListeners();
   }
 
-  @override
-  void dispose() {
-    currentlyPlayingNotifier.dispose();
-    playerExpandProgressNotifier.dispose();
-    controller.dispose();
-    audioSeamlessly.dispose();
-    super.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
+  void play(SoundModel sound) async {
+    audioPlayers[sound.type]?.play(sound);
+    updatePlayingState();
+  }
+
+  void playPreviousNext({
+    required BuildContext context,
+    required bool previous,
+  }) {
+    for (SoundType type in SoundType.values) {
+      _playPreviousNext(
+        type: type,
+        context: context,
+        previous: previous,
+      );
+    }
+  }
+
+  void _playPreviousNext({
+    required SoundType type,
+    required BuildContext context,
+    required bool previous,
+  }) {
+    List<SoundModel>? sounds = downloadedSounds?.where((e) => e.type == type).toList();
+    if (sounds?.isNotEmpty == true) {
+      int index = sounds!.indexWhere((e) => currentSound(type)?.fileName == e.fileName);
+      int validatedIndex = (previous ? index - 1 : index + 1) % sounds.length;
+      play(sounds[validatedIndex]);
+    }
+  }
+
+  void onDismissed() {
+    // avoid show barier
+    playerExpandProgressNotifier.value = playerMinHeight;
+    for (SoundType e in SoundType.values) {
+      stop(e);
+    }
   }
 
   void togglePlayPause() {
-    currentlyPlayingNotifier.value ? pause() : resume();
-  }
-
-  void pause() {
-    if (currentlyPlayingNotifier.value && currentSound != null) {
-      audioSeamlessly.pause();
-      currentlyPlayingNotifier.value = false;
+    if (currentlyPlayingNotifier.value) {
+      for (SoundType type in SoundType.values) {
+        pause(type);
+      }
+    } else {
+      for (SoundType type in SoundType.values) {
+        resume(type);
+      }
     }
   }
 
-  void resume() {
-    if (!currentlyPlayingNotifier.value && currentSound != null) {
-      audioSeamlessly.resume();
-      currentlyPlayingNotifier.value = true;
+  void stop(SoundType type) {
+    if (currentSound(type) != null) {
+      audioPlayers[type]?.stop();
+      updatePlayingState();
     }
+  }
+
+  void pause(SoundType type) {
+    if (currentSound(type) != null) {
+      audioPlayers[type]?.pause();
+      updatePlayingState();
+    }
+  }
+
+  void resume(SoundType type) {
+    if (currentSound(type) != null) {
+      audioPlayers[type]?.resume();
+      updatePlayingState();
+    }
+  }
+
+  bool get hasPlaying {
+    return SoundType.values.map((type) {
+      return audioPlayers[type]?.playing == true;
+    }).where((playing) {
+      return playing;
+    }).isNotEmpty;
   }
 
   double offset(double percentage) {
@@ -122,12 +181,16 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     super.didChangeAppLifecycleState(state);
     switch (state) {
       case AppLifecycleState.resumed:
-        resume();
+        for (SoundType type in SoundType.values) {
+          resume(type);
+        }
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
       case AppLifecycleState.detached:
-        pause();
+        for (SoundType type in SoundType.values) {
+          pause(type);
+        }
         break;
     }
   }

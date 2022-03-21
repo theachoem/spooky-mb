@@ -71,6 +71,7 @@ dependencies:
   firebase_storage: ^10.2.9
   flutter_weather_bg_null_safety: ^1.0.0
   just_audio: ^0.9.20
+  sleek_circular_slider: ^2.0.1
 
 dev_dependencies:
   flutter_test:
@@ -92,4 +93,4 @@ flutter:
     - assets/
     - google_fonts/
     - assets/translations/
-    - backups/rain.json
+    - backups/sounds.json

@@ -10,6 +10,8 @@ class LoopAudioSeamlessly {
   final SoundFileManager manager = SoundFileManager();
   late final AudioPlayer player;
 
+  bool get playing => player.playing;
+
   LoopAudioSeamlessly() {
     player = AudioPlayer();
     player.setLoopMode(LoopMode.one);

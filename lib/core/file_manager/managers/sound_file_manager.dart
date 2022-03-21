@@ -19,7 +19,7 @@ class SoundFileManager extends BaseFileManager {
   String constructFile(String fileName) => directory.path + "/" + fileName;
 
   Future<SoundListModel> fetchJsonSounds() async {
-    String str = await rootBundle.loadString(Assets.backups.rain);
+    String str = await rootBundle.loadString(Assets.backups.sounds);
     dynamic json = jsonDecode(str);
     SoundListModel soundsList = SoundListModel.fromJson(json);
 
