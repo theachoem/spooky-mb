@@ -27,7 +27,7 @@ class _SoundListMobile extends StatelessWidget {
           builder: (context, provider, child) {
             return SpAnimatedIcons(
               firstChild: SpIconButton(
-                tooltip: "Listen with mini player",
+                tooltip: "Stop",
                 icon: Icon(Icons.stop_circle_outlined, color: M3Color.of(context).error),
                 onPressed: () {
                   provider.onDismissed();
