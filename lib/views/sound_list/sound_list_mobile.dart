@@ -8,45 +8,68 @@ class _SoundListMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     List<SoundType> types = SoundType.values.reversed.toList();
     return Scaffold(
-      appBar: MorphingAppBar(
-        leading: SpPopButton(),
-        title: SpAppBarTitle(),
-        actions: [
-          SpPopupMenuButton(items: (context) {
-            return [
-              SpPopMenuItem(
-                title: "Play in Background",
-                leadingIconData: viewModel.playSoundInBackground ? Icons.check_box : Icons.check_box_outline_blank,
-                onPressed: () {
-                  viewModel.toggleBackgroundSound();
-                },
-              ),
-            ];
-          }, builder: (callback) {
-            return SpIconButton(
-              icon: Icon(Icons.more_vert),
-              onPressed: callback,
-            );
-          })
-        ],
-      ),
+      appBar: buildAppBar(),
       extendBody: true,
-      bottomNavigationBar: Consumer<MiniSoundPlayerProvider>(
-        builder: (context, provider, child) {
-          return SpSingleButtonBottomNavigation(
-            show: provider.currentSounds.isNotEmpty,
-            buttonLabel: "Listen with mini player",
-            onTap: () {
-              Navigator.of(context).popUntil((route) => route.isFirst);
-            },
-          );
-        },
-      ),
       body: CustomScrollView(
         slivers: List.generate(types.length, (index) {
           return buildSounds(context, types[index], index);
         }),
       ),
+    );
+  }
+
+  MorphingAppBar buildAppBar() {
+    return MorphingAppBar(
+      leading: SpPopButton(),
+      title: SpAppBarTitle(),
+      actions: [
+        Consumer<MiniSoundPlayerProvider>(
+          builder: (context, provider, child) {
+            return SpAnimatedIcons(
+              firstChild: SpIconButton(
+                tooltip: "Listen with mini player",
+                icon: Icon(Icons.stop_circle_outlined, color: M3Color.of(context).error),
+                onPressed: () {
+                  provider.onDismissed();
+                },
+              ),
+              secondChild: const SizedBox.shrink(),
+              showFirst: provider.hasPlaying,
+            );
+          },
+        ),
+        Consumer<MiniSoundPlayerProvider>(
+          builder: (context, provider, child) {
+            return SpAnimatedIcons(
+              firstChild: SpIconButton(
+                tooltip: "Listen with mini player",
+                icon: Icon(Icons.branding_watermark, color: M3Color.of(context).primary),
+                onPressed: () {
+                  Navigator.of(context).popUntil((route) => route.isFirst);
+                },
+              ),
+              secondChild: const SizedBox.shrink(),
+              showFirst: provider.hasPlaying,
+            );
+          },
+        ),
+        SpPopupMenuButton(items: (context) {
+          return [
+            SpPopMenuItem(
+              title: "Play in Background",
+              leadingIconData: viewModel.playSoundInBackground ? Icons.check_box : Icons.check_box_outline_blank,
+              onPressed: () {
+                viewModel.toggleBackgroundSound();
+              },
+            ),
+          ];
+        }, builder: (callback) {
+          return SpIconButton(
+            icon: Icon(Icons.more_vert),
+            onPressed: callback,
+          );
+        }),
+      ],
     );
   }
 
