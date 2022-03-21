@@ -18,10 +18,34 @@ class _MainMobile extends StatelessWidget {
       bottomNavigationBar: Wrap(
         children: [
           MiniSoundPlayer(),
-          Divider(height: 0),
+          Divider(height: 0.0),
+          buildBottomSafeHeight(context),
           buildBottomNavigationBar(tabs),
         ],
       ),
+    );
+  }
+
+  Widget buildBottomSafeHeight(BuildContext context) {
+    return Consumer<MiniSoundPlayerProvider>(
+      child: ValueListenableBuilder<bool>(
+        valueListenable: viewModel.shouldShowBottomNavNotifier,
+        builder: (context, shownBottomNav, chil) {
+          return AnimatedContainer(
+            height: shownBottomNav ? 0.0 : MediaQuery.of(context).padding.bottom,
+            color: Theme.of(context).appBarTheme.backgroundColor,
+            duration: ConfigConstant.duration,
+            curve: Curves.ease,
+          );
+        },
+      ),
+      builder: (context, provider, child) {
+        return SpCrossFade(
+          showFirst: provider.currentSounds.isNotEmpty,
+          firstChild: child!,
+          secondChild: SizedBox(width: double.infinity),
+        );
+      },
     );
   }
 
@@ -114,30 +138,38 @@ class _MainMobile extends StatelessWidget {
     MiniSoundPlayerProvider miniSoundPlayerProvider = context.read<MiniSoundPlayerProvider>();
     return ValueListenableBuilder<double>(
       valueListenable: miniSoundPlayerProvider.playerExpandProgressNotifier,
-      child: SpShowHideAnimator(
-        shouldShow: viewModel.activeIndex == 0,
-        child: SpTapEffect(
-          effects: const [SpTapEffectType.scaleDown],
-          onTap: () => viewModel.createStory(context),
-          onLongPressed: () {
-            viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value);
-          },
-          child: FloatingActionButton.extended(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            label: const Text("Add"),
-            onPressed: null,
-            icon: const Icon(
-              Icons.edit,
-              key: ValueKey(Icons.edit),
-            ),
-          ),
-        ),
-      ),
       builder: (context, percentage, child) {
         double offset = miniSoundPlayerProvider.offset(percentage);
-        return Opacity(
-          opacity: 1 - offset,
-          child: child!,
+        bool showSoundLibraryButton = offset >= 0.5;
+        return SpShowHideAnimator(
+          shouldShow: viewModel.activeIndex == 0 || showSoundLibraryButton,
+          child: SpTapEffect(
+            effects: const [SpTapEffectType.scaleDown],
+            onTap: showSoundLibraryButton
+                ? () => Navigator.of(context).pushNamed(SpRouter.soundList.path)
+                : () => viewModel.createStory(context),
+            onLongPressed: () => viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value),
+            child: FloatingActionButton.extended(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+              label: SpCrossFade(
+                firstChild: const Text("Add"),
+                secondChild: const Text("Sound Library"),
+                showFirst: !showSoundLibraryButton,
+              ),
+              onPressed: null,
+              icon: SpAnimatedIcons(
+                showFirst: !showSoundLibraryButton,
+                firstChild: const Icon(
+                  Icons.edit,
+                  key: ValueKey(Icons.edit),
+                ),
+                secondChild: const Icon(
+                  Icons.music_note,
+                  key: ValueKey(Icons.music_note),
+                ),
+              ),
+            ),
+          ),
         );
       },
     );

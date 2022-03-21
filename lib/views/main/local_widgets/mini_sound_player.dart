@@ -46,7 +46,7 @@ class _MiniSoundPlayer extends StatelessWidget {
       minHeight: provider.playerMinHeight,
       maxHeight: provider.playerMaxHeight,
       controller: provider.controller,
-      elevation: 4,
+      elevation: 0.0,
       onDismissed: () => provider.onDismissed(),
       curve: Curves.easeOut,
       builder: (height, percentage) {

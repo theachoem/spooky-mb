@@ -80,12 +80,12 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
 
   void updatePlayingState() {
     currentlyPlayingNotifier.value = hasPlaying;
+    notifyListeners();
   }
 
   void play(SoundModel sound) async {
     audioPlayers[sound.type]?.play(sound);
     updatePlayingState();
-    notifyListeners();
   }
 
   void playPreviousNext({
@@ -111,19 +111,15 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       int index = sounds!.indexWhere((e) => currentSound(type)?.fileName == e.fileName);
       int validatedIndex = (previous ? index - 1 : index + 1) % sounds.length;
       play(sounds[validatedIndex]);
-      // if (validatedIndex == 0) {
-      //   showDownloadMoreSound(context);
-      // }
     }
   }
 
   void onDismissed() {
-    audioPlayers.forEach((key, value) => value.stop());
-    updatePlayingState();
-
     // avoid show barier
     playerExpandProgressNotifier.value = playerMinHeight;
-    notifyListeners();
+    for (SoundType e in SoundType.values) {
+      stop(e);
+    }
   }
 
   void togglePlayPause() {
@@ -164,7 +160,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       return audioPlayers[type]?.playing == true;
     }).where((playing) {
       return playing;
-    }).isEmpty;
+    }).isNotEmpty;
   }
 
   double offset(double percentage) {
