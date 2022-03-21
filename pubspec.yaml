@@ -70,10 +70,9 @@ dependencies:
   miniplayer: ^1.0.1
   firebase_storage: ^10.2.9
   flutter_weather_bg_null_safety:
-    path: ./libraries/flutter_weather_bg_null_safety
-    # git:
-    #   url: git@github.com:juniorise/flutter_weather_bg_null_safety.git
-    #   ref: 1.0.0
+    git:
+      url: git@github.com:juniorise/flutter_weather_bg_null_safety.git
+      ref: 1.0.0
   just_audio: ^0.9.20
 
 dev_dependencies:

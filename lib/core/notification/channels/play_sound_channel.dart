@@ -55,22 +55,4 @@ class PlaySoundChannel extends BaseNotificationChannel<PlaySoundPayload> {
       default:
     }
   }
-
-  @override
-  Future<bool> show({
-    required String title,
-    String? body,
-    PlaySoundPayload? payload,
-    String? bigPicture,
-    NotificationSchedule? schedule,
-    NotificationLayout? notificationLayout,
-  }) {
-    return super.show(
-      title: title,
-      body: body,
-      payload: payload,
-      bigPicture: bigPicture,
-      schedule: schedule,
-    );
-  }
 }

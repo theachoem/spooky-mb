@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:miniplayer/miniplayer.dart';
@@ -31,6 +32,14 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       }
     }
     return sounds;
+  }
+
+  String? get imageUrl {
+    for (SoundType type in SoundType.values) {
+      String? imageUrl = currentSound(type)?.imageUrl.url;
+      if (imageUrl != null && imageUrl.trim().isNotEmpty) return imageUrl;
+    }
+    return null;
   }
 
   SoundModel? currentSound(SoundType type) => audioPlayers[type]?.currentSound;
@@ -182,10 +191,10 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
 
   WeatherType get weatherType {
     WeatherType? type;
-    for (SoundType type in SoundType.values) {
-      SoundModel? _type = currentSound(type);
+    for (SoundType soundType in SoundType.values) {
+      SoundModel? _type = currentSound(soundType);
       if (_type != null) {
-        type = _type.type;
+        type = _type.weatherType;
         break;
       }
     }
@@ -217,7 +226,15 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       case AppLifecycleState.paused:
         BackgroundSoundStorage().read().then((on) {
           if (on == true) {
-            if (hasPlaying) PlaySoundChannel().show(title: soundTitle);
+            if (hasPlaying) {
+              PlaySoundChannel().show(
+                title: soundTitle,
+                body: weatherType.name,
+                bigPicture: imageUrl,
+                payload: null,
+                notificationLayout: NotificationLayout.BigPicture,
+              );
+            }
           } else {
             for (SoundType type in SoundType.values) {
               pause(type);

@@ -236,7 +236,7 @@
       "sound_name": "Etude - Piano",
       "file_name": "132546__theworkingbamboo__etude.mp3",
       "file_size": 4242564,
-      "weather_type": "heavyRainy",
+      "weather_type": "overcast",
       "ref": "https://freesound.org/people/TheWorkingBamboo/sounds/132546"
     },
     {
@@ -244,7 +244,7 @@
       "sound_name": "Sleepy - Guitar",
       "file_name": "187685__afrodrumming__acoustic-guitar-sleepy-intro-127bpm-gm.mp3",
       "file_size": 486310,
-      "weather_type": "heavyRainy",
+      "weather_type": "sunnyNight",
       "ref": "https://freesound.org/people/afrodrumming/sounds/187685"
     },
     {
@@ -252,7 +252,7 @@
       "sound_name": "Bompe Kon - Flute",
       "file_name": "bompe-kon.mp3",
       "file_size": 7004013,
-      "weather_type": "heavyRainy",
+      "weather_type": "cloudy",
       "ref": "https://www.youtube.com/watch?v=Zz2RtZe--vY"
     }
   ]

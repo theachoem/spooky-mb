@@ -625,9 +625,11 @@ packages:
   flutter_weather_bg_null_safety:
     dependency: "direct main"
     description:
-      path: "libraries/flutter_weather_bg_null_safety"
-      relative: true
-    source: path
+      path: "."
+      ref: "1.0.0"
+      resolved-ref: "7ae249e67e98abf309f4789de0ff90842c690eae"
+      url: "git@github.com:juniorise/flutter_weather_bg_null_safety.git"
+    source: git
     version: "1.0.0"
   flutter_web_plugins:
     dependency: transitive

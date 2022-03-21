@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart';
@@ -8,9 +8,11 @@ import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/views/main/local_widgets/mini_player_bg.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MiniSoundPlayer extends StatelessWidget {
   const MiniSoundPlayer({Key? key}) : super(key: key);
@@ -113,7 +115,18 @@ class _MiniSoundPlayer extends StatelessWidget {
         decoration: BoxDecoration(color: M3Color.of(context).primary),
         child: Stack(
           children: [
-            WeatherBg(
+            if (provider.imageUrl != null)
+              CachedNetworkImage(
+                imageUrl: provider.imageUrl!,
+                width: width,
+                fit: BoxFit.cover,
+                height: lerpDouble(
+                  provider.playerMinHeight,
+                  provider.playerMaxHeight,
+                  percentage,
+                )!,
+              ),
+            EnhancedWeatherBg(
               weatherType: provider.weatherType,
               width: width,
               debug: false,
