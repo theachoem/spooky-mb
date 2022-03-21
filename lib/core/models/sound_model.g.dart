@@ -24,8 +24,8 @@ Map<String, dynamic> _$SoundModelToJson(SoundModel instance) =>
     };
 
 const _$SoundTypeEnumMap = {
-  SoundType.music: 'music',
   SoundType.sound: 'sound',
+  SoundType.music: 'music',
 };
 
 const _$WeatherTypeEnumMap = {

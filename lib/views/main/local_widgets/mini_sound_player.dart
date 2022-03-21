@@ -109,16 +109,6 @@ class _MiniSoundPlayer extends StatelessWidget {
     required double percentage,
     required double percentageExpandedPlayer,
   }) {
-    WeatherType? type;
-
-    for (SoundType type in SoundType.values) {
-      SoundModel? _type = provider.currentSound(type);
-      if (_type != null) {
-        type = _type.type;
-        break;
-      }
-    }
-
     return Container(
       margin: EdgeInsets.only(right: max(0, imageMarginRight)),
       child: Container(
@@ -127,7 +117,7 @@ class _MiniSoundPlayer extends StatelessWidget {
         child: Stack(
           children: [
             WeatherBg(
-              weatherType: type ?? WeatherType.heavyRainy,
+              weatherType: provider.weatherType,
               width: width,
               height: lerpDouble(
                 provider.playerMinHeight,
@@ -253,19 +243,6 @@ class _MiniSoundPlayer extends StatelessWidget {
     );
   }
 
-  String title(MiniSoundPlayerProvider provider) {
-    List<String> names = [];
-
-    for (SoundType type in SoundType.values) {
-      SoundModel? _name = provider.currentSound(type);
-      if (_name != null) {
-        names.add(_name.soundName.capitalize);
-      }
-    }
-
-    return names.isNotEmpty ? names.join(", ") : "Unknown";
-  }
-
   Widget buildCollapseTile(MiniSoundPlayerProvider provider) {
     return Expanded(
       child: AnimatedContainer(
@@ -274,7 +251,7 @@ class _MiniSoundPlayer extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: ListTile(
           contentPadding: EdgeInsets.zero,
-          title: Text(title(provider), maxLines: 1),
+          title: Text(provider.soundTitle, maxLines: 1),
           subtitle: ValueListenableBuilder<bool>(
             valueListenable: provider.currentlyPlayingNotifier,
             builder: (context, listening, child) {
@@ -307,7 +284,7 @@ class _MiniSoundPlayer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                title(provider),
+                provider.soundTitle,
                 maxLines: 1,
                 style: M3TextTheme.of(context).titleMedium?.copyWith(color: foregroundColor),
               ),

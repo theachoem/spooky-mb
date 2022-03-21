@@ -11,6 +11,24 @@ class _SoundListMobile extends StatelessWidget {
       appBar: MorphingAppBar(
         leading: SpPopButton(),
         title: SpAppBarTitle(),
+        actions: [
+          SpPopupMenuButton(items: (context) {
+            return [
+              SpPopMenuItem(
+                title: "Play in Background",
+                leadingIconData: viewModel.playSoundInBackground ? Icons.check_box : Icons.check_box_outline_blank,
+                onPressed: () {
+                  viewModel.toggleBackgroundSound();
+                },
+              ),
+            ];
+          }, builder: (callback) {
+            return SpIconButton(
+              icon: Icon(Icons.more_vert),
+              onPressed: callback,
+            );
+          })
+        ],
       ),
       extendBody: true,
       bottomNavigationBar: Consumer<MiniSoundPlayerProvider>(

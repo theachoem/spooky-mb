@@ -8,6 +8,7 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_list_model.dart';
 import 'package:spooky/core/models/sound_model.dart';
+import 'package:spooky/core/storages/local_storages/background_sound_storage.dart';
 import 'package:spooky/core/types/sound_type.dart';
 import 'package:spooky/gen/assets.gen.dart';
 
@@ -15,8 +16,21 @@ class SoundListViewModel extends BaseViewModel {
   SoundListModel? soundsList;
   SoundFileManager fileManager = SoundFileManager();
 
+  bool playSoundInBackground = false;
+  void toggleBackgroundSound() {
+    BackgroundSoundStorage().write(!playSoundInBackground);
+    loadConfig();
+  }
+
   SoundListViewModel() {
     load();
+    loadConfig();
+  }
+
+  void loadConfig() {
+    BackgroundSoundStorage().read().then((value) {
+      playSoundInBackground = value == true;
+    });
   }
 
   Future<void> load() async {
