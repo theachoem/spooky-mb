@@ -11,7 +11,7 @@ import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/utils/util_widgets/app_local_auth.dart';
 import 'package:spooky/views/explore/explore_view.dart';
 import 'package:spooky/views/home/home_view.dart';
-import 'package:spooky/views/main/local_widgets/mini_sound_player.dart';
+import 'package:spooky/views/main/local_widgets/mini_player_scaffold.dart';
 import 'package:spooky/views/main/main_view_item.dart';
 import 'package:spooky/views/not_found/not_found_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';

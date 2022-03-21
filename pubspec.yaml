@@ -40,7 +40,7 @@ dependencies:
   package_info_plus: ^1.3.0
   fluttertoast: ^8.0.8
   bubble_lens:
-    git: 
+    git:
       url: git@github.com:juniorise/bubble_lens.git
       ref: main
   desktop_window: ^0.4.0
@@ -69,7 +69,11 @@ dependencies:
   wave: ^0.2.0
   miniplayer: ^1.0.1
   firebase_storage: ^10.2.9
-  flutter_weather_bg_null_safety: ^1.0.0
+  flutter_weather_bg_null_safety:
+    path: ./libraries/flutter_weather_bg_null_safety
+    # git:
+    #   url: git@github.com:juniorise/flutter_weather_bg_null_safety.git
+    #   ref: 1.0.0
   just_audio: ^0.9.20
 
 dev_dependencies:

@@ -625,9 +625,9 @@ packages:
   flutter_weather_bg_null_safety:
     dependency: "direct main"
     description:
-      name: flutter_weather_bg_null_safety
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "libraries/flutter_weather_bg_null_safety"
+      relative: true
+    source: path
     version: "1.0.0"
   flutter_web_plugins:
     dependency: transitive

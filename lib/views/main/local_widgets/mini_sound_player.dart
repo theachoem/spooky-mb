@@ -4,13 +4,10 @@ import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/models/sound_model.dart';
-import 'package:spooky/core/types/sound_type.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
@@ -119,6 +116,7 @@ class _MiniSoundPlayer extends StatelessWidget {
             WeatherBg(
               weatherType: provider.weatherType,
               width: width,
+              debug: false,
               height: lerpDouble(
                 provider.playerMinHeight,
                 provider.playerMaxHeight,
