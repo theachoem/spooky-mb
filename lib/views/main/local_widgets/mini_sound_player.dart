@@ -1,19 +1,18 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/models/sound_model.dart';
-import 'package:spooky/core/types/sound_type.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/extensions/string_extension.dart';
+import 'package:spooky/views/main/local_widgets/mini_player_bg.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MiniSoundPlayer extends StatelessWidget {
   const MiniSoundPlayer({Key? key}) : super(key: key);
@@ -109,16 +108,6 @@ class _MiniSoundPlayer extends StatelessWidget {
     required double percentage,
     required double percentageExpandedPlayer,
   }) {
-    WeatherType? type;
-
-    for (SoundType type in SoundType.values) {
-      SoundModel? _type = provider.currentSound(type);
-      if (_type != null) {
-        type = _type.type;
-        break;
-      }
-    }
-
     return Container(
       margin: EdgeInsets.only(right: max(0, imageMarginRight)),
       child: Container(
@@ -126,9 +115,21 @@ class _MiniSoundPlayer extends StatelessWidget {
         decoration: BoxDecoration(color: M3Color.of(context).primary),
         child: Stack(
           children: [
-            WeatherBg(
-              weatherType: type ?? WeatherType.heavyRainy,
+            if (provider.imageUrl != null)
+              CachedNetworkImage(
+                imageUrl: provider.imageUrl!,
+                width: width,
+                fit: BoxFit.cover,
+                height: lerpDouble(
+                  provider.playerMinHeight,
+                  provider.playerMaxHeight,
+                  percentage,
+                )!,
+              ),
+            EnhancedWeatherBg(
+              weatherType: provider.weatherType,
               width: width,
+              debug: false,
               height: lerpDouble(
                 provider.playerMinHeight,
                 provider.playerMaxHeight,
@@ -253,19 +254,6 @@ class _MiniSoundPlayer extends StatelessWidget {
     );
   }
 
-  String title(MiniSoundPlayerProvider provider) {
-    List<String> names = [];
-
-    for (SoundType type in SoundType.values) {
-      SoundModel? _name = provider.currentSound(type);
-      if (_name != null) {
-        names.add(_name.soundName.capitalize);
-      }
-    }
-
-    return names.isNotEmpty ? names.join(", ") : "Unknown";
-  }
-
   Widget buildCollapseTile(MiniSoundPlayerProvider provider) {
     return Expanded(
       child: AnimatedContainer(
@@ -274,7 +262,7 @@ class _MiniSoundPlayer extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: ListTile(
           contentPadding: EdgeInsets.zero,
-          title: Text(title(provider), maxLines: 1),
+          title: Text(provider.soundTitle, maxLines: 1),
           subtitle: ValueListenableBuilder<bool>(
             valueListenable: provider.currentlyPlayingNotifier,
             builder: (context, listening, child) {
@@ -307,7 +295,7 @@ class _MiniSoundPlayer extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                title(provider),
+                provider.soundTitle,
                 maxLines: 1,
                 style: M3TextTheme.of(context).titleMedium?.copyWith(color: foregroundColor),
               ),

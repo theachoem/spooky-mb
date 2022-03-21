@@ -19,8 +19,8 @@ abstract class BaseNotificationChannel<T extends BaseNotificationPayload> {
 
   Future<bool> show({
     required String title,
-    required String body,
-    required T payload,
+    required String? body,
+    required T? payload,
     String? bigPicture,
     NotificationSchedule? schedule,
     NotificationLayout? notificationLayout,
@@ -33,7 +33,7 @@ abstract class BaseNotificationChannel<T extends BaseNotificationPayload> {
       body: body,
       bigPicture: bigPicture,
       notificationLayout: notificationLayout,
-      payload: payload.toPayload(),
+      payload: payload?.toPayload(),
     );
     return NotificationService.notifications.createNotification(
       content: content,

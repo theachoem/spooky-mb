@@ -1,11 +1,16 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_model.dart';
+import 'package:spooky/core/notification/channels/play_sound_channel.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/loop_audio_seamlessly.dart';
 import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/storages/local_storages/background_sound_storage.dart';
 import 'package:spooky/core/types/sound_type.dart';
+import 'package:spooky/utils/extensions/string_extension.dart';
 
 class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver {
   final SoundFileManager manager = SoundFileManager();
@@ -27,6 +32,14 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       }
     }
     return sounds;
+  }
+
+  String? get imageUrl {
+    for (SoundType type in SoundType.values) {
+      String? imageUrl = currentSound(type)?.imageUrl.url;
+      if (imageUrl != null && imageUrl.trim().isNotEmpty) return imageUrl;
+    }
+    return null;
   }
 
   SoundModel? currentSound(SoundType type) => audioPlayers[type]?.currentSound;
@@ -176,6 +189,31 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     return (value - min) / (max - min);
   }
 
+  WeatherType get weatherType {
+    WeatherType? type;
+    for (SoundType soundType in SoundType.values) {
+      SoundModel? _type = currentSound(soundType);
+      if (_type != null) {
+        type = _type.weatherType;
+        break;
+      }
+    }
+    return type ?? WeatherType.heavyRainy;
+  }
+
+  String get soundTitle {
+    List<String> names = [];
+
+    for (SoundType type in SoundType.values) {
+      SoundModel? _name = currentSound(type);
+      if (_name != null) {
+        names.add(_name.soundName.capitalize);
+      }
+    }
+
+    return names.isNotEmpty ? names.join(", ") : "Unknown";
+  }
+
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
@@ -185,12 +223,27 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
           resume(type);
         }
         break;
-      case AppLifecycleState.inactive:
       case AppLifecycleState.paused:
+        BackgroundSoundStorage().read().then((on) {
+          if (on == true) {
+            if (hasPlaying) {
+              PlaySoundChannel().show(
+                title: soundTitle,
+                body: null,
+                bigPicture: imageUrl,
+                payload: null,
+                notificationLayout: NotificationLayout.BigPicture,
+              );
+            }
+          } else {
+            for (SoundType type in SoundType.values) {
+              pause(type);
+            }
+          }
+        });
+        break;
+      case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
-        for (SoundType type in SoundType.values) {
-          pause(type);
-        }
         break;
     }
   }

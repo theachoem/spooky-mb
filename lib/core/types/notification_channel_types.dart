@@ -1,3 +1,4 @@
 enum NotificationChannelTypes {
   autoSave,
+  playSounds,
 }

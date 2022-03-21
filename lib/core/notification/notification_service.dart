@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/notification/channels/base_notification_channel.dart';
+import 'package:spooky/core/notification/channels/play_sound_channel.dart';
 import 'package:spooky/core/storages/local_storages/theme_storage.dart';
 import 'package:spooky/core/types/notification_channel_types.dart';
 import 'package:spooky/core/notification/payloads/base_notification_payload.dart';
@@ -18,7 +19,8 @@ class NotificationService {
   static final _NotificationConfig config = _NotificationConfig();
 
   static Future<void> initialize() async {
-    if (!(Platform.isAndroid || Platform.isIOS)) return;
+    bool supportedPlatform = Platform.isAndroid || Platform.isIOS;
+    if (!supportedPlatform) return;
 
     await notifications.initialize(
       'resource://drawable/ic_notification',

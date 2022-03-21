@@ -165,7 +165,7 @@ class _RestoreMobile extends StatelessWidget {
       builder: (context, value, child) {
         return SpSingleButtonBottomNavigation(
           buttonLabel: "Done",
-          show: viewModel.showSkipNotifier.value,
+          show: !viewModel.showSkipNotifier.value,
           onTap: () {
             Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
           },

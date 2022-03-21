@@ -7,69 +7,11 @@ class _MainMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<MainTabBarItem> tabs = MainTabBar.items;
-    return Scaffold(
+    return MiniPlayerScaffold(
+      body: buildPages(tabs, context),
       floatingActionButton: buildFloatingActionButton(context),
-      body: Stack(
-        children: [
-          buildPages(tabs, context),
-          buildBarrierColor(context),
-        ],
-      ),
-      bottomNavigationBar: Wrap(
-        children: [
-          MiniSoundPlayer(),
-          Divider(height: 0.0),
-          buildBottomSafeHeight(context),
-          buildBottomNavigationBar(tabs),
-        ],
-      ),
-    );
-  }
-
-  Widget buildBottomSafeHeight(BuildContext context) {
-    return Consumer<MiniSoundPlayerProvider>(
-      child: ValueListenableBuilder<bool>(
-        valueListenable: viewModel.shouldShowBottomNavNotifier,
-        builder: (context, shownBottomNav, chil) {
-          return AnimatedContainer(
-            height: shownBottomNav ? 0.0 : MediaQuery.of(context).padding.bottom,
-            color: Theme.of(context).appBarTheme.backgroundColor,
-            duration: ConfigConstant.duration,
-            curve: Curves.ease,
-          );
-        },
-      ),
-      builder: (context, provider, child) {
-        return SpCrossFade(
-          showFirst: provider.currentSounds.isNotEmpty,
-          firstChild: child!,
-          secondChild: SizedBox(width: double.infinity),
-        );
-      },
-    );
-  }
-
-  Widget buildBarrierColor(BuildContext context) {
-    MiniSoundPlayerProvider miniSoundPlayerProvider = context.read<MiniSoundPlayerProvider>();
-    return ValueListenableBuilder<double>(
-      valueListenable: miniSoundPlayerProvider.playerExpandProgressNotifier,
-      builder: (context, percentage, child) {
-        double offset = miniSoundPlayerProvider.offset(percentage);
-        return Positioned.fill(
-          child: IgnorePointer(
-            ignoring: offset == 0.0,
-            child: GestureDetector(
-              onTap: () {
-                miniSoundPlayerProvider.controller.animateToHeight(height: miniSoundPlayerProvider.playerMinHeight);
-              },
-              child: Opacity(
-                opacity: offset,
-                child: Container(color: Colors.black54),
-              ),
-            ),
-          ),
-        );
-      },
+      shouldShowBottomNavNotifier: viewModel.shouldShowBottomNavNotifier,
+      bottomNavigationBar: buildBottomNavigationBar(tabs),
     );
   }
 

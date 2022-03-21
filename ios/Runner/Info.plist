@@ -25,14 +25,40 @@
 	<string>$(FLUTTER_BUILD_NAME)</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.845318918007-2v961m1ip77oashv3itkobiim8ru0rhc</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>https</string>
+		<string>http</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Spooky needs to access to the Camera to take picture and add to your stories.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Spooky uses FaceID to log you in.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app needs to access to the Microphone</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Spooky needs to access to the Photos library to add photo to your stories.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>audio</string>
+	</array>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -54,27 +80,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>https</string>
-		<string>http</string>
-	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>com.googleusercontent.apps.845318918007-2v961m1ip77oashv3itkobiim8ru0rhc</string>
-			</array>
-		</dict>
-	</array>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Spooky needs to access to the Photos library to add photo to your stories.</string>
-	<key>NSCameraUsageDescription</key>
-	<string>Spooky needs to access to the Camera to take picture and add to your stories.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>This app needs to access to the Microphone</string>
 </dict>
 </plist>

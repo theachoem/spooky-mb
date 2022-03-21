@@ -625,9 +625,11 @@ packages:
   flutter_weather_bg_null_safety:
     dependency: "direct main"
     description:
-      name: flutter_weather_bg_null_safety
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: "1.0.0"
+      resolved-ref: "7ae249e67e98abf309f4789de0ff90842c690eae"
+      url: "git@github.com:juniorise/flutter_weather_bg_null_safety.git"
+    source: git
     version: "1.0.0"
   flutter_web_plugins:
     dependency: transitive
@@ -1311,13 +1313,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.99"
-  sleek_circular_slider:
-    dependency: "direct main"
-    description:
-      name: sleek_circular_slider
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.1"
   smooth_page_indicator:
     dependency: "direct main"
     description:
