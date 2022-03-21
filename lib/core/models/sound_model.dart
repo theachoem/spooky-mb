@@ -35,13 +35,13 @@ class SoundModel {
         return WeatherImageModel(
           src: "https://unsplash.com/photos/4KKVELjJsNw",
           url:
-              "https://res.cloudinary.com/juniorise/image/upload/v1647885529/william-zhang-4KKVELjJsNw-unsplash_zm28oc.jpg",
+              "https://res.cloudinary.com/juniorise/image/upload/v1647890323/william-zhang-4KKVELjJsNw-unsplash_1-min_xgid9c.jpg",
         );
       case WeatherType.heavySnow:
         return WeatherImageModel(
           src: "https://unsplash.com/photos/Oaec-W0b2ss",
           url:
-              "https://res.cloudinary.com/juniorise/image/upload/v1647885794/christian-spuller-Oaec-W0b2ss-unsplash-min_jrwkwl.jpg",
+              "https://res.cloudinary.com/juniorise/image/upload/v1647885863/christian-spuller-Oaec-W0b2ss-unsplash-min_icm1o9.jpg",
         );
       case WeatherType.middleSnow:
         return WeatherImageModel(
@@ -53,7 +53,7 @@ class SoundModel {
         return WeatherImageModel(
           src: "https://unsplash.com/photos/iecFSEsQiqY",
           url:
-              "https://res.cloudinary.com/juniorise/image/upload/v1647886313/les-argonautes-iecFSEsQiqY-unsplash-min_ga7pbu.jpg",
+              "https://res.cloudinary.com/juniorise/image/upload/v1647890539/les-argonautes-iecFSEsQiqY-unsplash_1-min_mx8xu9.jpg",
         );
       case WeatherType.lightRainy:
         return WeatherImageModel(
@@ -65,13 +65,13 @@ class SoundModel {
         return WeatherImageModel(
           src: "https://unsplash.com/photos/g8oPS-OSviE",
           url:
-              "https://res.cloudinary.com/juniorise/image/upload/v1647886763/barbara-kosulin-g8oPS-OSviE-unsplash-min_wpjvip.jpg",
+              "https://res.cloudinary.com/juniorise/image/upload/v1647890480/barbara-kosulin-g8oPS-OSviE-unsplash_1-min_wvn2bt.jpg",
         );
       case WeatherType.sunnyNight:
         return WeatherImageModel(
           src: "https://unsplash.com/photos/HyYpd6WRrCE",
           url:
-              "https://res.cloudinary.com/juniorise/image/upload/v1647886891/jose-mizrahi-HyYpd6WRrCE-unsplash-min_ncdpcs.jpg",
+              "https://res.cloudinary.com/juniorise/image/upload/v1647890079/jose-mizrahi-HyYpd6WRrCE-unsplash-min_ncdpcs_1-min_thrkbb.jpg",
         );
       case WeatherType.sunny:
         return WeatherImageModel(
@@ -89,13 +89,13 @@ class SoundModel {
         return WeatherImageModel(
           src: "https://unsplash.com/photos/h_gwdi8UH2o",
           url:
-              "https://res.cloudinary.com/juniorise/image/upload/v1647887577/zoltan-tasi-h_gwdi8UH2o-unsplash_jzbrnk.jpg",
+              "https://res.cloudinary.com/juniorise/image/upload/v1647890380/zoltan-tasi-h_gwdi8UH2o-unsplash_1-min_depja2.jpg",
         );
       case WeatherType.middleRainy:
         return WeatherImageModel(
           src: "https://unsplash.com/photos/qPcoYUEw1Jk",
           url:
-              "https://res.cloudinary.com/juniorise/image/upload/v1647887366/mehmet-ali-turan-qPcoYUEw1Jk-unsplash-min_ocr13b.jpg",
+              "https://res.cloudinary.com/juniorise/image/upload/v1647890215/mehmet-ali-turan-qPcoYUEw1Jk-unsplash_1-min_gcbtsw.jpg",
         );
       case WeatherType.overcast:
       case WeatherType.hazy:

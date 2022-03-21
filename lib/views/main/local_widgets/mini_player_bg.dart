@@ -97,14 +97,14 @@ class EnhanceWeatherItemBg extends StatelessWidget {
   }) : super(key: key);
 
   /// 构建晴晚背景效果
-  Widget _buildNightStarBg() {
-    if (weatherType == WeatherType.sunnyNight) {
-      return WeatherNightStarBg(
-        weatherType: weatherType,
-      );
-    }
-    return Container();
-  }
+  // Widget _buildNightStarBg() {
+  //   if (weatherType == WeatherType.sunnyNight) {
+  //     return WeatherNightStarBg(
+  //       weatherType: weatherType,
+  //     );
+  //   }
+  //   return Container();
+  // }
 
   /// 构建雷暴效果
   Widget _buildThunderBg() {
@@ -147,10 +147,10 @@ class EnhanceWeatherItemBg extends StatelessWidget {
             // ),
             _buildRainSnowBg(),
             _buildThunderBg(),
-            Opacity(
-              opacity: 0.5,
-              child: _buildNightStarBg(),
-            ),
+            // Opacity(
+            //   opacity: 0.5,
+            //   child: _buildNightStarBg(),
+            // ),
           ],
         ),
       ),

@@ -117,7 +117,8 @@ class _SoundListMobile extends StatelessWidget {
                       provider.stop(sound.type);
                     }
                   } else {
-                    if (userProvider.purchased(ProductAsType.relexSound) || downloadedSounds.isEmpty) {
+                    if (userProvider.purchased(ProductAsType.relexSound) ||
+                        downloadedSounds.where((element) => element.type == type).isEmpty) {
                       String? message = await MessengerService.instance
                           .showLoading(future: () async => viewModel.download(sound), context: context);
                       provider.load();

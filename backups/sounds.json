@@ -89,7 +89,7 @@
       "sound_name": "intense downpour loop",
       "file_name": "mixkit-intense-downpour-loop-1244.wav",
       "file_size": 6821382,
-      "weather_type": "middleRainy"
+      "weather_type": "heavySnow"
     },
     {
       "type": "sound",
@@ -236,7 +236,7 @@
       "sound_name": "Etude - Piano",
       "file_name": "132546__theworkingbamboo__etude.mp3",
       "file_size": 4242564,
-      "weather_type": "overcast",
+      "weather_type": "heavySnow",
       "ref": "https://freesound.org/people/TheWorkingBamboo/sounds/132546"
     },
     {
@@ -244,7 +244,7 @@
       "sound_name": "Sleepy - Guitar",
       "file_name": "187685__afrodrumming__acoustic-guitar-sleepy-intro-127bpm-gm.mp3",
       "file_size": 486310,
-      "weather_type": "sunnyNight",
+      "weather_type": "cloudy",
       "ref": "https://freesound.org/people/afrodrumming/sounds/187685"
     },
     {
@@ -252,7 +252,7 @@
       "sound_name": "Bompe Kon - Flute",
       "file_name": "bompe-kon.mp3",
       "file_size": 7004013,
-      "weather_type": "cloudy",
+      "weather_type": "heavyRainy",
       "ref": "https://www.youtube.com/watch?v=Zz2RtZe--vY"
     }
   ]

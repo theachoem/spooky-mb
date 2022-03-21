@@ -229,7 +229,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
             if (hasPlaying) {
               PlaySoundChannel().show(
                 title: soundTitle,
-                body: weatherType.name,
+                body: null,
                 bigPicture: imageUrl,
                 payload: null,
                 notificationLayout: NotificationLayout.BigPicture,

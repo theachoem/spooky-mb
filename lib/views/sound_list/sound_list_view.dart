@@ -2,7 +2,6 @@ library sound_list_view;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
-import 'package:flutter_weather_bg_null_safety/utils/weather_type.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
