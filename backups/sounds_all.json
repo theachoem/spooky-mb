@@ -23,6 +23,13 @@
     },
     {
       "type": "sound",
+      "sound_name": "forest heavy rain loop",
+      "file_name": "mixkit-forest-heavy-rain-loop-1226.wav",
+      "file_size": 1853934,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
       "sound_name": "forest rain loop",
       "file_name": "mixkit-forest-rain-loop-1225.wav",
       "file_size": 4374714,
@@ -103,6 +110,13 @@
       "sound_name": "intense rain loop",
       "file_name": "mixkit-intense-rain-loop-1246.wav",
       "file_size": 7803374,
+      "weather_type": "lightRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "jungle rain and birds",
+      "file_name": "mixkit-jungle-rain-and-birds-2392.wav",
+      "file_size": 7057734,
       "weather_type": "lightRainy"
     },
     {

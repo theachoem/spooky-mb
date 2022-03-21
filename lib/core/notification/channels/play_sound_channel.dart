@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,13 +16,16 @@ class PlaySoundChannel extends BaseNotificationChannel<PlaySoundPayload> {
       NotificationActionButton(
         key: "open",
         label: "Open",
-      ),
-      NotificationActionButton(
-        key: "stop",
-        label: "Stop",
         showInCompactView: true,
-        buttonType: ActionButtonType.DisabledAction,
       ),
+      // stop from background only available on IOS
+      if (Platform.isIOS)
+        NotificationActionButton(
+          key: "stop",
+          label: "Stop",
+          showInCompactView: true,
+          buttonType: ActionButtonType.DisabledAction,
+        ),
     ];
   }
 

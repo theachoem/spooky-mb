@@ -34,7 +34,6 @@ abstract class BaseNotificationChannel<T extends BaseNotificationPayload> {
       bigPicture: bigPicture,
       notificationLayout: notificationLayout,
       payload: payload?.toPayload(),
-      category: NotificationCategory.Alarm,
     );
     return NotificationService.notifications.createNotification(
       content: content,
