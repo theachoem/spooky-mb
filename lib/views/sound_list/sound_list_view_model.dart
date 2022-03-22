@@ -12,9 +12,27 @@ import 'package:spooky/core/storages/local_storages/background_sound_storage.dar
 import 'package:spooky/core/types/sound_type.dart';
 import 'package:spooky/gen/assets.gen.dart';
 
-class SoundListViewModel extends BaseViewModel {
+Map<SoundType, List<SoundModel>> _loadSoundMaps(String str) {
+  Map<SoundType, List<SoundModel>> soundsMap = {};
+
   SoundListModel? soundsList;
+  dynamic json = jsonDecode(str);
+  soundsList = SoundListModel.fromJson(json);
+
+  // sort
+  List<SoundModel> sounds = soundsList.sounds;
+  sounds.sort((a, b) => a.fileSize.compareTo(b.fileSize));
+  soundsList = soundsList.copyWith(sounds: sounds);
+  for (SoundType type in SoundType.values) {
+    soundsMap[type] = soundsList.sounds.where((e) => e.type == type).toList();
+  }
+
+  return soundsMap;
+}
+
+class SoundListViewModel extends BaseViewModel {
   SoundFileManager fileManager = SoundFileManager();
+  Map<SoundType, List<SoundModel>> soundsMap = {};
 
   bool playSoundInBackground = false;
   void toggleBackgroundSound() {
@@ -35,17 +53,8 @@ class SoundListViewModel extends BaseViewModel {
 
   Future<void> load() async {
     String str = await rootBundle.loadString(Assets.backups.sounds);
-    dynamic json = jsonDecode(str);
-    soundsList = SoundListModel.fromJson(json);
-
-    // sort
-    List<SoundModel> sounds = soundsList!.sounds;
-    sounds.sort((a, b) => a.fileSize.compareTo(b.fileSize));
-    soundsList = soundsList!.copyWith(sounds: sounds);
-
-    WidgetsBinding.instance?.addPersistentFrameCallback((timeStamp) {
-      notifyListeners();
-    });
+    soundsMap = await compute(_loadSoundMaps, str);
+    notifyListeners();
   }
 
   Future<String> download(SoundModel sound) async {

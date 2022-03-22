@@ -12,12 +12,13 @@ class LoopAudioSeamlessly {
 
   bool get playing => player.playing;
 
-  LoopAudioSeamlessly() {
+  LoopAudioSeamlessly(void Function(PlayerState) listener) {
     player = AudioPlayer();
     player.setLoopMode(LoopMode.one);
+    player.playerStateStream.listen(listener);
   }
 
-  void play(SoundModel sound) async {
+  Future<void> play(SoundModel sound) async {
     currentSound = sound;
     currentFile = await manager.get(currentSound!);
     if (currentFile != null) {

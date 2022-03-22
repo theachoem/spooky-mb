@@ -549,7 +549,7 @@ class _PackagesViewState extends State<_PackagesView> {
                   child: Column(
                     children: <Widget>[
                       widget.about,
-                      const Center(child: CircularProgressIndicator()),
+                      const Center(child: CircularProgressIndicator.adaptive()),
                     ],
                   ),
                 );
@@ -810,7 +810,7 @@ class _PackageLicensePageState extends State<_PackageLicensePage> {
         const Padding(
           padding: EdgeInsets.symmetric(vertical: 24.0),
           child: Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator.adaptive(),
           ),
         ),
     ];
