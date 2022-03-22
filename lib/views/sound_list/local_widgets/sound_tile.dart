@@ -34,7 +34,7 @@ class _SoundTile extends StatelessWidget {
       ),
       title: Text(sound.soundName.capitalize),
       subtitle: Text("$fileSize mb"),
-      trailing: downloaded ? null : Icon(Icons.download),
+      trailing: downloaded ? null : const Icon(Icons.download),
       onTap: onTap,
     );
   }

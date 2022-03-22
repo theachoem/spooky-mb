@@ -98,7 +98,7 @@ class _RestoreMobile extends StatelessWidget {
                     title: Text("Uploaded at " + (display.displayDate ?? display.fileName)),
                     subtitle: display.displayTime != null ? Text(display.displayTime!) : null,
                     onTap: () => callback(),
-                    trailing: Icon(Icons.more_vert),
+                    trailing: const Icon(Icons.more_vert),
                   );
                 },
               );

@@ -22,11 +22,11 @@ class SpExpandedAppBar extends StatelessWidget {
     return MorphingSliverAppBar(
       expandedHeight: expandedHeight,
       backgroundColor: backgroundColor,
-      leading: SpPopButton(),
+      leading: const SpPopButton(),
       pinned: true,
       floating: true,
       stretch: true,
-      title: Text(""),
+      title: const Text(""),
       elevation: Theme.of(context).appBarTheme.elevation,
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.none,

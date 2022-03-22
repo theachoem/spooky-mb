@@ -50,7 +50,7 @@ class FontTile extends StatelessWidget {
                 color: M3Color.of(context).primary,
                 size: ConfigConstant.iconSize2,
               ),
-              secondChild: SizedBox(
+              secondChild: const SizedBox(
                 width: ConfigConstant.iconSize2,
               ),
             ),

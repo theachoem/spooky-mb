@@ -23,8 +23,8 @@ class _SoundListMobile extends StatelessWidget {
 
   MorphingAppBar buildAppBar(BuildContext context) {
     return MorphingAppBar(
-      leading: SpPopButton(),
-      title: SpAppBarTitle(),
+      leading: const SpPopButton(),
+      title: const SpAppBarTitle(),
       actions: [
         Consumer<MiniSoundPlayerProvider>(
           child: SpIconButton(

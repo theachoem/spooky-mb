@@ -70,7 +70,7 @@ class FontList extends StatelessWidget {
     return Container(
       transform: Matrix4.identity()..translate(0.0, -49.0),
       child: ListTile(
-        leading: CircleAvatar(backgroundColor: Colors.transparent),
+        leading: const CircleAvatar(backgroundColor: Colors.transparent),
         title: Text(
           headline,
           style: TextStyle(color: M3Color.of(context).primary),
@@ -89,7 +89,7 @@ class FontList extends StatelessWidget {
 
     return Container(
       alignment: Alignment.centerLeft,
-      margin: EdgeInsets.symmetric(horizontal: 16.0),
+      margin: const EdgeInsets.symmetric(horizontal: 16.0),
       padding: const EdgeInsets.only(top: 16.0),
       color: M3Color.of(context).background,
       child: CircleAvatar(

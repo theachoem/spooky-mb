@@ -39,9 +39,9 @@ class MiniPlayerScaffold extends StatelessWidget {
         children: [
           Hero(
             tag: ValueKey(runtimeType),
-            child: MiniSoundPlayer(),
+            child: const MiniSoundPlayer(),
           ),
-          Divider(height: 0.0),
+          const Divider(height: 0.0),
           buildBottomSafeHeight(context),
           if (bottomNavigationBar != null) bottomNavigationBar!,
         ],
@@ -90,7 +90,7 @@ class MiniPlayerScaffold extends StatelessWidget {
         return SpCrossFade(
           showFirst: provider.currentSounds.isNotEmpty,
           firstChild: child!,
-          secondChild: SizedBox(width: double.infinity),
+          secondChild: const SizedBox(width: double.infinity),
         );
       },
     );

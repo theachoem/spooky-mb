@@ -11,7 +11,7 @@ class _NotFoundMobile extends StatelessWidget {
         leading: const SpPopButton(),
         title: const SpAppBarTitle(),
       ),
-      body: Center(
+      body: const Center(
         child: Text("Not found"),
       ),
     );

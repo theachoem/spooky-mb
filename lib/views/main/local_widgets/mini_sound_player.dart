@@ -246,7 +246,7 @@ class _MiniSoundPlayer extends StatelessWidget {
 
   Widget buildFullScreenButton(MiniSoundPlayerProvider provider) {
     return SpIconButton(
-      icon: Icon(Icons.fullscreen),
+      icon: const Icon(Icons.fullscreen),
       onPressed: () {
         provider.controller.animateToHeight(state: PanelState.MAX);
       },
@@ -264,8 +264,8 @@ class _MiniSoundPlayer extends StatelessWidget {
           title: Text(provider.soundTitle, maxLines: 1),
           subtitle: SpCrossFade(
             showFirst: provider.currentlyPlaying,
-            firstChild: Text("Listening", maxLines: 1),
-            secondChild: Text("Pause", maxLines: 1),
+            firstChild: const Text("Listening", maxLines: 1),
+            secondChild: const Text("Pause", maxLines: 1),
           ),
         ),
       ),
@@ -293,8 +293,8 @@ class _MiniSoundPlayer extends StatelessWidget {
                 maxLines: 1,
                 style: M3TextTheme.of(context).titleMedium?.copyWith(color: foregroundColor),
               ),
-              SizedBox(height: ConfigConstant.margin2),
-              SizedBox(height: ConfigConstant.iconSize3)
+              const SizedBox(height: ConfigConstant.margin2),
+              const SizedBox(height: ConfigConstant.iconSize3)
             ],
           ),
         ),

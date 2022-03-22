@@ -18,7 +18,7 @@ class _AddOnsMobile extends StatelessWidget {
               slivers: [
                 SpExpandedAppBar(
                   expandedHeight: expandedHeight,
-                  actions: [],
+                  actions: const [],
                 ),
                 SliverPadding(
                   padding: ConfigConstant.layoutPadding,
@@ -141,8 +141,8 @@ class _AddOnsMobile extends StatelessWidget {
   ]) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.only(left: kToolbarHeight - 8, bottom: ConfigConstant.margin0),
-      padding: EdgeInsets.all(ConfigConstant.margin2),
+      margin: const EdgeInsets.only(left: kToolbarHeight - 8, bottom: ConfigConstant.margin0),
+      padding: const EdgeInsets.all(ConfigConstant.margin2),
       decoration: BoxDecoration(
         color: error ? M3Color.of(context).error : Theme.of(context).snackBarTheme.backgroundColor,
         borderRadius: ConfigConstant.circlarRadius1,
@@ -210,7 +210,7 @@ class _AddOnsMobile extends StatelessWidget {
                         onTryPressed();
                       }
                     },
-                    effects: [SpTapEffectType.scaleDown],
+                    effects: const [SpTapEffectType.scaleDown],
                     child: Stack(
                       children: [
                         buildWaves(
@@ -402,7 +402,7 @@ class _AddOnsMobile extends StatelessWidget {
             gradientEnd: Alignment.topRight,
           ),
           waveAmplitude: 0,
-          size: Size(
+          size: const Size(
             double.infinity,
             double.infinity,
           ),
