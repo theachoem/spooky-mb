@@ -175,7 +175,7 @@ class _SpColorPickerState extends State<SpColorPicker> {
     required double height,
   }) {
     return Container(
-      constraints: BoxConstraints(minWidth: spColorPickerMinWidth),
+      constraints: const BoxConstraints(minWidth: spColorPickerMinWidth),
       height: height,
       alignment: Alignment.center,
       child: Container(

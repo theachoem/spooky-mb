@@ -26,6 +26,8 @@ import 'sound_list_view_model.dart';
 part 'sound_list_mobile.dart';
 part 'sound_list_tablet.dart';
 part 'sound_list_desktop.dart';
+part 'local_widgets/sound_tile.dart';
+part 'local_widgets/sound_type_header.dart';
 
 class SoundListView extends StatelessWidget {
   const SoundListView({Key? key}) : super(key: key);

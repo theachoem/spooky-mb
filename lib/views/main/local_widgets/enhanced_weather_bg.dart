@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_bg_null_safety/bg/weather_color_bg.dart';
-import 'package:flutter_weather_bg_null_safety/bg/weather_night_star_bg.dart';
 import 'package:flutter_weather_bg_null_safety/bg/weather_rain_snow_bg.dart';
 import 'package:flutter_weather_bg_null_safety/bg/weather_thunder_bg.dart';
 import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';

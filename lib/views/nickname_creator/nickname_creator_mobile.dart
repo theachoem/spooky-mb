@@ -16,8 +16,8 @@ class _NicknameCreatorMobile extends StatelessWidget {
           "So, what's your nickname?",
           style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(color: M3Color.of(context).onBackground),
         ),
-        actions: [
-          const SpPopButton(forceCloseButton: true),
+        actions: const [
+          SpPopButton(forceCloseButton: true),
         ],
       ),
       body: Center(
@@ -47,7 +47,7 @@ class _NicknameCreatorMobile extends StatelessWidget {
           MessengerService.instance.clearSnackBars();
           Navigator.of(context).pushNamed(
             SpRouter.initPickColor.path,
-            arguments: InitPickColorArgs(
+            arguments: const InitPickColorArgs(
               showNextButton: true,
             ),
           );

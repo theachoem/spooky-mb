@@ -21,7 +21,7 @@ class FontManagerSearchDelegate extends SearchDelegate {
   List<Widget>? buildActions(BuildContext context) {
     return [
       SpAnimatedIcons(
-        firstChild: SpIconButton(icon: Icon(Icons.clear), onPressed: () => query = ""),
+        firstChild: SpIconButton(icon: const Icon(Icons.clear), onPressed: () => query = ""),
         secondChild: const SizedBox.shrink(),
         showFirst: query.trim().isNotEmpty,
       ),

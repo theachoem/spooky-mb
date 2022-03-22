@@ -63,7 +63,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
         return buildTabLayout();
       case null:
         return const Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator.adaptive(),
         );
     }
   }

@@ -53,14 +53,14 @@ class _CloudStorageMobile extends StatelessWidget {
           trailing: SpCrossFade(
             showFirst: e.synced,
             alignment: Alignment.bottomRight,
-            firstChild: Text("Synced"),
+            firstChild: const Text("Synced"),
             secondChild: SpAnimatedIcons(
               showFirst: !loadingYears.contains(e.year),
               firstChild: const Icon(Icons.backup),
-              secondChild: AspectRatio(
+              secondChild: const AspectRatio(
                 aspectRatio: 1,
                 child: Center(
-                  child: const CircularProgressIndicator.adaptive(),
+                  child: CircularProgressIndicator.adaptive(),
                 ),
               ),
             ),

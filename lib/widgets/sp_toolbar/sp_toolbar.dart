@@ -42,10 +42,10 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints.tightFor(height: kToolbarHeight),
+      constraints: const BoxConstraints.tightFor(height: kToolbarHeight),
       color: Theme.of(context).appBarTheme.backgroundColor,
       child: SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
+        physics: const ClampingScrollPhysics(),
         padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1),
         scrollDirection: Axis.horizontal,
         child: Row(
@@ -248,7 +248,7 @@ class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
             ),
           ].map((e) {
             return Padding(
-              padding: EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
+              padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
               child: e,
             );
           }).toList(),

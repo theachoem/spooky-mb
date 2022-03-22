@@ -61,9 +61,9 @@ class _ThemeSettingMobile extends StatelessWidget {
   Widget buildMaxLineTile() {
     return Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
       return ListTile(
-        title: Text("Max line"),
+        title: const Text("Max line"),
         subtitle: Text(provider.maxLine.toString()),
-        trailing: Icon(Icons.keyboard_arrow_right),
+        trailing: const Icon(Icons.keyboard_arrow_right),
         onTap: () {
           showTextInputDialog(
             context: context,

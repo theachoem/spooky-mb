@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
@@ -15,13 +17,15 @@ import 'package:spooky/utils/extensions/string_extension.dart';
 class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver {
   final SoundFileManager manager = SoundFileManager();
   late final Map<SoundType, LoopAudioSeamlessly> audioPlayers;
-  late final ValueNotifier<bool> currentlyPlayingNotifier;
   late final ValueNotifier<double> playerExpandProgressNotifier;
   late final MiniplayerController controller;
 
   final miniplayerPercentageDeclaration = 0.2;
   final double playerMinHeight = 48 + 16 * 2;
   final double playerMaxHeight = 232;
+
+  bool _currentlyPlaying = false;
+  bool get currentlyPlaying => _currentlyPlaying;
 
   List<SoundModel> get currentSounds {
     List<SoundModel> sounds = [];
@@ -46,7 +50,6 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   // SoundType get baseSoundType => SoundType.sound;
 
   MiniSoundPlayerProvider() {
-    currentlyPlayingNotifier = ValueNotifier(false);
     playerExpandProgressNotifier = ValueNotifier(playerMinHeight);
     controller = MiniplayerController();
     load();
@@ -56,7 +59,6 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
 
   @override
   void dispose() {
-    currentlyPlayingNotifier.dispose();
     playerExpandProgressNotifier.dispose();
     controller.dispose();
     audioPlayers.forEach((key, value) => value.dispose());
@@ -67,7 +69,12 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   void initPlayers() {
     audioPlayers = {};
     for (SoundType type in SoundType.values) {
-      audioPlayers[type] = LoopAudioSeamlessly();
+      audioPlayers[type] = LoopAudioSeamlessly((listener) {
+        if (hasPlaying != _currentlyPlaying) {
+          _currentlyPlaying = hasPlaying;
+          notifyListeners();
+        }
+      });
     }
   }
 
@@ -79,37 +86,43 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     });
   }
 
-  void showDownloadMoreSound(BuildContext context) {
-    MessengerService.instance.showSnackBar(
-      "Download more sounds",
-      action: SnackBarAction(
-        label: "All sounds",
-        onPressed: () {
-          Navigator.of(context).pushNamed(SpRouter.soundList.path);
-        },
-      ),
-    );
-  }
-
-  void updatePlayingState() {
-    currentlyPlayingNotifier.value = hasPlaying;
-    notifyListeners();
-  }
-
   void play(SoundModel sound) async {
-    audioPlayers[sound.type]?.play(sound);
-    updatePlayingState();
+    if (_currentlyPlaying) {
+      audioPlayers[sound.type]?.play(sound);
+      notifyListeners();
+    } else {
+      audioPlayers[sound.type]?.play(sound);
+    }
+  }
+
+  bool compare(List<SoundModel> compareSounds) {
+    List<String> cp1 = compareSounds.map((e) => e.fileName).toList()..sort();
+    List<String> cp2 = currentSounds.map((e) => e.fileName).toList()..sort();
+    return jsonEncode(cp1) == jsonEncode(cp2);
   }
 
   void playPreviousNext({
     required BuildContext context,
     required bool previous,
   }) {
-    for (SoundType type in SoundType.values) {
+    List<SoundModel> cache = [...currentSounds];
+    for (SoundModel? sound in cache) {
       _playPreviousNext(
-        type: type,
+        type: sound!.type,
         context: context,
         previous: previous,
+      );
+    }
+
+    if (compare(cache)) {
+      MessengerService.instance.showSnackBar(
+        "Download more music?",
+        action: SnackBarAction(
+          label: "Sound Library",
+          onPressed: () {
+            Navigator.of(context).pushNamed(SpRouter.soundList.path);
+          },
+        ),
       );
     }
   }
@@ -124,6 +137,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       int index = sounds!.indexWhere((e) => currentSound(type)?.fileName == e.fileName);
       int validatedIndex = (previous ? index - 1 : index + 1) % sounds.length;
       play(sounds[validatedIndex]);
+      notifyListeners();
     }
   }
 
@@ -136,7 +150,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   }
 
   void togglePlayPause() {
-    if (currentlyPlayingNotifier.value) {
+    if (_currentlyPlaying) {
       for (SoundType type in SoundType.values) {
         pause(type);
       }
@@ -150,21 +164,18 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   void stop(SoundType type) {
     if (currentSound(type) != null) {
       audioPlayers[type]?.stop();
-      updatePlayingState();
     }
   }
 
   void pause(SoundType type) {
     if (currentSound(type) != null) {
       audioPlayers[type]?.pause();
-      updatePlayingState();
     }
   }
 
   void resume(SoundType type) {
     if (currentSound(type) != null) {
       audioPlayers[type]?.resume();
-      updatePlayingState();
     }
   }
 

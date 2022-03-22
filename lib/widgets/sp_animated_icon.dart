@@ -8,12 +8,14 @@ class SpAnimatedIcons extends StatelessWidget {
     required this.secondChild,
     required this.showFirst,
     this.duration = ConfigConstant.duration,
+    this.listener,
   }) : super(key: key);
 
   final Widget firstChild;
   final Widget secondChild;
   final bool showFirst;
   final Duration duration;
+  final void Function(Animation<double> animation)? listener;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,7 @@ class SpAnimatedIcons extends StatelessWidget {
       switchOutCurve: Curves.easeInToLinear,
       child: showFirst ? _firstChild : _secondChild,
       transitionBuilder: (child, animation) {
+        if (listener != null) listener!(animation);
         return RotationTransition(
           turns: child.key == _firstChild.key
               ? Tween<double>(begin: 0.25, end: 0).animate(animation)

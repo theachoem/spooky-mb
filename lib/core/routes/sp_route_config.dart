@@ -70,7 +70,7 @@ class SpRouteConfig {
             if (arguments is RestoreArgs) {
               return RestoreView(showSkipButton: arguments.showSkipButton);
             } else {
-              return RestoreView(showSkipButton: false);
+              return const RestoreView(showSkipButton: false);
             }
           },
         );
@@ -95,7 +95,7 @@ class SpRouteConfig {
             if (arguments is LockArgs) {
               return LockView(flowType: arguments.flowType);
             }
-            return NotFoundView();
+            return const NotFoundView();
           },
         );
       case SpRouter.security:
@@ -117,7 +117,7 @@ class SpRouteConfig {
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is ManagePagesArgs) return ManagePagesView(content: arguments.content);
-            return NotFoundView();
+            return const NotFoundView();
           },
         );
       case SpRouter.archive:
@@ -133,7 +133,7 @@ class SpRouteConfig {
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is ContentReaderArgs) return ContentReaderView(content: arguments.content);
-            return NotFoundView();
+            return const NotFoundView();
           },
         );
       case SpRouter.changesHistory:
@@ -149,7 +149,7 @@ class SpRouteConfig {
                 onDeletePressed: arguments.onDeletePressed,
               );
             }
-            return NotFoundView();
+            return const NotFoundView();
           },
         );
       case SpRouter.detail:
@@ -164,7 +164,7 @@ class SpRouteConfig {
                 intialFlow: arguments.intialFlow,
               );
             }
-            return NotFoundView();
+            return const NotFoundView();
           },
         );
       case SpRouter.main:
@@ -187,7 +187,7 @@ class SpRouteConfig {
                 onScrollControllerReady: arguments.onScrollControllerReady,
               );
             }
-            return NotFoundView();
+            return const NotFoundView();
           },
         );
       case SpRouter.explore:
@@ -217,7 +217,7 @@ class SpRouteConfig {
             if (arguments is InitPickColorArgs) {
               return InitPickColorView(showNextButton: arguments.showNextButton);
             } else {
-              return InitPickColorView(showNextButton: false);
+              return const InitPickColorView(showNextButton: false);
             }
           },
         );
@@ -237,19 +237,19 @@ class SpRouteConfig {
         return DefaultRouteSetting(
           canSwap: false,
           fullscreenDialog: false,
-          route: (context) => NotFoundView(),
+          route: (context) => const NotFoundView(),
         );
       case SpRouter.addOn:
         return DefaultRouteSetting(
           canSwap: false,
           fullscreenDialog: false,
-          route: (context) => AddOnsView(),
+          route: (context) => const AddOnsView(),
         );
       case SpRouter.soundList:
         return DefaultRouteSetting(
           canSwap: false,
           fullscreenDialog: false,
-          route: (context) => SoundListView(),
+          route: (context) => const SoundListView(),
         );
     }
   }

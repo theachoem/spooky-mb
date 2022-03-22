@@ -65,7 +65,7 @@ class _SettingMobile extends StatelessWidget {
                   leading: SizedBox(height: 40, child: Icon(Icons.extension, color: M3Color.of(context).primary)),
                   title: Text(SpRouter.addOn.title),
                   subtitle: Text(SpRouter.addOn.subtitle),
-                  trailing: Icon(Icons.keyboard_arrow_right),
+                  trailing: const Icon(Icons.keyboard_arrow_right),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.addOn.path);
                   },

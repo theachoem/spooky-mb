@@ -8,11 +8,10 @@ import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/views/main/local_widgets/mini_player_bg.dart';
+import 'package:spooky/views/main/local_widgets/enhanced_weather_bg.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
-import 'package:image_picker/image_picker.dart';
 
 class MiniSoundPlayer extends StatelessWidget {
   const MiniSoundPlayer({Key? key}) : super(key: key);
@@ -247,7 +246,7 @@ class _MiniSoundPlayer extends StatelessWidget {
 
   Widget buildFullScreenButton(MiniSoundPlayerProvider provider) {
     return SpIconButton(
-      icon: Icon(Icons.fullscreen),
+      icon: const Icon(Icons.fullscreen),
       onPressed: () {
         provider.controller.animateToHeight(state: PanelState.MAX);
       },
@@ -263,15 +262,10 @@ class _MiniSoundPlayer extends StatelessWidget {
         child: ListTile(
           contentPadding: EdgeInsets.zero,
           title: Text(provider.soundTitle, maxLines: 1),
-          subtitle: ValueListenableBuilder<bool>(
-            valueListenable: provider.currentlyPlayingNotifier,
-            builder: (context, listening, child) {
-              return SpCrossFade(
-                showFirst: listening,
-                firstChild: Text("Listening", maxLines: 1),
-                secondChild: Text("Pause", maxLines: 1),
-              );
-            },
+          subtitle: SpCrossFade(
+            showFirst: provider.currentlyPlaying,
+            firstChild: const Text("Listening", maxLines: 1),
+            secondChild: const Text("Pause", maxLines: 1),
           ),
         ),
       ),
@@ -299,8 +293,8 @@ class _MiniSoundPlayer extends StatelessWidget {
                 maxLines: 1,
                 style: M3TextTheme.of(context).titleMedium?.copyWith(color: foregroundColor),
               ),
-              SizedBox(height: ConfigConstant.margin2),
-              SizedBox(height: ConfigConstant.iconSize3)
+              const SizedBox(height: ConfigConstant.margin2),
+              const SizedBox(height: ConfigConstant.iconSize3)
             ],
           ),
         ),
@@ -312,36 +306,31 @@ class _MiniSoundPlayer extends StatelessWidget {
     required MiniSoundPlayerProvider provider,
     required double percentage,
   }) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: provider.currentlyPlayingNotifier,
-      builder: (context, currentPlaying, child) {
-        Color? color = Color.lerp(Colors.white, Colors.black, percentage);
-        return Container(
-          decoration: BoxDecoration(
-            color: Color.lerp(Colors.white.withOpacity(0.0), Colors.white, percentage),
-            shape: BoxShape.circle,
+    Color? color = Color.lerp(Colors.white, Colors.black, percentage);
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.lerp(Colors.white.withOpacity(0.0), Colors.white, percentage),
+        shape: BoxShape.circle,
+      ),
+      child: SpIconButton(
+        icon: SpAnimatedIcons(
+          duration: ConfigConstant.duration * 1.5,
+          showFirst: provider.currentlyPlaying,
+          firstChild: Icon(
+            Icons.pause,
+            size: ConfigConstant.iconSize2,
+            color: color,
           ),
-          child: SpIconButton(
-            icon: SpAnimatedIcons(
-              duration: ConfigConstant.duration * 1.5,
-              showFirst: currentPlaying,
-              firstChild: Icon(
-                Icons.pause,
-                size: ConfigConstant.iconSize2,
-                color: color,
-              ),
-              secondChild: Icon(
-                Icons.play_arrow,
-                size: ConfigConstant.iconSize2,
-                color: color,
-              ),
-            ),
-            onPressed: () {
-              provider.togglePlayPause();
-            },
+          secondChild: Icon(
+            Icons.play_arrow,
+            size: ConfigConstant.iconSize2,
+            color: color,
           ),
-        );
-      },
+        ),
+        onPressed: () {
+          provider.togglePlayPause();
+        },
+      ),
     );
   }
 }
