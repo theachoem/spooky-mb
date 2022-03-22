@@ -1,6 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -11,16 +14,15 @@ import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
 class SpThemeSwitcher extends StatefulWidget {
-  const SpThemeSwitcher({
+  // ignore: prefer_const_constructors_in_immutables
+  SpThemeSwitcher({
     Key? key,
     this.backgroundColor,
     this.color,
-    this.streamWithTheme = true,
   }) : super(key: key);
 
   final Color? backgroundColor;
   final Color? color;
-  final bool streamWithTheme;
 
   @override
   State<SpThemeSwitcher> createState() => _SpThemeSwitcherState();
@@ -71,29 +73,42 @@ class SpThemeSwitcher extends StatefulWidget {
 }
 
 class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
-  bool? _isDarkMode;
-  bool get isDarkMode => _isDarkMode ?? isDarkModeFromTheme;
-  bool get isDarkModeFromTheme => Theme.of(context).brightness == Brightness.dark;
+  late final ValueNotifier<bool> isDarkModeNotifier;
+  bool get isDarkModeFromTheme {
+    try {
+      BuildContext _context = App.navigatorKey.currentContext ?? context;
+      return Theme.of(_context).brightness == Brightness.dark;
+    } catch (e) {
+      if (kDebugMode) print("ERROR: $e");
+      Brightness? brightness = SchedulerBinding.instance?.window.platformBrightness;
+      bool isDarkMode = brightness == Brightness.dark;
+      return isDarkMode;
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _isDarkMode = isDarkModeFromTheme;
-    });
+    isDarkModeNotifier = ValueNotifier<bool>(isDarkModeFromTheme);
+  }
+
+  @override
+  void dispose() {
+    isDarkModeNotifier.dispose();
+    super.dispose();
   }
 
   @override
   void didUpdateWidget(covariant SpThemeSwitcher oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.streamWithTheme) {
-      scheduleAction(() {
-        if (_isDarkMode != isDarkModeFromTheme) {
-          setState(() {
-            _isDarkMode = isDarkModeFromTheme;
-          });
-        }
-      });
+    scheduleAction(() {
+      setDarkMode(isDarkModeFromTheme);
+    });
+  }
+
+  void setDarkMode(bool value) {
+    if (value != isDarkModeNotifier.value) {
+      isDarkModeNotifier.value = value;
     }
   }
 
@@ -106,20 +121,23 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
         await SpThemeSwitcher.onLongPress(context);
       },
       onPressed: () {
-        setState(() {
-          _isDarkMode = SpThemeSwitcher.onPress(context);
-        });
+        isDarkModeNotifier.value = SpThemeSwitcher.onPress(context);
       },
     );
   }
 
   Widget getThemeModeIcon(BuildContext context) {
     Color _color = widget.color ?? M3Color.of(context).primary;
-    return SpAnimatedIcons(
-      duration: ConfigConstant.duration * 3,
-      firstChild: Icon(Icons.dark_mode, color: _color, key: const ValueKey(Brightness.dark)),
-      secondChild: Icon(Icons.light_mode, color: _color, key: const ValueKey(Brightness.light)),
-      showFirst: isDarkMode,
+    return ValueListenableBuilder<bool>(
+      valueListenable: isDarkModeNotifier,
+      builder: (context, isDarkMode, child) {
+        return SpAnimatedIcons(
+          duration: ConfigConstant.duration * 3,
+          firstChild: Icon(Icons.dark_mode, color: _color, key: const ValueKey(Brightness.dark)),
+          secondChild: Icon(Icons.light_mode, color: _color, key: const ValueKey(Brightness.light)),
+          showFirst: isDarkMode,
+        );
+      },
     );
   }
 }

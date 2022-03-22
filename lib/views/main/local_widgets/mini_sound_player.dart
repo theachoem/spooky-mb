@@ -8,7 +8,7 @@ import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/views/main/local_widgets/mini_player_bg.dart';
+import 'package:spooky/views/main/local_widgets/enhanced_weather_bg.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';

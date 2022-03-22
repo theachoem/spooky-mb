@@ -48,7 +48,7 @@ class _InitPickColorMobile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   buildColorPicker(context, width),
-                  const SpThemeSwitcher(backgroundColor: Colors.transparent),
+                  SpThemeSwitcher(backgroundColor: Colors.transparent),
                 ],
               ),
             ),

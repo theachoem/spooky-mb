@@ -70,7 +70,7 @@ class _SoundListMobile extends StatelessWidget {
           ];
         }, builder: (callback) {
           return SpIconButton(
-            icon: Icon(Icons.more_vert),
+            icon: const Icon(Icons.more_vert),
             onPressed: callback,
           );
         }),

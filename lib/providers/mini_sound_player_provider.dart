@@ -83,7 +83,12 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   }
 
   void play(SoundModel sound) async {
-    audioPlayers[sound.type]?.play(sound);
+    if (_currentlyPlaying) {
+      audioPlayers[sound.type]?.play(sound);
+      notifyListeners();
+    } else {
+      audioPlayers[sound.type]?.play(sound);
+    }
   }
 
   void playPreviousNext({
