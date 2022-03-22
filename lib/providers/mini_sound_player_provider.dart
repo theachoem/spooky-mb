@@ -137,7 +137,6 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       int index = sounds!.indexWhere((e) => currentSound(type)?.fileName == e.fileName);
       int validatedIndex = (previous ? index - 1 : index + 1) % sounds.length;
       play(sounds[validatedIndex]);
-      notifyListeners();
     }
   }
 

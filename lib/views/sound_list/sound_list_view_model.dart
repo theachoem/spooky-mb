@@ -31,6 +31,8 @@ Map<SoundType, List<SoundModel>> _loadSoundMaps(String str) {
 }
 
 class SoundListViewModel extends BaseViewModel {
+  late final ValueNotifier<Set<String>> downloadingSoundsNotifier;
+
   SoundFileManager fileManager = SoundFileManager();
   Map<SoundType, List<SoundModel>> soundsMap = {};
 
@@ -43,6 +45,29 @@ class SoundListViewModel extends BaseViewModel {
   SoundListViewModel() {
     load();
     loadConfig();
+    downloadingSoundsNotifier = ValueNotifier({});
+  }
+
+  @override
+  void dispose() {
+    downloadingSoundsNotifier.dispose();
+    super.dispose();
+  }
+
+  void setLoading(SoundModel sound) {
+    Set<String> loadings = {...downloadingSoundsNotifier.value};
+    loadings.add(sound.fileName);
+    downloadingSoundsNotifier.value = loadings;
+  }
+
+  void removeLoading(SoundModel sound) {
+    Set<String> loadings = {...downloadingSoundsNotifier.value};
+    loadings.remove(sound.fileName);
+    downloadingSoundsNotifier.value = loadings;
+  }
+
+  bool loading(SoundModel sound) {
+    return downloadingSoundsNotifier.value.contains(sound.fileName);
   }
 
   void loadConfig() {
@@ -57,12 +82,12 @@ class SoundListViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<String> download(SoundModel sound) async {
+  Future<String?> download(SoundModel sound) async {
     if (fileManager.downloaded(sound)) return "Downloaded";
     if (sound.fileSize > 10000000) return "File too big";
+    if (loading(sound)) return "Downloading";
 
     String file = fileManager.constructFile(sound.fileName);
-
     String ref;
     switch (sound.type) {
       case SoundType.music:
@@ -73,19 +98,28 @@ class SoundListViewModel extends BaseViewModel {
         break;
     }
 
+    setLoading(sound);
+    String? error;
     try {
       TaskSnapshot snapshot = await FirebaseStorage.instance.ref(ref).writeToFile(File(file));
       if (kDebugMode) {
         print(snapshot.ref);
       }
     } catch (e) {
-      return e.toString();
+      if (e is FirebaseException) {
+        error = e.message;
+      } else {
+        error = e.toString();
+      }
     }
 
-    WidgetsBinding.instance?.addPersistentFrameCallback((timeStamp) {
-      notifyListeners();
-    });
+    removeLoading(sound);
+    if (error != null) {
+      WidgetsBinding.instance?.addPersistentFrameCallback((timeStamp) {
+        notifyListeners();
+      });
+    }
 
-    return "Downloaded";
+    return error;
   }
 }

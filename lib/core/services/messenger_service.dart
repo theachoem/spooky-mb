@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 
 class MessengerService {
   MessengerService._();
@@ -41,14 +42,18 @@ class MessengerService {
     SnackBarAction? action,
   }) {
     clearSnackBars();
+    Color? foreground = success ? null : M3Color.of(_context!).onError;
+    Color? background = success ? null : M3Color.of(_context!).error;
     return _state?.showSnackBar(
       SnackBar(
-        content: Text(message),
+        content: Text(message, style: TextStyle(color: foreground)),
         behavior: SnackBarBehavior.floating,
+        backgroundColor: background,
         dismissDirection: DismissDirection.horizontal,
         action: action ??
             SnackBarAction(
               label: MaterialLocalizations.of(_context!).okButtonLabel,
+              textColor: foreground,
               onPressed: () {},
             ),
       ),

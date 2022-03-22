@@ -97,6 +97,7 @@ class _SoundListMobile extends StatelessWidget {
                 sound: sound,
                 downloaded: downloaded,
                 index: index,
+                viewModel: viewModel,
                 onTap: () => onSoundPressed(context, downloaded, sound.type, sound),
               );
             },
@@ -125,13 +126,14 @@ class _SoundListMobile extends StatelessWidget {
     } else {
       if (userProvider.purchased(ProductAsType.relexSound) ||
           downloadedSounds.where((element) => element.type == type).isEmpty) {
-        String? message = await MessengerService.instance
-            .showLoading(future: () async => viewModel.download(sound), context: context);
+        String? errorMessage = await viewModel.download(sound);
         provider.load();
-        MessengerService.instance.showSnackBar(message ?? "Fail");
+        if (errorMessage != null) {
+          MessengerService.instance.showSnackBar(errorMessage, success: false);
+        }
       } else {
         MessengerService.instance.showSnackBar(
-          "Purchase to download more.",
+          "Purchase to download more",
           action: SnackBarAction(
             label: "Add-ons",
             onPressed: () {
