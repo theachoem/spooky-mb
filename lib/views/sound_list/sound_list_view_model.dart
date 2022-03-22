@@ -114,7 +114,7 @@ class SoundListViewModel extends BaseViewModel {
     }
 
     removeLoading(sound);
-    if (error != null) {
+    if (error == null) {
       WidgetsBinding.instance?.addPersistentFrameCallback((timeStamp) {
         notifyListeners();
       });

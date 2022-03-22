@@ -35,8 +35,13 @@ class SpPopupMenuButton extends StatefulWidget {
     this.dxGetter,
     this.dyGetter,
     this.onDimissed,
+    this.smartDx = false,
   }) : super(key: key);
 
+  /// show from left/right or dx
+  /// base on touch position offset.
+  /// `dx, dyGetter` is optional now.
+  final bool smartDx;
   final bool fromAppBar;
   final Widget Function(void Function() callback) builder;
   final List<SpPopMenuItem> Function(BuildContext context) items;
@@ -101,9 +106,21 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
         childPosition = const Offset(0, 0);
       }
     } else {
-      childPosition = Offset(widget.dx ?? dxGetter(childPosition!.dx), widget.dy ?? dyGetter(childPosition!.dy));
+      if (widget.smartDx && localPosition != null) {
+        childPosition = Offset(
+          localPosition!.dx > screenSize.width / 2 ? screenSize.width : 0.0,
+          widget.dy ?? dyGetter(childPosition!.dy),
+        );
+      } else {
+        childPosition = Offset(
+          widget.dx ?? dxGetter(childPosition!.dx),
+          widget.dy ?? dyGetter(childPosition!.dy),
+        );
+      }
     }
   }
+
+  Offset? localPosition;
 
   @override
   Widget build(BuildContext context) {
@@ -119,19 +136,28 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
 
     return RectGetter(
       key: globalKey,
-      child: widget.builder(() async {
-        setChildPosition();
-        if (relativeRect == null) return;
-        SpPopMenuItem? result = await showMenu<SpPopMenuItem>(
-          context: context,
-          position: relativeRect!,
-          elevation: 2.0,
-          shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
-          items: widget.items(context).map((e) => buildItem(e)).toList(),
-        );
-        if (result?.onPressed != null) result!.onPressed!();
-        if (widget.onDimissed != null) widget.onDimissed!(result);
-      }),
+      child: GestureDetector(
+        behavior: HitTestBehavior.deferToChild,
+        onTapDown: (detail) {
+          localPosition = detail.localPosition;
+        },
+        onPanDown: (detail) {
+          localPosition = detail.localPosition;
+        },
+        child: widget.builder(() async {
+          setChildPosition();
+          if (relativeRect == null) return;
+          SpPopMenuItem? result = await showMenu<SpPopMenuItem>(
+            context: context,
+            position: relativeRect!,
+            elevation: 2.0,
+            shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
+            items: widget.items(context).map((e) => buildItem(e)).toList(),
+          );
+          if (result?.onPressed != null) result!.onPressed!();
+          if (widget.onDimissed != null) widget.onDimissed!(result);
+        }),
+      ),
     );
   }
 

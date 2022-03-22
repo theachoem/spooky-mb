@@ -38,7 +38,7 @@ class _SoundListMobile extends StatelessWidget {
             return SpAnimatedIcons(
               firstChild: child!,
               secondChild: const SizedBox.shrink(),
-              showFirst: provider.hasPlaying,
+              showFirst: provider.currentlyPlaying,
             );
           },
         ),
@@ -54,7 +54,7 @@ class _SoundListMobile extends StatelessWidget {
             return SpAnimatedIcons(
               firstChild: child!,
               secondChild: const SizedBox.shrink(),
-              showFirst: provider.hasPlaying,
+              showFirst: provider.currentlyPlaying,
             );
           },
         ),

@@ -19,6 +19,7 @@ class _SoundTypeHeader extends StatelessWidget {
     return Material(
       elevation: 1.0,
       child: SpPopupMenuButton(
+        smartDx: true,
         dxGetter: (dx) => MediaQuery.of(context).size.width,
         dyGetter: (dy) => dy + kToolbarHeight + 8.0,
         items: (context) {

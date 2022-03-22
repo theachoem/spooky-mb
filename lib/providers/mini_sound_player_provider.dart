@@ -66,16 +66,35 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     WidgetsBinding.instance?.removeObserver(this);
   }
 
+  void setPlaying(bool playing) {
+    if (_currentlyPlaying != playing) {
+      _currentlyPlaying = playing;
+      notifyListeners();
+    }
+  }
+
   void initPlayers() {
     audioPlayers = {};
     for (SoundType type in SoundType.values) {
       audioPlayers[type] = LoopAudioSeamlessly((listener) {
-        if (hasPlaying != _currentlyPlaying) {
-          _currentlyPlaying = hasPlaying;
-          notifyListeners();
+        // bool playing = hasPlaying(type, listener.playing);
+        if (listener.playing) {
+          setPlaying(true);
+        } else {
+          setPlaying(hasPlaying);
         }
       });
     }
+  }
+
+  bool get hasPlaying {
+    List<SoundType> plays = [];
+    for (SoundType type in SoundType.values) {
+      if (currentSound(type) != null) {
+        plays.add(type);
+      }
+    }
+    return plays.isNotEmpty;
   }
 
   List<SoundModel>? downloadedSounds;
@@ -163,6 +182,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   void stop(SoundType type) {
     if (currentSound(type) != null) {
       audioPlayers[type]?.stop();
+      notifyListeners();
     }
   }
 
@@ -176,14 +196,6 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     if (currentSound(type) != null) {
       audioPlayers[type]?.resume();
     }
-  }
-
-  bool get hasPlaying {
-    return SoundType.values.map((type) {
-      return audioPlayers[type]?.playing == true;
-    }).where((playing) {
-      return playing;
-    }).isNotEmpty;
   }
 
   double offset(double percentage) {
@@ -236,7 +248,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       case AppLifecycleState.paused:
         BackgroundSoundStorage().read().then((on) {
           if (on == true) {
-            if (hasPlaying) {
+            if (_currentlyPlaying) {
               PlaySoundChannel().show(
                 title: soundTitle,
                 body: null,
