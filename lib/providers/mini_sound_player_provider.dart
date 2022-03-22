@@ -93,11 +93,13 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     required bool previous,
   }) {
     for (SoundType type in SoundType.values) {
-      _playPreviousNext(
-        type: type,
-        context: context,
-        previous: previous,
-      );
+      if (currentSound(type) != null) {
+        _playPreviousNext(
+          type: type,
+          context: context,
+          previous: previous,
+        );
+      }
     }
   }
 
@@ -111,6 +113,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
       int index = sounds!.indexWhere((e) => currentSound(type)?.fileName == e.fileName);
       int validatedIndex = (previous ? index - 1 : index + 1) % sounds.length;
       play(sounds[validatedIndex]);
+      notifyListeners();
     }
   }
 
