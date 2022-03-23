@@ -14,7 +14,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
   late final ValueNotifier<double?> bottomNavigationHeight;
 
-  List<MainTabBarItem> tabs = MainTabBar().items;
+  late List<MainTabBarItem> tabs;
 
   final BuildContext context;
   final SecurityService service = SecurityService();
@@ -41,6 +41,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     year = date.year;
     month = date.month;
     day = date.day;
+    tabs = MainTabBar().availableTabs.values.toList();
   }
 
   @override

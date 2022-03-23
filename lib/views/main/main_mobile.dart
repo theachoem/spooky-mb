@@ -141,6 +141,12 @@ class _MainMobile extends StatelessWidget {
       case SpRouter.explore:
         screen = const ExploreView();
         break;
+      case SpRouter.cloudStorage:
+        screen = const CloudStorageView();
+        break;
+      case SpRouter.themeSetting:
+        screen = const ThemeSettingView();
+        break;
       case SpRouter.soundList:
         screen = const SoundListView();
         break;

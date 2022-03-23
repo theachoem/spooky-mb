@@ -47,6 +47,8 @@ extension SpRouterExtension on SpRouter {
         return "/add-ons";
       case SpRouter.soundList:
         return "/sounds";
+      case SpRouter.bottomNavSetting:
+        return "Bottom Navigation Setting";
     }
   }
 
@@ -96,6 +98,8 @@ extension SpRouterExtension on SpRouter {
         return 'Add-ons';
       case SpRouter.soundList:
         return "Sounds";
+      case SpRouter.bottomNavSetting:
+        return "Bottom Navigation";
     }
   }
 
@@ -145,6 +149,8 @@ extension SpRouterExtension on SpRouter {
         return 'Add more functionality';
       case SpRouter.soundList:
         return "Sounds";
+      case SpRouter.bottomNavSetting:
+        return "Manage bottom navigation";
     }
   }
 }
