@@ -8,8 +8,8 @@ class _CloudStorageMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: const SpPopButton(),
-        title: const SpAppBarTitle(),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+        title: const SpAppBarTitle(fallbackRouter: SpRouter.cloudStorage),
       ),
       body: ListView(
         children: SpSectionsTiles.divide(

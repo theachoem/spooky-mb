@@ -14,8 +14,8 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
     return Scaffold(
       key: scaffoldkey,
       appBar: MorphingAppBar(
-        leading: const SpPopButton(),
-        title: const SpAppBarTitle(),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+        title: const SpAppBarTitle(fallbackRouter: SpRouter.fontManager),
         actions: [
           buildSearch(context),
           buildMoreButton(Icons.settings),

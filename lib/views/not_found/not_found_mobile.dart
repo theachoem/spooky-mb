@@ -8,8 +8,8 @@ class _NotFoundMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: const SpPopButton(),
-        title: const SpAppBarTitle(),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+        title: const SpAppBarTitle(fallbackRouter: SpRouter.notFound),
       ),
       body: const Center(
         child: Text("Not found"),

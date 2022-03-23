@@ -136,6 +136,9 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
         Text(
           item.label,
           style: M3TextTheme.of(context).labelMedium?.copyWith(color: colorScheme?.onSecondaryContainer),
+          maxLines: 1,
+          textAlign: TextAlign.center,
+          overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: ConfigConstant.margin2),
       ],

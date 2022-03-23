@@ -8,8 +8,8 @@ class _ThemeSettingMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: const SpPopButton(),
-        title: const SpAppBarTitle(),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+        title: const SpAppBarTitle(fallbackRouter: SpRouter.themeSetting),
       ),
       body: ListView(
         children: SpSectionsTiles.divide(
@@ -39,19 +39,30 @@ class _ThemeSettingMobile extends StatelessWidget {
               ],
             ),
             SpSectionContents(
-              headline: "Layout",
+              headline: "Story",
               tiles: [
                 buildLayoutTile(context),
                 buildSortTile(context),
+                buildMaxLineTile(),
+                const Divider(height: 0),
+                buildShowChipTile(),
               ],
             ),
             SpSectionContents(
-              headline: "Other",
+              headline: "Advance",
               tiles: [
-                buildMaxLineTile(),
-                buildShowChipTile(),
+                ListTile(
+                  leading: const SizedBox(
+                    height: 40,
+                    child: Icon(Icons.settings_suggest),
+                  ),
+                  title: Text(SpRouter.bottomNavSetting.subtitle),
+                  onTap: () {
+                    Navigator.of(context).pushNamed(SpRouter.bottomNavSetting.path);
+                  },
+                )
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -61,6 +72,7 @@ class _ThemeSettingMobile extends StatelessWidget {
   Widget buildMaxLineTile() {
     return Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
       return ListTile(
+        leading: const SizedBox(height: 40, child: Icon(Icons.article)),
         title: const Text("Max line"),
         subtitle: Text(provider.maxLine.toString()),
         trailing: const Icon(Icons.keyboard_arrow_right),

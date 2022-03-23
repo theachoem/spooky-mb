@@ -8,7 +8,8 @@ class _LockMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        title: const SpAppBarTitle(),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+        title: const SpAppBarTitle(fallbackRouter: SpRouter.lock),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

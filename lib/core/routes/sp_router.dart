@@ -2,6 +2,7 @@ export 'sp_route_extension.dart';
 export 'router.gr.dart';
 
 enum SpRouter {
+  home,
   restore,
   cloudStorage,
   fontManager,
@@ -14,14 +15,14 @@ enum SpRouter {
   changesHistory,
   detail,
   main,
-  home,
   explore,
-  setting,
   appStarter,
   initPickColor,
   nicknameCreator,
   developerMode,
   addOn,
   soundList,
+  bottomNavSetting,
   notFound,
+  setting,
 }

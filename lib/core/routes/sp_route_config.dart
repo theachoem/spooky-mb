@@ -8,6 +8,7 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
 import 'package:spooky/views/archive/archive_view.dart';
+import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
 import 'package:spooky/views/cloud_storage/cloud_storage_view.dart';
 import 'package:spooky/views/content_reader/content_reader_view.dart';
@@ -55,11 +56,11 @@ class SpRouteConfig {
   void _setup() {
     routes.clear();
     for (SpRouter path in SpRouter.values) {
-      routes[path] = _buildRoute(path);
+      routes[path] = buildRoute(path);
     }
   }
 
-  BaseRouteSetting _buildRoute(SpRouter router) {
+  BaseRouteSetting buildRoute(SpRouter router) {
     switch (router) {
       case SpRouter.restore:
         return AnimatedRouteSetting(
@@ -250,6 +251,12 @@ class SpRouteConfig {
           canSwap: false,
           fullscreenDialog: false,
           route: (context) => const SoundListView(),
+        );
+      case SpRouter.bottomNavSetting:
+        return DefaultRouteSetting(
+          canSwap: false,
+          fullscreenDialog: false,
+          route: (context) => const BottomNavSettingView(),
         );
     }
   }
