@@ -16,20 +16,28 @@ class _MainMobile extends StatelessWidget {
 
   Widget buildPages(BuildContext context) {
     return Consumer<BottomNavItemsProvider>(builder: (context, provider, child) {
-      return IndexedStack(
-        index: min(viewModel.activeIndex, provider.tabs?.length ?? 0),
-        sizing: StackFit.expand,
+      return Stack(
         children: List.generate(
           provider.tabs?.length ?? 0,
           (index) {
             SpRouter? item = provider.tabs?[index] ?? SpRouter.notFound;
-            return AnimatedOpacity(
-              duration: ConfigConstant.fadeDuration,
-              opacity: index == viewModel.activeIndex ? 1 : 0,
-              child: buildTabItem(
-                item: item.tab!,
-                index: index,
-                context: context,
+            return Visibility(
+              visible: min(viewModel.activeIndex, provider.tabs?.length ?? 0) == index,
+              maintainState: index == 0,
+              child: TweenAnimationBuilder<int>(
+                duration: ConfigConstant.fadeDuration,
+                tween: IntTween(begin: 0, end: 1),
+                builder: (context, value, child) {
+                  return AnimatedOpacity(
+                    duration: ConfigConstant.fadeDuration,
+                    opacity: index == viewModel.activeIndex && value == 1 ? 1 : 0,
+                    child: buildTabItem(
+                      item: item.tab!,
+                      index: index,
+                      context: context,
+                    ),
+                  );
+                },
               ),
             );
           },

@@ -8,8 +8,8 @@ class _SecurityMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        leading: const SpPopButton(),
-        title: const SpAppBarTitle(),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+        title: const SpAppBarTitle(fallbackRouter: SpRouter.security),
       ),
       body: ValueListenableBuilder<LockType?>(
         valueListenable: viewModel.lockedTypeNotifier,

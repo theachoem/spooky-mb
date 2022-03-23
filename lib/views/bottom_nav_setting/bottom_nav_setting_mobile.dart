@@ -7,7 +7,10 @@ class _BottomNavSettingMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MorphingAppBar(title: const SpAppBarTitle()),
+      appBar: MorphingAppBar(
+        title: const SpAppBarTitle(fallbackRouter: SpRouter.bottomNavSetting),
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+      ),
       body: Consumer<BottomNavItemsProvider>(
         builder: (context, provider, child) {
           List<BottomNavItemModel> items = provider.availableTabs?.items ?? [];

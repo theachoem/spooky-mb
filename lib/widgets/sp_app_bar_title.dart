@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/utils/constants/config_constant.dart';
 
 class SpAppBarTitle extends StatelessWidget {
   const SpAppBarTitle({
     Key? key,
-    this.overrideWith,
+    required this.fallbackRouter,
   }) : super(key: key);
 
-  final SpRouter? overrideWith;
+  final SpRouter? fallbackRouter;
 
   static SpRouter? router(BuildContext context) {
     String? name = ModalRoute.of(context)?.settings.name;
@@ -24,20 +23,10 @@ class SpAppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TweenAnimationBuilder(
-      duration: ConfigConstant.fadeDuration,
-      tween: IntTween(begin: 0, end: 1),
-      child: Text(
-        overrideWith?.title ?? router(context)?.title ?? "",
-        style: Theme.of(context).appBarTheme.titleTextStyle,
-      ),
-      builder: (context, value, child) {
-        return AnimatedOpacity(
-          opacity: value == 1 ? 1 : 0,
-          duration: ConfigConstant.fadeDuration,
-          child: child,
-        );
-      },
+    String? title = router(context)?.title ?? fallbackRouter?.title;
+    return Text(
+      title ?? "",
+      style: Theme.of(context).appBarTheme.titleTextStyle,
     );
   }
 }

@@ -47,7 +47,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
     return SpCrossFade(
       showFirst: !viewModel.editing,
       alignment: viewModel.editing ? Alignment.center : Alignment.center,
-      firstChild: const SpAppBarTitle(),
+      firstChild: const SpAppBarTitle(fallbackRouter: SpRouter.changesHistory),
       secondChild: ValueListenableBuilder(
         valueListenable: viewModel.selectedNotifier,
         builder: (context, child, value) {

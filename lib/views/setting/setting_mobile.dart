@@ -7,11 +7,9 @@ class _SettingMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "Setting",
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
+      appBar: MorphingAppBar(
+        leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+        title: const SpAppBarTitle(fallbackRouter: SpRouter.setting),
       ),
       body: ListView(
         padding: const EdgeInsets.only(bottom: kToolbarHeight),
