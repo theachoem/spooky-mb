@@ -15,59 +15,71 @@ class _MainMobile extends StatelessWidget {
   }
 
   Widget buildPages(BuildContext context) {
-    return IndexedStack(
-      index: viewModel.activeIndex,
-      sizing: StackFit.expand,
-      children: List.generate(viewModel.tabs.length, (index) {
-        return AnimatedOpacity(
-          duration: ConfigConstant.fadeDuration,
-          opacity: index == viewModel.activeIndex ? 1 : 0,
-          child: buildTabItem(
-            item: viewModel.tabs[index],
-            index: index,
-            context: context,
-          ),
-        );
-      }),
-    );
+    return Consumer<BottomNavItemsProvider>(builder: (context, provider, child) {
+      return IndexedStack(
+        index: viewModel.activeIndex,
+        sizing: StackFit.expand,
+        children: List.generate(
+          provider.tabs?.length ?? 0,
+          (index) {
+            SpRouter? item = provider.tabs?[index] ?? SpRouter.notFound;
+            return AnimatedOpacity(
+              duration: ConfigConstant.fadeDuration,
+              opacity: index == viewModel.activeIndex ? 1 : 0,
+              child: buildTabItem(
+                item: item.tab!,
+                index: index,
+                context: context,
+              ),
+            );
+          },
+        ),
+      );
+    });
   }
 
   Widget buildBottomNavigationBar() {
-    return ValueListenableBuilder<bool>(
-      valueListenable: viewModel.shouldShowBottomNavNotifier,
-      child: MeasureSize(
-        onChange: (size) => viewModel.bottomNavigationHeight.value = size.height,
-        child: SpBottomNavigationBar(
-          currentIndex: viewModel.activeIndex,
-          onTap: (int index) => viewModel.setActiveIndex(index),
-          items: viewModel.tabs.map((e) {
-            return SpBottomNavigationBarItem(
-              activeIconData: e.activeIcon,
-              iconData: e.inactiveIcon,
-              label: e.router.title,
-            );
-          }).toList(),
-        ),
-      ),
-      builder: (context, shouldShow, child) {
-        return ValueListenableBuilder(
-          valueListenable: viewModel.bottomNavigationHeight,
-          child: AnimatedOpacity(
-            opacity: shouldShow ? 1 : 1,
-            duration: ConfigConstant.fadeDuration,
-            curve: Curves.ease,
-            child: Wrap(
-              children: [
-                child ?? const SizedBox.shrink(),
-              ],
+    return Consumer<BottomNavItemsProvider>(
+      builder: (context, provider, child) {
+        return ValueListenableBuilder<bool>(
+          valueListenable: viewModel.shouldShowBottomNavNotifier,
+          child: MeasureSize(
+            onChange: (size) => viewModel.bottomNavigationHeight.value = size.height,
+            child: SpBottomNavigationBar(
+              currentIndex: viewModel.activeIndex,
+              onTap: (int index) => viewModel.setActiveIndex(index),
+              items: (provider.tabs ?? []).map((tab) {
+                MainTabBarItem e = tab.tab!;
+                return SpBottomNavigationBarItem(
+                  activeIconData: e.activeIcon,
+                  iconData: e.inactiveIcon,
+                  label: e.router.title,
+                );
+              }).toList(),
             ),
           ),
-          builder: (context, height, child) {
-            return AnimatedContainer(
-              height: shouldShow ? viewModel.bottomNavigationHeight.value : 0,
-              duration: ConfigConstant.duration,
-              curve: Curves.ease,
-              child: child,
+          builder: (context, shouldShow, child) {
+            shouldShow = shouldShow || provider.tabs != null;
+            return ValueListenableBuilder(
+              valueListenable: viewModel.bottomNavigationHeight,
+              child: AnimatedOpacity(
+                duration: ConfigConstant.duration,
+                curve: Curves.ease,
+                opacity: provider.tabs == null ? 0.0 : 1.0,
+                child: Wrap(
+                  children: [
+                    child ?? const SizedBox.shrink(),
+                  ],
+                ),
+              ),
+              builder: (context, height, child) {
+                return AnimatedContainer(
+                  height: shouldShow ? viewModel.bottomNavigationHeight.value : 0,
+                  duration: ConfigConstant.duration,
+                  curve: Curves.ease,
+                  child: child,
+                );
+              },
             );
           },
         );
@@ -138,23 +150,9 @@ class _MainMobile extends StatelessWidget {
           },
         );
         break;
-      case SpRouter.explore:
-        screen = const ExploreView();
-        break;
-      case SpRouter.cloudStorage:
-        screen = const CloudStorageView();
-        break;
-      case SpRouter.themeSetting:
-        screen = const ThemeSettingView();
-        break;
-      case SpRouter.soundList:
-        screen = const SoundListView();
-        break;
-      case SpRouter.setting:
-        screen = const SettingView();
-        break;
       default:
-        screen = const NotFoundView();
+        BaseRouteSetting<dynamic> route = SpRouteConfig(context: context).buildRoute(item.router);
+        screen = route.route(context);
         break;
     }
     return screen;

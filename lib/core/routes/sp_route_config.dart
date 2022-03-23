@@ -56,11 +56,11 @@ class SpRouteConfig {
   void _setup() {
     routes.clear();
     for (SpRouter path in SpRouter.values) {
-      routes[path] = _buildRoute(path);
+      routes[path] = buildRoute(path);
     }
   }
 
-  BaseRouteSetting _buildRoute(SpRouter router) {
+  BaseRouteSetting buildRoute(SpRouter router) {
     switch (router) {
       case SpRouter.restore:
         return AnimatedRouteSetting(

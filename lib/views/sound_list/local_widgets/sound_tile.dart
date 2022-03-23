@@ -40,7 +40,7 @@ class _SoundTile extends StatelessWidget {
             child: ValueListenableBuilder<Set<String>>(
               child: Transform.scale(
                 scale: 1.1,
-                child: CircularProgressIndicator(strokeWidth: 2),
+                child: const CircularProgressIndicator(strokeWidth: 2),
               ),
               valueListenable: viewModel.downloadingSoundsNotifier,
               builder: (context, loadings, child) {

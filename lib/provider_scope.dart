@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/providers/google_pay_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
@@ -52,6 +53,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<UserProvider>(
           create: (context) => UserProvider(),
+        ),
+        ListenableProvider<BottomNavItemsProvider>(
+          create: (context) => BottomNavItemsProvider(),
         ),
       ],
       child: child,
