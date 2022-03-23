@@ -42,6 +42,12 @@ class _SpBottomNavigationBarState extends State<SpBottomNavigationBar> {
   }
 
   @override
+  void didUpdateWidget(covariant SpBottomNavigationBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    notifier.value = widget.currentIndex;
+  }
+
+  @override
   Widget build(BuildContext context) {
     double bottomHeight = MediaQuery.of(context).padding.bottom;
 

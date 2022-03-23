@@ -171,6 +171,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.developerMode:
       case SpRouter.notFound:
       case SpRouter.bottomNavSetting:
+      case SpRouter.restore:
         return null;
       case SpRouter.home:
         return MainTabBarItem(
@@ -187,13 +188,6 @@ extension SpRouterExtension on SpRouter {
           inactiveIcon: Icons.settings_outlined,
           activeIcon: Icons.settings,
           optinal: false,
-        );
-      case SpRouter.restore:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.restore,
-          inactiveIcon: CommunityMaterialIcons.restore,
-          activeIcon: CommunityMaterialIcons.restore,
         );
       case SpRouter.cloudStorage:
         return MainTabBarItem(

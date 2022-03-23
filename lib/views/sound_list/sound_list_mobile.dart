@@ -42,22 +42,23 @@ class _SoundListMobile extends StatelessWidget {
             );
           },
         ),
-        Consumer<MiniSoundPlayerProvider>(
-          child: SpIconButton(
-            tooltip: "Listen with mini player",
-            icon: Icon(Icons.branding_watermark, color: M3Color.of(context).primary),
-            onPressed: () {
-              Navigator.of(context).popUntil((route) => route.isFirst);
+        if (ModalRoute.of(context)?.canPop == true)
+          Consumer<MiniSoundPlayerProvider>(
+            child: SpIconButton(
+              tooltip: "Listen with mini player",
+              icon: Icon(Icons.branding_watermark, color: M3Color.of(context).primary),
+              onPressed: () {
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+            ),
+            builder: (context, provider, child) {
+              return SpAnimatedIcons(
+                firstChild: child!,
+                secondChild: const SizedBox.shrink(),
+                showFirst: provider.currentlyPlaying,
+              );
             },
           ),
-          builder: (context, provider, child) {
-            return SpAnimatedIcons(
-              firstChild: child!,
-              secondChild: const SizedBox.shrink(),
-              showFirst: provider.currentlyPlaying,
-            );
-          },
-        ),
         SpPopupMenuButton(items: (context) {
           return [
             SpPopMenuItem(

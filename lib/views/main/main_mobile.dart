@@ -15,35 +15,36 @@ class _MainMobile extends StatelessWidget {
   }
 
   Widget buildPages(BuildContext context) {
-    return Consumer<BottomNavItemsProvider>(builder: (context, provider, child) {
-      return Stack(
-        children: List.generate(
-          provider.tabs?.length ?? 0,
-          (index) {
-            SpRouter? item = provider.tabs?[index] ?? SpRouter.notFound;
-            return Visibility(
-              visible: min(viewModel.activeIndex, provider.tabs?.length ?? 0) == index,
-              maintainState: index == 0,
-              child: TweenAnimationBuilder<int>(
-                duration: ConfigConstant.fadeDuration,
-                tween: IntTween(begin: 0, end: 1),
-                builder: (context, value, child) {
-                  return AnimatedOpacity(
-                    duration: ConfigConstant.fadeDuration,
-                    opacity: index == viewModel.activeIndex && value == 1 ? 1 : 0,
+    return Consumer<BottomNavItemsProvider>(
+      builder: (context, provider, child) {
+        return Stack(
+          children: List.generate(
+            provider.tabs?.length ?? 0,
+            (index) {
+              SpRouter? item = provider.tabs?[index] ?? SpRouter.notFound;
+              bool selected = viewModel.activeRouter == item;
+              return AnimatedOpacity(
+                opacity: selected ? 1.0 : 0.0,
+                duration: ConfigConstant.duration,
+                child: AnimatedContainer(
+                  duration: ConfigConstant.duration,
+                  transform: Matrix4.identity()..translate(0.0, !selected ? 8.0 : 0.0),
+                  child: Visibility(
+                    visible: selected,
+                    maintainState: index == 0,
                     child: buildTabItem(
                       item: item.tab!,
                       index: index,
                       context: context,
                     ),
-                  );
-                },
-              ),
-            );
-          },
-        ),
-      );
-    });
+                  ),
+                ),
+              );
+            },
+          ),
+        );
+      },
+    );
   }
 
   Widget buildBottomNavigationBar() {
@@ -54,8 +55,8 @@ class _MainMobile extends StatelessWidget {
           child: MeasureSize(
             onChange: (size) => viewModel.bottomNavigationHeight.value = size.height,
             child: SpBottomNavigationBar(
-              currentIndex: viewModel.activeIndex,
-              onTap: (int index) => viewModel.setActiveIndex(index),
+              currentIndex: provider.tabs?.indexOf(viewModel.activeRouter) ?? 0,
+              onTap: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
               items: (provider.tabs ?? []).map((tab) {
                 MainTabBarItem e = tab.tab!;
                 return SpBottomNavigationBarItem(
@@ -103,7 +104,7 @@ class _MainMobile extends StatelessWidget {
         double offset = miniSoundPlayerProvider.offset(percentage);
         bool showSoundLibraryButton = offset >= 0.5;
         return SpShowHideAnimator(
-          shouldShow: viewModel.activeIndex == 0 || showSoundLibraryButton,
+          shouldShow: viewModel.activeRouter == SpRouter.home || showSoundLibraryButton,
           child: SpTapEffect(
             effects: const [SpTapEffectType.scaleDown],
             onTap: showSoundLibraryButton

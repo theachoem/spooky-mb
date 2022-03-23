@@ -16,10 +16,10 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   final BuildContext context;
   final SecurityService service = SecurityService();
 
-  Map<int, ScrollController> scrollControllers = {};
+  Map<SpRouter, ScrollController> scrollControllers = {};
   ScrollController? get currentScrollController {
-    if (scrollControllers.containsKey(activeIndex)) {
-      return scrollControllers[activeIndex];
+    if (scrollControllers.containsKey(activeRouter)) {
+      return scrollControllers[activeRouter];
     }
     return null;
   }
@@ -28,7 +28,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     required int index,
     required ScrollController controller,
   }) {
-    scrollControllers[index] = controller;
+    scrollControllers[activeRouter] = controller;
   }
 
   MainViewModel(this.context) {
@@ -47,9 +47,9 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     super.dispose();
   }
 
-  int activeIndex = 0;
-  void setActiveIndex(int index) {
-    activeIndex = index;
+  SpRouter activeRouter = SpRouter.home;
+  void setActiveRouter(SpRouter router) {
+    activeRouter = router;
     notifyListeners();
   }
 

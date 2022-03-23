@@ -14,7 +14,6 @@ class _BottomNavSettingMobile extends StatelessWidget {
       body: Consumer<BottomNavItemsProvider>(
         builder: (context, provider, child) {
           List<BottomNavItemModel> items = provider.availableTabs?.items ?? [];
-
           return ReorderableListView.builder(
             itemBuilder: (context, index) {
               MainTabBarItem tab = items[index].router!.tab!;

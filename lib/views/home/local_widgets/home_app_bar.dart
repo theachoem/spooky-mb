@@ -100,6 +100,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
           pinned: true,
           floating: true,
           stretch: true,
+          automaticallyImplyLeading: false,
           expandedHeight: kToolbarHeight +
               lerpDouble(0.0, 48.0, animationValue)! +
               lerpDouble(8.0, 0.0, animationValue)! +

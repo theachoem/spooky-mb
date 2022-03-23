@@ -21,7 +21,7 @@ class BottomNavItemStorage extends BaseObjectStorage<BottomNavItemListModel> {
     List<BottomNavItemModel> validatedItems = [];
 
     for (final item in listModel?.items ?? <BottomNavItemModel>[]) {
-      if (item.router != null) {
+      if (item.router?.tab != null) {
         validatedItems.add(item);
       }
     }

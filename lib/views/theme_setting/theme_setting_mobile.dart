@@ -44,7 +44,6 @@ class _ThemeSettingMobile extends StatelessWidget {
                 buildLayoutTile(context),
                 buildSortTile(context),
                 buildMaxLineTile(),
-                const Divider(height: 0),
                 buildShowChipTile(),
               ],
             ),
@@ -108,12 +107,16 @@ class _ThemeSettingMobile extends StatelessWidget {
   Consumer<ShowChipsProvider> buildShowChipTile() {
     return Consumer<ShowChipsProvider>(
       builder: (context, provider, child) {
-        return SwitchListTile.adaptive(
-          value: provider.shouldShow,
+        return ListTile(
+          leading: const Icon(Icons.memory),
           title: const Text("Show chips on story"),
-          onChanged: (value) {
-            provider.set(value);
-          },
+          onTap: () => provider.set(!provider.shouldShow),
+          trailing: Switch.adaptive(
+            value: provider.shouldShow,
+            onChanged: (value) {
+              provider.set(value);
+            },
+          ),
         );
       },
     );
