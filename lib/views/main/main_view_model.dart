@@ -4,6 +4,7 @@ import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/views/main/main_view_item.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
@@ -12,6 +13,8 @@ import 'package:spooky/core/base/base_view_model.dart';
 class MainViewModel extends BaseViewModel with ScheduleMixin {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
   late final ValueNotifier<double?> bottomNavigationHeight;
+
+  List<MainTabBarItem> tabs = MainTabBar().items;
 
   final BuildContext context;
   final SecurityService service = SecurityService();

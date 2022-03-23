@@ -5,7 +5,10 @@ import 'package:spooky/utils/constants/config_constant.dart';
 class SpAppBarTitle extends StatelessWidget {
   const SpAppBarTitle({
     Key? key,
+    this.overrideWith,
   }) : super(key: key);
+
+  final SpRouter? overrideWith;
 
   static SpRouter? router(BuildContext context) {
     String? name = ModalRoute.of(context)?.settings.name;
@@ -25,7 +28,7 @@ class SpAppBarTitle extends StatelessWidget {
       duration: ConfigConstant.fadeDuration,
       tween: IntTween(begin: 0, end: 1),
       child: Text(
-        router(context)?.title ?? "",
+        overrideWith?.title ?? router(context)?.title ?? "",
         style: Theme.of(context).appBarTheme.titleTextStyle,
       ),
       builder: (context, value, child) {

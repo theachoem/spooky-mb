@@ -6,25 +6,24 @@ class _MainMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<MainTabBarItem> tabs = MainTabBar.items;
     return MiniPlayerScaffold(
-      body: buildPages(tabs, context),
+      body: buildPages(context),
       floatingActionButton: buildFloatingActionButton(context),
       shouldShowBottomNavNotifier: viewModel.shouldShowBottomNavNotifier,
-      bottomNavigationBar: buildBottomNavigationBar(tabs),
+      bottomNavigationBar: buildBottomNavigationBar(),
     );
   }
 
-  Widget buildPages(List<MainTabBarItem> tabs, BuildContext context) {
+  Widget buildPages(BuildContext context) {
     return IndexedStack(
       index: viewModel.activeIndex,
       sizing: StackFit.expand,
-      children: List.generate(tabs.length, (index) {
+      children: List.generate(viewModel.tabs.length, (index) {
         return AnimatedOpacity(
           duration: ConfigConstant.fadeDuration,
           opacity: index == viewModel.activeIndex ? 1 : 0,
           child: buildTabItem(
-            item: tabs[index],
+            item: viewModel.tabs[index],
             index: index,
             context: context,
           ),
@@ -33,7 +32,7 @@ class _MainMobile extends StatelessWidget {
     );
   }
 
-  Widget buildBottomNavigationBar(List<MainTabBarItem> tabs) {
+  Widget buildBottomNavigationBar() {
     return ValueListenableBuilder<bool>(
       valueListenable: viewModel.shouldShowBottomNavNotifier,
       child: MeasureSize(
@@ -41,11 +40,11 @@ class _MainMobile extends StatelessWidget {
         child: SpBottomNavigationBar(
           currentIndex: viewModel.activeIndex,
           onTap: (int index) => viewModel.setActiveIndex(index),
-          items: tabs.map((e) {
+          items: viewModel.tabs.map((e) {
             return SpBottomNavigationBarItem(
               activeIconData: e.activeIcon,
               iconData: e.inactiveIcon,
-              label: e.label,
+              label: e.router.title,
             );
           }).toList(),
         ),
@@ -141,6 +140,9 @@ class _MainMobile extends StatelessWidget {
         break;
       case SpRouter.explore:
         screen = const ExploreView();
+        break;
+      case SpRouter.soundList:
+        screen = const SoundListView();
         break;
       case SpRouter.setting:
         screen = const SettingView();

@@ -81,7 +81,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.explore:
         return 'Explore';
       case SpRouter.setting:
-        return 'Eetting';
+        return 'Setting';
       case SpRouter.appStarter:
         return 'App Starter';
       case SpRouter.initPickColor:
@@ -130,7 +130,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.explore:
         return 'Explore';
       case SpRouter.setting:
-        return 'Eetting';
+        return 'Setting';
       case SpRouter.appStarter:
         return 'App Starter';
       case SpRouter.initPickColor:
