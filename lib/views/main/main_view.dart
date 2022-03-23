@@ -1,6 +1,7 @@
 library main_view;
 
 import 'dart:io';
+import 'dart:math';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:responsive_builder/responsive_builder.dart';
@@ -12,15 +13,9 @@ import 'package:spooky/core/types/quick_actions_type.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/utils/util_widgets/app_local_auth.dart';
-import 'package:spooky/views/cloud_storage/cloud_storage_view.dart';
-import 'package:spooky/views/explore/explore_view.dart';
 import 'package:spooky/views/home/home_view.dart';
 import 'package:spooky/views/main/local_widgets/mini_player_scaffold.dart';
 import 'package:spooky/views/main/main_view_item.dart';
-import 'package:spooky/views/not_found/not_found_view.dart';
-import 'package:spooky/views/setting/setting_view.dart';
-import 'package:spooky/views/sound_list/sound_list_view.dart';
-import 'package:spooky/views/theme_setting/theme_setting_view.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_bottom_navaigation_bar.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';

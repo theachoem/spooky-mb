@@ -1,27 +1,47 @@
+import 'package:spooky/core/models/bottom_nav_item_list_model.dart';
+import 'package:spooky/core/models/bottom_nav_item_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/core/storages/base_storages/share_preference_storage.dart';
+import 'package:spooky/core/storages/base_storages/base_object_storage.dart';
 
-class BottomNavItemStorage extends SharePreferenceStorage<List<String>> {
+class BottomNavItemStorage extends BaseObjectStorage<BottomNavItemListModel> {
   List<SpRouter> defaultTabs = [SpRouter.home, SpRouter.setting];
 
-  Future<List<SpRouter>?> getItems() async {
-    Set<SpRouter> routes = {};
-    List<String>? items = await super.read();
-    for (String item in items ?? []) {
-      Iterable<SpRouter> result = SpRouter.values.where((e) => e.name == item);
-      if (result.isNotEmpty) {
-        routes.add(result.first);
-      }
-    }
-    if (routes.length < 2) {
-      return defaultTabs;
-    } else {
-      return routes.toList();
-    }
+  @override
+  BottomNavItemListModel deserialize(Map<String, dynamic> json) {
+    return BottomNavItemListModel.fromJson(json);
   }
 
-  Future<void> writeItems(List<SpRouter> items) async {
-    List<String> itemsStr = items.map((e) => e.name).toList();
-    return write(itemsStr);
+  @override
+  Map<String, dynamic> serialize(BottomNavItemListModel object) {
+    return object.toJson();
+  }
+
+  Future<BottomNavItemListModel> getItems() async {
+    BottomNavItemListModel? listModel = await super.readObject();
+    List<BottomNavItemModel> validatedItems = [];
+
+    for (final item in listModel?.items ?? <BottomNavItemModel>[]) {
+      if (item.router != null) {
+        validatedItems.add(item);
+      }
+    }
+
+    List<SpRouter?> validatedRouters = validatedItems.map((e) {
+      return e.router;
+    }).toList();
+
+    // make sure other index available
+    for (SpRouter route in SpRouter.values) {
+      if (route.tab != null && !validatedRouters.contains(route)) {
+        validatedItems.add(
+          BottomNavItemModel(
+            router: route,
+            selected: route.tab?.optinal == false,
+          ),
+        );
+      }
+    }
+
+    return BottomNavItemListModel(validatedItems);
   }
 }

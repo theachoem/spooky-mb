@@ -1,8 +1,8 @@
 import 'package:spooky/core/models/theme_model.dart';
-import 'package:spooky/core/storages/base_storages/base_object_model.dart';
+import 'package:spooky/core/storages/base_storages/base_object_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 
-class ThemeStorage extends BaseObjectModel<ThemeModel> {
+class ThemeStorage extends BaseObjectStorage<ThemeModel> {
   /// access theme without context. [not recommended]
   /// prefer context.read<ThemeProvider>.theme instead.
   static ThemeModel get theme => _theme!;

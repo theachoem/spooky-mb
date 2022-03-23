@@ -17,7 +17,7 @@ class _MainMobile extends StatelessWidget {
   Widget buildPages(BuildContext context) {
     return Consumer<BottomNavItemsProvider>(builder: (context, provider, child) {
       return IndexedStack(
-        index: viewModel.activeIndex,
+        index: min(viewModel.activeIndex, provider.tabs?.length ?? 0),
         sizing: StackFit.expand,
         children: List.generate(
           provider.tabs?.length ?? 0,
