@@ -90,7 +90,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   bool get hasPlaying {
     List<SoundType> plays = [];
     for (SoundType type in SoundType.values) {
-      if (currentSound(type) != null) {
+      if (audioPlayers[type]?.playing == true) {
         plays.add(type);
       }
     }

@@ -197,12 +197,13 @@ extension SpRouterExtension on SpRouter {
           activeIcon: Icons.cloud,
         );
       case SpRouter.fontManager:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.fontManager,
-          inactiveIcon: Icons.font_download_outlined,
-          activeIcon: Icons.font_download,
-        );
+        return null;
+      // return MainTabBarItem(
+      //   navigatorKey: GlobalKey<NavigatorState>(),
+      //   router: SpRouter.fontManager,
+      //   inactiveIcon: Icons.font_download_outlined,
+      //   activeIcon: Icons.font_download,
+      // );
       case SpRouter.security:
         return MainTabBarItem(
           navigatorKey: GlobalKey<NavigatorState>(),
