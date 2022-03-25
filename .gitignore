@@ -48,3 +48,4 @@ app.*.map.json
 
 # Firebase via dart-config
 lib/firebase_options.dart
+internal

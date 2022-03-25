@@ -14,3 +14,7 @@ flutter run --multidex
 ```s
 ./gradlew signingReport
 ```
+
+```s
+keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64
+```
