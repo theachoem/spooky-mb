@@ -49,8 +49,10 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
 
   SpRouter activeRouter = SpRouter.home;
   void setActiveRouter(SpRouter router) {
-    activeRouter = router;
-    notifyListeners();
+    if (activeRouter != router) {
+      activeRouter = router;
+      notifyListeners();
+    }
   }
 
   void Function()? storyListReloader;

@@ -67,8 +67,8 @@ class _MainMobile extends StatelessWidget {
               }).toList(),
             ),
           ),
-          builder: (context, shouldShow, child) {
-            shouldShow = shouldShow || provider.tabs != null;
+          builder: (context, _shouldShow, child) {
+            bool shouldShow = _shouldShow && provider.tabs != null;
             return ValueListenableBuilder(
               valueListenable: viewModel.bottomNavigationHeight,
               child: AnimatedOpacity(
@@ -108,7 +108,15 @@ class _MainMobile extends StatelessWidget {
           child: SpTapEffect(
             effects: const [SpTapEffectType.scaleDown],
             onTap: showSoundLibraryButton
-                ? () => Navigator.of(context).pushNamed(SpRouter.soundList.path)
+                ? () async {
+                    final notifier = context.read<BottomNavItemsProvider>();
+                    if (notifier.tabs?.contains(SpRouter.soundList) == true) {
+                      await Navigator.of(context).maybePop();
+                      viewModel.setActiveRouter(SpRouter.soundList);
+                    } else {
+                      Navigator.of(context).pushNamed(SpRouter.soundList.path);
+                    }
+                  }
                 : () => viewModel.createStory(context),
             onLongPressed: () => viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value),
             child: FloatingActionButton.extended(
