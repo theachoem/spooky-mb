@@ -30,4 +30,12 @@ class BackupService with BackupConstructor {
       }
     }
   }
+
+  Future<void> restore(BackupModel? backup) async {
+    if (backup != null) {
+      for (StoryModel e in backup.stories) {
+        await StoryManager().write(e.path.toFile(), e);
+      }
+    }
+  }
 }

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/backup/backup_service.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/api/cloud_storages/gdrive_backup_storage.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
@@ -60,11 +61,8 @@ class RestoreViewModel extends BaseViewModel {
 
   Future<bool> restore(BuildContext context, CloudFileModel file) async {
     BackupModel? backup = await MessengerService.instance.showLoading(future: () => download(file), context: context);
-    if (backup != null) {
-      for (StoryModel e in backup.stories) {
-        await StoryManager().write(e.path.toFile(), e);
-      }
-    }
+    await BackupService().restore(backup);
+
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       showSkipNotifier.value = false;
       MessengerService.instance.showSnackBar("Restored");
