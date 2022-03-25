@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:googleapis/drive/v3.dart' as drive;
-import 'package:spooky/core/cloud_storages/gdrive_storage.dart';
+import 'package:spooky/core/api/cloud_storages/gdrive_storage.dart';
 import 'package:spooky/core/models/backup_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
 

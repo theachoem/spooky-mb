@@ -3,7 +3,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/base_view_model.dart';
-import 'package:spooky/core/cloud_storages/gdrive_backup_storage.dart';
+import 'package:spooky/core/api/cloud_storages/gdrive_backup_storage.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/models/backup_display_model.dart';
 import 'package:spooky/core/models/backup_model.dart';

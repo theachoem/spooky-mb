@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:spooky/core/api/authentication/google_auth_client.dart';
 import 'package:spooky/core/api/authentication/google_auth_service.dart';
-import 'package:spooky/core/cloud_storages/base_cloud_storage.dart';
+import 'package:spooky/core/api/cloud_storages/base_cloud_storage.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';

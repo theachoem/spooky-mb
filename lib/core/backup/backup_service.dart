@@ -1,7 +1,7 @@
 library backup;
 
 import 'dart:io';
-import 'package:spooky/core/cloud_storages/gdrive_backup_storage.dart';
+import 'package:spooky/core/api/cloud_storages/gdrive_backup_storage.dart';
 import 'package:spooky/core/file_manager/managers/backup_file_manager.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/models/backup_model.dart';
