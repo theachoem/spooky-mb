@@ -33,6 +33,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.845318918007-2v961m1ip77oashv3itkobiim8ru0rhc</string>
+				<string>fb373633651102417</string>
 			</array>
 		</dict>
 	</array>
@@ -42,6 +43,21 @@
 	<array>
 		<string>https</string>
 		<string>http</string>
+		<string>fbapi</string>
+		<string>fbapi20130214</string>
+		<string>fbapi20130410</string>
+		<string>fbapi20130702</string>
+		<string>fbapi20131010</string>
+		<string>fbapi20131219</string>
+		<string>fbapi20140410</string>
+		<string>fbapi20140116</string>
+		<string>fbapi20150313</string>
+		<string>fbapi20150629</string>
+		<string>fbapi20160328</string>
+		<string>fbauth</string>
+		<string>fb-messenger-share-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
@@ -80,5 +96,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key>FacebookAppID</key>
+	<string>373633651102417</string>
+	<key>FacebookClientToken</key>
+	<string>$(FACEBOOK_CLIENT_TOKEN)</string>
+	<key>FacebookDisplayName</key>
+	<string>Spooky</string>
 </dict>
 </plist>

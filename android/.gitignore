@@ -13,3 +13,4 @@ key.properties
 **/*.jks
 
 google-services.json
+app/src/main/res/values/strings.xml
