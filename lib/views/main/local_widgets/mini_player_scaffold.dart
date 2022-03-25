@@ -1,7 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/views/main/local_widgets/mini_player_bottom_padding_builder.dart';
 import 'package:spooky/views/main/local_widgets/mini_sound_player.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 
@@ -39,7 +43,7 @@ class MiniPlayerScaffold extends StatelessWidget {
         children: [
           Hero(
             tag: ValueKey(runtimeType),
-            child: const MiniSoundPlayer(),
+            child: MiniSoundPlayer(shouldShowBottomNavNotifier: shouldShowBottomNavNotifier),
           ),
           const Divider(height: 0.0),
           buildBottomSafeHeight(context),
@@ -75,14 +79,22 @@ class MiniPlayerScaffold extends StatelessWidget {
 
   Widget buildBottomSafeHeight(BuildContext context) {
     return Consumer<MiniSoundPlayerProvider>(
-      child: ValueListenableBuilder<bool>(
-        valueListenable: shouldShowBottomNavNotifier,
-        builder: (context, shownBottomNav, chil) {
-          return AnimatedContainer(
-            height: shownBottomNav ? 0.0 : MediaQuery.of(context).padding.bottom,
-            color: Theme.of(context).appBarTheme.backgroundColor,
-            duration: ConfigConstant.duration,
-            curve: Curves.ease,
+      child: MiniPlayerBottomPaddingBuilder(
+        shouldShowBottomNavNotifier: shouldShowBottomNavNotifier,
+        builder: (context, height, offset, child) {
+          double bottom = lerpDouble(height, 0, offset)!;
+          return SizedBox(
+            height: bottom,
+            child: Wrap(
+              children: [
+                AnimatedContainer(
+                  height: bottom,
+                  color: Theme.of(context).appBarTheme.backgroundColor,
+                  duration: ConfigConstant.duration,
+                  curve: Curves.ease,
+                ),
+              ],
+            ),
           );
         },
       ),

@@ -9,18 +9,27 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/main/local_widgets/enhanced_weather_bg.dart';
+import 'package:spooky/views/main/local_widgets/mini_player_bottom_padding_builder.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 
 class MiniSoundPlayer extends StatelessWidget {
-  const MiniSoundPlayer({Key? key}) : super(key: key);
+  const MiniSoundPlayer({
+    Key? key,
+    required this.shouldShowBottomNavNotifier,
+  }) : super(key: key);
+
+  final ValueNotifier<bool> shouldShowBottomNavNotifier;
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraint) {
-        return _MiniSoundPlayer(constraints: constraint);
+        return _MiniSoundPlayer(
+          constraints: constraint,
+          shouldShowBottomNavNotifier: shouldShowBottomNavNotifier,
+        );
       },
     );
   }
@@ -30,8 +39,10 @@ class _MiniSoundPlayer extends StatelessWidget {
   const _MiniSoundPlayer({
     Key? key,
     required this.constraints,
+    required this.shouldShowBottomNavNotifier,
   }) : super(key: key);
 
+  final ValueNotifier<bool> shouldShowBottomNavNotifier;
   final BoxConstraints constraints;
   Color get foregroundColor => Colors.white;
 
@@ -155,8 +166,8 @@ class _MiniSoundPlayer extends StatelessWidget {
     required double percentageExpandedPlayer,
   }) {
     return Positioned.fill(
-      child: Container(
-        margin: EdgeInsets.only(top: lerpDouble(0, 36, percentage)!),
+      child: MiniPlayerBottomPaddingBuilder(
+        shouldShowBottomNavNotifier: shouldShowBottomNavNotifier,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -185,6 +196,14 @@ class _MiniSoundPlayer extends StatelessWidget {
             ),
           ],
         ),
+        builder: (context, height, offset, child) {
+          double top = lerpDouble(0, 36, percentage)!;
+          double bottom = lerpDouble(0, height, offset)!;
+          return Container(
+            margin: EdgeInsets.only(top: top, bottom: bottom),
+            child: child,
+          );
+        },
       ),
     );
   }
@@ -282,21 +301,31 @@ class _MiniSoundPlayer extends StatelessWidget {
     return Positioned.fill(
       child: IgnorePointer(
         ignoring: percentage < 0.5,
-        child: Opacity(
-          opacity: max(0.0, min(1.0, percentageExpandedPlayer)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text(
-                provider.soundTitle,
-                maxLines: 1,
-                style: M3TextTheme.of(context).titleMedium?.copyWith(color: foregroundColor),
-              ),
-              const SizedBox(height: ConfigConstant.margin2),
-              const SizedBox(height: ConfigConstant.iconSize3)
-            ],
+        child: MiniPlayerBottomPaddingBuilder(
+          shouldShowBottomNavNotifier: shouldShowBottomNavNotifier,
+          child: Opacity(
+            opacity: max(0.0, min(1.0, percentageExpandedPlayer)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  provider.soundTitle,
+                  maxLines: 1,
+                  style: M3TextTheme.of(context).titleMedium?.copyWith(color: foregroundColor),
+                ),
+                const SizedBox(height: ConfigConstant.margin2),
+                const SizedBox(height: ConfigConstant.iconSize3)
+              ],
+            ),
           ),
+          builder: (context, offset, height, child) {
+            double bottom = lerpDouble(0, height, offset)!;
+            return Container(
+              margin: EdgeInsets.only(bottom: bottom),
+              child: child,
+            );
+          },
         ),
       ),
     );
