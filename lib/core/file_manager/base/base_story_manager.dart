@@ -43,4 +43,22 @@ abstract class BaseStoryManager<T extends BaseModel> extends BaseFileManager<T> 
       return null;
     });
   }
+
+  Future<Iterable<FileSystemEntity>?> fetchFiles({
+    required StoryQueryOptionsModel options,
+    String? parent,
+  }) async {
+    Directory directory = Directory(options.toPath(parent));
+    if (kDebugMode) print("fetchAll directory: ${directory.absolute.path}");
+
+    return beforeExec<Iterable<FileSystemEntity>?>(() async {
+      if (directory.existsSync()) {
+        List<FileSystemEntity> entities = directory.listSync(recursive: true);
+        return entities.where((item) {
+          return item is File && item.absolute.path.endsWith(".json");
+        });
+      }
+      return null;
+    });
+  }
 }

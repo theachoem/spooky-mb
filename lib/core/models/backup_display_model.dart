@@ -15,6 +15,14 @@ class BackupDisplayModel {
     }
   }
 
+  String? get displayDateTime {
+    if (createAt != null) {
+      return DateFormatHelper.dateTimeFormat().format(createAt!);
+    } else {
+      return null;
+    }
+  }
+
   String? get displayDate {
     if (createAt != null) {
       return DateFormatHelper.dateFormat().format(createAt!);
