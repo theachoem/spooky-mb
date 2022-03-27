@@ -45,17 +45,7 @@ class _RestoreMobile extends StatelessWidget {
         viewModel.groupByYear?.entries.length ?? 0,
         (index) {
           final e = viewModel.groupByYear!.entries.elementAt(index);
-          return Stack(
-            children: [
-              buildYearsTile(context: context, item: e),
-              if (index == 0)
-                Container(
-                  height: 4.0,
-                  width: double.infinity,
-                  color: M3Color.of(context).background,
-                ),
-            ],
-          );
+          return buildYearsTile(context: context, items: e);
         },
       ),
     );
@@ -77,7 +67,17 @@ class _RestoreMobile extends StatelessWidget {
     );
   }
 
-  Widget buildYearsTile({required BuildContext context, required MapEntry<String, List<CloudFileModel>> item}) {
+  Widget buildYearsTile({
+    required BuildContext context,
+    required MapEntry<String, List<CloudFileModel>> items,
+  }) {
+    List<BackupDisplayModel> displayModels = items.value.map((e) => BackupDisplayModel.fromCloudModel(e)).toList();
+    displayModels.sort((a, b) => (a.createAt != null ? b.createAt?.compareTo(a.createAt!) : -1) ?? -1);
+    if (displayModels.isEmpty) return const SizedBox.shrink();
+
+    CloudFileModel cloudBackup = items.value.first;
+    BackupDisplayModel displayBackup = displayModels.first;
+
     return TweenAnimationBuilder<int>(
       duration: ConfigConstant.duration,
       tween: IntTween(begin: 0, end: 1),
@@ -85,72 +85,175 @@ class _RestoreMobile extends StatelessWidget {
         return AnimatedOpacity(
           opacity: value == 1 ? 1.0 : 0.0,
           duration: ConfigConstant.duration,
-          child: ExpansionTile(
-            title: Text("Stories of ${item.key}"),
-            children: List.generate(item.value.length, (index) {
-              final e = item.value[index];
-              BackupDisplayModel display = BackupDisplayModel.fromCloudModel(e);
-              return SpPopupMenuButton(
-                dxGetter: (dx) => MediaQuery.of(context).size.width,
-                items: (context) => buildItems(context, e, index != 0),
-                builder: (callback) {
-                  return ListTile(
-                    title: Text("Uploaded at " + (display.displayDate ?? display.fileName)),
-                    subtitle: display.displayTime != null ? Text(display.displayTime!) : null,
-                    onTap: () => callback(),
-                    trailing: const Icon(Icons.more_vert),
-                  );
-                },
+          child: SpPopupMenuButton(
+            dxGetter: (dx) => MediaQuery.of(context).size.width,
+            items: (context) => buildItems(
+              context: context,
+              cloudBackup: cloudBackup,
+              displayBackup: displayBackup,
+              items: items.value,
+              displayModels: displayModels,
+            ),
+            builder: (callback) {
+              return ListTile(
+                onTap: callback,
+                trailing: const Icon(Icons.cloud_done),
+                title: Text("Stories of ${items.key}"),
+                subtitle: Text("Uploaded at " + (displayBackup.displayDateTime ?? displayBackup.fileName)),
               );
-            }),
+            },
           ),
         );
       },
     );
   }
 
-  List<SpPopMenuItem> buildItems(
-    BuildContext context,
-    CloudFileModel e,
-    bool canDelete,
-  ) {
+  List<SpPopMenuItem> buildItems({
+    required BuildContext context,
+    required CloudFileModel cloudBackup,
+    required BackupDisplayModel displayBackup,
+    required List<CloudFileModel> items,
+    required List<BackupDisplayModel> displayModels,
+  }) {
+    return [
+      SpPopMenuItem(
+        title: "Restore",
+        titleStyle: TextStyle(color: viewModel.getCache(cloudBackup) != null ? M3Color.of(context).tertiary : null),
+        leadingIconData: Icons.restore,
+        onPressed: () => viewModel.restore(context, cloudBackup, displayBackup),
+      ),
+      SpPopMenuItem(
+        title: "View",
+        leadingIconData: Icons.list,
+        titleStyle: TextStyle(color: viewModel.getCache(cloudBackup) == null ? M3Color.of(context).tertiary : null),
+        onPressed: () async {
+          BackupModel? result = await MessengerService.instance
+              .showLoading(future: () => viewModel.download(cloudBackup), context: context);
+          if (result == null) return;
+          BottomSheetService.instance.showScrollableSheet(
+            context: context,
+            title: displayBackup.createAt?.year.toString() ?? "Stories",
+            builder: (context, controller) {
+              return StoryList(
+                viewOnly: true,
+                controller: controller,
+                onRefresh: () async {},
+                stories: result.stories,
+              );
+            },
+          );
+        },
+      ),
+      SpPopMenuItem(
+        title: "History",
+        leadingIconData: Icons.subdirectory_arrow_right,
+        onPressed: () async {
+          BottomSheetService.instance.showScrollableSheet(
+            context: context,
+            title: "History",
+            builder: (BuildContext _, ScrollController controller) {
+              return ListView.builder(
+                controller: controller,
+                itemCount: displayModels.length,
+                itemBuilder: (_, index) {
+                  CloudFileModel backup = items[index];
+                  BackupDisplayModel display = displayModels[index];
+                  return SpPopupMenuButton(
+                    dxGetter: (dx) => MediaQuery.of(context).size.width,
+                    items: (context) => buildChildItems(
+                      context: context,
+                      cloudBackup: backup,
+                      displayBackup: display,
+                      items: items,
+                      displayModels: displayModels,
+                      canDelete: index != 0,
+                    ),
+                    builder: (callback) {
+                      String title = "Backup ${index + 1}";
+                      return ListTile(
+                        onTap: callback,
+                        title: RichText(
+                          text: TextSpan(
+                            text: title + " ",
+                            style: M3TextTheme.of(context).titleMedium,
+                            children: [
+                              if (index == 0)
+                                WidgetSpan(
+                                  child: Container(
+                                    padding:
+                                        const EdgeInsets.symmetric(horizontal: ConfigConstant.margin0 + 2, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: M3Color.of(context).secondary,
+                                      borderRadius: ConfigConstant.circlarRadius1,
+                                    ),
+                                    child: Text(
+                                      "Latest",
+                                      style: M3TextTheme.of(context).labelSmall?.copyWith(
+                                            color: M3Color.of(context).onSecondary,
+                                          ),
+                                    ),
+                                  ),
+                                  alignment: PlaceholderAlignment.middle,
+                                ),
+                            ],
+                          ),
+                        ),
+                        subtitle: Text("Uploaded at " + display.displayDateTime.toString()),
+                        trailing: const Icon(Icons.more_vert),
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
+    ];
+  }
+
+  List<SpPopMenuItem> buildChildItems({
+    required BuildContext context,
+    required CloudFileModel cloudBackup,
+    required BackupDisplayModel displayBackup,
+    required List<CloudFileModel> items,
+    required List<BackupDisplayModel> displayModels,
+    required bool canDelete,
+  }) {
     return [
       if (canDelete)
         SpPopMenuItem(
           title: "Delete",
           leadingIconData: Icons.delete,
-          onPressed: () => viewModel.delete(context, e),
+          titleStyle: TextStyle(color: M3Color.of(context).error),
+          onPressed: () async {
+            await viewModel.delete(context, cloudBackup);
+            Navigator.of(context).pop();
+          },
         ),
       SpPopMenuItem(
         title: "Restore",
+        titleStyle: TextStyle(color: viewModel.getCache(cloudBackup) != null ? M3Color.of(context).tertiary : null),
         leadingIconData: Icons.restore,
-        onPressed: () => viewModel.restore(context, e),
+        onPressed: () => viewModel.restore(context, cloudBackup, displayBackup),
       ),
       SpPopMenuItem(
         title: "View",
         leadingIconData: Icons.list,
+        titleStyle: TextStyle(color: viewModel.getCache(cloudBackup) == null ? M3Color.of(context).tertiary : null),
         onPressed: () async {
-          BackupModel? result =
-              await MessengerService.instance.showLoading(future: () => viewModel.download(e), context: context);
+          BackupModel? result = await MessengerService.instance
+              .showLoading(future: () => viewModel.download(cloudBackup), context: context);
           if (result == null) return;
-          showModalBottomSheet(
+          BottomSheetService.instance.showScrollableSheet(
             context: context,
-            isScrollControlled: true,
-            isDismissible: true,
-            useRootNavigator: true,
-            builder: (context) {
-              return DraggableScrollableSheet(
-                expand: false,
-                builder: (context, controller) {
-                  return Scaffold(
-                    body: StoryList(
-                      viewOnly: true,
-                      controller: controller,
-                      onRefresh: () async {},
-                      stories: result.stories,
-                    ),
-                  );
-                },
+            title: displayBackup.createAt?.year.toString() ?? "Stories",
+            builder: (context, controller) {
+              return StoryList(
+                viewOnly: true,
+                controller: controller,
+                onRefresh: () async {},
+                stories: result.stories,
               );
             },
           );

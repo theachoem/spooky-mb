@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,9 @@ import 'package:spooky/core/models/backup_model.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
 import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/types/file_path_type.dart';
 
 class RestoreViewModel extends BaseViewModel {
   late final ValueNotifier<bool> showSkipNotifier;
@@ -43,6 +46,10 @@ class RestoreViewModel extends BaseViewModel {
   }
 
   Map<String, BackupModel> cacheDownloadRestores = {};
+  BackupModel? getCache(CloudFileModel file) {
+    return cacheDownloadRestores[file.id];
+  }
+
   Future<BackupModel?> download(CloudFileModel file) async {
     if (cacheDownloadRestores.containsKey(file.id)) {
       return cacheDownloadRestores[file.id]!;
@@ -59,7 +66,37 @@ class RestoreViewModel extends BaseViewModel {
     return null;
   }
 
-  Future<bool> restore(BuildContext context, CloudFileModel file) async {
+  Future<bool> restore(
+    BuildContext context,
+    CloudFileModel file,
+    BackupDisplayModel display,
+  ) async {
+    var year = display.createAt?.year;
+    Iterable<FileSystemEntity>? result = await StoryManager().fetchFiles(
+      options: StoryQueryOptionsModel(
+        filePath: FilePathType.docs,
+        year: display.createAt?.year,
+      ),
+    );
+
+    if (result?.isNotEmpty == true) {
+      OkCancelResult result = await showOkCancelAlertDialog(
+        context: context,
+        title: "Notice",
+        message: year != null
+            ? "Look like you have some data in $year. So, exist stories will be overrided by cloud stories. Are you sure to restore?"
+            : "Exist stories will be overrided by cloud stories. Are you sure to restore?",
+        okLabel: "Restore",
+        isDestructiveAction: true,
+      );
+      switch (result) {
+        case OkCancelResult.ok:
+          break;
+        case OkCancelResult.cancel:
+          return false;
+      }
+    }
+
     BackupModel? backup = await MessengerService.instance.showLoading(future: () => download(file), context: context);
     await BackupService().restore(backup);
 
