@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/core/models/path_model.dart';
 import 'package:spooky/core/models/story_content_model.dart';
+import 'package:spooky/core/types/file_path_type.dart';
 
 part 'story_model.g.dart';
 
@@ -57,6 +58,10 @@ class StoryModel extends BaseModel {
       file: file ?? this.file,
       changes: changes ?? this.changes,
     );
+  }
+
+  bool get archived {
+    return path.filePath == FilePathType.archive;
   }
 
   bool get starred => changes.last.starred == true;

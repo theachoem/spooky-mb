@@ -8,14 +8,14 @@ import 'package:spooky/core/models/story_query_options_model.dart';
 abstract class BaseStoryManager<T extends BaseModel> extends BaseFileManager<T> {
   T objectTransformer(Map<String, dynamic> json, File file, [StoryQueryOptionsModel? options]);
 
-  Future<T?> fetchOne(File file) async {
+  Future<T?> fetchOne(File file, [StoryQueryOptionsModel? options]) async {
     bool isJson = file.path.endsWith(".json");
     if (!isJson) return null;
     return beforeExec<T?>(() async {
       String result = await file.readAsString();
       dynamic json = jsonDecode(result);
       if (json is Map<String, dynamic>) {
-        return objectTransformer(json, file);
+        return objectTransformer(json, file, options);
       }
       return null;
     });
@@ -34,7 +34,7 @@ abstract class BaseStoryManager<T extends BaseModel> extends BaseFileManager<T> 
         List<T> docs = [];
         for (FileSystemEntity item in entities) {
           if (item is File && item.absolute.path.endsWith(".json")) {
-            T? singleDoc = await fetchOne(item);
+            T? singleDoc = await fetchOne(item, options);
             if (singleDoc != null) docs.add(singleDoc);
           }
         }
