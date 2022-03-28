@@ -40,11 +40,21 @@ class MainView extends StatelessWidget {
         create: (BuildContext context) => MainViewModel(context),
         onModelReady: (context, viewModel) => onModelReady(context, viewModel),
         builder: (context, viewModel, child) {
-          return SpScreenTypeLayout(
-            listener: (info) => listener(viewModel, info),
-            mobile: _MainMobile(viewModel),
-            desktop: _MainDesktop(viewModel),
-            tablet: _MainTablet(viewModel),
+          return WillPopScope(
+            onWillPop: () async {
+              if (viewModel.activeRouter != SpRouter.home) {
+                viewModel.setActiveRouter(SpRouter.home);
+                return false;
+              } else {
+                return true;
+              }
+            },
+            child: SpScreenTypeLayout(
+              listener: (info) => listener(viewModel, info),
+              mobile: _MainMobile(viewModel),
+              desktop: _MainDesktop(viewModel),
+              tablet: _MainTablet(viewModel),
+            ),
           );
         },
       ),
