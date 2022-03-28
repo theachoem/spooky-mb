@@ -11,7 +11,6 @@ import 'package:spooky/core/models/backup_display_model.dart';
 import 'package:spooky/core/models/backup_model.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/file_path_type.dart';

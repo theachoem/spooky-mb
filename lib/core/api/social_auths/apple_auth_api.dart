@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth_platform_interface/src/auth_credential.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:spooky/core/api/social_auths/base_social_auth_api.dart';
 

@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
