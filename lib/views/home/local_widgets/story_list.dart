@@ -282,6 +282,9 @@ class StoryList extends StatelessWidget {
           previousStory: storyAt(index - 1),
           itemPadding: itemPadding,
           onRefresh: () => onRefresh(),
+          onArchive: onArchive,
+          onDelete: onDelete,
+          onUnarchive: onUnarchive,
         ),
       );
     }
