@@ -178,21 +178,8 @@ class _RestoreMobile extends StatelessWidget {
                             style: M3TextTheme.of(context).titleMedium,
                             children: [
                               if (index == 0)
-                                WidgetSpan(
-                                  child: Container(
-                                    padding:
-                                        const EdgeInsets.symmetric(horizontal: ConfigConstant.margin0 + 2, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: M3Color.of(context).secondary,
-                                      borderRadius: ConfigConstant.circlarRadius1,
-                                    ),
-                                    child: Text(
-                                      "Latest",
-                                      style: M3TextTheme.of(context).labelSmall?.copyWith(
-                                            color: M3Color.of(context).onSecondary,
-                                          ),
-                                    ),
-                                  ),
+                                const WidgetSpan(
+                                  child: SpSmallChip(label: "Latest"),
                                   alignment: PlaceholderAlignment.middle,
                                 ),
                             ],

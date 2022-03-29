@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
+import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:spooky/core/routes/sp_router.dart';
@@ -30,9 +31,7 @@ class SpExpandedAppBar extends StatelessWidget {
       elevation: Theme.of(context).appBarTheme.elevation,
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.none,
-        background: TweenAnimationBuilder<int>(
-          duration: ConfigConstant.fadeDuration,
-          tween: IntTween(begin: 0, end: 1),
+        background: SpFadeIn(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 72.0),
             child: Column(
@@ -53,13 +52,6 @@ class SpExpandedAppBar extends StatelessWidget {
               ],
             ),
           ),
-          builder: (context, value, child) {
-            return AnimatedOpacity(
-              opacity: value == 1 ? 1.0 : 0.0,
-              duration: ConfigConstant.fadeDuration,
-              child: child,
-            );
-          },
         ),
       ),
       actions: actions,

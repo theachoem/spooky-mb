@@ -9,6 +9,7 @@ import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/core/types/product_as_type.dart';
 import 'package:spooky/core/types/sort_type.dart';
+import 'package:spooky/providers/priority_starred_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/providers/user_provider.dart';

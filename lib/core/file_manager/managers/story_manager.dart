@@ -18,10 +18,11 @@ class StoryManager extends BaseStoryManager<StoryModel> {
 
   Future<FileSystemEntity?> updatePathDate(
     StoryModel story,
-    DateTime newDatePath,
-  ) async {
+    DateTime newDatePath, {
+    FilePathType? filePathType,
+  }) async {
     PathModel newPath = PathModel.fromDateTime(newDatePath).copyWith(
-      filePath: story.path.filePath,
+      filePath: filePathType ?? story.path.filePath,
       fileName: story.path.fileName,
     );
 

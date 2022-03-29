@@ -102,6 +102,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
       itemBuilder: (_context, index) {
         StoryContentModel content = viewModel.story.changes[index];
         String id = content.id;
+        bool latest = index == viewModel.story.changes.length - 1;
         return SpPopupMenuButton(
           dx: MediaQuery.of(context).size.width,
           items: (context) => [
@@ -114,15 +115,15 @@ class _ChangesHistoryMobile extends StatelessWidget {
                 );
               },
             ),
-            if (!viewModel.editing)
+            if (!viewModel.editing && !latest)
               SpPopMenuItem(
                 title: "Select",
                 onPressed: () {
-                  addItem(id);
+                  addItem(id, latest);
                   viewModel.toggleEditing();
                 },
               ),
-            if (viewModel.story.changes.length - 1 != index)
+            if (!latest)
               SpPopMenuItem(
                 title: "Restore this version",
                 onPressed: () {
@@ -135,16 +136,24 @@ class _ChangesHistoryMobile extends StatelessWidget {
             return ListTile(
               onLongPress: () {
                 if (viewModel.editing) {
-                  toggleItem(id);
+                  toggleItem(id, latest);
                 } else {
                   viewModel.toggleEditing();
-                  addItem(id);
+                  addItem(id, latest);
                 }
               },
-              title: Text(
-                content.title ?? "No title",
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
+              title: RichText(
+                text: TextSpan(
+                  text: (content.title ?? "No title") + " ",
+                  style: M3TextTheme.of(context).titleMedium,
+                  children: [
+                    if (latest)
+                      const WidgetSpan(
+                        child: SpSmallChip(label: "Latest"),
+                        alignment: PlaceholderAlignment.middle,
+                      ),
+                  ],
+                ),
               ),
               subtitle: buildSubtitle(content, context),
               trailing: SpCrossFade(
@@ -153,11 +162,11 @@ class _ChangesHistoryMobile extends StatelessWidget {
                   height: ConfigConstant.objectHeight1,
                   child: Icon(Icons.more_vert),
                 ),
-                secondChild: buildCheckBox(content, id),
+                secondChild: buildCheckBox(content, id, latest: latest),
               ),
               onTap: () {
                 if (viewModel.editing) {
-                  toggleItem(id);
+                  toggleItem(id, latest);
                 } else {
                   callback();
                 }
@@ -169,26 +178,43 @@ class _ChangesHistoryMobile extends StatelessWidget {
     );
   }
 
-  Widget buildCheckBox(StoryContentModel content, String id) {
+  Widget buildCheckBox(
+    StoryContentModel content,
+    String id, {
+    bool latest = false,
+  }) {
     return ValueListenableBuilder<Set<String>>(
       valueListenable: viewModel.selectedNotifier,
       builder: (context, selectedItems, child) {
         bool selected = viewModel.selectedNotifier.value.contains(content.id);
         return Checkbox(
-          onChanged: (bool? value) => toggleItem(id),
+          onChanged: (bool? value) => toggleItem(id, latest),
+          fillColor: !latest ? null : MaterialStateProperty.all(Theme.of(context).disabledColor),
           value: selected,
         );
       },
     );
   }
 
-  void addItem(String id) {
+  void addItem(String id, bool latest) {
+    if (latest) {
+      showPreventEditLatestSnackbar();
+      return;
+    }
     Set<String> previous = {...viewModel.selectedNotifier.value};
     previous.add(id);
     viewModel.selectedNotifier.value = previous;
   }
 
-  void toggleItem(String id) {
+  void showPreventEditLatestSnackbar() {
+    MessengerService.instance.showSnackBar("Should not delete the latest one!");
+  }
+
+  void toggleItem(String id, bool latest) {
+    if (latest) {
+      showPreventEditLatestSnackbar();
+      return;
+    }
     Set<String> previous = {...viewModel.selectedNotifier.value};
     if (previous.contains(id)) {
       previous.remove(id);

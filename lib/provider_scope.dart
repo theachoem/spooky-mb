@@ -4,6 +4,7 @@ import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/providers/google_pay_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
+import 'package:spooky/providers/priority_starred_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
@@ -56,6 +57,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<BottomNavItemsProvider>(
           create: (context) => BottomNavItemsProvider(),
+        ),
+        ListenableProvider<PriorityStarredProvider>(
+          create: (context) => PriorityStarredProvider(),
         ),
       ],
       child: child,

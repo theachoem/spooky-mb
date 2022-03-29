@@ -49,7 +49,8 @@ class _CloudStorageMobile extends StatelessWidget {
         Set<int> loadingYears = viewModel.loadingYears;
         return ListTile(
           title: Text(e.year.toString()),
-          onTap: e.synced ? null : () => viewModel.backup(e.year),
+          // onTap: e.synced ? null : () => viewModel.backup(e.year),
+          onTap: () => viewModel.backup(e.year),
           trailing: SpCrossFade(
             showFirst: e.synced,
             alignment: Alignment.bottomRight,

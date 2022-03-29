@@ -17,6 +17,7 @@ class StoryList extends StatelessWidget {
     required this.stories,
     this.emptyMessage = "Empty",
     this.onDelete,
+    this.onArchive,
     this.onUnarchive,
     this.controller,
     this.viewOnly = false,
@@ -25,6 +26,7 @@ class StoryList extends StatelessWidget {
 
   final Future<void> Function() onRefresh;
   final Future<bool> Function(StoryModel story)? onDelete;
+  final Future<bool> Function(StoryModel story)? onArchive;
   final Future<bool> Function(StoryModel story)? onUnarchive;
   final List<StoryModel>? stories;
   final String emptyMessage;
@@ -43,8 +45,9 @@ class StoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (onDelete != null || onUnarchive != null) {
+    if (onDelete != null || onArchive != null || onUnarchive != null) {
       assert(onDelete != null);
+      assert(onArchive != null);
       assert(onUnarchive != null);
     }
     return RefreshIndicator(
@@ -232,7 +235,7 @@ class StoryList extends StatelessWidget {
 
   Widget buildConfiguredTile(int index, BuildContext context) {
     final StoryModel content = stories![index];
-    if (onDelete != null && onUnarchive != null) {
+    if (onDelete != null && onArchive != null && onUnarchive != null) {
       return Dismissible(
         key: ValueKey(content.file?.path),
         background: buildDismissibleBackground(
@@ -245,24 +248,26 @@ class StoryList extends StatelessWidget {
         ),
         secondaryBackground: buildDismissibleBackground(
           context: context,
-          iconData: Icons.unarchive,
+          iconData: content.archived ? Icons.unarchive : Icons.archive,
           alignment: Alignment.centerRight,
           backgroundColor: M3Color.of(context).primary,
           foregroundColor: M3Color.of(context).onPrimary,
-          label: "Unarchive",
+          label: content.archived ? "Unarchive" : "Archive",
         ),
         confirmDismiss: (direction) async {
           switch (direction) {
             case DismissDirection.startToEnd:
-              if (onDelete != null) return onDelete!(content);
-              return false;
+              return onDelete!(content);
             case DismissDirection.vertical:
               return false;
             case DismissDirection.horizontal:
               return false;
             case DismissDirection.endToStart:
-              if (onDelete != null) return onUnarchive!(content);
-              return false;
+              if (content.archived) {
+                return onUnarchive!(content);
+              } else {
+                return onArchive!(content);
+              }
             case DismissDirection.up:
               return false;
             case DismissDirection.down:
@@ -277,6 +282,9 @@ class StoryList extends StatelessWidget {
           previousStory: storyAt(index - 1),
           itemPadding: itemPadding,
           onRefresh: () => onRefresh(),
+          onArchive: onArchive,
+          onDelete: onDelete,
+          onUnarchive: onUnarchive,
         ),
       );
     }

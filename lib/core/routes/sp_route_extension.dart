@@ -148,7 +148,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.notFound:
         return 'Not Found';
       case SpRouter.addOn:
-        return 'Add more functionality';
+        return 'Add more lifetime access functionalities';
       case SpRouter.soundList:
         return "Sounds";
       case SpRouter.bottomNavSetting:
@@ -225,12 +225,13 @@ extension SpRouterExtension on SpRouter {
           activeIcon: Icons.archive,
         );
       case SpRouter.explore:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.explore,
-          inactiveIcon: Icons.explore_outlined,
-          activeIcon: Icons.explore,
-        );
+        return null;
+      // return MainTabBarItem(
+      //   navigatorKey: GlobalKey<NavigatorState>(),
+      //   router: SpRouter.explore,
+      //   inactiveIcon: Icons.explore_outlined,
+      //   activeIcon: Icons.explore,
+      // );
       case SpRouter.addOn:
         return MainTabBarItem(
           navigatorKey: GlobalKey<NavigatorState>(),

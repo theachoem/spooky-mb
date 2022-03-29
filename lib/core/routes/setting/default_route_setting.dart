@@ -4,7 +4,7 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
   DefaultRouteSetting({
-    required this.canSwap,
+    @Deprecated("Isn't used anymore") this.canSwap = true,
     required Widget Function(dynamic p1) route,
     required bool fullscreenDialog,
   }) : super(route: route, fullscreenDialog: fullscreenDialog);
@@ -26,7 +26,7 @@ class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         return SwipeablePageRoute<T>(
-          canSwipe: canSwap,
+          canSwipe: true,
           builder: route,
           settings: settings?.copyWith(arguments: this),
           fullscreenDialog: fullscreenDialog,

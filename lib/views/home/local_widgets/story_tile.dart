@@ -10,6 +10,7 @@ import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -30,6 +31,9 @@ class StoryTile extends StatefulWidget {
     required this.context,
     required this.itemPadding,
     required this.onRefresh,
+    this.onDelete,
+    this.onArchive,
+    this.onUnarchive,
     this.previousStory,
   }) : super(key: key);
 
@@ -38,6 +42,9 @@ class StoryTile extends StatefulWidget {
   final BuildContext context;
   final EdgeInsets itemPadding;
   final Future<void> Function() onRefresh;
+  final Future<bool> Function(StoryModel story)? onDelete;
+  final Future<bool> Function(StoryModel story)? onArchive;
+  final Future<bool> Function(StoryModel story)? onUnarchive;
 
   @override
   _StoryTileState createState() => _StoryTileState();
@@ -109,13 +116,13 @@ class _StoryTileState extends State<StoryTile> {
       },
       items: (BuildContext context) {
         return [
-          if (!manager.canArchive(story))
+          if (story.archived)
             SpPopMenuItem(
               title: "View",
               leadingIconData: Icons.chrome_reader_mode,
               onPressed: () => view(story, context),
             ),
-          if (manager.canArchive(story))
+          if (!story.archived)
             SpPopMenuItem(
               title: "Change Date",
               leadingIconData: Icons.folder_open,
@@ -133,24 +140,37 @@ class _StoryTileState extends State<StoryTile> {
                 }
               },
             ),
-          if (manager.canArchive(story))
+          if (!story.archived && widget.onArchive != null)
             SpPopMenuItem(
               title: "Archive",
               leadingIconData: Icons.archive,
               onPressed: () async {
-                File? file = await manager.archiveDocument(story);
-                if (file != null) {
-                  widget.onRefresh();
-                }
+                widget.onArchive!(story);
+              },
+            ),
+          if (story.archived && widget.onArchive != null)
+            SpPopMenuItem(
+              title: "Unarchive",
+              leadingIconData: Icons.archive,
+              onPressed: () async {
+                widget.onUnarchive!(story);
               },
             ),
           SpPopMenuItem(
             title: starred ? "Unstarred" : "Starred",
             leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
-            titleStyle: TextStyle(color: starredColor),
             onPressed: () => toggleStarred(),
           ),
-          buildExportOption(context, story),
+          if (context.read<DeveloperModeProvider>().developerModeOn) buildExportOption(context, story),
+          if (widget.onDelete != null)
+            SpPopMenuItem(
+              title: "Delete",
+              leadingIconData: Icons.delete,
+              titleStyle: TextStyle(color: M3Color.of(context).error),
+              onPressed: () async {
+                widget.onDelete!(story);
+              },
+            ),
         ];
       },
     );
@@ -312,24 +332,28 @@ class _StoryTileState extends State<StoryTile> {
   }
 
   Widget buildTime(BuildContext context, StoryContentModel content) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        SpAnimatedIcons(
-          showFirst: starred,
-          secondChild: const SizedBox(),
-          firstChild: Icon(
-            Icons.favorite,
-            size: ConfigConstant.iconSize1,
-            color: starredColor,
+    return SpTapEffect(
+      effects: const [SpTapEffectType.touchableOpacity],
+      onTap: () => toggleStarred(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SpAnimatedIcons(
+            showFirst: starred,
+            secondChild: const SizedBox(),
+            firstChild: Icon(
+              Icons.favorite,
+              size: ConfigConstant.iconSize1,
+              color: starredColor,
+            ),
           ),
-        ),
-        ConfigConstant.sizedBoxW0,
-        Text(
-          DateFormatHelper.timeFormat().format(content.createdAt),
-          style: M3TextTheme.of(context).bodySmall,
-        ),
-      ],
+          ConfigConstant.sizedBoxW0,
+          Text(
+            DateFormatHelper.timeFormat().format(content.createdAt),
+            style: M3TextTheme.of(context).bodySmall,
+          ),
+        ],
+      ),
     );
   }
 }

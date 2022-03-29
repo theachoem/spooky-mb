@@ -44,6 +44,7 @@ class _ThemeSettingMobile extends StatelessWidget {
                 buildLayoutTile(context),
                 buildSortTile(context),
                 buildMaxLineTile(),
+                buildPriorityStarredTile(),
                 buildShowChipTile(),
               ],
             ),
@@ -102,6 +103,24 @@ class _ThemeSettingMobile extends StatelessWidget {
         },
       );
     });
+  }
+
+  Consumer<PriorityStarredProvider> buildPriorityStarredTile() {
+    return Consumer<PriorityStarredProvider>(
+      builder: (context, provider, child) {
+        return ListTile(
+          leading: const Icon(Icons.favorite),
+          title: const Text("Starred to top"),
+          onTap: () => provider.set(!provider.prioritied),
+          trailing: Switch.adaptive(
+            value: provider.prioritied,
+            onChanged: (value) {
+              provider.set(value);
+            },
+          ),
+        );
+      },
+    );
   }
 
   Consumer<ShowChipsProvider> buildShowChipTile() {
@@ -183,8 +202,6 @@ class _ThemeSettingMobile extends StatelessWidget {
               return "Old to New";
             case SortType.newToOld:
               return "New to Old";
-            case SortType.starred:
-              return "Starred";
             case null:
               return "null";
           }
@@ -198,10 +215,6 @@ class _ThemeSettingMobile extends StatelessWidget {
             AlertDialogAction(
               key: SortType.newToOld,
               label: sortTitle(SortType.newToOld),
-            ),
-            AlertDialogAction(
-              key: SortType.starred,
-              label: sortTitle(SortType.starred),
             ),
             AlertDialogAction(
               key: SortType.oldToNew,

@@ -77,19 +77,16 @@ class SpRouteConfig {
         );
       case SpRouter.cloudStorage:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const CloudStorageView(),
         );
       case SpRouter.fontManager:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const FontManagerView(),
         );
       case SpRouter.lock:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
@@ -101,19 +98,16 @@ class SpRouteConfig {
         );
       case SpRouter.security:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const SecurityView(),
         );
       case SpRouter.themeSetting:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const ThemeSettingView(),
         );
       case SpRouter.managePages:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
@@ -123,13 +117,11 @@ class SpRouteConfig {
         );
       case SpRouter.archive:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const ArchiveView(),
         );
       case SpRouter.contentReader:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
@@ -139,7 +131,6 @@ class SpRouteConfig {
         );
       case SpRouter.changesHistory:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
@@ -155,7 +146,6 @@ class SpRouteConfig {
         );
       case SpRouter.detail:
         return DefaultRouteSetting<StoryModel>(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
@@ -170,13 +160,11 @@ class SpRouteConfig {
         );
       case SpRouter.main:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const MainView(),
         );
       case SpRouter.home:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
@@ -193,19 +181,16 @@ class SpRouteConfig {
         );
       case SpRouter.explore:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const ExploreView(),
         );
       case SpRouter.setting:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const SettingView(),
         );
       case SpRouter.appStarter:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const AppStarterView(),
         );
@@ -230,31 +215,26 @@ class SpRouteConfig {
         );
       case SpRouter.developerMode:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const DeveloperModeView(),
         );
       case SpRouter.notFound:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const NotFoundView(),
         );
       case SpRouter.addOn:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const AddOnsView(),
         );
       case SpRouter.soundList:
         return DefaultRouteSetting(
-          canSwap: false,
-          fullscreenDialog: false,
+          fullscreenDialog: true,
           route: (context) => const SoundListView(),
         );
       case SpRouter.bottomNavSetting:
         return DefaultRouteSetting(
-          canSwap: false,
           fullscreenDialog: false,
           route: (context) => const BottomNavSettingView(),
         );

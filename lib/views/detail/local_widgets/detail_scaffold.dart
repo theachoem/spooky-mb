@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/routes/sp_router.dart';
@@ -88,12 +89,12 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
         ValueListenableBuilder<bool>(
           valueListenable: widget.readOnlyNotifier,
           child: SpIconButton(
-            icon: const Icon(Icons.add_chart),
-            key: const ValueKey(Icons.add_chart),
+            icon: const Icon(CommunityMaterialIcons.format_page_break),
+            key: const ValueKey(CommunityMaterialIcons.format_page_break),
             onPressed: () {
               widget.viewModel.addPage();
             },
-            tooltip: "Add page",
+            tooltip: "Insert page break",
           ),
           builder: (context, value, child) {
             return SpAnimatedIcons(
