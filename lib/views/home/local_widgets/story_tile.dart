@@ -332,24 +332,28 @@ class _StoryTileState extends State<StoryTile> {
   }
 
   Widget buildTime(BuildContext context, StoryContentModel content) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        SpAnimatedIcons(
-          showFirst: starred,
-          secondChild: const SizedBox(),
-          firstChild: Icon(
-            Icons.favorite,
-            size: ConfigConstant.iconSize1,
-            color: starredColor,
+    return SpTapEffect(
+      effects: const [SpTapEffectType.touchableOpacity],
+      onTap: () => toggleStarred(),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          SpAnimatedIcons(
+            showFirst: starred,
+            secondChild: const SizedBox(),
+            firstChild: Icon(
+              Icons.favorite,
+              size: ConfigConstant.iconSize1,
+              color: starredColor,
+            ),
           ),
-        ),
-        ConfigConstant.sizedBoxW0,
-        Text(
-          DateFormatHelper.timeFormat().format(content.createdAt),
-          style: M3TextTheme.of(context).bodySmall,
-        ),
-      ],
+          ConfigConstant.sizedBoxW0,
+          Text(
+            DateFormatHelper.timeFormat().format(content.createdAt),
+            style: M3TextTheme.of(context).bodySmall,
+          ),
+        ],
+      ),
     );
   }
 }

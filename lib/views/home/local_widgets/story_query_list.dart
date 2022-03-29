@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -8,6 +9,7 @@ import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
 import 'package:spooky/core/types/sort_type.dart';
+import 'package:spooky/providers/priority_starred_provider.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_list.dart';
 
@@ -61,8 +63,11 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
         result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
         result = result.reversed.toList();
         break;
-      case SortType.starred:
-        result.sort(((a, b) => b.starred == true ? 1 : -1));
+    }
+
+    final provider = context.read<PriorityStarredProvider>();
+    if (provider.prioritied) {
+      result.sort(((a, b) => b.starred == true ? 1 : -1));
     }
 
     if (result != stories) {
