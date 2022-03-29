@@ -23,7 +23,7 @@ class _SoundListMobile extends StatelessWidget {
 
   MorphingAppBar buildAppBar(BuildContext context) {
     return MorphingAppBar(
-      leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
+      leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton(forceCloseButton: true) : null,
       title: const SpAppBarTitle(fallbackRouter: SpRouter.soundList),
       actions: [
         Consumer<MiniSoundPlayerProvider>(
@@ -86,7 +86,7 @@ class _SoundListMobile extends StatelessWidget {
   ) {
     List<SoundModel>? sounds = viewModel.soundsMap[type];
     return SliverStickyHeader(
-      header: _SoundTypeHeader(context: context, text: type.name.capitalize, type: type),
+      header: SpFadeIn(child: _SoundTypeHeader(context: context, text: type.name.capitalize, type: type)),
       sliver: SliverPadding(
         padding: EdgeInsets.only(bottom: index == SoundType.values.length - 1 ? kToolbarHeight * 2 : 0.0),
         sliver: SliverList(
@@ -94,12 +94,14 @@ class _SoundListMobile extends StatelessWidget {
             (context, index) {
               SoundModel sound = sounds![index];
               bool downloaded = viewModel.fileManager.downloaded(sound);
-              return _SoundTile(
-                sound: sound,
-                downloaded: downloaded,
-                index: index,
-                viewModel: viewModel,
-                onTap: () => onSoundPressed(context, downloaded, sound.type, sound),
+              return SpFadeIn(
+                child: _SoundTile(
+                  sound: sound,
+                  downloaded: downloaded,
+                  index: index,
+                  viewModel: viewModel,
+                  onTap: () => onSoundPressed(context, downloaded, sound.type, sound),
+                ),
               );
             },
             childCount: sounds?.length ?? 0,

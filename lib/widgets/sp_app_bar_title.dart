@@ -8,7 +8,6 @@ class SpAppBarTitle extends StatelessWidget {
   }) : super(key: key);
 
   final SpRouter? fallbackRouter;
-
   static SpRouter? router(BuildContext context) {
     String? name = ModalRoute.of(context)?.settings.name;
     SpRouter? router;
@@ -23,7 +22,7 @@ class SpAppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? title = router(context)?.title ?? fallbackRouter?.title;
+    String? title = fallbackRouter?.title ?? router(context)?.title;
     return Text(
       title ?? "",
       style: Theme.of(context).appBarTheme.titleTextStyle,
