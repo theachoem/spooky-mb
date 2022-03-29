@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:spooky/core/api/cloud_storages/gdrive_storage.dart';
 import 'package:spooky/core/models/backup_model.dart';
-import 'package:spooky/core/models/cloud_file_list_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
 
 class GDriveBackupStorage extends GDriveStorage {

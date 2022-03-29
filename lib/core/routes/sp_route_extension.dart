@@ -148,7 +148,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.notFound:
         return 'Not Found';
       case SpRouter.addOn:
-        return 'Add more functionality';
+        return 'Add more lifetime access functionalities';
       case SpRouter.soundList:
         return "Sounds";
       case SpRouter.bottomNavSetting:
