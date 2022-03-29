@@ -10,6 +10,7 @@ import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -160,7 +161,7 @@ class _StoryTileState extends State<StoryTile> {
             leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
             onPressed: () => toggleStarred(),
           ),
-          buildExportOption(context, story),
+          if (context.read<DeveloperModeProvider>().developerModeOn) buildExportOption(context, story),
           if (widget.onDelete != null)
             SpPopMenuItem(
               title: "Delete",
