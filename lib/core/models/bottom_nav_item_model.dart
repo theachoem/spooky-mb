@@ -24,5 +24,12 @@ class BottomNavItemModel {
   }
 
   Map<String, dynamic> toJson() => _$BottomNavItemModelToJson(this);
-  factory BottomNavItemModel.fromJson(Map<String, dynamic> json) => _$BottomNavItemModelFromJson(json);
+  factory BottomNavItemModel.fromJson(Map<String, dynamic> json) {
+    final values = SpRouter.values.map((e) => e.name);
+    if (values.contains(json['router'])) {
+      return _$BottomNavItemModelFromJson(json);
+    } else {
+      return BottomNavItemModel(router: null);
+    }
+  }
 }
