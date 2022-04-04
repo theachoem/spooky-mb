@@ -7,7 +7,7 @@ import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/models/product_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/product_as_type.dart';
-import 'package:spooky/providers/google_pay_provider.dart';
+import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/user_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -37,7 +37,7 @@ class AddOnsView extends StatelessWidget {
     return ViewModelProvider<AddOnsViewModel>(
       create: (_) => AddOnsViewModel(context),
       onModelReady: (context, provider) {
-        context.read<GooglePayProvider>().fetchProducts();
+        context.read<InAppPurchaseProvider>().fetchProducts();
       },
       builder: (context, viewModel, child) {
         return SpScreenTypeLayout(

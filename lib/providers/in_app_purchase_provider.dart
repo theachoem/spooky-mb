@@ -7,7 +7,7 @@ import 'package:spooky/core/models/product_list_model.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/utils/extensions/product_as_type_extension.dart';
 
-class GooglePayProvider extends ChangeNotifier {
+class InAppPurchaseProvider extends ChangeNotifier {
   final InAppPurchase inAppPurchase = InAppPurchase.instance;
   late final ValueNotifier<List<PurchaseDetails>> purchaseNotifier;
   List<ProductDetails> productDetails = [];
@@ -16,7 +16,7 @@ class GooglePayProvider extends ChangeNotifier {
   late final List<String> consumableIds;
   Set<String> get productIds => <String>{...nonConsumableIds, ...consumableIds};
 
-  GooglePayProvider() {
+  InAppPurchaseProvider() {
     purchaseNotifier = ValueNotifier([]);
     inAppPurchase.isAvailable().then((available) {
       if (!available) return;

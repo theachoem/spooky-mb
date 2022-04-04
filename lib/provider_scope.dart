@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/cloud_service_provider.dart';
-import 'package:spooky/providers/google_pay_provider.dart';
+import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/providers/priority_starred_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
@@ -46,8 +46,8 @@ class ProviderScope extends StatelessWidget {
         ListenableProvider<TileMaxLineProvider>(
           create: (context) => TileMaxLineProvider(),
         ),
-        ListenableProvider<GooglePayProvider>(
-          create: (context) => GooglePayProvider(),
+        ListenableProvider<InAppPurchaseProvider>(
+          create: (context) => InAppPurchaseProvider(),
         ),
         ListenableProvider<MiniSoundPlayerProvider>(
           create: (context) => MiniSoundPlayerProvider(),

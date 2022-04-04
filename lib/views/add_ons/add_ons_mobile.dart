@@ -9,7 +9,7 @@ class _AddOnsMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<GooglePayProvider>(
+      body: Consumer<InAppPurchaseProvider>(
         builder: (context, provider, child) {
           return RefreshIndicator(
             onRefresh: () => provider.fetchProducts(),
@@ -51,7 +51,7 @@ class _AddOnsMobile extends StatelessWidget {
 
   Widget buildWholeCard({
     required int index,
-    required GooglePayProvider provider,
+    required InAppPurchaseProvider provider,
     required List<PurchaseDetails> purchaseDetails,
     required BuildContext context,
   }) {
