@@ -7,6 +7,7 @@ import 'package:spooky/core/types/file_path_type.dart';
 
 part 'story_model.g.dart';
 
+@Deprecated("Use StoryV2Model instead")
 @JsonSerializable()
 class StoryModel extends BaseModel {
   final String id;

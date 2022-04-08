@@ -262,6 +262,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.1"
+  copy_with_extension:
+    dependency: "direct main"
+    description:
+      name: copy_with_extension
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.0"
+  copy_with_extension_gen:
+    dependency: "direct dev"
+    description:
+      name: copy_with_extension_gen
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.1"
   cross_file:
     dependency: transitive
     description:

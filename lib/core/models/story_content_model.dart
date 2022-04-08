@@ -4,6 +4,7 @@ import 'package:spooky/utils/mixins/comparable_mixin.dart';
 
 part 'story_content_model.g.dart';
 
+@Deprecated("Use StoryV2ContentModel instead")
 @JsonSerializable()
 class StoryContentModel extends BaseModel with ComparableMixin {
   final String id;
