@@ -47,26 +47,14 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
     try {
       return info._localAuth.authenticate(
         localizedReason: localizedReason,
-        useErrorDialogs: true,
-        stickyAuth: false,
-        biometricOnly: true,
+        options: const AuthenticationOptions(
+          useErrorDialogs: true,
+          stickyAuth: false,
+          biometricOnly: true,
+        ),
       );
-    } on PlatformException catch (e) {
-      switch (e.code) {
-        case code.lockedOut:
-          break;
-        case code.notAvailable:
-          OpenSettings.openSecuritySetting();
-          break;
-        case code.notEnrolled:
-          break;
-        case code.otherOperatingSystem:
-          break;
-        case code.passcodeNotSet:
-          break;
-        case code.permanentlyLockedOut:
-          break;
-      }
+    } on PlatformException {
+      // OpenSettings.openSecuritySetting();
     }
     return false;
   }

@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:open_settings/open_settings.dart';
 import 'package:spooky/views/lock/types/lock_flow_type.dart';
 import 'package:spooky/utils/util_widgets/screen_lock.dart';
 import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
 import 'package:spooky/core/types/lock_type.dart';
-import 'package:local_auth/error_codes.dart' as code;
 
 part './methods/biometrics_service.dart';
 part './methods/password_service.dart';
