@@ -2,6 +2,8 @@ import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
+import 'package:spooky/core/db/models/base/links_model.dart';
+import 'package:spooky/core/db/models/base/meta_model.dart';
 
 abstract class BaseDatabase<T extends BaseDbModel> {
   BaseDbAdapter get adapter;
@@ -21,7 +23,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     Map<String, dynamic>? params,
   }) async {
     return beforeExec<BaseDbListModel<T>>(() async {
-      Map<String, dynamic>? map = await adapter.fetchOne(params: params);
+      Map<String, dynamic>? map = await adapter.fetchAll(params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
       BaseDbListModel<T>? items = await itemsTransformer(map);
       return items;
@@ -29,7 +31,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }
 
   Future<T?> fetchOne({
-    String? id,
+    required String id,
     Map<String, dynamic>? params,
   }) {
     return beforeExec<T>(() async {
@@ -95,5 +97,21 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     }
 
     return [];
+  }
+
+  Future<MetaModel?> buildMeta(Map<String, dynamic> json) async {
+    dynamic meta = json['meta'];
+    if (meta != null && meta is Map<String, dynamic>) {
+      return MetaModel.fromJson(meta);
+    }
+    return null;
+  }
+
+  Future<LinksModel?> buildLinks(Map<String, dynamic> json) async {
+    dynamic links = json['links'];
+    if (links != null && links is Map<String, dynamic>) {
+      return LinksModel.fromJson(links);
+    }
+    return null;
   }
 }

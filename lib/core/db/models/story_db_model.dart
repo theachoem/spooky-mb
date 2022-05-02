@@ -19,6 +19,9 @@ class StoryDbModel extends BaseDbModel {
 
   final List<StoryContentDbModel> changes;
 
+  final DateTime createdAt;
+  final DateTime updatedAt;
+
   StoryDbModel({
     required this.type,
     required this.id,
@@ -28,6 +31,8 @@ class StoryDbModel extends BaseDbModel {
     required this.month,
     required this.day,
     required this.changes,
+    required this.updatedAt,
+    required this.createdAt,
   });
 
   @override

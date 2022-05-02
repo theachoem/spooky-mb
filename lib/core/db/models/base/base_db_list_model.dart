@@ -4,8 +4,8 @@ import 'package:spooky/core/db/models/base/meta_model.dart';
 
 class BaseDbListModel<T extends BaseDbModel> {
   final List<T> items;
-  final MetaModel meta;
-  final LinksModel links;
+  final MetaModel? meta;
+  final LinksModel? links;
 
   BaseDbListModel({
     required this.items,

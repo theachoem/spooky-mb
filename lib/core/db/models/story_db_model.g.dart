@@ -17,6 +17,8 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
       changes: (json['changes'] as List<dynamic>)
           .map((e) => StoryContentDbModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+      createdAt: DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
@@ -29,6 +31,8 @@ Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
       'starred': instance.starred,
       'feeling': instance.feeling,
       'changes': instance.changes.map((e) => e.toJson()).toList(),
+      'created_at': instance.createdAt.toIso8601String(),
+      'updated_at': instance.updatedAt.toIso8601String(),
     };
 
 const _$PathTypeEnumMap = {

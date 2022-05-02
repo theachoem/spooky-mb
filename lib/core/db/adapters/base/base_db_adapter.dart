@@ -7,7 +7,7 @@ abstract class BaseDbAdapter {
   });
 
   Future<Map<String, dynamic>?> fetchOne({
-    String? id,
+    required String id,
     Map<String, dynamic>? params,
   });
 
