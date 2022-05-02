@@ -7,14 +7,16 @@ import 'package:spooky/core/db/models/base/meta_model.dart';
 
 abstract class BaseDatabase<T extends BaseDbModel> {
   BaseDbAdapter get adapter;
-  Object? error;
+  ErrorMessage? error;
+  Object? errorObject;
 
   Future<P?> beforeExec<P>(Future<P?> Function() callback) async {
     try {
       P? data = await callback();
       return data;
     } catch (e) {
-      error = e;
+      if (e is ErrorMessage) error = e;
+      errorObject = error;
       return null;
     }
   }
@@ -73,9 +75,11 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }) async {
     return beforeExec<T>(() async {
       Map<String, dynamic>? map = await adapter.delete(id: id, params: params);
-      if (map == null) throw ErrorMessage(errorMessage: "Response null");
-      T? object = await objectTransformer(map);
-      return object;
+      if (map != null) {
+        T? object = await objectTransformer(map);
+        return object;
+      }
+      return null;
     });
   }
 
