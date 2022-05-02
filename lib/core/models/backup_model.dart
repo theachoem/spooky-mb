@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/models/base_model.dart';
-import 'package:spooky/core/models/story_model.dart';
 
 part 'backup_model.g.dart';
 
@@ -8,7 +8,7 @@ part 'backup_model.g.dart';
 class BackupModel extends BaseModel {
   final int year;
   final DateTime createdAt;
-  final List<StoryModel> stories;
+  final List<StoryDbModel> stories;
 
   BackupModel({
     required this.year,

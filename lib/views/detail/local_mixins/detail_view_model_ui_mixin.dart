@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 
 mixin DetailViewModelUiMixin on ChangeNotifier {
@@ -37,18 +37,18 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
   }
 
   FocusNode? focusNodeAt(int index) => _focusNodes[index];
-  StoryContentModel initialContent(StoryModel story) {
+  StoryContentDbModel initialContent(StoryDbModel story) {
     if (story.changes.isNotEmpty) {
       return story.changes.last;
     } else {
-      return StoryContentModel.create(
-        createdAt: DateTime(story.path.year, story.path.month, story.path.day),
-        id: openOn.millisecondsSinceEpoch.toString(),
+      return StoryContentDbModel.create(
+        createdAt: openOn,
+        id: openOn.millisecondsSinceEpoch,
       );
     }
   }
 
-  void initMixinState(DetailViewFlowType flowType, StoryContentModel content) {
+  void initMixinState(DetailViewFlowType flowType, StoryContentDbModel content) {
     readOnlyNotifier = ValueNotifier(flowType == DetailViewFlowType.update);
     hasChangeNotifer = ValueNotifier(flowType == DetailViewFlowType.create);
     toolbarVisibleNotifier = ValueNotifier(false);

@@ -34,8 +34,8 @@ import '../../views/restore/restore_view.dart' as _i1;
 import '../../views/security/security_view.dart' as _i4;
 import '../../views/setting/setting_view.dart' as _i18;
 import '../../views/theme_setting/theme_setting_view.dart' as _i9;
-import '../models/story_content_model.dart' as _i22;
-import '../models/story_model.dart' as _i23;
+import '../db/models/story_content_db_model.dart' as _i22;
+import '../db/models/story_db_model.dart' as _i23;
 import '../types/detail_view_flow_type.dart' as _i25;
 
 class AppRouter extends _i19.RootStackRouter {
@@ -298,7 +298,7 @@ class ThemeSetting extends _i19.PageRouteInfo<void> {
 /// generated route for
 /// [_i10.ManagePagesView]
 class ManagePages extends _i19.PageRouteInfo<ManagePagesArgs> {
-  ManagePages({_i20.Key? key, required _i22.StoryContentModel content})
+  ManagePages({_i20.Key? key, required _i22.StoryContentDbModel content})
       : super(ManagePages.name,
             path: '/manage-pages-view',
             args: ManagePagesArgs(key: key, content: content));
@@ -311,7 +311,7 @@ class ManagePagesArgs {
 
   final _i20.Key? key;
 
-  final _i22.StoryContentModel content;
+  final _i22.StoryContentDbModel content;
 
   @override
   String toString() {
@@ -330,7 +330,7 @@ class Archive extends _i19.PageRouteInfo<void> {
 /// generated route for
 /// [_i12.ContentReaderView]
 class ContentReader extends _i19.PageRouteInfo<ContentReaderArgs> {
-  ContentReader({_i20.Key? key, required _i22.StoryContentModel content})
+  ContentReader({_i20.Key? key, required _i22.StoryContentDbModel content})
       : super(ContentReader.name,
             path: '/content-reader-view',
             args: ContentReaderArgs(key: key, content: content));
@@ -343,7 +343,7 @@ class ContentReaderArgs {
 
   final _i20.Key? key;
 
-  final _i22.StoryContentModel content;
+  final _i22.StoryContentDbModel content;
 
   @override
   String toString() {
@@ -356,9 +356,9 @@ class ContentReaderArgs {
 class ChangesHistory extends _i19.PageRouteInfo<ChangesHistoryArgs> {
   ChangesHistory(
       {_i20.Key? key,
-      required _i23.StoryModel story,
-      required void Function(_i22.StoryContentModel) onRestorePressed,
-      required _i24.Future<_i23.StoryModel> Function(List<String>)
+      required _i23.StoryDbModel story,
+      required void Function(_i22.StoryContentDbModel) onRestorePressed,
+      required _i24.Future<_i23.StoryDbModel> Function(List<int>)
           onDeletePressed})
       : super(ChangesHistory.name,
             path: '/changes-history-view',
@@ -380,11 +380,11 @@ class ChangesHistoryArgs {
 
   final _i20.Key? key;
 
-  final _i23.StoryModel story;
+  final _i23.StoryDbModel story;
 
-  final void Function(_i22.StoryContentModel) onRestorePressed;
+  final void Function(_i22.StoryContentDbModel) onRestorePressed;
 
-  final _i24.Future<_i23.StoryModel> Function(List<String>) onDeletePressed;
+  final _i24.Future<_i23.StoryDbModel> Function(List<int>) onDeletePressed;
 
   @override
   String toString() {
@@ -397,7 +397,7 @@ class ChangesHistoryArgs {
 class Detail extends _i19.PageRouteInfo<DetailArgs> {
   Detail(
       {_i20.Key? key,
-      required _i23.StoryModel initialStory,
+      required _i23.StoryDbModel initialStory,
       required _i25.DetailViewFlowType intialFlow})
       : super(Detail.name,
             path: '/detail-view',
@@ -413,7 +413,7 @@ class DetailArgs {
 
   final _i20.Key? key;
 
-  final _i23.StoryModel initialStory;
+  final _i23.StoryDbModel initialStory;
 
   final _i25.DetailViewFlowType intialFlow;
 

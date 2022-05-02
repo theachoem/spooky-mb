@@ -1,9 +1,8 @@
-import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/foundation.dart';
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/notification/channels/base_notification_channel.dart';
 import 'package:spooky/core/types/notification_channel_types.dart';
 import 'package:spooky/core/notification/payloads/auto_save_payload.dart';
@@ -40,13 +39,10 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
       }
     }
 
-    String? path = object?.path;
-    if (path == null) return;
+    int? id = object?.id;
+    if (id == null) return;
 
-    File file = File(path);
-    if (!file.existsSync()) return;
-
-    StoryModel? story = await StoryManager().fetchOne(file);
+    StoryDbModel? story = await StoryDatabase().fetchOne(id: id.toString());
     if (story == null) return;
 
     String? message;

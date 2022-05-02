@@ -2,7 +2,7 @@ library manage_pages_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
-import 'package:spooky/core/models/story_content_model.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -29,7 +29,7 @@ class ManagePagesView extends StatelessWidget {
     required this.content,
   }) : super(key: key);
 
-  final StoryContentModel content;
+  final StoryContentDbModel content;
 
   @override
   Widget build(BuildContext context) {

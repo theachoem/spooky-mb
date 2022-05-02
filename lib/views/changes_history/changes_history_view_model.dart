@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 
 class ChangesHistoryViewModel extends BaseViewModel {
-  StoryModel story;
-  final void Function(StoryContentModel content) onRestorePressed;
-  final Future<StoryModel> Function(List<String> contentIds) onDeletePressed;
+  StoryDbModel story;
+  final void Function(StoryContentDbModel content) onRestorePressed;
+  final Future<StoryDbModel> Function(List<int> contentIds) onDeletePressed;
 
   bool _editing = false;
   bool get editing => _editing;
@@ -16,7 +16,7 @@ class ChangesHistoryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  late final ValueNotifier<Set<String>> selectedNotifier;
+  late final ValueNotifier<Set<int>> selectedNotifier;
 
   ChangesHistoryViewModel(
     this.story,
@@ -27,7 +27,7 @@ class ChangesHistoryViewModel extends BaseViewModel {
   }
 
   void delele() async {
-    StoryModel value = await onDeletePressed(selectedNotifier.value.toList());
+    StoryDbModel value = await onDeletePressed(selectedNotifier.value.toList());
     story = value;
     notifyListeners();
   }
@@ -36,13 +36,13 @@ class ChangesHistoryViewModel extends BaseViewModel {
   void notifyListeners() {
     super.notifyListeners();
     if (_editing == false) {
-      Set<String> value = {...selectedNotifier.value}..clear();
+      Set<int> value = {...selectedNotifier.value}..clear();
       selectedNotifier.value = value;
     }
 
     // make sure select id is in story
     final list = story.changes.map((e) => e.id);
-    Set<String> value = selectedNotifier.value;
+    Set<int> value = selectedNotifier.value;
     value.removeWhere((e) => !list.contains(e));
     selectedNotifier.value = value;
   }

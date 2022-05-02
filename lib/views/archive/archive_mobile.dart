@@ -12,7 +12,7 @@ class _ArchiveMobile extends StatelessWidget {
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
       ),
       body: StoryQueryList(
-        queryOptions: StoryQueryOptionsModel(filePath: FilePathType.archive),
+        queryOptions: StoryQueryOptionsModel(type: PathType.archives),
         onListReloaderReady: (loader) {},
       ),
     );

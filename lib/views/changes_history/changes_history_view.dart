@@ -2,8 +2,8 @@ library changes_history_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -33,9 +33,9 @@ class ChangesHistoryView extends StatelessWidget {
     required this.onDeletePressed,
   }) : super(key: key);
 
-  final StoryModel story;
-  final void Function(StoryContentModel content) onRestorePressed;
-  final Future<StoryModel> Function(List<String> contentIds) onDeletePressed;
+  final StoryDbModel story;
+  final void Function(StoryContentDbModel content) onRestorePressed;
+  final Future<StoryDbModel> Function(List<int> contentIds) onDeletePressed;
 
   @override
   Widget build(BuildContext context) {

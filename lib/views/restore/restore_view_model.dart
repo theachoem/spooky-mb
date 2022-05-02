@@ -1,19 +1,16 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/backup/backup_service.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/api/cloud_storages/gdrive_backup_storage.dart';
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/models/backup_display_model.dart';
 import 'package:spooky/core/models/backup_model.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
-import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
-import 'package:spooky/core/types/file_path_type.dart';
 
 class RestoreViewModel extends BaseViewModel {
   late final ValueNotifier<bool> showSkipNotifier;
@@ -70,15 +67,10 @@ class RestoreViewModel extends BaseViewModel {
     CloudFileModel file,
     BackupDisplayModel display,
   ) async {
-    var year = display.createAt?.year;
-    Iterable<FileSystemEntity>? result = await StoryManager().fetchFiles(
-      options: StoryQueryOptionsModel(
-        filePath: FilePathType.docs,
-        year: display.createAt?.year,
-      ),
-    );
+    int? year = display.createAt?.year;
+    int result = StoryDatabase().getDocsCount(display.createAt?.year);
 
-    if (result?.isNotEmpty == true) {
+    if (result > 0) {
       OkCancelResult result = await showOkCancelAlertDialog(
         context: context,
         title: "Notice",

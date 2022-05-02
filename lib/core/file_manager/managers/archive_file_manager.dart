@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/file_manager/base/base_file_manager.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_model.dart';
@@ -26,13 +27,13 @@ class ArchiveFileManager extends BaseFileManager {
     return move(story.writableFile, destinationFilePath);
   }
 
-  Future<File?> unarchiveDocument(StoryModel story) async {
+  Future<File?> unarchiveDocument(StoryDbModel story) async {
     File fileToMove = story.writableFile;
     String destinationFilePath = story.path.copyWith(filePath: FilePathType.docs).toFullPath();
     return move(fileToMove, destinationFilePath);
   }
 
-  Future<FileSystemEntity?> deleteDocument(StoryModel story) async {
+  Future<FileSystemEntity?> deleteDocument(StoryDbModel story) async {
     return delete(story.writableFile);
   }
 }

@@ -2,11 +2,11 @@ part of backup;
 
 // construct backup file
 mixin BackupConstructor {
-  final StoryManager manager = StoryManager();
+  final StoryDatabase database = StoryDatabase();
 
   // 2020_1646123928000.json
   Future<List<BackupModel>> generateBackups() async {
-    Set<int>? years = await manager.fetchYears();
+    Set<int>? years = await database.fetchYears();
 
     List<BackupModel> backupEachYears = [];
     if (years != null) {
@@ -22,13 +22,17 @@ mixin BackupConstructor {
   }
 
   Future<BackupModel?> generateBackupsForAYears(int year) async {
-    List<StoryModel>? result =
-        await manager.fetchAll(options: StoryQueryOptionsModel(filePath: FilePathType.docs, year: year));
+    BaseDbListModel<StoryDbModel>? result = await database.fetchAll(
+      params: StoryQueryOptionsModel(
+        type: PathType.docs,
+        year: year,
+      ).toJson(),
+    );
     if (result != null) {
       return BackupModel(
         year: year,
         createdAt: DateTime.now(),
-        stories: result,
+        stories: result.items,
       );
     }
     return null;

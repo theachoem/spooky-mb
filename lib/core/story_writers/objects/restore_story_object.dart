@@ -2,7 +2,7 @@ import 'package:spooky/core/story_writers/objects/default_story_object.dart';
 import 'package:spooky/views/detail/detail_view_model_getter.dart';
 
 class RestoreStoryObject extends DefaultStoryObject {
-  final String contentId;
+  final int contentId;
 
   RestoreStoryObject(
     DetailViewModelGetter info, {

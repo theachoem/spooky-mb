@@ -5,8 +5,8 @@ part 'auto_save_payload.g.dart';
 
 @JsonSerializable()
 class AutoSavePayload extends BaseNotificationPayload {
-  final String path;
-  AutoSavePayload(this.path);
+  final int? id;
+  AutoSavePayload(this.id);
 
   @override
   Map<String, dynamic> toJson() => _$AutoSavePayloadToJson(this);

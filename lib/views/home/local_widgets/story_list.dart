@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -25,16 +25,16 @@ class StoryList extends StatelessWidget {
   }) : super(key: key);
 
   final Future<void> Function() onRefresh;
-  final Future<bool> Function(StoryModel story)? onDelete;
-  final Future<bool> Function(StoryModel story)? onArchive;
-  final Future<bool> Function(StoryModel story)? onUnarchive;
-  final List<StoryModel>? stories;
+  final Future<bool> Function(StoryDbModel story)? onDelete;
+  final Future<bool> Function(StoryDbModel story)? onArchive;
+  final Future<bool> Function(StoryDbModel story)? onUnarchive;
+  final List<StoryDbModel>? stories;
   final String emptyMessage;
   final bool viewOnly;
   final EdgeInsets itemPadding;
   final ScrollController? controller;
 
-  StoryModel? storyAt(int index) {
+  StoryDbModel? storyAt(int index) {
     if (stories?.isNotEmpty == true) {
       if (index >= 0 && stories!.length > index) {
         return stories![index];
@@ -131,11 +131,11 @@ class StoryList extends StatelessWidget {
     required BuildContext context,
     required Widget child,
   }) {
-    StoryModel? story = storyAt(index);
-    StoryModel? previousStory = storyAt(index - 1);
+    StoryDbModel? story = storyAt(index);
+    StoryDbModel? previousStory = storyAt(index - 1);
 
-    String storyForCompare = "${story?.path.year} ${story?.path.month}";
-    String previousStoryForCompare = "${previousStory?.path.year} ${previousStory?.path.month}";
+    String storyForCompare = "${story?.year} ${story?.month}";
+    String previousStoryForCompare = "${previousStory?.year} ${previousStory?.month}";
 
     return SpListLayoutBuilder(
       builder: (context, layoutType, loaded) {
@@ -196,7 +196,7 @@ class StoryList extends StatelessWidget {
                 borderRadius: ConfigConstant.circlarRadius2,
               ),
               child: Text(
-                DateFormatHelper.toNameOfMonth().format(stories![index].path.toDateTime()),
+                DateFormatHelper.toNameOfMonth().format(stories![index].toDateTime()),
                 style: M3TextTheme.of(context).labelSmall,
               ),
             ),
@@ -215,7 +215,7 @@ class StoryList extends StatelessWidget {
     required int index,
   }) {
     return TweenAnimationBuilder<int>(
-      key: ValueKey(stories?[index].file?.path),
+      key: ValueKey(stories?[index].id),
       duration: ConfigConstant.duration,
       tween: IntTween(begin: 0, end: 1),
       child: child,
@@ -234,10 +234,10 @@ class StoryList extends StatelessWidget {
   }
 
   Widget buildConfiguredTile(int index, BuildContext context) {
-    final StoryModel content = stories![index];
+    final StoryDbModel content = stories![index];
     if (onDelete != null && onArchive != null && onUnarchive != null) {
       return Dismissible(
-        key: ValueKey(content.file?.path),
+        key: ValueKey(content.id),
         background: buildDismissibleBackground(
           context: context,
           iconData: Icons.delete,

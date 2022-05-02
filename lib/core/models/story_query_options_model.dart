@@ -1,28 +1,35 @@
-import 'package:spooky/core/types/file_path_type.dart';
-import 'package:spooky/utils/helpers/file_helper.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:spooky/core/types/path_type.dart';
 
+part 'story_query_options_model.g.dart';
+
+@JsonSerializable()
 class StoryQueryOptionsModel {
   final int? year;
   final int? month;
   final int? day;
-  final FilePathType filePath;
+  final PathType type;
 
   StoryQueryOptionsModel({
     this.year,
     this.month,
     this.day,
-    required this.filePath,
+    required this.type,
   });
 
+  // TODO: fix this
   // docs/2021/1/12
   String toPath([String? parent]) {
     List<String> paths = [
-      parent ?? FileHelper.directory.absolute.path,
-      filePath.name,
-      if (year != null) "$year",
-      if (month != null) "$month",
-      if (day != null) "$day",
+      // parent ?? FileHelper.directory.absolute.path,
+      // type.name,
+      // if (year != null) "$year",
+      // if (month != null) "$month",
+      // if (day != null) "$day",
     ];
     return paths.join("/");
   }
+
+  Map<String, dynamic> toJson() => _$StoryQueryOptionsModelToJson(this);
+  factory StoryQueryOptionsModel.fromJson(Map<String, dynamic> json) => _$StoryQueryOptionsModelFromJson(json);
 }

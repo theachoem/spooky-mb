@@ -6,14 +6,17 @@ import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 
+@Deprecated("Use StoryDatabase instead")
 class StoryManager extends BaseStoryManager<StoryModel> {
   Directory get directory => Directory(root.path + "/" + FilePathType.docs.name);
 
   @override
   StoryModel objectTransformer(Map<String, dynamic> json, File file, [StoryQueryOptionsModel? options]) {
     StoryModel story = StoryModel.fromJson(json);
-    PathModel path = story.path.copyWith(filePath: options?.filePath);
-    return story.copyWith(file: file, path: path);
+    // PathModel path = story.path.copyWith(filePath: options?.filePath);
+    // PathModel path = story.path.copyWith(filePath: options?.filePath);
+    // return story.copyWith(file: file, path: path);
+    return story;
   }
 
   Future<FileSystemEntity?> updatePathDate(

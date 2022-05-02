@@ -6,6 +6,8 @@ import 'package:spooky/core/db/adapters/base/base_file_db_adpater.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
 import 'package:spooky/core/db/models/base/meta_model.dart';
+import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
@@ -28,5 +30,15 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
   @override
   Future<StoryDbModel?> objectTransformer(Map<String, dynamic> json) async {
     return StoryDbModel.fromJson(json);
+  }
+
+  Future<Set<int>?> fetchYears() {
+    _StoryFileDbAdapter _adapter = adapter as _StoryFileDbAdapter;
+    return _adapter.fetchYears();
+  }
+
+  int getDocsCount(int? year) {
+    _StoryFileDbAdapter _adapter = adapter as _StoryFileDbAdapter;
+    return _adapter.getDocsCount(year);
   }
 }
