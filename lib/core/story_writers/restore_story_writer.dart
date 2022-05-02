@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/story_writers/default_story_writer.dart';
 import 'package:spooky/core/story_writers/objects/restore_story_object.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 
@@ -28,14 +27,12 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
 
   @override
   void onSaved({
-    required StoryModel? story,
-    required FileSystemEntity? file,
+    required StoryDbModel? story,
     required ResponseCodeType responseCode,
     required String message,
   }) {
     super.onSaved(
       story: story,
-      file: file,
       responseCode: responseCode,
       message: message,
     );
@@ -55,11 +52,11 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
   }
 
   @override
-  StoryModel buildStory(RestoreStoryObject object) {
-    StoryModel story = object.info.currentStory;
-    Iterable<StoryContentModel> selected = object.info.currentStory.changes.where((e) => e.id == object.contentId);
+  StoryDbModel buildStory(RestoreStoryObject object) {
+    StoryDbModel story = object.info.currentStory;
+    Iterable<StoryContentDbModel> selected = object.info.currentStory.changes.where((e) => e.id == object.contentId);
     if (selected.isNotEmpty) {
-      StoryContentModel content = selected.last;
+      StoryContentDbModel content = selected.last;
       story.removeChangeById(content.id);
       story.addChange(content.restore(content));
       return story;

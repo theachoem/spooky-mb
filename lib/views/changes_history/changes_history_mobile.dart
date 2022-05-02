@@ -100,8 +100,8 @@ class _ChangesHistoryMobile extends StatelessWidget {
       itemCount: viewModel.story.changes.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (_context, index) {
-        StoryContentModel content = viewModel.story.changes[index];
-        String id = content.id;
+        StoryContentDbModel content = viewModel.story.changes[index];
+        int id = content.id;
         bool latest = index == viewModel.story.changes.length - 1;
         return SpPopupMenuButton(
           dx: MediaQuery.of(context).size.width,
@@ -179,11 +179,11 @@ class _ChangesHistoryMobile extends StatelessWidget {
   }
 
   Widget buildCheckBox(
-    StoryContentModel content,
-    String id, {
+    StoryContentDbModel content,
+    int id, {
     bool latest = false,
   }) {
-    return ValueListenableBuilder<Set<String>>(
+    return ValueListenableBuilder<Set<int>>(
       valueListenable: viewModel.selectedNotifier,
       builder: (context, selectedItems, child) {
         bool selected = viewModel.selectedNotifier.value.contains(content.id);
@@ -196,12 +196,12 @@ class _ChangesHistoryMobile extends StatelessWidget {
     );
   }
 
-  void addItem(String id, bool latest) {
+  void addItem(int id, bool latest) {
     if (latest) {
       showPreventEditLatestSnackbar();
       return;
     }
-    Set<String> previous = {...viewModel.selectedNotifier.value};
+    Set<int> previous = {...viewModel.selectedNotifier.value};
     previous.add(id);
     viewModel.selectedNotifier.value = previous;
   }
@@ -210,12 +210,12 @@ class _ChangesHistoryMobile extends StatelessWidget {
     MessengerService.instance.showSnackBar("Should not delete the latest one!");
   }
 
-  void toggleItem(String id, bool latest) {
+  void toggleItem(int id, bool latest) {
     if (latest) {
       showPreventEditLatestSnackbar();
       return;
     }
-    Set<String> previous = {...viewModel.selectedNotifier.value};
+    Set<int> previous = {...viewModel.selectedNotifier.value};
     if (previous.contains(id)) {
       previous.remove(id);
     } else {
@@ -224,7 +224,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
     viewModel.selectedNotifier.value = previous;
   }
 
-  Widget? buildSubtitle(StoryContentModel content, BuildContext context) {
+  Widget? buildSubtitle(StoryContentDbModel content, BuildContext context) {
     String date = DateFormatHelper.dateTimeFormat().format(content.createdAt);
     return Text(
       "Created at $date",

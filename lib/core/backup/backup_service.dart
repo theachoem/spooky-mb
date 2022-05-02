@@ -2,13 +2,14 @@ library backup;
 
 import 'dart:io';
 import 'package:spooky/core/api/cloud_storages/gdrive_backup_storage.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/db/models/base/base_db_list_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/file_manager/managers/backup_file_manager.dart';
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/models/backup_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
-import 'package:spooky/core/types/file_path_type.dart';
+import 'package:spooky/core/types/path_type.dart';
 
 part 'backup_constructor.dart';
 
@@ -33,8 +34,8 @@ class BackupService with BackupConstructor {
 
   Future<void> restore(BackupModel? backup) async {
     if (backup != null) {
-      for (StoryModel e in backup.stories) {
-        await StoryManager().write(e.path.toFile(), e);
+      for (StoryDbModel e in backup.stories) {
+        await StoryDatabase().create(body: e.toJson());
       }
     }
   }

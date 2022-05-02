@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/db/models/base/base_db_list_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
@@ -28,9 +27,8 @@ class StoryQueryList extends StatefulWidget {
 }
 
 class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClientMixin {
-  final StoryManager storyManager = StoryManager();
-  final ArchiveFileManager fileManager = ArchiveFileManager();
-  List<StoryModel>? stories;
+  final StoryDatabase database = StoryDatabase();
+  List<StoryDbModel>? stories;
 
   @override
   void initState() {
@@ -46,13 +44,14 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
   }
 
-  DateTime dateForCompare(StoryModel story) {
-    return story.path.toDateTime();
+  DateTime dateForCompare(StoryDbModel story) {
+    return story.toDateTime();
   }
 
   Future<void> load() async {
     SortType? sortType = await SortTypeStorage().readEnum();
-    List<StoryModel> result = await storyManager.fetchAll(options: widget.queryOptions) ?? [];
+    BaseDbListModel<StoryDbModel>? list = await database.fetchAll(params: widget.queryOptions.toJson());
+    List<StoryDbModel> result = list?.items ?? [];
 
     switch (sortType) {
       case SortType.oldToNew:
@@ -90,7 +89,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     setDayColors();
   }
 
-  Future<bool> onDelete(StoryModel story) async {
+  Future<bool> onDelete(StoryDbModel story) async {
     OkCancelResult result = await showOkCancelAlertDialog(
       context: context,
       title: "Are you sure to delete?",
@@ -100,10 +99,11 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     );
     switch (result) {
       case OkCancelResult.ok:
-        FileSystemEntity? file = await fileManager.deleteDocument(story);
-        bool success = file != null;
+        await database.deleteDocument(story);
+        bool success = database.error == null;
         String message = success ? "Delete successfully!" : "Delete unsuccessfully!";
         MessengerService.instance.showSnackBar(message);
+        print("SUCESS: ${database.error?.errorMessage}");
         return success;
       case OkCancelResult.cancel:
         return false;
@@ -111,10 +111,10 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   }
 
   Future<bool> onToggleArchive(
-    StoryModel story, {
+    StoryDbModel story, {
     required bool archived,
   }) async {
-    String? date = DateFormatHelper.yM().format(story.path.toDateTime());
+    String? date = DateFormatHelper.yM().format(story.toDateTime());
     String title, message, label;
 
     if (archived) {
@@ -136,8 +136,8 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
 
     switch (result) {
       case OkCancelResult.ok:
-        File? file = archived ? await fileManager.unarchiveDocument(story) : await fileManager.archiveDocument(story);
-        bool success = file != null;
+        archived ? await database.unarchiveDocument(story) : await database.archiveDocument(story);
+        bool success = database.error == null;
         String message = success ? "Successfully!" : "Unsuccessfully!";
         MessengerService.instance.showSnackBar(message, success: success);
         return success;

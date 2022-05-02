@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/models/story_content_model.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 
@@ -15,7 +15,7 @@ class DocumentKeyModel {
 
 class ManagePagesViewModel extends BaseViewModel {
   late final ValueNotifier<bool> hasChangeNotifier;
-  final StoryContentModel content;
+  final StoryContentDbModel content;
   List<DocumentKeyModel> documents = [];
 
   bool get _hasChange {
@@ -74,7 +74,7 @@ class ManagePagesViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  StoryContentModel save() {
+  StoryContentDbModel save() {
     final newContent = content.copyWith(pages: documents.map((e) => e.document.toDelta().toJson()).toList());
     return newContent;
   }

@@ -1,11 +1,11 @@
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:spooky/core/models/story_content_model.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 
 class StoryWriteHelper {
-  static StoryContentModel buildContent(
-    StoryContentModel currentContent,
+  static StoryContentDbModel buildContent(
+    StoryContentDbModel currentContent,
     Map<int, QuillController> quillControllers,
     String title,
     DateTime openOn,
@@ -13,7 +13,7 @@ class StoryWriteHelper {
     final pages = pagesData(currentContent, quillControllers).values.toList();
     final root = AppHelper.listItem(quillControllers.values, 0)?.document.root ?? Document.fromJson(pages.first).root;
     return currentContent.copyWith(
-      id: openOn.millisecondsSinceEpoch.toString(),
+      id: openOn.millisecondsSinceEpoch,
       title: title,
       plainText: QuillHelper.toPlainText(root),
       pages: pages,
@@ -22,7 +22,7 @@ class StoryWriteHelper {
   }
 
   static Map<int, List<dynamic>> pagesData(
-    StoryContentModel currentContent,
+    StoryContentDbModel currentContent,
     Map<int, QuillController> quillControllers,
   ) {
     Map<int, List<dynamic>> documents = {};

@@ -5,8 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 import 'dart:convert';
@@ -20,8 +20,8 @@ class StoryTileChips extends StatelessWidget {
   }) : super(key: key);
 
   final Set<String> images;
-  final StoryContentModel content;
-  final StoryModel story;
+  final StoryContentDbModel content;
+  final StoryDbModel story;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class StoryTileChips extends StatelessWidget {
     );
   }
 
-  List<Widget> getChipList(Set<String> images, StoryContentModel content, StoryModel story) {
+  List<Widget> getChipList(Set<String> images, StoryContentDbModel content, StoryDbModel story) {
     return [
       if (images.isNotEmpty) buildImageChip(images),
       if ((content.pages?.length ?? 0) > 1)

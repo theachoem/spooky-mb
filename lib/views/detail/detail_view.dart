@@ -1,7 +1,7 @@
 library detail_view;
 
 import 'package:spooky/core/base/view_model_provider.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
@@ -24,7 +24,7 @@ class DetailView extends StatelessWidget {
     required this.intialFlow,
   }) : super(key: key);
 
-  final StoryModel initialStory;
+  final StoryDbModel initialStory;
   final DetailViewFlowType intialFlow;
 
   @override

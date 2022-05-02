@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/story_writers/default_story_writer.dart';
 import 'package:spooky/core/story_writers/objects/update_page_object.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 
@@ -16,8 +15,7 @@ class UpdatePageWriter extends DefaultStoryWriter<UpdatePageObject> {
 
   @override
   void onSaved({
-    required StoryModel? story,
-    required FileSystemEntity? file,
+    required StoryDbModel? story,
     required ResponseCodeType responseCode,
     required String message,
   }) {
@@ -36,9 +34,9 @@ class UpdatePageWriter extends DefaultStoryWriter<UpdatePageObject> {
   }
 
   @override
-  StoryModel buildStory(UpdatePageObject object) {
-    StoryModel story = super.buildStory(object);
-    StoryContentModel newContent = story.changes.last;
+  StoryDbModel buildStory(UpdatePageObject object) {
+    StoryDbModel story = super.buildStory(object);
+    StoryContentDbModel newContent = story.changes.last;
 
     // update pages
     newContent.pages = object.pages;

@@ -1,16 +1,10 @@
-import 'dart:io';
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/file_manager/managers/export_file_manager.dart';
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
-import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -37,34 +31,33 @@ class StoryTile extends StatefulWidget {
     this.previousStory,
   }) : super(key: key);
 
-  final StoryModel story;
-  final StoryModel? previousStory;
+  final StoryDbModel story;
+  final StoryDbModel? previousStory;
   final BuildContext context;
   final EdgeInsets itemPadding;
   final Future<void> Function() onRefresh;
-  final Future<bool> Function(StoryModel story)? onDelete;
-  final Future<bool> Function(StoryModel story)? onArchive;
-  final Future<bool> Function(StoryModel story)? onUnarchive;
+  final Future<bool> Function(StoryDbModel story)? onDelete;
+  final Future<bool> Function(StoryDbModel story)? onArchive;
+  final Future<bool> Function(StoryDbModel story)? onUnarchive;
 
   @override
   _StoryTileState createState() => _StoryTileState();
 }
 
 class _StoryTileState extends State<StoryTile> {
-  final ArchiveFileManager manager = ArchiveFileManager();
-  final StoryManager storyManager = StoryManager();
+  final StoryDatabase database = StoryDatabase();
   late final ValueNotifier<bool> loadingNotifier;
 
-  StoryModel? get previousStory => widget.previousStory;
+  StoryDbModel? get previousStory => widget.previousStory;
 
-  bool get starred => _content(story).starred == true;
+  bool get starred => story.starred == true;
   Color? get starredColor => starred ? M3Color.of(context).error : null;
 
-  late StoryModel story;
+  late StoryDbModel story;
 
   // reload current story only
   Future<void> reloadStory() async {
-    StoryModel? _story = await storyManager.fetchOne(story.writableFile);
+    StoryDbModel? _story = await database.fetchOne(id: story.id.toString());
     if (_story != null) {
       setState(() => story = _story);
     } else {
@@ -73,9 +66,9 @@ class _StoryTileState extends State<StoryTile> {
   }
 
   Future<void> toggleStarred() async {
-    StoryModel _story = story.copyWithStarred(!starred);
-    FileSystemEntity? file = await storyManager.write(_story.writableFile, _story);
-    if (file != null) await reloadStory();
+    StoryDbModel _story = story.copyWith(starred: !starred);
+    StoryDbModel? updatedStory = await database.update(id: _story.id.toString(), body: _story.toJson());
+    if (updatedStory != null) await reloadStory();
   }
 
   @override
@@ -129,12 +122,12 @@ class _StoryTileState extends State<StoryTile> {
               onPressed: () async {
                 DateTime? pathDate = await SpDatePicker.showDatePicker(
                   context,
-                  story.path.toDateTime(),
+                  story.toDateTime(),
                 );
 
                 if (pathDate != null) {
-                  FileSystemEntity? file = await storyManager.updatePathDate(story, pathDate);
-                  if (file != null) {
+                  await database.updatePathDate(story, pathDate);
+                  if (database.error == null) {
                     widget.onRefresh();
                   }
                 }
@@ -161,7 +154,7 @@ class _StoryTileState extends State<StoryTile> {
             leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
             onPressed: () => toggleStarred(),
           ),
-          if (context.read<DeveloperModeProvider>().developerModeOn) buildExportOption(context, story),
+          // if (context.read<DeveloperModeProvider>().developerModeOn) buildExportOption(context, story),
           if (widget.onDelete != null)
             SpPopMenuItem(
               title: "Delete",
@@ -176,50 +169,51 @@ class _StoryTileState extends State<StoryTile> {
     );
   }
 
-  SpPopMenuItem buildExportOption(BuildContext context, StoryModel model) {
-    final manager = ExportFileManager();
-    FileSystemEntity? exportedFile = manager.hasExported(model.file);
-    bool hasExported = exportedFile != null;
-    return SpPopMenuItem(
-      title: hasExported ? "Exported" : "Export",
-      leadingIconData: hasExported ? Icons.download_done : Icons.download,
-      onPressed: () async {
-        if (model.file != null && !hasExported) await manager.exportFile(model.file!);
-        FileSystemEntity? exportedFile = manager.hasExported(model.file);
-        if (exportedFile != null) {
-          String? clickedKey = await showModalActionSheet(
-            context: context,
-            title: "Exported",
-            message: manager.displayPath(exportedFile),
-            actions: [
-              const SheetAction(
-                label: "Open File",
-                key: "open",
-              ),
-            ],
-          );
-          switch (clickedKey) {
-            case "open":
-              await OpenFile.open(exportedFile.path);
-              break;
-            default:
-          }
-        }
-      },
-    );
-  }
+  // TODO: fix export after migration
+  // SpPopMenuItem buildExportOption(BuildContext context, StoryDbModel model) {
+  //   final manager = ExportFileManager();
+  //   FileSystemEntity? exportedFile = manager.hasExported(model.file);
+  //   bool hasExported = exportedFile != null;
+  //   return SpPopMenuItem(
+  //     title: hasExported ? "Exported" : "Export",
+  //     leadingIconData: hasExported ? Icons.download_done : Icons.download,
+  //     onPressed: () async {
+  //       if (model.file != null && !hasExported) await manager.exportFile(model.file!);
+  //       FileSystemEntity? exportedFile = manager.hasExported(model.file);
+  //       if (exportedFile != null) {
+  //         String? clickedKey = await showModalActionSheet(
+  //           context: context,
+  //           title: "Exported",
+  //           message: manager.displayPath(exportedFile),
+  //           actions: [
+  //             const SheetAction(
+  //               label: "Open File",
+  //               key: "open",
+  //             ),
+  //           ],
+  //         );
+  //         switch (clickedKey) {
+  //           case "open":
+  //             await OpenFile.open(exportedFile.path);
+  //             break;
+  //           default:
+  //         }
+  //       }
+  //     },
+  //   );
+  // }
 
-  StoryContentModel _content(StoryModel story) {
+  StoryContentDbModel _content(StoryDbModel story) {
     DateTime date = DateTime.now();
     return story.changes.isNotEmpty
         ? story.changes.last
-        : StoryContentModel.create(
+        : StoryContentDbModel.create(
             createdAt: date,
-            id: date.millisecondsSinceEpoch.toString(),
+            id: date.millisecondsSinceEpoch,
           );
   }
 
-  Future<void> view(StoryModel story, BuildContext context) async {
+  Future<void> view(StoryDbModel story, BuildContext context) async {
     DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlowType.update);
     await Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args);
     reloadStory();
@@ -227,12 +221,12 @@ class _StoryTileState extends State<StoryTile> {
 
   Widget buildMonogram(
     BuildContext context,
-    StoryModel story,
-    StoryModel? previousStory,
+    StoryDbModel story,
+    StoryDbModel? previousStory,
     Map<int, Color> dayColors,
   ) {
     // bool sameDay = previousStory?.path != null ? story.path.sameDayAs(previousStory!.path) : false;
-    DateTime displayDate = story.path.toDateTime();
+    DateTime displayDate = story.toDateTime();
     return Container(
       color: M3Color.of(context).background,
       child: Column(
@@ -268,9 +262,9 @@ class _StoryTileState extends State<StoryTile> {
     return kToolbarHeight + 16;
   }
 
-  Widget buildContent(BuildContext context, StoryModel story) {
+  Widget buildContent(BuildContext context, StoryDbModel story) {
     Set<String> images = {};
-    StoryContentModel content = _content(story);
+    StoryContentDbModel content = _content(story);
 
     content.pages?.forEach((page) {
       images.addAll(QuillHelper.imagesFromJson(page));
@@ -326,12 +320,12 @@ class _StoryTileState extends State<StoryTile> {
     );
   }
 
-  String body(StoryContentModel content) {
+  String body(StoryContentDbModel content) {
     String _body = content.plainText?.trim() ?? "content.plainText";
     return _body;
   }
 
-  Widget buildTime(BuildContext context, StoryContentModel content) {
+  Widget buildTime(BuildContext context, StoryContentDbModel content) {
     return SpTapEffect(
       effects: const [SpTapEffectType.touchableOpacity],
       onTap: () => toggleStarred(),

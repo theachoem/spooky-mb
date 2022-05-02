@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/story_writers/auto_save_story_writer.dart';
 import 'package:spooky/core/story_writers/default_story_writer.dart';
 import 'package:spooky/core/story_writers/delete_change_writer.dart';
@@ -12,8 +14,6 @@ import 'package:spooky/core/story_writers/restore_story_writer.dart';
 import 'package:spooky/views/detail/detail_view_model_getter.dart';
 import 'package:spooky/utils/helpers/story_writer_helper.dart';
 import 'package:spooky/core/story_writers/update_page_writer.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/views/detail/local_mixins/detail_view_model_ui_mixin.dart';
@@ -22,9 +22,9 @@ import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 
 class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingObserver, DetailViewModelUiMixin {
-  late StoryModel currentStory;
+  late StoryDbModel currentStory;
   late DetailViewFlowType flowType;
-  late StoryContentModel currentContent;
+  late StoryContentDbModel currentContent;
 
   DetailViewModelGetter get info {
     return DetailViewModelGetter(
@@ -76,7 +76,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     });
   }
 
-  void saveStates(StoryModel story) {
+  void saveStates(StoryDbModel story) {
     flowType = DetailViewFlowType.update;
     currentStory = story;
     currentContent = story.changes.last;
@@ -87,33 +87,33 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   // so they new it is saved.
   Future<void> autosave() async {
     if (!hasChange) return;
-    InitialStoryTabService.setInitialTab(currentStory.path.year, currentStory.path.month);
+    InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
     AutoSaveStoryWriter writer = AutoSaveStoryWriter();
-    StoryModel? story = await writer.save(AutoSaveStoryObject(info));
+    StoryDbModel? story = await writer.save(AutoSaveStoryObject(info));
     if (story != null) saveStates(story);
   }
 
   Future<void> save() async {
     DefaultStoryWriter writer = DefaultStoryWriter();
-    StoryModel? story = await writer.save(DefaultStoryObject(info));
+    StoryDbModel? story = await writer.save(DefaultStoryObject(info));
     if (story != null) saveStates(story);
   }
 
-  Future<StoryModel> deleteChange(List<String> contentIds) async {
+  Future<StoryDbModel> deleteChange(List<int> contentIds) async {
     DeleteChangeWriter writer = DeleteChangeWriter();
-    StoryModel? story = await writer.save(DeleteChangeObject(info, contentIds: contentIds));
+    StoryDbModel? story = await writer.save(DeleteChangeObject(info, contentIds: contentIds));
     if (story != null) saveStates(story);
     return currentStory;
   }
 
   /// restore and updatePages will be push replace to same screen instead.
   /// so, no need to saveStates(story)
-  Future<void> restore(String contentId) async {
+  Future<void> restore(int contentId) async {
     RestoreStoryWriter writer = RestoreStoryWriter();
     await writer.save(RestoreStoryObject(info, contentId: contentId));
   }
 
-  Future<void> updatePages(StoryContentModel value) async {
+  Future<void> updatePages(StoryContentDbModel value) async {
     UpdatePageWriter writer = UpdatePageWriter();
     await writer.save(UpdatePageObject(info, pages: value.pages));
   }

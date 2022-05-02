@@ -10,7 +10,7 @@ BackupModel _$BackupModelFromJson(Map<String, dynamic> json) => BackupModel(
       year: json['year'] as int,
       createdAt: DateTime.parse(json['created_at'] as String),
       stories: (json['stories'] as List<dynamic>)
-          .map((e) => StoryModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => StoryDbModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 

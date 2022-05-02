@@ -1,7 +1,7 @@
 import 'package:spooky/core/backup/backup_service.dart';
 import 'package:spooky/core/base/base_view_model.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/file_manager/managers/backup_file_manager.dart';
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
 import 'package:spooky/core/models/backup_model.dart';
 
 class YearCloudModel {
@@ -29,7 +29,7 @@ class CloudStorageViewModel extends BaseViewModel {
   // load year whether it is synced or not
   Future<void> loadYears() async {
     List<YearCloudModel> _years = [];
-    Set<int>? intYears = await StoryManager().fetchYears();
+    Set<int>? intYears = await StoryDatabase().fetchYears();
     List<BackupModel>? backups = await BackupFileManager().fetchAll();
     List<int> syncedYears = backups.map((e) => e.year).toList();
 

@@ -71,7 +71,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   Widget buildSingleLayout() {
     return StoryQueryList(
       queryOptions: StoryQueryOptionsModel(
-        filePath: FilePathType.docs,
+        type: PathType.docs,
         year: widget.viewModel.year,
       ),
       onListReloaderReady: (reloader) {
@@ -97,7 +97,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
         (index) {
           return StoryQueryList(
             queryOptions: StoryQueryOptionsModel(
-              filePath: FilePathType.docs,
+              type: PathType.docs,
               year: widget.viewModel.year,
               month: index + 1,
             ),

@@ -1,7 +1,7 @@
 library content_reader_view;
 
 import 'package:spooky/core/base/view_model_provider.dart';
-import 'package:spooky/core/models/story_content_model.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/views/content_reader/local_widgets/content_page_viewer.dart';
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
@@ -22,7 +22,7 @@ class ContentReaderView extends StatelessWidget {
     required this.content,
   }) : super(key: key);
 
-  final StoryContentModel content;
+  final StoryContentDbModel content;
 
   @override
   Widget build(BuildContext context) {

@@ -1,19 +1,15 @@
-import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/file_manager/managers/story_manager.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/providers/nickname_provider.dart';
-import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 
 class HomeViewModel extends BaseViewModel {
   late int year;
   late int month;
-
-  final StoryManager storyManager = StoryManager();
 
   final void Function(int index) onTabChange;
   final void Function(int year) onYearChange;
@@ -51,20 +47,13 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<List<int>> fetchYears() async {
-    Set<int> years = await storyManager.fetchYears() ?? {};
+    Set<int> years = await StoryDatabase().fetchYears() ?? {};
     years.add(year);
     return years.toList();
   }
 
   int get docsCount {
-    Directory docsPath = Directory(storyManager.directory.path + "/" + "$year");
-    if (docsPath.existsSync()) {
-      List<FileSystemEntity> result = docsPath.listSync(recursive: true);
-      return result.where((e) {
-        return e is File && e.path.endsWith(AppConstant.documentExstension);
-      }).length;
-    }
-    return 0;
+    return StoryDatabase().getDocsCount(year);
   }
 
   Future<void> pickYear(BuildContext context) async {

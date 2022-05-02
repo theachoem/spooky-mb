@@ -1,12 +1,11 @@
-import 'dart:io';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/story_writers/base_story_writer.dart';
 import 'package:spooky/core/story_writers/objects/default_story_object.dart';
 import 'package:spooky/utils/helpers/story_writer_helper.dart';
-import 'package:spooky/core/models/story_content_model.dart';
-import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/response_code_type.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
 
 class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T> {
   @override
@@ -23,8 +22,7 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
 
   @override
   void onSaved({
-    required StoryModel? story,
-    required FileSystemEntity? file,
+    required StoryDbModel? story,
     required ResponseCodeType responseCode,
     required String message,
   }) {
@@ -34,9 +32,9 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
   }
 
   @override
-  StoryModel buildStory(T object) {
-    StoryModel story;
-    StoryContentModel content = StoryWriteHelper.buildContent(
+  StoryDbModel buildStory(T object) {
+    StoryDbModel story;
+    StoryContentDbModel content = StoryWriteHelper.buildContent(
       object.info.currentContent,
       object.info.quillControllers,
       object.info.title,
