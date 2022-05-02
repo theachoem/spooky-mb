@@ -7,6 +7,7 @@ part of 'backup_model.dart';
 // **************************************************************************
 
 BackupModel _$BackupModelFromJson(Map<String, dynamic> json) => BackupModel(
+      version: json['version'] as int? ?? 1,
       year: json['year'] as int,
       createdAt: DateTime.parse(json['created_at'] as String),
       stories: (json['stories'] as List<dynamic>)
@@ -16,6 +17,7 @@ BackupModel _$BackupModelFromJson(Map<String, dynamic> json) => BackupModel(
 
 Map<String, dynamic> _$BackupModelToJson(BackupModel instance) =>
     <String, dynamic>{
+      'version': instance.version,
       'year': instance.year,
       'created_at': instance.createdAt.toIso8601String(),
       'stories': instance.stories.map((e) => e.toJson()).toList(),

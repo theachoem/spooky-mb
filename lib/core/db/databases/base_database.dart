@@ -21,6 +21,8 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     }
   }
 
+  Future<void> onCRUD(T? object);
+
   Future<BaseDbListModel<T>?> fetchAll({
     Map<String, dynamic>? params,
   }) async {
@@ -52,6 +54,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
       Map<String, dynamic>? map = await adapter.create(body: body, params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
       T? object = await objectTransformer(map);
+      onCRUD(object);
       return object;
     });
   }
@@ -65,6 +68,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
       Map<String, dynamic>? map = await adapter.update(id: id, body: body, params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
       T? object = await objectTransformer(map);
+      onCRUD(object);
       return object;
     });
   }
@@ -77,6 +81,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
       Map<String, dynamic>? map = await adapter.delete(id: id, params: params);
       if (map != null) {
         T? object = await objectTransformer(map);
+        onCRUD(object);
         return object;
       }
       return null;

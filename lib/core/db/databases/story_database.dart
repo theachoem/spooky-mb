@@ -7,6 +7,7 @@ import 'package:spooky/core/db/adapters/base/base_file_db_adpater.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
 import 'package:spooky/core/db/models/base/meta_model.dart';
+import 'package:spooky/core/file_manager/managers/backup_file_manager.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
@@ -84,5 +85,11 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
     StoryDbModel unarchivedStory = story.copyWith(year: pathDate.year, month: pathDate.month, day: pathDate.day);
     StoryDbModel? result = await create(body: unarchivedStory.toJson());
     return result;
+  }
+
+  @override
+  Future<void> onCRUD(StoryDbModel? object) async {
+    if (object?.year == null) return;
+    BackupFileManager().unsynced(object!.year);
   }
 }

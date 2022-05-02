@@ -6,11 +6,13 @@ part 'backup_model.g.dart';
 
 @JsonSerializable()
 class BackupModel extends BaseModel {
+  final int? version;
   final int year;
   final DateTime createdAt;
   final List<StoryDbModel> stories;
 
   BackupModel({
+    this.version = 1,
     required this.year,
     required this.createdAt,
     required this.stories,

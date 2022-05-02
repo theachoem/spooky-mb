@@ -32,8 +32,10 @@ class BackupFileManager extends BaseFileManager {
         String str = await file.readAsString();
         try {
           dynamic map = jsonDecode(str);
-          BackupModel backup = BackupModel.fromJson(map);
-          backups.add(backup);
+          if (map['version'] != null) {
+            BackupModel backup = BackupModel.fromJson(map);
+            backups.add(backup);
+          }
         } catch (e) {
           if (kDebugMode) {
             print("ERROR: $e");
