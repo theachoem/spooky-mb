@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'meta_model.g.dart';
+
+@JsonSerializable()
 class MetaModel {
   final int? count;
   final int? totalCount;
@@ -5,9 +10,12 @@ class MetaModel {
   final int? currentPage;
 
   MetaModel({
-    required this.count,
-    required this.totalCount,
-    required this.totalPages,
-    required this.currentPage,
+    this.count,
+    this.totalCount,
+    this.totalPages,
+    this.currentPage,
   });
+
+  Map<String, dynamic> toJson() => _$MetaModelToJson(this);
+  factory MetaModel.fromJson(Map<String, dynamic> json) => _$MetaModelFromJson(json);
 }
