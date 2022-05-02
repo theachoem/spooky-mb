@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:spooky/core/file_manager/base/base_file_manager.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
+@Deprecated("Doesn't use it anymore")
 class ExportFileManager extends BaseFileManager {
   Future<File?> exportFile(File file) async {
     String exportDestination = file.path.replaceFirst(FileHelper.directory.path, FileHelper.exposedDirectory.path);
