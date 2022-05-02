@@ -73,13 +73,17 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     required String id,
     Map<String, dynamic> params = const {},
   }) async {
-    Directory directory = await buildDir(type: null);
+    String? type = params["type"];
+    if (type == null) throw ErrorMessage(errorMessage: "Path type must not null");
+
+    Directory directory = await buildDir(type: type);
     List<FileSystemEntity> list = directory.listSync(recursive: true);
     for (FileSystemEntity element in list) {
       if (element.path.endsWith(id + ".json") && element is File) {
         await element.delete();
       }
     }
+
     return fetchOne(id: id);
   }
 
@@ -87,7 +91,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
   Future<Map<String, dynamic>?> fetchAll({
     Map<String, dynamic>? params,
   }) async {
-    String type = params?["type"];
+    String? type = params?["type"];
     int? year = params?["year"];
     int? month = params?["month"];
     int? day = params?["day"];
@@ -116,7 +120,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
       }
 
       return {
-        "items": docs,
+        "data": docs,
         "meta": MetaModel().toJson(),
         "links": MetaModel().toJson(),
       };

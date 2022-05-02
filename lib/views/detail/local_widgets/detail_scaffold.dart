@@ -1,12 +1,12 @@
-import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
-import 'package:spooky/core/types/file_path_type.dart';
-import 'package:spooky/core/models/story_content_model.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
@@ -115,7 +115,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
     );
   }
 
-  ArchiveFileManager manager = ArchiveFileManager();
+  final StoryDatabase database = StoryDatabase();
 
   Widget buildMoreVertButton() {
     return SpPopupMenuButton(
@@ -132,11 +132,12 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               }
               ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
               Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
-                if (value is StoryContentModel) widget.viewModel.updatePages(value);
+                if (value is StoryContentDbModel) widget.viewModel.updatePages(value);
               });
             },
           ),
-        if (widget.viewModel.flowType == DetailViewFlowType.update && manager.canArchive(widget.viewModel.currentStory))
+        if (widget.viewModel.flowType == DetailViewFlowType.update &&
+            database.canArchive(widget.viewModel.currentStory))
           SpPopMenuItem(
             title: "Archive",
             leadingIconData: Icons.archive,
@@ -152,8 +153,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               );
               switch (result) {
                 case OkCancelResult.ok:
-                  File? file = await manager.archiveDocument(widget.viewModel.currentStory);
-                  if (file != null) {
+                  StoryDbModel? story = await database.archiveDocument(widget.viewModel.currentStory);
+                  if (story != null) {
                     MessengerService.instance.showSnackBar("Archived!");
                   }
                   Navigator.of(context).maybePop(widget.viewModel.currentStory);
@@ -212,7 +213,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
   }
 
   Widget buildFloatActionButton(EdgeInsets mediaQueryPadding) {
-    if (widget.viewModel.currentStory.path.filePath != FilePathType.docs) {
+    if (widget.viewModel.currentStory.type != PathType.docs) {
       return const SizedBox.shrink();
     }
     return buildFabEndWidget(context);

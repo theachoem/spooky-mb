@@ -5,6 +5,7 @@ import 'package:spooky/core/types/file_path_type.dart';
 import 'package:spooky/core/models/story_model.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
+@Deprecated("Use Story Database instead")
 class ArchiveFileManager extends BaseFileManager {
   bool canArchive(StoryModel story) {
     return story.path.filePath == FilePathType.docs;
@@ -28,12 +29,16 @@ class ArchiveFileManager extends BaseFileManager {
   }
 
   Future<File?> unarchiveDocument(StoryDbModel story) async {
-    File fileToMove = story.writableFile;
-    String destinationFilePath = story.path.copyWith(filePath: FilePathType.docs).toFullPath();
-    return move(fileToMove, destinationFilePath);
+    return null;
+
+    // File fileToMove = story.writableFile;
+    // String destinationFilePath = story.path.copyWith(filePath: FilePathType.docs).toFullPath();
+    // return move(fileToMove, destinationFilePath);
   }
 
   Future<FileSystemEntity?> deleteDocument(StoryDbModel story) async {
-    return delete(story.writableFile);
+    return null;
+
+    // return delete(story.writableFile);
   }
 }

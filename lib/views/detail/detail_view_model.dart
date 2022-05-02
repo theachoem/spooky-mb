@@ -14,7 +14,6 @@ import 'package:spooky/core/story_writers/restore_story_writer.dart';
 import 'package:spooky/views/detail/detail_view_model_getter.dart';
 import 'package:spooky/utils/helpers/story_writer_helper.dart';
 import 'package:spooky/core/story_writers/update_page_writer.dart';
-import 'package:spooky/core/models/story_content_model.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/views/detail/local_mixins/detail_view_model_ui_mixin.dart';
@@ -114,7 +113,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     await writer.save(RestoreStoryObject(info, contentId: contentId));
   }
 
-  Future<void> updatePages(StoryContentModel value) async {
+  Future<void> updatePages(StoryContentDbModel value) async {
     UpdatePageWriter writer = UpdatePageWriter();
     await writer.save(UpdatePageObject(info, pages: value.pages));
   }

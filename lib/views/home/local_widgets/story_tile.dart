@@ -1,16 +1,10 @@
-import 'dart:io';
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
-import 'package:spooky/core/file_manager/managers/export_file_manager.dart';
-import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -51,7 +45,6 @@ class StoryTile extends StatefulWidget {
 }
 
 class _StoryTileState extends State<StoryTile> {
-  final ArchiveFileManager manager = ArchiveFileManager();
   final StoryDatabase database = StoryDatabase();
   late final ValueNotifier<bool> loadingNotifier;
 
@@ -133,8 +126,8 @@ class _StoryTileState extends State<StoryTile> {
                 );
 
                 if (pathDate != null) {
-                  FileSystemEntity? file = await storyManager.updatePathDate(story, pathDate);
-                  if (file != null) {
+                  await database.updatePathDate(story, pathDate);
+                  if (database.error == null) {
                     widget.onRefresh();
                   }
                 }
@@ -161,7 +154,7 @@ class _StoryTileState extends State<StoryTile> {
             leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
             onPressed: () => toggleStarred(),
           ),
-          if (context.read<DeveloperModeProvider>().developerModeOn) buildExportOption(context, story),
+          // if (context.read<DeveloperModeProvider>().developerModeOn) buildExportOption(context, story),
           if (widget.onDelete != null)
             SpPopMenuItem(
               title: "Delete",
@@ -176,38 +169,39 @@ class _StoryTileState extends State<StoryTile> {
     );
   }
 
-  SpPopMenuItem buildExportOption(BuildContext context, StoryDbModel model) {
-    final manager = ExportFileManager();
-    FileSystemEntity? exportedFile = manager.hasExported(model.file);
-    bool hasExported = exportedFile != null;
-    return SpPopMenuItem(
-      title: hasExported ? "Exported" : "Export",
-      leadingIconData: hasExported ? Icons.download_done : Icons.download,
-      onPressed: () async {
-        if (model.file != null && !hasExported) await manager.exportFile(model.file!);
-        FileSystemEntity? exportedFile = manager.hasExported(model.file);
-        if (exportedFile != null) {
-          String? clickedKey = await showModalActionSheet(
-            context: context,
-            title: "Exported",
-            message: manager.displayPath(exportedFile),
-            actions: [
-              const SheetAction(
-                label: "Open File",
-                key: "open",
-              ),
-            ],
-          );
-          switch (clickedKey) {
-            case "open":
-              await OpenFile.open(exportedFile.path);
-              break;
-            default:
-          }
-        }
-      },
-    );
-  }
+  // TODO: fix export after migration
+  // SpPopMenuItem buildExportOption(BuildContext context, StoryDbModel model) {
+  //   final manager = ExportFileManager();
+  //   FileSystemEntity? exportedFile = manager.hasExported(model.file);
+  //   bool hasExported = exportedFile != null;
+  //   return SpPopMenuItem(
+  //     title: hasExported ? "Exported" : "Export",
+  //     leadingIconData: hasExported ? Icons.download_done : Icons.download,
+  //     onPressed: () async {
+  //       if (model.file != null && !hasExported) await manager.exportFile(model.file!);
+  //       FileSystemEntity? exportedFile = manager.hasExported(model.file);
+  //       if (exportedFile != null) {
+  //         String? clickedKey = await showModalActionSheet(
+  //           context: context,
+  //           title: "Exported",
+  //           message: manager.displayPath(exportedFile),
+  //           actions: [
+  //             const SheetAction(
+  //               label: "Open File",
+  //               key: "open",
+  //             ),
+  //           ],
+  //         );
+  //         switch (clickedKey) {
+  //           case "open":
+  //             await OpenFile.open(exportedFile.path);
+  //             break;
+  //           default:
+  //         }
+  //       }
+  //     },
+  //   );
+  // }
 
   StoryContentDbModel _content(StoryDbModel story) {
     DateTime date = DateTime.now();

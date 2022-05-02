@@ -1,11 +1,9 @@
-import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
-import 'package:spooky/core/file_manager/managers/archive_file_manager.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
@@ -29,8 +27,7 @@ class StoryQueryList extends StatefulWidget {
 }
 
 class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClientMixin {
-  final StoryDatabase storyDatabase = StoryDatabase();
-  final ArchiveFileManager fileManager = ArchiveFileManager();
+  final StoryDatabase database = StoryDatabase();
   List<StoryDbModel>? stories;
 
   @override
@@ -53,7 +50,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
 
   Future<void> load() async {
     SortType? sortType = await SortTypeStorage().readEnum();
-    BaseDbListModel<StoryDbModel>? list = await storyDatabase.fetchAll(params: widget.queryOptions.toJson());
+    BaseDbListModel<StoryDbModel>? list = await database.fetchAll(params: widget.queryOptions.toJson());
     List<StoryDbModel> result = list?.items ?? [];
 
     switch (sortType) {
@@ -102,8 +99,8 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     );
     switch (result) {
       case OkCancelResult.ok:
-        FileSystemEntity? file = await fileManager.deleteDocument(story);
-        bool success = file != null;
+        await database.deleteDocument(story);
+        bool success = database.error == null;
         String message = success ? "Delete successfully!" : "Delete unsuccessfully!";
         MessengerService.instance.showSnackBar(message);
         return success;
@@ -138,8 +135,8 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
 
     switch (result) {
       case OkCancelResult.ok:
-        File? file = archived ? await fileManager.unarchiveDocument(story) : await fileManager.archiveDocument(story);
-        bool success = file != null;
+        archived ? await database.unarchiveDocument(story) : await database.archiveDocument(story);
+        bool success = database.error == null;
         String message = success ? "Successfully!" : "Unsuccessfully!";
         MessengerService.instance.showSnackBar(message, success: success);
         return success;

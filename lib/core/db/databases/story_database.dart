@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/adapters/base/base_file_db_adpater.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
@@ -40,5 +41,48 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
   int getDocsCount(int? year) {
     _StoryFileDbAdapter _adapter = adapter as _StoryFileDbAdapter;
     return _adapter.getDocsCount(year);
+  }
+
+  bool canArchive(StoryDbModel story) {
+    return story.type == PathType.docs;
+  }
+
+  bool canUnarchive(StoryDbModel story) {
+    return story.type == PathType.archives;
+  }
+
+  Future<StoryDbModel?> archiveDocument(StoryDbModel story) async {
+    StoryDbModel archivedStory = story.copyWith(type: PathType.archives);
+    StoryDbModel? result = await create(body: archivedStory.toJson());
+    if (result != null) {
+      return deleteDocument(story);
+    } else {
+      return null;
+    }
+  }
+
+  Future<StoryDbModel?> unarchiveDocument(StoryDbModel story) async {
+    StoryDbModel unarchivedStory = story.copyWith(type: PathType.docs);
+    StoryDbModel? result = await create(body: unarchivedStory.toJson());
+    if (result != null) {
+      return deleteDocument(story);
+    } else {
+      return null;
+    }
+  }
+
+  Future<StoryDbModel?> deleteDocument(StoryDbModel story) async {
+    return delete(
+      id: story.id.toString(),
+      params: {
+        "type": story.type.name,
+      },
+    );
+  }
+
+  Future<StoryDbModel?> updatePathDate(StoryDbModel story, DateTime pathDate) async {
+    StoryDbModel unarchivedStory = story.copyWith(year: pathDate.year, month: pathDate.month, day: pathDate.day);
+    StoryDbModel? result = await create(body: unarchivedStory.toJson());
+    return result;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/models/story_model.dart';
+import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/setting/animated_route_setting.dart';
 import 'package:spooky/core/routes/setting/base_route_setting.dart';
 import 'package:spooky/core/routes/setting/default_route_setting.dart';
@@ -145,7 +145,7 @@ class SpRouteConfig {
           },
         );
       case SpRouter.detail:
-        return DefaultRouteSetting<StoryModel>(
+        return DefaultRouteSetting<StoryDbModel>(
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
