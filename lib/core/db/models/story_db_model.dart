@@ -8,6 +8,7 @@ part 'story_db_model.g.dart';
 @CopyWith()
 @JsonSerializable()
 class StoryDbModel extends BaseDbModel {
+  final int version;
   final PathType type;
   final int id;
 
@@ -24,6 +25,7 @@ class StoryDbModel extends BaseDbModel {
   final DateTime updatedAt;
 
   StoryDbModel({
+    this.version = 1,
     required this.type,
     required this.id,
     required this.starred,

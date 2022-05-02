@@ -25,6 +25,8 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel updatedAt(DateTime updatedAt);
 
+  StoryDbModel version(int version);
+
   StoryDbModel year(int year);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `StoryDbModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
@@ -43,6 +45,7 @@ abstract class _$StoryDbModelCWProxy {
     bool? starred,
     PathType? type,
     DateTime? updatedAt,
+    int? version,
     int? year,
   });
 }
@@ -82,6 +85,9 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
   StoryDbModel updatedAt(DateTime updatedAt) => this(updatedAt: updatedAt);
 
   @override
+  StoryDbModel version(int version) => this(version: version);
+
+  @override
   StoryDbModel year(int year) => this(year: year);
 
   @override
@@ -102,6 +108,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
     Object? starred = const $CopyWithPlaceholder(),
     Object? type = const $CopyWithPlaceholder(),
     Object? updatedAt = const $CopyWithPlaceholder(),
+    Object? version = const $CopyWithPlaceholder(),
     Object? year = const $CopyWithPlaceholder(),
   }) {
     return StoryDbModel(
@@ -141,6 +148,10 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.updatedAt
           // ignore: cast_nullable_to_non_nullable
           : updatedAt as DateTime,
+      version: version == const $CopyWithPlaceholder() || version == null
+          ? _value.version
+          // ignore: cast_nullable_to_non_nullable
+          : version as int,
       year: year == const $CopyWithPlaceholder() || year == null
           ? _value.year
           // ignore: cast_nullable_to_non_nullable
@@ -159,6 +170,7 @@ extension $StoryDbModelCopyWith on StoryDbModel {
 // **************************************************************************
 
 StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
+      version: json['version'] as int? ?? 1,
       type: $enumDecode(_$PathTypeEnumMap, json['type']),
       id: json['id'] as int,
       starred: json['starred'] as bool?,
@@ -175,6 +187,7 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
 
 Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
     <String, dynamic>{
+      'version': instance.version,
       'type': _$PathTypeEnumMap[instance.type],
       'id': instance.id,
       'year': instance.year,

@@ -103,7 +103,6 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
         bool success = database.error == null;
         String message = success ? "Delete successfully!" : "Delete unsuccessfully!";
         MessengerService.instance.showSnackBar(message);
-        print("SUCESS: ${database.error?.errorMessage}");
         return success;
       case OkCancelResult.cancel:
         return false;
