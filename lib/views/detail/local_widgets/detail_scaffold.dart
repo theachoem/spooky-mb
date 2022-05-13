@@ -3,7 +3,6 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
-import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/path_type.dart';
@@ -153,11 +152,13 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               );
               switch (result) {
                 case OkCancelResult.ok:
-                  StoryDbModel? story = await database.archiveDocument(widget.viewModel.currentStory);
-                  if (story != null) {
-                    MessengerService.instance.showSnackBar("Archived!");
-                  }
-                  Navigator.of(context).maybePop(widget.viewModel.currentStory);
+                  await database.archiveDocument(widget.viewModel.currentStory).then((story) async {
+                    if (story != null) {
+                      MessengerService.instance.showSnackBar("Archived!");
+                    }
+                    Navigator.of(context).maybePop(widget.viewModel.currentStory);
+                  });
+
                   break;
                 case OkCancelResult.cancel:
                   break;

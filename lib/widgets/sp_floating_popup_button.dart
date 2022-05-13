@@ -90,13 +90,6 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton>
                 child: MeasureSize(
                   onChange: (Size size) => childSize = size,
                   child: AnimatedBuilder(
-                    child: AnimatedClipReveal(
-                      revealFirstChild: true,
-                      duration: ConfigConstant.fadeDuration,
-                      curve: Curves.linear,
-                      pathBuilder: PathBuilders.circleOut,
-                      child: widget.floatBuilder(toggle),
-                    ),
                     animation: animationController,
                     builder: (context, child) {
                       return Transform.translate(
@@ -107,6 +100,13 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton>
                         ),
                       );
                     },
+                    child: AnimatedClipReveal(
+                      revealFirstChild: true,
+                      duration: ConfigConstant.fadeDuration,
+                      curve: Curves.linear,
+                      pathBuilder: PathBuilders.circleOut,
+                      child: widget.floatBuilder(toggle),
+                    ),
                   ),
                 ),
               ),

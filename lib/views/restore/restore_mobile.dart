@@ -99,7 +99,7 @@ class _RestoreMobile extends StatelessWidget {
                 onTap: callback,
                 trailing: const Icon(Icons.cloud_done),
                 title: Text("Stories of ${items.key}"),
-                subtitle: Text("Uploaded at " + (displayBackup.displayDateTime ?? displayBackup.fileName)),
+                subtitle: Text("Uploaded at ${displayBackup.displayDateTime ?? displayBackup.fileName}"),
               );
             },
           ),
@@ -174,7 +174,7 @@ class _RestoreMobile extends StatelessWidget {
                         onTap: callback,
                         title: RichText(
                           text: TextSpan(
-                            text: title + " ",
+                            text: "$title ",
                             style: M3TextTheme.of(context).titleMedium,
                             children: [
                               if (index == 0)
@@ -185,7 +185,7 @@ class _RestoreMobile extends StatelessWidget {
                             ],
                           ),
                         ),
-                        subtitle: Text("Uploaded at " + display.displayDateTime.toString()),
+                        subtitle: Text("Uploaded at ${display.displayDateTime}"),
                         trailing: const Icon(Icons.more_vert),
                       );
                     },
@@ -214,8 +214,9 @@ class _RestoreMobile extends StatelessWidget {
           leadingIconData: Icons.delete,
           titleStyle: TextStyle(color: M3Color.of(context).error),
           onPressed: () async {
-            await viewModel.delete(context, cloudBackup);
-            Navigator.of(context).pop();
+            await viewModel.delete(context, cloudBackup).then((value) {
+              Navigator.of(context).pop();
+            });
           },
         ),
       SpPopMenuItem(

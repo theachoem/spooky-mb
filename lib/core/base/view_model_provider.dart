@@ -24,7 +24,7 @@ class ViewModelProvider<T extends BaseViewModel> extends StatelessWidget {
       builder: (context, child) {
         T viewModel = Provider.of<T>(context);
         if (onModelReady != null) {
-          WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
             onModelReady!(context, viewModel);
           });
         }

@@ -26,7 +26,7 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
   @override
   Future<void> triggered({
     String? buttonKey,
-    Map<String, String>? payload,
+    Map<String, String?>? payload,
   }) async {
     if (payload == null) return;
     AutoSavePayload? object;
@@ -54,7 +54,7 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
     showOkAlertDialog(
       context: context!,
       title: "Your document is saved",
-      message: message != null ? "Document will be move to:\n" + message : null,
+      message: message != null ? "Document will be move to:\n$message" : null,
     );
   }
 }

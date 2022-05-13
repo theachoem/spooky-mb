@@ -148,8 +148,9 @@ class _ThemeSettingMobile extends StatelessWidget {
         currentColor: context.read<ThemeProvider>().colorSeed,
         onPickedColor: (color) async {
           callback();
-          await Future.delayed(ConfigConstant.duration);
-          await context.read<ThemeProvider>().updateColor(color);
+          await Future.delayed(ConfigConstant.duration).then((value) async {
+            await context.read<ThemeProvider>().updateColor(color);
+          });
         },
       );
     }, childBuilder: (context, callback) {
@@ -207,7 +208,7 @@ class _ThemeSettingMobile extends StatelessWidget {
           }
         }
 
-        SortType? _sortType = await showConfirmationDialog(
+        SortType? sortTypeResult = await showConfirmationDialog(
           context: context,
           title: "Reorder Your Stories",
           initialSelectedActionKey: sortType,
@@ -229,8 +230,8 @@ class _ThemeSettingMobile extends StatelessWidget {
           }).toList(),
         );
 
-        if (_sortType != null) {
-          sortType = _sortType;
+        if (sortTypeResult != null) {
+          sortType = sortTypeResult;
           SortTypeStorage().writeEnum(sortType);
         }
       },
@@ -253,7 +254,7 @@ class _ThemeSettingMobile extends StatelessWidget {
           }
         }
 
-        ListLayoutType? _layoutType = await showConfirmationDialog(
+        ListLayoutType? layoutTypeResult = await showConfirmationDialog(
           context: context,
           title: "Layout",
           initialSelectedActionKey: layoutType,
@@ -275,9 +276,10 @@ class _ThemeSettingMobile extends StatelessWidget {
           }).toList(),
         );
 
-        if (_layoutType != layoutType && _layoutType != null) {
-          await SpListLayoutBuilder.set(_layoutType);
-          Phoenix.rebirth(context);
+        if (layoutTypeResult != layoutType && layoutTypeResult != null) {
+          await SpListLayoutBuilder.set(layoutTypeResult).then((value) {
+            Phoenix.rebirth(context);
+          });
         }
       },
     );

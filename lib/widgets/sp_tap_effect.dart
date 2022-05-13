@@ -90,7 +90,6 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
 
   AnimatedBuilder buildChild(AnimationController controller) {
     return AnimatedBuilder(
-      child: widget.child,
       animation: controller,
       builder: (context, child) {
         Widget result = child ?? const SizedBox();
@@ -127,6 +126,7 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
         }
         return result;
       },
+      child: widget.child,
     );
   }
 }

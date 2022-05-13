@@ -41,10 +41,10 @@ class StoryTile extends StatefulWidget {
   final Future<bool> Function(StoryDbModel story)? onUnarchive;
 
   @override
-  _StoryTileState createState() => _StoryTileState();
+  StoryTileState createState() => StoryTileState();
 }
 
-class _StoryTileState extends State<StoryTile> {
+class StoryTileState extends State<StoryTile> {
   final StoryDatabase database = StoryDatabase();
   late final ValueNotifier<bool> loadingNotifier;
 
@@ -57,17 +57,17 @@ class _StoryTileState extends State<StoryTile> {
 
   // reload current story only
   Future<void> reloadStory() async {
-    StoryDbModel? _story = await database.fetchOne(id: story.id.toString());
-    if (_story != null) {
-      setState(() => story = _story);
+    StoryDbModel? storyResult = await database.fetchOne(id: story.id.toString());
+    if (storyResult != null) {
+      setState(() => story = storyResult);
     } else {
       widget.onRefresh();
     }
   }
 
   Future<void> toggleStarred() async {
-    StoryDbModel _story = story.copyWith(starred: !starred);
-    StoryDbModel? updatedStory = await database.update(id: _story.id.toString(), body: _story.toJson());
+    StoryDbModel copiedStory = story.copyWith(starred: !starred);
+    StoryDbModel? updatedStory = await database.update(id: copiedStory.id.toString(), body: copiedStory.toJson());
     if (updatedStory != null) await reloadStory();
   }
 
@@ -321,8 +321,8 @@ class _StoryTileState extends State<StoryTile> {
   }
 
   String body(StoryContentDbModel content) {
-    String _body = content.plainText?.trim() ?? "content.plainText";
-    return _body;
+    String body = content.plainText?.trim() ?? "content.plainText";
+    return body;
   }
 
   Widget buildTime(BuildContext context, StoryContentDbModel content) {

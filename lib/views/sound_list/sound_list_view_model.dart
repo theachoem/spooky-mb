@@ -91,10 +91,10 @@ class SoundListViewModel extends BaseViewModel {
     String ref;
     switch (sound.type) {
       case SoundType.music:
-        ref = 'sounds/music/' + sound.fileName;
+        ref = 'sounds/music/${sound.fileName}';
         break;
       case SoundType.sound:
-        ref = 'sounds/rains/' + sound.fileName;
+        ref = 'sounds/rains/${sound.fileName}';
         break;
     }
 
@@ -115,7 +115,7 @@ class SoundListViewModel extends BaseViewModel {
 
     removeLoading(sound);
     if (error == null) {
-      WidgetsBinding.instance?.addPersistentFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPersistentFrameCallback((timeStamp) {
         notifyListeners();
       });
     }

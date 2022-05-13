@@ -91,7 +91,7 @@ class RestoreViewModel extends BaseViewModel {
     BackupModel? backup = await MessengerService.instance.showLoading(future: () => download(file), context: context);
     await BackupService().restore(backup);
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showSkipNotifier.value = false;
       MessengerService.instance.showSnackBar("Restored");
     });
@@ -102,7 +102,7 @@ class RestoreViewModel extends BaseViewModel {
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showSkipNotifier.dispose();
     });
   }

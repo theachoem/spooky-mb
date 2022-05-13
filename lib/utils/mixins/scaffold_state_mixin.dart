@@ -16,7 +16,7 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       isSpBottomSheetOpenNotifer.dispose();
     });
     super.dispose();

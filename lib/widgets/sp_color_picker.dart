@@ -34,7 +34,7 @@ class SpColorPicker extends StatefulWidget {
   }
 
   @override
-  _SpColorPickerState createState() => _SpColorPickerState();
+  SpColorPickerState createState() => SpColorPickerState();
 }
 
 /// value 2 at end is border width `all(1)`
@@ -42,7 +42,7 @@ const double spOnPickingSwatchHeight = 34 * 4 + ConfigConstant.margin2 * 2 + Con
 const double spOnPickingColorHeight = 34 * 2 + ConfigConstant.margin2 * 2 + ConfigConstant.margin1 * 2 - 4 + 2;
 const double spColorPickerMinWidth = 246.0;
 
-class _SpColorPickerState extends State<SpColorPicker> {
+class SpColorPickerState extends State<SpColorPicker> {
   /// final map = {
   ///   0: [0, 1, 2, 3],
   ///   1: [4, 5, 6, 7],
@@ -52,13 +52,13 @@ class _SpColorPickerState extends State<SpColorPicker> {
   ///   5: [20]
   /// };
   ///
-  Map<int, List<int>> listToTreeMap(List<dynamic> _list, {int rowLength = 5}) {
+  Map<int, List<int>> listToTreeMap(List<dynamic> list, {int rowLength = 5}) {
     Map<int, List<int>> map = {};
-    for (int c = 0; c <= _list.length ~/ rowLength; c++) {
+    for (int c = 0; c <= list.length ~/ rowLength; c++) {
       List<int> children = [];
       for (int r = c; r < c + rowLength; r++) {
         int index = c * (rowLength - 1) + r;
-        if (index <= _list.length - 1) children.add(index);
+        if (index <= list.length - 1) children.add(index);
       }
       map[c] = children;
     }
@@ -88,8 +88,8 @@ class _SpColorPickerState extends State<SpColorPicker> {
   void _setCurrentColor() {
     Future.delayed(const Duration(milliseconds: 1)).then((value) {
       for (ColorSwatch e in _colorsSwatch) {
-        final _colorSwatches = _getMaterialColorShades(e);
-        if (_colorSwatches.contains(widget.currentColor)) {
+        final colorSwatches = _getMaterialColorShades(e);
+        if (colorSwatches.contains(widget.currentColor)) {
           setState(() {
             currentSelectedColorsSwatch = e;
           });

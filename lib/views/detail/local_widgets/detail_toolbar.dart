@@ -47,12 +47,12 @@ class _DetailToolbarsState extends State<DetailToolbars> {
           builder: (context, toolbarShouldVisible, _) {
             return Stack(
               children: List.generate(child.children.length, (index) {
-                Widget _child = child.children[index];
+                Widget selectedChild = child.children[index];
                 double page = widget.viewModel.pageController.page ?? 0.0;
                 bool visible = page > index - 0.25 && page < index + 0.25;
                 return buildWrapper(
                   visible && toolbarShouldVisible,
-                  _child,
+                  selectedChild,
                 );
               }),
             );
@@ -77,14 +77,14 @@ class _DetailToolbarsState extends State<DetailToolbars> {
     );
   }
 
-  Widget buildWrapper(bool visible, Widget _child) {
+  Widget buildWrapper(bool visible, Widget child) {
     return AnimatedOpacity(
       opacity: visible ? 1 : 0,
       duration: ConfigConstant.fadeDuration,
       curve: Curves.ease,
       child: IgnorePointer(
         ignoring: !visible,
-        child: _child,
+        child: child,
       ),
     );
   }

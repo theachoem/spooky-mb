@@ -73,7 +73,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               OkCancelResult result = await showOkCancelAlertDialog(
                 context: context,
                 title: "Are you sure to delete?",
-                message: viewModel.selectedNotifier.value.length.toString() + " selected",
+                message: "${viewModel.selectedNotifier.value.length} selected",
                 okLabel: "Delete",
                 isDestructiveAction: true,
               );
@@ -99,7 +99,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
       separatorBuilder: (context, index) => const Divider(height: 0),
       itemCount: viewModel.story.changes.length,
       physics: const AlwaysScrollableScrollPhysics(),
-      itemBuilder: (_context, index) {
+      itemBuilder: (_, index) {
         StoryContentDbModel content = viewModel.story.changes[index];
         int id = content.id;
         bool latest = index == viewModel.story.changes.length - 1;
@@ -144,7 +144,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               },
               title: RichText(
                 text: TextSpan(
-                  text: (content.title ?? "No title") + " ",
+                  text: "${content.title ?? "No title"} ",
                   style: M3TextTheme.of(context).titleMedium,
                   children: [
                     if (latest)

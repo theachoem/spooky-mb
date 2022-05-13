@@ -87,8 +87,9 @@ class _AppStarterMobile extends StatelessWidget {
         currentColor: context.read<ThemeProvider>().colorSeed,
         onPickedColor: (color) async {
           callback();
-          await Future.delayed(ConfigConstant.duration);
-          await context.read<ThemeProvider>().updateColor(color);
+          Future.delayed(ConfigConstant.duration).then((value) async {
+            await context.read<ThemeProvider>().updateColor(color);
+          });
         },
       );
     }, childBuilder: (context, callback) {

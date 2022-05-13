@@ -29,7 +29,7 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       lastReportedPage = widget.controller.page?.toInt() ?? 0;
       widget.controller.addListener(listener);
     });
@@ -101,8 +101,8 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
         secondChild: AnimatedContainer(
           width: ConfigConstant.objectHeight1,
           duration: ConfigConstant.fadeDuration,
-          child: const Icon(Icons.menu_book_rounded),
           alignment: Alignment.center,
+          child: const Icon(Icons.menu_book_rounded),
         ),
         firstChild: Container(
           height: ConfigConstant.iconSize3,

@@ -30,7 +30,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     super.initState();
     controller = TabController(length: 12, vsync: this, initialIndex: widget.viewModel.month - 1);
     SpListLayoutBuilder.get().then((value) {
-      WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         setState(() {
           layoutType = value;
         });

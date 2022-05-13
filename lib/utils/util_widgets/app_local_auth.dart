@@ -13,15 +13,15 @@ class AppLocalAuth extends StatefulWidget {
   }) : super(key: key);
 
   final Widget child;
-  static _AppLocalAuthState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_AppLocalAuthState>();
+  static AppLocalAuthState? of(BuildContext context) {
+    return context.findAncestorStateOfType<AppLocalAuthState>();
   }
 
   @override
-  State<AppLocalAuth> createState() => _AppLocalAuthState();
+  State<AppLocalAuth> createState() => AppLocalAuthState();
 }
 
-class _AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver, ScheduleMixin {
+class AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver, ScheduleMixin {
   SecurityService service = SecurityService();
 
   // avoid push same unlock pin route
@@ -33,8 +33,8 @@ class _AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver
     if (Platform.isAndroid || Platform.isIOS) {
       SecurityService.initialize();
     }
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) => showLock());
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) => showLock());
+    WidgetsBinding.instance.addObserver(this);
   }
 
   Future<void> showLock() async {
@@ -46,7 +46,7 @@ class _AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

@@ -38,10 +38,6 @@ class _SoundTile extends StatelessWidget {
           ),
           Positioned.fill(
             child: ValueListenableBuilder<Set<String>>(
-              child: Transform.scale(
-                scale: 1.1,
-                child: const CircularProgressIndicator(strokeWidth: 2),
-              ),
               valueListenable: viewModel.downloadingSoundsNotifier,
               builder: (context, loadings, child) {
                 return AnimatedOpacity(
@@ -50,6 +46,10 @@ class _SoundTile extends StatelessWidget {
                   child: child!,
                 );
               },
+              child: Transform.scale(
+                scale: 1.1,
+                child: const CircularProgressIndicator(strokeWidth: 2),
+              ),
             ),
           ),
         ],

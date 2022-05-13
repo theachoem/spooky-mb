@@ -44,7 +44,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   }) {
     currentContent = initialContent(currentStory);
     initMixinState(flowType, currentContent);
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     setListener();
   }
 
@@ -142,6 +142,6 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
   }
 }

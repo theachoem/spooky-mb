@@ -21,7 +21,6 @@ class HomeTabBarWrapper extends StatelessWidget implements PreferredSizeWidget {
     return Visibility(
       visible: visible,
       child: TweenAnimationBuilder<int>(
-        child: child,
         tween: IntTween(begin: 0, end: 1),
         duration: ConfigConstant.duration,
         builder: (context, value, child) {
@@ -32,6 +31,7 @@ class HomeTabBarWrapper extends StatelessWidget implements PreferredSizeWidget {
             child: child,
           );
         },
+        child: child,
       ),
     );
   }

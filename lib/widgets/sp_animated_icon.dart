@@ -19,17 +19,17 @@ class SpAnimatedIcons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _firstChild = firstChild;
-    Widget _secondChild = secondChild;
+    Widget firstChild = this.firstChild;
+    Widget secondChild = this.secondChild;
 
     if (firstChild.key == null) {
-      _firstChild = SizedBox(
+      firstChild = SizedBox(
         key: const ValueKey("1"),
         child: firstChild,
       );
     }
     if (secondChild.key == null) {
-      _secondChild = SizedBox(
+      secondChild = SizedBox(
         key: const ValueKey("2"),
         child: secondChild,
       );
@@ -39,11 +39,11 @@ class SpAnimatedIcons extends StatelessWidget {
       duration: duration,
       switchInCurve: Curves.fastOutSlowIn,
       switchOutCurve: Curves.easeInToLinear,
-      child: showFirst ? _firstChild : _secondChild,
+      child: showFirst ? firstChild : secondChild,
       transitionBuilder: (child, animation) {
         if (listener != null) listener!(animation);
         return RotationTransition(
-          turns: child.key == _firstChild.key
+          turns: child.key == firstChild.key
               ? Tween<double>(begin: 0.25, end: 0).animate(animation)
               : Tween<double>(begin: 0.75, end: 1).animate(animation),
           child: ScaleTransition(

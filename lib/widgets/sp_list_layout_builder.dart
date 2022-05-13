@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/storages/local_storages/list_layout_type.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
 
-typedef _SpListLayoutBuilder = Widget Function(BuildContext context, ListLayoutType type, bool loaded);
+typedef SpListLayoutBuilderTypedef = Widget Function(BuildContext context, ListLayoutType type, bool loaded);
 
 class SpListLayoutBuilder extends StatelessWidget {
   const SpListLayoutBuilder({
@@ -10,7 +10,7 @@ class SpListLayoutBuilder extends StatelessWidget {
     required this.builder,
   }) : super(key: key);
 
-  final _SpListLayoutBuilder builder;
+  final SpListLayoutBuilderTypedef builder;
 
   static ListLayoutStorage get storage => ListLayoutStorage();
   static ListLayoutType get defaultLayout => ListLayoutType.single;

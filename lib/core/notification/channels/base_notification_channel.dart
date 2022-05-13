@@ -14,7 +14,7 @@ abstract class BaseNotificationChannel<T extends BaseNotificationPayload> {
 
   Future<void> triggered({
     String? buttonKey,
-    Map<String, String>? payload,
+    Map<String, String?>? payload,
   });
 
   Future<bool> show({
@@ -25,7 +25,7 @@ abstract class BaseNotificationChannel<T extends BaseNotificationPayload> {
     NotificationSchedule? schedule,
     NotificationLayout? notificationLayout,
   }) {
-    notificationLayout ??= bigPicture != null ? NotificationLayout.BigPicture : null;
+    notificationLayout ??= bigPicture != null ? NotificationLayout.BigPicture : NotificationLayout.Default;
     NotificationContent content = NotificationContent(
       id: title.hashCode,
       channelKey: channelKey.name,

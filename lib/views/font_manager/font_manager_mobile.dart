@@ -95,7 +95,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
         ),
         ListTile(
           title: const Text("Total"),
-          subtitle: Text(widget.viewModel.allFonts.length.toString() + " fonts"),
+          subtitle: Text("${widget.viewModel.allFonts.length} fonts"),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
             openWeb(provider);
@@ -129,7 +129,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
             weights.removeAt(0);
             weights.removeLast();
 
-            FontWeight? fontWeight = await showConfirmationDialog(
+            await showConfirmationDialog(
               context: context,
               title: "Font Weight",
               initialSelectedActionKey: notifier.fontWeight,
@@ -140,10 +140,11 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
                   label: widget.viewModel.trimFontWeight(e),
                 );
               }).toList(),
-            );
-            if (fontWeight != null) {
-              context.read<ThemeProvider>().updateFontWeight(fontWeight);
-            }
+            ).then((fontWeight) {
+              if (fontWeight != null) {
+                context.read<ThemeProvider>().updateFontWeight(fontWeight);
+              }
+            });
           },
         ),
         ListTile(

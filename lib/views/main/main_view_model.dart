@@ -84,19 +84,21 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   Future<void> createStory(BuildContext context) async {
-    ListLayoutType? layout = await SpListLayoutBuilder.get();
+    await SpListLayoutBuilder.get().then((layout) async {
+      Future<DateTime?> date;
+      switch (layout) {
+        case ListLayoutType.single:
+          date = SpDatePicker.showMonthDayPicker(context, this.date);
+          break;
+        case ListLayoutType.tabs:
+          date = SpDatePicker.showDayPicker(context, this.date);
+          break;
+      }
 
-    DateTime? date;
-    switch (layout) {
-      case ListLayoutType.single:
-        date = await SpDatePicker.showMonthDayPicker(context, this.date);
-        break;
-      case ListLayoutType.tabs:
-        date = await SpDatePicker.showDayPicker(context, this.date);
-        break;
-    }
-
-    if (date != null) onConfirm(date, context);
+      date.then((date) {
+        if (date != null) onConfirm(date, context);
+      });
+    });
   }
 
   void onConfirm(DateTime date, BuildContext context) {

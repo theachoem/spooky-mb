@@ -73,13 +73,13 @@ class EnhancedWeatherBgState extends State<EnhancedWeatherBg> with SingleTickerP
     }
     needChange = false;
     return SizeInherited(
+      size: Size(widget.width, widget.height),
       child: AnimatedCrossFade(
         firstChild: firstWidget,
         secondChild: secondWidget,
         duration: const Duration(milliseconds: 300),
         crossFadeState: state,
       ),
-      size: Size(widget.width, widget.height),
     );
   }
 }

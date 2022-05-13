@@ -63,8 +63,9 @@ class _AddOnsMobile extends StatelessWidget {
     ProductDetails? productDetails = result.isNotEmpty ? result.first : null;
 
     // purchase info
-    Iterable<PurchaseDetails> _purchaseDetails = purchaseDetails.where((e) => e.productID == product.type.productId);
-    PurchaseDetails? streamDetails = _purchaseDetails.isNotEmpty ? _purchaseDetails.first : null;
+    Iterable<PurchaseDetails> purchaseDetailsResult =
+        purchaseDetails.where((e) => e.productID == product.type.productId);
+    PurchaseDetails? streamDetails = purchaseDetailsResult.isNotEmpty ? purchaseDetailsResult.first : null;
     IAPError? error = streamDetails?.error;
 
     return buildFadeInWrapper(

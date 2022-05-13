@@ -47,26 +47,26 @@ class SpImageButton extends StatelessWidget {
   }
 
   Future<void> _onPressedHandler(BuildContext context) async {
-    String? selectedOption = await showModalActionSheet(
+    await showModalActionSheet(
       context: context,
       actions: const [
         SheetAction(label: "Gallery", key: "gallery"),
         SheetAction(label: "Camera", key: "camera"),
         SheetAction(label: "Link", key: "link"),
       ],
-    );
-
-    switch (selectedOption) {
-      case "gallery":
-        _pickImage(context, ImageSource.gallery);
-        break;
-      case "camera":
-        _pickImage(context, ImageSource.camera);
-        break;
-      case "link":
-        _typeLink(context);
-        break;
-    }
+    ).then((selectedOption) {
+      switch (selectedOption) {
+        case "gallery":
+          _pickImage(context, ImageSource.gallery);
+          break;
+        case "camera":
+          _pickImage(context, ImageSource.camera);
+          break;
+        case "link":
+          _typeLink(context);
+          break;
+      }
+    });
   }
 
   void _pickImage(BuildContext context, ImageSource source) async {

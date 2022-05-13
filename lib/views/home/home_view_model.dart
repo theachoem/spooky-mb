@@ -28,7 +28,7 @@ class HomeViewModel extends BaseViewModel {
     year = InitialStoryTabService.initial.year;
     month = InitialStoryTabService.initial.month;
     scrollController = ScrollController();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       onScrollControllerReady(scrollController);
     });
   }
@@ -64,28 +64,28 @@ class HomeViewModel extends BaseViewModel {
     }).toList()
       ..insert(0, const AlertDialogAction(key: "create", label: "Create new"));
 
-    String? selectedOption = await showConfirmationDialog(
+    await showConfirmationDialog(
       context: context,
       title: "Year",
       actions: actions,
       initialSelectedActionKey: "$year",
-    );
-
-    if (selectedOption == null) return;
-    if (selectedOption == "create") {
-      DateTime? date = await SpDatePicker.showYearPicker(context);
-      if (date != null) {
-        int year = date.year;
+    ).then((selectedOption) async {
+      if (selectedOption == null) return;
+      if (selectedOption == "create") {
+        DateTime? date = await SpDatePicker.showYearPicker(context);
+        if (date != null) {
+          int year = date.year;
+          setYear(year);
+        }
+      } else {
+        int? year = int.tryParse(selectedOption);
         setYear(year);
       }
-    } else {
-      int? year = int.tryParse(selectedOption);
-      setYear(year);
-    }
+    });
   }
 
   Future<void> openNicknameEditor(BuildContext context) async {
-    List<String>? nickname = await showTextInputDialog(
+    await showTextInputDialog(
       context: context,
       title: "What should I call you?",
       textFields: [
@@ -94,9 +94,10 @@ class HomeViewModel extends BaseViewModel {
           keyboardType: TextInputType.name,
         ),
       ],
-    );
-    if (nickname?.isNotEmpty == true) {
-      context.read<NicknameProvider>().setNickname(nickname![0]);
-    }
+    ).then((nickname) {
+      if (nickname?.isNotEmpty == true) {
+        context.read<NicknameProvider>().setNickname(nickname![0]);
+      }
+    });
   }
 }

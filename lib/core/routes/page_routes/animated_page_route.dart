@@ -59,11 +59,11 @@ class AnimatedPageRoute {
       pageBuilder: (context, animation, secondaryAnimation) => builder(context),
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         return SharedAxisTransition(
-          child: child,
           fillColor: fillColor,
           animation: animation,
           secondaryAnimation: secondaryAnimation,
           transitionType: type,
+          child: child,
         );
       },
     );

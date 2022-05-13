@@ -16,7 +16,7 @@ part './notification_config.dart';
 
 class NotificationService {
   static final AwesomeNotifications notifications = AwesomeNotifications();
-  static final _NotificationConfig config = _NotificationConfig();
+  static final config = _NotificationConfig();
 
   static Future<void> initialize() async {
     bool supportedPlatform = Platform.isAndroid || Platform.isIOS;
@@ -32,11 +32,11 @@ class NotificationService {
       if (!isAllowed) notifications.requestPermissionToSendNotifications();
     });
 
-    notifications.actionStream.listen((ReceivedAction event) {
+    notifications.setListeners(onActionReceivedMethod: (ReceivedAction event) async {
       NotificationChannelTypes? type;
-      for (final _type in NotificationChannelTypes.values) {
-        if (_type.name == event.channelKey) {
-          type = _type;
+      for (final typeFromValues in NotificationChannelTypes.values) {
+        if (typeFromValues.name == event.channelKey) {
+          type = typeFromValues;
           break;
         }
       }

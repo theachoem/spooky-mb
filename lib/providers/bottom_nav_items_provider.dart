@@ -37,14 +37,14 @@ class BottomNavItemsProvider extends ChangeNotifier {
     required BottomNavItemListModel tabsList,
     required BuildContext context,
   }) async {
-    List<SpRouter?> _tabs = tabsList.items?.map((e) => e.router).toList() ?? [];
+    List<SpRouter?> tabs = tabsList.items?.map((e) => e.router).toList() ?? [];
     for (SpRouter tab in _nonOptionalTabs ?? <SpRouter>[]) {
-      if (!_tabs.contains(tab)) {
+      if (!tabs.contains(tab)) {
         return "Must include default tabs";
       }
     }
 
-    if (_tabs.length < 2) {
+    if (tabs.length < 2) {
       return "Must be greater than 2";
     }
 

@@ -28,8 +28,8 @@ class ThemeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> updateTheme(ThemeModel _theme) async {
-    await storage.writeObject(_theme);
+  Future<void> updateTheme(ThemeModel theme) async {
+    await storage.writeObject(theme);
     return load();
   }
 
@@ -71,7 +71,7 @@ class ThemeProvider extends ChangeNotifier {
 
   bool toggleThemeMode() {
     if (themeMode == ThemeMode.system) {
-      Brightness? brightness = SchedulerBinding.instance?.window.platformBrightness;
+      Brightness? brightness = SchedulerBinding.instance.window.platformBrightness;
       bool isDarkMode = brightness == Brightness.dark;
       setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
       return !isDarkMode;

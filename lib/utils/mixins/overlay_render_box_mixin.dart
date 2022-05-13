@@ -15,7 +15,7 @@ mixin OverlayRenderBoxMixin<T extends StatefulWidget> on State<T> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       RenderObject? renderObject = Overlay.of(context)?.context.findRenderObject();
       if (renderObject == null) {
         if (kDebugMode) {

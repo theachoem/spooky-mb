@@ -40,7 +40,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
       year,
       month,
       day,
-      createdAt.millisecondsSinceEpoch.toString() + ".json",
+      "${createdAt.millisecondsSinceEpoch}.json",
     ].join("/");
 
     File file = File(path);
@@ -79,7 +79,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     Directory directory = await buildDir(type: type);
     List<FileSystemEntity> list = directory.listSync(recursive: true);
     for (FileSystemEntity element in list) {
-      if (element.path.endsWith(id + ".json") && element is File) {
+      if (element.path.endsWith("$id.json") && element is File) {
         await element.delete();
       }
     }
@@ -146,7 +146,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
       List<FileSystemEntity> list = directory.listSync(recursive: true);
 
       for (FileSystemEntity file in list) {
-        if (file.path.endsWith(id + ".json") && file is File) {
+        if (file.path.endsWith("$id.json") && file is File) {
           String result = await file.readAsString();
           dynamic json = jsonDecode(result);
           if (json is Map<String, dynamic>) return json;
@@ -189,7 +189,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
   int getDocsCount(int? year) {
     Directory docsPath = Directory(
-      dirPath(type: year != null ? PathType.docs.name + "/$year" : PathType.docs.name),
+      dirPath(type: year != null ? "${PathType.docs.name}/$year" : PathType.docs.name),
     );
 
     if (docsPath.existsSync()) {

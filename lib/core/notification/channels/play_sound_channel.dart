@@ -24,7 +24,7 @@ class PlaySoundChannel extends BaseNotificationChannel<PlaySoundPayload> {
           key: "stop",
           label: "Stop",
           showInCompactView: true,
-          buttonType: ActionButtonType.DisabledAction,
+          actionType: ActionType.DisabledAction,
         ),
     ];
   }
@@ -41,7 +41,7 @@ class PlaySoundChannel extends BaseNotificationChannel<PlaySoundPayload> {
   @override
   Future<void> triggered({
     String? buttonKey,
-    Map<String, String>? payload,
+    Map<String, String?>? payload,
   }) async {
     switch (buttonKey) {
       case "open":

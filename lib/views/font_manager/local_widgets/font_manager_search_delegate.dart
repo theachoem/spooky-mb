@@ -43,16 +43,17 @@ class FontManagerSearchDelegate extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    List<String> _suggestions = suggestions();
+    List<String> suggestionsResult = suggestions();
     return ListView.builder(
-      itemCount: _suggestions.length,
+      itemCount: suggestionsResult.length,
       itemBuilder: (context, index) {
-        String item = _suggestions[index];
+        String item = suggestionsResult[index];
         return FontTile(
           fontFamily: item,
           onFontUpdated: () async {
-            await Future.delayed(ConfigConstant.fadeDuration);
-            close(context, _suggestions);
+            await Future.delayed(ConfigConstant.fadeDuration).then((value) {
+              close(context, suggestionsResult);
+            });
           },
         );
       },

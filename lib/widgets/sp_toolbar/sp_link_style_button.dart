@@ -25,10 +25,10 @@ class SpLinkStyleButton extends StatefulWidget {
   final QuillDialogTheme? dialogTheme;
 
   @override
-  _SpLinkStyleButtonState createState() => _SpLinkStyleButtonState();
+  SpLinkStyleButtonState createState() => SpLinkStyleButtonState();
 }
 
-class _SpLinkStyleButtonState extends State<SpLinkStyleButton> {
+class SpLinkStyleButtonState extends State<SpLinkStyleButton> {
   void _didChangeSelection() {
     setState(() {});
   }
@@ -109,8 +109,8 @@ class _SpLinkStyleButtonState extends State<SpLinkStyleButton> {
                 DialogTextField(
                   initialText: text,
                   hintText: "Text",
-                  validator: (String? _text) {
-                    if (_text?.trim().isNotEmpty == true) {
+                  validator: (String? text) {
+                    if (text?.trim().isNotEmpty == true) {
                       return null;
                     } else {
                       return "Text must not empty";
@@ -120,8 +120,8 @@ class _SpLinkStyleButtonState extends State<SpLinkStyleButton> {
                 DialogTextField(
                   initialText: link,
                   hintText: "Link",
-                  validator: (String? _link) {
-                    if (_link != null && AutoFormatMultipleLinksRule.linkRegExp.hasMatch(_link)) {
+                  validator: (String? link) {
+                    if (link != null && AutoFormatMultipleLinksRule.linkRegExp.hasMatch(link)) {
                       return null;
                     } else {
                       return "Invalid link";

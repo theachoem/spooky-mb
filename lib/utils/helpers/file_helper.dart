@@ -33,6 +33,6 @@ class FileHelper {
   }
 
   static String addDirectory(String path) {
-    return directory.path + "/" + path;
+    return "${directory.path}/$path";
   }
 }

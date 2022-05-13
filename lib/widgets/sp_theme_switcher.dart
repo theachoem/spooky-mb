@@ -32,7 +32,7 @@ class SpThemeSwitcher extends StatefulWidget {
   }
 
   static Future<void> onLongPress(BuildContext context) async {
-    String? result = await showConfirmationDialog(
+    await showConfirmationDialog(
       context: context,
       title: "Theme",
       initialSelectedActionKey: context.read<ThemeProvider>().themeMode.name,
@@ -42,24 +42,25 @@ class SpThemeSwitcher extends StatefulWidget {
           label: "Go to Setting",
           isDefaultAction: true,
         )),
-    );
-    if (result != null) {
-      switch (result) {
-        case "setting":
-          Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
-          break;
-        default:
-          ThemeMode? themeMode;
-          for (ThemeMode element in ThemeMode.values) {
-            if (result == element.name) {
-              themeMode = element;
-              break;
+    ).then((result) {
+      if (result != null) {
+        switch (result) {
+          case "setting":
+            Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
+            break;
+          default:
+            ThemeMode? themeMode;
+            for (ThemeMode element in ThemeMode.values) {
+              if (result == element.name) {
+                themeMode = element;
+                break;
+              }
             }
-          }
-          context.read<ThemeProvider>().setThemeMode(themeMode);
-          break;
+            context.read<ThemeProvider>().setThemeMode(themeMode);
+            break;
+        }
       }
-    }
+    });
   }
 
   static List<AlertDialogAction<String>> get themeModeActions {
@@ -76,11 +77,11 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
   late final ValueNotifier<bool> isDarkModeNotifier;
   bool get isDarkModeFromTheme {
     try {
-      BuildContext _context = App.navigatorKey.currentContext ?? context;
-      return Theme.of(_context).brightness == Brightness.dark;
+      BuildContext context = App.navigatorKey.currentContext ?? this.context;
+      return Theme.of(context).brightness == Brightness.dark;
     } catch (e) {
       if (kDebugMode) print("ERROR: $e");
-      Brightness? brightness = SchedulerBinding.instance?.window.platformBrightness;
+      Brightness? brightness = SchedulerBinding.instance.window.platformBrightness;
       bool isDarkMode = brightness == Brightness.dark;
       return isDarkMode;
     }
@@ -127,14 +128,14 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
   }
 
   Widget getThemeModeIcon(BuildContext context) {
-    Color _color = widget.color ?? M3Color.of(context).primary;
+    Color color = widget.color ?? M3Color.of(context).primary;
     return ValueListenableBuilder<bool>(
       valueListenable: isDarkModeNotifier,
       builder: (context, isDarkMode, child) {
         return SpAnimatedIcons(
           duration: ConfigConstant.duration * 3,
-          firstChild: Icon(Icons.dark_mode, color: _color, key: const ValueKey(Brightness.dark)),
-          secondChild: Icon(Icons.light_mode, color: _color, key: const ValueKey(Brightness.light)),
+          firstChild: Icon(Icons.dark_mode, color: color, key: const ValueKey(Brightness.dark)),
+          secondChild: Icon(Icons.light_mode, color: color, key: const ValueKey(Brightness.light)),
           showFirst: isDarkMode,
         );
       },

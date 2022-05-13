@@ -48,7 +48,7 @@ class _SpPageViewState extends State<SpPageView> with StatefulMixin {
 
   Future<bool> initializeController() {
     Completer<bool> completer = Completer<bool>();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       completer.complete(true);
     });
     return completer.future;

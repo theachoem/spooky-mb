@@ -15,13 +15,15 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
       customizedButtonChild: const Icon(Icons.fingerprint),
       didUnlocked: () => Navigator.of(option.context).pop(true),
       customizedButtonTap: () async {
-        bool authenticated = await _authentication();
-        if (authenticated) Navigator.of(option.context).pop(true);
+        await _authentication().then((authenticated) {
+          if (authenticated) Navigator.of(option.context).pop(true);
+        });
       },
       canCancel: option.canCancel,
       didOpened: () async {
-        bool authenticated = await _authentication();
-        if (authenticated) Navigator.of(option.context).pop(true);
+        await _authentication().then((authenticated) {
+          if (authenticated) Navigator.of(option.context).pop(true);
+        });
       },
     );
 

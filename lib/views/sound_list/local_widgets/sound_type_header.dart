@@ -25,12 +25,12 @@ class _SoundTypeHeader extends StatelessWidget {
         items: (context) {
           double volumn = player?.volume ?? 1.0;
           return List.generate(4, (index) {
-            double _volumn = (index + 1) * 25;
+            double caculatedVolumn = (index + 1) * 25;
             return SpPopMenuItem(
-              title: _volumn.toInt().toString(),
-              trailingIconData: volumn * 100 == _volumn ? Icons.check : null,
+              title: caculatedVolumn.toInt().toString(),
+              trailingIconData: volumn * 100 == caculatedVolumn ? Icons.check : null,
               onPressed: () {
-                player?.setVolume(_volumn / 100);
+                player?.setVolume(caculatedVolumn / 100);
               },
             );
           });

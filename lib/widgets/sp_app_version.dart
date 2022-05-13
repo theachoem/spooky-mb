@@ -69,7 +69,7 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
           child: Padding(
             padding: const EdgeInsets.all(ConfigConstant.margin2),
             child: Text(
-              info.version + " (" + info.buildNumber + ")",
+              "${info.version} (${info.buildNumber})",
               textAlign: TextAlign.center,
             ),
           ),

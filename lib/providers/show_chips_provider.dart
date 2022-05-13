@@ -5,7 +5,7 @@ class ShowChipsProvider extends ChangeNotifier {
   bool shouldShow = true;
 
   ShowChipsProvider() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       load();
     });
   }

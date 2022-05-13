@@ -54,7 +54,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     controller = MiniplayerController();
     load();
     initPlayers();
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
@@ -63,7 +63,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     controller.dispose();
     audioPlayers.forEach((key, value) => value.dispose());
     super.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   void setPlaying(bool playing) {
@@ -100,7 +100,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   List<SoundModel>? downloadedSounds;
   Future<void> load() async {
     downloadedSounds = await manager.downloadedSound();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       notifyListeners();
     });
   }
@@ -214,9 +214,9 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   WeatherType get weatherType {
     WeatherType? type;
     for (SoundType soundType in SoundType.values) {
-      SoundModel? _type = currentSound(soundType);
-      if (_type != null) {
-        type = _type.weatherType;
+      SoundModel? typeResult = currentSound(soundType);
+      if (typeResult != null) {
+        type = typeResult.weatherType;
         break;
       }
     }
@@ -227,9 +227,9 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     List<String> names = [];
 
     for (SoundType type in SoundType.values) {
-      SoundModel? _name = currentSound(type);
-      if (_name != null) {
-        names.add(_name.soundName.capitalize);
+      SoundModel? name = currentSound(type);
+      if (name != null) {
+        names.add(name.soundName.capitalize);
       }
     }
 

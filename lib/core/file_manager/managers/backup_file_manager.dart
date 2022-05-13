@@ -7,8 +7,8 @@ import 'package:spooky/core/types/file_path_type.dart';
 
 // Once backup is synced, we store them to local storage as well.
 class BackupFileManager extends BaseFileManager {
-  Directory get directory => Directory(root.path + "/" + FilePathType.backups.name);
-  File buildFile(int year) => File(directory.path + "/" + year.toString() + ".json");
+  Directory get directory => Directory("${root.path}/${FilePathType.backups.name}");
+  File buildFile(int year) => File("${directory.path}/$year.json");
 
   // use year as file name.
   // call when backup complete

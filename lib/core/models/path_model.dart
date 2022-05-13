@@ -40,7 +40,7 @@ class PathModel extends BaseModel {
   }
 
   PathModel.fromDateTime(DateTime date)
-      : fileName = date.millisecondsSinceEpoch.toString() + ".json",
+      : fileName = "${date.millisecondsSinceEpoch}.json",
         year = date.year,
         month = date.month,
         day = date.day,
@@ -51,9 +51,9 @@ class PathModel extends BaseModel {
   }
 
   bool sameDayAs(PathModel compare) {
-    String _this = [year, month, day].join("/");
-    String _cmp = [compare.year, compare.month, compare.day].join("/");
-    return _this == _cmp;
+    String thisOne = [year, month, day].join("/");
+    String compareTo = [compare.year, compare.month, compare.day].join("/");
+    return thisOne == compareTo;
   }
 
   String toPath() {

@@ -24,10 +24,10 @@ class SpColorButton extends StatefulWidget {
   final QuillIconTheme? iconTheme;
 
   @override
-  _SpColorButtonState createState() => _SpColorButtonState();
+  SpColorButtonState createState() => SpColorButtonState();
 }
 
-class _SpColorButtonState extends State<SpColorButton> with StatefulMixin {
+class SpColorButtonState extends State<SpColorButton> with StatefulMixin {
   late bool _isToggledColor;
   late bool _isToggledBackground;
 

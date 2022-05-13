@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 
-typedef _LockBuilder = ScreenLock Function(
+typedef LockBuilder = ScreenLock Function(
   BuildContext context,
   Animation<double> animation,
   Animation<double> secondaryAnimation,
@@ -16,7 +16,7 @@ class ScreenLockRoute<T> extends PageRoute<T> {
   @override
   final Color? barrierColor;
 
-  final _LockBuilder builder;
+  final LockBuilder builder;
 
   @override
   bool get fullscreenDialog => true;

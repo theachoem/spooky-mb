@@ -22,7 +22,7 @@ class UpdatePageWriter extends DefaultStoryWriter<UpdatePageObject> {
     BuildContext? context = super.context;
     if (context == null || story == null) return;
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Navigator.of(context).pushReplacementNamed(
         SpRouter.detail.path,
         arguments: DetailArgs(

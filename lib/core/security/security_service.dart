@@ -22,11 +22,11 @@ class SecurityService with _SecurityServiceMixin {
   static Future<void> initialize() => _lockInfo.initialize();
 
   static final _SecurityInformations _lockInfo = _SecurityInformations();
-  _SecurityInformations get lockInfo => _lockInfo;
+  final lockInfo = _lockInfo;
 
-  _PinCodeService get pinCodeService => _PinCodeService(lockInfo);
-  _BiometricsService get biometricsService => _BiometricsService(lockInfo);
-  _PasswordService get passwordService => _PasswordService(lockInfo);
+  late final pinCodeService = _PinCodeService(lockInfo);
+  late final biometricsService = _BiometricsService(lockInfo);
+  late final passwordService = _PasswordService(lockInfo);
 
   Future<bool> showLockIfHas(BuildContext context) async {
     SecurityObject? object = await getObject(lockInfo);
@@ -177,15 +177,15 @@ class SecurityService with _SecurityServiceMixin {
           flowType: LockFlowType.remove,
           next: (bool authenticated) async {
             if (!authenticated) {
-              bool _authenticated = await pinCodeService.unlock(_PinCodeOptions(
+              bool authenticatedFromPin = await pinCodeService.unlock(_PinCodeOptions(
                 context: context,
                 object: null,
                 lockType: LockType.biometric,
                 flowType: LockFlowType.remove,
                 next: (bool authenticated) async => authenticated,
               ));
-              if (_authenticated) await lockInfo._storage.clearLock();
-              return _authenticated;
+              if (authenticatedFromPin) await lockInfo._storage.clearLock();
+              return authenticatedFromPin;
             } else {
               return authenticated;
             }

@@ -67,8 +67,8 @@ class _MainMobile extends StatelessWidget {
               }).toList(),
             ),
           ),
-          builder: (context, _shouldShow, child) {
-            bool shouldShow = _shouldShow && provider.tabs != null;
+          builder: (context, shouldShowFromParams, child) {
+            bool shouldShow = shouldShowFromParams && provider.tabs != null;
             return ValueListenableBuilder(
               valueListenable: viewModel.bottomNavigationHeight,
               child: AnimatedOpacity(

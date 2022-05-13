@@ -118,33 +118,34 @@ class _SoundListMobile extends StatelessWidget {
     SoundModel sound,
   ) async {
     UserProvider userProvider = context.read<UserProvider>();
-    List<SoundModel> downloadedSounds = await viewModel.fileManager.downloadedSound();
-    MiniSoundPlayerProvider provider = context.read<MiniSoundPlayerProvider>();
-    if (downloaded) {
-      if (provider.currentSound(type)?.fileName != sound.fileName) {
-        provider.play(sound);
-      } else {
-        provider.stop(sound.type);
-      }
-    } else {
-      if (userProvider.purchased(ProductAsType.relexSound) ||
-          downloadedSounds.where((element) => element.type == type).isEmpty) {
-        String? errorMessage = await viewModel.download(sound);
-        provider.load();
-        if (errorMessage != null) {
-          MessengerService.instance.showSnackBar(errorMessage, success: false);
+    await viewModel.fileManager.downloadedSound().then((downloadedSounds) async {
+      MiniSoundPlayerProvider provider = context.read<MiniSoundPlayerProvider>();
+      if (downloaded) {
+        if (provider.currentSound(type)?.fileName != sound.fileName) {
+          provider.play(sound);
+        } else {
+          provider.stop(sound.type);
         }
       } else {
-        MessengerService.instance.showSnackBar(
-          "Purchase to download more",
-          action: SnackBarAction(
-            label: "Add-ons",
-            onPressed: () {
-              Navigator.of(context).pushNamed(SpRouter.addOn.path);
-            },
-          ),
-        );
+        if (userProvider.purchased(ProductAsType.relexSound) ||
+            downloadedSounds.where((element) => element.type == type).isEmpty) {
+          String? errorMessage = await viewModel.download(sound);
+          provider.load();
+          if (errorMessage != null) {
+            MessengerService.instance.showSnackBar(errorMessage, success: false);
+          }
+        } else {
+          MessengerService.instance.showSnackBar(
+            "Purchase to download more",
+            action: SnackBarAction(
+              label: "Add-ons",
+              onPressed: () {
+                Navigator.of(context).pushNamed(SpRouter.addOn.path);
+              },
+            ),
+          );
+        }
       }
-    }
+    });
   }
 }

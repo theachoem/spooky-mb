@@ -20,7 +20,7 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
 
   void setQuillController(int index, QuillController controller) {
     quillControllers[index] = controller;
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if (quillControllerInitedNotifier.value) return;
       quillControllerInitedNotifier.value = true;
     });

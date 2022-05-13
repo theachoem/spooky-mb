@@ -28,21 +28,21 @@ class CloudStorageViewModel extends BaseViewModel {
 
   // load year whether it is synced or not
   Future<void> loadYears() async {
-    List<YearCloudModel> _years = [];
+    List<YearCloudModel> years = [];
     Set<int>? intYears = await StoryDatabase().fetchYears();
     List<BackupModel>? backups = await BackupFileManager().fetchAll();
     List<int> syncedYears = backups.map((e) => e.year).toList();
 
     if (intYears != null) {
       for (int y in intYears) {
-        _years.add(
+        years.add(
           YearCloudModel(
             year: y,
             synced: syncedYears.contains(y),
           ),
         );
       }
-      years = _years;
+      this.years = years;
     }
   }
 

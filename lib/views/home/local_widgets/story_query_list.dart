@@ -2,7 +2,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
-import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
@@ -41,7 +40,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   }
 
   void setDayColors() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {});
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
   }
 
   DateTime dateForCompare(StoryDbModel story) {
@@ -50,30 +49,31 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
 
   Future<void> load() async {
     SortType? sortType = await SortTypeStorage().readEnum();
-    BaseDbListModel<StoryDbModel>? list = await database.fetchAll(params: widget.queryOptions.toJson());
-    List<StoryDbModel> result = list?.items ?? [];
+    await database.fetchAll(params: widget.queryOptions.toJson()).then((list) {
+      List<StoryDbModel> result = list?.items ?? [];
 
-    switch (sortType) {
-      case SortType.oldToNew:
-      case null:
-        result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
-        break;
-      case SortType.newToOld:
-        result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
-        result = result.reversed.toList();
-        break;
-    }
+      switch (sortType) {
+        case SortType.oldToNew:
+        case null:
+          result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
+          break;
+        case SortType.newToOld:
+          result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
+          result = result.reversed.toList();
+          break;
+      }
 
-    final provider = context.read<PriorityStarredProvider>();
-    if (provider.prioritied) {
-      result.sort(((a, b) => b.starred == true ? 1 : -1));
-    }
+      final provider = context.read<PriorityStarredProvider>();
+      if (provider.prioritied) {
+        result.sort(((a, b) => b.starred == true ? 1 : -1));
+      }
 
-    if (result != stories) {
-      setState(() {
-        stories = result;
-      });
-    }
+      if (result != stories) {
+        setState(() {
+          stories = result;
+        });
+      }
+    });
   }
 
   @override
@@ -118,7 +118,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
 
     if (archived) {
       title = "Are you sure to unarchive?";
-      message = "Document will be move to:\n" + date;
+      message = "Document will be move to:\n$date";
       label = "Unarchive";
     } else {
       title = "Are you sure to archive?";

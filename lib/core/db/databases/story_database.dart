@@ -35,13 +35,13 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
   }
 
   Future<Set<int>?> fetchYears() {
-    _StoryFileDbAdapter _adapter = adapter as _StoryFileDbAdapter;
-    return _adapter.fetchYears();
+    _StoryFileDbAdapter storyAdapter = adapter as _StoryFileDbAdapter;
+    return storyAdapter.fetchYears();
   }
 
   int getDocsCount(int? year) {
-    _StoryFileDbAdapter _adapter = adapter as _StoryFileDbAdapter;
-    return _adapter.getDocsCount(year);
+    _StoryFileDbAdapter storyAdapter = adapter as _StoryFileDbAdapter;
+    return storyAdapter.getDocsCount(year);
   }
 
   bool canArchive(StoryDbModel story) {

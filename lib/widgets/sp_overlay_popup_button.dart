@@ -112,7 +112,6 @@ class _SpOverlayEntryButtonState extends State<SpOverlayEntryButton>
             right: right,
             top: top,
             child: AnimatedBuilder(
-              child: widget.floatingBuilder(context, () => close()),
               animation: controller,
               builder: (context, child) {
                 double dy = getDy();
@@ -124,6 +123,7 @@ class _SpOverlayEntryButtonState extends State<SpOverlayEntryButton>
                   ),
                 );
               },
+              child: widget.floatingBuilder(context, () => close()),
             ),
           ),
         ],

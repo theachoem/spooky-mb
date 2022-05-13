@@ -10,12 +10,12 @@ class UserProvider extends ChangeNotifier with WidgetsBindingObserver {
   bool _purchased = false;
 
   UserProvider() {
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
 
     // debug only, should remove in production
     DeveloperModeStorage().read().then((value) {
       _purchased = value == true;
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         notifyListeners();
       });
     });
@@ -27,7 +27,7 @@ class UserProvider extends ChangeNotifier with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

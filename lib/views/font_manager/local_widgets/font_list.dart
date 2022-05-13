@@ -93,10 +93,10 @@ class FontList extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16.0),
       color: M3Color.of(context).background,
       child: CircleAvatar(
+        backgroundColor: backgroundColor,
         child: bean.display().iconData != null
             ? Icon(bean.display().iconData, color: M3Color.of(context).onPrimary)
             : Text(bean.tag, style: TextStyle(color: M3Color.of(context).onPrimary)),
-        backgroundColor: backgroundColor,
       ),
     );
   }

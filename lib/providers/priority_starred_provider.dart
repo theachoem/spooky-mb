@@ -5,7 +5,7 @@ class PriorityStarredProvider extends ChangeNotifier {
   bool prioritied = true;
 
   PriorityStarredProvider() {
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       load();
     });
   }

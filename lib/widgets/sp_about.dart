@@ -753,7 +753,7 @@ class _PackageLicensePageState extends State<_PackageLicensePage> {
         Timeline.timeSync('_initLicenses()', () {}, flow: Flow.step(debugFlowId));
         return true;
       }());
-      final List<LicenseParagraph> paragraphs = await SchedulerBinding.instance!.scheduleTask<List<LicenseParagraph>>(
+      final List<LicenseParagraph> paragraphs = await SchedulerBinding.instance.scheduleTask<List<LicenseParagraph>>(
         license.paragraphs.toList,
         Priority.animation,
         debugLabel: 'License',
@@ -1401,13 +1401,13 @@ class _MasterDetailScaffoldState extends State<_MasterDetailScaffold> implements
 
   @override
   void openDetailPage(Object arguments) {
-    SchedulerBinding.instance!.addPostFrameCallback((_) => _detailArguments.value = arguments);
+    SchedulerBinding.instance.addPostFrameCallback((_) => _detailArguments.value = arguments);
     _MasterDetailFlow.of(context)!.openDetailPage(arguments);
   }
 
   @override
   void setInitialDetailPage(Object arguments) {
-    SchedulerBinding.instance!.addPostFrameCallback((_) => _detailArguments.value = arguments);
+    SchedulerBinding.instance.addPostFrameCallback((_) => _detailArguments.value = arguments);
     _MasterDetailFlow.of(context)!.setInitialDetailPage(arguments);
   }
 

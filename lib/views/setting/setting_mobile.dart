@@ -96,7 +96,7 @@ class _SettingMobile extends StatelessWidget {
                         ),
                       ),
                       applicationLegalese: "© ${DateTime.now().year} Juniorise",
-                      applicationVersion: info.version + "+" + info.buildNumber,
+                      applicationVersion: "${info.version}+${info.buildNumber}",
                       applicationName: info.appName,
                     );
                   },

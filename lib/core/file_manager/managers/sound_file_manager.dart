@@ -10,13 +10,13 @@ import 'package:spooky/gen/assets.gen.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
 class SoundFileManager extends BaseFileManager {
-  Directory get directory => Directory(root.path + "/" + FilePathType.sounds.name);
+  Directory get directory => Directory("${root.path}/${FilePathType.sounds.name}");
   Future<File?> save(File waveFile) async {
     String fileName = FileHelper.fileName(waveFile.path);
     return move(waveFile, constructFile(fileName));
   }
 
-  String constructFile(String fileName) => directory.path + "/" + fileName;
+  String constructFile(String fileName) => "${directory.path}/$fileName";
 
   Future<SoundListModel> fetchJsonSounds() async {
     String str = await rootBundle.loadString(Assets.backups.sounds);

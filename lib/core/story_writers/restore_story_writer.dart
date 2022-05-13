@@ -40,7 +40,7 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
     BuildContext? context = super.context;
     if (context == null || story == null) return;
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Navigator.of(context).popAndPushNamed(
         SpRouter.detail.path,
         arguments: DetailArgs(

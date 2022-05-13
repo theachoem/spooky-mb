@@ -15,10 +15,10 @@ class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
   SecurityViewModel() {
     lockedTypeNotifier = ValueNotifier(null);
     lockLifeCircleDurationNotifier = ValueNotifier(AppConstant.lockLifeDefaultCircleDuration.inSeconds);
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       load();
     });
-    WidgetsBinding.instance?.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
   }
 
   Future<void> load() async {
@@ -35,7 +35,7 @@ class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
   void dispose() {
     lockedTypeNotifier.dispose();
     lockLifeCircleDurationNotifier.dispose();
-    WidgetsBinding.instance?.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 

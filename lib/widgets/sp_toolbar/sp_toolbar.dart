@@ -16,15 +16,15 @@ class SpToolbar extends StatefulWidget {
 
   final QuillController controller;
 
-  static _SpToolbarState? of(BuildContext context) {
-    return context.findAncestorStateOfType<_SpToolbarState>();
+  static SpToolbarState? of(BuildContext context) {
+    return context.findAncestorStateOfType<SpToolbarState>();
   }
 
   @override
-  State<SpToolbar> createState() => _SpToolbarState();
+  State<SpToolbar> createState() => SpToolbarState();
 }
 
-class _SpToolbarState extends State<SpToolbar> with StatefulMixin {
+class SpToolbarState extends State<SpToolbar> with StatefulMixin {
   QuillIconTheme get iconTheme {
     return QuillIconTheme(
       iconSelectedColor: colorScheme.onSecondaryContainer,

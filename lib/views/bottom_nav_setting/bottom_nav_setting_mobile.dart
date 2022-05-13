@@ -50,7 +50,7 @@ class _BottomNavSettingMobile extends StatelessWidget {
               );
 
               if (msg != null) {
-                WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                   MessengerService.instance.showSnackBar(msg);
                 });
               }
@@ -62,13 +62,13 @@ class _BottomNavSettingMobile extends StatelessWidget {
   }
 
   void toggle(
-    List<BottomNavItemModel> _items,
+    List<BottomNavItemModel> items,
     int index,
     bool selected,
     BottomNavItemsProvider provider,
     BuildContext context,
   ) {
-    List<BottomNavItemModel> copied = [..._items];
+    List<BottomNavItemModel> copied = [...items];
     BottomNavItemModel newValue = copied[index].copyWith(selected: !selected);
     copied[index] = newValue;
 

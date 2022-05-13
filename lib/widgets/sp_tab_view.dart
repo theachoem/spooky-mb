@@ -30,8 +30,8 @@ class SpTabView extends StatelessWidget {
       key: key,
       controller: tabController,
       physics: physics,
-      children: children,
       dragStartBehavior: dragStartBehavior,
+      children: children,
     );
   }
 
@@ -46,7 +46,6 @@ class SpTabView extends StatelessWidget {
       final Widget child = children[itemIndex];
       result.add(
         AnimatedBuilder(
-          child: child,
           animation: controller!.animation!,
           builder: (context, child) {
             final double offset = controller.offset;
@@ -124,6 +123,7 @@ class SpTabView extends StatelessWidget {
               ),
             );
           },
+          child: child,
         ),
       );
     }

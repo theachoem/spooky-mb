@@ -109,8 +109,8 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
           flexibleSpace: child.flexibleSpace,
           bottom: HomeTabBarWrapper(
             height: hasTabs ? 48 + 8 : 0,
-            child: child.tabBar,
             visible: hasTabs,
+            child: child.tabBar,
           ),
         );
       },

@@ -88,7 +88,7 @@ class ManagePagesViewModel extends BaseViewModel {
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       hasChangeNotifier.dispose();
     });
   }
