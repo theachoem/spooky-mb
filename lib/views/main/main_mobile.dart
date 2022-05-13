@@ -54,15 +54,19 @@ class _MainMobile extends StatelessWidget {
           valueListenable: viewModel.shouldShowBottomNavNotifier,
           child: MeasureSize(
             onChange: (size) => viewModel.bottomNavigationHeight.value = size.height,
-            child: SpBottomNavigationBar(
-              currentIndex: provider.tabs?.indexOf(viewModel.activeRouter) ?? 0,
-              onTap: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
-              items: (provider.tabs ?? []).map((tab) {
+            child: NavigationBar(
+              onDestinationSelected: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
+              selectedIndex: provider.tabs?.indexOf(viewModel.activeRouter) ?? 0,
+              destinations: (provider.tabs ?? []).map((tab) {
                 MainTabBarItem e = tab.tab!;
-                return SpBottomNavigationBarItem(
-                  activeIconData: e.activeIcon,
-                  iconData: e.inactiveIcon,
-                  label: e.router.title,
+                return SpTapEffect(
+                  onTap: () => viewModel.setActiveRouter(e.router),
+                  child: NavigationDestination(
+                    tooltip: e.router.title,
+                    selectedIcon: Icon(e.activeIcon),
+                    icon: Icon(e.inactiveIcon),
+                    label: e.router.title,
+                  ),
                 );
               }).toList(),
             ),
@@ -120,7 +124,6 @@ class _MainMobile extends StatelessWidget {
                 : () => viewModel.createStory(context),
             onLongPressed: () => viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value),
             child: FloatingActionButton.extended(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
               label: SpCrossFade(
                 firstChild: const Text("Add"),
                 secondChild: const Text("Sound Library"),

@@ -246,9 +246,6 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
                   MessengerService.instance.clearSnackBars();
                 }
               },
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
               label: SpCrossFade(
                 firstChild: const Text("Edit"),
                 secondChild: const Text("Save"),

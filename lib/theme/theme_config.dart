@@ -76,7 +76,7 @@ class ThemeConfig {
         ),
       ),
       splashColor: ThemeConstant.splashColor,
-      // splashFactory:
+      splashFactory: InkSparkle.splashFactory,
       // InkRipple.splashFactory, //
       // InkSplash.splashFactory,
       indicatorColor: colorScheme.onPrimary,
