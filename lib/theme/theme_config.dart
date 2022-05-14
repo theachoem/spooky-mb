@@ -38,7 +38,8 @@ class ThemeConfig {
   ThemeData get themeData {
     ColorScheme colorScheme = this.colorScheme ?? (isDarkMode ? _dark : _light);
     TextTheme textTheme = buildTextTheme();
-    return ThemeData(
+
+    final themeData = ThemeData(
       // platform: TargetPlatform.android,
       useMaterial3: true,
       primaryColor: colorScheme.primary,
@@ -84,9 +85,6 @@ class ThemeConfig {
         ),
       ),
       splashColor: ThemeConstant.splashColor,
-      splashFactory: InkSparkle.splashFactory,
-      // InkRipple.splashFactory, //
-      // InkSplash.splashFactory,
       indicatorColor: colorScheme.onPrimary,
       textTheme: textTheme,
       textButtonTheme: buildTextButtonStyle(colorScheme),
@@ -94,6 +92,26 @@ class ThemeConfig {
         textTheme: CupertinoTextThemeData(),
       ),
     );
+
+    return themeData.copyWith(
+      splashFactory: isApple(themeData.platform) ? NoSplash.splashFactory : InkSparkle.splashFactory,
+      // InkRipple.splashFactory,
+      // InkSplash.splashFactory,
+      // NoSplash.splashFactory
+    );
+  }
+
+  bool isApple(TargetPlatform platform) {
+    switch (platform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return false;
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return true;
+    }
   }
 
   TextButtonThemeData buildTextButtonStyle(ColorScheme colorScheme) {
