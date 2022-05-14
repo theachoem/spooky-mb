@@ -15,8 +15,8 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
         return "Saved";
       case ResponseCodeType.fail:
         return "Save unsuccessfully!";
-      default:
-        return buildMessage(responseCode);
+      case ResponseCodeType.noChange:
+        return "No changes!";
     }
   }
 

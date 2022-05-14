@@ -1,5 +1,5 @@
-import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
@@ -293,17 +293,29 @@ class StoryTileState extends State<StoryTile> {
                   Container(
                     margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : contentRightMargin),
                     child: Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
-                      return ExpandableText(
-                        body(content),
-                        expandText: 'show more',
-                        collapseText: "show less",
-                        maxLines: provider.maxLine,
-                        animation: true,
-                        collapseOnTextTap: false,
-                        style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onSurface),
-                        linkColor: M3Color.of(context).onSurface,
-                        linkStyle: const TextStyle(fontWeight: FontWeight.w300),
+                      return Markdown(
+                        data: body(content),
+                        shrinkWrap: true,
+                        styleSheet: MarkdownStyleSheet(
+                          blockquoteDecoration: BoxDecoration(color: M3Color.of(context).tertiaryContainer),
+                          blockquote: TextStyle(color: M3Color.of(context).onTertiaryContainer),
+                          codeblockDecoration: BoxDecoration(border: Border.all(color: Theme.of(context).dividerColor)),
+                        ),
+                        padding: EdgeInsets.zero,
+                        physics: const NeverScrollableScrollPhysics(),
+                        softLineBreak: true,
                       );
+                      // return ExpandableText(
+                      //   body(content),
+                      //   expandText: 'show more',
+                      //   collapseText: "show less",
+                      //   maxLines: provider.maxLine,
+                      //   animation: true,
+                      //   collapseOnTextTap: false,
+                      //   style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onSurface),
+                      //   linkColor: M3Color.of(context).onSurface,
+                      //   linkStyle: const TextStyle(fontWeight: FontWeight.w300),
+                      // );
                     }),
                   ),
                 StoryTileChips(

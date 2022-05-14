@@ -39,19 +39,19 @@ class QuillHelper {
           if (att?.key == "blockquote") {
             String text = entry.toPlainText();
             text = text.replaceFirst(RegExp('\n'), '', text.length - 1);
-            result += "\n︳$text";
+            result += "\n> $text";
           } else if (att?.key == "code-block") {
-            result += '︳${entry.toPlainText()}';
+            result += '```\n${entry.toPlainText()}\n```';
           } else {
             if (att?.value == "checked") {
-              result += "☒\t${entry.toPlainText()}";
+              result += '- [x] ${entry.toPlainText()}';
             } else if (att?.value == "unchecked") {
-              result += "☐\t${entry.toPlainText()}";
+              result += "- [ ] ${entry.toPlainText()}";
             } else if (att?.value == "ordered") {
               index++;
-              result += "$index.\t${entry.toPlainText()}";
+              result += "$index. ${entry.toPlainText()}";
             } else if (att?.value == "bullet") {
-              result += "•\t${entry.toPlainText()}";
+              result += "- ${entry.toPlainText()}";
             }
           }
         }
