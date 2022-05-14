@@ -151,7 +151,12 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
             context: context,
             position: relativeRect!,
             elevation: 2.0,
-            shape: RoundedRectangleBorder(borderRadius: ConfigConstant.circlarRadius1),
+            shape: RoundedRectangleBorder(
+              borderRadius: ConfigConstant.circlarRadius1,
+              side: BorderSide(
+                color: Theme.of(context).dividerColor,
+              ),
+            ),
             items: widget.items(context).map((e) => buildItem(e)).toList(),
           );
           if (result?.onPressed != null) result!.onPressed!();
