@@ -155,6 +155,7 @@ class _ThemeSettingMobile extends StatelessWidget {
       );
     }, childBuilder: (context, callback) {
       bool isSystemTheme = context.read<ThemeProvider>().themeMode == ThemeMode.system;
+      bool hasDynamicColor = ThemeProvider.darkDynamic != null || ThemeProvider.lightDynamic != null;
       return ListTile(
         title: const Text("Color"),
         trailing: SizedBox(
@@ -167,14 +168,14 @@ class _ThemeSettingMobile extends StatelessWidget {
           ),
         ),
         onLongPress: () {
-          if (isSystemTheme) {
+          if (isSystemTheme && hasDynamicColor) {
             showWarningColorDialog(context);
           } else {
             Navigator.of(context).pushNamed(SpRouter.initPickColor.path);
           }
         },
         onTap: () {
-          if (isSystemTheme) {
+          if (isSystemTheme && hasDynamicColor) {
             showWarningColorDialog(context);
           } else {
             callback();
