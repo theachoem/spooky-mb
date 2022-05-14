@@ -8,12 +8,16 @@ class _SecurityInformations {
   bool? _hasFaceID;
   bool? _hasFingerprint;
   bool? _hasIris;
+  bool? _hasStrong;
+  bool? _hasWeak;
 
   bool get hasFaceID => _hasFaceID ?? false;
   bool get hasFingerprint => _hasFingerprint ?? false;
   bool get hasIris => _hasIris ?? false;
+  bool get hasStrong => _hasStrong ?? false;
+  bool get hasWeak => _hasWeak ?? false;
 
-  bool get hasLocalAuth => hasFaceID || hasFingerprint || hasIris;
+  bool get hasLocalAuth => hasFaceID || hasFingerprint || hasIris || hasStrong || hasWeak;
 
   Future<void> initialize() async {
     bool canCheckBiometrics = await _localAuth.canCheckBiometrics && await _localAuth.isDeviceSupported();
@@ -22,6 +26,8 @@ class _SecurityInformations {
       _hasFaceID = availableBiometrics.contains(BiometricType.face);
       _hasFingerprint = availableBiometrics.contains(BiometricType.fingerprint);
       _hasIris = availableBiometrics.contains(BiometricType.iris);
+      _hasStrong = availableBiometrics.contains(BiometricType.strong);
+      _hasWeak = availableBiometrics.contains(BiometricType.weak);
     } else {
       _hasFaceID = false;
       _hasFingerprint = false;

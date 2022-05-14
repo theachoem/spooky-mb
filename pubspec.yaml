@@ -1,7 +1,7 @@
 name: spooky
 description: Minimalist application to write stories, notes, diary!
 publish_to: none
-version: 1.0.0+11
+version: 1.0.0+13
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
