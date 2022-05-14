@@ -1,11 +1,12 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:spooky/core/models/theme_model.dart';
 import 'package:spooky/core/storages/local_storages/theme_storage.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/theme/theme_constant.dart';
-// ignore: depend_on_referenced_packages
 import 'package:material_color_utilities/palettes/core_palette.dart';
 
 class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
@@ -25,6 +26,7 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
 
   ThemeProvider() {
     WidgetsBinding.instance.addObserver(this);
+    setNavigationBarColor();
   }
 
   // states
@@ -123,6 +125,38 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
         });
       }
     });
+  }
+
+  @override
+  void didChangePlatformBrightness() {
+    super.didChangePlatformBrightness();
+    setNavigationBarColor();
+  }
+
+  bool isDarkMode() {
+    if (themeMode == ThemeMode.system) {
+      Brightness? brightness = SchedulerBinding.instance.window.platformBrightness;
+      return brightness == Brightness.dark;
+    } else {
+      return themeMode == ThemeMode.dark;
+    }
+  }
+
+  void setNavigationBarColor() {
+    ColorScheme scheme = isDarkMode() ? darkTheme.colorScheme : lightTheme.colorScheme;
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: scheme.readOnly.surface2,
+        systemStatusBarContrastEnforced: true,
+        systemNavigationBarColor: scheme.readOnly.surface2,
+      ),
+    );
+  }
+
+  @override
+  void notifyListeners() {
+    super.notifyListeners();
+    setNavigationBarColor();
   }
 
   @override
