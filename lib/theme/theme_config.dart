@@ -10,11 +10,13 @@ class ThemeConfig {
   final bool isDarkMode;
   final String fontFamily;
   final FontWeight fontWeight;
+  final ColorScheme? colorScheme;
 
   ThemeConfig(
     this.isDarkMode,
     this.fontFamily,
     this.fontWeight,
+    this.colorScheme,
   );
 
   factory ThemeConfig.light() {
@@ -27,13 +29,14 @@ class ThemeConfig {
 
   ThemeConfig.fromDarkMode(this.isDarkMode)
       : fontFamily = ThemeConstant.defaultFontFamily,
-        fontWeight = ThemeConstant.defaultFontWeight;
+        fontWeight = ThemeConstant.defaultFontWeight,
+        colorScheme = null;
 
   ColorScheme get _light => M3Color.colorScheme(Brightness.light);
   ColorScheme get _dark => M3Color.colorScheme(Brightness.dark);
 
   ThemeData get themeData {
-    ColorScheme colorScheme = isDarkMode ? _dark : _light;
+    ColorScheme colorScheme = this.colorScheme ?? (isDarkMode ? _dark : _light);
     TextTheme textTheme = buildTextTheme();
     return ThemeData(
       // platform: TargetPlatform.android,
@@ -53,8 +56,13 @@ class ThemeConfig {
         titleTextStyle: textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        extendedTextStyle: textTheme.labelLarge,
+        enableFeedback: true,
+        backgroundColor: colorScheme.secondaryContainer,
+        foregroundColor: colorScheme.onSecondaryContainer,
+        extendedPadding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2 + 4),
       ),
+      navigationBarTheme: NavigationBarThemeData(
+          labelTextStyle: MaterialStateProperty.all(const TextStyle(overflow: TextOverflow.ellipsis))),
       tabBarTheme: TabBarTheme(
         labelColor: colorScheme.primary,
         unselectedLabelColor: colorScheme.onSurface,

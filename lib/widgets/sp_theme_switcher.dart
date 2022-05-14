@@ -32,16 +32,21 @@ class SpThemeSwitcher extends StatefulWidget {
   }
 
   static Future<void> onLongPress(BuildContext context) async {
+    final actions = themeModeActions;
+
+    if (ModalRoute.of(context)?.settings.name != SpRouter.themeSetting.path) {
+      actions.add(const AlertDialogAction(
+        key: "setting",
+        label: "Go to Setting",
+        isDefaultAction: true,
+      ));
+    }
+
     await showConfirmationDialog(
       context: context,
       title: "Theme",
       initialSelectedActionKey: context.read<ThemeProvider>().themeMode.name,
-      actions: themeModeActions
-        ..add(const AlertDialogAction(
-          key: "setting",
-          label: "Go to Setting",
-          isDefaultAction: true,
-        )),
+      actions: actions,
     ).then((result) {
       if (result != null) {
         switch (result) {

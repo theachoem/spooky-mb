@@ -1,17 +1,30 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:spooky/core/models/theme_model.dart';
 import 'package:spooky/core/storages/local_storages/theme_storage.dart';
 import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/theme/theme_constant.dart';
+// ignore: depend_on_referenced_packages
+import 'package:material_color_utilities/palettes/core_palette.dart';
 
-class ThemeProvider extends ChangeNotifier {
+class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
   // initializer
   static ThemeModel? theme;
   static final ThemeStorage storage = ThemeStorage();
 
+  static ColorScheme? lightDynamic;
+  static ColorScheme? darkDynamic;
+
   static Future<void> initialize() async {
     theme = await storage.readObject();
+    CorePalette? result = await DynamicColorPlugin.getCorePalette();
+    lightDynamic ??= result?.toColorScheme();
+    darkDynamic ??= result?.toColorScheme(brightness: Brightness.dark);
+  }
+
+  ThemeProvider() {
+    WidgetsBinding.instance.addObserver(this);
   }
 
   // states
@@ -20,8 +33,21 @@ class ThemeProvider extends ChangeNotifier {
   ThemeMode get themeMode => theme?.themeMode ?? ThemeMode.system;
   Color get colorSeed => theme?.colorSeed ?? ThemeConstant.fallbackColor;
 
-  ThemeData get lightTheme => ThemeConfig(false, fontFamily, fontWeight).themeData;
-  ThemeData get darkTheme => ThemeConfig(true, fontFamily, fontWeight).themeData;
+  ThemeData get lightTheme {
+    if (themeMode == ThemeMode.system) {
+      return ThemeConfig(false, fontFamily, fontWeight, lightDynamic).themeData;
+    } else {
+      return ThemeConfig(false, fontFamily, fontWeight, null).themeData;
+    }
+  }
+
+  ThemeData get darkTheme {
+    if (themeMode == ThemeMode.system) {
+      return ThemeConfig(true, fontFamily, fontWeight, darkDynamic).themeData;
+    } else {
+      return ThemeConfig(true, fontFamily, fontWeight, null).themeData;
+    }
+  }
 
   Future<void> load() async {
     theme = await storage.readObject();
@@ -80,5 +106,28 @@ class ThemeProvider extends ChangeNotifier {
       setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
       return !isDarkMode;
     }
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    DynamicColorPlugin.getCorePalette().then((result) {
+      final light = result?.toColorScheme();
+      final dark = result?.toColorScheme(brightness: Brightness.dark);
+      if (light == lightDynamic || dark == darkDynamic) {
+      } else {
+        lightDynamic = result?.toColorScheme();
+        darkDynamic = result?.toColorScheme(brightness: Brightness.dark);
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          notifyListeners();
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 }

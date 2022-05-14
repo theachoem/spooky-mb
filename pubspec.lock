@@ -367,6 +367,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.1"
+  dynamic_color:
+    dependency: "direct main"
+    description:
+      name: dynamic_color
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.2"
   easy_localization:
     dependency: "direct main"
     description:
@@ -1052,7 +1059,7 @@ packages:
     source: hosted
     version: "0.12.11"
   material_color_utilities:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: material_color_utilities
       url: "https://pub.dartlang.org"
@@ -1800,4 +1807,4 @@ packages:
     version: "8.0.0"
 sdks:
   dart: ">=2.17.0-206.0.dev <3.0.0"
-  flutter: ">=2.10.5"
+  flutter: ">=2.13.0-0.2.pre"

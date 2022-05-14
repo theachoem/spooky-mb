@@ -1,3 +1,4 @@
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -24,8 +25,8 @@ class InitialTheme extends StatelessWidget {
           themeMode: provider.themeMode,
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,
-          theme: buildThemeData(M3Color.colorScheme(Brightness.light)),
-          darkTheme: buildThemeData(M3Color.colorScheme(Brightness.dark)),
+          theme: buildThemeData(provider.lightTheme.colorScheme),
+          darkTheme: buildThemeData(provider.darkTheme.colorScheme),
           home: child,
         );
       },

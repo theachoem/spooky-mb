@@ -16,7 +16,6 @@ import 'package:spooky/views/home/home_view.dart';
 import 'package:spooky/views/main/local_widgets/mini_player_scaffold.dart';
 import 'package:spooky/views/main/main_view_item.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
-import 'package:spooky/widgets/sp_bottom_navaigation_bar.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/widgets/sp_show_hide_animator.dart';

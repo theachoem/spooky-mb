@@ -154,6 +154,7 @@ class _ThemeSettingMobile extends StatelessWidget {
         },
       );
     }, childBuilder: (context, callback) {
+      bool isSystemTheme = context.read<ThemeProvider>().themeMode == ThemeMode.system;
       return ListTile(
         title: const Text("Color"),
         trailing: SizedBox(
@@ -162,17 +163,33 @@ class _ThemeSettingMobile extends StatelessWidget {
             size: ConfigConstant.iconSize2,
             onPressed: null,
             selected: true,
-            color: context.read<ThemeProvider>().colorSeed,
+            color: isSystemTheme ? Theme.of(context).colorScheme.primary : context.read<ThemeProvider>().colorSeed,
           ),
         ),
         onLongPress: () {
-          Navigator.of(context).pushNamed(SpRouter.initPickColor.path);
+          if (isSystemTheme) {
+            showWarningColorDialog(context);
+          } else {
+            Navigator.of(context).pushNamed(SpRouter.initPickColor.path);
+          }
         },
         onTap: () {
-          callback();
+          if (isSystemTheme) {
+            showWarningColorDialog(context);
+          } else {
+            callback();
+          }
         },
       );
     });
+  }
+
+  Future<OkCancelResult> showWarningColorDialog(BuildContext context) {
+    return showOkAlertDialog(
+      context: context,
+      title: "You are using system dynamic color!",
+      message: "Please change theme mode, to set custom color.",
+    );
   }
 
   ListTile buildThemeModeTile(BuildContext context) {
@@ -184,7 +201,7 @@ class _ThemeSettingMobile extends StatelessWidget {
         showFirst: M3Color.of(context).brightness == Brightness.dark,
       ),
       trailing: SpThemeSwitcher(backgroundColor: Colors.transparent),
-      onTap: () => SpThemeSwitcher?.onPress(context),
+      onTap: () => SpThemeSwitcher?.onLongPress(context),
       onLongPress: () => SpThemeSwitcher?.onLongPress(context),
     );
   }

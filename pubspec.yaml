@@ -88,6 +88,8 @@ dependencies:
   animations: ^2.0.2
   path: ^1.8.1
   in_app_purchase_android: ^0.2.2+5
+  dynamic_color: ^1.2.2
+  material_color_utilities: ^0.1.4
 
 dev_dependencies:
   flutter_test:
