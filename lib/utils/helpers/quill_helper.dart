@@ -28,7 +28,7 @@ class QuillHelper {
   }
 
   static String toPlainText(node.Root root) {
-    final plainText = root.children.map((node.Node e) {
+    String plainText = root.children.map((node.Node e) {
       final atts = e.style.attributes;
       attribute.Attribute? att = atts['list'] ?? atts['blockquote'] ?? atts['code-block'];
 
@@ -62,6 +62,7 @@ class QuillHelper {
     }).join();
 
     // replace all image object to empty
-    return plainText.replaceAll("\uFFFC", "");
+    plainText = plainText.replaceAll("\uFFFC", "");
+    return plainText.length > 200 ? "${plainText.substring(0, 200)}..." : plainText;
   }
 }

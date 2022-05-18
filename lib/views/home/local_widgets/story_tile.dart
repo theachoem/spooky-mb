@@ -300,7 +300,19 @@ class StoryTileState extends State<StoryTile> {
                           blockquoteDecoration: BoxDecoration(color: M3Color.of(context).tertiaryContainer),
                           blockquote: TextStyle(color: M3Color.of(context).onTertiaryContainer),
                           codeblockDecoration: BoxDecoration(border: Border.all(color: Theme.of(context).dividerColor)),
+                          listBulletPadding: const EdgeInsets.all(2),
+                          listIndent: ConfigConstant.iconSize1,
+                          blockSpacing: 0.0,
                         ),
+                        checkboxBuilder: (checked) {
+                          return Transform.translate(
+                            offset: const Offset(-3.5, 2.5),
+                            child: Icon(
+                              checked ? Icons.check_box : Icons.check_box_outline_blank,
+                              size: ConfigConstant.iconSize1,
+                            ),
+                          );
+                        },
                         padding: EdgeInsets.zero,
                         physics: const NeverScrollableScrollPhysics(),
                         softLineBreak: true,
