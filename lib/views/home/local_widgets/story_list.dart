@@ -235,7 +235,9 @@ class StoryList extends StatelessWidget {
 
   Widget buildConfiguredTile(int index, BuildContext context) {
     final StoryDbModel content = stories![index];
-    if (onDelete != null && onArchive != null && onUnarchive != null) {
+
+    // ignore: dead_code
+    if (false && onDelete != null && onArchive != null && onUnarchive != null) {
       return Dismissible(
         key: ValueKey(content.id),
         background: buildDismissibleBackground(
@@ -276,24 +278,31 @@ class StoryList extends StatelessWidget {
               return false;
           }
         },
-        child: StoryTile(
-          story: content,
-          context: context,
-          previousStory: storyAt(index - 1),
-          itemPadding: itemPadding,
-          onRefresh: () => onRefresh(),
-          onArchive: onArchive,
-          onDelete: onDelete,
-          onUnarchive: onUnarchive,
+        child: buildStoryTile(
+          content,
+          context,
+          index,
         ),
       );
     }
+
+    return buildStoryTile(
+      content,
+      context,
+      index,
+    );
+  }
+
+  StoryTile buildStoryTile(StoryDbModel content, BuildContext context, int index) {
     return StoryTile(
       story: content,
       context: context,
       previousStory: storyAt(index - 1),
       itemPadding: itemPadding,
       onRefresh: () => onRefresh(),
+      onArchive: onArchive,
+      onDelete: onDelete,
+      onUnarchive: onUnarchive,
     );
   }
 
