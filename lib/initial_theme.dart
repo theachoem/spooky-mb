@@ -1,10 +1,7 @@
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
-
 import 'package:flutter/material.dart';
 import 'package:spooky/providers/theme_provider.dart';
-import 'package:spooky/theme/m3/m3_color.dart';
 
 // InitialTheme is used to minimal theme as much as possible
 // which will be use in eg. dialog.

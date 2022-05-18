@@ -34,6 +34,7 @@ class NotificationService {
 
     notifications.setListeners(onActionReceivedMethod: (ReceivedAction event) async {
       NotificationChannelTypes? type;
+
       for (final typeFromValues in NotificationChannelTypes.values) {
         if (typeFromValues.name == event.channelKey) {
           type = typeFromValues;

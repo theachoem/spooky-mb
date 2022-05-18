@@ -87,7 +87,7 @@ class _SettingMobile extends StatelessWidget {
                   title: const Text("Licenses"),
                   onTap: () async {
                     PackageInfo info = await PackageInfo.fromPlatform();
-                    about.showLicensePage(
+                    showLicensePage(
                       context: context,
                       applicationIcon: const Padding(
                         padding: EdgeInsets.all(ConfigConstant.margin2),

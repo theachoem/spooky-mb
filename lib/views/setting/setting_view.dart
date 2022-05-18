@@ -12,7 +12,6 @@ import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/setting/setting_view_model.dart';
-import 'package:spooky/widgets/sp_about.dart' as about;
 import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
