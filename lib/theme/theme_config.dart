@@ -42,6 +42,7 @@ class ThemeConfig {
     final themeData = ThemeData(
       // platform: TargetPlatform.android,
       useMaterial3: true,
+      applyElevationOverlayColor: true,
       primaryColor: colorScheme.primary,
       backgroundColor: colorScheme.background,
       scaffoldBackgroundColor: colorScheme.background,
@@ -63,7 +64,10 @@ class ThemeConfig {
         extendedPadding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2 + 4),
       ),
       navigationBarTheme: NavigationBarThemeData(
-          labelTextStyle: MaterialStateProperty.all(const TextStyle(overflow: TextOverflow.ellipsis))),
+        labelTextStyle: MaterialStateProperty.all(
+          const TextStyle(overflow: TextOverflow.ellipsis),
+        ),
+      ),
       tabBarTheme: TabBarTheme(
         labelColor: colorScheme.primary,
         unselectedLabelColor: colorScheme.onSurface,
@@ -84,7 +88,7 @@ class ThemeConfig {
           borderRadius: ConfigConstant.circlarRadius1,
         ),
       ),
-      splashColor: ThemeConstant.splashColor,
+      // splashColor: ThemeConstant.splashColor,
       indicatorColor: colorScheme.onPrimary,
       textTheme: textTheme,
       textButtonTheme: buildTextButtonStyle(colorScheme),
@@ -95,6 +99,7 @@ class ThemeConfig {
 
     return themeData.copyWith(
       splashFactory: isApple(themeData.platform) ? NoSplash.splashFactory : InkSparkle.splashFactory,
+      // InkSparkle.splashFactory,
       // InkRipple.splashFactory,
       // InkSplash.splashFactory,
       // NoSplash.splashFactory

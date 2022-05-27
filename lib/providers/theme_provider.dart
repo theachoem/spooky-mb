@@ -1,13 +1,14 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:spooky/core/models/theme_model.dart';
 import 'package:spooky/core/storages/local_storages/theme_storage.dart';
-import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:material_color_utilities/palettes/core_palette.dart';
+
+// import 'package:flutter/services.dart';
+// import 'package:spooky/theme/m3/m3_color.dart';
 
 class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
   // initializer
@@ -143,14 +144,14 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   void setNavigationBarColor() {
-    ColorScheme scheme = isDarkMode() ? darkTheme.colorScheme : lightTheme.colorScheme;
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: scheme.readOnly.surface2,
-        systemStatusBarContrastEnforced: true,
-        systemNavigationBarColor: scheme.readOnly.surface2,
-      ),
-    );
+    // ColorScheme scheme = isDarkMode() ? darkTheme.colorScheme : lightTheme.colorScheme;
+    // SystemChrome.setSystemUIOverlayStyle(
+    //   SystemUiOverlayStyle(
+    //     statusBarColor: scheme.readOnly.surface2,
+    //     systemStatusBarContrastEnforced: true,
+    //     systemNavigationBarColor: scheme.readOnly.surface2,
+    //   ),
+    // );
   }
 
   @override

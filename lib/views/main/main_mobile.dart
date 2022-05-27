@@ -55,6 +55,7 @@ class _MainMobile extends StatelessWidget {
           child: MeasureSize(
             onChange: (size) => viewModel.bottomNavigationHeight.value = size.height,
             child: NavigationBar(
+              key: ValueKey(viewModel.shouldShowBottomNavNotifier.value),
               onDestinationSelected: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
               selectedIndex: provider.tabs?.indexOf(viewModel.activeRouter) ?? 0,
               destinations: (provider.tabs ?? []).map((tab) {
