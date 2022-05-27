@@ -17,9 +17,7 @@ dependencies:
   smooth_page_indicator: ^1.0.0+2
   injectable: ^1.5.3
   json_annotation: ^4.4.0
-  flutter_quill: # ^4.1.9
-    git:
-      url: https://github.com/myfknoll/flutter-quill.git
+  flutter_quill: ^5.0.2
   flutter_cupertino_datetime_picker:
     git:
       url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git
@@ -32,7 +30,7 @@ dependencies:
   intl: ^0.17.0
   easy_localization: ^3.0.0
   timezone: ^0.8.0
-  scroll_to_index: ^2.1.1
+  scroll_to_index: ^3.0.1
   audioplayers: ^0.20.1
   rect_getter: ^1.1.0
   flutter_keyboard_visibility: ^5.1.1
@@ -57,7 +55,7 @@ dependencies:
   firebase_core: ^1.13.1
   awesome_notifications: ^0.7.0-beta.3
   provider: ^6.0.2
-  google_fonts: ^2.3.1
+  google_fonts: ^3.0.1
   url_launcher: ^6.0.20
   community_material_icon: ^5.9.55
   animated_clipper: ^0.2.0+2
@@ -75,7 +73,7 @@ dependencies:
       url: git@github.com:juniorise/flutter_weather_bg_null_safety.git
       ref: 1.0.0
   just_audio: ^0.9.21
-  sign_in_with_apple: ^3.3.0
+  sign_in_with_apple: ^4.0.0
   flutter_facebook_auth: ^4.1.2
   google_sign_in: ^5.3.1
   firebase_auth: ^3.3.11
