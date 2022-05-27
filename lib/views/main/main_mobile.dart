@@ -10,94 +10,64 @@ class _MainMobile extends StatelessWidget {
       body: buildPages(context),
       floatingActionButton: buildFloatingActionButton(context),
       shouldShowBottomNavNotifier: viewModel.shouldShowBottomNavNotifier,
-      bottomNavigationBar: buildBottomNavigationBar(),
+      bottomNavigationBar: HomeBottomNavigation(viewModel: viewModel),
     );
+  }
+
+  Future<void> onFabPressed(bool showSoundLibraryButton, BuildContext context) async {
+    if (showSoundLibraryButton) {
+      final notifier = context.read<BottomNavItemsProvider>();
+      if (notifier.tabs?.contains(SpRouter.soundList) == true) {
+        await Navigator.of(context).maybePop();
+        viewModel.setActiveRouter(SpRouter.soundList);
+      } else {
+        Navigator.of(context).pushNamed(SpRouter.soundList.path);
+      }
+    } else {
+      return viewModel.createStory(context);
+    }
   }
 
   Widget buildPages(BuildContext context) {
     return Consumer<BottomNavItemsProvider>(
       builder: (context, provider, child) {
+        List<SpRouter> tabs = provider.tabs ?? [];
         return Stack(
-          children: List.generate(
-            provider.tabs?.length ?? 0,
-            (index) {
-              SpRouter? item = provider.tabs?[index] ?? SpRouter.notFound;
-              bool selected = viewModel.activeRouter == item;
-              return AnimatedOpacity(
-                opacity: selected ? 1.0 : 0.0,
-                duration: ConfigConstant.duration,
-                child: AnimatedContainer(
-                  duration: ConfigConstant.duration,
-                  transform: Matrix4.identity()..translate(0.0, !selected ? 8.0 : 0.0),
-                  child: Visibility(
-                    visible: selected,
-                    maintainState: index == 0,
-                    child: buildTabItem(
-                      item: item.tab!,
-                      index: index,
-                      context: context,
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
+          children: List.generate(tabs.length, (index) {
+            SpRouter? item = tabs[index];
+            bool selected = viewModel.activeRouter == item;
+            return buildAnimatedPageWrapper(
+              selected: selected,
+              index: index,
+              child: buildTabItem(
+                item: item.tab!,
+                index: index,
+                context: context,
+              ),
+            );
+          }),
         );
       },
     );
   }
 
-  Widget buildBottomNavigationBar() {
-    return Consumer<BottomNavItemsProvider>(
-      builder: (context, provider, child) {
-        return ValueListenableBuilder<bool>(
-          valueListenable: viewModel.shouldShowBottomNavNotifier,
-          child: MeasureSize(
-            onChange: (size) => viewModel.bottomNavigationHeight.value = size.height,
-            child: NavigationBar(
-              key: ValueKey(viewModel.shouldShowBottomNavNotifier.value),
-              onDestinationSelected: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
-              selectedIndex: provider.tabs?.indexOf(viewModel.activeRouter) ?? 0,
-              destinations: (provider.tabs ?? []).map((tab) {
-                MainTabBarItem e = tab.tab!;
-                return SpTapEffect(
-                  onTap: () => viewModel.setActiveRouter(e.router),
-                  child: NavigationDestination(
-                    tooltip: e.router.title,
-                    selectedIcon: Icon(e.activeIcon),
-                    icon: Icon(e.inactiveIcon),
-                    label: e.router.title,
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
-          builder: (context, shouldShowFromParams, child) {
-            bool shouldShow = shouldShowFromParams && provider.tabs != null;
-            return ValueListenableBuilder(
-              valueListenable: viewModel.bottomNavigationHeight,
-              child: AnimatedOpacity(
-                duration: ConfigConstant.duration,
-                curve: Curves.ease,
-                opacity: provider.tabs == null ? 0.0 : 1.0,
-                child: Wrap(
-                  children: [
-                    child ?? const SizedBox.shrink(),
-                  ],
-                ),
-              ),
-              builder: (context, height, child) {
-                return AnimatedContainer(
-                  height: shouldShow ? viewModel.bottomNavigationHeight.value : 0,
-                  duration: ConfigConstant.duration,
-                  curve: Curves.ease,
-                  child: child,
-                );
-              },
-            );
-          },
-        );
-      },
+  Widget buildAnimatedPageWrapper({
+    required bool selected,
+    required int index,
+    required Widget child,
+  }) {
+    return AnimatedOpacity(
+      opacity: selected ? 1.0 : 0.0,
+      duration: ConfigConstant.duration,
+      child: AnimatedContainer(
+        duration: ConfigConstant.duration,
+        transform: Matrix4.identity()..translate(0.0, !selected ? 8.0 : 0.0),
+        child: Visibility(
+          visible: selected,
+          maintainState: index == 0,
+          child: child,
+        ),
+      ),
     );
   }
 
@@ -112,40 +82,34 @@ class _MainMobile extends StatelessWidget {
           shouldShow: viewModel.activeRouter == SpRouter.home || showSoundLibraryButton,
           child: SpTapEffect(
             effects: const [SpTapEffectType.scaleDown],
-            onTap: showSoundLibraryButton
-                ? () async {
-                    final notifier = context.read<BottomNavItemsProvider>();
-                    if (notifier.tabs?.contains(SpRouter.soundList) == true) {
-                      await Navigator.of(context).maybePop();
-                      viewModel.setActiveRouter(SpRouter.soundList);
-                    } else {
-                      Navigator.of(context).pushNamed(SpRouter.soundList.path);
-                    }
-                  }
-                : () => viewModel.createStory(context),
+            onTap: () => onFabPressed(showSoundLibraryButton, context),
             onLongPressed: () => viewModel.setShouldShowBottomNav(!viewModel.shouldShowBottomNavNotifier.value),
-            child: FloatingActionButton.extended(
-              label: SpCrossFade(
-                firstChild: const Text("Add"),
-                secondChild: const Text("Sound Library"),
-                showFirst: !showSoundLibraryButton,
-              ),
-              onPressed: null,
-              icon: SpAnimatedIcons(
-                showFirst: !showSoundLibraryButton,
-                firstChild: const Icon(
-                  Icons.edit,
-                  key: ValueKey(Icons.edit),
-                ),
-                secondChild: const Icon(
-                  Icons.music_note,
-                  key: ValueKey(Icons.music_note),
-                ),
-              ),
-            ),
+            child: buildObservationFab(showSoundLibraryButton),
           ),
         );
       },
+    );
+  }
+
+  Widget buildObservationFab(bool showSoundLibraryButton) {
+    return FloatingActionButton.extended(
+      label: SpCrossFade(
+        firstChild: const Text("Add"),
+        secondChild: const Text("Sound Library"),
+        showFirst: !showSoundLibraryButton,
+      ),
+      onPressed: null,
+      icon: SpAnimatedIcons(
+        showFirst: !showSoundLibraryButton,
+        firstChild: const Icon(
+          Icons.edit,
+          key: ValueKey(Icons.edit),
+        ),
+        secondChild: const Icon(
+          Icons.music_note,
+          key: ValueKey(Icons.music_note),
+        ),
+      ),
     );
   }
 
@@ -157,19 +121,7 @@ class _MainMobile extends StatelessWidget {
     Widget screen;
     switch (item.router) {
       case SpRouter.home:
-        screen = HomeView(
-          onTabChange: viewModel.onTabChange,
-          onYearChange: (int year) => viewModel.year = year,
-          onListReloaderReady: (void Function() callback) {
-            viewModel.storyListReloader = callback;
-          },
-          onScrollControllerReady: (ScrollController controller) {
-            viewModel.setScrollController(
-              index: index,
-              controller: controller,
-            );
-          },
-        );
+        screen = buildHomeView(index);
         break;
       default:
         BaseRouteSetting<dynamic> route = SpRouteConfig(context: context).buildRoute(item.router);
@@ -177,5 +129,18 @@ class _MainMobile extends StatelessWidget {
         break;
     }
     return screen;
+  }
+
+  Widget buildHomeView(int index) {
+    return HomeView(
+      onTabChange: viewModel.onTabChange,
+      onYearChange: (int year) => viewModel.year = year,
+      onListReloaderReady: (void Function() callback) {
+        viewModel.storyListReloader = callback;
+      },
+      onScrollControllerReady: (ScrollController controller) {
+        viewModel.setScrollController(index: index, controller: controller);
+      },
+    );
   }
 }

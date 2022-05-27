@@ -13,6 +13,7 @@ import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/utils/util_widgets/app_local_auth.dart';
 import 'package:spooky/views/home/home_view.dart';
+import 'package:spooky/views/main/local_widgets/home_bottom_navigation.dart';
 import 'package:spooky/views/main/local_widgets/mini_player_scaffold.dart';
 import 'package:spooky/views/main/main_view_item.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
@@ -21,7 +22,6 @@ import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/widgets/sp_show_hide_animator.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/util_widgets/measure_size.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/views/main/main_view_model.dart';
 
