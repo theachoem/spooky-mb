@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/providers/theme_provider.dart';
+import 'package:spooky/theme/theme_config.dart';
 
 // InitialTheme is used to minimal theme as much as possible
 // which will be use in eg. dialog.
@@ -31,12 +32,12 @@ class InitialTheme extends StatelessWidget {
   }
 
   ThemeData buildThemeData(ColorScheme colors) {
-    return ThemeData(
+    return ThemeConfig.withDefault(ThemeData(
       dialogBackgroundColor: colors.background,
       backgroundColor: colors.background,
       primaryColor: colors.primary,
       colorScheme: colors,
       cupertinoOverrideTheme: const CupertinoThemeData(textTheme: CupertinoTextThemeData()),
-    );
+    ));
   }
 }

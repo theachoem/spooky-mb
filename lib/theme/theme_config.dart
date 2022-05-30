@@ -97,6 +97,10 @@ class ThemeConfig {
       ),
     );
 
+    return withDefault(themeData);
+  }
+
+  static ThemeData withDefault(ThemeData themeData) {
     return themeData.copyWith(
       splashFactory: isApple(themeData.platform) ? NoSplash.splashFactory : InkSparkle.splashFactory,
       // InkSparkle.splashFactory,
@@ -106,7 +110,7 @@ class ThemeConfig {
     );
   }
 
-  bool isApple(TargetPlatform platform) {
+  static bool isApple(TargetPlatform platform) {
     switch (platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
