@@ -13,7 +13,7 @@ class SpListLayoutBuilder extends StatelessWidget {
   final SpListLayoutBuilderTypedef builder;
 
   static ListLayoutStorage get storage => ListLayoutStorage();
-  static ListLayoutType get defaultLayout => ListLayoutType.single;
+  static ListLayoutType get defaultLayout => ListLayoutType.tabs;
 
   static Future<ListLayoutType> get() async {
     return await storage.readEnum() ?? defaultLayout;

@@ -19,17 +19,17 @@ class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        // return MaterialPageRoute<T>(
-        //   builder: route,
-        //   settings: settings?.copyWith(arguments: this),
-        //   fullscreenDialog: fullscreenDialog,
-        // );
-        return AnimatedPageRoute.sharedAxis<T>(
+        return MaterialPageRoute<T>(
           builder: route,
           settings: settings?.copyWith(arguments: this),
           fullscreenDialog: fullscreenDialog,
-          type: SharedAxisTransitionType.horizontal,
         );
+      // return AnimatedPageRoute.sharedAxis<T>(
+      //   builder: route,
+      //   settings: settings?.copyWith(arguments: this),
+      //   fullscreenDialog: fullscreenDialog,
+      //   type: SharedAxisTransitionType.horizontal,
+      // );
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
         return SwipeablePageRoute<T>(
