@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/routes/page_routes/animated_page_route.dart';
 import 'package:spooky/core/routes/setting/base_route_setting.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 

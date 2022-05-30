@@ -4,6 +4,7 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
+import 'package:spooky/views/home/local_widgets/story_emtpy_widget.dart';
 import 'package:spooky/views/home/local_widgets/story_tile.dart';
 import 'package:spooky/widgets/sp_dimissable_background.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
@@ -75,20 +76,10 @@ class StoryList extends StatelessWidget {
             },
           ),
           buildLoading(),
-          buildEmpty(),
+          StoryEmptyWidget(
+            isEmpty: stories?.isEmpty == true,
+          ),
         ],
-      ),
-    );
-  }
-
-  Widget buildEmpty() {
-    return IgnorePointer(
-      child: Visibility(
-        visible: stories?.isEmpty == true,
-        child: Container(
-          alignment: Alignment.center,
-          child: Text(emptyMessage),
-        ),
       ),
     );
   }

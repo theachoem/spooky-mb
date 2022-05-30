@@ -8,12 +8,14 @@ class SpButton extends StatelessWidget {
     Key? key,
     this.onTap,
     required this.label,
+    this.iconData,
     this.backgroundColor,
     this.foregroundColor,
   }) : super(key: key);
 
   final VoidCallback? onTap;
   final String label;
+  final IconData? iconData;
   final Color? backgroundColor;
   final Color? foregroundColor;
 
@@ -22,19 +24,43 @@ class SpButton extends StatelessWidget {
     return SpTapEffect(
       onTap: onTap,
       effects: const [SpTapEffectType.scaleDown],
-      child: TextButton(
+      child: bulidButton(context),
+    );
+  }
+
+  TextButton bulidButton(BuildContext context) {
+    final foreground = foregroundColor ?? M3Color.of(context).onPrimary;
+    final background = backgroundColor ?? M3Color.of(context).primary;
+
+    if (iconData != null) {
+      return TextButton.icon(
+        icon: Icon(iconData, color: foreground),
         onPressed: null,
-        style: TextButton.styleFrom(
-          backgroundColor: backgroundColor ?? M3Color.of(context).primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(48),
-          ),
-        ),
-        child: Text(
-          "  $label  ",
-          style: M3TextTheme.of(context).labelLarge?.copyWith(color: foregroundColor ?? M3Color.of(context).onPrimary),
-        ),
+        style: buildButtonStyle(background),
+        label: buildLabel(context, foreground),
+      );
+    } else {
+      return TextButton(
+        onPressed: null,
+        style: buildButtonStyle(background),
+        child: buildLabel(context, foreground),
+      );
+    }
+  }
+
+  ButtonStyle buildButtonStyle(Color background) {
+    return TextButton.styleFrom(
+      backgroundColor: background,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(48),
       ),
+    );
+  }
+
+  Text buildLabel(BuildContext context, Color foreground) {
+    return Text(
+      "  $label  ",
+      style: M3TextTheme.of(context).labelLarge?.copyWith(color: foreground),
     );
   }
 }

@@ -59,6 +59,7 @@ class ThemeConfig {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         enableFeedback: true,
+        elevation: 2.0,
         backgroundColor: colorScheme.secondaryContainer,
         foregroundColor: colorScheme.onSecondaryContainer,
         extendedPadding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2 + 4),
@@ -129,6 +130,7 @@ class ThemeConfig {
         onSurface: colorScheme.onSurface,
         primary: colorScheme.onPrimary,
       ).copyWith(
+        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1)),
         overlayColor: MaterialStateProperty.all(ThemeConstant.splashColor),
         backgroundColor: MaterialStateProperty.resolveWith(
           (states) {
