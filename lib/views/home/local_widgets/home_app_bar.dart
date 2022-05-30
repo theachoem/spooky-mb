@@ -119,7 +119,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
 
   Widget buildBackground() {
     return FlexibleSpaceBar(
-      collapseMode: CollapseMode.parallax,
+      collapseMode: CollapseMode.pin,
       stretchModes: const [StretchMode.zoomBackground],
       background: Container(
         padding: EdgeInsets.fromLTRB(16.0, statusBarHeight + 24.0 + 4.0, 16.0, 0),

@@ -120,15 +120,18 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SpIconButton(
-      icon: getThemeModeIcon(context),
-      backgroundColor: widget.backgroundColor ?? M3Color.of(context).readOnly.surface5,
-      onLongPress: () async {
-        await SpThemeSwitcher.onLongPress(context);
-      },
-      onPressed: () {
-        isDarkModeNotifier.value = SpThemeSwitcher.onPress(context);
-      },
+    return GestureDetector(
+      onDoubleTap: () => SpThemeSwitcher.onLongPress(context),
+      child: SpIconButton(
+        icon: getThemeModeIcon(context),
+        backgroundColor: widget.backgroundColor ?? M3Color.of(context).readOnly.surface5,
+        onLongPress: () async {
+          await SpThemeSwitcher.onLongPress(context);
+        },
+        onPressed: () {
+          isDarkModeNotifier.value = SpThemeSwitcher.onPress(context);
+        },
+      ),
     );
   }
 
