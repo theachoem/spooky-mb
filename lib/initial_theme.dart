@@ -19,24 +19,29 @@ class InitialTheme extends StatelessWidget {
     return Consumer<ThemeProvider>(
       child: child,
       builder: (context, provider, child) {
+        ThemeConfig.dark();
         return MaterialApp(
           themeMode: provider.themeMode,
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,
-          theme: buildThemeData(provider.lightTheme.colorScheme),
-          darkTheme: buildThemeData(provider.darkTheme.colorScheme),
+          theme: buildThemeData(provider.lightTheme.colorScheme, false),
+          darkTheme: buildThemeData(provider.darkTheme.colorScheme, true),
           home: child,
         );
       },
     );
   }
 
-  ThemeData buildThemeData(ColorScheme colors) {
+  ThemeData buildThemeData(ColorScheme colors, bool isDarkMode) {
+    ThemeConfig maxThemeConfig = isDarkMode ? ThemeConfig.dark() : ThemeConfig.light();
     return ThemeConfig.withDefault(ThemeData(
+      useMaterial3: true,
       dialogBackgroundColor: colors.background,
       backgroundColor: colors.background,
       primaryColor: colors.primary,
       colorScheme: colors,
+      toggleableActiveColor: colors.primary,
+      textTheme: maxThemeConfig.buildTextTheme(),
       cupertinoOverrideTheme: const CupertinoThemeData(textTheme: CupertinoTextThemeData()),
     ));
   }
