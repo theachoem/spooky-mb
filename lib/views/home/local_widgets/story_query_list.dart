@@ -19,7 +19,7 @@ class StoryQueryList extends StatefulWidget {
   }) : super(key: key);
 
   final StoryQueryOptionsModel queryOptions;
-  final void Function(void Function() callback) onListReloaderReady;
+  final void Function(Future<void> Function() callback) onListReloaderReady;
 
   @override
   State<StoryQueryList> createState() => _StoryListState();
@@ -36,7 +36,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     load();
     setDayColors();
 
-    widget.onListReloaderReady(load);
+    widget.onListReloaderReady(() => load());
   }
 
   void setDayColors() {

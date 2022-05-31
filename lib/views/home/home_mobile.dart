@@ -103,6 +103,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
             ),
             onListReloaderReady: (reloader) {
               listReloaderMap[index + 1] = reloader;
+              widget.viewModel.onListReloaderReady(reloader);
             },
           );
         },

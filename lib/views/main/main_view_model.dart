@@ -55,7 +55,10 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     }
   }
 
-  void Function()? storyListReloader;
+  void Function()? _storyListReloader;
+  void setStoryListReloader(void Function()? callback) {
+    _storyListReloader = callback;
+  }
 
   late int year;
   late int month;
@@ -104,7 +107,9 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   void onConfirm(DateTime date, BuildContext context) {
     DetailArgs args = DetailArgs(initialStory: StoryDbModel.fromDate(date), intialFlow: DetailViewFlowType.create);
     Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args).then((value) {
-      if (storyListReloader != null && value != null) storyListReloader!();
+      if (_storyListReloader != null && value != null) {
+        _storyListReloader!();
+      }
     });
   }
 }

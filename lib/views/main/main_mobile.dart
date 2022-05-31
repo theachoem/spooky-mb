@@ -136,7 +136,7 @@ class _MainMobile extends StatelessWidget {
       onTabChange: viewModel.onTabChange,
       onYearChange: (int year) => viewModel.year = year,
       onListReloaderReady: (void Function() callback) {
-        viewModel.storyListReloader = callback;
+        viewModel.setStoryListReloader(callback);
       },
       onScrollControllerReady: (ScrollController controller) {
         viewModel.setScrollController(index: index, controller: controller);
