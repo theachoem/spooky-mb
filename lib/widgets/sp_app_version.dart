@@ -6,7 +6,6 @@ import 'package:spooky/core/services/toast_service.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
-import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class SpAppVersion extends StatefulWidget {
   const SpAppVersion({

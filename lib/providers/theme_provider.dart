@@ -17,6 +17,8 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
 
   static ColorScheme? lightDynamic;
   static ColorScheme? darkDynamic;
+  static bool get hasDynamicColor => ThemeProvider.darkDynamic != null || ThemeProvider.lightDynamic != null;
+  bool get useDynamicColor => hasDynamicColor && themeMode == ThemeMode.system;
 
   static Future<void> initialize() async {
     theme = await storage.readObject();
@@ -63,11 +65,20 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
   }
 
   Future<void> updateColor(Color? color) async {
-    return updateTheme(
-      theme!.copyWith(
-        colorSeed: color,
-      ),
-    );
+    if (useDynamicColor) {
+      return updateTheme(
+        theme!.copyWith(
+          colorSeed: color,
+          themeMode: isDarkMode() ? ThemeMode.dark : ThemeMode.light,
+        ),
+      );
+    } else {
+      return updateTheme(
+        theme!.copyWith(
+          colorSeed: color,
+        ),
+      );
+    }
   }
 
   Future<void> updateFont(String fontFamily) async {

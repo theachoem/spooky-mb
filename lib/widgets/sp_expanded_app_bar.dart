@@ -11,10 +11,14 @@ class SpExpandedAppBar extends StatelessWidget {
     Key? key,
     required this.expandedHeight,
     required this.actions,
+    this.subtitleIcon,
     this.backgroundColor,
+    this.collapsedHeight,
   }) : super(key: key);
 
   final double expandedHeight;
+  final double? collapsedHeight;
+  final IconData? subtitleIcon;
   final List<Widget> actions;
   final Color? backgroundColor;
 
@@ -22,6 +26,7 @@ class SpExpandedAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return MorphingSliverAppBar(
       expandedHeight: expandedHeight,
+      collapsedHeight: collapsedHeight,
       backgroundColor: backgroundColor,
       leading: const SpPopButton(),
       pinned: true,
@@ -44,10 +49,26 @@ class SpExpandedAppBar extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 ConfigConstant.sizedBoxH1,
-                Text(
-                  SpAppBarTitle.router(context)?.subtitle ?? "",
-                  style: Theme.of(context).textTheme.bodyMedium,
+                RichText(
                   textAlign: TextAlign.center,
+                  text: TextSpan(
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    children: [
+                      TextSpan(
+                        text: SpAppBarTitle.router(context)?.subtitle ?? "",
+                      ),
+                      if (subtitleIcon != null)
+                        WidgetSpan(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                            child: Icon(
+                              subtitleIcon,
+                              size: ConfigConstant.iconSize1,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ],
             ),

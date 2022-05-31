@@ -89,7 +89,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.appStarter:
         return 'App Starter';
       case SpRouter.initPickColor:
-        return 'Init Pick Color';
+        return 'Favorite color';
       case SpRouter.nicknameCreator:
         return 'Nickname Creator';
       case SpRouter.developerMode:
@@ -140,7 +140,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.appStarter:
         return 'App Starter';
       case SpRouter.initPickColor:
-        return 'Init Pick Color';
+        return 'Pick one of your favorite color';
       case SpRouter.nicknameCreator:
         return 'Nickname Creator';
       case SpRouter.developerMode:

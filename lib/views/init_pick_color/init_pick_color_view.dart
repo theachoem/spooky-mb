@@ -8,7 +8,7 @@ import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
-import 'package:spooky/widgets/sp_pop_button.dart';
+import 'package:spooky/widgets/sp_expanded_app_bar.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/widgets/sp_single_button_bottom_navigation.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
@@ -16,7 +16,6 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/constants/util_colors_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'init_pick_color_view_model.dart';
 
 part 'init_pick_color_mobile.dart';

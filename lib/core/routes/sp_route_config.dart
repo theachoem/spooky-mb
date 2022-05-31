@@ -196,7 +196,7 @@ class SpRouteConfig {
         );
       case SpRouter.initPickColor:
         return AnimatedRouteSetting(
-          fullscreenDialog: true,
+          fullscreenDialog: false,
           fillColor: M3Color.of(context).background,
           route: (context) {
             Object? arguments = settings?.arguments;
@@ -209,7 +209,7 @@ class SpRouteConfig {
         );
       case SpRouter.nicknameCreator:
         return AnimatedRouteSetting(
-          fullscreenDialog: true,
+          fullscreenDialog: false,
           fillColor: M3Color.of(context).background,
           route: (context) => const NicknameCreatorView(),
         );
