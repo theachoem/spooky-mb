@@ -68,7 +68,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
         message: url,
       );
       if (result == OkCancelResult.ok) {
-        launchUrlString(url);
+        launchUrlString(url, mode: LaunchMode.externalApplication);
       }
     }
   }

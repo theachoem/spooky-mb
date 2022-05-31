@@ -79,7 +79,9 @@ class _AppStarterMobile extends StatelessWidget {
           const TextSpan(text: "By tapping on “Sign up & Accept”, you agree to the "),
           WidgetSpan(
             child: SpTapEffect(
-              onTap: () {},
+              onTap: () {
+                launchUrlString(AppConstant.privacyPolicy, mode: LaunchMode.externalApplication);
+              },
               child: Text(
                 "Privacy Policy",
                 style: M3TextTheme.of(context)
