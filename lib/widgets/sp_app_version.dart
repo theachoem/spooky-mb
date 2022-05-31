@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -5,6 +6,7 @@ import 'package:spooky/core/services/toast_service.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
+import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class SpAppVersion extends StatefulWidget {
   const SpAppVersion({
@@ -53,8 +55,12 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
             } else if (left <= 10) {
               if (left < 0) {
                 ToastService.close();
-                ToastService.show("You are now a developer!");
                 developerModeReader.set(true);
+                showOkAlertDialog(
+                  context: context,
+                  title: "You are now a developer!",
+                  barrierDismissible: false,
+                );
               } else {
                 ToastService.show("You are now $left steps away from being a developer");
               }
