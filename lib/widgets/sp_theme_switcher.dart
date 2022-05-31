@@ -85,7 +85,7 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
       BuildContext context = App.navigatorKey.currentContext ?? this.context;
       return Theme.of(context).brightness == Brightness.dark;
     } catch (e) {
-      if (kDebugMode) print("ERROR: $e");
+      if (kDebugMode) print("ERROR: _SpThemeSwitcherState $e");
       Brightness? brightness = SchedulerBinding.instance.window.platformBrightness;
       bool isDarkMode = brightness == Brightness.dark;
       return isDarkMode;

@@ -96,11 +96,12 @@ dev_dependencies:
   auto_route_generator: ^4.0.0
   build_runner: ^2.1.11
   change_app_package_name: ^1.1.0
+  copy_with_extension_gen: ^4.0.2
+  dependency_validator: ^3.2.0 # pub run dependency_validator
   flutter_app_name: ^0.1.1
   flutter_lints: ^2.0.1
   injectable_generator: ^1.5.3
   json_serializable: ^6.2.0
-  dependency_validator: ^3.2.0 # pub run dependency_validator
 
 flutter_app_name:
   name: "Spooky"

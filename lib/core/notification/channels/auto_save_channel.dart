@@ -35,14 +35,15 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
       object = AutoSavePayload.fromJson(payload);
     } catch (e) {
       if (kDebugMode) {
-        print("ERROR: $e");
+        print("ERROR: AutoSaveChannel#triggered $e");
+        rethrow;
       }
     }
 
-    int? id = object?.id;
+    String? id = object?.id;
     if (id == null) return;
 
-    StoryDbModel? story = await StoryDatabase().fetchOne(id: id.toString());
+    StoryDbModel? story = await StoryDatabase().fetchOne(id: id);
     if (story == null) return;
 
     String? message;

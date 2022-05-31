@@ -17,7 +17,7 @@ class GoogleAuthHeadersStorage extends SecureStorage {
           return {for (MapEntry e in map.entries) e.key: e.value.toString()};
         }
       } catch (e) {
-        if (kDebugMode) print("ERROR: $e");
+        if (kDebugMode) print("ERROR: readMap $e");
       }
     }
     return null;

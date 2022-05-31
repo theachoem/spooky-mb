@@ -32,7 +32,7 @@ class AutoSaveStoryWriter extends DefaultStoryWriter<AutoSaveStoryObject> {
             body: "Saved",
             // TODO: have a look at this to make sure nothing
             // payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
-            payload: AutoSavePayload(story?.id),
+            payload: AutoSavePayload.integer(story?.id),
           );
           break;
         case ResponseCodeType.noChange:
@@ -42,7 +42,7 @@ class AutoSaveStoryWriter extends DefaultStoryWriter<AutoSaveStoryObject> {
             title: message,
             body: "Error",
             // payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
-            payload: AutoSavePayload(story?.id),
+            payload: AutoSavePayload.integer(story?.id),
           );
           break;
       }

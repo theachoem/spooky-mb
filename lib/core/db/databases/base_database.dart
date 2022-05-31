@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
@@ -15,8 +16,14 @@ abstract class BaseDatabase<T extends BaseDbModel> {
       P? data = await callback();
       return data;
     } catch (e) {
-      if (e is ErrorMessage) error = e;
       errorObject = error;
+
+      if (e is ErrorMessage) {
+        error = e;
+      } else if (kDebugMode) {
+        rethrow;
+      }
+
       return null;
     }
   }

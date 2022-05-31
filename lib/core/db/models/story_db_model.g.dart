@@ -161,7 +161,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
 }
 
 extension $StoryDbModelCopyWith on StoryDbModel {
-  /// Returns a callable class that can be used as follows: `instanceOfclass StoryDbModel extends BaseDbModel.name.copyWith(...)` or like so:`instanceOfclass StoryDbModel extends BaseDbModel.name.copyWith.fieldName(...)`.
+  /// Returns a callable class that can be used as follows: `instanceOfStoryDbModel.copyWith(...)` or like so:`instanceOfStoryDbModel.copyWith.fieldName(...)`.
   _$StoryDbModelCWProxy get copyWith => _$StoryDbModelCWProxyImpl(this);
 }
 

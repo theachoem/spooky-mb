@@ -53,7 +53,7 @@ class GDriveBackupStorage extends GDriveStorage {
       }
     } catch (e) {
       if (kDebugMode) {
-        print("ERROR: $e");
+        print("ERROR: removeOldHistories $e");
       }
     }
   }

@@ -15,7 +15,7 @@ abstract class BaseSocialAuthApi {
       if (FirebaseAuth.instance.currentUser != null) await FirebaseAuth.instance.signOut();
       await FirebaseAuth.instance.signInWithCredential(credential);
     } on FirebaseException catch (e) {
-      if (kDebugMode) print("ERROR: $e");
+      if (kDebugMode) print("ERROR: getCredential $e");
       errorMessage = e.message;
       return null;
     }
