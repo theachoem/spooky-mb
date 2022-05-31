@@ -26,23 +26,35 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     return directory;
   }
 
+  Future<Directory> buildFileParentDir({
+    required int? year,
+    required int? month,
+    required int? day,
+    required String? type,
+  }) async {
+    Directory prefix = await buildDir(type: type);
+    List<String> paths = [
+      prefix.path,
+      if (year != null) "$year",
+      if (month != null) "$month",
+      if (day != null) "$day",
+    ];
+
+    String path = paths.join("/");
+    Directory directory = Directory(path);
+    return directory;
+  }
+
   Future<File> buildFile({
-    required String year,
-    required String month,
-    required String day,
+    required int year,
+    required int month,
+    required int day,
     required String type,
     required DateTime createdAt,
   }) async {
-    Directory prefix = await buildDir(type: type);
-
-    String path = [
-      prefix.path,
-      year,
-      month,
-      day,
-      "${createdAt.millisecondsSinceEpoch}.json",
-    ].join("/");
-
+    Directory prefix = await buildFileParentDir(year: year, month: month, day: day, type: type);
+    String fileName = "${createdAt.millisecondsSinceEpoch}.json";
+    String path = "${prefix.path}/$fileName";
     File file = File(path);
     await ensureFileExist(file);
     return file;
@@ -57,9 +69,9 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     String json = AppHelper.prettifyJson(story.toJson());
 
     File file = await buildFile(
-      year: story.year.toString(),
-      month: story.month.toString(),
-      day: story.day.toString(),
+      year: story.year,
+      month: story.month,
+      day: story.day,
       type: story.type.name,
       createdAt: story.createdAt,
     );
@@ -74,9 +86,16 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     Map<String, dynamic> params = const {},
   }) async {
     String? type = params["type"];
-    if (type == null) throw ErrorMessage(errorMessage: "Path type must not null");
+    int? year = params["year"];
+    int? month = params["month"];
+    int? day = params["day"];
 
-    Directory directory = await buildDir(type: type);
+    if (type == null) throw ErrorMessage(errorMessage: "Path type must not null");
+    if (year == null) throw ErrorMessage(errorMessage: "Year must not null");
+    if (month == null) throw ErrorMessage(errorMessage: "Month must not null");
+    if (day == null) throw ErrorMessage(errorMessage: "Day must not null");
+
+    Directory directory = await buildFileParentDir(year: year, month: month, day: day, type: type);
     List<FileSystemEntity> list = directory.listSync(recursive: true);
     for (FileSystemEntity element in list) {
       if (element.path.endsWith("$id.json") && element is File) {
@@ -96,18 +115,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     int? month = params?["month"];
     int? day = params?["day"];
 
-    Directory prefix = await buildDir(type: type);
-
-    List<String> paths = [
-      prefix.path,
-      if (year != null) "$year",
-      if (month != null) "$month",
-      if (day != null) "$day",
-    ];
-
-    String path = paths.join("/");
-    Directory directory = Directory(path);
-
+    Directory directory = await buildFileParentDir(year: year, month: month, day: day, type: type);
     if (directory.existsSync()) {
       List<FileSystemEntity> entities = directory.listSync(recursive: true);
       List<Map<String, dynamic>> docs = [];
@@ -159,11 +167,42 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
   @override
   Future<Map<String, dynamic>?> update({
-    @Deprecated("ID is not neccessary in file") required String id,
+    required String id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
-    return create(body: body, params: params);
+    StoryDbModel story = StoryDbModel.fromJson(body).copyWith(updatedAt: DateTime.now());
+    Directory directory = await buildDir(type: story.type.name);
+    File? fileToUpdate;
+
+    List<FileSystemEntity> list = directory.listSync(recursive: true);
+    for (FileSystemEntity element in list) {
+      if (element.path.endsWith("$id.json") && element is File) {
+        fileToUpdate = element;
+        break;
+      }
+    }
+
+    if (fileToUpdate != null) {
+      String json = AppHelper.prettifyJson(story.toJson());
+      fileToUpdate = await fileToUpdate.writeAsString(json);
+
+      File file = await buildFile(
+        year: story.year,
+        month: story.month,
+        day: story.day,
+        type: story.type.name,
+        createdAt: story.createdAt,
+      );
+
+      File? updatedFile = await move(fileToUpdate, file.path);
+      return fetchOne(
+        id: story.id.toString(),
+        params: {'file': updatedFile},
+      );
+    } else {
+      throw ErrorMessage(errorMessage: "ID: $id not found");
+    }
   }
 
   Future<Set<int>?> fetchYears() async {

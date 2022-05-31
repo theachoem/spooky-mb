@@ -77,13 +77,16 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
       id: story.id.toString(),
       params: {
         "type": story.type.name,
+        "month": story.month,
+        "year": story.year,
+        "day": story.day,
       },
     );
   }
 
   Future<StoryDbModel?> updatePathDate(StoryDbModel story, DateTime pathDate) async {
-    StoryDbModel unarchivedStory = story.copyWith(year: pathDate.year, month: pathDate.month, day: pathDate.day);
-    StoryDbModel? result = await create(body: unarchivedStory.toJson());
+    StoryDbModel updatedStory = story.copyWith(year: pathDate.year, month: pathDate.month, day: pathDate.day);
+    StoryDbModel? result = await update(id: story.id.toString(), body: updatedStory.toJson());
     return result;
   }
 

@@ -201,12 +201,24 @@ class StoryList extends StatelessWidget {
     );
   }
 
+  String buildIdentity(
+    StoryDbModel? story,
+  ) {
+    if (story == null) return "";
+    return [
+      story.year,
+      story.month,
+      story.day,
+      story.id,
+    ].join("-");
+  }
+
   Widget buildAnimatedTileWrapper({
     required Widget child,
     required int index,
   }) {
     return TweenAnimationBuilder<int>(
-      key: ValueKey(stories?[index].id),
+      key: ValueKey(buildIdentity(stories?[index])),
       duration: ConfigConstant.duration,
       tween: IntTween(begin: 0, end: 1),
       child: child,
@@ -225,12 +237,12 @@ class StoryList extends StatelessWidget {
   }
 
   Widget buildConfiguredTile(int index, BuildContext context) {
-    final StoryDbModel content = stories![index];
+    final StoryDbModel story = stories![index];
 
     // ignore: dead_code
     if (false && onDelete != null && onArchive != null && onUnarchive != null) {
       return Dismissible(
-        key: ValueKey(content.id),
+        key: ValueKey(buildIdentity(stories?[index])),
         background: buildDismissibleBackground(
           context: context,
           iconData: Icons.delete,
@@ -241,25 +253,25 @@ class StoryList extends StatelessWidget {
         ),
         secondaryBackground: buildDismissibleBackground(
           context: context,
-          iconData: content.archived ? Icons.unarchive : Icons.archive,
+          iconData: story.archived ? Icons.unarchive : Icons.archive,
           alignment: Alignment.centerRight,
           backgroundColor: M3Color.of(context).primary,
           foregroundColor: M3Color.of(context).onPrimary,
-          label: content.archived ? "Unarchive" : "Archive",
+          label: story.archived ? "Unarchive" : "Archive",
         ),
         confirmDismiss: (direction) async {
           switch (direction) {
             case DismissDirection.startToEnd:
-              return onDelete!(content);
+              return onDelete!(story);
             case DismissDirection.vertical:
               return false;
             case DismissDirection.horizontal:
               return false;
             case DismissDirection.endToStart:
-              if (content.archived) {
-                return onUnarchive!(content);
+              if (story.archived) {
+                return onUnarchive!(story);
               } else {
-                return onArchive!(content);
+                return onArchive!(story);
               }
             case DismissDirection.up:
               return false;
@@ -270,7 +282,7 @@ class StoryList extends StatelessWidget {
           }
         },
         child: buildStoryTile(
-          content,
+          story,
           context,
           index,
         ),
@@ -278,15 +290,15 @@ class StoryList extends StatelessWidget {
     }
 
     return buildStoryTile(
-      content,
+      story,
       context,
       index,
     );
   }
 
-  StoryTile buildStoryTile(StoryDbModel content, BuildContext context, int index) {
+  StoryTile buildStoryTile(StoryDbModel story, BuildContext context, int index) {
     return StoryTile(
-      story: content,
+      story: story,
       context: context,
       previousStory: storyAt(index - 1),
       itemPadding: itemPadding,
