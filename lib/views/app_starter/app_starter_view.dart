@@ -1,5 +1,6 @@
 library app_starter_view;
 
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
@@ -16,6 +17,8 @@ import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/views/app_starter/app_starter_view_model.dart';
+import 'package:wave/config.dart';
+import 'package:wave/wave.dart';
 
 part 'app_starter_mobile.dart';
 part 'app_starter_tablet.dart';
