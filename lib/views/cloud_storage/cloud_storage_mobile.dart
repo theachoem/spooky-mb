@@ -26,13 +26,14 @@ class _CloudStorageMobile extends StatelessWidget {
                     viewModel.load();
                   },
                 ),
+                const StoryPadBackupTile(),
                 ListTile(
                   leading: const CircleAvatar(child: Icon(CommunityMaterialIcons.restore)),
                   title: const Text("View Backups"),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.restore.path);
                   },
-                )
+                ),
               ],
             ),
             if (viewModel.years != null) buildYearsSection(context),

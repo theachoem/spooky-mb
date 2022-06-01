@@ -59,7 +59,7 @@ class _RestoreMobile extends StatelessWidget {
 
   Widget buildStepper(BuildContext context) {
     return SpStepper(
-      onStepPressed: (int step) async {
+      onStepPressed: (int step, currentStep) async {
         bool empty = viewModel.downloadedByYear.isEmpty;
         if (step != 0 && empty) {
           MessengerService.instance.showSnackBar("Please complete current step!");

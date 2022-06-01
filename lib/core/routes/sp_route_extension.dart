@@ -50,7 +50,9 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.soundList:
         return "/sounds";
       case SpRouter.bottomNavSetting:
-        return "Bottom Navigation Setting";
+        return "/bottom-nav-setting";
+      case SpRouter.storyPadRestore:
+        return '/storypad-restore';
     }
   }
 
@@ -102,6 +104,8 @@ extension SpRouterExtension on SpRouter {
         return "Sounds";
       case SpRouter.bottomNavSetting:
         return "Bottom Navigation";
+      case SpRouter.storyPadRestore:
+        return "StoryPad";
     }
   }
 
@@ -153,6 +157,8 @@ extension SpRouterExtension on SpRouter {
         return "Sounds";
       case SpRouter.bottomNavSetting:
         return "Manage bottom navigation";
+      case SpRouter.storyPadRestore:
+        return "StoryPad";
     }
   }
 
@@ -171,6 +177,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.notFound:
       case SpRouter.bottomNavSetting:
       case SpRouter.restore:
+      case SpRouter.storyPadRestore:
         return null;
       case SpRouter.home:
         return MainTabBarItem(

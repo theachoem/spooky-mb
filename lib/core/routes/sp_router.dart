@@ -25,4 +25,5 @@ enum SpRouter {
   bottomNavSetting,
   notFound,
   setting,
+  storyPadRestore,
 }

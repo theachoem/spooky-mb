@@ -26,7 +26,7 @@ class SpStepper extends StatefulWidget {
   }) : super(key: key);
 
   final List<SpStep> steps;
-  final Future<bool> Function(int step) onStepPressed;
+  final Future<bool> Function(int step, int currentStep) onStepPressed;
 
   @override
   State<SpStepper> createState() => _SpStepperState();
@@ -59,7 +59,7 @@ class _SpStepperState extends State<SpStepper> {
         physics: const ScrollPhysics(),
         onStepTapped: (index) async {
           if (index == currentStep) return;
-          bool allowed = await widget.onStepPressed(index);
+          bool allowed = await widget.onStepPressed(index, currentStep);
           if (allowed) setCurrentStep(index);
         },
         currentStep: currentStep,
