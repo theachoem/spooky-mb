@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
+import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class SpButton extends StatelessWidget {
@@ -11,6 +12,7 @@ class SpButton extends StatelessWidget {
     this.iconData,
     this.backgroundColor,
     this.foregroundColor,
+    this.loading = false,
   }) : super(key: key);
 
   final VoidCallback? onTap;
@@ -18,17 +20,33 @@ class SpButton extends StatelessWidget {
   final IconData? iconData;
   final Color? backgroundColor;
   final Color? foregroundColor;
+  final bool loading;
 
   @override
   Widget build(BuildContext context) {
+    final button = buildButton(context);
     return SpTapEffect(
       onTap: onTap,
       effects: const [SpTapEffectType.scaleDown],
-      child: bulidButton(context),
+      child: SpCrossFade(
+        showFirst: loading,
+        secondChild: button,
+        firstChild: Stack(
+          children: [
+            // bypass method
+            Opacity(opacity: 0, child: button),
+            const Positioned.fill(
+              child: Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
-  TextButton bulidButton(BuildContext context) {
+  TextButton buildButton(BuildContext context) {
     final foreground = foregroundColor ?? M3Color.of(context).onPrimary;
     final background = backgroundColor ?? M3Color.of(context).primary;
 

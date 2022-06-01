@@ -17,10 +17,27 @@ class RestoreViewModel extends BaseViewModel {
   final bool showSkipButton;
 
   Map<String, List<CloudFileModel>>? groupByYear;
+  Map<String, CloudFileModel?>? _selectedBackupByYear;
+  Map<String, CloudFileModel?>? get selectedBackupByYear => _selectedBackupByYear;
+
   CloudFileListModel? fileList;
   RestoreViewModel(this.showSkipButton) {
     load();
     showSkipNotifier = ValueNotifier<bool>(true);
+  }
+
+  void setSelectedBackupByYear(String key, CloudFileModel value) {
+    _selectedBackupByYear?[key] = value;
+    downloadedByYear.clear();
+  }
+
+  void setInitialSelectedBackupByYear() {
+    _selectedBackupByYear = {};
+    groupByYear?.forEach((key, value) {
+      final displayModels = value.map((e) => BackupDisplayModel.fromCloudModel(e)).toList();
+      displayModels.sort((a, b) => (a.createAt != null ? b.createAt?.compareTo(a.createAt!) : -1) ?? -1);
+      selectedBackupByYear![key] = value.isNotEmpty ? value.first : null;
+    });
   }
 
   void setGroupByYear() {
@@ -32,18 +49,43 @@ class RestoreViewModel extends BaseViewModel {
       groups[display.fileName] = type;
     }
     groupByYear = groups;
+    setInitialSelectedBackupByYear();
+  }
+
+  bool _loaded = false;
+  bool get loaded => _loaded;
+  void _setLoaded(bool loaded) {
+    _loaded = loaded;
+    notifyListeners();
   }
 
   Future<void> load() async {
+    _setLoaded(false);
+
     GDriveBackupStorage storage = GDriveBackupStorage();
     fileList = await storage.execHandler(() => storage.list({"next_token": fileList?.nextToken}));
     setGroupByYear();
-    notifyListeners();
+
+    _setLoaded(true);
   }
 
   Map<String, BackupModel> cacheDownloadRestores = {};
   BackupModel? getCache(CloudFileModel file) {
     return cacheDownloadRestores[file.id];
+  }
+
+  Map<String, BackupModel> downloadedByYear = {};
+  Future<Map<String, BackupModel>> downloadAll() async {
+    downloadedByYear.clear();
+    for (MapEntry<String, CloudFileModel?> backup in selectedBackupByYear?.entries.toList() ?? []) {
+      final file = backup.value;
+      if (file != null) {
+        BackupModel? result = await download(file);
+        if (result != null) downloadedByYear[backup.key] = result;
+      }
+    }
+    notifyListeners();
+    return downloadedByYear;
   }
 
   Future<BackupModel?> download(CloudFileModel file) async {
@@ -54,9 +96,11 @@ class RestoreViewModel extends BaseViewModel {
       String? content = await storage.get({"file": file});
       if (content != null) {
         dynamic map = jsonDecode(content);
-        BackupModel backup = BackupModel.fromJson(map);
-        cacheDownloadRestores[file.id] = backup;
-        return backup;
+        if (map is Map<String, dynamic> && map.containsKey('version')) {
+          BackupModel backup = BackupModel.withId(map, file.id);
+          cacheDownloadRestores[file.id] = backup;
+          return backup;
+        }
       }
     }
     return null;
@@ -64,18 +108,25 @@ class RestoreViewModel extends BaseViewModel {
 
   Future<bool> restore(
     BuildContext context,
-    CloudFileModel file,
-    BackupDisplayModel display,
+    Map<String, BackupModel> files,
   ) async {
-    int? year = display.createAt?.year;
-    int result = StoryDatabase().getDocsCount(display.createAt?.year);
+    List<int>? years = [];
+    int result = 0;
+    files.forEach((key, value) {
+      int count = StoryDatabase().getDocsCount(value.year);
+      if (count > 0) {
+        result += count;
+        years.add(value.year);
+      }
+    });
 
+    years.sort();
     if (result > 0) {
       OkCancelResult result = await showOkCancelAlertDialog(
         context: context,
         title: "Notice",
-        message: year != null
-            ? "Look like you have some data in $year. So, exist stories will be overrided by cloud stories. Are you sure to restore?"
+        message: years.isNotEmpty
+            ? "Look like you have some data in (${years.join(",")}). So, exist stories will be overrided by cloud stories. Are you sure to restore?"
             : "Exist stories will be overrided by cloud stories. Are you sure to restore?",
         okLabel: "Restore",
         isDestructiveAction: true,
@@ -88,8 +139,9 @@ class RestoreViewModel extends BaseViewModel {
       }
     }
 
-    BackupModel? backup = await MessengerService.instance.showLoading(future: () => download(file), context: context);
-    await BackupService().restore(backup);
+    for (var element in files.entries) {
+      await BackupService().restore(element.value);
+    }
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showSkipNotifier.value = false;

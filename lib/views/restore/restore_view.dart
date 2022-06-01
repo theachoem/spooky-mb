@@ -2,25 +2,19 @@ library restore_view;
 
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
-import 'package:spooky/core/models/backup_display_model.dart';
-import 'package:spooky/core/models/backup_model.dart';
-import 'package:spooky/core/models/cloud_file_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/core/services/bottom_sheet_service.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
-import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/views/home/local_widgets/story_list.dart';
+import 'package:spooky/views/restore/local_widgets/backup_chips.dart';
 import 'package:spooky/views/restore/local_widgets/google_account_tile.dart';
+import 'package:spooky/views/restore/local_widgets/review_backup_chips.dart';
 import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_expanded_app_bar.dart';
-import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
-import 'package:spooky/widgets/sp_single_button_bottom_navigation.dart';
-import 'package:spooky/widgets/sp_small_chip.dart';
+import 'package:spooky/widgets/sp_stepper.dart';
 import 'restore_view_model.dart';
 
 part 'restore_mobile.dart';

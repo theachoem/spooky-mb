@@ -9,8 +9,6 @@ class _RestoreMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: viewModel.showSkipButton ? buildBottomNavigation(context) : null,
-      extendBody: true,
       body: RefreshIndicator(
         displacement: expandedHeight / 2,
         onRefresh: () => viewModel.load(),
@@ -26,7 +24,9 @@ class _RestoreMobile extends StatelessWidget {
                     context: context,
                     sections: [
                       buildCloudServices(),
-                      if (viewModel.fileList != null) buildBackups(context),
+                      if (viewModel.loaded && viewModel.groupByYear?.isEmpty == true)
+                        SpSectionContents(headline: "No backup found", tiles: []),
+                      if (viewModel.groupByYear?.isNotEmpty == true) buildReviewSteps(),
                     ],
                   ),
                 ),
@@ -38,16 +38,119 @@ class _RestoreMobile extends StatelessWidget {
     );
   }
 
-  SpSectionContents buildBackups(BuildContext context) {
+  SpSectionContents buildReviewSteps() {
     return SpSectionContents(
-      headline: "Backups",
-      tiles: List.generate(
-        viewModel.groupByYear?.entries.length ?? 0,
-        (index) {
-          final e = viewModel.groupByYear!.entries.elementAt(index);
-          return buildYearsTile(context: context, items: e);
-        },
-      ),
+      headline: "Restoring",
+      tiles: [
+        TweenAnimationBuilder<int>(
+          duration: ConfigConstant.duration,
+          tween: IntTween(begin: 0, end: 1),
+          builder: (context, value, child) {
+            return AnimatedOpacity(
+              opacity: value == 1 ? 1 : 0,
+              duration: ConfigConstant.duration * 2,
+              child: buildStepper(context),
+            );
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildStepper(BuildContext context) {
+    return SpStepper(
+      onStepPressed: (int step) async {
+        bool empty = viewModel.downloadedByYear.isEmpty;
+        if (step != 0 && empty) {
+          MessengerService.instance.showSnackBar("Please complete current step!");
+          return false;
+        } else {
+          return true;
+        }
+      },
+      steps: [
+        buildStep1(context),
+        buildStep2(context),
+      ],
+    );
+  }
+
+  SpStep buildStep1(BuildContext context) {
+    return SpStep(
+      title: "Download backups",
+      subtitle: "from your Drive",
+      content: BackupChips(viewModel: viewModel, context: context),
+      buttonLabel: (state) {
+        switch (state) {
+          case StepState.complete:
+            if (viewModel.downloadedByYear.isEmpty) {
+              return "Download";
+            } else {
+              return "Continue";
+            }
+          case StepState.error:
+            return "Error";
+          case StepState.editing:
+          case StepState.indexed:
+          case StepState.disabled:
+          default:
+            return "Download";
+        }
+      },
+      onPressed: (state) async {
+        switch (state) {
+          case StepState.indexed:
+            await viewModel.downloadAll();
+            return StepState.complete;
+          case StepState.complete:
+            if (viewModel.downloadedByYear.isEmpty) await viewModel.downloadAll();
+            return StepState.complete;
+          case StepState.editing:
+          case StepState.disabled:
+          case StepState.error:
+            return state;
+        }
+      },
+    );
+  }
+
+  SpStep buildStep2(BuildContext context) {
+    return SpStep(
+      title: "Review & Restore",
+      subtitle: "Click on any year to review",
+      content: ReviewBackupChips(downloadedByYear: viewModel.downloadedByYear),
+      buttonLabel: (state) {
+        switch (state) {
+          case StepState.complete:
+            return "Done";
+          case StepState.disabled:
+          case StepState.editing:
+          case StepState.indexed:
+          case StepState.error:
+          default:
+            return "Restore";
+        }
+      },
+      onPressed: (state) async {
+        switch (state) {
+          case StepState.indexed:
+            await viewModel.restore(context, viewModel.downloadedByYear);
+            return StepState.complete;
+          case StepState.complete:
+            if (viewModel.showSkipButton) {
+              Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
+              return StepState.complete;
+            } else {
+              Navigator.of(context).pop();
+              return StepState.complete;
+            }
+          case StepState.disabled:
+          case StepState.error:
+          case StepState.editing:
+          default:
+            return state;
+        }
+      },
     );
   }
 
@@ -63,205 +166,12 @@ class _RestoreMobile extends StatelessWidget {
             viewModel.load();
           },
         ),
-      ],
-    );
-  }
-
-  Widget buildYearsTile({
-    required BuildContext context,
-    required MapEntry<String, List<CloudFileModel>> items,
-  }) {
-    List<BackupDisplayModel> displayModels = items.value.map((e) => BackupDisplayModel.fromCloudModel(e)).toList();
-    displayModels.sort((a, b) => (a.createAt != null ? b.createAt?.compareTo(a.createAt!) : -1) ?? -1);
-    if (displayModels.isEmpty) return const SizedBox.shrink();
-
-    CloudFileModel cloudBackup = items.value.first;
-    BackupDisplayModel displayBackup = displayModels.first;
-
-    return TweenAnimationBuilder<int>(
-      duration: ConfigConstant.duration,
-      tween: IntTween(begin: 0, end: 1),
-      builder: (context, value, child) {
-        return AnimatedOpacity(
-          opacity: value == 1 ? 1.0 : 0.0,
-          duration: ConfigConstant.duration,
-          child: SpPopupMenuButton(
-            dxGetter: (dx) => MediaQuery.of(context).size.width,
-            items: (context) => buildItems(
-              context: context,
-              cloudBackup: cloudBackup,
-              displayBackup: displayBackup,
-              items: items.value,
-              displayModels: displayModels,
-            ),
-            builder: (callback) {
-              return ListTile(
-                onTap: callback,
-                trailing: const Icon(Icons.cloud_done),
-                title: Text("Stories of ${items.key}"),
-                subtitle: Text("Uploaded at ${displayBackup.displayDateTime ?? displayBackup.fileName}"),
-              );
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  List<SpPopMenuItem> buildItems({
-    required BuildContext context,
-    required CloudFileModel cloudBackup,
-    required BackupDisplayModel displayBackup,
-    required List<CloudFileModel> items,
-    required List<BackupDisplayModel> displayModels,
-  }) {
-    return [
-      SpPopMenuItem(
-        title: "Restore",
-        titleStyle: TextStyle(color: viewModel.getCache(cloudBackup) != null ? M3Color.of(context).tertiary : null),
-        leadingIconData: Icons.restore,
-        onPressed: () => viewModel.restore(context, cloudBackup, displayBackup),
-      ),
-      SpPopMenuItem(
-        title: "View",
-        leadingIconData: Icons.list,
-        titleStyle: TextStyle(color: viewModel.getCache(cloudBackup) == null ? M3Color.of(context).tertiary : null),
-        onPressed: () async {
-          BackupModel? result = await MessengerService.instance
-              .showLoading(future: () => viewModel.download(cloudBackup), context: context);
-          if (result == null) return;
-          BottomSheetService.instance.showScrollableSheet(
-            context: context,
-            title: displayBackup.createAt?.year.toString() ?? "Stories",
-            builder: (context, controller) {
-              return StoryList(
-                viewOnly: true,
-                controller: controller,
-                onRefresh: () async {},
-                stories: result.stories,
-              );
-            },
-          );
-        },
-      ),
-      SpPopMenuItem(
-        title: "History",
-        leadingIconData: Icons.subdirectory_arrow_right,
-        onPressed: () async {
-          BottomSheetService.instance.showScrollableSheet(
-            context: context,
-            title: "History",
-            builder: (BuildContext _, ScrollController controller) {
-              return ListView.builder(
-                controller: controller,
-                itemCount: displayModels.length,
-                itemBuilder: (_, index) {
-                  CloudFileModel backup = items[index];
-                  BackupDisplayModel display = displayModels[index];
-                  return SpPopupMenuButton(
-                    dxGetter: (dx) => MediaQuery.of(context).size.width,
-                    items: (context) => buildChildItems(
-                      context: context,
-                      cloudBackup: backup,
-                      displayBackup: display,
-                      items: items,
-                      displayModels: displayModels,
-                      canDelete: index != 0,
-                    ),
-                    builder: (callback) {
-                      String title = "Backup ${index + 1}";
-                      return ListTile(
-                        onTap: callback,
-                        title: RichText(
-                          text: TextSpan(
-                            text: "$title ",
-                            style: M3TextTheme.of(context).titleMedium,
-                            children: [
-                              if (index == 0)
-                                const WidgetSpan(
-                                  child: SpSmallChip(label: "Latest"),
-                                  alignment: PlaceholderAlignment.middle,
-                                ),
-                            ],
-                          ),
-                        ),
-                        subtitle: Text("Uploaded at ${display.displayDateTime}"),
-                        trailing: const Icon(Icons.more_vert),
-                      );
-                    },
-                  );
-                },
-              );
-            },
-          );
-        },
-      ),
-    ];
-  }
-
-  List<SpPopMenuItem> buildChildItems({
-    required BuildContext context,
-    required CloudFileModel cloudBackup,
-    required BackupDisplayModel displayBackup,
-    required List<CloudFileModel> items,
-    required List<BackupDisplayModel> displayModels,
-    required bool canDelete,
-  }) {
-    return [
-      if (canDelete)
-        SpPopMenuItem(
-          title: "Delete",
-          leadingIconData: Icons.delete,
-          titleStyle: TextStyle(color: M3Color.of(context).error),
-          onPressed: () async {
-            await viewModel.delete(context, cloudBackup).then((value) {
-              Navigator.of(context).pop();
-            });
-          },
+        SpCrossFade(
+          showFirst: !viewModel.loaded,
+          firstChild: const LinearProgressIndicator(),
+          secondChild: const SizedBox(width: double.infinity),
         ),
-      SpPopMenuItem(
-        title: "Restore",
-        titleStyle: TextStyle(color: viewModel.getCache(cloudBackup) != null ? M3Color.of(context).tertiary : null),
-        leadingIconData: Icons.restore,
-        onPressed: () => viewModel.restore(context, cloudBackup, displayBackup),
-      ),
-      SpPopMenuItem(
-        title: "View",
-        leadingIconData: Icons.list,
-        titleStyle: TextStyle(color: viewModel.getCache(cloudBackup) == null ? M3Color.of(context).tertiary : null),
-        onPressed: () async {
-          BackupModel? result = await MessengerService.instance
-              .showLoading(future: () => viewModel.download(cloudBackup), context: context);
-          if (result == null) return;
-          BottomSheetService.instance.showScrollableSheet(
-            context: context,
-            title: displayBackup.createAt?.year.toString() ?? "Stories",
-            builder: (context, controller) {
-              return StoryList(
-                viewOnly: true,
-                controller: controller,
-                onRefresh: () async {},
-                stories: result.stories,
-              );
-            },
-          );
-        },
-      ),
-    ];
-  }
-
-  Widget buildBottomNavigation(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: viewModel.showSkipNotifier,
-      builder: (context, value, child) {
-        return SpSingleButtonBottomNavigation(
-          buttonLabel: "Done",
-          show: !viewModel.showSkipNotifier.value,
-          onTap: () {
-            Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
-          },
-        );
-      },
+      ],
     );
   }
 
