@@ -49,7 +49,7 @@ class HomeViewModel extends BaseViewModel {
   Future<List<int>> fetchYears() async {
     Set<int> years = await StoryDatabase().fetchYears() ?? {};
     years.add(year);
-    return years.toList();
+    return (years.toList()..sort()).reversed.toList();
   }
 
   int get docsCount {
