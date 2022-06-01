@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/adapters/base/base_file_db_adpater.dart';
@@ -15,6 +16,10 @@ import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 
 part '../adapters/file/story_file_db_adapter.dart';
+
+StoryDbModel _constructStoryIsolate(Map<String, dynamic> json) {
+  return StoryDbModel.fromJson(json);
+}
 
 class StoryDatabase extends BaseDatabase<StoryDbModel> {
   @override
@@ -31,7 +36,7 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
 
   @override
   Future<StoryDbModel?> objectTransformer(Map<String, dynamic> json) async {
-    return StoryDbModel.fromJson(json);
+    return compute(_constructStoryIsolate, json);
   }
 
   Future<Set<int>?> fetchYears() {
