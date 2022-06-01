@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +49,13 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     return story.toDateTime();
   }
 
-  Future<void> load() async {
+  Future<void> load([bool callFromRefresh = false]) async {
+    final completer = Completer();
+
+    if (stories != null && !callFromRefresh) {
+      MessengerService.instance.showLoading(future: () => completer.future, context: context);
+    }
+
     SortType? sortType = await SortTypeStorage().readEnum();
     await database.fetchAll(params: widget.queryOptions.toJson()).then((list) {
       List<StoryDbModel> result = list?.items ?? [];
@@ -74,6 +82,8 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
         });
       }
     });
+
+    completer.complete(1);
   }
 
   @override
@@ -149,7 +159,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   Widget build(BuildContext context) {
     super.build(context);
     return StoryList(
-      onRefresh: () => load(),
+      onRefresh: () => load(true),
       stories: stories,
       emptyMessage: "Empty",
       onDelete: (story) async {

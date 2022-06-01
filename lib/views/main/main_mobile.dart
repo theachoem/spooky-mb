@@ -134,7 +134,7 @@ class _MainMobile extends StatelessWidget {
   Widget buildHomeView(int index) {
     return HomeView(
       onTabChange: viewModel.onTabChange,
-      onYearChange: (int year) => viewModel.year = year,
+      onYearChange: (int year) => viewModel.setYear(year),
       onListReloaderReady: (void Function() callback) {
         viewModel.setStoryListReloader(callback);
       },

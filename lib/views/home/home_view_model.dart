@@ -42,8 +42,8 @@ class HomeViewModel extends BaseViewModel {
   void setYear(int? selectedYear) {
     if (year == selectedYear || selectedYear == null) return;
     year = selectedYear;
-    notifyListeners();
     onYearChange(year);
+    notifyListeners();
   }
 
   Future<List<int>> fetchYears() async {

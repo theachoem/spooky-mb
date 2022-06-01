@@ -64,6 +64,13 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   late int month;
   late int day;
 
+  void setYear(int year) {
+    this.year = year;
+    if (_storyListReloader != null) {
+      _storyListReloader!();
+    }
+  }
+
   DateTime get date {
     final now = DateTime.now();
     return DateTime(
