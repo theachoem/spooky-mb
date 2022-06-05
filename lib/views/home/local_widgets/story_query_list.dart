@@ -1,15 +1,12 @@
 import 'dart:async';
-
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
-import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
-import 'package:spooky/core/types/sort_type.dart';
-import 'package:spooky/providers/priority_starred_provider.dart';
+import 'package:spooky/core/storages/local_storages/last_update_story_list_hash_storage.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_list.dart';
 
@@ -17,86 +14,91 @@ class StoryQueryList extends StatefulWidget {
   const StoryQueryList({
     Key? key,
     required this.queryOptions,
-    required this.onListReloaderReady,
   }) : super(key: key);
 
   final StoryQueryOptionsModel queryOptions;
-  final void Function(Future<void> Function() callback) onListReloaderReady;
 
   @override
   State<StoryQueryList> createState() => _StoryListState();
 }
 
-class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClientMixin {
+class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClientMixin, RouteAware {
   final StoryDatabase database = StoryDatabase();
+  final LastUpdateStoryListHashStorage hashStorage = LastUpdateStoryListHashStorage();
   List<StoryDbModel>? stories;
+
+  // this just to prevent from load multiple time
+  // not for UI
+  bool? loadingFlag;
+  int? hash;
 
   @override
   void initState() {
     super.initState();
-
     load();
-    setDayColors();
-
-    widget.onListReloaderReady(() => load());
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      ModalRoute? modalRoute = ModalRoute.of(context);
+      if (modalRoute != null) App.storyQueryListObserver.subscribe(this, modalRoute);
+    });
   }
 
-  void setDayColors() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {});
+  @override
+  void dispose() {
+    super.dispose();
+    App.storyQueryListObserver.unsubscribe(this);
   }
 
-  DateTime dateForCompare(StoryDbModel story) {
-    return story.toDateTime();
+  Future<void> loadHash() async {
+    hash = await hashStorage.read();
+  }
+
+  Future<List<StoryDbModel>> _fetchStory() async {
+    final list = await database.fetchAll(params: widget.queryOptions.toJson());
+    List<StoryDbModel> result = list?.items ?? [];
+    loadHash();
+    return result;
   }
 
   Future<void> load([bool callFromRefresh = false]) async {
-    final completer = Completer();
+    if (loadingFlag == true) return;
 
+    final completer = Completer();
     if (stories != null && !callFromRefresh) {
-      MessengerService.instance.showLoading(future: () => completer.future, context: context);
+      loadingFlag = true;
+      MessengerService.instance.showLoading(future: () => completer.future, context: context).then((value) {
+        loadingFlag = false;
+      });
     }
 
-    SortType? sortType = await SortTypeStorage().readEnum();
-    await database.fetchAll(params: widget.queryOptions.toJson()).then((list) {
-      List<StoryDbModel> result = list?.items ?? [];
-
-      switch (sortType) {
-        case SortType.oldToNew:
-        case null:
-          result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
-          break;
-        case SortType.newToOld:
-          result.sort((a, b) => (dateForCompare(a)).compareTo(dateForCompare(b)));
-          result = result.reversed.toList();
-          break;
-      }
-
-      final provider = context.read<PriorityStarredProvider>();
-      if (provider.prioritied) {
-        result.sort(((a, b) => b.starred == true ? 1 : -1));
-      }
-
-      if (result != stories) {
-        setState(() {
-          stories = result;
-        });
-      }
-    });
+    final result = await _fetchStory();
+    if (result != stories) {
+      setState(() {
+        stories = result;
+      });
+    }
 
     completer.complete(1);
   }
 
   @override
-  void didUpdateWidget(covariant StoryQueryList oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    setDayColors();
-    if (oldWidget.queryOptions.toPath() != widget.queryOptions.toPath()) load();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _checkUpdatation(widget);
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    setDayColors();
+  void didUpdateWidget(covariant StoryQueryList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _checkUpdatation(oldWidget);
+  }
+
+  void _checkUpdatation(StoryQueryList? oldWidget) {
+    bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions.join() != widget.queryOptions.join();
+    hashStorage.read().then((hash) {
+      if (this.hash != hash || didUpdateQueries) {
+        load();
+      }
+    });
   }
 
   Future<bool> onDelete(StoryDbModel story) async {
@@ -178,6 +180,18 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
         return success;
       },
     );
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    _checkUpdatation(null);
+  }
+
+  @override
+  void didPushNext() {
+    super.didPushNext();
+    _checkUpdatation(null);
   }
 
   @override

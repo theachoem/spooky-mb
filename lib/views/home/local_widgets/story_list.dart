@@ -1,7 +1,11 @@
 import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/core/types/sort_type.dart';
+import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/views/home/local_widgets/story_emtpy_widget.dart';
@@ -11,34 +15,77 @@ import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 
+class _ConfiguredStoryArgs {
+  final List<StoryDbModel>? stories;
+  final bool shouldShowChip;
+  final bool prioritied;
+  final SortType? sortType;
+
+  _ConfiguredStoryArgs(this.stories, StoryListConfigurationProvider configuration)
+      : shouldShowChip = configuration.shouldShowChip,
+        prioritied = configuration.prioritied,
+        sortType = configuration.sortType;
+}
+
+DateTime _dateForCompare(StoryDbModel story) {
+  return story.toDateTime();
+}
+
+List<StoryDbModel> _fetchConfiguredStory(_ConfiguredStoryArgs args) {
+  List<StoryDbModel>? stories = args.stories;
+
+  if (stories != null) {
+    switch (args.sortType) {
+      case SortType.oldToNew:
+      case null:
+        stories.sort((a, b) => (_dateForCompare(a)).compareTo(_dateForCompare(b)));
+        break;
+      case SortType.newToOld:
+        stories.sort((a, b) => (_dateForCompare(a)).compareTo(_dateForCompare(b)));
+        stories = stories.reversed.toList();
+        break;
+    }
+    if (args.prioritied == true) stories.sort(((a, b) => b.starred == true ? 1 : -1));
+  }
+
+  if (kDebugMode) {
+    print('_fetchConfiguredStory');
+  }
+
+  return stories ?? [];
+}
+
 class StoryList extends StatelessWidget {
   const StoryList({
     Key? key,
     required this.onRefresh,
-    required this.stories,
     this.emptyMessage = "Empty",
     this.onDelete,
     this.onArchive,
     this.onUnarchive,
     this.controller,
     this.viewOnly = false,
+    this.overridedLayout,
     this.itemPadding = const EdgeInsets.all(ConfigConstant.margin2),
-  }) : super(key: key);
+    required List<StoryDbModel>? stories,
+  })  : _stories = stories,
+        super(key: key);
 
   final Future<void> Function() onRefresh;
   final Future<bool> Function(StoryDbModel story)? onDelete;
   final Future<bool> Function(StoryDbModel story)? onArchive;
   final Future<bool> Function(StoryDbModel story)? onUnarchive;
-  final List<StoryDbModel>? stories;
+  final ListLayoutType? overridedLayout;
   final String emptyMessage;
   final bool viewOnly;
   final EdgeInsets itemPadding;
   final ScrollController? controller;
+  final List<StoryDbModel>? _stories;
 
-  StoryDbModel? storyAt(int index) {
-    if (stories?.isNotEmpty == true) {
-      if (index >= 0 && stories!.length > index) {
-        return stories![index];
+  StoryDbModel? storyAt(List<StoryDbModel> stories, int index) {
+    if (stories.isNotEmpty) {
+      if (index >= 0 && stories.length > index) {
+        return stories[index];
       }
     }
     return null;
@@ -46,56 +93,77 @@ class StoryList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    StoryListConfigurationProvider provider = Provider.of<StoryListConfigurationProvider>(context);
+
     if (onDelete != null || onArchive != null || onUnarchive != null) {
       assert(onDelete != null);
       assert(onArchive != null);
       assert(onUnarchive != null);
     }
-    return RefreshIndicator(
-      onRefresh: () => onRefresh(),
-      child: Stack(
-        children: [
-          buildTimelineDivider(),
-          ListView.builder(
-            controller: controller,
-            itemCount: stories?.length ?? 0,
-            physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
-            itemBuilder: (context, index) {
-              return IgnorePointer(
-                ignoring: viewOnly,
-                child: buildAnimatedTileWrapper(
-                  index: index,
-                  child: buildSeparatorTile(
-                    index: index,
-                    context: context,
-                    child: buildConfiguredTile(index, context),
-                  ),
-                ),
-              );
-            },
+
+    return FutureBuilder<List<StoryDbModel>>(
+      future: _stories == null || !provider.loaded
+          ? null
+          : compute(_fetchConfiguredStory, _ConfiguredStoryArgs(_stories, provider)),
+      builder: (context, snapshot) {
+        List<StoryDbModel> configuredStories = snapshot.data ?? [];
+        bool loading = _stories == null || snapshot.data == null;
+        return RefreshIndicator(
+          onRefresh: () => onRefresh(),
+          child: Stack(
+            children: [
+              buildTimelineDivider(configuredStories),
+              ListView.builder(
+                controller: controller,
+                itemCount: configuredStories.length,
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
+                itemBuilder: (context, index) {
+                  StoryDbModel story = storyAt(configuredStories, index)!;
+                  StoryDbModel? previousStory = storyAt(configuredStories, index - 1);
+                  return IgnorePointer(
+                    ignoring: viewOnly,
+                    child: buildAnimatedTileWrapper(
+                      story: story,
+                      child: buildSeparatorTile(
+                        index: index,
+                        context: context,
+                        story: story,
+                        previousStory: previousStory,
+                        child: buildConfiguredTile(
+                          index: index,
+                          context: context,
+                          story: story,
+                          previousStory: previousStory,
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+              buildLoading(loading),
+              StoryEmptyWidget(
+                isEmpty: !loading && configuredStories.isEmpty,
+              ),
+            ],
           ),
-          buildLoading(),
-          StoryEmptyWidget(
-            isEmpty: stories?.isEmpty == true,
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
-  Widget buildLoading() {
+  Widget buildLoading(bool loading) {
     return IgnorePointer(
-      child: Center(
-        child: Visibility(
-          visible: stories == null,
-          child: const CircularProgressIndicator.adaptive(),
+      child: Visibility(
+        visible: loading,
+        child: const Center(
+          child: CircularProgressIndicator.adaptive(),
         ),
       ),
     );
   }
 
-  Widget buildTimelineDivider() {
+  Widget buildTimelineDivider(List<StoryDbModel>? stories) {
     return Positioned(
       left: 16.0 + 20,
       top: 0,
@@ -104,6 +172,7 @@ class StoryList extends StatelessWidget {
         opacity: stories?.isNotEmpty == true ? 1 : 0,
         duration: ConfigConstant.fadeDuration,
         child: SpListLayoutBuilder(
+          overridedLayout: overridedLayout,
           builder: (context, layoutType, loaded) {
             switch (layoutType) {
               case ListLayoutType.single:
@@ -118,24 +187,24 @@ class StoryList extends StatelessWidget {
   }
 
   Widget buildSeparatorTile({
-    required int index,
     required BuildContext context,
     required Widget child,
+    required int index,
+    required StoryDbModel story,
+    required StoryDbModel? previousStory,
   }) {
-    StoryDbModel? story = storyAt(index);
-    StoryDbModel? previousStory = storyAt(index - 1);
-
-    String storyForCompare = "${story?.year} ${story?.month}";
+    String storyForCompare = "${story.year} ${story.month}";
     String previousStoryForCompare = "${previousStory?.year} ${previousStory?.month}";
 
     return SpListLayoutBuilder(
+      overridedLayout: overridedLayout,
       builder: (context, layoutType, loaded) {
         Widget separator;
 
         switch (layoutType) {
           case ListLayoutType.single:
             if (storyForCompare != previousStoryForCompare) {
-              separator = buildSingleLayoutSeparator(context, index);
+              separator = buildSingleLayoutSeparator(context, story, index);
             } else {
               separator = buildTabLayoutSeparator(index);
             }
@@ -157,6 +226,7 @@ class StoryList extends StatelessWidget {
 
   Widget buildTabLayoutSeparator(int index) {
     return SpListLayoutBuilder(
+      overridedLayout: overridedLayout,
       builder: (context, layoutType, loaded) {
         switch (layoutType) {
           case ListLayoutType.single:
@@ -169,7 +239,11 @@ class StoryList extends StatelessWidget {
     );
   }
 
-  Widget buildSingleLayoutSeparator(BuildContext context, int index) {
+  Widget buildSingleLayoutSeparator(
+    BuildContext context,
+    StoryDbModel story,
+    int index,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(top: ConfigConstant.margin2),
       child: Container(
@@ -187,7 +261,7 @@ class StoryList extends StatelessWidget {
                 borderRadius: ConfigConstant.circlarRadius2,
               ),
               child: Text(
-                DateFormatHelper.toNameOfMonth().format(stories![index].toDateTime()),
+                DateFormatHelper.toNameOfMonth().format(story.toDateTime()),
                 style: M3TextTheme.of(context).labelSmall,
               ),
             ),
@@ -215,10 +289,10 @@ class StoryList extends StatelessWidget {
 
   Widget buildAnimatedTileWrapper({
     required Widget child,
-    required int index,
+    required StoryDbModel story,
   }) {
     return TweenAnimationBuilder<int>(
-      key: ValueKey(buildIdentity(stories?[index])),
+      key: ValueKey(buildIdentity(story)),
       duration: ConfigConstant.duration,
       tween: IntTween(begin: 0, end: 1),
       child: child,
@@ -236,13 +310,16 @@ class StoryList extends StatelessWidget {
     );
   }
 
-  Widget buildConfiguredTile(int index, BuildContext context) {
-    final StoryDbModel story = stories![index];
-
+  Widget buildConfiguredTile({
+    required BuildContext context,
+    required int index,
+    required StoryDbModel story,
+    required StoryDbModel? previousStory,
+  }) {
     // ignore: dead_code
     if (false && onDelete != null && onArchive != null && onUnarchive != null) {
       return Dismissible(
-        key: ValueKey(buildIdentity(stories?[index])),
+        key: ValueKey(buildIdentity(story)),
         background: buildDismissibleBackground(
           context: context,
           iconData: Icons.delete,
@@ -282,25 +359,29 @@ class StoryList extends StatelessWidget {
           }
         },
         child: buildStoryTile(
-          story,
-          context,
-          index,
+          context: context,
+          story: story,
+          previousStory: previousStory,
         ),
       );
     }
 
     return buildStoryTile(
-      story,
-      context,
-      index,
+      context: context,
+      story: story,
+      previousStory: previousStory,
     );
   }
 
-  StoryTile buildStoryTile(StoryDbModel story, BuildContext context, int index) {
+  StoryTile buildStoryTile({
+    required BuildContext context,
+    required StoryDbModel story,
+    required StoryDbModel? previousStory,
+  }) {
     return StoryTile(
       story: story,
       context: context,
-      previousStory: storyAt(index - 1),
+      previousStory: previousStory,
       itemPadding: itemPadding,
       onRefresh: () => onRefresh(),
       onArchive: onArchive,

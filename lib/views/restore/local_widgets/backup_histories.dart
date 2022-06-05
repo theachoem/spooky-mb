@@ -5,6 +5,7 @@ import 'package:spooky/core/models/backup_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
 import 'package:spooky/core/services/bottom_sheet_service.dart';
 import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/views/home/local_widgets/story_list.dart';
@@ -141,6 +142,7 @@ class _BackupHistoriesState extends State<BackupHistories> {
                 controller: controller,
                 onRefresh: () async {},
                 stories: result.stories,
+                overridedLayout: ListLayoutType.single,
               );
             },
           );

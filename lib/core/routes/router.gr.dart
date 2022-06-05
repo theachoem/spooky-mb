@@ -137,7 +137,6 @@ class AppRouter extends _i19.RootStackRouter {
               key: args.key,
               onTabChange: args.onTabChange,
               onYearChange: args.onYearChange,
-              onListReloaderReady: args.onListReloaderReady,
               onScrollControllerReady: args.onScrollControllerReady));
     },
     Explore.name: (routeData) {
@@ -439,7 +438,6 @@ class Home extends _i19.PageRouteInfo<HomeArgs> {
       {_i20.Key? key,
       required void Function(int) onTabChange,
       required void Function(int) onYearChange,
-      required void Function(void Function()) onListReloaderReady,
       required void Function(_i20.ScrollController) onScrollControllerReady})
       : super(Home.name,
             path: 'home',
@@ -447,7 +445,6 @@ class Home extends _i19.PageRouteInfo<HomeArgs> {
                 key: key,
                 onTabChange: onTabChange,
                 onYearChange: onYearChange,
-                onListReloaderReady: onListReloaderReady,
                 onScrollControllerReady: onScrollControllerReady));
 
   static const String name = 'Home';
@@ -458,7 +455,6 @@ class HomeArgs {
       {this.key,
       required this.onTabChange,
       required this.onYearChange,
-      required this.onListReloaderReady,
       required this.onScrollControllerReady});
 
   final _i20.Key? key;
@@ -467,13 +463,11 @@ class HomeArgs {
 
   final void Function(int) onYearChange;
 
-  final void Function(void Function()) onListReloaderReady;
-
   final void Function(_i20.ScrollController) onScrollControllerReady;
 
   @override
   String toString() {
-    return 'HomeArgs{key: $key, onTabChange: $onTabChange, onYearChange: $onYearChange, onListReloaderReady: $onListReloaderReady, onScrollControllerReady: $onScrollControllerReady}';
+    return 'HomeArgs{key: $key, onTabChange: $onTabChange, onYearChange: $onYearChange, onScrollControllerReady: $onScrollControllerReady}';
   }
 }
 

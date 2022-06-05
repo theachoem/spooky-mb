@@ -13,7 +13,6 @@ class _ArchiveMobile extends StatelessWidget {
       ),
       body: StoryQueryList(
         queryOptions: StoryQueryOptionsModel(type: PathType.archives),
-        onListReloaderReady: (loader) {},
       ),
     );
   }

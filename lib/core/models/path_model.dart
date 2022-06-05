@@ -7,6 +7,7 @@ import 'package:spooky/utils/helpers/file_helper.dart';
 
 part 'path_model.g.dart';
 
+@Deprecated("Don't use anymore")
 @JsonSerializable()
 class PathModel extends BaseModel {
   final String fileName;

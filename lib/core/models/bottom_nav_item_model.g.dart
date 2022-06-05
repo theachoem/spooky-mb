@@ -42,4 +42,5 @@ const _$SpRouterEnumMap = {
   SpRouter.bottomNavSetting: 'bottomNavSetting',
   SpRouter.notFound: 'notFound',
   SpRouter.setting: 'setting',
+  SpRouter.storyPadRestore: 'storyPadRestore',
 };

@@ -13,7 +13,8 @@ class App extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  static GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  static final RouteObserver<ModalRoute> storyQueryListObserver = RouteObserver<ModalRoute>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +32,9 @@ class App extends StatelessWidget {
       debugShowMaterialGrid: false,
       builder: (context, child) => AppBuilder(child: child),
       onGenerateRoute: (settings) => SpRouteConfig(context: context, settings: settings).generate(),
+      navigatorObservers: [
+        storyQueryListObserver,
+      ],
     );
   }
 }

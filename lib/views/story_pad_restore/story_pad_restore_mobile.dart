@@ -62,6 +62,7 @@ class _StoryPadRestoreMobile extends StatelessWidget {
                     controller: controller,
                     onRefresh: () async {},
                     stories: viewModel.stories,
+                    overridedLayout: ListLayoutType.single,
                   );
                 },
               );

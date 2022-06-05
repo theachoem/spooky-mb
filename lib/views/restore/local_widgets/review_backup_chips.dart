@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/models/backup_model.dart';
 import 'package:spooky/core/services/bottom_sheet_service.dart';
+import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/views/home/local_widgets/story_list.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 
@@ -38,6 +39,7 @@ class ReviewBackupChips extends StatelessWidget {
                       controller: controller,
                       onRefresh: () async {},
                       stories: e.value.stories,
+                      overridedLayout: ListLayoutType.single,
                     );
                   },
                 );

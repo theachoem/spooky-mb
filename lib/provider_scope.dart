@@ -4,11 +4,10 @@ import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
-import 'package:spooky/providers/priority_starred_provider.dart';
+import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
-import 'package:spooky/providers/show_chips_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/providers/user_provider.dart';
 
@@ -25,8 +24,8 @@ class ProviderScope extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ListenableProvider<ShowChipsProvider>(
-          create: (context) => ShowChipsProvider(),
+        ListenableProvider<StoryListConfigurationProvider>(
+          create: (context) => StoryListConfigurationProvider(),
         ),
         ListenableProvider<ThemeProvider>(
           create: (context) => ThemeProvider(),
@@ -57,9 +56,6 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<BottomNavItemsProvider>(
           create: (context) => BottomNavItemsProvider(),
-        ),
-        ListenableProvider<PriorityStarredProvider>(
-          create: (context) => PriorityStarredProvider(),
         ),
       ],
       child: child,

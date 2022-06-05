@@ -105,17 +105,17 @@ class _ThemeSettingMobile extends StatelessWidget {
     });
   }
 
-  Consumer<PriorityStarredProvider> buildPriorityStarredTile() {
-    return Consumer<PriorityStarredProvider>(
+  Consumer<StoryListConfigurationProvider> buildPriorityStarredTile() {
+    return Consumer<StoryListConfigurationProvider>(
       builder: (context, provider, child) {
         return ListTile(
           leading: const Icon(Icons.favorite),
           title: const Text("Starred to top"),
-          onTap: () => provider.set(!provider.prioritied),
+          onTap: () => provider.setPriorityStarred(!provider.prioritied),
           trailing: Switch.adaptive(
             value: provider.prioritied,
             onChanged: (value) {
-              provider.set(value);
+              provider.setPriorityStarred(value);
             },
           ),
         );
@@ -123,17 +123,17 @@ class _ThemeSettingMobile extends StatelessWidget {
     );
   }
 
-  Consumer<ShowChipsProvider> buildShowChipTile() {
-    return Consumer<ShowChipsProvider>(
+  Consumer<StoryListConfigurationProvider> buildShowChipTile() {
+    return Consumer<StoryListConfigurationProvider>(
       builder: (context, provider, child) {
         return ListTile(
           leading: const Icon(Icons.memory),
           title: const Text("Show chips on story"),
-          onTap: () => provider.set(!provider.shouldShow),
+          onTap: () => provider.setShouldShowChip(!provider.shouldShowChip),
           trailing: Switch.adaptive(
-            value: provider.shouldShow,
+            value: provider.shouldShowChip,
             onChanged: (value) {
-              provider.set(value);
+              provider.setShouldShowChip(value);
             },
           ),
         );

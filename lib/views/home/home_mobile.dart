@@ -74,10 +74,6 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
         type: PathType.docs,
         year: widget.viewModel.year,
       ),
-      onListReloaderReady: (reloader) {
-        // set reloader directly
-        widget.viewModel.onListReloaderReady(reloader);
-      },
     );
   }
 
@@ -87,9 +83,6 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       listener: (controller) {
         // set reloader on listen to tabs
         int monthIndex = (controller.animation?.value.round() ?? controller.index) + 1;
-        if (listReloaderMap.containsKey(monthIndex)) {
-          widget.viewModel.onListReloaderReady(listReloaderMap[monthIndex]!);
-        }
         widget.viewModel.onTabChange(monthIndex);
       },
       children: List.generate(
@@ -101,10 +94,6 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
               year: widget.viewModel.year,
               month: index + 1,
             ),
-            onListReloaderReady: (reloader) {
-              listReloaderMap[index + 1] = reloader;
-              widget.viewModel.onListReloaderReady(reloader);
-            },
           );
         },
       ),

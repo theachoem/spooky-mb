@@ -9,6 +9,7 @@ import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
 import 'package:spooky/core/db/models/base/meta_model.dart';
 import 'package:spooky/core/file_manager/managers/backup_file_manager.dart';
+import 'package:spooky/core/storages/local_storages/last_update_story_list_hash_storage.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
@@ -99,5 +100,6 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
   Future<void> onCRUD(StoryDbModel? object) async {
     if (object?.year == null) return;
     BackupFileManager().unsynced(object!.year);
+    LastUpdateStoryListHashStorage().setHash(DateTime.now());
   }
 }

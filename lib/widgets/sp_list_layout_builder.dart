@@ -8,9 +8,11 @@ class SpListLayoutBuilder extends StatelessWidget {
   const SpListLayoutBuilder({
     Key? key,
     required this.builder,
+    this.overridedLayout,
   }) : super(key: key);
 
   final SpListLayoutBuilderTypedef builder;
+  final ListLayoutType? overridedLayout;
 
   static ListLayoutStorage get storage => ListLayoutStorage();
   static ListLayoutType get defaultLayout => ListLayoutType.tabs;
@@ -30,7 +32,7 @@ class SpListLayoutBuilder extends StatelessWidget {
       builder: (context, snapshot) {
         return builder(
           context,
-          snapshot.data ?? defaultLayout,
+          overridedLayout ?? snapshot.data ?? defaultLayout,
           snapshot.hasData,
         );
       },

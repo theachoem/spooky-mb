@@ -17,18 +17,27 @@ class StoryQueryOptionsModel {
     required this.type,
   });
 
-  // TODO: fix this
-  // docs/2021/1/12
-  String toPath([String? parent]) {
+  String join() {
     List<String> paths = [
-      // parent ?? FileHelper.directory.absolute.path,
-      // type.name,
-      // if (year != null) "$year",
-      // if (month != null) "$month",
-      // if (day != null) "$day",
+      type.name,
+      if (year != null) "$year",
+      if (month != null) "$month",
+      if (day != null) "$day",
     ];
     return paths.join("/");
   }
+
+  // docs/2021/1/12
+  // String toPath([String? parent]) {
+  //   List<String> paths = [
+  //     // parent ?? FileHelper.directory.absolute.path,
+  //     // type.name,
+  //     // if (year != null) "$year",
+  //     // if (month != null) "$month",
+  //     // if (day != null) "$day",
+  //   ];
+  //   return paths.join("/");
+  // }
 
   Map<String, dynamic> toJson() => _$StoryQueryOptionsModelToJson(this);
   factory StoryQueryOptionsModel.fromJson(Map<String, dynamic> json) => _$StoryQueryOptionsModelFromJson(json);

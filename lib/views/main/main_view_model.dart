@@ -55,20 +55,12 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     }
   }
 
-  void Function()? _storyListReloader;
-  void setStoryListReloader(void Function()? callback) {
-    _storyListReloader = callback;
-  }
-
   late int year;
   late int month;
   late int day;
 
   void setYear(int year) {
     this.year = year;
-    if (_storyListReloader != null) {
-      _storyListReloader!();
-    }
   }
 
   DateTime get date {
@@ -113,10 +105,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
 
   void onConfirm(DateTime date, BuildContext context) {
     DetailArgs args = DetailArgs(initialStory: StoryDbModel.fromDate(date), intialFlow: DetailViewFlowType.create);
-    Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args).then((value) {
-      if (_storyListReloader != null && value != null) {
-        _storyListReloader!();
-      }
-    });
+    Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args);
   }
 }

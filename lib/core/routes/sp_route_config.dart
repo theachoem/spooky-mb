@@ -173,7 +173,6 @@ class SpRouteConfig {
               return HomeView(
                 onTabChange: arguments.onTabChange,
                 onYearChange: arguments.onYearChange,
-                onListReloaderReady: arguments.onListReloaderReady,
                 onScrollControllerReady: arguments.onScrollControllerReady,
               );
             }

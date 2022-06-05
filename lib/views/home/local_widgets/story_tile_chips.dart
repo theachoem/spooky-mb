@@ -7,7 +7,7 @@ import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
-import 'package:spooky/providers/show_chips_provider.dart';
+import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 import 'dart:convert';
 
@@ -25,8 +25,8 @@ class StoryTileChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ShowChipsProvider provider = Provider.of<ShowChipsProvider>(context, listen: true);
-    if (!provider.shouldShow) return const SizedBox.shrink();
+    StoryListConfigurationProvider provider = Provider.of<StoryListConfigurationProvider>(context, listen: true);
+    if (!provider.shouldShowChip) return const SizedBox.shrink();
     return Wrap(
       children: getChipList(images, content, story).map(
         (child) {

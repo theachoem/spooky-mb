@@ -22,24 +22,17 @@ class HomeView extends StatelessWidget {
     Key? key,
     required this.onTabChange,
     required this.onYearChange,
-    required this.onListReloaderReady,
     required this.onScrollControllerReady,
   }) : super(key: key);
 
   final void Function(int index) onTabChange;
   final void Function(int year) onYearChange;
-  final void Function(void Function()) onListReloaderReady;
   final void Function(ScrollController controller) onScrollControllerReady;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<HomeViewModel>(
-      create: (BuildContext context) => HomeViewModel(
-        onTabChange,
-        onYearChange,
-        onListReloaderReady,
-        onScrollControllerReady,
-      ),
+      create: (BuildContext context) => HomeViewModel(onTabChange, onYearChange, onScrollControllerReady),
       builder: (context, viewModel, child) {
         return SpScreenTypeLayout(
           mobile: _HomeMobile(viewModel),
