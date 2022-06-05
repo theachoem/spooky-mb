@@ -10,6 +10,19 @@ class _SettingMobile extends StatelessWidget {
       appBar: MorphingAppBar(
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
         title: const SpAppBarTitle(fallbackRouter: SpRouter.setting),
+        actions: [
+          Consumer<InAppUpdateProvider>(builder: (context, provider, child) {
+            return SpAnimatedIcons(
+              firstChild: SpIconButton(
+                icon: const Icon(Icons.system_update),
+                onPressed: () => provider.update(),
+              ),
+              secondChild: const SizedBox.shrink(),
+              showFirst: provider.isUpdateAvailable,
+            );
+          }),
+          ConfigConstant.sizedBoxW0
+        ],
       ),
       body: ListView(
         padding: const EdgeInsets.only(bottom: kToolbarHeight),
@@ -125,6 +138,7 @@ class _SettingMobile extends StatelessWidget {
             SpSectionContents(
               headline: "Version",
               tiles: [
+                buildCheckForUpdateTile(),
                 ListTile(
                   leading: const SizedBox(height: 40, child: Icon(Icons.rate_review)),
                   title: const Text('Rate us'),
@@ -139,5 +153,46 @@ class _SettingMobile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget buildCheckForUpdateTile() {
+    return Consumer<InAppUpdateProvider>(builder: (context, provider, child) {
+      return ListTile(
+        leading: SizedBox(
+          height: 40,
+          child: Icon(
+            !provider.isUpdateAvailable ? Icons.system_update : Icons.update,
+            color: M3Color.of(context).secondary,
+          ),
+        ),
+        title: Text(provider.isUpdateAvailable ? 'Update available' : 'Check for update'),
+        subtitle: provider.isUpdateAvailable && provider.updateInfo?.availableVersionCode != null
+            ? Text(provider.updateInfo!.availableVersionCode!.toString())
+            : null,
+        onTap: () async {
+          if (provider.isUpdateAvailable) {
+            await provider.update();
+          } else {
+            await provider.load();
+            if (provider.isUpdateAvailable) {
+              final result = await showOkAlertDialog(
+                context: context,
+                title: "Update available",
+                okLabel: "Update",
+              );
+              switch (result) {
+                case OkCancelResult.ok:
+                  await provider.update();
+                  break;
+                case OkCancelResult.cancel:
+                  break;
+              }
+            } else {
+              MessengerService.instance.showSnackBar("No update available");
+            }
+          }
+        },
+      );
+    });
   }
 }

@@ -937,6 +937,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0+8"
+  in_app_update:
+    dependency: "direct main"
+    description:
+      name: in_app_update
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   injectable:
     dependency: transitive
     description:

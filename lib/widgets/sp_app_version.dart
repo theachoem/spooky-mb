@@ -4,7 +4,6 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/services/toast_service.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
-import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
 class SpAppVersion extends StatefulWidget {
@@ -45,7 +44,13 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
       builder: (context, snapshot) {
         PackageInfo? info = snapshot.data;
         if (info == null) return const SizedBox.shrink();
-        return GestureDetector(
+        return ListTile(
+          onLongPress: () {
+            if (developerModeReader.developerModeOn) {
+              developerModeReader.set(false);
+              ToastService.show("Developer mode off");
+            }
+          },
           onTap: () {
             int left = 20 - counterNotifier.value;
             counterNotifier.value = counterNotifier.value + 1;
@@ -65,18 +70,10 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
               }
             }
           },
-          onLongPress: () {
-            if (developerModeReader.developerModeOn) {
-              developerModeReader.set(false);
-              ToastService.show("Developer mode off");
-            }
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(ConfigConstant.margin2),
-            child: Text(
-              "${info.version} (${info.buildNumber})",
-              textAlign: TextAlign.center,
-            ),
+          leading: const SizedBox(height: 40, child: Icon(Icons.build)),
+          title: const Text('Version'),
+          subtitle: Text(
+            "${info.version} (${info.buildNumber})",
           ),
         );
       },
