@@ -44,30 +44,47 @@ class _CloudStorageMobile extends StatelessWidget {
   }
 
   SpSectionContents buildYearsSection(BuildContext context) {
+    List<YearCloudModel>? years = viewModel.years;
+    years?.sort((a, b) => a.year > b.year ? -1 : 1);
     return SpSectionContents(
       headline: "Years",
-      tiles: viewModel.years!.map((e) {
-        Set<int> loadingYears = viewModel.loadingYears;
-        return ListTile(
-          title: Text(e.year.toString()),
-          onTap: e.synced ? null : () => viewModel.backup(e.year),
-          trailing: SpCrossFade(
-            showFirst: e.synced,
-            alignment: Alignment.bottomRight,
-            firstChild: const Text("Synced"),
-            secondChild: SpAnimatedIcons(
-              showFirst: !loadingYears.contains(e.year),
-              firstChild: const Icon(Icons.backup),
-              secondChild: const AspectRatio(
-                aspectRatio: 1,
-                child: Center(
-                  child: CircularProgressIndicator.adaptive(),
+      tiles: [
+        Wrap(
+          children: years!.map((e) {
+            Set<int> loadingYears = viewModel.loadingYears;
+            return LayoutBuilder(builder: (context, constraint) {
+              return SizedBox(
+                width: constraint.maxWidth / 2,
+                child: ListTile(
+                  title: Text(e.year.toString()),
+                  onTap: e.synced ? null : () => viewModel.backup(e.year),
+                  leading: SpCrossFade(
+                    showFirst: e.synced,
+                    alignment: Alignment.bottomRight,
+                    firstChild: Icon(
+                      Icons.check_circle,
+                      color: M3Color.dayColorsOf(context)[4],
+                    ),
+                    secondChild: SpAnimatedIcons(
+                      showFirst: !loadingYears.contains(e.year),
+                      firstChild: const Icon(Icons.backup),
+                      secondChild: LoopAnimation<int>(
+                        builder: (context, child, value) {
+                          return Transform.rotate(
+                            angle: value * pi / 180,
+                            child: const Icon(Icons.sync),
+                          );
+                        },
+                        tween: IntTween(begin: 0, end: 180),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ),
-          ),
-        );
-      }).toList(),
+              );
+            });
+          }).toList(),
+        )
+      ],
     );
   }
 }
