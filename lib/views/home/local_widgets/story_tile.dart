@@ -71,6 +71,13 @@ class StoryTileState extends State<StoryTile> {
     if (updatedStory != null) await reloadStory();
   }
 
+  Future<void> replaceContent(StoryContentDbModel content) async {
+    StoryDbModel copiedStory = story.copyWith();
+    copiedStory.addChange(content);
+    StoryDbModel? updatedStory = await database.update(id: copiedStory.id.toString(), body: copiedStory.toJson());
+    if (updatedStory != null) await reloadStory();
+  }
+
   @override
   void initState() {
     story = widget.story;
@@ -334,6 +341,7 @@ class StoryTileState extends State<StoryTile> {
                   images: images,
                   content: content,
                   story: story,
+                  onImageUploaded: (content) => replaceContent(content),
                 ),
               ],
             ),

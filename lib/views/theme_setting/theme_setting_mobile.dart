@@ -45,7 +45,7 @@ class _ThemeSettingMobile extends StatelessWidget {
                 buildSortTile(context),
                 buildMaxLineTile(),
                 buildPriorityStarredTile(),
-                buildShowChipTile(),
+                // buildShowChipTile(),
               ],
             ),
             SpSectionContents(
@@ -123,6 +123,7 @@ class _ThemeSettingMobile extends StatelessWidget {
     );
   }
 
+  @Deprecated("Doesn't use anymore")
   Consumer<StoryListConfigurationProvider> buildShowChipTile() {
     return Consumer<StoryListConfigurationProvider>(
       builder: (context, provider, child) {

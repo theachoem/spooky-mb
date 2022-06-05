@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
+import 'package:spooky/views/home/local_widgets/add_to_drive_button.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 import 'dart:convert';
 
@@ -17,18 +18,20 @@ class StoryTileChips extends StatelessWidget {
     required this.images,
     required this.content,
     required this.story,
+    required this.onImageUploaded,
   }) : super(key: key);
 
   final Set<String> images;
   final StoryContentDbModel content;
   final StoryDbModel story;
+  final void Function(StoryContentDbModel) onImageUploaded;
 
   @override
   Widget build(BuildContext context) {
     StoryListConfigurationProvider provider = Provider.of<StoryListConfigurationProvider>(context, listen: true);
     if (!provider.shouldShowChip) return const SizedBox.shrink();
     return Wrap(
-      children: getChipList(images, content, story).map(
+      children: getChipList(images, content, story, context).map(
         (child) {
           return Padding(
             padding: const EdgeInsets.only(right: 4.0),
@@ -39,13 +42,22 @@ class StoryTileChips extends StatelessWidget {
     );
   }
 
-  List<Widget> getChipList(Set<String> images, StoryContentDbModel content, StoryDbModel story) {
+  List<Widget> getChipList(
+    Set<String> images,
+    StoryContentDbModel content,
+    StoryDbModel story,
+    BuildContext context,
+  ) {
+    final fileImages = fetchFileImages();
     return [
+      if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
       if (images.isNotEmpty) buildImageChip(images),
-      if ((content.pages?.length ?? 0) > 1)
-        SpChip(
-          labelText: "${content.pages?.length} Pages",
-        ),
+      AddToDriveButton(
+        content: content,
+        story: story,
+        fileImages: fileImages,
+        onUploaded: onImageUploaded,
+      ),
       // SpDeveloperVisibility(
       //   child: SpChip(
       //     avatar: Icon(Icons.developer_board, size: ConfigConstant.iconSize1),
@@ -53,6 +65,15 @@ class StoryTileChips extends StatelessWidget {
       //   ),
       // ),
     ];
+  }
+
+  List<String> fetchFileImages() {
+    List<String> fileImages = [];
+    for (String src in images) {
+      final file = File(src);
+      if (file.existsSync()) fileImages.add(src);
+    }
+    return fileImages;
   }
 
   SpChip buildImageChip(Set<String> images) {
