@@ -73,6 +73,18 @@ class _SettingMobile extends StatelessWidget {
             SpSectionContents(
               headline: "Info",
               tiles: [
+                ListTile(
+                  leading: const SizedBox(height: 40, child: Icon(Icons.telegram)),
+                  title: const Text('Telegram Channel'),
+                  onTap: () {
+                    launchUrl(Uri.parse(AppConstant.telegramChannel), mode: LaunchMode.externalApplication);
+                  },
+                  subtitle: const Text(
+                    "News, tutorial, bugs report etc.",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
                 SpDeveloperVisibility(
                   child: ListTile(
                     leading: const Icon(Icons.developer_mode),

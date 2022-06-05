@@ -4,6 +4,7 @@ class AppConstant {
   AppConstant._internal();
   static const String appName = 'Spooky';
   static const String privacyPolicy = 'https://github.com/juniorise/spooky/wiki/Privacy-Policy';
+  static const String telegramChannel = 'https://t.me/spookyjuniorise';
 
   static const supportedLocales = [
     Locale('en'),
