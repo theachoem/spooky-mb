@@ -79,6 +79,7 @@ dependencies:
   encrypt: ^5.0.1
   html_character_entities: ^1.0.0+1
   simple_animations: ^4.0.2
+  launch_review: ^3.0.1
 
   # unused:
   # cupertino_icons: ^1.0.4

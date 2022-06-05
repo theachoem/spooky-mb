@@ -95,7 +95,14 @@ class _SettingMobile extends StatelessWidget {
                   ),
                 ),
                 ListTile(
-                  leading: const Icon(Icons.privacy_tip),
+                  leading: const SizedBox(height: 40, child: Icon(Icons.privacy_tip_rounded)),
+                  title: const Text('Privacy Policy'),
+                  onTap: () {
+                    launchUrl(Uri.parse(AppConstant.privacyPolicy), mode: LaunchMode.externalApplication);
+                  },
+                ),
+                ListTile(
+                  leading: const Icon(Icons.newspaper),
                   title: const Text("Licenses"),
                   onTap: () async {
                     PackageInfo info = await PackageInfo.fromPlatform();
@@ -113,9 +120,21 @@ class _SettingMobile extends StatelessWidget {
                     );
                   },
                 ),
+              ],
+            ),
+            SpSectionContents(
+              headline: "Version",
+              tiles: [
+                ListTile(
+                  leading: const SizedBox(height: 40, child: Icon(Icons.rate_review)),
+                  title: const Text('Rate us'),
+                  onTap: () {
+                    LaunchReview.launch();
+                  },
+                ),
                 const SpAppVersion(),
               ],
-            )
+            ),
           ],
         ),
       ),
