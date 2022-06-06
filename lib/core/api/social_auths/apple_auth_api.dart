@@ -7,7 +7,7 @@ class AppleAuthApi extends BaseSocialAuthApi {
   final OAuthProvider _oAuthProvider = OAuthProvider("apple.com");
 
   @override
-  Future<AuthCredential?> getCredential() async {
+  Future<AuthCredential?> getCredential([Map? args]) async {
     AuthorizationCredentialAppleID? result = await SignInWithApple.getAppleIDCredential(
       scopes: [
         AppleIDAuthorizationScopes.email,

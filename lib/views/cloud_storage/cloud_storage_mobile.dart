@@ -6,6 +6,7 @@ class _CloudStorageMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isNotEmpty = viewModel.years?.isNotEmpty == true;
     return Scaffold(
       appBar: MorphingAppBar(
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
@@ -36,7 +37,8 @@ class _CloudStorageMobile extends StatelessWidget {
                 ),
               ],
             ),
-            if (viewModel.years != null) buildYearsSection(context),
+            if (isNotEmpty) buildYearsSection(context),
+            if (!isNotEmpty) SpSectionContents(headline: "No stories to backup", tiles: []),
           ],
         ),
       ),

@@ -33,19 +33,19 @@ class _SettingMobile extends StatelessWidget {
               headline: "User",
               tiles: [
                 ListTile(
-                  leading: const Icon(Icons.person),
-                  title: Text(SpRouter.user.title),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(SpRouter.user.path);
-                  },
-                ),
-                ListTile(
                   leading: const Icon(Icons.cloud),
                   title: Text(SpRouter.cloudStorage.title),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.cloudStorage.path);
                   },
                 ),
+                // ListTile(
+                //   leading: const Icon(Icons.person),
+                //   title: Text(SpRouter.user.title),
+                //   onTap: () {
+                //     Navigator.of(context).pushNamed(SpRouter.user.path);
+                //   },
+                // ),
                 ListTile(
                   leading: const Icon(Icons.color_lens),
                   title: Text(SpRouter.themeSetting.title),

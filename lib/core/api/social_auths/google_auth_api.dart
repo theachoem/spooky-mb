@@ -6,9 +6,8 @@ class GoogleAuthApi extends BaseSocialAuthApi {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
-  Future<AuthCredential?> getCredential() async {
-    bool isSignedIn = await googleSignIn.isSignedIn();
-    if (isSignedIn) await googleSignIn.signOut();
+  Future<AuthCredential?> getCredential([Map? args]) async {
+    if (await googleSignIn.isSignedIn()) await googleSignIn.signOut();
 
     GoogleSignInAccount? googleUser = await googleSignIn.signIn();
     OAuthCredential? credential;

@@ -4,7 +4,7 @@ import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
 class SpSectionContents {
-  final String headline;
+  final String? headline;
   final List<Widget> tiles;
 
   SpSectionContents({
@@ -63,7 +63,7 @@ class SpSectionsTiles extends StatelessWidget {
     return [
       if (showTopDivider) const Divider(height: 1),
       for (int i = 0; i < sections.length; i++) ...[
-        ...header(context: context, headline: sections[i].headline).children,
+        if (sections[i].headline != null) ...header(context: context, headline: sections[i].headline!).children,
         ...sections[i].tiles,
         if (i != sections.length - 1) const Divider(height: 1),
       ]

@@ -4,7 +4,7 @@ import 'package:spooky/core/api/social_auths/base_social_auth_api.dart';
 
 class FacebookAuthApi extends BaseSocialAuthApi {
   @override
-  Future<AuthCredential?> getCredential() async {
+  Future<AuthCredential?> getCredential([Map? args]) async {
     LoginResult result = await FacebookAuth.instance.login(loginBehavior: LoginBehavior.nativeWithFallback);
     OAuthCredential? credential;
 

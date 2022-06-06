@@ -164,7 +164,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.storyPadRestore:
         return "StoryPad";
       case SpRouter.user:
-        return "User";
+        return "Account is mainly used to store purchased histories.";
     }
   }
 
@@ -208,6 +208,14 @@ extension SpRouterExtension on SpRouter {
           inactiveIcon: Icons.cloud_outlined,
           activeIcon: Icons.cloud,
         );
+      case SpRouter.user:
+        return null;
+      // return MainTabBarItem(
+      //   navigatorKey: GlobalKey<NavigatorState>(),
+      //   router: SpRouter.user,
+      //   inactiveIcon: Icons.person_outline,
+      //   activeIcon: Icons.person,
+      // );
       case SpRouter.fontManager:
         return null;
       // return MainTabBarItem(
@@ -259,8 +267,6 @@ extension SpRouterExtension on SpRouter {
           inactiveIcon: Icons.music_note_outlined,
           activeIcon: Icons.music_note,
         );
-      case SpRouter.user:
-        return null;
     }
   }
 }

@@ -18,7 +18,12 @@ class _AddOnsMobile extends StatelessWidget {
               slivers: [
                 SpExpandedAppBar(
                   expandedHeight: expandedHeight,
-                  actions: const [],
+                  actions: [
+                    Container(
+                      transform: Matrix4.identity()..translate(4.0, 0.0),
+                      child: UserIconButton(),
+                    ),
+                  ],
                 ),
                 SliverPadding(
                   padding: ConfigConstant.layoutPadding,
