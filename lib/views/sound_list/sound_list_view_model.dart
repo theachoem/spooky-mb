@@ -89,6 +89,7 @@ class SoundListViewModel extends BaseViewModel {
 
     String file = fileManager.constructFile(sound.fileName);
     String ref;
+
     switch (sound.type) {
       case SoundType.music:
         ref = 'sounds/music/${sound.fileName}';
