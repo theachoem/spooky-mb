@@ -1,7 +1,7 @@
 name: spooky
 description: Minimalist application to write stories, notes, diary!
 publish_to: none
-version: 1.0.0+20
+version: 1.0.0+22
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
@@ -23,6 +23,7 @@ dependencies:
   cached_network_image: ^3.2.1
   community_material_icon: ^5.9.55
   copy_with_extension: ^4.0.2
+  cupertino_icons: ^1.0.4
   desktop_window: ^0.4.0
   dynamic_color: ^1.3.0
   easy_localization: ^3.0.1
@@ -83,7 +84,6 @@ dependencies:
   in_app_update: ^3.0.0
 
   # unused:
-  # cupertino_icons: ^1.0.4
   # injectable: ^1.5.3
   # open_file: ^3.2.1
   # scroll_to_index: ^3.0.1

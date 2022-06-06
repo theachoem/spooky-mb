@@ -17,7 +17,7 @@ class UsersFirestoreDatabase extends BaseCloudFirestore {
     PurchasedInfoModel info,
   ) async {
     final productsRef = reference.doc(uid).collection('products');
-    await productsRef.add(info.toJson());
+    await productsRef.doc(productId).set(info.toJson());
   }
 
   Future<List<PurchasedInfoModel>> fetchPurchasedProducts(String uid) async {

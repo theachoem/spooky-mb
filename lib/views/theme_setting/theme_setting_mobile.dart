@@ -39,7 +39,7 @@ class _ThemeSettingMobile extends StatelessWidget {
               tiles: [
                 buildLayoutTile(context),
                 buildSortTile(context),
-                buildMaxLineTile(),
+                // buildMaxLineTile(),
                 buildPriorityStarredTile(),
                 // buildShowChipTile(),
               ],

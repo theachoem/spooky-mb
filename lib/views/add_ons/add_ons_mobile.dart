@@ -9,14 +9,13 @@ class _AddOnsMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
-        SpButton(
-          label: "Restore Purchases",
-          onTap: () {
-            context.read<InAppPurchaseProvider>().restore();
-          },
-        )
-      ],
+      extendBody: true,
+      bottomNavigationBar: SpSingleButtonBottomNavigation(
+        buttonLabel: "Restore Purchases",
+        onTap: () {
+          context.read<InAppPurchaseProvider>().restore();
+        },
+      ),
       body: Consumer<InAppPurchaseProvider>(
         builder: (context, provider, child) {
           return RefreshIndicator(

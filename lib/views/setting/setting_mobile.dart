@@ -100,7 +100,7 @@ class _SettingMobile extends StatelessWidget {
                     launchUrl(Uri.parse(AppConstant.telegramChannel), mode: LaunchMode.externalApplication);
                   },
                   subtitle: const Text(
-                    "News, tutorial, bugs report etc.",
+                    "News, report bugs etc.",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),

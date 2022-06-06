@@ -24,7 +24,7 @@ class HomeBottomNavigation extends StatelessWidget {
           valueListenable: viewModel.shouldShowBottomNavNotifier,
           child: buildNavigationBar(provider),
           builder: (context, shouldShowFromParams, child) {
-            bool shouldShow = shouldShowFromParams && provider.tabs != null;
+            bool shouldShow = shouldShowFromParams && provider.tabs != null && provider.tabs!.length >= 2;
             return ValueListenableBuilder(
               valueListenable: viewModel.bottomNavigationHeight,
               child: buildAnimatedVisibilityWrapper(provider, shouldShow, child),
@@ -60,25 +60,28 @@ class HomeBottomNavigation extends StatelessWidget {
   }
 
   Widget buildNavigationBar(BottomNavItemsProvider provider) {
+    final tabs = provider.tabs ?? [];
     return MeasureSize(
       onChange: (size) => viewModel.bottomNavigationHeight.value = size.height,
-      child: NavigationBar(
-        key: ValueKey(viewModel.shouldShowBottomNavNotifier.value),
-        onDestinationSelected: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
-        selectedIndex: provider.tabs?.indexOf(viewModel.activeRouter) ?? 0,
-        destinations: (provider.tabs ?? []).map((tab) {
-          MainTabBarItem e = tab.tab!;
-          return SpTapEffect(
-            onTap: () => viewModel.setActiveRouter(e.router),
-            child: NavigationDestination(
-              tooltip: e.router.title,
-              selectedIcon: Icon(e.activeIcon),
-              icon: Icon(e.inactiveIcon),
-              label: e.router.title,
-            ),
-          );
-        }).toList(),
-      ),
+      child: tabs.length >= 2
+          ? NavigationBar(
+              key: ValueKey(viewModel.shouldShowBottomNavNotifier.value),
+              onDestinationSelected: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
+              selectedIndex: provider.tabs?.indexOf(viewModel.activeRouter) ?? 0,
+              destinations: (provider.tabs ?? []).map((tab) {
+                MainTabBarItem e = tab.tab!;
+                return SpTapEffect(
+                  onTap: () => viewModel.setActiveRouter(e.router),
+                  child: NavigationDestination(
+                    tooltip: e.router.title,
+                    selectedIcon: Icon(e.activeIcon),
+                    icon: Icon(e.inactiveIcon),
+                    label: e.router.title,
+                  ),
+                );
+              }).toList(),
+            )
+          : const SizedBox.shrink(),
     );
   }
 }

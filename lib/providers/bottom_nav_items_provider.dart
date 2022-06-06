@@ -49,7 +49,7 @@ class BottomNavItemsProvider extends ChangeNotifier {
     }
 
     await storage.writeObject(tabsList);
-    load();
+    await load();
 
     return null;
   }

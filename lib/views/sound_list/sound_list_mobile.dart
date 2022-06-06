@@ -60,12 +60,22 @@ class _SoundListMobile extends StatelessWidget {
             },
           ),
         SpPopupMenuButton(items: (context) {
+          final provider = context.read<BottomNavItemsProvider>();
+          bool hasSoundInNavBar = provider.tabs?.contains(SpRouter.soundList) == true;
           return [
             SpPopMenuItem(
               title: "Play in Background",
               leadingIconData: viewModel.playSoundInBackground ? Icons.check_box : Icons.check_box_outline_blank,
               onPressed: () {
                 viewModel.toggleBackgroundSound();
+              },
+            ),
+            SpPopMenuItem(
+              title: "Display on navigation bar",
+              leadingIconData: hasSoundInNavBar ? Icons.check_box : Icons.check_box_outline_blank,
+              trailingIconData: Icons.arrow_right,
+              onPressed: () {
+                Navigator.of(context).pushNamed(SpRouter.bottomNavSetting.path);
               },
             ),
           ];
