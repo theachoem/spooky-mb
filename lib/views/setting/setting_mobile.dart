@@ -105,15 +105,6 @@ class _SettingMobile extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                SpDeveloperVisibility(
-                  child: ListTile(
-                    leading: const Icon(Icons.developer_mode),
-                    title: Text(SpRouter.developerMode.title),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(SpRouter.developerMode.path);
-                    },
-                  ),
-                ),
                 ListTile(
                   leading: const SizedBox(height: 40, child: Icon(Icons.privacy_tip_rounded)),
                   title: const Text('Privacy Policy'),
@@ -146,6 +137,15 @@ class _SettingMobile extends StatelessWidget {
               headline: "Version",
               tiles: [
                 buildCheckForUpdateTile(),
+                SpDeveloperVisibility(
+                  child: ListTile(
+                    leading: const Icon(Icons.developer_mode),
+                    title: Text(SpRouter.developerMode.title),
+                    onTap: () {
+                      Navigator.of(context).pushNamed(SpRouter.developerMode.path);
+                    },
+                  ),
+                ),
                 ListTile(
                   leading: const SizedBox(height: 40, child: Icon(Icons.rate_review)),
                   title: const Text('Rate us'),
