@@ -53,6 +53,8 @@ extension SpRouterExtension on SpRouter {
         return "/bottom-nav-setting";
       case SpRouter.storyPadRestore:
         return '/storypad-restore';
+      case SpRouter.user:
+        return '/user';
     }
   }
 
@@ -106,6 +108,8 @@ extension SpRouterExtension on SpRouter {
         return "Bottom Navigation";
       case SpRouter.storyPadRestore:
         return "StoryPad";
+      case SpRouter.user:
+        return "User";
     }
   }
 
@@ -159,6 +163,8 @@ extension SpRouterExtension on SpRouter {
         return "Manage bottom navigation";
       case SpRouter.storyPadRestore:
         return "StoryPad";
+      case SpRouter.user:
+        return "User";
     }
   }
 
@@ -253,6 +259,8 @@ extension SpRouterExtension on SpRouter {
           inactiveIcon: Icons.music_note_outlined,
           activeIcon: Icons.music_note,
         );
+      case SpRouter.user:
+        return null;
     }
   }
 }

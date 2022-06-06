@@ -29,6 +29,7 @@ import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/sound_list/sound_list_view.dart';
 import 'package:spooky/views/story_pad_restore/story_pad_restore_view.dart';
 import 'package:spooky/views/theme_setting/theme_setting_view.dart';
+import 'package:spooky/views/user/user_view.dart';
 
 class SpRouteConfig {
   final RouteSettings? settings;
@@ -242,6 +243,11 @@ class SpRouteConfig {
         return DefaultRouteSetting(
           fullscreenDialog: false,
           route: (context) => const StoryPadRestoreView(),
+        );
+      case SpRouter.user:
+        return DefaultRouteSetting(
+          fullscreenDialog: false,
+          route: (context) => const UserView(),
         );
     }
   }
