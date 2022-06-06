@@ -5,8 +5,6 @@ extension ProductAsTypeExtension on ProductAsType {
     switch (this) {
       case ProductAsType.relexSound:
         return "relax_sound";
-      case ProductAsType.fontBook:
-        return "font_book";
     }
   }
 }

@@ -10,6 +10,7 @@ import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/provider_scope.dart';
+import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,8 @@ Future<void> _initialize() async {
   if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
     await DesktopWindow.setMinWindowSize(const Size(320, 510));
   }
+
+  await InAppPurchaseProvider.initialize();
 
   // license
   LicenseRegistry.addLicense(() async* {

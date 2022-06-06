@@ -117,7 +117,7 @@ class _SoundListMobile extends StatelessWidget {
     SoundType type,
     SoundModel sound,
   ) async {
-    UserProvider userProvider = context.read<UserProvider>();
+    InAppPurchaseProvider inAppPurchaseProvider = context.read<InAppPurchaseProvider>();
     await viewModel.fileManager.downloadedSound().then((downloadedSounds) async {
       MiniSoundPlayerProvider provider = context.read<MiniSoundPlayerProvider>();
       if (downloaded) {
@@ -127,7 +127,7 @@ class _SoundListMobile extends StatelessWidget {
           provider.stop(sound.type);
         }
       } else {
-        if (userProvider.purchased(ProductAsType.relexSound) ||
+        if (inAppPurchaseProvider.purchased(ProductAsType.relexSound) ||
             downloadedSounds.where((element) => element.type == type).isEmpty) {
           String? errorMessage = await viewModel.download(sound);
           provider.load();

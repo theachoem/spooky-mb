@@ -10,18 +10,6 @@ class ProductListModel {
   factory ProductListModel.getter([BuildContext? context]) {
     return ProductListModel([
       ProductModel(
-        type: ProductAsType.fontBook,
-        title: "Font Book",
-        description: "Access 1300+ fonts!",
-        consumable: false,
-        icon: Icons.font_download,
-        price: "0.99\$",
-        onTryPressed: () {
-          if (context == null) return;
-          Navigator.of(context).pushNamed(SpRouter.fontManager.path);
-        },
-      ),
-      ProductModel(
         type: ProductAsType.relexSound,
         title: "Relax Sound",
         description: "Listen to music while you're writing",

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/types/product_as_type.dart';
-import 'package:spooky/providers/user_provider.dart';
+import 'package:spooky/providers/in_app_purchase_provider.dart';
 
 class SpAddOnVisibility extends StatelessWidget {
   const SpAddOnVisibility({
@@ -17,7 +17,7 @@ class SpAddOnVisibility extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    UserProvider provider = Provider.of<UserProvider>(context);
+    InAppPurchaseProvider provider = Provider.of<InAppPurchaseProvider>(context);
     return Visibility(
       visible: provider.purchased(type) != reverse,
       child: child,

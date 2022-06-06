@@ -1,14 +1,15 @@
 library add_ons_view;
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/models/product_model.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/product_as_type.dart';
 import 'package:spooky/providers/in_app_purchase_provider.dart';
-import 'package:spooky/providers/user_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -16,6 +17,7 @@ import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/views/setting/local_widgets/user_icon_button.dart';
 import 'package:spooky/widgets/sp_add_on_visibility.dart';
+import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_developer_visibility.dart';
 import 'package:spooky/widgets/sp_expanded_app_bar.dart';

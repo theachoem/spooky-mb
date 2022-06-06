@@ -29,11 +29,7 @@ class _ThemeSettingMobile extends StatelessWidget {
                   title: Text(SpRouter.fontManager.title),
                   leading: const Icon(Icons.font_download),
                   onTap: () {
-                    if (context.read<UserProvider>().purchased(ProductAsType.fontBook)) {
-                      Navigator.of(context).pushNamed(SpRouter.fontManager.path);
-                    } else {
-                      Navigator.of(context).pushNamed(SpRouter.addOn.path);
-                    }
+                    Navigator.of(context).pushNamed(SpRouter.fontManager.path);
                   },
                 ),
               ],

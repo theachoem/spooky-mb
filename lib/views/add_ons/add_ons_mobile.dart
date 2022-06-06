@@ -9,6 +9,14 @@ class _AddOnsMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      persistentFooterButtons: [
+        SpButton(
+          label: "Restore Purchases",
+          onTap: () {
+            context.read<InAppPurchaseProvider>().restore();
+          },
+        )
+      ],
       body: Consumer<InAppPurchaseProvider>(
         builder: (context, provider, child) {
           return RefreshIndicator(
@@ -86,7 +94,21 @@ class _AddOnsMobile extends StatelessWidget {
             subtitle: productDetails?.description ?? product.description,
             price: productDetails?.price,
             type: product.type,
-            onBuyPressed: () {
+            onBuyPressed: () async {
+              if (provider.currentUser?.uid == null) {
+                final result = await showOkCancelAlertDialog(
+                  context: context,
+                  title: "Login required",
+                  message: "Please login to purchase the add-on",
+                  okLabel: "Login",
+                );
+                if (result == OkCancelResult.ok) {
+                  // ignore: use_build_context_synchronously
+                  Navigator.of(context).pushNamed(SpRouter.user.path);
+                }
+                return;
+              }
+
               if (productDetails != null) {
                 provider.buyProduct(productDetails);
               } else {
@@ -106,6 +128,11 @@ class _AddOnsMobile extends StatelessWidget {
             firstChild: buildMessage(context, error?.message ?? "", true),
             secondChild: const SizedBox(width: double.infinity),
             showFirst: error?.message != null,
+          ),
+          SpCrossFade(
+            showFirst: error?.message != null || streamDetails != null,
+            firstChild: const SizedBox(height: ConfigConstant.margin2),
+            secondChild: const SizedBox(width: double.infinity),
           ),
           // buildDebugger(productDetails)
         ],
@@ -187,7 +214,7 @@ class _AddOnsMobile extends StatelessWidget {
           ),
           ConfigConstant.sizedBoxW1,
           Expanded(
-            child: Consumer<UserProvider>(builder: (context, provider, child) {
+            child: Consumer<InAppPurchaseProvider>(builder: (context, provider, child) {
               bool purchased = provider.purchased(type);
               return SpPopupMenuButton(
                 dyGetter: (dy) => dy + kToolbarHeight,
