@@ -180,37 +180,7 @@ class UserImageProfile extends StatelessWidget {
                 alignment: Alignment.bottomLeft,
                 children: [
                   buildPhoto(avatarSize, isCollapse),
-                  AnimatedContainer(
-                    duration: ConfigConstant.duration,
-                    width: double.infinity,
-                    curve: Curves.easeOutQuart,
-                    height: 72,
-                    margin: EdgeInsets.only(left: isCollapse ? 0 : this.avatarSize + 16),
-                    decoration: BoxDecoration(
-                      borderRadius: isCollapse ? BorderRadius.zero : ConfigConstant.circlarRadius2,
-                      color: M3Color.of(context).primaryContainer.withOpacity(isCollapse ? 1 : 1),
-                    ),
-                    child: ListTile(
-                      onTap: () {
-                        // showTextInputDialog(
-                        //   context: context,
-                        //   textFields: [],
-                        // );
-                      },
-                      title: Text(
-                        currentUser.displayName ?? "",
-                        style: TextStyle(color: M3Color.of(context).primary),
-                      ),
-                      subtitle: Text(
-                        currentUser.email ?? currentUser.uid,
-                        style: TextStyle(color: M3Color.of(context).primary),
-                      ),
-                      trailing: Icon(
-                        Icons.info,
-                        color: M3Color.of(context).primary,
-                      ),
-                    ),
-                  )
+                  buildProfileInfoTile(isCollapse, context),
                 ],
               ),
             ),
@@ -218,6 +188,59 @@ class UserImageProfile extends StatelessWidget {
         },
       );
     });
+  }
+
+  Widget buildProfileInfoTile(bool isCollapse, BuildContext context) {
+    return AnimatedContainer(
+      duration: ConfigConstant.duration,
+      width: double.infinity,
+      curve: Curves.easeOutQuart,
+      height: 72,
+      margin: EdgeInsets.only(left: isCollapse ? 0 : avatarSize + 16),
+      decoration: BoxDecoration(
+        borderRadius: isCollapse ? BorderRadius.zero : ConfigConstant.circlarRadius2,
+        color: M3Color.of(context).primaryContainer.withOpacity(isCollapse ? 1 : 1),
+      ),
+      child: SpPopupMenuButton(
+        dxGetter: (dx) => MediaQuery.of(context).size.width,
+        dyGetter: (dy) => dy + kToolbarHeight + 24.0,
+        items: (context) {
+          return [
+            SpPopMenuItem(
+              title: "Identity",
+              subtitle: currentUser.uid,
+            ),
+            if (currentUser.metadata.creationTime != null)
+              SpPopMenuItem(
+                title: "Created at",
+                subtitle: DateFormatHelper.dateTimeFormat().format(currentUser.metadata.creationTime!),
+              ),
+            if (currentUser.metadata.lastSignInTime != null)
+              SpPopMenuItem(
+                title: "Last sign in",
+                subtitle: DateFormatHelper.dateTimeFormat().format(currentUser.metadata.lastSignInTime!),
+              ),
+          ];
+        },
+        builder: (callback) {
+          return ListTile(
+            onTap: callback,
+            title: Text(
+              currentUser.displayName ?? "",
+              style: TextStyle(color: M3Color.of(context).primary),
+            ),
+            subtitle: Text(
+              currentUser.email ?? currentUser.uid,
+              style: TextStyle(color: M3Color.of(context).primary),
+            ),
+            trailing: Icon(
+              Icons.info,
+              color: M3Color.of(context).primary,
+            ),
+          );
+        },
+      ),
+    );
   }
 
   Widget buildPhoto(double avatarSize, bool isCollapse) {
