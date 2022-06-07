@@ -97,7 +97,7 @@ class _SettingMobile extends StatelessWidget {
                   leading: const SizedBox(height: 40, child: Icon(Icons.telegram)),
                   title: const Text('Telegram Channel'),
                   onTap: () {
-                    launchUrl(Uri.parse(AppConstant.telegramChannel), mode: LaunchMode.externalApplication);
+                    AppHelper.openLinkDialog(AppConstant.telegramChannel);
                   },
                   subtitle: const Text(
                     "News, report bugs etc.",
@@ -109,7 +109,7 @@ class _SettingMobile extends StatelessWidget {
                   leading: const SizedBox(height: 40, child: Icon(Icons.privacy_tip_rounded)),
                   title: const Text('Privacy Policy'),
                   onTap: () {
-                    launchUrl(Uri.parse(AppConstant.privacyPolicy), mode: LaunchMode.externalApplication);
+                    AppHelper.openLinkDialog(AppConstant.privacyPolicy);
                   },
                 ),
                 ListTile(

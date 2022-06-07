@@ -80,7 +80,7 @@ class _AppStarterMobile extends StatelessWidget {
           WidgetSpan(
             child: SpTapEffect(
               onTap: () {
-                launchUrlString(AppConstant.privacyPolicy, mode: LaunchMode.externalApplication);
+                AppHelper.openLinkDialog(AppConstant.privacyPolicy);
               },
               child: Text(
                 "Privacy Policy",

@@ -1,8 +1,12 @@
 import 'dart:math';
 
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+
+import 'package:spooky/app.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AppHelper {
   AppHelper._internal();
@@ -57,5 +61,24 @@ class AppHelper {
     };
     int index = currentWeight.index + changeBy;
     return fontWeights[max(min(8, index), 0)]!;
+  }
+
+  static Future<void> openLinkDialog(String url) async {
+    final context = App.navigatorKey.currentContext;
+    if (context == null) return;
+
+    final result = await showOkAlertDialog(
+      context: context,
+      title: "Link",
+      message: url,
+      okLabel: "Open",
+    );
+
+    if (result == OkCancelResult.ok) {
+      await launchUrlString(
+        url,
+        mode: LaunchMode.externalNonBrowserApplication,
+      );
+    }
   }
 }

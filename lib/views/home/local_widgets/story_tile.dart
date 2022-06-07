@@ -9,6 +9,7 @@ import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_tile_chips.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
@@ -303,6 +304,7 @@ class StoryTileState extends State<StoryTile> {
                       return Markdown(
                         data: body(content),
                         shrinkWrap: true,
+                        onTapLink: (url, _, __) => AppHelper.openLinkDialog(url),
                         styleSheet: MarkdownStyleSheet(
                           blockquoteDecoration: BoxDecoration(color: M3Color.of(context).tertiaryContainer),
                           blockquote: TextStyle(color: M3Color.of(context).onTertiaryContainer),

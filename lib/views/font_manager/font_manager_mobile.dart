@@ -61,16 +61,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
   }
 
   void openWeb(String url) async {
-    if (await canLaunchUrlString(url)) {
-      var result = await showOkCancelAlertDialog(
-        context: context,
-        title: "Open browser",
-        message: url,
-      );
-      if (result == OkCancelResult.ok) {
-        launchUrlString(url, mode: LaunchMode.externalApplication);
-      }
-    }
+    AppHelper.openLinkDialog(url);
   }
 
   SpSectionContents buildInfoSection(String provider, BuildContext context) {

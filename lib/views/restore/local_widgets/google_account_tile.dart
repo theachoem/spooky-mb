@@ -7,9 +7,9 @@ import 'package:spooky/core/storages/local_storages/spooky_drive_folder_id_stora
 import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
+import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class GoogleAccountTile extends StatelessWidget {
   const GoogleAccountTile({
@@ -35,8 +35,7 @@ class GoogleAccountTile extends StatelessWidget {
                 onPressed: () async {
                   final String? id = await SpookyDriveFolderStorageIdStorage().read();
                   if (id != null) {
-                    final uri = Uri.tryParse("https://drive.google.com/drive/folders/$id?usp=sharing");
-                    if (uri != null) launchUrl(uri, mode: LaunchMode.externalApplication);
+                    AppHelper.openLinkDialog('https://drive.google.com/drive/folders/$id?usp=sharing');
                   } else {
                     MessengerService.instance.showSnackBar('No images found on "${AppConstant.driveFolderName}" Drive');
                   }
