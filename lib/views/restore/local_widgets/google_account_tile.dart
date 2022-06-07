@@ -2,9 +2,11 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/storages/local_storages/spooky_drive_folder_id_storage.dart';
 import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,6 +37,8 @@ class GoogleAccountTile extends StatelessWidget {
                   if (id != null) {
                     final uri = Uri.tryParse("https://drive.google.com/drive/folders/$id?usp=sharing");
                     if (uri != null) launchUrl(uri, mode: LaunchMode.externalApplication);
+                  } else {
+                    MessengerService.instance.showSnackBar('No images found on "${AppConstant.driveFolderName}" Drive');
                   }
                 },
               ),

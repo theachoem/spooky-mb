@@ -4,10 +4,10 @@ import 'package:path/path.dart';
 import 'package:spooky/core/api/cloud_storages/gdrive_storage.dart';
 import 'package:spooky/core/storages/local_storages/spooky_drive_folder_id_storage.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
+import 'package:spooky/utils/constants/app_constant.dart';
 
 class GDriveSpookyFolderStorage extends GDriveStorage {
   final SpookyDriveFolderStorageIdStorage storage = SpookyDriveFolderStorageIdStorage();
-  final String folderName = "Story";
 
   Future<String?> uploadImage(io.File image) async {
     return execHandler(() {
@@ -71,10 +71,10 @@ class GDriveSpookyFolderStorage extends GDriveStorage {
     const mimeType = "mimeType = 'application/vnd.google-apps.folder'";
     drive.FileList? folderList = await driveApi.files.list(q: mimeType);
 
-    /// check if folder "Story" is existed or not,
+    /// check if folder "Spooky" is existed or not,
     /// if no create new.
     folderList.files?.forEach((e) {
-      if (e.name == folderName) driveFolderId = e.id.toString();
+      if (e.name == AppConstant.driveFolderName) driveFolderId = e.id.toString();
     });
     return driveFolderId;
   }
@@ -82,7 +82,7 @@ class GDriveSpookyFolderStorage extends GDriveStorage {
   Future<drive.File?> createSpookyFolder(drive.DriveApi driveApi) async {
     /// set folder permission to publish to display on app
     drive.File folderToCreate = drive.File();
-    folderToCreate.name = "Story";
+    folderToCreate.name = AppConstant.driveFolderName;
     drive.File? response;
     try {
       response = await driveApi.files.create(
