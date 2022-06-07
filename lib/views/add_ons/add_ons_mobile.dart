@@ -8,55 +8,68 @@ class _AddOnsMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<InAppPurchaseProvider>(context);
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: SpSingleButtonBottomNavigation(
         buttonLabel: "Restore Purchases",
+        show: provider.restorable,
         onTap: () {
-          context.read<InAppPurchaseProvider>().restore();
-        },
-      ),
-      body: Consumer<InAppPurchaseProvider>(
-        builder: (context, provider, child) {
-          return RefreshIndicator(
-            onRefresh: () => provider.fetchProducts(),
-            displacement: expandedHeight / 2,
-            child: CustomScrollView(
-              slivers: [
-                SpExpandedAppBar(
-                  expandedHeight: expandedHeight,
-                  actions: [
-                    Container(
-                      transform: Matrix4.identity()..translate(4.0, 0.0),
-                      child: UserIconButton(),
-                    ),
-                  ],
-                ),
-                SliverPadding(
-                  padding: ConfigConstant.layoutPadding,
-                  sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        return ValueListenableBuilder<List<PurchaseDetails>>(
-                          valueListenable: provider.purchaseNotifier,
-                          builder: (context, purchaseDetails, child) {
-                            return buildWholeCard(
-                              index: index,
-                              provider: provider,
-                              purchaseDetails: purchaseDetails,
-                              context: context,
-                            );
-                          },
-                        );
-                      },
-                      childCount: viewModel.productList.products.length,
-                    ),
-                  ),
-                )
-              ],
-            ),
+          if (provider.currentUser == null) {
+            openLoginDialog(context);
+            return;
+          }
+          MessengerService.instance.showLoading(
+            future: () => context.read<InAppPurchaseProvider>().restore().then((value) => 1),
+            context: context,
           );
         },
+      ),
+      body: RefreshIndicator(
+        onRefresh: () => provider.fetchProducts(),
+        displacement: expandedHeight / 2,
+        child: CustomScrollView(
+          slivers: [
+            buildAppBar(),
+            buildBody(provider),
+          ],
+        ),
+      ),
+    );
+  }
+
+  SpExpandedAppBar buildAppBar() {
+    return SpExpandedAppBar(
+      expandedHeight: expandedHeight,
+      actions: [
+        Container(
+          transform: Matrix4.identity()..translate(4.0, 0.0),
+          child: UserIconButton(),
+        ),
+      ],
+    );
+  }
+
+  SliverPadding buildBody(InAppPurchaseProvider provider) {
+    return SliverPadding(
+      padding: ConfigConstant.layoutPadding,
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            return ValueListenableBuilder<List<PurchaseDetails>>(
+              valueListenable: provider.purchaseNotifier,
+              builder: (context, purchaseDetails, child) {
+                return buildWholeCard(
+                  index: index,
+                  provider: provider,
+                  purchaseDetails: purchaseDetails,
+                  context: context,
+                );
+              },
+            );
+          },
+          childCount: viewModel.productList.products.length,
+        ),
       ),
     );
   }
@@ -74,12 +87,6 @@ class _AddOnsMobile extends StatelessWidget {
     Iterable<ProductDetails> result = provider.productDetails.where((e) => e.id == product.type.productId);
     ProductDetails? productDetails = result.isNotEmpty ? result.first : null;
 
-    // purchase info
-    Iterable<PurchaseDetails> purchaseDetailsResult =
-        purchaseDetails.where((e) => e.productID == product.type.productId);
-    PurchaseDetails? streamDetails = purchaseDetailsResult.isNotEmpty ? purchaseDetailsResult.first : null;
-    IAPError? error = streamDetails?.error;
-
     return buildFadeInWrapper(
       index: index,
       child: Column(
@@ -95,19 +102,9 @@ class _AddOnsMobile extends StatelessWidget {
             type: product.type,
             onBuyPressed: () async {
               if (provider.currentUser?.uid == null) {
-                final result = await showOkCancelAlertDialog(
-                  context: context,
-                  title: "Login required",
-                  message: "Please login to purchase the add-on",
-                  okLabel: "Login",
-                );
-                if (result == OkCancelResult.ok) {
-                  // ignore: use_build_context_synchronously
-                  Navigator.of(context).pushNamed(SpRouter.user.path);
-                }
+                openLoginDialog(context);
                 return;
               }
-
               if (productDetails != null) {
                 provider.buyProduct(productDetails);
               } else {
@@ -118,24 +115,60 @@ class _AddOnsMobile extends StatelessWidget {
               product.onTryPressed();
             },
           ),
-          SpCrossFade(
-            firstChild: buildMessage(context, streamDetails?.status.name.capitalize ?? ""),
-            secondChild: const SizedBox(width: double.infinity),
-            showFirst: streamDetails != null,
+          ValueListenableBuilder<Map<String, List<MessageModel>>>(
+            valueListenable: provider.messageNotifier,
+            builder: (context, value, child) {
+              List<MessageModel>? messages = value[product.type.productId];
+              return SpCrossFade(
+                showFirst: messages?.where((e) => e.message != null).isNotEmpty == true,
+                secondChild: const SizedBox(width: double.infinity),
+                firstChild: Container(
+                  margin: const EdgeInsets.only(bottom: ConfigConstant.margin2),
+                  child: buildMessages(messages, context),
+                ),
+              );
+            },
           ),
-          SpCrossFade(
-            firstChild: buildMessage(context, error?.message ?? "", true),
-            secondChild: const SizedBox(width: double.infinity),
-            showFirst: error?.message != null,
-          ),
-          SpCrossFade(
-            showFirst: error?.message != null || streamDetails != null,
-            firstChild: const SizedBox(height: ConfigConstant.margin2),
-            secondChild: const SizedBox(width: double.infinity),
-          ),
-          // buildDebugger(productDetails)
         ],
       ),
+    );
+  }
+
+  Future<void> openLoginDialog(BuildContext context) async {
+    final result = await showOkCancelAlertDialog(
+      context: context,
+      title: "Login required",
+      message: "Please login to purchase the add-on",
+      okLabel: "Login",
+    );
+    if (result == OkCancelResult.ok) {
+      // ignore: use_build_context_synchronously
+      Navigator.of(context).pushNamed(SpRouter.user.path);
+    }
+  }
+
+  Widget buildMessages(List<MessageModel>? messages, BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: messages?.map(
+            (message) {
+              return AnimatedOpacity(
+                opacity: message.message != null ? 1 : 0,
+                duration: ConfigConstant.fadeDuration,
+                child: SpCrossFade(
+                  duration: ConfigConstant.duration * 1.5,
+                  firstChild: buildMessage(
+                    context: context,
+                    message: message.message ?? "",
+                    error: message.isError,
+                  ),
+                  secondChild: const SizedBox(width: double.infinity),
+                  showFirst: message.message != null,
+                ),
+              );
+            },
+          ).toList() ??
+          [],
     );
   }
 
@@ -166,11 +199,11 @@ class _AddOnsMobile extends StatelessWidget {
     );
   }
 
-  Widget buildMessage(
-    BuildContext context,
-    String message, [
+  Widget buildMessage({
+    required BuildContext context,
+    required String message,
     bool error = false,
-  ]) {
+  }) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.only(left: kToolbarHeight - 8, bottom: ConfigConstant.margin0),

@@ -11,6 +11,10 @@ PurchasedInfoModel _$PurchasedInfoModelFromJson(Map<String, dynamic> json) =>
       json['purchase_id'] as String?,
       json['product_id'] as String,
       json['transaction_date'] as String?,
+      json['uid'] as String?,
+      (json['user_provider_ids'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$PurchasedInfoModelToJson(PurchasedInfoModel instance) =>
@@ -18,4 +22,6 @@ Map<String, dynamic> _$PurchasedInfoModelToJson(PurchasedInfoModel instance) =>
       'purchase_id': instance.purchaseId,
       'product_id': instance.productId,
       'transaction_date': instance.transactionDate,
+      'uid': instance.uid,
+      'user_provider_ids': instance.userProviderIds,
     };

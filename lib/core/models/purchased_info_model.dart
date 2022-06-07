@@ -8,11 +8,15 @@ class PurchasedInfoModel extends BaseModel {
   final String? purchaseId;
   final String productId;
   final String? transactionDate;
+  final String? uid;
+  final List<String>? userProviderIds;
 
   PurchasedInfoModel(
     this.purchaseId,
     this.productId,
     this.transactionDate,
+    this.uid,
+    this.userProviderIds,
   );
 
   @override
