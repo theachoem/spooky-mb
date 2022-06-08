@@ -135,7 +135,7 @@ class _BackupHistoriesState extends State<BackupHistories> {
           if (result == null) return;
           BottomSheetService.instance.showScrollableSheet(
             context: App.navigatorKey.currentContext ?? context,
-            title: displayBackup.createAt?.year.toString() ?? "Stories",
+            title: result.year.toString(),
             builder: (context, controller) {
               return StoryList(
                 viewOnly: true,
