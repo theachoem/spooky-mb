@@ -126,17 +126,17 @@ class _BottomNavWave extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color foregroundColor = M3Color.of(context).background;
+    Color foregroundColor = Theme.of(context).appBarTheme.backgroundColor!;
     return SizedBox(
       height: kToolbarHeight,
       child: WaveWidget(
         backgroundColor: Colors.transparent,
         config: CustomConfig(
           gradients: [
-            [foregroundColor.withOpacity(0.2), foregroundColor.withOpacity(0.6)],
-            [foregroundColor.withOpacity(0.3), foregroundColor.withOpacity(0.5)],
-            [foregroundColor.withOpacity(0.4), foregroundColor.withOpacity(0.4)],
-            [foregroundColor.withOpacity(0.5), foregroundColor.withOpacity(0.3)]
+            [foregroundColor.withOpacity(1), foregroundColor.withOpacity(0.5)],
+            [foregroundColor.withOpacity(0.5), foregroundColor.withOpacity(1)],
+            [foregroundColor.withOpacity(1), foregroundColor.withOpacity(0.5)],
+            [foregroundColor.withOpacity(0.5), foregroundColor.withOpacity(1)]
           ],
           durations: [35000, 19440, 10800, 6000],
           heightPercentages: [0.5, 0.55, 0.6, 0.65],
