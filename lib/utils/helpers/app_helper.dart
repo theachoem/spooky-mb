@@ -1,12 +1,12 @@
-import 'dart:math';
-
-import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'dart:convert';
-
-import 'package:spooky/app.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:spooky/app.dart';
+import 'dart:convert';
+import 'dart:math';
 
 class AppHelper {
   AppHelper._internal();
@@ -64,21 +64,51 @@ class AppHelper {
   }
 
   static Future<void> openLinkDialog(String url) async {
-    final context = App.navigatorKey.currentContext;
+    BuildContext? context = App.navigatorKey.currentContext;
     if (context == null) return;
 
-    final result = await showOkAlertDialog(
-      context: context,
-      title: "Link",
-      message: url,
-      okLabel: "Open",
-    );
+    Color? toolbarColor = Theme.of(context).appBarTheme.backgroundColor;
 
-    if (result == OkCancelResult.ok) {
-      await launchUrlString(
+    try {
+      launch(
         url,
-        mode: LaunchMode.externalNonBrowserApplication,
+        customTabsOption: CustomTabsOption(
+          toolbarColor: toolbarColor,
+          enableDefaultShare: true,
+          enableUrlBarHiding: false,
+          showPageTitle: true,
+          enableInstantApps: true,
+          extraCustomTabs: const <String>[
+            'org.mozilla.firefox',
+            'com.microsoft.emmx',
+          ],
+        ),
+        safariVCOption: SafariViewControllerOption(
+          preferredBarTintColor: toolbarColor,
+          preferredControlTintColor: toolbarColor,
+          barCollapsingEnabled: true,
+          entersReaderIfAvailable: false,
+          dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
+        ),
       );
+    } catch (e) {
+      if (kDebugMode) {
+        print("ERROR: openLinkDialog $e");
+      }
+
+      OkCancelResult result = await showOkAlertDialog(
+        context: context,
+        title: "Link",
+        message: url,
+        okLabel: "Open",
+      );
+
+      if (result == OkCancelResult.ok) {
+        await launchUrlString(
+          url,
+          mode: LaunchMode.externalNonBrowserApplication,
+        );
+      }
     }
   }
 }

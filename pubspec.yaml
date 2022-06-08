@@ -82,6 +82,7 @@ dependencies:
   simple_animations: ^4.0.2
   launch_review: ^3.0.1
   in_app_update: ^3.0.0
+  flutter_custom_tabs: ^1.0.4
 
   # unused:
   # injectable: ^1.5.3
