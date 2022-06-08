@@ -50,10 +50,10 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     required int month,
     required int day,
     required String type,
-    required DateTime createdAt,
+    required int id,
   }) async {
     Directory prefix = await buildFileParentDir(year: year, month: month, day: day, type: type);
-    String fileName = "${createdAt.millisecondsSinceEpoch}.json";
+    String fileName = "$id.json";
     String path = "${prefix.path}/$fileName";
     File file = File(path);
     await ensureFileExist(file);
@@ -73,7 +73,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
       month: story.month,
       day: story.day,
       type: story.type.name,
-      createdAt: story.createdAt,
+      id: story.id,
     );
 
     file = await file.writeAsString(json);
@@ -123,7 +123,11 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
       for (FileSystemEntity item in entities) {
         if (item is File && item.absolute.path.endsWith(".json")) {
           Map<String, dynamic>? json = await fetchOne(id: item.path, params: {"file": item});
-          if (json != null) docs.add(json);
+          if (json != null) {
+            dynamic id = basename(item.path).split(".")[0];
+            json['id'] = int.tryParse(id) ?? json['id'];
+            docs.add(json);
+          }
         }
       }
 
@@ -192,7 +196,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
         month: story.month,
         day: story.day,
         type: story.type.name,
-        createdAt: story.createdAt,
+        id: story.id,
       );
 
       File? updatedFile = await move(fileToUpdate, file.path);
