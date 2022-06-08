@@ -21,6 +21,19 @@ class _SettingMobile extends StatelessWidget {
               showFirst: provider.isUpdateAvailable,
             );
           }),
+          Consumer<NotificationProvider>(builder: (context, provider, child) {
+            return SpAnimatedIcons(
+              firstChild: SpIconButton(
+                icon: Icon(
+                  Icons.warning,
+                  color: M3Color.dayColorsOf(context)[1],
+                ),
+                onPressed: () => provider.requestPermission(context),
+              ),
+              secondChild: const SizedBox.shrink(),
+              showFirst: !provider.isAllow,
+            );
+          }),
           ConfigConstant.sizedBoxW0
         ],
       ),

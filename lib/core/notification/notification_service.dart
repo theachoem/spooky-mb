@@ -18,6 +18,18 @@ class NotificationService {
   static final AwesomeNotifications notifications = AwesomeNotifications();
   static final config = _NotificationConfig();
 
+  static Future<bool> get isNotificationAllowed async {
+    bool supportedPlatform = Platform.isAndroid || Platform.isIOS;
+    if (!supportedPlatform) return true;
+    return notifications.isNotificationAllowed();
+  }
+
+  static Future<bool> requestPermissionToSendNotifications() async {
+    bool supportedPlatform = Platform.isAndroid || Platform.isIOS;
+    if (!supportedPlatform) return false;
+    return notifications.requestPermissionToSendNotifications();
+  }
+
   static Future<void> initialize() async {
     bool supportedPlatform = Platform.isAndroid || Platform.isIOS;
     if (!supportedPlatform) return;
@@ -28,10 +40,6 @@ class NotificationService {
       debug: kDebugMode,
     );
 
-    notifications.isNotificationAllowed().then((isAllowed) {
-      if (!isAllowed) notifications.requestPermissionToSendNotifications();
-    });
-
     notifications.setListeners(onActionReceivedMethod: (ReceivedAction event) async {
       NotificationChannelTypes? type;
 
@@ -41,6 +49,7 @@ class NotificationService {
           break;
         }
       }
+
       if (type != null) {
         BaseNotificationChannel<BaseNotificationPayload>? channel = config.channelByType(type);
         channel?.triggered(

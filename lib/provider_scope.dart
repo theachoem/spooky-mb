@@ -5,6 +5,7 @@ import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/in_app_update_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
+import 'package:spooky/providers/notification_provider.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
@@ -56,6 +57,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<InAppUpdateProvider>(
           create: (context) => InAppUpdateProvider(),
+        ),
+        ListenableProvider<NotificationProvider>(
+          create: (context) => NotificationProvider(),
         ),
       ],
       child: child,

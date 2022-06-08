@@ -252,9 +252,9 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
               PlaySoundChannel().show(
                 title: soundTitle,
                 body: null,
-                bigPicture: imageUrl,
+                // bigPicture: imageUrl,
                 payload: null,
-                notificationLayout: NotificationLayout.BigPicture,
+                notificationLayout: NotificationLayout.Default,
               );
             }
           } else {
