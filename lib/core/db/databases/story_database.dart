@@ -37,6 +37,19 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
   }
 
   @override
+  Future<BaseDbListModel<StoryDbModel>?> fetchAll({Map<String, dynamic>? params}) async {
+    BaseDbListModel<StoryDbModel>? result = await super.fetchAll(params: params);
+    Iterable<StoryDbModel>? items = result?.items.where((story) {
+      DateTime? movedToBinAt = story.movedToBinAt;
+      bool shouldDelete = AppHelper.shouldDelete(movedToBinAt: movedToBinAt);
+      // TODO: test to delete this
+      // if (shouldDelete) deleteDocument(story);
+      return !shouldDelete;
+    });
+    return result?.copyWith(items: items?.toList());
+  }
+
+  @override
   Future<StoryDbModel?> objectTransformer(Map<String, dynamic> json) async {
     return compute(_constructStoryIsolate, json);
   }
@@ -59,7 +72,19 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
     return story.type == PathType.archives;
   }
 
+  Future<StoryDbModel?> moveToTrash(StoryDbModel story) async {
+    if (story.type == PathType.bins) return null;
+    StoryDbModel binStory = story.copyWith(type: PathType.bins, movedToBinAt: DateTime.now());
+    StoryDbModel? result = await create(body: binStory.toJson());
+    if (result != null) {
+      return deleteDocument(story);
+    } else {
+      return null;
+    }
+  }
+
   Future<StoryDbModel?> archiveDocument(StoryDbModel story) async {
+    if (story.type == PathType.archives) return null;
     StoryDbModel archivedStory = story.copyWith(type: PathType.archives);
     StoryDbModel? result = await create(body: archivedStory.toJson());
     if (result != null) {
@@ -69,9 +94,15 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
     }
   }
 
-  Future<StoryDbModel?> unarchiveDocument(StoryDbModel story) async {
+  Future<StoryDbModel?> putBackToDocs(StoryDbModel story) async {
+    if (story.type == PathType.docs) return null;
     StoryDbModel unarchivedStory = story.copyWith(type: PathType.docs);
-    StoryDbModel? result = await create(body: unarchivedStory.toJson());
+
+    Map<String, dynamic> json = unarchivedStory.toJson();
+    json['moved_to_bin_at'] = null;
+
+    // create on docs path & remove from bin path
+    StoryDbModel? result = await create(body: json);
     if (result != null) {
       return deleteDocument(story);
     } else {

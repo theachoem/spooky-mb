@@ -1,5 +1,6 @@
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/foundation.dart';
@@ -110,5 +111,16 @@ class AppHelper {
         );
       }
     }
+  }
+
+  static bool shouldDelete({
+    DateTime? movedToBinAt,
+    DateTime? currentDate,
+    Duration? deletedIn,
+  }) {
+    if (movedToBinAt == null) return false;
+    DateTime deleteAt = movedToBinAt.add(deletedIn ?? AppConstant.deleteInDuration);
+    currentDate = currentDate ?? DateTime.now();
+    return currentDate.isAfter(deleteAt);
   }
 }

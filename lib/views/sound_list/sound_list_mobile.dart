@@ -147,8 +147,9 @@ class _SoundListMobile extends StatelessWidget {
         } else {
           MessengerService.instance.showSnackBar(
             "Purchase to download more",
-            action: SnackBarAction(
+            action: (color) => SnackBarAction(
               label: "Add-ons",
+              textColor: color,
               onPressed: () {
                 Navigator.of(context).pushNamed(SpRouter.addOn.path);
               },

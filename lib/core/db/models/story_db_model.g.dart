@@ -19,6 +19,8 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel month(int month);
 
+  StoryDbModel movedToBinAt(DateTime? movedToBinAt);
+
   StoryDbModel starred(bool? starred);
 
   StoryDbModel type(PathType type);
@@ -42,6 +44,7 @@ abstract class _$StoryDbModelCWProxy {
     String? feeling,
     int? id,
     int? month,
+    DateTime? movedToBinAt,
     bool? starred,
     PathType? type,
     DateTime? updatedAt,
@@ -76,6 +79,10 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
   StoryDbModel month(int month) => this(month: month);
 
   @override
+  StoryDbModel movedToBinAt(DateTime? movedToBinAt) =>
+      this(movedToBinAt: movedToBinAt);
+
+  @override
   StoryDbModel starred(bool? starred) => this(starred: starred);
 
   @override
@@ -105,6 +112,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
     Object? feeling = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? month = const $CopyWithPlaceholder(),
+    Object? movedToBinAt = const $CopyWithPlaceholder(),
     Object? starred = const $CopyWithPlaceholder(),
     Object? type = const $CopyWithPlaceholder(),
     Object? updatedAt = const $CopyWithPlaceholder(),
@@ -136,6 +144,10 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.month
           // ignore: cast_nullable_to_non_nullable
           : month as int,
+      movedToBinAt: movedToBinAt == const $CopyWithPlaceholder()
+          ? _value.movedToBinAt
+          // ignore: cast_nullable_to_non_nullable
+          : movedToBinAt as DateTime?,
       starred: starred == const $CopyWithPlaceholder()
           ? _value.starred
           // ignore: cast_nullable_to_non_nullable
@@ -183,6 +195,9 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
           .toList(),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
+      movedToBinAt: json['moved_to_bin_at'] == null
+          ? null
+          : DateTime.parse(json['moved_to_bin_at'] as String),
     );
 
 Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
@@ -198,6 +213,7 @@ Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
       'changes': instance.changes.map((e) => e.toJson()).toList(),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
+      'moved_to_bin_at': instance.movedToBinAt?.toIso8601String(),
     };
 
 const _$PathTypeEnumMap = {

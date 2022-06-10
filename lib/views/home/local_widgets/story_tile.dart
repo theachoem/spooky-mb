@@ -30,6 +30,7 @@ class StoryTile extends StatefulWidget {
     this.onArchive,
     this.onUnarchive,
     this.previousStory,
+    this.onPutBack,
   }) : super(key: key);
 
   final StoryDbModel story;
@@ -40,6 +41,7 @@ class StoryTile extends StatefulWidget {
   final Future<bool> Function(StoryDbModel story)? onDelete;
   final Future<bool> Function(StoryDbModel story)? onArchive;
   final Future<bool> Function(StoryDbModel story)? onUnarchive;
+  final Future<bool> Function(StoryDbModel story)? onPutBack;
 
   @override
   StoryTileState createState() => StoryTileState();
@@ -117,13 +119,13 @@ class StoryTileState extends State<StoryTile> {
       },
       items: (BuildContext context) {
         return [
-          if (story.archived)
+          if (story.viewOnly)
             SpPopMenuItem(
               title: "View",
               leadingIconData: Icons.chrome_reader_mode,
               onPressed: () => view(story, context),
             ),
-          if (!story.archived)
+          if (story.editable)
             SpPopMenuItem(
               title: "Change Date",
               leadingIconData: Icons.folder_open,
@@ -141,7 +143,7 @@ class StoryTileState extends State<StoryTile> {
                 }
               },
             ),
-          if (!story.archived && widget.onArchive != null)
+          if (story.archivable && widget.onArchive != null)
             SpPopMenuItem(
               title: "Archive",
               leadingIconData: Icons.archive,
@@ -149,19 +151,20 @@ class StoryTileState extends State<StoryTile> {
                 widget.onArchive!(story);
               },
             ),
-          if (story.archived && widget.onArchive != null)
+          if (story.editable)
             SpPopMenuItem(
-              title: "Unarchive",
-              leadingIconData: Icons.archive,
+              title: starred ? "Unstarred" : "Starred",
+              leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
+              onPressed: () => toggleStarred(),
+            ),
+          if (story.putBackAble && widget.onPutBack != null)
+            SpPopMenuItem(
+              title: "Put back",
+              leadingIconData: Icons.restore_from_trash,
               onPressed: () async {
-                widget.onUnarchive!(story);
+                widget.onPutBack!(story);
               },
             ),
-          SpPopMenuItem(
-            title: starred ? "Unstarred" : "Starred",
-            leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
-            onPressed: () => toggleStarred(),
-          ),
           // if (context.read<DeveloperModeProvider>().developerModeOn) buildExportOption(context, story),
           if (widget.onDelete != null)
             SpPopMenuItem(

@@ -1,18 +1,44 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class StoryEmptyWidget extends StatelessWidget {
-  const StoryEmptyWidget({
+  // ignore: prefer_const_constructors_in_immutables
+  StoryEmptyWidget({
     Key? key,
     this.isEmpty = true,
-  }) : super(key: key);
+    required this.pathType,
+  }) : super(key: key) {
+    load();
+  }
 
   final bool isEmpty;
+  final PathType pathType;
+
+  late final String title;
+  late final IconData iconData;
+
+  void load() {
+    switch (pathType) {
+      case PathType.docs:
+        title = "New here?";
+        iconData = Icons.color_lens;
+        break;
+      case PathType.bins:
+        title = "Empty";
+        iconData = Icons.delete;
+        break;
+      case PathType.archives:
+        title = "Empty";
+        iconData = Icons.archive;
+        break;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +46,6 @@ class StoryEmptyWidget extends StatelessWidget {
       ignoring: !isEmpty,
       child: buildBody(),
     );
-  }
-
-  bool archived(BuildContext context) {
-    return ModalRoute.of(context)?.settings.name == SpRouter.archive.path;
   }
 
   Widget buildBody() {
@@ -52,7 +74,7 @@ class StoryEmptyWidget extends StatelessWidget {
     );
   }
 
-  Widget buildSubtitle(BuildContext context) {
+  Widget buildDocsSubtitle(BuildContext context) {
     return RichText(
       text: TextSpan(
         style: M3TextTheme.of(context).bodyMedium,
@@ -78,7 +100,6 @@ class StoryEmptyWidget extends StatelessWidget {
   }
 
   Widget buildContent(int value, BuildContext context) {
-    bool isArchive = archived(context);
     return AnimatedContainer(
       duration: ConfigConstant.duration,
       transform: Matrix4.identity()..translate(0.0, value == 1 ? 0 : -ConfigConstant.margin0),
@@ -88,20 +109,40 @@ class StoryEmptyWidget extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              isArchive ? "Empty" : "New here?",
+              title,
               style: M3TextTheme.of(context).bodyLarge,
               textAlign: TextAlign.center,
             ),
-            if (!isArchive) buildSubtitle(context),
+            buildSubtitle(context) ?? const SizedBox.shrink(),
           ],
         ),
       ),
     );
   }
 
+  Widget? buildSubtitle(BuildContext context) {
+    switch (pathType) {
+      case PathType.docs:
+        return buildDocsSubtitle(context);
+      case PathType.bins:
+      case PathType.archives:
+        return null;
+    }
+  }
+
+  void Function()? iconPressedCallback(BuildContext context) {
+    switch (pathType) {
+      case PathType.docs:
+        return () => Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
+      case PathType.bins:
+      case PathType.archives:
+        return null;
+    }
+  }
+
   Widget buildIcon(int value, BuildContext context) {
     return SpTapEffect(
-      onTap: () => Navigator.of(context).pushNamed(SpRouter.themeSetting.path),
+      onTap: iconPressedCallback(context),
       child: AnimatedContainer(
         duration: ConfigConstant.duration,
         transform: Matrix4.identity()..translate(0.0, value == 1 ? 0 : ConfigConstant.margin0),
@@ -109,9 +150,9 @@ class StoryEmptyWidget extends StatelessWidget {
           opacity: value == 1 ? 1 : 0,
           duration: ConfigConstant.duration,
           child: CircleAvatar(
-            backgroundColor: M3Color.of(context).primary,
+            backgroundColor: fetchIconBgColor(context),
             child: Icon(
-              archived(context) ? Icons.archive : Icons.color_lens,
+              iconData,
               color: M3Color.of(context).surface,
               size: ConfigConstant.iconSize3,
             ),
@@ -119,5 +160,16 @@ class StoryEmptyWidget extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Color fetchIconBgColor(BuildContext context) {
+    switch (pathType) {
+      case PathType.docs:
+        return M3Color.of(context).primary;
+      case PathType.bins:
+        return M3Color.of(context).error;
+      case PathType.archives:
+        return M3Color.of(context).tertiary;
+    }
   }
 }

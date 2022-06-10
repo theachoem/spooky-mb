@@ -136,8 +136,9 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     if (compare(cache)) {
       MessengerService.instance.showSnackBar(
         "Download more music?",
-        action: SnackBarAction(
+        action: (color) => SnackBarAction(
           label: "Sound Library",
+          textColor: color,
           onPressed: () {
             Navigator.of(context).pushNamed(SpRouter.soundList.path);
           },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -63,18 +64,23 @@ class StoryList extends StatelessWidget {
     this.onDelete,
     this.onArchive,
     this.onUnarchive,
+    this.onPutBack,
     this.controller,
     this.viewOnly = false,
     this.overridedLayout,
+    this.pathType = PathType.docs,
     this.itemPadding = const EdgeInsets.all(ConfigConstant.margin2),
     required List<StoryDbModel>? stories,
   })  : _stories = stories,
         super(key: key);
 
+  final PathType pathType;
   final Future<void> Function() onRefresh;
   final Future<bool> Function(StoryDbModel story)? onDelete;
   final Future<bool> Function(StoryDbModel story)? onArchive;
   final Future<bool> Function(StoryDbModel story)? onUnarchive;
+  final Future<bool> Function(StoryDbModel story)? onPutBack;
+
   final ListLayoutType? overridedLayout;
   final String emptyMessage;
   final bool viewOnly;
@@ -144,6 +150,7 @@ class StoryList extends StatelessWidget {
               buildLoading(loading),
               StoryEmptyWidget(
                 isEmpty: !loading && configuredStories.isEmpty,
+                pathType: pathType,
               ),
             ],
           ),
@@ -330,11 +337,11 @@ class StoryList extends StatelessWidget {
         ),
         secondaryBackground: buildDismissibleBackground(
           context: context,
-          iconData: story.archived ? Icons.unarchive : Icons.archive,
+          iconData: story.unarchivable ? Icons.unarchive : Icons.archive,
           alignment: Alignment.centerRight,
           backgroundColor: M3Color.of(context).primary,
           foregroundColor: M3Color.of(context).onPrimary,
-          label: story.archived ? "Unarchive" : "Archive",
+          label: story.unarchivable ? "Unarchive" : "Archive",
         ),
         confirmDismiss: (direction) async {
           switch (direction) {
@@ -345,9 +352,9 @@ class StoryList extends StatelessWidget {
             case DismissDirection.horizontal:
               return false;
             case DismissDirection.endToStart:
-              if (story.archived) {
+              if (story.unarchivable) {
                 return onUnarchive!(story);
-              } else {
+              } else if (story.archivable) {
                 return onArchive!(story);
               }
             case DismissDirection.up:
@@ -387,6 +394,7 @@ class StoryList extends StatelessWidget {
       onArchive: onArchive,
       onDelete: onDelete,
       onUnarchive: onUnarchive,
+      onPutBack: onPutBack,
     );
   }
 

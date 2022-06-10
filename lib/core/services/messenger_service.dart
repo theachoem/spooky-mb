@@ -39,7 +39,7 @@ class MessengerService {
   ScaffoldFeatureController<SnackBar, SnackBarClosedReason>? showSnackBar(
     String message, {
     bool success = true,
-    SnackBarAction? action,
+    SnackBarAction Function(Color? foreground)? action,
   }) {
     clearSnackBars();
     Color? foreground = success ? null : M3Color.of(_context!).onError;
@@ -50,12 +50,13 @@ class MessengerService {
         behavior: SnackBarBehavior.floating,
         backgroundColor: background,
         dismissDirection: DismissDirection.horizontal,
-        action: action ??
-            SnackBarAction(
-              label: MaterialLocalizations.of(_context!).okButtonLabel,
-              textColor: foreground,
-              onPressed: () {},
-            ),
+        action: action != null
+            ? action(foreground)
+            : SnackBarAction(
+                label: MaterialLocalizations.of(_context!).okButtonLabel,
+                textColor: foreground,
+                onPressed: () {},
+              ),
       ),
     );
   }

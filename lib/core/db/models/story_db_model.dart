@@ -23,6 +23,7 @@ class StoryDbModel extends BaseDbModel {
 
   final DateTime createdAt;
   final DateTime updatedAt;
+  final DateTime? movedToBinAt;
 
   StoryDbModel({
     this.version = 1,
@@ -36,13 +37,21 @@ class StoryDbModel extends BaseDbModel {
     required this.changes,
     required this.updatedAt,
     required this.createdAt,
+    this.movedToBinAt,
   });
 
   @override
   Map<String, dynamic> toJson() => _$StoryDbModelToJson(this);
   factory StoryDbModel.fromJson(Map<String, dynamic> json) => _$StoryDbModelFromJson(json);
 
-  bool get archived => type == PathType.archives;
+  bool get viewOnly => unarchivable || inBins;
+
+  bool get inBins => type == PathType.bins;
+  bool get editable => type == PathType.docs;
+  bool get putBackAble => inBins || unarchivable;
+
+  bool get archivable => type == PathType.docs;
+  bool get unarchivable => type == PathType.archives;
 
   void removeChangeById(int id) {
     return changes.removeWhere((e) => e.id == id);
