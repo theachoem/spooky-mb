@@ -69,6 +69,7 @@ class AppHelper {
     if (context == null) return;
 
     Color? toolbarColor = Theme.of(context).appBarTheme.backgroundColor;
+    Color? foregroundColor = Theme.of(context).appBarTheme.titleTextStyle?.color;
 
     try {
       launch(
@@ -86,7 +87,7 @@ class AppHelper {
         ),
         safariVCOption: SafariViewControllerOption(
           preferredBarTintColor: toolbarColor,
-          preferredControlTintColor: toolbarColor,
+          preferredControlTintColor: foregroundColor,
           barCollapsingEnabled: true,
           entersReaderIfAvailable: false,
           dismissButtonStyle: SafariViewControllerDismissButtonStyle.close,
