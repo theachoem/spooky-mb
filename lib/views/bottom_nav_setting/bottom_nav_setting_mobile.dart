@@ -24,7 +24,13 @@ class _BottomNavSettingMobile extends StatelessWidget {
                 ignoring: !tab.optinal,
                 key: ValueKey(tab.router),
                 child: ListTile(
-                  leading: Icon(tab.activeIcon),
+                  leading: Wrap(
+                    children: [
+                      const Icon(Icons.reorder),
+                      const SizedBox(width: 16.0, height: 8.0),
+                      Icon(tab.activeIcon),
+                    ],
+                  ),
                   title: Text(tab.router.title),
                   onTap: () => _toggle(),
                   trailing: Checkbox(

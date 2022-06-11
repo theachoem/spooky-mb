@@ -21,14 +21,18 @@ class BottomNavItemsProvider extends ChangeNotifier {
     _tabs = [];
 
     BottomNavItemListModel result = await storage.getItems();
-    for (var item in result.items ?? <BottomNavItemModel>[]) {
+    for (BottomNavItemModel item in result.items ?? <BottomNavItemModel>[]) {
       if (item.selected == true && item.router != null) {
         _tabs!.add(item.router!);
       }
     }
 
+    setTabs(result);
+  }
+
+  void setTabs(BottomNavItemListModel items) {
     // _tabs
-    _availableTabs = result;
+    _availableTabs = items;
     _nonOptionalTabs = _tabs?.where((e) => e.tab != null && e.tab?.optinal == false).toList();
     notifyListeners();
   }
@@ -48,6 +52,7 @@ class BottomNavItemsProvider extends ChangeNotifier {
       return "Must be greater than 2";
     }
 
+    setTabs(tabsList);
     await storage.writeObject(tabsList);
     await load();
 
