@@ -1,16 +1,15 @@
 // ignore_for_file: implementation_imports
 
 import 'dart:io';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
+import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/views/home/local_widgets/add_to_drive_button.dart';
+import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:spooky/widgets/sp_chip.dart';
-import 'dart:convert';
 
 class StoryTileChips extends StatelessWidget {
   const StoryTileChips({
@@ -82,7 +81,7 @@ class StoryTileChips extends StatelessWidget {
     // loop to get validated one
     for (String src in images) {
       String imageUrl = standardizeImageUrl(src);
-      imageProvider = imageByUrl(imageUrl);
+      imageProvider = QuillHelper.imageByUrl(imageUrl);
       if (imageProvider != null) break;
     }
 
@@ -90,12 +89,5 @@ class StoryTileChips extends StatelessWidget {
       labelText: "${images.length} Images",
       avatar: imageProvider != null ? CircleAvatar(backgroundImage: imageProvider) : null,
     );
-  }
-
-  ImageProvider? imageByUrl(String imageUrl) {
-    if (isImageBase64(imageUrl)) return MemoryImage(base64.decode(imageUrl));
-    if (imageUrl.startsWith('http')) return CachedNetworkImageProvider(imageUrl);
-    if (File(imageUrl).existsSync()) return FileImage(File(imageUrl));
-    return null;
   }
 }

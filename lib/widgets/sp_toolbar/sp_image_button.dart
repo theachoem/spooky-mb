@@ -1,7 +1,10 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 
 class SpImageButton extends StatelessWidget {
   const SpImageButton({
@@ -95,7 +98,23 @@ class SpImageButton extends StatelessWidget {
         ),
       ],
     );
-    if (result?.isNotEmpty == true) _linkSubmitted(result!.first);
+    if (result?.isNotEmpty == true) {
+      String imageUrl = result!.first;
+      Uri? uri = Uri.tryParse(imageUrl);
+      http.Response? response;
+
+      try {
+        response = uri != null ? await http.head(uri) : null;
+      } catch (e) {
+        if (kDebugMode) print("ERROR: _typeLink: $e");
+      }
+
+      if (response?.statusCode == 200) {
+        _linkSubmitted(imageUrl);
+      } else {
+        MessengerService.instance.showSnackBar("Invalid image url", success: false);
+      }
+    }
   }
 
   void _linkSubmitted(String? value) {
