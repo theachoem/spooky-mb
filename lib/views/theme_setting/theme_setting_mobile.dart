@@ -205,52 +205,54 @@ class _ThemeSettingMobile extends StatelessWidget {
   }
 
   Widget buildSortTile(BuildContext context) {
-    return ListTile(
-      leading: const Icon(Icons.sort),
-      title: const Text("Sort"),
-      onTap: () async {
-        SortType? sortType;
-        sortType = await SortTypeStorage().readEnum() ?? SortType.oldToNew;
+    return Consumer<StoryListConfigurationProvider>(builder: (context, provider, child) {
+      return ListTile(
+        leading: const Icon(Icons.sort),
+        title: const Text("Sort"),
+        onTap: () async {
+          SortType? sortType;
+          sortType = await SortTypeStorage().readEnum() ?? SortType.oldToNew;
 
-        String sortTitle(SortType? type) {
-          switch (type) {
-            case SortType.oldToNew:
-              return "Old to New";
-            case SortType.newToOld:
-              return "New to Old";
-            case null:
-              return "null";
+          String sortTitle(SortType? type) {
+            switch (type) {
+              case SortType.oldToNew:
+                return "Old to New";
+              case SortType.newToOld:
+                return "New to Old";
+              case null:
+                return "null";
+            }
           }
-        }
 
-        SortType? sortTypeResult = await showConfirmationDialog(
-          context: context,
-          title: "Reorder Your Stories",
-          initialSelectedActionKey: sortType,
-          actions: [
-            AlertDialogAction(
-              key: SortType.newToOld,
-              label: sortTitle(SortType.newToOld),
-            ),
-            AlertDialogAction(
-              key: SortType.oldToNew,
-              label: sortTitle(SortType.oldToNew),
-            ),
-          ].map((e) {
-            return AlertDialogAction<SortType>(
-              key: e.key,
-              isDefaultAction: e.key == sortType,
-              label: e.label,
-            );
-          }).toList(),
-        );
+          SortType? sortTypeResult = await showConfirmationDialog(
+            context: context,
+            title: "Reorder Your Stories",
+            initialSelectedActionKey: sortType,
+            actions: [
+              AlertDialogAction(
+                key: SortType.newToOld,
+                label: sortTitle(SortType.newToOld),
+              ),
+              AlertDialogAction(
+                key: SortType.oldToNew,
+                label: sortTitle(SortType.oldToNew),
+              ),
+            ].map((e) {
+              return AlertDialogAction<SortType>(
+                key: e.key,
+                isDefaultAction: e.key == sortType,
+                label: e.label,
+              );
+            }).toList(),
+          );
 
-        if (sortTypeResult != null) {
-          sortType = sortTypeResult;
-          SortTypeStorage().writeEnum(sortType);
-        }
-      },
-    );
+          if (sortTypeResult != null) {
+            sortType = sortTypeResult;
+            provider.setSortType(sortType);
+          }
+        },
+      );
+    });
   }
 
   Widget buildLayoutTile(BuildContext context) {
