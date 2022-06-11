@@ -29,18 +29,22 @@ class GoogleAccountTile extends StatelessWidget {
           dxGetter: (dx) => MediaQuery.of(context).size.width,
           items: (_) {
             return [
-              SpPopMenuItem(
-                title: "Photo",
-                leadingIconData: Icons.photo,
-                onPressed: () async {
-                  final String? id = await SpookyDriveFolderStorageIdStorage().read();
-                  if (id != null) {
-                    AppHelper.openLinkDialog('https://drive.google.com/drive/folders/$id?usp=sharing');
-                  } else {
-                    MessengerService.instance.showSnackBar('No images found on "${AppConstant.driveFolderName}" Drive');
-                  }
-                },
-              ),
+              if (provider.driveFolderId != null)
+                SpPopMenuItem(
+                  title: "Photo",
+                  leadingIconData: Icons.photo,
+                  onPressed: () async {
+                    if (provider.driveFolderId != null) {
+                      AppHelper.openLinkDialog(
+                        'https://drive.google.com/drive/folders/${provider.driveFolderId}?usp=sharing',
+                      );
+                    } else {
+                      MessengerService.instance.showSnackBar(
+                        'No images found on "${AppConstant.driveFolderName}" Drive',
+                      );
+                    }
+                  },
+                ),
               SpPopMenuItem(
                 title: "Logout",
                 leadingIconData: Icons.logout,
@@ -49,7 +53,7 @@ class GoogleAccountTile extends StatelessWidget {
                   final result = await showOkCancelAlertDialog(
                     context: context,
                     title: "Are you sure?",
-                    message: "You can login back anytime.",
+                    message: "You can log back anytime.",
                     isDestructiveAction: true,
                   );
                   switch (result) {
