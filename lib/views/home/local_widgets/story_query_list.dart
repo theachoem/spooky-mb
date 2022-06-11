@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
@@ -54,7 +55,14 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   }
 
   Future<void> loadHash() async {
-    hash = await hashStorage.read();
+    try {
+      hash = await hashStorage.read();
+    } catch (e) {
+      hashStorage.remove();
+      if (kDebugMode) {
+        print("ERROR: loadHash $e");
+      }
+    }
   }
 
   Future<List<StoryDbModel>> _fetchStory() async {
