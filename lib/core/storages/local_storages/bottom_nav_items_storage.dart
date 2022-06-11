@@ -1,18 +1,18 @@
 import 'package:spooky/core/models/bottom_nav_item_list_model.dart';
 import 'package:spooky/core/models/bottom_nav_item_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/core/storages/base_storages/base_object_storage.dart';
+import 'package:spooky/core/storages/base_object_storages/object_storage.dart';
 
-class BottomNavItemStorage extends BaseObjectStorage<BottomNavItemListModel> {
+class BottomNavItemStorage extends ObjectStorage<BottomNavItemListModel> {
   List<SpRouter> defaultTabs = [SpRouter.home, SpRouter.setting];
 
   @override
-  BottomNavItemListModel deserialize(Map<String, dynamic> json) {
+  BottomNavItemListModel decode(Map<String, dynamic> json) {
     return BottomNavItemListModel.fromJson(json);
   }
 
   @override
-  Map<String, dynamic> serialize(BottomNavItemListModel object) {
+  Map<String, dynamic> encode(BottomNavItemListModel object) {
     return object.toJson();
   }
 

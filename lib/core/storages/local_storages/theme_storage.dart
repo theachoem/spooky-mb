@@ -1,21 +1,21 @@
 import 'package:spooky/core/models/theme_model.dart';
-import 'package:spooky/core/storages/base_storages/base_object_storage.dart';
+import 'package:spooky/core/storages/base_object_storages/object_storage.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 
-class ThemeStorage extends BaseObjectStorage<ThemeModel> {
+class ThemeStorage extends ObjectStorage<ThemeModel> {
   /// access theme without context. [not recommended]
   /// prefer context.read<ThemeProvider>.theme instead.
   static ThemeModel get theme => _theme!;
   static ThemeModel? _theme;
 
   @override
-  ThemeModel deserialize(Map<String, dynamic> json) {
+  ThemeModel decode(Map<String, dynamic> json) {
     ThemeModel object = ThemeModel.fromJson(json);
     return object;
   }
 
   @override
-  Map<String, dynamic> serialize(ThemeModel object) {
+  Map<String, dynamic> encode(ThemeModel object) {
     M3Color.setSchemes(object.colorSeed);
     _theme = object;
     return object.toJson();

@@ -1,7 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
-import 'package:spooky/core/storages/base_storages/secure_storage.dart';
+import 'package:spooky/core/storages/preference_storages/secure_storage.dart';
 
 class GoogleAuthHeadersStorage extends SecureStorage {
   Future<void> writeMap(Map<String, String> map) {
