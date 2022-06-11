@@ -15,8 +15,20 @@ class _UserMobile extends StatelessWidget {
           if (viewModel.connectedProviders.isNotEmpty)
             SpIconButton(
               icon: const Icon(Icons.logout),
-              onPressed: () {
-                viewModel.logout();
+              onPressed: () async {
+                OkCancelResult result = await showOkCancelAlertDialog(
+                  context: context,
+                  title: "Are you sure?",
+                  message: "You can log in back anytime.",
+                  isDestructiveAction: true,
+                );
+                switch (result) {
+                  case OkCancelResult.ok:
+                    viewModel.logout();
+                    break;
+                  case OkCancelResult.cancel:
+                    break;
+                }
               },
             )
         ],
