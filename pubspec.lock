@@ -548,7 +548,7 @@ packages:
     source: hosted
     version: "0.7.0"
   flutter_cache_manager:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flutter_cache_manager
       url: "https://pub.dartlang.org"
@@ -1189,6 +1189,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  overscroll_pop:
+    dependency: "direct main"
+    description:
+      name: overscroll_pop
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.9"
   package_config:
     dependency: transitive
     description:
@@ -1309,7 +1316,7 @@ packages:
     source: hosted
     version: "5.0.0"
   photo_view:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: photo_view
       url: "https://pub.dartlang.org"

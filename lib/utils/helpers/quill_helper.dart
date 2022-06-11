@@ -1,9 +1,15 @@
 // ignore_for_file: implementation_imports
 
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_quill/src/models/documents/attribute.dart' as attribute;
 import 'package:flutter_quill/src/models/documents/nodes/block.dart' as block;
 import 'package:flutter_quill/src/models/documents/nodes/node.dart' as node;
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_quill/src/widgets/embeds/image.dart';
+import 'dart:convert';
 
 class QuillHelper {
   static List<String> imagesFromJson(List document) {
@@ -64,5 +70,12 @@ class QuillHelper {
     // replace all image object to empty
     plainText = plainText.replaceAll("\uFFFC", "");
     return plainText.length > 200 ? "${plainText.substring(0, 200)}..." : plainText;
+  }
+
+  static ImageProvider? imageByUrl(String imageUrl) {
+    if (isImageBase64(imageUrl)) return MemoryImage(base64.decode(imageUrl));
+    if (imageUrl.startsWith('http')) return CachedNetworkImageProvider(imageUrl);
+    if (File(imageUrl).existsSync()) return FileImage(File(imageUrl));
+    return null;
   }
 }

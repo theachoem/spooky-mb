@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
+import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_embed_renderer.dart';
 
 class DetailEditor extends StatefulWidget {
   const DetailEditor({
@@ -89,7 +91,17 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
             top: ConfigConstant.margin2 + 8.0,
             bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
           ),
+          embedBuilder: (context, controller, node, readOnly) {
+            return QuillEmbedRenderer(
+              controller: controller,
+              node: node,
+              readOnly: readOnly,
+            );
+          },
           keyboardAppearance: M3Color.keyboardAppearance(context),
+          onLaunchUrl: (url) {
+            AppHelper.openLinkDialog(url);
+          },
         );
       },
     );
