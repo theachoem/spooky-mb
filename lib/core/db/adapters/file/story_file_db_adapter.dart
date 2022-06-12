@@ -61,6 +61,14 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
   }
 
   @override
+  Future<Map<String, dynamic>?> set({
+    Map<String, dynamic> body = const {},
+    Map<String, dynamic> params = const {},
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<Map<String, dynamic>?> create({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},

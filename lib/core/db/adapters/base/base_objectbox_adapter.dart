@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/objectbox.g.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 
 abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   BaseObjectBoxAdapter(String tableName) : super(tableName);
@@ -7,7 +10,9 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   Box<T>? _box;
 
   Future<Store> get store async {
-    _store ??= await openStore();
+    Directory directory = Directory(FileHelper.addDirectory("database/objectbox"));
+    if (!directory.existsSync()) directory.create(recursive: true);
+    _store ??= await openStore(directory: directory.path);
     return _store!;
   }
 
@@ -22,18 +27,6 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
 
   Map<String, dynamic> objectTransformer(T object);
   Future<T> objectConstructor(Map<String, dynamic> json);
-
-  @override
-  Future<Map<String, dynamic>?> create({
-    Map<String, dynamic> body = const {},
-    Map<String, dynamic> params = const {},
-  }) async {
-    int id = (await box).put(
-      await objectConstructor(body),
-      mode: PutMode.insert,
-    );
-    return fetchOne(id: id);
-  }
 
   @override
   Future<Map<String, dynamic>?> fetchOne({
@@ -55,6 +48,30 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   }) async {
     (await box).remove(id);
     return null;
+  }
+
+  @override
+  Future<Map<String, dynamic>?> set({
+    Map<String, dynamic> body = const {},
+    Map<String, dynamic> params = const {},
+  }) async {
+    int id = (await box).put(
+      await objectConstructor(body),
+      mode: PutMode.put,
+    );
+    return fetchOne(id: id);
+  }
+
+  @override
+  Future<Map<String, dynamic>?> create({
+    Map<String, dynamic> body = const {},
+    Map<String, dynamic> params = const {},
+  }) async {
+    int id = (await box).put(
+      await objectConstructor(body),
+      mode: PutMode.insert,
+    );
+    return fetchOne(id: id);
   }
 
   @override

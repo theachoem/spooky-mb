@@ -42,4 +42,12 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<Map<String, dynamic>?> set({
+    Map<String, dynamic> body = const {},
+    Map<String, dynamic> params = const {},
+  }) {
+    throw UnimplementedError();
+  }
 }

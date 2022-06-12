@@ -11,6 +11,11 @@ abstract class BaseDbAdapter {
     Map<String, dynamic>? params,
   });
 
+  Future<Map<String, dynamic>?> set({
+    Map<String, dynamic> body = const {},
+    Map<String, dynamic> params = const {},
+  });
+
   Future<Map<String, dynamic>?> create({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},

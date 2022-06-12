@@ -76,7 +76,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     }
 
     return {
-      "data": docs,
+      "data": docs.map((e) => e.toJson()).toList(),
       "meta": MetaModel().toJson(),
       "links": MetaModel().toJson(),
     };
