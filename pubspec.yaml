@@ -86,6 +86,10 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   photo_view: ^0.14.0
   overscroll_pop: ^0.0.9
+  objectbox: ^1.5.0
+  objectbox_flutter_libs: any
+  # for ObjectBox Sync
+  # objectbox_sync_flutter_libs
 
   # unused:
   # injectable: ^1.5.3
@@ -112,6 +116,7 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   injectable_generator: ^1.5.3
   json_serializable: ^6.2.0
+  objectbox_generator: any
 
 flutter_app_name:
   name: "Spooky"
