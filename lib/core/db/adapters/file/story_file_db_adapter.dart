@@ -1,6 +1,6 @@
-part of '../../databases/story_database.dart';
+part of 'package:spooky/core/db/databases/story_database_deprecated.dart';
 
-class _StoryFileDbAdapter extends BaseFileDbAdapter {
+class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExternalActions {
   _StoryFileDbAdapter(String tableName) : super(tableName);
 
   String dirPath({
@@ -209,6 +209,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     }
   }
 
+  @override
   Future<Set<int>?> fetchYears() async {
     Directory docsPath = Directory(dirPath(type: PathType.docs.name));
     if (await docsPath.exists()) {
@@ -230,7 +231,8 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     return null;
   }
 
-  int getDocsCount(int? year) {
+  @override
+  Future<int> getDocsCount(int? year) async {
     Directory docsPath = Directory(
       dirPath(type: year != null ? "${PathType.docs.name}/$year" : PathType.docs.name),
     );
