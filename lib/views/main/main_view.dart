@@ -3,7 +3,6 @@ library main_view;
 import 'dart:io';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/setting/base_route_setting.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
@@ -24,9 +23,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/views/main/main_view_model.dart';
 
-part 'main_mobile.dart';
-part 'main_tablet.dart';
-part 'main_desktop.dart';
+part 'main_view_adaptive.dart';
 
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
@@ -47,11 +44,7 @@ class MainView extends StatelessWidget {
                 return true;
               }
             },
-            child: ScreenTypeLayout(
-              mobile: _MainMobile(viewModel),
-              desktop: _MainDesktop(viewModel),
-              tablet: _MainTablet(viewModel),
-            ),
+            child: _MainViewAdpative(viewModel),
           );
         },
       ),

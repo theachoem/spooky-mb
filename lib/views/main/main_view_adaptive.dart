@@ -1,8 +1,8 @@
 part of main_view;
 
-class _MainMobile extends StatelessWidget {
+class _MainViewAdpative extends StatelessWidget {
   final MainViewModel viewModel;
-  const _MainMobile(this.viewModel);
+  const _MainViewAdpative(this.viewModel);
 
   @override
   Widget build(BuildContext context) {

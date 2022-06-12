@@ -113,7 +113,9 @@ class SpRouteConfig {
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
-            if (arguments is ManagePagesArgs) return ManagePagesView(content: arguments.content);
+            if (arguments is ManagePagesArgs) {
+              return ManagePagesView(content: arguments.content);
+            }
             return const NotFoundView();
           },
         );
@@ -127,7 +129,9 @@ class SpRouteConfig {
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
-            if (arguments is ContentReaderArgs) return ContentReaderView(content: arguments.content);
+            if (arguments is ContentReaderArgs) {
+              return ContentReaderView(content: arguments.content);
+            }
             return const NotFoundView();
           },
         );
@@ -202,7 +206,8 @@ class SpRouteConfig {
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is InitPickColorArgs) {
-              return InitPickColorView(showNextButton: arguments.showNextButton);
+              return InitPickColorView(
+                  showNextButton: arguments.showNextButton);
             } else {
               return const InitPickColorView(showNextButton: false);
             }

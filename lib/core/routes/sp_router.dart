@@ -1,5 +1,5 @@
 export 'sp_route_extension.dart';
-export 'router.gr.dart';
+export 'app_router.dart';
 
 enum SpRouter {
   home,
