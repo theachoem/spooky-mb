@@ -13,7 +13,7 @@ import 'package:spooky/views/font_manager/local_widgets/font_manager_search_dele
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'font_manager_view_model.dart';
@@ -30,7 +30,7 @@ class FontManagerView extends StatelessWidget {
     return ViewModelProvider<FontManagerViewModel>(
       create: (_) => FontManagerViewModel(),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _FontManagerMobile(viewModel),
           desktop: _FontManagerDesktop(viewModel),
           tablet: _FontManagerTablet(viewModel),

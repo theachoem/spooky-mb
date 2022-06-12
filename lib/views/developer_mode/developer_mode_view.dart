@@ -11,7 +11,7 @@ import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
@@ -29,7 +29,7 @@ class DeveloperModeView extends StatelessWidget {
     return ViewModelProvider<DeveloperModeViewModel>(
       create: (BuildContext context) => DeveloperModeViewModel(),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _DeveloperModeMobile(viewModel),
           desktop: _DeveloperModeDesktop(viewModel),
           tablet: _DeveloperModeTablet(viewModel),

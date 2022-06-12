@@ -8,7 +8,7 @@ import 'package:spooky/views/home/local_widgets/story_query_list.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
@@ -26,7 +26,7 @@ class ArchiveView extends StatelessWidget {
     return ViewModelProvider<ArchiveViewModel>(
       create: (BuildContext context) => ArchiveViewModel(),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _ArchiveMobile(viewModel),
           desktop: _ArchiveDesktop(viewModel),
           tablet: _ArchiveTablet(viewModel),

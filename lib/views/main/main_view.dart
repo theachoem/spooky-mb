@@ -18,7 +18,6 @@ import 'package:spooky/views/main/local_widgets/mini_player_scaffold.dart';
 import 'package:spooky/views/main/main_view_item.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
 import 'package:spooky/widgets/sp_show_hide_animator.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -48,8 +47,7 @@ class MainView extends StatelessWidget {
                 return true;
               }
             },
-            child: SpScreenTypeLayout(
-              listener: (info) => listener(viewModel, info),
+            child: ScreenTypeLayout(
               mobile: _MainMobile(viewModel),
               desktop: _MainDesktop(viewModel),
               tablet: _MainTablet(viewModel),
@@ -58,12 +56,6 @@ class MainView extends StatelessWidget {
         },
       ),
     );
-  }
-
-  void listener(MainViewModel viewModel, SizingInformation info) {
-    if (Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-      viewModel.setShouldShowBottomNav(!info.isSmall);
-    }
   }
 
   void onModelReady(BuildContext context, MainViewModel viewModel) {

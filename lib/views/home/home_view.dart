@@ -7,7 +7,7 @@ import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/views/home/local_widgets/home_app_bar.dart';
 import 'package:spooky/views/home/local_widgets/story_query_list.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_tab_view.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class HomeView extends StatelessWidget {
     return ViewModelProvider<HomeViewModel>(
       create: (BuildContext context) => HomeViewModel(onTabChange, onYearChange, onScrollControllerReady),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _HomeMobile(viewModel),
           desktop: _HomeDesktop(viewModel),
           tablet: _HomeTablet(viewModel),

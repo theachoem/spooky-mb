@@ -7,7 +7,7 @@ import 'package:spooky/views/lock/types/lock_flow_type.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_single_button_bottom_navigation.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'lock_view_model.dart';
@@ -29,7 +29,7 @@ class LockView extends StatelessWidget {
     return ViewModelProvider<LockViewModel>(
       create: (BuildContext context) => LockViewModel(flowType),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _LockMobile(viewModel),
           desktop: _LockDesktop(viewModel),
           tablet: _LockTablet(viewModel),

@@ -13,7 +13,7 @@ import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +42,7 @@ class ChangesHistoryView extends StatelessWidget {
     return ViewModelProvider<ChangesHistoryViewModel>(
       create: (BuildContext context) => ChangesHistoryViewModel(story, onRestorePressed, onDeletePressed),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _ChangesHistoryMobile(viewModel),
           desktop: _ChangesHistoryDesktop(viewModel),
           tablet: _ChangesHistoryTablet(viewModel),

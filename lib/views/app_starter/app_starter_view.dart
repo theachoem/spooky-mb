@@ -13,7 +13,7 @@ import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_color_picker.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_overlay_popup_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -34,7 +34,7 @@ class AppStarterView extends StatelessWidget {
     return ViewModelProvider<AppStarterViewModel>(
       create: (BuildContext context) => AppStarterViewModel(),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _AppStarterMobile(viewModel),
           desktop: _AppStarterDesktop(viewModel),
           tablet: _AppStarterTablet(viewModel),

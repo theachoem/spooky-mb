@@ -9,7 +9,7 @@ import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_expanded_app_bar.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_single_button_bottom_navigation.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -35,7 +35,7 @@ class InitPickColorView extends StatelessWidget {
     return ViewModelProvider<InitPickColorViewModel>(
       create: (BuildContext context) => InitPickColorViewModel(showNextButton),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _InitPickColorMobile(viewModel),
           desktop: _InitPickColorDesktop(viewModel),
           tablet: _InitPickColorTablet(viewModel),

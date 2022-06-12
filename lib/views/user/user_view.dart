@@ -15,7 +15,7 @@ import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'user_view_model.dart';
@@ -33,7 +33,7 @@ class UserView extends StatelessWidget {
       create: (context) => UserViewModel(),
       onModelReady: (context, viewModel) {},
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _UserMobile(viewModel),
           desktop: _UserDesktop(viewModel),
           tablet: _UserTablet(viewModel),

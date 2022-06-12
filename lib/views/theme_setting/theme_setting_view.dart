@@ -18,7 +18,7 @@ import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_overlay_popup_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -39,7 +39,7 @@ class ThemeSettingView extends StatelessWidget {
     return ViewModelProvider<ThemeSettingViewModel>(
       create: (BuildContext context) => ThemeSettingViewModel(),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _ThemeSettingMobile(viewModel),
           desktop: _ThemeSettingDesktop(viewModel),
           tablet: _ThemeSettingTablet(viewModel),

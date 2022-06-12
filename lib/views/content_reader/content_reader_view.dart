@@ -7,7 +7,7 @@ import 'package:spooky/views/content_reader/local_widgets/content_page_viewer.da
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
 import 'package:spooky/widgets/sp_page_view/sp_page_view.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'content_reader_view_model.dart';
@@ -29,7 +29,7 @@ class ContentReaderView extends StatelessWidget {
     return ViewModelProvider<ContentReaderViewModel>(
       create: (BuildContext context) => ContentReaderViewModel(content),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _ContentReaderMobile(viewModel),
           desktop: _ContentReaderDesktop(viewModel),
           tablet: _ContentReaderTablet(viewModel),

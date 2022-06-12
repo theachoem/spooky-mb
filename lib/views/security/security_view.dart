@@ -7,7 +7,7 @@ import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/lock_type.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:spooky/widgets/sp_screen_type_layout.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class SecurityView extends StatelessWidget {
     return ViewModelProvider<SecurityViewModel>(
       create: (BuildContext context) => SecurityViewModel(),
       builder: (context, viewModel, child) {
-        return SpScreenTypeLayout(
+        return ScreenTypeLayout(
           mobile: _SecurityMobile(viewModel),
           desktop: _SecurityDesktop(viewModel),
           tablet: _SecurityTablet(viewModel),
