@@ -13,7 +13,7 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
 
   @override
   Future<Map<String, dynamic>?> delete({
-    required String id,
+    required int id,
     Map<String, dynamic> params = const {},
   }) {
     throw UnimplementedError();
@@ -28,7 +28,7 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
 
   @override
   Future<Map<String, dynamic>?> fetchOne({
-    required String id,
+    required int id,
     Map<String, dynamic>? params,
   }) {
     throw UnimplementedError();
@@ -36,7 +36,15 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
 
   @override
   Future<Map<String, dynamic>?> update({
-    required String id,
+    required int id,
+    Map<String, dynamic> body = const {},
+    Map<String, dynamic>? params,
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Map<String, dynamic>?> set({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) {

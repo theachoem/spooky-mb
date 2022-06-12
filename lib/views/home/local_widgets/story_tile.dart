@@ -60,7 +60,7 @@ class StoryTileState extends State<StoryTile> {
 
   // reload current story only
   Future<void> reloadStory() async {
-    StoryDbModel? storyResult = await database.fetchOne(id: story.id.toString());
+    StoryDbModel? storyResult = await database.fetchOne(id: story.id);
     if (storyResult != null) {
       setState(() => story = storyResult);
     } else {
@@ -70,14 +70,14 @@ class StoryTileState extends State<StoryTile> {
 
   Future<void> toggleStarred() async {
     StoryDbModel copiedStory = story.copyWith(starred: !starred);
-    StoryDbModel? updatedStory = await database.update(id: copiedStory.id.toString(), body: copiedStory.toJson());
+    StoryDbModel? updatedStory = await database.update(id: copiedStory.id, body: copiedStory.toJson());
     if (updatedStory != null) await reloadStory();
   }
 
   Future<void> replaceContent(StoryContentDbModel content) async {
     StoryDbModel copiedStory = story.copyWith();
     copiedStory.addChange(content);
-    StoryDbModel? updatedStory = await database.update(id: copiedStory.id.toString(), body: copiedStory.toJson());
+    StoryDbModel? updatedStory = await database.update(id: copiedStory.id, body: copiedStory.toJson());
     if (updatedStory != null) await reloadStory();
   }
 

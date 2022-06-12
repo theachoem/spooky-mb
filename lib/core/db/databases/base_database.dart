@@ -42,13 +42,26 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }
 
   Future<T?> fetchOne({
-    required String id,
+    required int id,
     Map<String, dynamic>? params,
   }) {
     return beforeExec<T>(() async {
       Map<String, dynamic>? map = await adapter.fetchOne(id: id, params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
       T? object = await objectTransformer(map);
+      return object;
+    });
+  }
+
+  Future<T?> set({
+    Map<String, dynamic> body = const {},
+    Map<String, dynamic> params = const {},
+  }) async {
+    return beforeExec<T>(() async {
+      Map<String, dynamic>? map = await adapter.set(body: body, params: params);
+      if (map == null) throw ErrorMessage(errorMessage: "Response null");
+      T? object = await objectTransformer(map);
+      onCRUD(object);
       return object;
     });
   }
@@ -67,7 +80,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }
 
   Future<T?> update({
-    required String id,
+    required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
@@ -81,7 +94,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }
 
   Future<T?> delete({
-    required String id,
+    required int id,
     Map<String, dynamic> params = const {},
   }) async {
     return beforeExec<T>(() async {

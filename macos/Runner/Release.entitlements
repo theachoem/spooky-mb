@@ -4,5 +4,10 @@
 <dict>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<!-- CHANGE THIS TO DEV TEAM WHEN PURCHAED -->
+		<string>FGDTDLOBXDJ.demo</string>
+	</array>  
 </dict>
 </plist>

@@ -135,8 +135,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               });
             },
           ),
-        if (widget.viewModel.flowType == DetailViewFlowType.update &&
-            database.canArchive(widget.viewModel.currentStory))
+        if (widget.viewModel.flowType == DetailViewFlowType.update && widget.viewModel.currentStory.archivable)
           SpPopMenuItem(
             title: "Archive",
             leadingIconData: Icons.archive,

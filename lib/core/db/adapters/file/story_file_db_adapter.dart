@@ -1,6 +1,6 @@
-part of '../../databases/story_database.dart';
+part of 'package:spooky/core/db/databases/story_database_deprecated.dart';
 
-class _StoryFileDbAdapter extends BaseFileDbAdapter {
+class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExternalActions {
   _StoryFileDbAdapter(String tableName) : super(tableName);
 
   String dirPath({
@@ -61,6 +61,14 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
   }
 
   @override
+  Future<Map<String, dynamic>?> set({
+    Map<String, dynamic> body = const {},
+    Map<String, dynamic> params = const {},
+  }) {
+    throw UnimplementedError();
+  }
+
+  @override
   Future<Map<String, dynamic>?> create({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
@@ -77,12 +85,12 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     );
 
     file = await file.writeAsString(json);
-    return fetchOne(id: story.id.toString());
+    return fetchOne(id: story.id);
   }
 
   @override
   Future<Map<String, dynamic>?> delete({
-    required String id,
+    required int id,
     Map<String, dynamic> params = const {},
   }) async {
     String? type = params["type"];
@@ -122,7 +130,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
       for (FileSystemEntity item in entities) {
         if (item is File && item.absolute.path.endsWith(".json")) {
-          Map<String, dynamic>? json = await fetchOne(id: item.path, params: {"file": item});
+          Map<String, dynamic>? json = await fetchOne(id: 0, params: {"file": item});
           if (json != null) {
             dynamic id = basename(item.path).split(".")[0];
             json['id'] = int.tryParse(id) ?? json['id'];
@@ -143,7 +151,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
   @override
   Future<Map<String, dynamic>?> fetchOne({
-    required String id,
+    required int id,
     Map<String, dynamic>? params,
   }) async {
     File? file = params?['file'];
@@ -171,7 +179,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
   @override
   Future<Map<String, dynamic>?> update({
-    required String id,
+    required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
@@ -201,7 +209,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
       File? updatedFile = await move(fileToUpdate, file.path);
       return fetchOne(
-        id: story.id.toString(),
+        id: story.id,
         params: {'file': updatedFile},
       );
     } else {
@@ -209,6 +217,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     }
   }
 
+  @override
   Future<Set<int>?> fetchYears() async {
     Directory docsPath = Directory(dirPath(type: PathType.docs.name));
     if (await docsPath.exists()) {
@@ -230,7 +239,8 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     return null;
   }
 
-  int getDocsCount(int? year) {
+  @override
+  Future<int> getDocsCount(int? year) async {
     Directory docsPath = Directory(
       dirPath(type: year != null ? "${PathType.docs.name}/$year" : PathType.docs.name),
     );

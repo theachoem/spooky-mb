@@ -30,7 +30,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     StoryDbModel? result;
     if (validation == null) {
       StoryDbModel story = buildStory(object);
-      result = await database.create(body: story.toJson());
+      result = await database.set(body: story.toJson());
       return result != null ? _nextSuccess(result) : _nextError(result);
     } else {
       return _nextError(result, validation);
@@ -46,7 +46,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   Future<StoryDbModel?> _nextSuccess(StoryDbModel result) async {
     ResponseCodeType code = ResponseCodeType.success;
     String message = buildMessage(code);
-    StoryDbModel? story = await database.fetchOne(id: result.id.toString());
+    StoryDbModel? story = await database.fetchOne(id: result.id);
     onSaved(story: story, responseCode: code, message: message);
     return story;
   }

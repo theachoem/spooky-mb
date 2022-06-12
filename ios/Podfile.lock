@@ -143,7 +143,13 @@ PODS:
     - nanopb/encode (= 2.30908.0)
   - nanopb/decode (2.30908.0)
   - nanopb/encode (2.30908.0)
+  - ObjectBox (1.7.0)
+  - objectbox_flutter_libs (0.0.1):
+    - Flutter
+    - ObjectBox (= 1.7.0)
   - OrderedSet (5.0.0)
+  - overscroll_pop (0.0.1):
+    - Flutter
   - package_info_plus (0.4.5):
     - Flutter
   - path_provider_ios (0.0.1):
@@ -188,6 +194,8 @@ DEPENDENCIES:
   - just_audio (from `.symlinks/plugins/just_audio/ios`)
   - launch_review (from `.symlinks/plugins/launch_review/ios`)
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
+  - objectbox_flutter_libs (from `.symlinks/plugins/objectbox_flutter_libs/ios`)
+  - overscroll_pop (from `.symlinks/plugins/overscroll_pop/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
@@ -216,6 +224,7 @@ SPEC REPOS:
     - GTMAppAuth
     - GTMSessionFetcher
     - nanopb
+    - ObjectBox
     - OrderedSet
     - PromisesObjC
     - Toast
@@ -268,6 +277,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/launch_review/ios"
   local_auth_ios:
     :path: ".symlinks/plugins/local_auth_ios/ios"
+  objectbox_flutter_libs:
+    :path: ".symlinks/plugins/objectbox_flutter_libs/ios"
+  overscroll_pop:
+    :path: ".symlinks/plugins/overscroll_pop/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
   path_provider_ios:
@@ -331,7 +344,10 @@ SPEC CHECKSUMS:
   launch_review: 75d5a956ba8eaa493e9c9d4bf4c05e505e8d5ed0
   local_auth_ios: 0d333dde7780f669e66f19d2ff6005f3ea84008d
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
+  ObjectBox: 6410cda891ee71682ea1b0330a9544c52b2ba988
+  objectbox_flutter_libs: e414a78ffda0a6418a7b41359dda7b7cfc6cd8fe
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
+  overscroll_pop: 6b68c9c80ef299110adc20933cde8eeae716c235
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
