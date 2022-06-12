@@ -7,7 +7,7 @@ abstract class BaseDbAdapter {
   });
 
   Future<Map<String, dynamic>?> fetchOne({
-    required String id,
+    required int id,
     Map<String, dynamic>? params,
   });
 
@@ -17,13 +17,13 @@ abstract class BaseDbAdapter {
   });
 
   Future<Map<String, dynamic>?> update({
-    required String id,
+    required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   });
 
   Future<Map<String, dynamic>?> delete({
-    required String id,
+    required int id,
     Map<String, dynamic> params = const {},
   });
 }

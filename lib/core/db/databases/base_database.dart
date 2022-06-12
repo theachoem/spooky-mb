@@ -42,7 +42,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }
 
   Future<T?> fetchOne({
-    required String id,
+    required int id,
     Map<String, dynamic>? params,
   }) {
     return beforeExec<T>(() async {
@@ -67,7 +67,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }
 
   Future<T?> update({
-    required String id,
+    required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
@@ -81,7 +81,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }
 
   Future<T?> delete({
-    required String id,
+    required int id,
     Map<String, dynamic> params = const {},
   }) async {
     return beforeExec<T>(() async {

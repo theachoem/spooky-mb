@@ -46,7 +46,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   Future<StoryDbModel?> _nextSuccess(StoryDbModel result) async {
     ResponseCodeType code = ResponseCodeType.success;
     String message = buildMessage(code);
-    StoryDbModel? story = await database.fetchOne(id: result.id.toString());
+    StoryDbModel? story = await database.fetchOne(id: result.id);
     onSaved(story: story, responseCode: code, message: message);
     return story;
   }

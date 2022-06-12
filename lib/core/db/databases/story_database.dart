@@ -112,7 +112,7 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
 
   Future<StoryDbModel?> deleteDocument(StoryDbModel story) async {
     return delete(
-      id: story.id.toString(),
+      id: story.id,
       params: {
         "type": story.type.name,
         "month": story.month,
@@ -124,7 +124,7 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
 
   Future<StoryDbModel?> updatePathDate(StoryDbModel story, DateTime pathDate) async {
     StoryDbModel updatedStory = story.copyWith(year: pathDate.year, month: pathDate.month, day: pathDate.day);
-    StoryDbModel? result = await update(id: story.id.toString(), body: updatedStory.toJson());
+    StoryDbModel? result = await update(id: story.id, body: updatedStory.toJson());
     return result;
   }
 

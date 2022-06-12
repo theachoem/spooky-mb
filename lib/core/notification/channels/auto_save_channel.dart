@@ -40,7 +40,7 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
       }
     }
 
-    String? id = object?.id;
+    int? id = object?.id;
     if (id == null) return;
 
     StoryDbModel? story = await StoryDatabase().fetchOne(id: id);

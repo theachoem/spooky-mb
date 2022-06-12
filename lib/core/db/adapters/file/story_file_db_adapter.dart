@@ -77,12 +77,12 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
     );
 
     file = await file.writeAsString(json);
-    return fetchOne(id: story.id.toString());
+    return fetchOne(id: story.id);
   }
 
   @override
   Future<Map<String, dynamic>?> delete({
-    required String id,
+    required int id,
     Map<String, dynamic> params = const {},
   }) async {
     String? type = params["type"];
@@ -122,7 +122,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
       for (FileSystemEntity item in entities) {
         if (item is File && item.absolute.path.endsWith(".json")) {
-          Map<String, dynamic>? json = await fetchOne(id: item.path, params: {"file": item});
+          Map<String, dynamic>? json = await fetchOne(id: 0, params: {"file": item});
           if (json != null) {
             dynamic id = basename(item.path).split(".")[0];
             json['id'] = int.tryParse(id) ?? json['id'];
@@ -143,7 +143,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
   @override
   Future<Map<String, dynamic>?> fetchOne({
-    required String id,
+    required int id,
     Map<String, dynamic>? params,
   }) async {
     File? file = params?['file'];
@@ -171,7 +171,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
   @override
   Future<Map<String, dynamic>?> update({
-    required String id,
+    required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
@@ -201,7 +201,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter {
 
       File? updatedFile = await move(fileToUpdate, file.path);
       return fetchOne(
-        id: story.id.toString(),
+        id: story.id,
         params: {'file': updatedFile},
       );
     } else {
