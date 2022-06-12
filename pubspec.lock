@@ -529,7 +529,7 @@ packages:
     source: hosted
     version: "1.0.1"
   flat_buffers:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flat_buffers
       url: "https://pub.dartlang.org"

@@ -1,0 +1,87 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:2217846337191551186",
+      "lastPropertyId": "12:1774290527723560338",
+      "name": "StoryObjectBox",
+      "properties": [
+        {
+          "id": "1:2629227701020765726",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:8486270506906068977",
+          "name": "version",
+          "type": 6
+        },
+        {
+          "id": "3:1199921630310041680",
+          "name": "year",
+          "type": 6
+        },
+        {
+          "id": "4:1236168008218410742",
+          "name": "month",
+          "type": 6
+        },
+        {
+          "id": "5:4788746244381520009",
+          "name": "day",
+          "type": 6
+        },
+        {
+          "id": "6:3828618571950125078",
+          "name": "starred",
+          "type": 1
+        },
+        {
+          "id": "7:1096917001867929067",
+          "name": "feeling",
+          "type": 9
+        },
+        {
+          "id": "8:5912725222923693600",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "9:2617816703588571391",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "10:8305853190929944973",
+          "name": "movedToBinAt",
+          "type": 10
+        },
+        {
+          "id": "11:5105935544248212073",
+          "name": "changes",
+          "type": 30
+        },
+        {
+          "id": "12:1774290527723560338",
+          "name": "type",
+          "type": 9
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "1:2217846337191551186",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

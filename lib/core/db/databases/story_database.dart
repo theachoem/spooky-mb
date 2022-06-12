@@ -16,8 +16,11 @@ import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
+import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
+import 'package:spooky/objectbox.g.dart';
 
 part '../adapters/file/story_file_db_adapter.dart';
+part '../adapters/objectbox/story_objectbox_db_adapter.dart';
 
 StoryDbModel _constructStoryIsolate(Map<String, dynamic> json) {
   return StoryDbModel.fromJson(json);
@@ -25,7 +28,7 @@ StoryDbModel _constructStoryIsolate(Map<String, dynamic> json) {
 
 class StoryDatabase extends BaseDatabase<StoryDbModel> {
   @override
-  BaseDbAdapter get adapter => _StoryFileDbAdapter("story");
+  BaseDbAdapter get adapter => _StoryObjectBoxDbAdapter("story");
 
   @override
   Future<BaseDbListModel<StoryDbModel>?> itemsTransformer(Map<String, dynamic> json) async {
@@ -62,14 +65,6 @@ class StoryDatabase extends BaseDatabase<StoryDbModel> {
   int getDocsCount(int? year) {
     _StoryFileDbAdapter storyAdapter = adapter as _StoryFileDbAdapter;
     return storyAdapter.getDocsCount(year);
-  }
-
-  bool canArchive(StoryDbModel story) {
-    return story.type == PathType.docs;
-  }
-
-  bool canUnarchive(StoryDbModel story) {
-    return story.type == PathType.archives;
   }
 
   Future<StoryDbModel?> moveToTrash(StoryDbModel story) async {
