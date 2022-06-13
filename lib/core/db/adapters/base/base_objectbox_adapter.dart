@@ -12,7 +12,7 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   Future<Store> get store async {
     Directory directory = Directory(FileHelper.addDirectory("database/objectbox"));
     if (!directory.existsSync()) directory.create(recursive: true);
-    _store ??= await openStore(directory: directory.path, macosApplicationGroup: 'FGDTDLOBXDJ.demo');
+    _store ??= await openStore(directory: directory.path, macosApplicationGroup: '24KJ877SZ9');
     return _store!;
   }
 

@@ -6,8 +6,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<!-- CHANGE THIS TO DEV TEAM WHEN PURCHAED -->
-		<string>FGDTDLOBXDJ.demo</string>
+		<string>24KJ877SZ9</string>
 	</array>  
 </dict>
 </plist>
