@@ -72,9 +72,79 @@ class _DeveloperModeMobile extends StatelessWidget {
                 );
               },
             ),
+            // Container(
+            //   height: 300,
+            //   child: _DriveFiles(),
+            // )
           ],
         ).toList(),
       ),
     );
   }
 }
+
+// class _DriveFiles extends StatefulWidget {
+//   const _DriveFiles({Key? key}) : super(key: key);
+
+//   @override
+//   State<_DriveFiles> createState() => _DriveFilesState();
+// }
+
+// class _DriveFilesState extends State<_DriveFiles> {
+//   GDriveBackupStorage storage = GDriveBackupStorage();
+//   CloudFileListModel? fileList;
+//   Set<String> selectedIds = {};
+
+//   Future<void> load() async {
+//     fileList = await storage.execHandler(() => storage.list({"next_token": fileList?.nextToken}));
+//     setState(() {});
+//   }
+
+//   Future<void> delete() async {
+//     for (String id in selectedIds) {
+//       print("ID: $id");
+//       await storage.delete({'file_id': id});
+//     }
+//     load();
+//   }
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     load();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Stack(
+//       children: [
+//         ListView.builder(
+//           itemCount: fileList?.files.length ?? 0,
+//           itemBuilder: (context, index) {
+//             CloudFileModel file = fileList!.files[index];
+//             bool selected = selectedIds.contains(file.id);
+//             return CheckboxListTile(
+//               title: Text(file.fileName ?? ""),
+//               subtitle: Text(file.id),
+//               onChanged: (bool? value) {
+//                 if (selected) {
+//                   selectedIds.remove(file.id);
+//                 } else {
+//                   selectedIds.add(file.id);
+//                 }
+//                 setState(() {});
+//               },
+//               value: selected,
+//             );
+//           },
+//         ),
+//         SpIconButton(
+//           icon: Icon(Icons.delete),
+//           onPressed: () {
+//             delete();
+//           },
+//         )
+//       ],
+//     );
+//   }
+// }

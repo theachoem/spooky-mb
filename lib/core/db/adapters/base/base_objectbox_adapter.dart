@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/objectbox.g.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
@@ -10,9 +11,10 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   Box<T>? _box;
 
   Future<Store> get store async {
+    if (_store != null) return _store!;
     Directory directory = Directory(FileHelper.addDirectory("database/objectbox"));
     if (!directory.existsSync()) await directory.create(recursive: true);
-    _store ??= await openStore(directory: directory.path, macosApplicationGroup: '24KJ877SZ9');
+    _store = await openStore(directory: directory.path, macosApplicationGroup: '24KJ877SZ9');
     return _store!;
   }
 
@@ -55,11 +57,14 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
-    int id = (await box).put(
-      await objectConstructor(body),
-      mode: PutMode.put,
-    );
-    return fetchOne(id: id);
+    int id = (await box).put(await objectConstructor(body), mode: PutMode.put);
+    Map<String, dynamic>? object = await fetchOne(id: body['id']);
+    if (kDebugMode) {
+      print(
+        'OBJECT: $id - ${body['id']} - ${object?['id']}: ${body['year']}/${body['month']} - ${object?['year']}/${object?['month']}',
+      );
+    }
+    return object;
   }
 
   @override

@@ -137,13 +137,14 @@ class _RestoreMobile extends StatelessWidget {
             await viewModel.restore(context, viewModel.downloadedByYear);
             return StepState.complete;
           case StepState.complete:
-            if (viewModel.showSkipButton) {
-              Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
-              return StepState.complete;
-            } else {
-              Navigator.of(context).pop();
-              return StepState.complete;
-            }
+            // if (viewModel.showSkipButton) {
+            //   Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
+            //   return StepState.complete;
+            // } else {
+            //   Navigator.of(context).pop();
+            //   return StepState.complete;
+            // }
+            return StepState.indexed;
           case StepState.disabled:
           case StepState.error:
           case StepState.editing:
