@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/adapters/base/base_story_db_external_actions.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
@@ -13,9 +12,6 @@ StoryDbModel _constructStoryIsolate(Map<String, dynamic> json) {
 }
 
 abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
-  @override
-  BaseDbAdapter get adapter => throw UnimplementedError();
-
   BaseStoryDatabase() {
     assert(adapter is BaseStoryDbExternalActions);
   }

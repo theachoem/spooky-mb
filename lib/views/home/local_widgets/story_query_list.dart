@@ -29,7 +29,7 @@ class StoryQueryList extends StatefulWidget {
 }
 
 class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClientMixin, RouteAware {
-  final StoryDatabase database = StoryDatabase();
+  final StoryDatabase database = StoryDatabase.instance;
   final LastUpdateStoryListHashStorage hashStorage = LastUpdateStoryListHashStorage();
   List<StoryDbModel>? stories;
 

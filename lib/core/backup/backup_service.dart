@@ -35,7 +35,7 @@ class BackupService with BackupConstructor {
   Future<void> restore(BackupModel? backup) async {
     if (backup != null && backup.version != null) {
       for (StoryDbModel e in backup.stories) {
-        await StoryDatabase().create(body: e.toJson());
+        await StoryDatabase.instance.set(body: e.toJson());
       }
     }
   }

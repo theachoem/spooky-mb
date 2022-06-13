@@ -47,7 +47,7 @@ class StoryPadRestoreViewModel extends BaseViewModel {
 
   Future<void> restore() async {
     for (StoryDbModel e in stories ?? []) {
-      await StoryDatabase().create(body: e.toJson());
+      await StoryDatabase.instance.set(body: e.toJson());
     }
     MessengerService.instance.showSnackBar("Restored");
   }

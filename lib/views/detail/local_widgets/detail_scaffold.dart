@@ -114,7 +114,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
     );
   }
 
-  final StoryDatabase database = StoryDatabase();
+  final StoryDatabase database = StoryDatabase.instance;
 
   Widget buildMoreVertButton() {
     return SpPopupMenuButton(

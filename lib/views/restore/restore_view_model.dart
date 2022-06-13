@@ -113,7 +113,7 @@ class RestoreViewModel extends BaseViewModel {
     List<int>? years = [];
     int result = 0;
     files.forEach((key, value) {
-      int count = StoryDatabase().getDocsCount(value.year);
+      int count = StoryDatabase.instance.getDocsCount(value.year);
       if (count > 0) {
         result += count;
         years.add(value.year);

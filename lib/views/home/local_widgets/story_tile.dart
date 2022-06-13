@@ -48,7 +48,7 @@ class StoryTile extends StatefulWidget {
 }
 
 class StoryTileState extends State<StoryTile> {
-  final StoryDatabase database = StoryDatabase();
+  final StoryDatabase database = StoryDatabase.instance;
   late final ValueNotifier<bool> loadingNotifier;
 
   StoryDbModel? get previousStory => widget.previousStory;

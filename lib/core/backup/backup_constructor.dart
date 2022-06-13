@@ -2,7 +2,7 @@ part of backup;
 
 // construct backup file
 mixin BackupConstructor {
-  final StoryDatabase database = StoryDatabase();
+  final StoryDatabase database = StoryDatabase.instance;
 
   // 2020_1646123928000.json
   Future<List<BackupModel>> generateBackups() async {

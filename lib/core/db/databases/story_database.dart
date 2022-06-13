@@ -14,6 +14,9 @@ import 'package:spooky/objectbox.g.dart';
 part '../adapters/objectbox/story_objectbox_db_adapter.dart';
 
 class StoryDatabase extends BaseStoryDatabase {
+  static StoryDatabase get instance => StoryDatabase._();
+  StoryDatabase._();
+
   @override
   BaseDbAdapter get adapter => _StoryObjectBoxDbAdapter("story");
 

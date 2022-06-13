@@ -7,7 +7,7 @@ import 'package:spooky/core/types/response_code_type.dart';
 
 abstract class BaseStoryWriter<T extends BaseWriterObject> {
   BuildContext? get context => App.navigatorKey.currentContext;
-  final StoryDatabase database = StoryDatabase();
+  final StoryDatabase database = StoryDatabase.instance;
 
   StoryDbModel buildStory(T object);
   String buildMessage(ResponseCodeType responseCode);
