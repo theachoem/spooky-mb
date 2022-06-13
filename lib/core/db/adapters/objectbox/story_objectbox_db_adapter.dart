@@ -64,7 +64,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     if (month != null) conditions = conditions.and(StoryObjectBox_.month.equals(month));
     if (day != null) conditions = conditions.and(StoryObjectBox_.day.equals(day));
 
-    QueryBuilder<StoryObjectBox> queryBuilder = (await box).query(conditions);
+    QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions);
     Query<StoryObjectBox> query = queryBuilder.build();
     List<StoryObjectBox> objects = query.find();
 
@@ -84,15 +84,15 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
 
   @override
   Future<Set<int>?> fetchYears() async {
-    QueryBuilder<StoryObjectBox> queryBuilder = (await box).query();
+    QueryBuilder<StoryObjectBox> queryBuilder = box.query();
     return queryBuilder.build().find().map((e) => e.year).toSet();
   }
 
   @override
-  Future<int> getDocsCount(int? year) async {
+  int getDocsCount(int? year) {
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
     if (year != null) conditions = conditions.and(StoryObjectBox_.year.equals(year));
-    QueryBuilder<StoryObjectBox> queryBuilder = (await box).query(conditions);
+    QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions);
     Query<StoryObjectBox> query = queryBuilder.build();
     return query.count();
   }

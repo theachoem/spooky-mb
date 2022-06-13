@@ -46,8 +46,7 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
   int docsCount = 0;
   int getDocsCount(int? year) {
     BaseStoryDbExternalActions storyAdapter = adapter as BaseStoryDbExternalActions;
-    storyAdapter.getDocsCount(year).then((value) => docsCount = value);
-    return docsCount;
+    return storyAdapter.getDocsCount(year);
   }
 
   @override

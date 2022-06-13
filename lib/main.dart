@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
 import 'package:spooky/core/notification/notification_service.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
@@ -46,6 +47,7 @@ Future<void> _initialize() async {
   }
 
   await InAppPurchaseProvider.initialize();
+  await BaseObjectBoxAdapter.initilize();
 
   // license
   LicenseRegistry.addLicense(() async* {

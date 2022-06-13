@@ -240,7 +240,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
   }
 
   @override
-  Future<int> getDocsCount(int? year) async {
+  int getDocsCount(int? year) {
     Directory docsPath = Directory(
       dirPath(type: year != null ? "${PathType.docs.name}/$year" : PathType.docs.name),
     );
