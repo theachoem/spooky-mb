@@ -7,6 +7,7 @@ import 'package:spooky/core/db/models/base/links_model.dart';
 import 'package:spooky/core/db/models/base/meta_model.dart';
 
 abstract class BaseDatabase<T extends BaseDbModel> {
+  String get tableName;
   BaseDbAdapter get adapter;
   ErrorMessage? error;
   Object? errorObject;

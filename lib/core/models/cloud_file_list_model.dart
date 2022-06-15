@@ -8,4 +8,13 @@ class CloudFileListModel {
     required this.files,
     this.nextToken,
   });
+
+  CloudFileListModel copyWith({
+    List<CloudFileModel>? files,
+  }) {
+    return CloudFileListModel(
+      files: files ?? this.files,
+      nextToken: nextToken,
+    );
+  }
 }

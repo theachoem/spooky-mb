@@ -18,7 +18,7 @@ part '../adapters/file/story_file_db_adapter.dart';
 @Deprecated('Use StoryDatabase with ObjectBox adapter instead')
 class StoryDatabaseDeprecated extends BaseStoryDatabase {
   @override
-  BaseDbAdapter get adapter => _StoryFileDbAdapter("story");
+  BaseDbAdapter get adapter => _StoryFileDbAdapter(tableName);
 
   Future<StoryDbModel?> moveToTrash(StoryDbModel story) async {
     if (story.type == PathType.bins) return null;

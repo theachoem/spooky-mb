@@ -46,6 +46,10 @@ class _$AppRouter extends RootStackRouter {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const ArchiveView());
     },
+    BackupsDetail.name: (routeData) {
+      return AdaptivePage<dynamic>(
+          routeData: routeData, child: const BackupsDetailsView());
+    },
     BottomNavSetting.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const BottomNavSettingView());
@@ -63,6 +67,10 @@ class _$AppRouter extends RootStackRouter {
     CloudStorage.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const CloudStorageView());
+    },
+    CloudStorages.name: (routeData) {
+      return AdaptivePage<dynamic>(
+          routeData: routeData, child: const CloudStoragesView());
     },
     ContentReader.name: (routeData) {
       final args = routeData.argsAs<ContentReaderArgs>();
@@ -122,6 +130,13 @@ class _$AppRouter extends RootStackRouter {
           child:
               RestoreView(key: args.key, showSkipButton: args.showSkipButton));
     },
+    Restores.name: (routeData) {
+      final args = routeData.argsAs<RestoresArgs>();
+      return AdaptivePage<dynamic>(
+          routeData: routeData,
+          child:
+              RestoresView(key: args.key, showSkipButton: args.showSkipButton));
+    },
     Security.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const SecurityView());
@@ -156,12 +171,16 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(Main.name, path: '/', children: [
           RouteConfig(AddOns.name, path: 'add-ons', parent: Main.name),
           RouteConfig(Archive.name, path: 'archive', parent: Main.name),
+          RouteConfig(BackupsDetail.name,
+              path: 'backups-detail', parent: Main.name),
           RouteConfig(BottomNavSetting.name,
               path: 'bottom-nav-setting', parent: Main.name),
           RouteConfig(ChangesHistory.name,
               path: 'changes-history', parent: Main.name),
           RouteConfig(CloudStorage.name,
               path: 'cloud-storage', parent: Main.name),
+          RouteConfig(CloudStorages.name,
+              path: 'cloud-storages', parent: Main.name),
           RouteConfig(ContentReader.name,
               path: 'content-reader', parent: Main.name),
           RouteConfig(Detail.name, path: 'detail', parent: Main.name),
@@ -177,6 +196,7 @@ class _$AppRouter extends RootStackRouter {
               path: 'nickname-creator', parent: Main.name),
           RouteConfig(NotFound.name, path: 'not-found', parent: Main.name),
           RouteConfig(Restore.name, path: 'restore', parent: Main.name),
+          RouteConfig(Restores.name, path: 'restores', parent: Main.name),
           RouteConfig(Security.name, path: 'security', parent: Main.name),
           RouteConfig(Setting.name, path: 'setting', parent: Main.name),
           RouteConfig(SoundList.name, path: 'sounds', parent: Main.name),
@@ -270,6 +290,14 @@ class Archive extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [BackupsDetailsView]
+class BackupsDetail extends PageRouteInfo<void> {
+  const BackupsDetail() : super(BackupsDetail.name, path: 'backups-detail');
+
+  static const String name = 'BackupsDetail';
+}
+
+/// generated route for
 /// [BottomNavSettingView]
 class BottomNavSetting extends PageRouteInfo<void> {
   const BottomNavSetting()
@@ -324,6 +352,14 @@ class CloudStorage extends PageRouteInfo<void> {
   const CloudStorage() : super(CloudStorage.name, path: 'cloud-storage');
 
   static const String name = 'CloudStorage';
+}
+
+/// generated route for
+/// [CloudStoragesView]
+class CloudStorages extends PageRouteInfo<void> {
+  const CloudStorages() : super(CloudStorages.name, path: 'cloud-storages');
+
+  static const String name = 'CloudStorages';
 }
 
 /// generated route for
@@ -507,6 +543,30 @@ class RestoreArgs {
   @override
   String toString() {
     return 'RestoreArgs{key: $key, showSkipButton: $showSkipButton}';
+  }
+}
+
+/// generated route for
+/// [RestoresView]
+class Restores extends PageRouteInfo<RestoresArgs> {
+  Restores({Key? key, required bool showSkipButton})
+      : super(Restores.name,
+            path: 'restores',
+            args: RestoresArgs(key: key, showSkipButton: showSkipButton));
+
+  static const String name = 'Restores';
+}
+
+class RestoresArgs {
+  const RestoresArgs({this.key, required this.showSkipButton});
+
+  final Key? key;
+
+  final bool showSkipButton;
+
+  @override
+  String toString() {
+    return 'RestoresArgs{key: $key, showSkipButton: $showSkipButton}';
   }
 }
 
