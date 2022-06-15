@@ -6,9 +6,13 @@ extension SpRouterExtension on SpRouter {
   String get path {
     switch (this) {
       case SpRouter.restore:
-        return '/restore';
+      case SpRouter.restores:
+        return '/restores';
       case SpRouter.cloudStorage:
-        return '/cloud-storage';
+      case SpRouter.cloudStorages:
+        return '/cloud-storages';
+      case SpRouter.backupsDetails:
+        return '/backups-detail';
       case SpRouter.fontManager:
         return '/font-manager';
       case SpRouter.lock:
@@ -61,8 +65,12 @@ extension SpRouterExtension on SpRouter {
   String get title {
     switch (this) {
       case SpRouter.restore:
+      case SpRouter.restores:
         return 'Restore';
+      case SpRouter.backupsDetails:
+        return 'Backups Details';
       case SpRouter.cloudStorage:
+      case SpRouter.cloudStorages:
         return 'Cloud Storage';
       case SpRouter.fontManager:
         return 'Font Book';
@@ -116,9 +124,13 @@ extension SpRouterExtension on SpRouter {
   String get subtitle {
     switch (this) {
       case SpRouter.restore:
+      case SpRouter.restores:
         return 'Connect with a Cloud Storage to restore your stories.';
       case SpRouter.cloudStorage:
+      case SpRouter.cloudStorages:
         return 'Cloud Storage';
+      case SpRouter.backupsDetails:
+        return 'Backups Details';
       case SpRouter.fontManager:
         return 'Font Book';
       case SpRouter.lock:
@@ -183,7 +195,9 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.notFound:
       case SpRouter.bottomNavSetting:
       case SpRouter.restore:
+      case SpRouter.restores:
       case SpRouter.storyPadRestore:
+      case SpRouter.backupsDetails:
         return null;
       case SpRouter.home:
         return MainTabBarItem(
@@ -202,6 +216,7 @@ extension SpRouterExtension on SpRouter {
           optinal: false,
         );
       case SpRouter.cloudStorage:
+      case SpRouter.cloudStorages:
         return MainTabBarItem(
           navigatorKey: GlobalKey<NavigatorState>(),
           router: SpRouter.cloudStorage,

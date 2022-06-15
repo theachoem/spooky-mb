@@ -4,7 +4,10 @@ export 'app_router.dart';
 enum SpRouter {
   home,
   restore,
+  restores,
+  backupsDetails,
   cloudStorage,
+  cloudStorages,
   fontManager,
   lock,
   security,
