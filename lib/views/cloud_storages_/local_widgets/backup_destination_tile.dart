@@ -3,7 +3,7 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/backups/destinations/base_backup_destination.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/views/cloud_storages/cloud_storages_view_model.dart';
+import 'package:spooky/views/cloud_storages_/cloud_storages_view_model.dart';
 import 'package:spooky/widgets/sp_button.dart';
 
 class BackupDestinationTile extends StatelessWidget {
