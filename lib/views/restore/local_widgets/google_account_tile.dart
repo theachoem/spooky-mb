@@ -1,15 +1,15 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/backups/providers/google_cloud_provider.dart';
 import 'package:spooky/core/services/messenger_service.dart';
-import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 
+// TODO: setup this
 class GoogleAccountTile extends StatelessWidget {
   const GoogleAccountTile({
     Key? key,
@@ -22,7 +22,7 @@ class GoogleAccountTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<CloudServiceProvider>(
+    return Consumer<GoogleCloudProvider>(
       builder: (context, provider, child) {
         return SpPopupMenuButton(
           dxGetter: (dx) => MediaQuery.of(context).size.width,
@@ -49,20 +49,20 @@ class GoogleAccountTile extends StatelessWidget {
                 leadingIconData: Icons.logout,
                 titleStyle: TextStyle(color: M3Color.of(context).error),
                 onPressed: () async {
-                  final result = await showOkCancelAlertDialog(
-                    context: context,
-                    title: "Are you sure?",
-                    message: "You can log back anytime.",
-                    isDestructiveAction: true,
-                  );
-                  switch (result) {
-                    case OkCancelResult.ok:
-                      await provider.signOutOfGoogle();
-                      onSignOut();
-                      break;
-                    case OkCancelResult.cancel:
-                      break;
-                  }
+                  // final result = await showOkCancelAlertDialog(
+                  //   context: context,
+                  //   title: "Are you sure?",
+                  //   message: "You can log back anytime.",
+                  //   isDestructiveAction: true,
+                  // );
+                  // switch (result) {
+                  //   case OkCancelResult.ok:
+                  //     await provider.signOutOfGoogle();
+                  //     onSignOut();
+                  //     break;
+                  //   case OkCancelResult.cancel:
+                  //     break;
+                  // }
                 },
               ),
             ];
@@ -77,12 +77,12 @@ class GoogleAccountTile extends StatelessWidget {
                 firstChild: const Icon(Icons.login),
                 secondChild: const Icon(Icons.more_vert),
               ),
-              onTap: provider.googleUser != null
-                  ? callback
-                  : () async {
-                      await provider.signInWithGoogle();
-                      onSignIn();
-                    },
+              // onTap: provider.googleUser != null
+              //     ? callback
+              //     : () async {
+              //         await provider.signInWithGoogle();
+              //         onSignIn();
+              //       },
             );
           },
         );

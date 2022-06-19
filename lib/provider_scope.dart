@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/backups/providers/dropbox_cloud_provider.dart';
+import 'package:spooky/core/backups/providers/google_cloud_provider.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
-import 'package:spooky/providers/cloud_service_provider.dart';
 import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/in_app_update_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
@@ -40,8 +41,11 @@ class ProviderScope extends StatelessWidget {
         ListenableProvider<ThemeProvider>(
           create: (context) => ThemeProvider(),
         ),
-        ListenableProvider<CloudServiceProvider>(
-          create: (context) => CloudServiceProvider(),
+        ListenableProvider<GoogleCloudProvider>(
+          create: (context) => GoogleCloudProvider(),
+        ),
+        ListenableProvider<DropboxCloudProvider>(
+          create: (context) => DropboxCloudProvider(),
         ),
         ListenableProvider<TileMaxLineProvider>(
           create: (context) => TileMaxLineProvider(),

@@ -12,6 +12,7 @@ import 'package:spooky/views/backups_details/backups_details_view.dart';
 import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
 import 'package:spooky/views/cloud_storage/cloud_storage_view.dart';
+import 'package:spooky/views/cloud_storages/cloud_storages_view.dart';
 import 'package:spooky/views/content_reader/content_reader_view.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/developer_mode/developer_mode_view.dart';
@@ -25,6 +26,7 @@ import 'package:spooky/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/views/nickname_creator/nickname_creator_view.dart';
 import 'package:spooky/views/not_found/not_found_view.dart';
 import 'package:spooky/views/restore/restore_view.dart';
+import 'package:spooky/views/restores/restores_view.dart';
 import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/sound_list/sound_list_view.dart';
@@ -73,9 +75,9 @@ class SpRouteConfig {
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is RestoreArgs) {
-              return RestoreView(showSkipButton: arguments.showSkipButton);
+              return RestoresView(showSkipButton: arguments.showSkipButton);
             } else {
-              return const RestoreView(showSkipButton: false);
+              return const RestoresView(showSkipButton: false);
             }
           },
         );
@@ -95,7 +97,7 @@ class SpRouteConfig {
       case SpRouter.cloudStorages:
         return DefaultRouteSetting(
           fullscreenDialog: false,
-          route: (context) => const CloudStorageView(),
+          route: (context) => const CloudStoragesView(),
         );
       case SpRouter.fontManager:
         return DefaultRouteSetting(
