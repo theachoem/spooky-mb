@@ -16,12 +16,15 @@ class _CloudStoragesMobile extends StatelessWidget {
           SliverPadding(
             padding: ConfigConstant.layoutPadding,
             sliver: SliverList(
-              delegate: SliverChildListDelegate(viewModel.destinations.map((e) {
-                return CloudDestinationTile(
-                  destination: e,
-                  hasStory: viewModel.hasStory,
-                );
-              }).toList()),
+              delegate: SliverChildListDelegate([
+                ...viewModel.destinations.map((e) {
+                  return CloudDestinationTile(
+                    destination: e,
+                    hasStory: viewModel.hasStory,
+                  );
+                }).toList(),
+                const StoryPadBackupTile(),
+              ]),
             ),
           )
         ],

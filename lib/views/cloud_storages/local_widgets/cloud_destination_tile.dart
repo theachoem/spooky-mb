@@ -141,7 +141,9 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
           if (lastBackup != null && cloudFileId != null) ConfigConstant.sizedBoxW1,
           if (lastBackup != null && cloudFileId != null)
             SpButton(
-              label: "View detail",
+              label: "View",
+              backgroundColor: M3Color.of(context).secondary,
+              foregroundColor: M3Color.of(context).onSecondary,
               onTap: () {
                 Navigator.of(context).pushNamed(
                   SpRouter.backupsDetails.path,
@@ -203,8 +205,8 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
           foregroundColor = M3Color.of(context).onSecondary;
         } else if (synced) {
           label = "Synced";
-          backgroundColor = M3Color.of(context).primary.withOpacity(0.1);
-          foregroundColor = M3Color.of(context).primary;
+          backgroundColor = M3Color.of(context).readOnly.surface5;
+          foregroundColor = M3Color.of(context).onSurface;
         } else {
           label = "Backup now";
           backgroundColor = null;
