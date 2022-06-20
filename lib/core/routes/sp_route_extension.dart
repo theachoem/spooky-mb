@@ -128,7 +128,7 @@ extension SpRouterExtension on SpRouter {
         return 'Connect with a Cloud Storage to restore your stories.';
       case SpRouter.cloudStorage:
       case SpRouter.cloudStorages:
-        return 'Cloud Storage';
+        return 'Backup & Restore with cloud storages';
       case SpRouter.backupsDetails:
         return 'Backups Details';
       case SpRouter.fontManager:

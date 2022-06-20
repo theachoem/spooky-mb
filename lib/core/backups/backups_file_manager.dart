@@ -24,6 +24,13 @@ class BackupsFileManager extends BaseFileManager {
     return result;
   }
 
+  Future<void> clearSync({
+    required String cloudStorageId,
+  }) async {
+    File file = constructFile(cloudStorageId);
+    if (file.existsSync()) await file.delete();
+  }
+
   Future<void> clear() async {
     for (FileSystemEntity file in parent.listSync()) {
       if (file.existsSync()) file.delete();

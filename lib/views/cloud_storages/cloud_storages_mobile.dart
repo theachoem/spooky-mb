@@ -6,6 +6,26 @@ class _CloudStoragesMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      body: CustomScrollView(
+        slivers: [
+          const SpExpandedAppBar(
+            expandedHeight: 200,
+            actions: [],
+          ),
+          SliverPadding(
+            padding: ConfigConstant.layoutPadding,
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(viewModel.destinations.map((e) {
+                return CloudDestinationTile(
+                  destination: e,
+                  hasStory: viewModel.hasStory,
+                );
+              }).toList()),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

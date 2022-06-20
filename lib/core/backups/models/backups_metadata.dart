@@ -42,9 +42,9 @@ class BackupsMetadata {
 
   static BackupsMetadata? fromFileName(String fileName) {
     if (fileName.endsWith(".json")) fileName = fileName.replaceAll(".json", "");
-    List<String> value = fileName.split(splitBy);
+    List<String> value = fileName.trim().split(splitBy);
     if (value.isNotEmpty) {
-      String version = value[1];
+      String? version = value.length > 1 ? value[1] : null;
       switch (version) {
         case "1":
           try {
@@ -56,7 +56,7 @@ class BackupsMetadata {
               createdAt: createdAt,
               deviceModel: deviceModel,
               deviceId: deviceId,
-              version: version,
+              version: version!,
             );
           } catch (e) {
             if (kDebugMode) {
