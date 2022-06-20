@@ -70,10 +70,6 @@ class _$AppRouter extends RootStackRouter {
               onRestorePressed: args.onRestorePressed,
               onDeletePressed: args.onDeletePressed));
     },
-    CloudStorage.name: (routeData) {
-      return AdaptivePage<dynamic>(
-          routeData: routeData, child: const CloudStorageView());
-    },
     CloudStorages.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const CloudStoragesView());
@@ -129,20 +125,6 @@ class _$AppRouter extends RootStackRouter {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const NotFoundView());
     },
-    Restore.name: (routeData) {
-      final args = routeData.argsAs<RestoreArgs>();
-      return AdaptivePage<dynamic>(
-          routeData: routeData,
-          child:
-              RestoreView(key: args.key, showSkipButton: args.showSkipButton));
-    },
-    Restores.name: (routeData) {
-      final args = routeData.argsAs<RestoresArgs>();
-      return AdaptivePage<dynamic>(
-          routeData: routeData,
-          child:
-              RestoresView(key: args.key, showSkipButton: args.showSkipButton));
-    },
     Security.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const SecurityView());
@@ -183,8 +165,6 @@ class _$AppRouter extends RootStackRouter {
               path: 'bottom-nav-setting', parent: Main.name),
           RouteConfig(ChangesHistory.name,
               path: 'changes-history', parent: Main.name),
-          RouteConfig(CloudStorage.name,
-              path: 'cloud-storage', parent: Main.name),
           RouteConfig(CloudStorages.name,
               path: 'cloud-storages', parent: Main.name),
           RouteConfig(ContentReader.name,
@@ -201,8 +181,6 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig(NicknameCreator.name,
               path: 'nickname-creator', parent: Main.name),
           RouteConfig(NotFound.name, path: 'not-found', parent: Main.name),
-          RouteConfig(Restore.name, path: 'restore', parent: Main.name),
-          RouteConfig(Restores.name, path: 'restores', parent: Main.name),
           RouteConfig(Security.name, path: 'security', parent: Main.name),
           RouteConfig(Setting.name, path: 'setting', parent: Main.name),
           RouteConfig(SoundList.name, path: 'sounds', parent: Main.name),
@@ -385,14 +363,6 @@ class ChangesHistoryArgs {
 }
 
 /// generated route for
-/// [CloudStorageView]
-class CloudStorage extends PageRouteInfo<void> {
-  const CloudStorage() : super(CloudStorage.name, path: 'cloud-storage');
-
-  static const String name = 'CloudStorage';
-}
-
-/// generated route for
 /// [CloudStoragesView]
 class CloudStorages extends PageRouteInfo<void> {
   const CloudStorages() : super(CloudStorages.name, path: 'cloud-storages');
@@ -558,54 +528,6 @@ class NotFound extends PageRouteInfo<void> {
   const NotFound() : super(NotFound.name, path: 'not-found');
 
   static const String name = 'NotFound';
-}
-
-/// generated route for
-/// [RestoreView]
-class Restore extends PageRouteInfo<RestoreArgs> {
-  Restore({Key? key, required bool showSkipButton})
-      : super(Restore.name,
-            path: 'restore',
-            args: RestoreArgs(key: key, showSkipButton: showSkipButton));
-
-  static const String name = 'Restore';
-}
-
-class RestoreArgs {
-  const RestoreArgs({this.key, required this.showSkipButton});
-
-  final Key? key;
-
-  final bool showSkipButton;
-
-  @override
-  String toString() {
-    return 'RestoreArgs{key: $key, showSkipButton: $showSkipButton}';
-  }
-}
-
-/// generated route for
-/// [RestoresView]
-class Restores extends PageRouteInfo<RestoresArgs> {
-  Restores({Key? key, required bool showSkipButton})
-      : super(Restores.name,
-            path: 'restores',
-            args: RestoresArgs(key: key, showSkipButton: showSkipButton));
-
-  static const String name = 'Restores';
-}
-
-class RestoresArgs {
-  const RestoresArgs({this.key, required this.showSkipButton});
-
-  final Key? key;
-
-  final bool showSkipButton;
-
-  @override
-  String toString() {
-    return 'RestoresArgs{key: $key, showSkipButton: $showSkipButton}';
-  }
 }
 
 /// generated route for

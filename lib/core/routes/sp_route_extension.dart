@@ -5,10 +5,6 @@ import 'package:spooky/views/main/main_view_item.dart';
 extension SpRouterExtension on SpRouter {
   String get path {
     switch (this) {
-      case SpRouter.restore:
-      case SpRouter.restores:
-        return '/restores';
-      case SpRouter.cloudStorage:
       case SpRouter.cloudStorages:
         return '/cloud-storages';
       case SpRouter.backupsDetails:
@@ -64,12 +60,8 @@ extension SpRouterExtension on SpRouter {
 
   String get title {
     switch (this) {
-      case SpRouter.restore:
-      case SpRouter.restores:
-        return 'Restore';
       case SpRouter.backupsDetails:
         return 'Backups';
-      case SpRouter.cloudStorage:
       case SpRouter.cloudStorages:
         return 'Cloud Storage';
       case SpRouter.fontManager:
@@ -123,10 +115,6 @@ extension SpRouterExtension on SpRouter {
 
   String get subtitle {
     switch (this) {
-      case SpRouter.restore:
-      case SpRouter.restores:
-        return 'Connect with a Cloud Storage to restore your stories.';
-      case SpRouter.cloudStorage:
       case SpRouter.cloudStorages:
         return 'Backup & Restore with cloud storages';
       case SpRouter.backupsDetails:
@@ -194,8 +182,6 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.developerMode:
       case SpRouter.notFound:
       case SpRouter.bottomNavSetting:
-      case SpRouter.restore:
-      case SpRouter.restores:
       case SpRouter.storyPadRestore:
       case SpRouter.backupsDetails:
         return null;
@@ -215,11 +201,10 @@ extension SpRouterExtension on SpRouter {
           activeIcon: Icons.settings,
           optinal: false,
         );
-      case SpRouter.cloudStorage:
       case SpRouter.cloudStorages:
         return MainTabBarItem(
           navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.cloudStorage,
+          router: SpRouter.cloudStorages,
           inactiveIcon: Icons.cloud_outlined,
           activeIcon: Icons.cloud,
         );

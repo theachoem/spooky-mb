@@ -24,7 +24,6 @@ import 'package:spooky/views/main/main_view.dart';
 import 'package:spooky/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/views/nickname_creator/nickname_creator_view.dart';
 import 'package:spooky/views/not_found/not_found_view.dart';
-import 'package:spooky/views/restores/restores_view.dart';
 import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/sound_list/sound_list_view.dart';
@@ -65,20 +64,6 @@ class SpRouteConfig {
 
   BaseRouteSetting buildRoute(SpRouter router) {
     switch (router) {
-      case SpRouter.restore:
-      case SpRouter.restores:
-        return AnimatedRouteSetting(
-          fullscreenDialog: false,
-          fillColor: M3Color.of(context).background,
-          route: (context) {
-            Object? arguments = settings?.arguments;
-            if (arguments is RestoreArgs) {
-              return RestoresView(showSkipButton: arguments.showSkipButton);
-            } else {
-              return const RestoresView(showSkipButton: false);
-            }
-          },
-        );
       case SpRouter.backupsDetails:
         return DefaultRouteSetting(
           fullscreenDialog: true,
@@ -95,7 +80,6 @@ class SpRouteConfig {
             }
           },
         );
-      case SpRouter.cloudStorage:
       case SpRouter.cloudStorages:
         return DefaultRouteSetting(
           fullscreenDialog: false,

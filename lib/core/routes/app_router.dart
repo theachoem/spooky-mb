@@ -13,7 +13,6 @@ import 'package:spooky/views/archive/archive_view.dart';
 import 'package:spooky/views/backups_details/backups_details_view.dart';
 import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
-import 'package:spooky/views/cloud_storage/cloud_storage_view.dart';
 import 'package:spooky/views/cloud_storages/cloud_storages_view.dart';
 import 'package:spooky/views/content_reader/content_reader_view.dart';
 import 'package:spooky/views/detail/detail_view.dart';
@@ -28,8 +27,6 @@ import 'package:spooky/views/main/main_view.dart';
 import 'package:spooky/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/views/nickname_creator/nickname_creator_view.dart';
 import 'package:spooky/views/not_found/not_found_view.dart';
-import 'package:spooky/views/restore/restore_view.dart';
-import 'package:spooky/views/restores/restores_view.dart';
 import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/sound_list/sound_list_view.dart';
@@ -92,11 +89,6 @@ part 'app_router.gr.dart';
           name: 'ChangesHistory',
         ),
         AutoRoute(
-          path: 'cloud-storage',
-          page: CloudStorageView,
-          name: 'CloudStorage',
-        ),
-        AutoRoute(
           path: 'cloud-storages',
           page: CloudStoragesView,
           name: 'CloudStorages',
@@ -146,16 +138,6 @@ part 'app_router.gr.dart';
           path: 'not-found',
           page: NotFoundView,
           name: 'NotFound',
-        ),
-        AutoRoute(
-          path: 'restore',
-          page: RestoreView,
-          name: 'Restore',
-        ),
-        AutoRoute(
-          path: 'restores',
-          page: RestoresView,
-          name: 'Restores',
         ),
         AutoRoute(
           path: 'security',

@@ -47,9 +47,9 @@ class _SettingMobile extends StatelessWidget {
               tiles: [
                 ListTile(
                   leading: const Icon(Icons.cloud),
-                  title: Text(SpRouter.cloudStorage.title),
+                  title: Text(SpRouter.cloudStorages.title),
                   onTap: () {
-                    Navigator.of(context).pushNamed(SpRouter.cloudStorage.path);
+                    Navigator.of(context).pushNamed(SpRouter.cloudStorages.path);
                   },
                 ),
                 // ListTile(

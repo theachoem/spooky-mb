@@ -13,12 +13,13 @@ class _InitPickColorMobile extends StatelessWidget {
         buttonLabel: "Next",
         show: viewModel.showNextButton,
         onTap: () {
-          Navigator.of(context).pushNamed(
-            SpRouter.restore.path,
-            arguments: const RestoreArgs(
-              showSkipButton: true,
-            ),
-          );
+          // Navigator.of(context).pushNamed(
+          //   SpRouter.restore.path,
+          //   arguments: const RestoreArgs(
+          //     showSkipButton: true,
+          //   ),
+          // );
+          Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
         },
       ),
       body: CustomScrollView(
