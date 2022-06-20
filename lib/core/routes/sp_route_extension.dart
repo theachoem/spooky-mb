@@ -68,7 +68,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.restores:
         return 'Restore';
       case SpRouter.backupsDetails:
-        return 'Backups Details';
+        return 'Backups';
       case SpRouter.cloudStorage:
       case SpRouter.cloudStorages:
         return 'Cloud Storage';

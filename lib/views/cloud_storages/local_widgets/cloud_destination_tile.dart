@@ -126,6 +126,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
     ValueNotifier<bool> doingBackupNotifier,
     DateTime? lastBackup,
   ) {
+    String? cloudFileId = provider.lastMetaData?.cloudFile.id;
     return Wrap(
       children: [
         if (!isSignedIn)
@@ -137,8 +138,8 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
           )
         else ...[
           buildBackupButton(doingBackupNotifier, provider),
-          if (lastBackup != null) ConfigConstant.sizedBoxW1,
-          if (lastBackup != null)
+          if (lastBackup != null && cloudFileId != null) ConfigConstant.sizedBoxW1,
+          if (lastBackup != null && cloudFileId != null)
             SpButton(
               label: "View detail",
               onTap: () {
@@ -146,6 +147,8 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
                   SpRouter.backupsDetails.path,
                   arguments: BackupsDetailArgs(
                     destination: provider.destination,
+                    cloudFiles: provider.destination.metaDatasFromCloudFiles(provider.fileList),
+                    initialCloudFile: provider.lastMetaData!.cloudFile,
                   ),
                 );
               },

@@ -40,6 +40,8 @@ class GDriveBackupDestination extends BaseBackupDestination<GoogleCloudProvider>
   Future<CloudFileListModel?> fetchAll({
     Map<String, dynamic> params = const {},
   }) async {
+    cloudFiles = null;
+
     CloudFileListModel? list = await cloudStorage.execHandler(() {
       return cloudStorage.list({"next_token": params['next_token']});
     });
@@ -50,7 +52,8 @@ class GDriveBackupDestination extends BaseBackupDestination<GoogleCloudProvider>
         // }).toList()
         ;
 
-    return list?.copyWith(files: files);
+    cloudFiles = list?.copyWith(files: files);
+    return cloudFiles;
   }
 
   @override

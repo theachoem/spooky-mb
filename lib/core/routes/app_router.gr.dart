@@ -50,8 +50,11 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<BackupsDetailArgs>();
       return AdaptivePage<dynamic>(
           routeData: routeData,
-          child:
-              BackupsDetailsView(key: args.key, destination: args.destination));
+          child: BackupsDetailsView(
+              key: args.key,
+              destination: args.destination,
+              cloudFiles: args.cloudFiles,
+              initialCloudFile: args.initialCloudFile));
     },
     BottomNavSetting.name: (routeData) {
       return AdaptivePage<dynamic>(
@@ -296,24 +299,39 @@ class Archive extends PageRouteInfo<void> {
 /// [BackupsDetailsView]
 class BackupsDetail extends PageRouteInfo<BackupsDetailArgs> {
   BackupsDetail(
-      {Key? key, required BaseBackupDestination<BaseCloudProvider> destination})
+      {Key? key,
+      required BaseBackupDestination<BaseCloudProvider> destination,
+      required List<CloudFileTuple> cloudFiles,
+      required CloudFileModel initialCloudFile})
       : super(BackupsDetail.name,
             path: 'backups-detail',
-            args: BackupsDetailArgs(key: key, destination: destination));
+            args: BackupsDetailArgs(
+                key: key,
+                destination: destination,
+                cloudFiles: cloudFiles,
+                initialCloudFile: initialCloudFile));
 
   static const String name = 'BackupsDetail';
 }
 
 class BackupsDetailArgs {
-  const BackupsDetailArgs({this.key, required this.destination});
+  const BackupsDetailArgs(
+      {this.key,
+      required this.destination,
+      required this.cloudFiles,
+      required this.initialCloudFile});
 
   final Key? key;
 
   final BaseBackupDestination<BaseCloudProvider> destination;
 
+  final List<CloudFileTuple> cloudFiles;
+
+  final CloudFileModel initialCloudFile;
+
   @override
   String toString() {
-    return 'BackupsDetailArgs{key: $key, destination: $destination}';
+    return 'BackupsDetailArgs{key: $key, destination: $destination, cloudFiles: $cloudFiles, initialCloudFile: $initialCloudFile}';
   }
 }
 

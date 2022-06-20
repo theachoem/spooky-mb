@@ -81,11 +81,15 @@ class SpRouteConfig {
         );
       case SpRouter.backupsDetails:
         return DefaultRouteSetting(
-          fullscreenDialog: false,
+          fullscreenDialog: true,
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is BackupsDetailArgs) {
-              return BackupsDetailsView(destination: arguments.destination);
+              return BackupsDetailsView(
+                destination: arguments.destination,
+                initialCloudFile: arguments.initialCloudFile,
+                cloudFiles: arguments.cloudFiles,
+              );
             } else {
               return const NotFoundView();
             }

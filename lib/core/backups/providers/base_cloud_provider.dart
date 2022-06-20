@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/backups/backups_file_manager.dart';
 import 'package:spooky/core/backups/destinations/base_backup_destination.dart';
+import 'package:spooky/core/backups/destinations/cloud_file_tuple.dart';
 import 'package:spooky/core/backups/models/backups_metadata.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';
-import 'package:spooky/core/models/cloud_file_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 
 abstract class BaseCloudProvider extends BaseViewModel {
@@ -16,9 +16,12 @@ abstract class BaseCloudProvider extends BaseViewModel {
   String? get username;
   String get cloudName;
   bool get isSignedIn;
-  BackupsMetadata? lastMetaData;
+  CloudFileTuple? lastMetaData;
   BackupsMetadata? lastLocalMetaData;
-  DateTime? get lastBackup => lastMetaData?.createdAt ?? lastLocalMetaData?.createdAt;
+  DateTime? get lastBackup => lastMetaData?.metadata.createdAt ?? lastLocalMetaData?.createdAt;
+
+  // set on fetch all
+  CloudFileListModel? fileList;
 
   // one for syncing icon & other for button
   late final ValueNotifier<bool> loadingBackupNotifier;
@@ -63,7 +66,7 @@ abstract class BaseCloudProvider extends BaseViewModel {
     if (lastLocalMetaData == null) return;
 
     bool sameLastMetaData =
-        lastLocalMetaData?.createdAt.millisecondsSinceEpoch == lastMetaData?.createdAt.millisecondsSinceEpoch;
+        lastLocalMetaData?.createdAt.millisecondsSinceEpoch == lastMetaData?.metadata.createdAt.millisecondsSinceEpoch;
 
     if (!sameLastMetaData || lastMetaData == null) {
       await fileManager.clearSync(cloudStorageId: destination.cloudId);
@@ -98,23 +101,8 @@ abstract class BaseCloudProvider extends BaseViewModel {
     await loadAuthentication();
 
     if (isSignedIn) {
-      CloudFileListModel? fileList = await destination.fetchAll();
-      List<CloudFileModel> files = fileList?.files ?? [];
-
-      BackupsMetadata? lastMetaData;
-
-      for (CloudFileModel file in files) {
-        String? fileName = file.fileName;
-        BackupsMetadata? metaData = BackupsMetadata.fromFileName(fileName ?? "");
-        lastMetaData ??= metaData;
-
-        if (metaData != null) {
-          bool lastest = lastMetaData?.createdAt.isBefore(metaData.createdAt) == true;
-          if (lastest) lastMetaData = metaData;
-        }
-      }
-
-      this.lastMetaData = lastMetaData;
+      fileList = await destination.fetchAll();
+      lastMetaData = destination.lastSyncFromFile(fileList);
     }
 
     setLoading(0, false);
