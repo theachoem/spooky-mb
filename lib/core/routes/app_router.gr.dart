@@ -47,8 +47,11 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData, child: const ArchiveView());
     },
     BackupsDetail.name: (routeData) {
+      final args = routeData.argsAs<BackupsDetailArgs>();
       return AdaptivePage<dynamic>(
-          routeData: routeData, child: const BackupsDetailsView());
+          routeData: routeData,
+          child:
+              BackupsDetailsView(key: args.key, destination: args.destination));
     },
     BottomNavSetting.name: (routeData) {
       return AdaptivePage<dynamic>(
@@ -291,10 +294,27 @@ class Archive extends PageRouteInfo<void> {
 
 /// generated route for
 /// [BackupsDetailsView]
-class BackupsDetail extends PageRouteInfo<void> {
-  const BackupsDetail() : super(BackupsDetail.name, path: 'backups-detail');
+class BackupsDetail extends PageRouteInfo<BackupsDetailArgs> {
+  BackupsDetail(
+      {Key? key, required BaseBackupDestination<BaseCloudProvider> destination})
+      : super(BackupsDetail.name,
+            path: 'backups-detail',
+            args: BackupsDetailArgs(key: key, destination: destination));
 
   static const String name = 'BackupsDetail';
+}
+
+class BackupsDetailArgs {
+  const BackupsDetailArgs({this.key, required this.destination});
+
+  final Key? key;
+
+  final BaseBackupDestination<BaseCloudProvider> destination;
+
+  @override
+  String toString() {
+    return 'BackupsDetailArgs{key: $key, destination: $destination}';
+  }
 }
 
 /// generated route for

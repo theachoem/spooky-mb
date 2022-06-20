@@ -5,6 +5,7 @@ import 'package:simple_animations/simple_animations.dart';
 import 'package:spooky/core/backups/backups_service.dart';
 import 'package:spooky/core/backups/destinations/base_backup_destination.dart';
 import 'package:spooky/core/backups/providers/base_cloud_provider.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
@@ -140,7 +141,14 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
           if (lastBackup != null)
             SpButton(
               label: "View detail",
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).pushNamed(
+                  SpRouter.backupsDetails.path,
+                  arguments: BackupsDetailArgs(
+                    destination: provider.destination,
+                  ),
+                );
+              },
             ),
         ]
       ],

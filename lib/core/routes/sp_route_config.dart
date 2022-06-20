@@ -84,8 +84,8 @@ class SpRouteConfig {
           fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
-            if (arguments is RestoreArgs) {
-              return const BackupsDetailsView();
+            if (arguments is BackupsDetailArgs) {
+              return BackupsDetailsView(destination: arguments.destination);
             } else {
               return const NotFoundView();
             }
