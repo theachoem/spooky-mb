@@ -8,17 +8,25 @@ import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
+import 'package:spooky/main.dart';
 import './base_story_database.dart';
 import 'package:spooky/objectbox.g.dart';
 
 part '../adapters/objectbox/story_objectbox_db_adapter.dart';
+part '../adapters/objectbox/story_test_db_adapter.dart';
 
 class StoryDatabase extends BaseStoryDatabase {
   static StoryDatabase get instance => StoryDatabase._();
   StoryDatabase._();
 
   @override
-  BaseDbAdapter get adapter => _StoryObjectBoxDbAdapter("story");
+  BaseDbAdapter get adapter {
+    if (spFlutterTest) {
+      return _StoryTestDbAdapter(tableName);
+    } else {
+      return _StoryObjectBoxDbAdapter(tableName);
+    }
+  }
 
   Future<StoryDbModel?> moveToTrash(StoryDbModel story) async {
     if (story.type == PathType.bins) return null;

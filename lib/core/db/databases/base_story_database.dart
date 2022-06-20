@@ -1,9 +1,9 @@
 import 'package:flutter/foundation.dart';
+import 'package:spooky/core/backups/backups_file_manager.dart';
 import 'package:spooky/core/db/adapters/base/base_story_db_external_actions.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
-import 'package:spooky/core/file_manager/managers/backup_file_manager.dart';
 import 'package:spooky/core/storages/local_storages/last_update_story_list_hash_storage.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 
@@ -12,6 +12,9 @@ StoryDbModel _constructStoryIsolate(Map<String, dynamic> json) {
 }
 
 abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
+  @override
+  String get tableName => "stories";
+
   BaseStoryDatabase() {
     assert(adapter is BaseStoryDbExternalActions);
   }
@@ -33,7 +36,7 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
   @override
   Future<void> onCRUD(StoryDbModel? object) async {
     if (object?.year == null) return;
-    BackupFileManager().unsynced(object!.year);
+    BackupsFileManager().clear();
     LastUpdateStoryListHashStorage().setHash(DateTime.now());
   }
 
@@ -42,8 +45,6 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
     return storyAdapter.fetchYears();
   }
 
-  // TODO: make sure this work
-  int docsCount = 0;
   int getDocsCount(int? year) {
     BaseStoryDbExternalActions storyAdapter = adapter as BaseStoryDbExternalActions;
     return storyAdapter.getDocsCount(year);

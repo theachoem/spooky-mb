@@ -354,12 +354,12 @@ packages:
     source: hosted
     version: "0.4.0"
   device_info_plus:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: device_info_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.3"
+    version: "3.2.4"
   device_info_plus_linux:
     dependency: transitive
     description:

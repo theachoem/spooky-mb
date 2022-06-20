@@ -8,9 +8,10 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
 import 'package:spooky/views/archive/archive_view.dart';
+import 'package:spooky/views/backups_details/backups_details_view.dart';
 import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
-import 'package:spooky/views/cloud_storage/cloud_storage_view.dart';
+import 'package:spooky/views/cloud_storages/cloud_storages_view.dart';
 import 'package:spooky/views/content_reader/content_reader_view.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/developer_mode/developer_mode_view.dart';
@@ -23,7 +24,6 @@ import 'package:spooky/views/main/main_view.dart';
 import 'package:spooky/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/views/nickname_creator/nickname_creator_view.dart';
 import 'package:spooky/views/not_found/not_found_view.dart';
-import 'package:spooky/views/restore/restore_view.dart';
 import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/sound_list/sound_list_view.dart';
@@ -64,23 +64,26 @@ class SpRouteConfig {
 
   BaseRouteSetting buildRoute(SpRouter router) {
     switch (router) {
-      case SpRouter.restore:
-        return AnimatedRouteSetting(
-          fullscreenDialog: false,
-          fillColor: M3Color.of(context).background,
+      case SpRouter.backupsDetails:
+        return DefaultRouteSetting(
+          fullscreenDialog: true,
           route: (context) {
             Object? arguments = settings?.arguments;
-            if (arguments is RestoreArgs) {
-              return RestoreView(showSkipButton: arguments.showSkipButton);
+            if (arguments is BackupsDetailArgs) {
+              return BackupsDetailsView(
+                destination: arguments.destination,
+                initialCloudFile: arguments.initialCloudFile,
+                cloudFiles: arguments.cloudFiles,
+              );
             } else {
-              return const RestoreView(showSkipButton: false);
+              return const NotFoundView();
             }
           },
         );
-      case SpRouter.cloudStorage:
+      case SpRouter.cloudStorages:
         return DefaultRouteSetting(
           fullscreenDialog: false,
-          route: (context) => const CloudStorageView(),
+          route: (context) => const CloudStoragesView(),
         );
       case SpRouter.fontManager:
         return DefaultRouteSetting(
@@ -206,8 +209,7 @@ class SpRouteConfig {
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is InitPickColorArgs) {
-              return InitPickColorView(
-                  showNextButton: arguments.showNextButton);
+              return InitPickColorView(showNextButton: arguments.showNextButton);
             } else {
               return const InitPickColorView(showNextButton: false);
             }

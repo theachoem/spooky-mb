@@ -20,8 +20,8 @@ Map<String, dynamic> _$BottomNavItemModelToJson(BottomNavItemModel instance) =>
 
 const _$SpRouterEnumMap = {
   SpRouter.home: 'home',
-  SpRouter.restore: 'restore',
-  SpRouter.cloudStorage: 'cloudStorage',
+  SpRouter.backupsDetails: 'backupsDetails',
+  SpRouter.cloudStorages: 'cloudStorages',
   SpRouter.fontManager: 'fontManager',
   SpRouter.lock: 'lock',
   SpRouter.security: 'security',

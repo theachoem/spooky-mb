@@ -46,6 +46,16 @@ class _$AppRouter extends RootStackRouter {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const ArchiveView());
     },
+    BackupsDetail.name: (routeData) {
+      final args = routeData.argsAs<BackupsDetailArgs>();
+      return AdaptivePage<dynamic>(
+          routeData: routeData,
+          child: BackupsDetailsView(
+              key: args.key,
+              destination: args.destination,
+              cloudFiles: args.cloudFiles,
+              initialCloudFile: args.initialCloudFile));
+    },
     BottomNavSetting.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const BottomNavSettingView());
@@ -60,9 +70,9 @@ class _$AppRouter extends RootStackRouter {
               onRestorePressed: args.onRestorePressed,
               onDeletePressed: args.onDeletePressed));
     },
-    CloudStorage.name: (routeData) {
+    CloudStorages.name: (routeData) {
       return AdaptivePage<dynamic>(
-          routeData: routeData, child: const CloudStorageView());
+          routeData: routeData, child: const CloudStoragesView());
     },
     ContentReader.name: (routeData) {
       final args = routeData.argsAs<ContentReaderArgs>();
@@ -115,13 +125,6 @@ class _$AppRouter extends RootStackRouter {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const NotFoundView());
     },
-    Restore.name: (routeData) {
-      final args = routeData.argsAs<RestoreArgs>();
-      return AdaptivePage<dynamic>(
-          routeData: routeData,
-          child:
-              RestoreView(key: args.key, showSkipButton: args.showSkipButton));
-    },
     Security.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const SecurityView());
@@ -156,12 +159,14 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(Main.name, path: '/', children: [
           RouteConfig(AddOns.name, path: 'add-ons', parent: Main.name),
           RouteConfig(Archive.name, path: 'archive', parent: Main.name),
+          RouteConfig(BackupsDetail.name,
+              path: 'backups-detail', parent: Main.name),
           RouteConfig(BottomNavSetting.name,
               path: 'bottom-nav-setting', parent: Main.name),
           RouteConfig(ChangesHistory.name,
               path: 'changes-history', parent: Main.name),
-          RouteConfig(CloudStorage.name,
-              path: 'cloud-storage', parent: Main.name),
+          RouteConfig(CloudStorages.name,
+              path: 'cloud-storages', parent: Main.name),
           RouteConfig(ContentReader.name,
               path: 'content-reader', parent: Main.name),
           RouteConfig(Detail.name, path: 'detail', parent: Main.name),
@@ -176,7 +181,6 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig(NicknameCreator.name,
               path: 'nickname-creator', parent: Main.name),
           RouteConfig(NotFound.name, path: 'not-found', parent: Main.name),
-          RouteConfig(Restore.name, path: 'restore', parent: Main.name),
           RouteConfig(Security.name, path: 'security', parent: Main.name),
           RouteConfig(Setting.name, path: 'setting', parent: Main.name),
           RouteConfig(SoundList.name, path: 'sounds', parent: Main.name),
@@ -270,6 +274,46 @@ class Archive extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [BackupsDetailsView]
+class BackupsDetail extends PageRouteInfo<BackupsDetailArgs> {
+  BackupsDetail(
+      {Key? key,
+      required BaseBackupDestination<BaseCloudProvider> destination,
+      required List<CloudFileTuple> cloudFiles,
+      required CloudFileModel initialCloudFile})
+      : super(BackupsDetail.name,
+            path: 'backups-detail',
+            args: BackupsDetailArgs(
+                key: key,
+                destination: destination,
+                cloudFiles: cloudFiles,
+                initialCloudFile: initialCloudFile));
+
+  static const String name = 'BackupsDetail';
+}
+
+class BackupsDetailArgs {
+  const BackupsDetailArgs(
+      {this.key,
+      required this.destination,
+      required this.cloudFiles,
+      required this.initialCloudFile});
+
+  final Key? key;
+
+  final BaseBackupDestination<BaseCloudProvider> destination;
+
+  final List<CloudFileTuple> cloudFiles;
+
+  final CloudFileModel initialCloudFile;
+
+  @override
+  String toString() {
+    return 'BackupsDetailArgs{key: $key, destination: $destination, cloudFiles: $cloudFiles, initialCloudFile: $initialCloudFile}';
+  }
+}
+
+/// generated route for
 /// [BottomNavSettingView]
 class BottomNavSetting extends PageRouteInfo<void> {
   const BottomNavSetting()
@@ -319,11 +363,11 @@ class ChangesHistoryArgs {
 }
 
 /// generated route for
-/// [CloudStorageView]
-class CloudStorage extends PageRouteInfo<void> {
-  const CloudStorage() : super(CloudStorage.name, path: 'cloud-storage');
+/// [CloudStoragesView]
+class CloudStorages extends PageRouteInfo<void> {
+  const CloudStorages() : super(CloudStorages.name, path: 'cloud-storages');
 
-  static const String name = 'CloudStorage';
+  static const String name = 'CloudStorages';
 }
 
 /// generated route for
@@ -484,30 +528,6 @@ class NotFound extends PageRouteInfo<void> {
   const NotFound() : super(NotFound.name, path: 'not-found');
 
   static const String name = 'NotFound';
-}
-
-/// generated route for
-/// [RestoreView]
-class Restore extends PageRouteInfo<RestoreArgs> {
-  Restore({Key? key, required bool showSkipButton})
-      : super(Restore.name,
-            path: 'restore',
-            args: RestoreArgs(key: key, showSkipButton: showSkipButton));
-
-  static const String name = 'Restore';
-}
-
-class RestoreArgs {
-  const RestoreArgs({this.key, required this.showSkipButton});
-
-  final Key? key;
-
-  final bool showSkipButton;
-
-  @override
-  String toString() {
-    return 'RestoreArgs{key: $key, showSkipButton: $showSkipButton}';
-  }
 }
 
 /// generated route for

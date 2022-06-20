@@ -1,7 +1,7 @@
 name: spooky
 description: Minimalist application to write stories, notes, diary!
 publish_to: none
-version: 1.0.0+28
+version: 1.0.0+29
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
@@ -89,6 +89,7 @@ dependencies:
   objectbox: ^1.5.0
   objectbox_flutter_libs: any
   flat_buffers: ^2.0.5
+  device_info_plus: ^3.2.4
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 
