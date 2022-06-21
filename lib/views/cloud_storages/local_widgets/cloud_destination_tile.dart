@@ -11,6 +11,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_button.dart';
+import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 
 class CloudDestinationTile extends StatefulWidget {
@@ -88,30 +89,45 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
               );
             },
             builder: (callback) {
-              return Material(
-                borderOnForeground: false,
-                type: MaterialType.button,
-                color: Theme.of(context).appBarTheme.backgroundColor,
-                borderRadius: ConfigConstant.circlarRadius2,
-                clipBehavior: Clip.hardEdge,
-                child: InkWell(
-                  onTap: provider.isSignedIn ? callback : null,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        ListTile(
-                          leading: buildAvatar(loadingBackupNotifier),
-                          contentPadding: EdgeInsets.zero,
-                          title: Text(title),
-                          subtitle: Text(subtitle),
+              return Stack(
+                children: [
+                  Material(
+                    borderOnForeground: false,
+                    type: MaterialType.button,
+                    color: Theme.of(context).appBarTheme.backgroundColor,
+                    borderRadius: ConfigConstant.circlarRadius2,
+                    clipBehavior: Clip.hardEdge,
+                    child: InkWell(
+                      onTap: provider.isSignedIn ? callback : null,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            ListTile(
+                              leading: buildAvatar(),
+                              contentPadding: EdgeInsets.zero,
+                              title: Text(title),
+                              subtitle: Text(subtitle),
+                            ),
+                            if (released) buildTileActions(isSignedIn, provider, doingBackupNotifier, lastBackup)
+                          ],
                         ),
-                        if (released) buildTileActions(isSignedIn, provider, doingBackupNotifier, lastBackup)
-                      ],
+                      ),
                     ),
                   ),
-                ),
+                  // Positioned(
+                  //   top: ConfigConstant.margin0,
+                  //   right: ConfigConstant.margin0,
+                  //   child: SpIconButton(
+                  //     onPressed: () => provider.load(),
+                  //     icon: const Icon(
+                  //       Icons.refresh,
+                  //       size: ConfigConstant.iconSize1,
+                  //     ),
+                  //   ),
+                  // ),
+                ],
               );
             },
           ),
@@ -155,8 +171,49 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
                 );
               },
             ),
-        ]
+        ],
+        const SizedBox(width: 2.0),
+        buildRefreshButton(
+          provider.loadingBackupNotifier,
+          provider,
+        ),
       ],
+    );
+  }
+
+  Widget buildRefreshButton(
+    ValueNotifier<bool> loadingBackupNotifier,
+    BaseCloudProvider provider,
+  ) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: loadingBackupNotifier,
+      child: LoopAnimation<int>(
+        tween: IntTween(begin: 0, end: 180),
+        builder: (context, child, value) {
+          return Transform.rotate(
+            angle: value * pi / 180,
+            child: Icon(
+              Icons.sync,
+              color: M3Color.of(context).onTertiary,
+            ),
+          );
+        },
+      ),
+      builder: (context, loading, child) {
+        return SpIconButton(
+          backgroundColor: M3Color.of(context).tertiary,
+          onPressed: () => provider.load(false),
+          icon: SpAnimatedIcons(
+            showFirst: !loading,
+            duration: ConfigConstant.duration * 2,
+            firstChild: Icon(
+              Icons.refresh,
+              color: M3Color.of(context).onTertiary,
+            ),
+            secondChild: child!,
+          ),
+        );
+      },
     );
   }
 
@@ -240,34 +297,13 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
     }
   }
 
-  Widget buildAvatar(ValueNotifier<bool> loadingBackupNotifier) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: loadingBackupNotifier,
-      child: LoopAnimation<int>(
-        tween: IntTween(begin: 0, end: 180),
-        builder: (context, child, value) {
-          return Transform.rotate(
-            angle: value * pi / 180,
-            child: Icon(
-              Icons.sync,
-              color: M3Color.of(context).onTertiary,
-            ),
-          );
-        },
+  Widget buildAvatar() {
+    return CircleAvatar(
+      backgroundColor: M3Color.dayColorsOf(context)[5],
+      child: Icon(
+        widget.destination.iconData,
+        color: M3Color.of(context).onTertiary,
       ),
-      builder: (context, loading, child) {
-        return CircleAvatar(
-          backgroundColor: M3Color.dayColorsOf(context)[5],
-          child: SpAnimatedIcons(
-            showFirst: !loading,
-            firstChild: Icon(
-              widget.destination.iconData,
-              color: M3Color.of(context).onTertiary,
-            ),
-            secondChild: child!,
-          ),
-        );
-      },
     );
   }
 }
