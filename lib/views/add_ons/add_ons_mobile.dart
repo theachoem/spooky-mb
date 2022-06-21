@@ -22,6 +22,7 @@ class _AddOnsMobile extends StatelessWidget {
           MessengerService.instance.showLoading(
             future: () => context.read<InAppPurchaseProvider>().restore().then((value) => 1),
             context: context,
+            debugSource: '_AddOnsMobile#build - Restore Purchase',
           );
         },
       ),

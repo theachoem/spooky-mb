@@ -72,7 +72,12 @@ class MessengerService {
   Future<T?> showLoading<T>({
     required Future<T?> Function() future,
     required BuildContext context,
+    required String? debugSource,
   }) async {
+    if (debugSource != null) {
+      if (kDebugMode) print(debugSource);
+    }
+
     Completer<T> completer = Completer();
     future().then((value) => completer.complete(value));
 

@@ -17,7 +17,7 @@ class DetailEditor extends StatefulWidget {
     required this.onChange,
   }) : super(key: key);
 
-  final List<dynamic>? document;
+  final editor.Document? document;
   final ValueNotifier<bool> readOnlyNotifier;
   final void Function(editor.QuillController controller) onControllerReady;
   final void Function(FocusNode focusNode) onFocusNodeReady;
@@ -51,9 +51,9 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
 
   editor.QuillController _getDocumentController() {
     try {
-      if (widget.document != null && widget.document?.isNotEmpty == true) {
+      if (widget.document != null) {
         return editor.QuillController(
-          document: editor.Document.fromJson(widget.document!),
+          document: widget.document!,
           selection: const TextSelection.collapsed(offset: 0),
         );
       }
@@ -78,31 +78,35 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
     super.build(context);
     return ValueListenableBuilder<bool>(
       valueListenable: widget.readOnlyNotifier,
-      builder: (context, value, child) {
-        return editor.QuillEditor(
+      builder: (context, readOnly, child) {
+        return buildEditor(context, readOnly);
+      },
+    );
+  }
+
+  editor.QuillEditor buildEditor(BuildContext context, bool readOnly) {
+    return editor.QuillEditor(
+      controller: controller,
+      scrollController: scrollController,
+      scrollable: true,
+      focusNode: focusNode,
+      autoFocus: false,
+      readOnly: readOnly,
+      expands: true,
+      padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
+        top: ConfigConstant.margin2 + 8.0,
+        bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
+      ),
+      embedBuilder: (context, controller, node, readOnly) {
+        return QuillEmbedRenderer(
           controller: controller,
-          scrollController: scrollController,
-          scrollable: true,
-          focusNode: focusNode,
-          autoFocus: false,
-          readOnly: widget.readOnlyNotifier.value,
-          expands: false,
-          padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
-            top: ConfigConstant.margin2 + 8.0,
-            bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
-          ),
-          embedBuilder: (context, controller, node, readOnly) {
-            return QuillEmbedRenderer(
-              controller: controller,
-              node: node,
-              readOnly: readOnly,
-            );
-          },
-          keyboardAppearance: M3Color.keyboardAppearance(context),
-          onLaunchUrl: (url) {
-            AppHelper.openLinkDialog(url);
-          },
+          node: node,
+          readOnly: readOnly,
         );
+      },
+      keyboardAppearance: M3Color.keyboardAppearance(context),
+      onLaunchUrl: (url) {
+        AppHelper.openLinkDialog(url);
       },
     );
   }

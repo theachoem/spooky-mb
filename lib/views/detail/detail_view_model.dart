@@ -32,7 +32,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       flowType: flowType,
       currentContent: currentContent,
       title: titleController.text,
-      hasChange: hasChange,
+      hasChange: hasChangeNotifer.value,
       quillControllers: quillControllers,
       openOn: openOn,
     );
@@ -48,19 +48,25 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     setListener();
   }
 
-  bool get hasChange {
+  Future<void> loadHasChange() async {
+    bool hasChange = await _fetchHasChange();
+    hasChangeNotifer.value = hasChange;
+  }
+
+  Future<bool> _fetchHasChange() async {
     if (currentStory.changes.isEmpty) return true;
-    return StoryWriteHelper.buildContent(
+    StoryContentDbModel content = await StoryWriteHelper.buildContent(
       currentContent,
       quillControllers,
       titleController.text,
       openOn,
-    ).hasChanges(currentStory.changes.last);
+    );
+    return content.hasChanges(currentStory.changes.last);
   }
 
   void onChange(Document _) {
     scheduleAction(() {
-      hasChangeNotifer.value = hasChange;
+      loadHasChange();
     });
   }
 
@@ -80,13 +86,14 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     flowType = DetailViewFlowType.update;
     currentStory = story;
     currentContent = story.changes.last;
+    loadHasChange();
     notifyListeners();
   }
 
   // if user close app, we store initial tab on home
   // so they new it is saved.
   Future<void> autosave() async {
-    if (!hasChange) return;
+    if (!hasChangeNotifer.value) return;
     InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
     AutoSaveStoryWriter writer = AutoSaveStoryWriter();
     StoryDbModel? story = await writer.save(AutoSaveStoryObject(info));
@@ -122,19 +129,20 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   void didChangeAppLifecycleState(AppLifecycleState state) {
     List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
     if (shouldSaveInStates.contains(state)) autosave();
-    if (state == AppLifecycleState.resumed) hasChangeNotifer.value = hasChange;
+    if (state == AppLifecycleState.resumed) loadHasChange();
     super.didChangeAppLifecycleState(state);
   }
 
   @mustCallSuper
   void setListener() {
     readOnlyNotifier.addListener(() {
-      readOnlyNotifier.value ? currentFocusNode?.unfocus() : hasChangeNotifer.value = hasChange;
+      readOnlyNotifier.value ? currentFocusNode?.unfocus() : loadHasChange();
       toolbarVisibleNotifier.value = !readOnlyNotifier.value;
     });
+
     titleController.addListener(() {
       scheduleAction(() {
-        hasChangeNotifer.value = hasChange;
+        loadHasChange();
       });
     });
   }

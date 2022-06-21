@@ -12,6 +12,7 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
   late final ValueNotifier<bool> toolbarVisibleNotifier;
   late final ValueNotifier<bool> quillControllerInitedNotifier;
   late final PageController pageController;
+  late final ValueNotifier<double> pageOffsetNotifier;
   late final TextEditingController titleController;
   late final FocusNode titleFocusNode;
 
@@ -56,6 +57,10 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
     pageController = PageController();
     titleController = TextEditingController(text: content.title);
     titleFocusNode = FocusNode();
+    pageOffsetNotifier = ValueNotifier(0.0);
+    pageController.addListener(() {
+      pageOffsetNotifier.value = pageController.offset;
+    });
   }
 
   @override

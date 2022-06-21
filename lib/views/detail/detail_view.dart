@@ -8,6 +8,7 @@ import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/views/detail/local_widgets/detail_editor.dart';
 import 'package:spooky/views/detail/local_widgets/detail_scaffold.dart';
 import 'package:spooky/views/detail/local_widgets/detail_toolbar.dart';
+import 'package:spooky/views/detail/local_widgets/editor_wrapper.dart';
 import 'package:spooky/widgets/sp_page_view/sp_page_view.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter/material.dart';
@@ -32,22 +33,28 @@ class DetailView extends StatelessWidget {
     return ViewModelProvider<DetailViewModel>(
       create: (BuildContext context) => DetailViewModel(currentStory: initialStory, flowType: intialFlow),
       builder: (context, viewModel, child) {
-        return WillPopScope(
-          onWillPop: () => onWillPop(viewModel, context),
+        return ValueListenableBuilder<bool>(
+          valueListenable: viewModel.hasChangeNotifer,
           child: ScreenTypeLayout(
             mobile: _DetailMobile(viewModel),
             desktop: _DetailDesktop(viewModel),
             tablet: _DetailTablet(viewModel),
           ),
+          builder: (context, hasChange, child) {
+            return WillPopScope(
+              onWillPop: () => onWillPop(viewModel, context),
+              child: child!,
+            );
+          },
         );
       },
     );
   }
 
   Future<bool> onWillPop(DetailViewModel model, BuildContext context) async {
-    if (model.hasChange) await model.save();
+    if (model.hasChangeNotifer.value) model.save();
     // ignore: use_build_context_synchronously
-    Navigator.of(context).pop(model.currentStory);
+    Navigator.of(context).pop();
     return true;
   }
 }

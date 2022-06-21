@@ -78,9 +78,13 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     final completer = Completer();
     if (stories != null && !callFromRefresh) {
       loadingFlag = true;
-      MessengerService.instance.showLoading(future: () => completer.future, context: context).then((value) {
-        loadingFlag = false;
-      });
+      MessengerService.instance
+          .showLoading(
+            future: () => completer.future,
+            context: context,
+            debugSource: "StoryQueryList#load",
+          )
+          .then((value) => loadingFlag = false);
     }
 
     final result = await _fetchStory();
@@ -94,12 +98,6 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _checkUpdatation(widget);
-  }
-
-  @override
   void didUpdateWidget(covariant StoryQueryList oldWidget) {
     super.didUpdateWidget(oldWidget);
     _checkUpdatation(oldWidget);
@@ -109,7 +107,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions.join() != widget.queryOptions.join();
     hashStorage.read().then((hash) {
       if (this.hash != hash || didUpdateQueries) {
-        load();
+        load(true);
       }
     });
   }
@@ -225,6 +223,9 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if (kDebugMode) {
+      print("BUILD: StoryQueryList");
+    }
     return StoryList(
       onRefresh: () => load(true),
       stories: stories,

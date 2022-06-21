@@ -57,24 +57,26 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
   Widget? buildBottomNavigation() {
     return ValueListenableBuilder<bool>(
       valueListenable: widget.readOnlyNotifier,
+      child: Material(
+        color: Theme.of(context).canvasColor,
+        child: Padding(
+          padding: EdgeInsets.only(bottom: viewInsets.bottom + mediaQueryPadding.bottom),
+          child: ValueListenableBuilder<bool>(
+            // quillControllerInitedNotifier is used to
+            // update toolbar state once a controller is inited
+            valueListenable: widget.viewModel.quillControllerInitedNotifier,
+            child: widget.toolbarBuilder(),
+            builder: (context, inited, child) {
+              return child ?? const SizedBox.shrink();
+            },
+          ),
+        ),
+      ),
       builder: (context, readOnly, child) {
         return SpCrossFade(
           showFirst: !readOnly,
           secondChild: const SizedBox.shrink(),
-          firstChild: Material(
-            color: Theme.of(context).canvasColor,
-            child: Padding(
-              padding: EdgeInsets.only(bottom: viewInsets.bottom + mediaQueryPadding.bottom),
-              child: ValueListenableBuilder<bool>(
-                // quillControllerInitedNotifier is used to
-                // update toolbar state once a controller is inited
-                valueListenable: widget.viewModel.quillControllerInitedNotifier,
-                builder: (context, inited, child) {
-                  return widget.toolbarBuilder() ?? const SizedBox.shrink();
-                },
-              ),
-            ),
-          ),
+          firstChild: child!,
         );
       },
     );
@@ -125,7 +127,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
             title: "Manage Pages",
             leadingIconData: Icons.edit,
             onPressed: () async {
-              if (widget.viewModel.hasChange) {
+              if (widget.viewModel.hasChangeNotifer.value) {
                 MessengerService.instance.showSnackBar("Please save document first");
                 return;
               }
@@ -140,7 +142,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
             title: "Archive",
             leadingIconData: Icons.archive,
             onPressed: () async {
-              if (widget.viewModel.hasChange) {
+              if (widget.viewModel.hasChangeNotifer.value) {
                 MessengerService.instance.showSnackBar("Please save document first");
                 return;
               }
@@ -168,15 +170,17 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
           title: "Changes History",
           leadingIconData: Icons.history,
           onPressed: () async {
-            if (widget.viewModel.hasChange) {
+            if (widget.viewModel.hasChangeNotifer.value) {
               MessengerService.instance.showSnackBar("Please save document first");
               return;
             }
+
             ChangesHistoryArgs arguments = ChangesHistoryArgs(
               story: widget.viewModel.currentStory,
               onRestorePressed: (content) => widget.viewModel.restore(content.id),
               onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds),
             );
+
             Navigator.of(context).pushNamed(
               SpRouter.changesHistory.path,
               arguments: arguments,

@@ -16,7 +16,7 @@ class DeleteChangeWriter extends DefaultStoryWriter<DeleteChangeObject> {
   }
 
   @override
-  StoryDbModel buildStory(DeleteChangeObject object) {
+  Future<StoryDbModel> buildStory(DeleteChangeObject object) async {
     StoryDbModel story = object.info.currentStory;
     story.removeChangeByIds(object.contentIds);
     return story;

@@ -9,7 +9,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   BuildContext? get context => App.navigatorKey.currentContext;
   final StoryDatabase database = StoryDatabase.instance;
 
-  StoryDbModel buildStory(T object);
+  Future<StoryDbModel> buildStory(T object);
   String buildMessage(ResponseCodeType responseCode);
 
   /// `story` is story that is re-fetch after saved.
@@ -29,7 +29,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     String? validation = validate(object);
     StoryDbModel? result;
     if (validation == null) {
-      StoryDbModel story = buildStory(object);
+      StoryDbModel story = await buildStory(object);
       result = await database.set(body: story.toJson());
       return result != null ? _nextSuccess(result) : _nextError(result);
     } else {

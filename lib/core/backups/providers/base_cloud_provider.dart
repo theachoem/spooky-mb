@@ -84,6 +84,7 @@ abstract class BaseCloudProvider extends BaseViewModel {
       if (context != null) {
         return MessengerService.instance.showLoading<void>(
           context: App.navigatorKey.currentContext!,
+          debugSource: "BaseCloudProvider#load",
           future: () async {
             return _load();
           },

@@ -5,47 +5,12 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
 
   @override
   Future<StoryObjectBox> objectConstructor(Map<String, dynamic> json) async {
-    StoryDbModel story = StoryDbModel.fromJson(json);
-    StoryObjectBox object = StoryObjectBox(
-      id: story.id,
-      version: story.version,
-      type: story.type.name,
-      year: story.year,
-      month: story.month,
-      day: story.day,
-      starred: story.starred,
-      feeling: story.feeling,
-      createdAt: story.createdAt,
-      updatedAt: story.updatedAt,
-      movedToBinAt: story.movedToBinAt,
-      changes: story.changes.map((e) {
-        Map<String, dynamic> json = e.toJson();
-        String encoded = jsonEncode(json);
-        return HtmlCharacterEntities.encode(encoded);
-      }).toList(),
-    );
-    return object;
+    return compute(_objectConstructor, json);
   }
 
   @override
-  Map<String, dynamic> objectTransformer(StoryObjectBox object) {
-    Iterable<PathType> types = PathType.values.where((e) => e.name == object.type);
-    return StoryDbModel(
-      type: types.isNotEmpty ? types.first : PathType.docs,
-      id: object.id,
-      starred: object.starred,
-      feeling: object.feeling,
-      year: object.year,
-      month: object.month,
-      day: object.day,
-      updatedAt: object.updatedAt,
-      createdAt: object.createdAt,
-      changes: object.changes.map((str) {
-        String decoded = HtmlCharacterEntities.decode(str);
-        dynamic json = jsonDecode(decoded);
-        return StoryContentDbModel.fromJson(json);
-      }).toList(),
-    ).toJson();
+  Future<Map<String, dynamic>> objectTransformer(StoryObjectBox object) {
+    return compute(_objectTransformer, object);
   }
 
   @override
@@ -68,15 +33,14 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     Query<StoryObjectBox> query = queryBuilder.build();
     List<StoryObjectBox> objects = query.find();
 
-    List<StoryDbModel> docs = [];
+    List<Map<String, dynamic>> docs = [];
     for (StoryObjectBox object in objects) {
-      Map<String, dynamic> json = objectTransformer(object);
-      StoryDbModel story = StoryDbModel.fromJson(json);
-      docs.add(story);
+      Map<String, dynamic> json = await objectTransformer(object);
+      docs.add(json);
     }
 
     return {
-      "data": docs.map((e) => e.toJson()).toList(),
+      "data": docs,
       "meta": MetaModel().toJson(),
       "links": MetaModel().toJson(),
     };
@@ -96,4 +60,47 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     Query<StoryObjectBox> query = queryBuilder.build();
     return query.count();
   }
+}
+
+Map<String, dynamic> _objectTransformer(StoryObjectBox object) {
+  Iterable<PathType> types = PathType.values.where((e) => e.name == object.type);
+  return StoryDbModel(
+    type: types.isNotEmpty ? types.first : PathType.docs,
+    id: object.id,
+    starred: object.starred,
+    feeling: object.feeling,
+    year: object.year,
+    month: object.month,
+    day: object.day,
+    updatedAt: object.updatedAt,
+    createdAt: object.createdAt,
+    changes: object.changes.map((str) {
+      String decoded = HtmlCharacterEntities.decode(str);
+      dynamic json = jsonDecode(decoded);
+      return StoryContentDbModel.fromJson(json);
+    }).toList(),
+  ).toJson();
+}
+
+StoryObjectBox _objectConstructor(Map<String, dynamic> json) {
+  StoryDbModel story = StoryDbModel.fromJson(json);
+  StoryObjectBox object = StoryObjectBox(
+    id: story.id,
+    version: story.version,
+    type: story.type.name,
+    year: story.year,
+    month: story.month,
+    day: story.day,
+    starred: story.starred,
+    feeling: story.feeling,
+    createdAt: story.createdAt,
+    updatedAt: story.updatedAt,
+    movedToBinAt: story.movedToBinAt,
+    changes: story.changes.map((e) {
+      Map<String, dynamic> json = e.toJson();
+      String encoded = jsonEncode(json);
+      return HtmlCharacterEntities.encode(encoded);
+    }).toList(),
+  );
+  return object;
 }
