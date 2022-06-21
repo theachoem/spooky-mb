@@ -193,7 +193,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
       valueListenable: doingBackupNotifier,
       builder: (context, loading, child) {
         bool synced = provider.synced;
-        bool backupable = !synced && widget.hasStory && !loading;
+        bool backupable = !synced && !loading;
 
         String? label;
         Color? backgroundColor;
