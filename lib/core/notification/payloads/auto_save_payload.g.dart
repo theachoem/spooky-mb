@@ -8,7 +8,7 @@ part of 'auto_save_payload.dart';
 
 AutoSavePayload _$AutoSavePayloadFromJson(Map<String, dynamic> json) =>
     AutoSavePayload(
-      json['id'] as int?,
+      json['id'] as String?,
     );
 
 Map<String, dynamic> _$AutoSavePayloadToJson(AutoSavePayload instance) =>

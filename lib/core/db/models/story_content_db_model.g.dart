@@ -9,6 +9,8 @@ part of 'story_content_db_model.dart';
 abstract class _$StoryContentDbModelCWProxy {
   StoryContentDbModel createdAt(DateTime createdAt);
 
+  StoryContentDbModel draft(bool? draft);
+
   StoryContentDbModel id(int id);
 
   StoryContentDbModel pages(List<List<dynamic>>? pages);
@@ -25,6 +27,7 @@ abstract class _$StoryContentDbModelCWProxy {
   /// ````
   StoryContentDbModel call({
     DateTime? createdAt,
+    bool? draft,
     int? id,
     List<List<dynamic>>? pages,
     String? plainText,
@@ -41,6 +44,9 @@ class _$StoryContentDbModelCWProxyImpl implements _$StoryContentDbModelCWProxy {
   @override
   StoryContentDbModel createdAt(DateTime createdAt) =>
       this(createdAt: createdAt);
+
+  @override
+  StoryContentDbModel draft(bool? draft) => this(draft: draft);
 
   @override
   StoryContentDbModel id(int id) => this(id: id);
@@ -65,6 +71,7 @@ class _$StoryContentDbModelCWProxyImpl implements _$StoryContentDbModelCWProxy {
   /// ````
   StoryContentDbModel call({
     Object? createdAt = const $CopyWithPlaceholder(),
+    Object? draft = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? pages = const $CopyWithPlaceholder(),
     Object? plainText = const $CopyWithPlaceholder(),
@@ -75,6 +82,10 @@ class _$StoryContentDbModelCWProxyImpl implements _$StoryContentDbModelCWProxy {
           ? _value.createdAt
           // ignore: cast_nullable_to_non_nullable
           : createdAt as DateTime,
+      draft: draft == const $CopyWithPlaceholder()
+          ? _value.draft
+          // ignore: cast_nullable_to_non_nullable
+          : draft as bool?,
       id: id == const $CopyWithPlaceholder() || id == null
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
@@ -114,6 +125,7 @@ StoryContentDbModel _$StoryContentDbModelFromJson(Map<String, dynamic> json) =>
       pages: (json['pages'] as List<dynamic>?)
           ?.map((e) => e as List<dynamic>)
           .toList(),
+      draft: json['draft'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$StoryContentDbModelToJson(
@@ -123,5 +135,6 @@ Map<String, dynamic> _$StoryContentDbModelToJson(
       'title': instance.title,
       'plain_text': instance.plainText,
       'created_at': instance.createdAt.toIso8601String(),
+      'draft': instance.draft,
       'pages': instance.pages,
     };

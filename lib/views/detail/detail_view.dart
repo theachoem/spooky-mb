@@ -52,7 +52,10 @@ class DetailView extends StatelessWidget {
   }
 
   Future<bool> onWillPop(DetailViewModel model, BuildContext context) async {
-    if (model.hasChangeNotifer.value) model.save();
+    if (model.hasChangeNotifer.value) {
+      await model.saveDraft(context);
+    }
+
     // ignore: use_build_context_synchronously
     Navigator.of(context).pop();
     return true;

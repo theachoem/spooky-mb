@@ -19,7 +19,15 @@ class _ChangesHistoryMobile extends StatelessWidget {
       child: Scaffold(
         appBar: MorphingAppBar(
           leading: buildPopButton(),
-          actions: [buildDeleteChangeButton()],
+          actions: [
+            buildDeleteChangeButton(),
+            SpIconButton(
+              icon: const Icon(CommunityMaterialIcons.select),
+              onPressed: () {
+                viewModel.toggleEditing();
+              },
+            ),
+          ],
           title: buildAppBarTitle(context),
         ),
         body: buildListView(context),
@@ -103,6 +111,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
         StoryContentDbModel content = viewModel.story.changes[index];
         int id = content.id;
         bool latest = index == viewModel.story.changes.length - 1;
+        bool draft = content.draft == true;
         return SpPopupMenuButton(
           dx: MediaQuery.of(context).size.width,
           items: (context) => [
@@ -143,15 +152,31 @@ class _ChangesHistoryMobile extends StatelessWidget {
                 }
               },
               title: RichText(
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 text: TextSpan(
-                  text: "${content.title ?? "No title"} ",
+                  text: "",
                   style: M3TextTheme.of(context).titleMedium,
                   children: [
                     if (latest)
-                      const WidgetSpan(
-                        child: SpSmallChip(label: "Latest"),
+                      WidgetSpan(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 4.0),
+                          child: SpSmallChip(
+                            label: "Latest",
+                            color: M3Color.of(context).tertiary,
+                          ),
+                        ),
                         alignment: PlaceholderAlignment.middle,
                       ),
+                    if (draft)
+                      const WidgetSpan(
+                        child: SpSmallChip(label: "Draft"),
+                        alignment: PlaceholderAlignment.middle,
+                      ),
+                    TextSpan(
+                      text: " ${content.title ?? "No title"}" * 2,
+                    )
                   ],
                 ),
               ),

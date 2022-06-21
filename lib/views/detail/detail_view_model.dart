@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/story_writers/auto_save_story_writer.dart';
 import 'package:spooky/core/story_writers/default_story_writer.dart';
 import 'package:spooky/core/story_writers/delete_change_writer.dart';
-import 'package:spooky/core/story_writers/objects/auto_save_story_object.dart';
+import 'package:spooky/core/story_writers/draft_story_writer.dart';
 import 'package:spooky/core/story_writers/objects/default_story_object.dart';
 import 'package:spooky/core/story_writers/objects/delete_change_object.dart';
+import 'package:spooky/core/story_writers/objects/draft_story_object.dart';
 import 'package:spooky/core/story_writers/objects/restore_story_object.dart';
 import 'package:spooky/core/story_writers/objects/update_page_object.dart';
 import 'package:spooky/core/story_writers/restore_story_writer.dart';
@@ -92,17 +94,38 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   // if user close app, we store initial tab on home
   // so they new it is saved.
+  //
+  // This consider as draft.
   Future<void> autosave() async {
     if (!hasChangeNotifer.value) return;
     InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
     AutoSaveStoryWriter writer = AutoSaveStoryWriter();
-    StoryDbModel? story = await writer.save(AutoSaveStoryObject(info));
+    StoryDbModel? story = await writer.save(DraftStoryObject(info));
     if (story != null) saveStates(story);
   }
 
-  Future<void> save() async {
+  Future<void> saveDraft(BuildContext context) async {
+    if (!hasChangeNotifer.value) return;
+    InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
+    DraftStoryWriter writer = DraftStoryWriter();
+
+    StoryDbModel? story = await MessengerService.instance.showLoading(
+      future: () => writer.save(DraftStoryObject(info)),
+      context: context,
+      debugSource: "DetailView#onWillPop",
+    );
+
+    if (story != null) saveStates(story);
+  }
+
+  Future<void> save(BuildContext context) async {
     DefaultStoryWriter writer = DefaultStoryWriter();
-    StoryDbModel? story = await writer.save(DefaultStoryObject(info));
+    StoryDbModel? story = await MessengerService.instance.showLoading(
+      future: () => writer.save(DefaultStoryObject(info)),
+      context: context,
+      debugSource: "DetailViewModel#save",
+    );
+
     if (story != null) saveStates(story);
   }
 

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/extensions/color_scheme_extension.dart';
 
 class ScreenLockHelper {
   static Widget dotBuilder(bool enabled, SecretConfig config) {

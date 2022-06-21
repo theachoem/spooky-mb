@@ -8,29 +8,13 @@ import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:flutter_quill/src/models/documents/nodes/node.dart' as doc;
 
 class StoryWriteHelper {
-  static buildContentSync(
-    StoryContentDbModel currentContent,
-    Map<int, QuillController> quillControllers,
-    String title,
-    DateTime openOn,
-  ) {
-    final pages = pagesData(currentContent, quillControllers).values.toList();
-    final root = AppHelper.listItem(quillControllers.values, 0)?.document.root;
-    return _buildContent({
-      'title': title,
-      'open_on': openOn,
-      'current_content': currentContent,
-      'pages': pages,
-      'root': root,
-    });
-  }
-
   static Future<StoryContentDbModel> buildContent(
     StoryContentDbModel currentContent,
     Map<int, QuillController> quillControllers,
     String title,
-    DateTime openOn,
-  ) async {
+    DateTime openOn, {
+    bool draft = false,
+  }) async {
     final pages = pagesData(currentContent, quillControllers).values.toList();
     final root = AppHelper.listItem(quillControllers.values, 0)?.document.root;
     return await compute(_buildContent, {
@@ -39,6 +23,7 @@ class StoryWriteHelper {
       'current_content': currentContent,
       'pages': pages,
       'root': root,
+      'draft': draft,
     });
   }
 
@@ -63,6 +48,7 @@ StoryContentDbModel _buildContent(Map<String, dynamic> params) {
   DateTime openOn = params['open_on'];
   StoryContentDbModel currentContent = params['current_content'];
   List<List<dynamic>> pages = params['pages'];
+  bool draft = params['draft'];
   doc.Root root = params['root'] ?? Document.fromJson(pages.first).root;
   return currentContent.copyWith(
     id: openOn.millisecondsSinceEpoch,
@@ -70,5 +56,6 @@ StoryContentDbModel _buildContent(Map<String, dynamic> params) {
     plainText: QuillHelper.toPlainText(root),
     pages: pages,
     createdAt: DateTime.now(),
+    draft: draft,
   );
 }

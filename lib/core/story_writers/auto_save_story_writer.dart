@@ -1,23 +1,10 @@
 import 'package:spooky/core/db/models/story_db_model.dart';
-import 'package:spooky/core/story_writers/default_story_writer.dart';
-import 'package:spooky/core/story_writers/objects/auto_save_story_object.dart';
+import 'package:spooky/core/story_writers/draft_story_writer.dart';
 import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
-class AutoSaveStoryWriter extends DefaultStoryWriter<AutoSaveStoryObject> {
-  @override
-  String buildMessage(ResponseCodeType responseCode) {
-    switch (responseCode) {
-      case ResponseCodeType.success:
-        return "Document is saved";
-      case ResponseCodeType.fail:
-        return "Document isn't saved!";
-      default:
-        return buildMessage(responseCode);
-    }
-  }
-
+class AutoSaveStoryWriter extends DraftStoryWriter {
   @override
   void onSaved({
     required StoryDbModel? story,
@@ -32,7 +19,7 @@ class AutoSaveStoryWriter extends DefaultStoryWriter<AutoSaveStoryObject> {
             body: "Saved",
             // TODO: have a look at this to make sure nothing
             // payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
-            payload: AutoSavePayload(story?.id),
+            payload: AutoSavePayload(story?.id.toString()),
           );
           break;
         case ResponseCodeType.noChange:
@@ -42,7 +29,7 @@ class AutoSaveStoryWriter extends DefaultStoryWriter<AutoSaveStoryObject> {
             title: message,
             body: "Error",
             // payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
-            payload: AutoSavePayload(story?.id),
+            payload: AutoSavePayload(story?.id.toString()),
           );
           break;
       }

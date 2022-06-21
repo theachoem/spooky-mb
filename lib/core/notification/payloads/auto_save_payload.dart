@@ -5,7 +5,7 @@ part 'auto_save_payload.g.dart';
 
 @JsonSerializable()
 class AutoSavePayload extends BaseNotificationPayload {
-  final int? id;
+  final String? id;
   AutoSavePayload(this.id);
 
   @override

@@ -1,44 +1,32 @@
+import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
-import 'package:spooky/core/services/messenger_service.dart';
-import 'package:spooky/core/story_writers/base_story_writer.dart';
-import 'package:spooky/core/story_writers/objects/default_story_object.dart';
-import 'package:spooky/utils/helpers/story_writer_helper.dart';
+import 'package:spooky/core/story_writers/default_story_writer.dart';
+import 'package:spooky/core/story_writers/objects/draft_story_object.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/response_code_type.dart';
-import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/utils/helpers/story_writer_helper.dart';
 
-class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T> {
+class DraftStoryWriter extends DefaultStoryWriter<DraftStoryObject> {
   @override
   String buildMessage(ResponseCodeType responseCode) {
     switch (responseCode) {
       case ResponseCodeType.success:
-        return "Saved";
+        return "Draft saved";
       case ResponseCodeType.fail:
-        return "Save unsuccessfully!";
+        return "Draft save fail!";
       case ResponseCodeType.noChange:
         return "No changes!";
     }
   }
 
   @override
-  void onSaved({
-    required StoryDbModel? story,
-    required ResponseCodeType responseCode,
-    required String message,
-  }) {
-    if (context != null) {
-      MessengerService.instance.showSnackBar(message);
-    }
-  }
-
-  @override
-  Future<StoryDbModel> buildStory(T object) async {
+  Future<StoryDbModel> buildStory(DraftStoryObject object) async {
     StoryContentDbModel content = await StoryWriteHelper.buildContent(
       object.info.currentContent,
       object.info.quillControllers,
       object.info.title,
       object.info.openOn,
-      draft: false,
+      draft: true,
     );
 
     switch (object.info.flowType) {

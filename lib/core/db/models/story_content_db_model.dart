@@ -12,6 +12,7 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
   final String? title;
   final String? plainText;
   final DateTime createdAt;
+  final bool? draft;
 
   // List: Returns JSON-serializable version of quill delta.
   List<List<dynamic>>? pages;
@@ -22,6 +23,7 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
     required this.plainText,
     required this.createdAt,
     required this.pages,
+    this.draft = false,
   });
 
   void addPage() {
@@ -45,7 +47,8 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
     required this.id,
   })  : plainText = null,
         title = null,
-        pages = [[]];
+        pages = [[]],
+        draft = true;
 
   @override
   Map<String, dynamic> toJson() => _$StoryContentDbModelToJson(this);
@@ -60,6 +63,7 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
       'id',
       'plain_text',
       'created_at',
+      'draft',
     ];
   }
 }
