@@ -55,7 +55,10 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
   @override
   int getDocsCount(int? year) {
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
+
+    conditions = conditions.and(StoryObjectBox_.type.equals(PathType.docs.name));
     if (year != null) conditions = conditions.and(StoryObjectBox_.year.equals(year));
+
     QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions);
     Query<StoryObjectBox> query = queryBuilder.build();
     return query.count();

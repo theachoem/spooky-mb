@@ -52,43 +52,38 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Theme(
-      data: Theme.of(context).copyWith(splashColor: Colors.transparent, highlightColor: Colors.transparent),
-      child: Builder(builder: (context) {
-        return SpPopupMenuButton(
-          fromAppBar: true,
-          items: (BuildContext context) {
-            return [
-              SpPopMenuItem(
-                title: "Page",
-                subtitle: "${lastReportedPage + 1}",
-                leadingIconData: Icons.pageview,
-              ),
-              SpPopMenuItem(
-                title: "Characters",
-                subtitle: widget.quillControllerGetter(lastReportedPage)?.document.toPlainText().length.toString(),
-                leadingIconData: Icons.text_snippet,
-              ),
-              SpPopMenuItem(
-                title: "Words",
-                subtitle:
-                    widget.quillControllerGetter(lastReportedPage)?.document.toPlainText().split(" ").length.toString(),
-                leadingIconData: Icons.text_format,
-              ),
-            ];
-          },
-          builder: (void Function() callback) {
-            return SpTapEffect(
-              onTap: callback,
-              child: SpCrossFade(
-                showFirst: widget.pagesCount > 1,
-                firstChild: buildAnimated(context),
-                secondChild: buildAnimated(context),
-              ),
-            );
-          },
+    return SpPopupMenuButton(
+      fromAppBar: true,
+      items: (BuildContext context) {
+        return [
+          SpPopMenuItem(
+            title: "Page",
+            subtitle: "${lastReportedPage + 1}",
+            leadingIconData: Icons.pageview,
+          ),
+          SpPopMenuItem(
+            title: "Characters",
+            subtitle: widget.quillControllerGetter(lastReportedPage)?.document.toPlainText().length.toString(),
+            leadingIconData: Icons.text_snippet,
+          ),
+          SpPopMenuItem(
+            title: "Words",
+            subtitle:
+                widget.quillControllerGetter(lastReportedPage)?.document.toPlainText().split(" ").length.toString(),
+            leadingIconData: Icons.text_format,
+          ),
+        ];
+      },
+      builder: (void Function() callback) {
+        return SpTapEffect(
+          onTap: callback,
+          child: SpCrossFade(
+            showFirst: widget.pagesCount > 1,
+            firstChild: buildAnimated(context),
+            secondChild: buildAnimated(context),
+          ),
         );
-      }),
+      },
     );
   }
 

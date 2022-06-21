@@ -34,7 +34,7 @@ Future<T?> enhancedScreenLock<T>({
   ColorScheme colorScheme = M3Color.of(context);
   TextTheme textTheme = M3TextTheme.of(context);
 
-  InputButtonConfig inputButtonConfig = ScreenLockHelper.inputButtonConfig(textTheme, colorScheme);
+  InputButtonConfig inputButtonConfig = ScreenLockHelper.inputButtonConfig(textTheme, context, colorScheme);
   SecretsConfig secretsConfig = ScreenLockHelper.secretsConfig(colorScheme);
   ScreenLockConfig screenLockConfig = ScreenLockHelper.screenLockConfig(colorScheme, context, textTheme);
 

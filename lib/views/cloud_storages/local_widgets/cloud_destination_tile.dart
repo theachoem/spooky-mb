@@ -199,11 +199,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
         Color? backgroundColor;
         Color? foregroundColor;
 
-        if (!widget.hasStory) {
-          label = "No data to backup";
-          backgroundColor = M3Color.of(context).secondary;
-          foregroundColor = M3Color.of(context).onSecondary;
-        } else if (synced) {
+        if (synced) {
           label = "Synced";
           backgroundColor = M3Color.of(context).readOnly.surface5;
           foregroundColor = M3Color.of(context).onSurface;
@@ -224,12 +220,24 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
               backgroundColor: backgroundColor,
               foregroundColor: foregroundColor,
               label: label,
-              onTap: backupable ? () => backup(widget.destination, provider) : null,
+              onTap: backupable ? () => onBackup(context, provider) : null,
             ),
           ),
         );
       },
     );
+  }
+
+  void onBackup(BuildContext context, BaseCloudProvider provider) {
+    if (!widget.hasStory) {
+      showOkAlertDialog(
+        context: context,
+        title: "No stories found in device",
+        message: "Required at least one story!",
+      );
+    } else {
+      backup(widget.destination, provider);
+    }
   }
 
   Widget buildAvatar(ValueNotifier<bool> loadingBackupNotifier) {

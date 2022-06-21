@@ -44,7 +44,12 @@ class BackupsDetailsViewModel extends BaseViewModel {
     loadingNotifier.value = true;
     CloudFileTuple? cloudFile = getCloudFile();
     backup = cloudFile != null ? await destination.download(cloudFile.cloudFile) : null;
-    loadingNotifier.value = false;
+
+    // avoid set on disposed
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      loadingNotifier.value = false;
+    });
+
     notifyListeners();
   }
 
