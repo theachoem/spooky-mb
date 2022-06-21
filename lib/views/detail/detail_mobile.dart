@@ -40,12 +40,17 @@ class _DetailMobile extends StatelessWidget {
           }
         },
         itemBuilder: (context, index) {
-          return DetailEditor(
+          return EditorWrapper(
             document: pages[index],
-            readOnlyNotifier: readOnlyNotifier,
-            onChange: (_) => viewModel.onChange(_),
-            onControllerReady: (controller) => viewModel.setQuillController(index, controller),
-            onFocusNodeReady: (focusNode) => viewModel.setFocusNode(index, focusNode),
+            builder: (document) {
+              return DetailEditor(
+                document: document,
+                readOnlyNotifier: readOnlyNotifier,
+                onChange: (_) => viewModel.onChange(_),
+                onControllerReady: (controller) => viewModel.setQuillController(index, controller),
+                onFocusNodeReady: (focusNode) => viewModel.setFocusNode(index, focusNode),
+              );
+            },
           );
         },
       ),

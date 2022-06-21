@@ -68,16 +68,14 @@ class _UserMobile extends StatelessWidget {
           connectedProviders.length,
           (index) {
             final providerInfo = connectedProviders[index];
-            final connectedInfo =
-                viewModel.getUserInfo(providerInfo.providerId);
+            final connectedInfo = viewModel.getUserInfo(providerInfo.providerId);
             return buildProviderTile(
               context: context,
               title: providerInfo.title,
               iconData: providerInfo.iconData,
               connectedInfo: connectedInfo,
               onConnectPressed: () => viewModel.connect(providerInfo, context),
-              onDisconnectPressed: () async =>
-                  onDisconnect(providerInfo, context),
+              onDisconnectPressed: () async => onDisconnect(providerInfo, context),
             );
           },
         ),
@@ -85,8 +83,7 @@ class _UserMobile extends StatelessWidget {
     );
   }
 
-  Future<void> onDisconnect(
-      AvailableAuthProvider providerInfo, BuildContext context) async {
+  Future<void> onDisconnect(AvailableAuthProvider providerInfo, BuildContext context) async {
     final providerId = providerInfo.providerId;
     final result = await showOkCancelAlertDialog(
       context: context,
@@ -100,13 +97,12 @@ class _UserMobile extends StatelessWidget {
         final success = await MessengerService.instance.showLoading(
           future: () => viewModel.unlink(providerId, context),
           context: context,
+          debugSource: "UserMobile#onDisconnect",
         );
         if (success == true) {
-          MessengerService.instance
-              .showSnackBar("Disconnect successfully", success: true);
+          MessengerService.instance.showSnackBar("Disconnect successfully", success: true);
         } else {
-          MessengerService.instance
-              .showSnackBar("Disconnect fail", success: false);
+          MessengerService.instance.showSnackBar("Disconnect fail", success: false);
         }
         break;
       case OkCancelResult.cancel:
@@ -180,8 +176,7 @@ class UserImageProfile extends StatelessWidget {
         builder: (context, double offset, child) {
           final bool isCollapse = offset < 200;
           final avatarSize = isCollapse ? width : this.avatarSize;
-          final padding =
-              isCollapse ? EdgeInsets.zero : const EdgeInsets.all(16);
+          final padding = isCollapse ? EdgeInsets.zero : const EdgeInsets.all(16);
           return AnimatedContainer(
             duration: ConfigConstant.duration,
             curve: Curves.easeOutQuart,
@@ -216,11 +211,8 @@ class UserImageProfile extends StatelessWidget {
       height: 72,
       margin: EdgeInsets.only(left: isCollapse ? 0 : avatarSize + 16),
       decoration: BoxDecoration(
-        borderRadius:
-            isCollapse ? BorderRadius.zero : ConfigConstant.circlarRadius2,
-        color: M3Color.of(context)
-            .primaryContainer
-            .withOpacity(isCollapse ? 1 : 1),
+        borderRadius: isCollapse ? BorderRadius.zero : ConfigConstant.circlarRadius2,
+        color: M3Color.of(context).primaryContainer.withOpacity(isCollapse ? 1 : 1),
       ),
       child: SpPopupMenuButton(
         dxGetter: (dx) => MediaQuery.of(context).size.width,
@@ -234,14 +226,12 @@ class UserImageProfile extends StatelessWidget {
             if (currentUser.metadata.creationTime != null)
               SpPopMenuItem(
                 title: "Created at",
-                subtitle: DateFormatHelper.dateTimeFormat()
-                    .format(currentUser.metadata.creationTime!),
+                subtitle: DateFormatHelper.dateTimeFormat().format(currentUser.metadata.creationTime!),
               ),
             if (currentUser.metadata.lastSignInTime != null)
               SpPopMenuItem(
                 title: "Last sign in",
-                subtitle: DateFormatHelper.dateTimeFormat()
-                    .format(currentUser.metadata.lastSignInTime!),
+                subtitle: DateFormatHelper.dateTimeFormat().format(currentUser.metadata.lastSignInTime!),
               ),
           ];
         },

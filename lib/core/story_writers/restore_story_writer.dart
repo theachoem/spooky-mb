@@ -52,7 +52,7 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
   }
 
   @override
-  StoryDbModel buildStory(RestoreStoryObject object) {
+  Future<StoryDbModel> buildStory(RestoreStoryObject object) async {
     StoryDbModel story = object.info.currentStory;
     Iterable<StoryContentDbModel> selected = object.info.currentStory.changes.where((e) => e.id == object.contentId);
     if (selected.isNotEmpty) {

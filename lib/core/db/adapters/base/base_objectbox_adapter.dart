@@ -28,7 +28,7 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
     store.close();
   }
 
-  Map<String, dynamic> objectTransformer(T object);
+  Future<Map<String, dynamic>> objectTransformer(T object);
   Future<T> objectConstructor(Map<String, dynamic> json);
 
   @override
@@ -58,7 +58,8 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
-    int id = box.put(await objectConstructor(body), mode: PutMode.put);
+    T constructed = await objectConstructor(body);
+    int id = box.put(constructed, mode: PutMode.put);
     Map<String, dynamic>? object = await fetchOne(id: body['id']);
     if (kDebugMode) {
       print(
@@ -73,10 +74,8 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
-    int id = box.put(
-      await objectConstructor(body),
-      mode: PutMode.insert,
-    );
+    T constructed = await objectConstructor(body);
+    int id = box.put(constructed, mode: PutMode.insert);
     return fetchOne(id: id);
   }
 

@@ -235,6 +235,18 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
   Widget buildAvatar(ValueNotifier<bool> loadingBackupNotifier) {
     return ValueListenableBuilder<bool>(
       valueListenable: loadingBackupNotifier,
+      child: LoopAnimation<int>(
+        tween: IntTween(begin: 0, end: 180),
+        builder: (context, child, value) {
+          return Transform.rotate(
+            angle: value * pi / 180,
+            child: Icon(
+              Icons.sync,
+              color: M3Color.of(context).onTertiary,
+            ),
+          );
+        },
+      ),
       builder: (context, loading, child) {
         return CircleAvatar(
           backgroundColor: M3Color.dayColorsOf(context)[5],
@@ -244,18 +256,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
               widget.destination.iconData,
               color: M3Color.of(context).onTertiary,
             ),
-            secondChild: LoopAnimation<int>(
-              tween: IntTween(begin: 0, end: 180),
-              builder: (context, child, value) {
-                return Transform.rotate(
-                  angle: value * pi / 180,
-                  child: Icon(
-                    Icons.sync,
-                    color: M3Color.of(context).onTertiary,
-                  ),
-                );
-              },
-            ),
+            secondChild: child!,
           ),
         );
       },

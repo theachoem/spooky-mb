@@ -32,22 +32,20 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
   }
 
   @override
-  StoryDbModel buildStory(T object) {
-    StoryDbModel story;
-    StoryContentDbModel content = StoryWriteHelper.buildContent(
+  Future<StoryDbModel> buildStory(T object) async {
+    StoryContentDbModel content = await StoryWriteHelper.buildContent(
       object.info.currentContent,
       object.info.quillControllers,
       object.info.title,
       object.info.openOn,
     );
+
     switch (object.info.flowType) {
-      case DetailViewFlowType.create:
-        story = object.info.currentStory.copyWith(changes: [content]);
-        break;
       case DetailViewFlowType.update:
-        story = object.info.currentStory..addChange(content);
-        break;
+        return object.info.currentStory..addChange(content);
+      case DetailViewFlowType.create:
+      default:
+        return object.info.currentStory.copyWith(changes: [content]);
     }
-    return story;
   }
 }

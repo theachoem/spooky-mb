@@ -95,6 +95,13 @@ class StoryTileState extends State<StoryTile> {
   }
 
   @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     Map<int, Color> dayColors = M3Color.dayColorsOf(context);
     return SpPopupMenuButton(

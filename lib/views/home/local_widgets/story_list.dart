@@ -107,6 +107,10 @@ class StoryList extends StatelessWidget {
       assert(onUnarchive != null);
     }
 
+    if (kDebugMode) {
+      print("BUILD: StoryList");
+    }
+
     return FutureBuilder<List<StoryDbModel>>(
       future: _stories == null || !provider.loaded
           ? null
@@ -119,40 +123,44 @@ class StoryList extends StatelessWidget {
           child: Stack(
             children: [
               buildTimelineDivider(configuredStories),
-              ListView.builder(
-                controller: controller,
-                itemCount: configuredStories.length,
-                physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
-                itemBuilder: (context, index) {
-                  StoryDbModel story = storyAt(configuredStories, index)!;
-                  StoryDbModel? previousStory = storyAt(configuredStories, index - 1);
-                  return IgnorePointer(
-                    ignoring: viewOnly,
-                    child: buildAnimatedTileWrapper(
-                      story: story,
-                      child: buildSeparatorTile(
-                        index: index,
-                        context: context,
-                        story: story,
-                        previousStory: previousStory,
-                        child: buildConfiguredTile(
-                          index: index,
-                          context: context,
-                          story: story,
-                          previousStory: previousStory,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
+              if (!loading) buildList(configuredStories),
               buildLoading(loading),
               StoryEmptyWidget(
                 isEmpty: !loading && configuredStories.isEmpty,
                 pathType: pathType,
               ),
             ],
+          ),
+        );
+      },
+    );
+  }
+
+  ListView buildList(List<StoryDbModel> configuredStories) {
+    return ListView.builder(
+      controller: controller,
+      itemCount: configuredStories.length,
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
+      itemBuilder: (context, index) {
+        StoryDbModel story = storyAt(configuredStories, index)!;
+        StoryDbModel? previousStory = storyAt(configuredStories, index - 1);
+        return IgnorePointer(
+          ignoring: viewOnly,
+          child: buildAnimatedTileWrapper(
+            story: story,
+            child: buildSeparatorTile(
+              index: index,
+              context: context,
+              story: story,
+              previousStory: previousStory,
+              child: buildConfiguredTile(
+                index: index,
+                context: context,
+                story: story,
+                previousStory: previousStory,
+              ),
+            ),
           ),
         );
       },

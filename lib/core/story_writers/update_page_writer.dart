@@ -34,8 +34,8 @@ class UpdatePageWriter extends DefaultStoryWriter<UpdatePageObject> {
   }
 
   @override
-  StoryDbModel buildStory(UpdatePageObject object) {
-    StoryDbModel story = super.buildStory(object);
+  Future<StoryDbModel> buildStory(UpdatePageObject object) async {
+    StoryDbModel story = await super.buildStory(object);
     StoryContentDbModel newContent = story.changes.last;
 
     // update pages

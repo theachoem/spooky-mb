@@ -21,7 +21,12 @@ abstract class BaseBackupDestination<T extends BaseCloudProvider> {
   Future<CloudFileModel?> backup(FileSystemEntity file, BackupsModel backups);
 
   Future<void> _restore(BackupsModel backups, BuildContext context) async {
-    await BackupsService.instance.restore(backups: backups);
+    await MessengerService.instance.showLoading<int>(
+      context: context,
+      future: () => BackupsService.instance.restore(backups: backups).then((value) => 1),
+      debugSource: "BaseBackupDestination#_restore",
+    );
+
     MessengerService.instance.showSnackBar("Restore", success: true, action: (color) {
       return SnackBarAction(
         label: "Go home",
