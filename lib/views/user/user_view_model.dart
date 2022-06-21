@@ -3,6 +3,7 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/api/social_auths/apple_auth_api.dart';
+import 'package:spooky/core/api/social_auths/base_social_auth_api.dart';
 import 'package:spooky/core/api/social_auths/facebook_auth_api.dart';
 import 'package:spooky/core/api/social_auths/google_auth_api.dart';
 import 'package:spooky/core/base/base_view_model.dart';
@@ -34,26 +35,20 @@ class UserViewModel extends BaseViewModel {
         providerId: "facebook.com",
         title: 'Facebook',
         iconData: Icons.facebook,
-        connect: (context) async {
-          return _facebookAuthApi.connect();
-        },
+        authApi: _facebookAuthApi,
       ),
       AvailableAuthProvider(
         providerId: "google.com",
         title: 'Google',
         iconData: CommunityMaterialIcons.google,
-        connect: (context) async {
-          return _googleAuthApi.connect();
-        },
+        authApi: _googleAuthApi,
       ),
       if (Platform.isIOS || Platform.isMacOS)
         AvailableAuthProvider(
           providerId: "apple.com",
           title: 'Apple',
           iconData: Icons.apple,
-          connect: (context) async {
-            return _appleAuthApi.connect();
-          },
+          authApi: _appleAuthApi,
         ),
     ];
     for (AvailableAuthProvider e in list) {
@@ -66,12 +61,12 @@ class UserViewModel extends BaseViewModel {
   }
 
   Future<void> connect(AvailableAuthProvider providerInfo, BuildContext context) async {
-    final result = await providerInfo.connect(context);
+    final result = await providerInfo.authApi.connect();
     if (result != null) {
       MessengerService.instance.showSnackBar("Connect successfully", success: true);
       onConnect(result);
     } else {
-      MessengerService.instance.showSnackBar("Connect fail", success: false);
+      MessengerService.instance.showSnackBar(providerInfo.authApi.errorMessage ?? "Connect fail", success: false);
     }
   }
 
@@ -118,16 +113,15 @@ class AvailableAuthProvider {
   final String title;
   final String providerId;
   final IconData iconData;
-  final Future<User?> Function(BuildContext) connect;
+  final BaseSocialAuthApi authApi;
 
   AvailableAuthProvider({
     required this.title,
     required this.iconData,
     required this.providerId,
-    required this.connect,
+    required this.authApi,
   });
 }
-
 
 // if (connectedProviders.isNotEmpty) {
 //   availableProviders['password'] = AvailableAuthProvider(
