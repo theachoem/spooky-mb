@@ -9,7 +9,6 @@ import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_expanded_app_bar.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_single_button_bottom_navigation.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -18,9 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'init_pick_color_view_model.dart';
 
-part 'init_pick_color_mobile.dart';
-part 'init_pick_color_tablet.dart';
-part 'init_pick_color_desktop.dart';
+part 'init_pick_color_adaptive.dart';
 
 class InitPickColorView extends StatelessWidget {
   const InitPickColorView({
@@ -35,11 +32,7 @@ class InitPickColorView extends StatelessWidget {
     return ViewModelProvider<InitPickColorViewModel>(
       create: (BuildContext context) => InitPickColorViewModel(showNextButton),
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _InitPickColorMobile(viewModel),
-          desktop: _InitPickColorDesktop(viewModel),
-          tablet: _InitPickColorTablet(viewModel),
-        );
+        return _InitPickColorAdaptive(viewModel);
       },
     );
   }

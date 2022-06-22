@@ -8,7 +8,6 @@ import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/widgets/sp_single_button_bottom_navigation.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
