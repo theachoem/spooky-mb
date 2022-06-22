@@ -22,9 +22,7 @@ import 'package:spooky/views/app_starter/app_starter_view_model.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
-part 'app_starter_mobile.dart';
-part 'app_starter_tablet.dart';
-part 'app_starter_desktop.dart';
+part 'app_starter_adaptive.dart';
 
 class AppStarterView extends StatelessWidget {
   const AppStarterView({Key? key}) : super(key: key);
@@ -34,11 +32,7 @@ class AppStarterView extends StatelessWidget {
     return ViewModelProvider<AppStarterViewModel>(
       create: (BuildContext context) => AppStarterViewModel(),
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _AppStarterMobile(viewModel),
-          desktop: _AppStarterDesktop(viewModel),
-          tablet: _AppStarterTablet(viewModel),
-        );
+        return _AppStarterAdaptive(viewModel);
       },
     );
   }

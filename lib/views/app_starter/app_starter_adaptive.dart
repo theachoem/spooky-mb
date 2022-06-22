@@ -1,8 +1,8 @@
 part of app_starter_view;
 
-class _AppStarterMobile extends StatelessWidget {
+class _AppStarterAdaptive extends StatelessWidget {
   final AppStarterViewModel viewModel;
-  const _AppStarterMobile(this.viewModel);
+  const _AppStarterAdaptive(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
