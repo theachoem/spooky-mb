@@ -1,8 +1,8 @@
 part of nickname_creator_view;
 
-class _NicknameCreatorMobile extends StatelessWidget {
+class _NicknameCreatorAdaptive extends StatelessWidget {
   final NicknameCreatorViewModel viewModel;
-  const _NicknameCreatorMobile(this.viewModel);
+  const _NicknameCreatorAdaptive(this.viewModel);
 
   @override
   Widget build(BuildContext context) {

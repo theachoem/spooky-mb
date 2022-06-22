@@ -14,9 +14,7 @@ import 'package:spooky/widgets/sp_single_button_bottom_navigation.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'nickname_creator_view_model.dart';
 
-part 'nickname_creator_mobile.dart';
-part 'nickname_creator_tablet.dart';
-part 'nickname_creator_desktop.dart';
+part 'nickname_creator_adaptive.dart';
 
 class NicknameCreatorView extends StatelessWidget {
   const NicknameCreatorView({Key? key}) : super(key: key);
@@ -26,11 +24,7 @@ class NicknameCreatorView extends StatelessWidget {
     return ViewModelProvider<NicknameCreatorViewModel>(
       create: (BuildContext context) => NicknameCreatorViewModel(),
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _NicknameCreatorMobile(viewModel),
-          desktop: _NicknameCreatorDesktop(viewModel),
-          tablet: _NicknameCreatorTablet(viewModel),
-        );
+        return _NicknameCreatorAdaptive(viewModel);
       },
     );
   }
