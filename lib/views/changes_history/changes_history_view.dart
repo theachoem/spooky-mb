@@ -15,7 +15,6 @@ import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +23,6 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'changes_history_view_model.dart';
 
 part 'changes_history_mobile.dart';
-part 'changes_history_tablet.dart';
-part 'changes_history_desktop.dart';
 
 class ChangesHistoryView extends StatelessWidget {
   const ChangesHistoryView({
@@ -44,11 +41,7 @@ class ChangesHistoryView extends StatelessWidget {
     return ViewModelProvider<ChangesHistoryViewModel>(
       create: (BuildContext context) => ChangesHistoryViewModel(story, onRestorePressed, onDeletePressed),
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _ChangesHistoryMobile(viewModel),
-          desktop: _ChangesHistoryDesktop(viewModel),
-          tablet: _ChangesHistoryTablet(viewModel),
-        );
+        return _ChangesHistoryMobile(viewModel);
       },
     );
   }

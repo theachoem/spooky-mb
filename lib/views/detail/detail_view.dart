@@ -10,13 +10,10 @@ import 'package:spooky/views/detail/local_widgets/detail_scaffold.dart';
 import 'package:spooky/views/detail/local_widgets/detail_toolbar.dart';
 import 'package:spooky/views/detail/local_widgets/editor_wrapper.dart';
 import 'package:spooky/widgets/sp_page_view/sp_page_view.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 
 part 'detail_mobile.dart';
-part 'detail_tablet.dart';
-part 'detail_desktop.dart';
 
 class DetailView extends StatelessWidget {
   const DetailView({
@@ -35,11 +32,7 @@ class DetailView extends StatelessWidget {
       builder: (context, viewModel, child) {
         return ValueListenableBuilder<bool>(
           valueListenable: viewModel.hasChangeNotifer,
-          child: ScreenTypeLayout(
-            mobile: _DetailMobile(viewModel),
-            desktop: _DetailDesktop(viewModel),
-            tablet: _DetailTablet(viewModel),
-          ),
+          child: _DetailMobile(viewModel),
           builder: (context, hasChange, child) {
             return WillPopScope(
               onWillPop: () => onWillPop(viewModel, context),

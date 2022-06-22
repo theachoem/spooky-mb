@@ -18,7 +18,6 @@ import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_overlay_popup_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -28,8 +27,6 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'theme_setting_view_model.dart';
 
 part 'theme_setting_mobile.dart';
-part 'theme_setting_tablet.dart';
-part 'theme_setting_desktop.dart';
 
 class ThemeSettingView extends StatelessWidget {
   const ThemeSettingView({Key? key}) : super(key: key);
@@ -39,11 +36,7 @@ class ThemeSettingView extends StatelessWidget {
     return ViewModelProvider<ThemeSettingViewModel>(
       create: (BuildContext context) => ThemeSettingViewModel(),
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _ThemeSettingMobile(viewModel),
-          desktop: _ThemeSettingDesktop(viewModel),
-          tablet: _ThemeSettingTablet(viewModel),
-        );
+        return _ThemeSettingMobile(viewModel);
       },
     );
   }

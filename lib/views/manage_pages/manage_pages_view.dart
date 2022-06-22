@@ -11,7 +11,6 @@ import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_dimissable_background.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
@@ -20,8 +19,6 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'manage_pages_view_model.dart';
 
 part 'manage_pages_mobile.dart';
-part 'manage_pages_tablet.dart';
-part 'manage_pages_desktop.dart';
 
 class ManagePagesView extends StatelessWidget {
   const ManagePagesView({
@@ -36,11 +33,7 @@ class ManagePagesView extends StatelessWidget {
     return ViewModelProvider<ManagePagesViewModel>(
       create: (BuildContext context) => ManagePagesViewModel(content),
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _ManagePagesMobile(viewModel),
-          desktop: _ManagePagesDesktop(viewModel),
-          tablet: _ManagePagesTablet(viewModel),
-        );
+        return _ManagePagesMobile(viewModel);
       },
     );
   }

@@ -22,13 +22,10 @@ import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'sound_list_view_model.dart';
 
 part 'sound_list_mobile.dart';
-part 'sound_list_tablet.dart';
-part 'sound_list_desktop.dart';
 part 'local_widgets/sound_tile.dart';
 part 'local_widgets/sound_type_header.dart';
 
@@ -40,11 +37,7 @@ class SoundListView extends StatelessWidget {
     return ViewModelProvider<SoundListViewModel>(
       create: (context) => SoundListViewModel(),
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _SoundListMobile(viewModel),
-          desktop: _SoundListDesktop(viewModel),
-          tablet: _SoundListTablet(viewModel),
-        );
+        return _SoundListMobile(viewModel);
       },
     );
   }

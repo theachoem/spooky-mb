@@ -18,7 +18,6 @@ import 'package:spooky/widgets/sp_app_version.dart';
 import 'package:spooky/widgets/sp_developer_visibility.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/setting/setting_view_model.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
@@ -26,8 +25,6 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:launch_review/launch_review.dart';
 
 part 'setting_mobile.dart';
-part 'setting_tablet.dart';
-part 'setting_desktop.dart';
 
 class SettingView extends StatelessWidget {
   const SettingView({Key? key}) : super(key: key);
@@ -37,11 +34,7 @@ class SettingView extends StatelessWidget {
     return ViewModelProvider<SettingViewModel>(
       create: (BuildContext context) => SettingViewModel(),
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _SettingMobile(viewModel),
-          desktop: _SettingDesktop(viewModel),
-          tablet: _SettingTablet(viewModel),
-        );
+        return _SettingMobile(viewModel);
       },
     );
   }

@@ -1,6 +1,5 @@
 library story_pad_restore_view;
 
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
@@ -16,8 +15,6 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'story_pad_restore_view_model.dart';
 
 part 'story_pad_restore_mobile.dart';
-part 'story_pad_restore_tablet.dart';
-part 'story_pad_restore_desktop.dart';
 
 class StoryPadRestoreView extends StatelessWidget {
   const StoryPadRestoreView({Key? key}) : super(key: key);
@@ -28,11 +25,7 @@ class StoryPadRestoreView extends StatelessWidget {
       create: (context) => StoryPadRestoreViewModel(),
       onModelReady: (context, model) {},
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _StoryPadRestoreMobile(viewModel),
-          desktop: _StoryPadRestoreDesktop(viewModel),
-          tablet: _StoryPadRestoreTablet(viewModel),
-        );
+        return _StoryPadRestoreMobile(viewModel);
       },
     );
   }

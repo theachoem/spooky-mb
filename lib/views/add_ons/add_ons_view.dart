@@ -28,8 +28,6 @@ import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
 part 'add_ons_mobile.dart';
-part 'add_ons_tablet.dart';
-part 'add_ons_desktop.dart';
 
 class AddOnsView extends StatelessWidget {
   const AddOnsView({Key? key}) : super(key: key);
@@ -44,8 +42,8 @@ class AddOnsView extends StatelessWidget {
       builder: (context, viewModel, child) {
         return ScreenTypeLayout(
           mobile: _AddOnsMobile(viewModel),
-          desktop: _AddOnsDesktop(viewModel),
-          tablet: _AddOnsTablet(viewModel),
+          // desktop: _AddOnsDesktop(viewModel),
+          // tablet: _AddOnsTablet(viewModel),
         );
       },
     );
