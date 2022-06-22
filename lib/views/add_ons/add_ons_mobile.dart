@@ -42,6 +42,7 @@ class _AddOnsMobile extends StatelessWidget {
   SpExpandedAppBar buildAppBar() {
     return SpExpandedAppBar(
       expandedHeight: expandedHeight,
+      fallbackRouter: SpRouter.addOn,
       actions: [
         Container(
           transform: Matrix4.identity()..translate(4.0, 0.0),

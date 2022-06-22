@@ -8,7 +8,10 @@ class SpAppBarTitle extends StatelessWidget {
   }) : super(key: key);
 
   final SpRouter? fallbackRouter;
-  static SpRouter? router(BuildContext context) {
+  static SpRouter? router(
+    BuildContext context, [
+    SpRouter? fallbackRouter,
+  ]) {
     String? name = ModalRoute.of(context)?.settings.name;
     SpRouter? router;
     for (SpRouter e in SpRouter.values) {
@@ -17,7 +20,7 @@ class SpAppBarTitle extends StatelessWidget {
         break;
       }
     }
-    return router;
+    return router ?? fallbackRouter;
   }
 
   @override

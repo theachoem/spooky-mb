@@ -12,6 +12,7 @@ class _CloudStoragesMobile extends StatelessWidget {
           const SpExpandedAppBar(
             expandedHeight: 200,
             actions: [],
+            fallbackRouter: SpRouter.cloudStorages,
           ),
           SliverPadding(
             padding: ConfigConstant.layoutPadding,

@@ -14,6 +14,7 @@ class SpExpandedAppBar extends StatelessWidget {
     this.subtitleIcon,
     this.backgroundColor,
     this.collapsedHeight,
+    this.fallbackRouter,
   }) : super(key: key);
 
   final double expandedHeight;
@@ -21,9 +22,11 @@ class SpExpandedAppBar extends StatelessWidget {
   final IconData? subtitleIcon;
   final List<Widget> actions;
   final Color? backgroundColor;
+  final SpRouter? fallbackRouter;
 
   @override
   Widget build(BuildContext context) {
+    final SpRouter? fallbackRouter = this.fallbackRouter ?? SpAppBarTitle.router(context);
     return MorphingSliverAppBar(
       expandedHeight: expandedHeight,
       collapsedHeight: collapsedHeight,
@@ -44,7 +47,7 @@ class SpExpandedAppBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  SpAppBarTitle.router(context)?.title ?? "",
+                  fallbackRouter?.title ?? "",
                   style: Theme.of(context).appBarTheme.titleTextStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -54,9 +57,7 @@ class SpExpandedAppBar extends StatelessWidget {
                   text: TextSpan(
                     style: Theme.of(context).textTheme.bodyMedium,
                     children: [
-                      TextSpan(
-                        text: SpAppBarTitle.router(context)?.subtitle ?? "",
-                      ),
+                      TextSpan(text: fallbackRouter?.subtitle ?? ""),
                       if (subtitleIcon != null)
                         WidgetSpan(
                           child: Padding(

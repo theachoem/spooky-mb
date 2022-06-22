@@ -26,6 +26,7 @@ class _InitPickColorAdaptive extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         slivers: [
           SpExpandedAppBar(
+            fallbackRouter: SpRouter.initPickColor,
             expandedHeight: 200,
             collapsedHeight: 200,
             backgroundColor: M3Color.of(context).background,
