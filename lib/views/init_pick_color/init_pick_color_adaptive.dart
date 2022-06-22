@@ -1,8 +1,8 @@
 part of init_pick_color_view;
 
-class _InitPickColorMobile extends StatelessWidget {
+class _InitPickColorAdaptive extends StatelessWidget {
   final InitPickColorViewModel viewModel;
-  const _InitPickColorMobile(this.viewModel);
+  const _InitPickColorAdaptive(this.viewModel);
 
   @override
   Widget build(BuildContext context) {

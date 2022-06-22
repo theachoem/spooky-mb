@@ -25,8 +25,6 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'backups_details_view_model.dart';
 
 part 'backups_details_mobile.dart';
-part 'backups_details_tablet.dart';
-part 'backups_details_desktop.dart';
 
 class BackupsDetailsView extends StatelessWidget {
   const BackupsDetailsView({
@@ -48,8 +46,8 @@ class BackupsDetailsView extends StatelessWidget {
       builder: (context, viewModel, child) {
         return ScreenTypeLayout(
           mobile: _BackupsDetailsMobile(viewModel),
-          desktop: _BackupsDetailsDesktop(viewModel),
-          tablet: _BackupsDetailsTablet(viewModel),
+          // desktop: _BackupsDetailsDesktop(viewModel),
+          // tablet: _BackupsDetailsTablet(viewModel),
         );
       },
     );

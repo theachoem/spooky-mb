@@ -54,7 +54,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
         bool isSignedIn = provider.isSignedIn;
         DateTime? lastBackup = provider.lastBackup;
         bool released = provider.released;
-        ValueNotifier<bool>? loadingBackupNotifier = provider.loadingBackupNotifier;
+        // ValueNotifier<bool>? loadingBackupNotifier = provider.loadingBackupNotifier;
         ValueNotifier<bool>? doingBackupNotifier = provider.doingBackupNotifier;
 
         String title;
