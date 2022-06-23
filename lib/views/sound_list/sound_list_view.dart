@@ -13,6 +13,7 @@ import 'package:spooky/core/types/sound_type.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
+import 'package:spooky/providers/notification_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
