@@ -30,7 +30,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     StoryDbModel? result;
     if (validation == null) {
       StoryDbModel story = await buildStory(object);
-      result = await database.set(body: story.toJson());
+      result = await database.set(body: story.copyWith(updatedAt: DateTime.now()).toJson());
       return result != null ? _nextSuccess(result) : _nextError(result);
     } else {
       return _nextError(result, validation);

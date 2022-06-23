@@ -394,6 +394,7 @@ class StoryList extends StatelessWidget {
     required StoryDbModel? previousStory,
   }) {
     return StoryTile(
+      key: ValueKey(story.updatedAt.millisecondsSinceEpoch),
       story: story,
       context: context,
       previousStory: previousStory,
