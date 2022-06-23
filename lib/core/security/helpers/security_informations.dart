@@ -28,10 +28,6 @@ class _SecurityInformations {
       _hasIris = availableBiometrics.contains(BiometricType.iris);
       _hasStrong = availableBiometrics.contains(BiometricType.strong);
       _hasWeak = availableBiometrics.contains(BiometricType.weak);
-    } else {
-      _hasFaceID = false;
-      _hasFingerprint = false;
-      _hasIris = false;
     }
   }
 

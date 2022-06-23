@@ -52,12 +52,40 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
         options: const AuthenticationOptions(
           useErrorDialogs: true,
           stickyAuth: false,
-          biometricOnly: true,
+          biometricOnly: false,
         ),
       );
-    } on PlatformException {
-      // OpenSettings.openSecuritySetting();
+    } on PlatformException catch (e) {
+      BuildContext? context = App.navigatorKey.currentContext;
+
+      if (context != null) {
+        if (e.code == auth_error.notAvailable) {
+          showOkAlertDialog(
+            context: context,
+            title: "Error",
+            message: "Device does not support for biometrics",
+          );
+        } else if (e.code == auth_error.notEnrolled) {
+          showOkCancelAlertDialog(
+            context: context,
+            title: "Error",
+            message: "No biometrics set on device",
+            okLabel: "Open Setting",
+          ).then((value) {
+            if (value == OkCancelResult.ok) {
+              AppSettings.openSecuritySettings();
+            }
+          });
+        } else {
+          showOkAlertDialog(
+            context: context,
+            message: e.message,
+            title: e.code,
+          );
+        }
+      }
     }
+
     return false;
   }
 }

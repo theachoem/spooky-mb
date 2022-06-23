@@ -1,10 +1,14 @@
 library security_service;
 
 import 'dart:async';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:app_settings/app_settings.dart';
+import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/views/lock/types/lock_flow_type.dart';
 import 'package:spooky/utils/util_widgets/screen_lock.dart';
 import 'package:spooky/core/storages/local_storages/security/security_storage.dart';
