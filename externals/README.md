@@ -1,0 +1,1 @@
+This directory contain all files that not used in app, eg, backup files

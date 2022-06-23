@@ -1,0 +1,251 @@
+{
+  "sounds": [
+    {
+      "type": "sound",
+      "sound_name": "bad weather heavy rain and thunder",
+      "file_name": "mixkit-bad-weather-heavy-rain-and-thunder-1261.wav",
+      "file_size": 4483004,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "big thunder with rain",
+      "file_name": "mixkit-big-thunder-with-rain-1291.wav",
+      "file_size": 2847402,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "downpour loop",
+      "file_name": "mixkit-downpour-loop-1245.wav",
+      "file_size": 2763282,
+      "weather_type": "middleRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "forest rain loop",
+      "file_name": "mixkit-forest-rain-loop-1225.wav",
+      "file_size": 4374714,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "heavy rain",
+      "file_name": "mixkit-heavy-rain-2403.wav",
+      "file_size": 1326330,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "heavy rain and thunder ambience",
+      "file_name": "mixkit-heavy-rain-and-thunder-ambience-1259.wav",
+      "file_size": 2732408,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "heavy rain and thunder in background",
+      "file_name": "mixkit-heavy-rain-and-thunder-in-background-2406.wav",
+      "file_size": 3927936,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "heavy rain drops",
+      "file_name": "mixkit-heavy-rain-drops-2399.wav",
+      "file_size": 2148306,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "heavy rain loop",
+      "file_name": "mixkit-heavy-rain-loop-1243.wav",
+      "file_size": 4022262,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "heavy rain on car glass interior",
+      "file_name": "mixkit-heavy-rain-on-car-glass-interior-1248.wav",
+      "file_size": 6993076,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "heavy rain storm",
+      "file_name": "mixkit-heavy-rain-storm-1257.wav",
+      "file_size": 6266296,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "heavy storm rain loop",
+      "file_name": "mixkit-heavy-storm-rain-loop-2400.wav",
+      "file_size": 3175930,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "intense downpour loop",
+      "file_name": "mixkit-intense-downpour-loop-1244.wav",
+      "file_size": 6821382,
+      "weather_type": "heavySnow"
+    },
+    {
+      "type": "sound",
+      "sound_name": "intense rain in a calm night",
+      "file_name": "mixkit-intense-rain-in-a-calm-night-1252.wav",
+      "file_size": 2148306,
+      "weather_type": "lightRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "intense rain loop",
+      "file_name": "mixkit-intense-rain-loop-1246.wav",
+      "file_size": 7803374,
+      "weather_type": "lightRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "light rain loop",
+      "file_name": "mixkit-light-rain-loop-1253.wav",
+      "file_size": 6960060,
+      "weather_type": "lightRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "light rain loop",
+      "file_name": "mixkit-light-rain-loop-2393.wav",
+      "file_size": 2646730,
+      "weather_type": "lightRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "light rain on pavement",
+      "file_name": "mixkit-light-rain-on-pavement-1251.wav",
+      "file_size": 4697286,
+      "weather_type": "lightRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "light rain with thunderstorm",
+      "file_name": "mixkit-light-rain-with-thunderstorm-1290.wav",
+      "file_size": 6483430,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "rain and thunder crash",
+      "file_name": "mixkit-rain-and-thunder-crash-1258.wav",
+      "file_size": 3288228,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "rain and thunder storm",
+      "file_name": "mixkit-rain-and-thunder-storm-2390.wav",
+      "file_size": 5116330,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "rain in the jungle and birds",
+      "file_name": "mixkit-rain-in-the-jungle-and-birds-2431.wav",
+      "file_size": 7983320,
+      "weather_type": "lightRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "rain loop",
+      "file_name": "mixkit-rain-loop-1250.wav",
+      "file_size": 6960060,
+      "weather_type": "lightRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "rain on umbrella",
+      "file_name": "mixkit-rain-on-umbrella-1263.wav",
+      "file_size": 3961136,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "rain splashing",
+      "file_name": "mixkit-rain-splashing-1264.wav",
+      "file_size": 3364202,
+      "weather_type": "heavyRainy"
+    },
+    {
+      "type": "sound",
+      "sound_name": "the rainforest and distant thunders",
+      "file_name": "mixkit-the-rainforest-and-distant-thunders-1260.wav",
+      "file_size": 5593772,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "thunder strike in storm",
+      "file_name": "mixkit-thunder-strike-in-storm-2405.wav",
+      "file_size": 1327068,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "thunder with rain in the storm",
+      "file_name": "mixkit-thunder-with-rain-in-the-storm-1294.wav",
+      "file_size": 3577750,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "thunderstorm and clear rain",
+      "file_name": "mixkit-thunderstorm-and-clear-rain-2397.wav",
+      "file_size": 7801466,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "thunderstorm and rain",
+      "file_name": "mixkit-thunderstorm-and-rain-2391.wav",
+      "file_size": 4961982,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "thunderstorm background sound",
+      "file_name": "mixkit-thunderstorm-background-sound-2398.wav",
+      "file_size": 2613654,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "thunderstorm in the forest",
+      "file_name": "mixkit-thunderstorm-in-the-forest-2396.wav",
+      "file_size": 5645530,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "sound",
+      "sound_name": "tropical rain storm",
+      "file_name": "mixkit-tropical-rain-storm-1255.wav",
+      "file_size": 7740704,
+      "weather_type": "thunder"
+    },
+    {
+      "type": "music",
+      "sound_name": "Etude - Piano",
+      "file_name": "132546__theworkingbamboo__etude.mp3",
+      "file_size": 4242564,
+      "weather_type": "heavySnow",
+      "ref": "https://freesound.org/people/TheWorkingBamboo/sounds/132546"
+    },
+    {
+      "type": "music",
+      "sound_name": "Sleepy - Guitar",
+      "file_name": "187685__afrodrumming__acoustic-guitar-sleepy-intro-127bpm-gm.mp3",
+      "file_size": 486310,
+      "weather_type": "cloudy",
+      "ref": "https://freesound.org/people/afrodrumming/sounds/187685"
+    }
+  ]
+}
