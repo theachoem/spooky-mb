@@ -40,6 +40,7 @@ class MessengerService {
     String message, {
     bool success = true,
     SnackBarAction Function(Color? foreground)? action,
+    bool showAction = true,
   }) {
     clearSnackBars();
     Color? foreground = success ? null : M3Color.of(_context!).onError;
@@ -50,13 +51,15 @@ class MessengerService {
         behavior: SnackBarBehavior.floating,
         backgroundColor: background,
         dismissDirection: DismissDirection.horizontal,
-        action: action != null
-            ? action(foreground)
-            : SnackBarAction(
-                label: MaterialLocalizations.of(_context!).okButtonLabel,
-                textColor: foreground,
-                onPressed: () {},
-              ),
+        action: showAction
+            ? action != null
+                ? action(foreground)
+                : SnackBarAction(
+                    label: MaterialLocalizations.of(_context!).okButtonLabel,
+                    textColor: foreground,
+                    onPressed: () {},
+                  )
+            : null,
       ),
     );
   }
@@ -78,7 +81,7 @@ class MessengerService {
       if (kDebugMode) print(debugSource);
     }
 
-    Completer<T> completer = Completer();
+    Completer<T?> completer = Completer();
     future().then((value) => completer.complete(value));
 
     if (!kIsWeb && Platform.isIOS) {
@@ -96,8 +99,8 @@ class MessengerService {
     }
   }
 
-  Widget _loadingBuilder<T>(BuildContext context, Completer<T> future) {
-    return FutureBuilder<T>(
+  Widget _loadingBuilder<T>(BuildContext context, Completer<T?> future) {
+    return FutureBuilder<T?>(
       future: future.future.then((value) {
         Navigator.of(context).pop(value);
         return value;

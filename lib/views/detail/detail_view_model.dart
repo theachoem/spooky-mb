@@ -120,6 +120,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   Future<void> save(BuildContext context) async {
     DefaultStoryWriter writer = DefaultStoryWriter();
+
     StoryDbModel? story = await MessengerService.instance.showLoading(
       future: () => writer.save(DefaultStoryObject(info)),
       context: context,
