@@ -21,7 +21,7 @@ class NotificationProvider extends ChangeNotifier {
     OkCancelResult value = await showOkAlertDialog(
       context: context,
       title: "Notification permission",
-      message: "Required to alert you about such as auto save, etc.",
+      message: "Required to alert you about such as auto save, background sound etc.",
       okLabel: "Enable notification",
     );
 

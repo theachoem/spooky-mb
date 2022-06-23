@@ -12,13 +12,16 @@ class AutoSaveStoryWriter extends DraftStoryWriter {
     required String message,
   }) {
     Future.delayed(ConfigConstant.fadeDuration).then((_) {
+      DateTime? createdAt = story?.changes.isNotEmpty == true ? story?.changes.last.createdAt : story?.createdAt;
+      if (createdAt == null) return;
+
       switch (responseCode) {
         case ResponseCodeType.success:
           AutoSaveChannel().show(
+            id: createdAt.hashCode,
+            groupKey: story?.createdAt.hashCode.toString(),
             title: message,
             body: "Saved",
-            // TODO: have a look at this to make sure nothing
-            // payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
             payload: AutoSavePayload(story?.id.toString()),
           );
           break;
@@ -26,9 +29,10 @@ class AutoSaveStoryWriter extends DraftStoryWriter {
           break;
         case ResponseCodeType.fail:
           AutoSaveChannel().show(
+            id: createdAt.hashCode,
+            groupKey: story?.createdAt.hashCode.toString(),
             title: message,
             body: "Error",
-            // payload: AutoSavePayload(story?.file?.path ?? story?.path.toFullPath() ?? ""),
             payload: AutoSavePayload(story?.id.toString()),
           );
           break;

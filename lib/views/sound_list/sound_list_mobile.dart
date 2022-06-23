@@ -66,8 +66,17 @@ class _SoundListMobile extends StatelessWidget {
             SpPopMenuItem(
               title: "Play in Background",
               leadingIconData: viewModel.playSoundInBackground ? Icons.check_box : Icons.check_box_outline_blank,
-              onPressed: () {
-                viewModel.toggleBackgroundSound();
+              onPressed: () async {
+                // future value
+                NotificationProvider provider = context.read<NotificationProvider>();
+
+                if (!provider.isAllow) {
+                  await provider.requestPermission(context);
+                }
+
+                if (provider.isAllow) {
+                  viewModel.toggleBackgroundSound();
+                }
               },
             ),
             SpPopMenuItem(

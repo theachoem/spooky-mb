@@ -15,13 +15,22 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
   NotificationChannelTypes get channelKey => NotificationChannelTypes.autoSave;
 
   @override
+  bool get enableVibration => true;
+
+  @override
   String get channelName => 'Auto Save Notification';
 
   @override
   String get channelDescription => 'Show notification when stories is auto saved on app inactive.';
 
   @override
+  String? get icon => "ni_auto_save";
+
+  @override
   List<NotificationActionButton>? get actionButtons => null;
+
+  @override
+  bool get singleInstance => false;
 
   @override
   Future<void> triggered({

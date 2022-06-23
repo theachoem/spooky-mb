@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
@@ -7,6 +6,7 @@ import 'package:miniplayer/miniplayer.dart';
 import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_model.dart';
 import 'package:spooky/core/notification/channels/play_sound_channel.dart';
+import 'package:spooky/core/notification/notification_service.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/loop_audio_seamlessly.dart';
 import 'package:spooky/core/services/messenger_service.dart';
@@ -240,8 +240,16 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
+
+    void _pause() {
+      for (SoundType type in SoundType.values) {
+        pause(type);
+      }
+    }
+
     switch (state) {
       case AppLifecycleState.resumed:
+        PlaySoundChannel().dismiss(PlaySoundChannel().defaultId);
         for (SoundType type in SoundType.values) {
           resume(type);
         }
@@ -251,10 +259,12 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
           if (on == true) {
             if (_currentlyPlaying) {
               PlaySoundChannel().show(
+                id: PlaySoundChannel().defaultId,
                 title: soundTitle,
                 body: null,
                 // bigPicture: imageUrl,
                 payload: null,
+                autoDismissible: false,
                 notificationLayout: NotificationLayout.Default,
               );
             }

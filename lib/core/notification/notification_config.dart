@@ -24,6 +24,7 @@ class _NotificationConfig {
         channelDescription: e.channelDescription,
         defaultColor: ThemeStorage.theme.colorSeed,
         ledColor: Colors.white,
+        enableVibration: e.enableVibration,
       );
     }).toList();
   }

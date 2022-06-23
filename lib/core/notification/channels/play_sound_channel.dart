@@ -11,6 +11,24 @@ import 'package:spooky/providers/mini_sound_player_provider.dart';
 
 class PlaySoundChannel extends BaseNotificationChannel<PlaySoundPayload> {
   @override
+  String get channelName => "Play Sounds";
+
+  @override
+  bool get enableVibration => false;
+
+  @override
+  String get channelDescription => "Show sound player in notification";
+
+  @override
+  NotificationChannelTypes get channelKey => NotificationChannelTypes.playSounds;
+
+  @override
+  String? get icon => "ni_play_sound";
+
+  @override
+  bool get singleInstance => true;
+
+  @override
   List<NotificationActionButton>? get actionButtons {
     return [
       NotificationActionButton(
@@ -28,15 +46,6 @@ class PlaySoundChannel extends BaseNotificationChannel<PlaySoundPayload> {
         ),
     ];
   }
-
-  @override
-  String get channelName => "Play Sounds";
-
-  @override
-  String get channelDescription => "Show sound player in notification";
-
-  @override
-  NotificationChannelTypes get channelKey => NotificationChannelTypes.playSounds;
 
   @override
   Future<void> triggered({
