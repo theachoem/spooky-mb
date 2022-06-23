@@ -10,6 +10,10 @@ import 'package:spooky/core/types/file_path_type.dart';
 class BackupsFileManager extends BaseFileManager {
   Directory get parent => Directory("${root.path}/${FilePathType.backups.name}");
 
+  BackupsFileManager() {
+    if (!parent.existsSync()) parent.createSync();
+  }
+
   File constructFile(String cloudStorageId) {
     if (!parent.existsSync()) parent.createSync(recursive: true);
     return File("${parent.path}/$cloudStorageId");
