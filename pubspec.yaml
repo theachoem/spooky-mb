@@ -119,6 +119,7 @@ dev_dependencies:
   injectable_generator: ^1.5.3
   json_serializable: ^6.2.0
   objectbox_generator: any
+  flutter_native_splash: ^2.2.0+1
 
 flutter_app_name:
   name: "Spooky"
@@ -129,4 +130,4 @@ flutter:
     - assets/
     - google_fonts/
     - assets/translations/
-    - backups/sounds.json
+    - assets/sounds/sounds.json

@@ -77,7 +77,7 @@ class SoundListViewModel extends BaseViewModel {
   }
 
   Future<void> load() async {
-    String str = await rootBundle.loadString(Assets.backups.sounds);
+    String str = await rootBundle.loadString(Assets.sounds.sounds);
     soundsMap = await compute(_loadSoundMaps, str);
     notifyListeners();
   }
