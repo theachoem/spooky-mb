@@ -27,7 +27,7 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
     required String message,
   }) {
     if (context != null) {
-      MessengerService.instance.showSnackBar(message);
+      MessengerService.instance.showSnackBar(message, showAction: false);
     }
   }
 
