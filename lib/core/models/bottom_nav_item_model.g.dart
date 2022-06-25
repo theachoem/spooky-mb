@@ -6,14 +6,12 @@ part of 'bottom_nav_item_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-BottomNavItemModel _$BottomNavItemModelFromJson(Map<String, dynamic> json) =>
-    BottomNavItemModel(
+BottomNavItemModel _$BottomNavItemModelFromJson(Map<String, dynamic> json) => BottomNavItemModel(
       router: $enumDecodeNullable(_$SpRouterEnumMap, json['router']),
       selected: json['selected'] as bool?,
     );
 
-Map<String, dynamic> _$BottomNavItemModelToJson(BottomNavItemModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$BottomNavItemModelToJson(BottomNavItemModel instance) => <String, dynamic>{
       'router': _$SpRouterEnumMap[instance.router],
       'selected': instance.selected,
     };
@@ -44,4 +42,5 @@ const _$SpRouterEnumMap = {
   SpRouter.setting: 'setting',
   SpRouter.storyPadRestore: 'storyPadRestore',
   SpRouter.user: 'user',
+  SpRouter.signUp: 'signUp',
 };

@@ -15,6 +15,7 @@ class UserIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String? photoURL = FirebaseAuth.instance.currentUser?.photoURL;
+    bool isSignIn = FirebaseAuth.instance.currentUser != null;
     return SpIconButton(
       padding: const EdgeInsets.all(8),
       icon: AnimatedContainer(
@@ -41,7 +42,11 @@ class UserIconButton extends StatelessWidget {
         ),
       ),
       onPressed: () {
-        Navigator.of(context).pushNamed(SpRouter.user.path);
+        if (isSignIn) {
+          Navigator.of(context).pushNamed(SpRouter.user.path);
+        } else {
+          Navigator.of(context).pushNamed(SpRouter.signUp.path);
+        }
       },
     );
   }

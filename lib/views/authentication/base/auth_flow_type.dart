@@ -1,0 +1,4 @@
+enum AuthFlowType {
+  // signIn,
+  signUp,
+}

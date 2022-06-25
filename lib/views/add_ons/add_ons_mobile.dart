@@ -145,32 +145,36 @@ class _AddOnsMobile extends StatelessWidget {
     );
     if (result == OkCancelResult.ok) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushNamed(SpRouter.user.path);
+      Navigator.of(context).pushNamed(SpRouter.signUp.path);
     }
   }
 
   Widget buildMessages(List<MessageModel>? messages, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: messages?.map(
-            (message) {
-              return AnimatedOpacity(
-                opacity: message.message != null ? 1 : 0,
-                duration: ConfigConstant.fadeDuration,
-                child: SpCrossFade(
-                  duration: ConfigConstant.duration * 1.5,
-                  firstChild: buildMessage(
-                    context: context,
-                    message: message.message ?? "",
-                    error: message.isError,
-                  ),
-                  secondChild: const SizedBox(width: double.infinity),
-                  showFirst: message.message != null,
+      children: List.generate(
+        messages?.length ?? 0,
+        (index) {
+          MessageModel message = messages![index];
+          return AnimatedOpacity(
+            opacity: message.message != null ? 1 : 0,
+            duration: ConfigConstant.fadeDuration,
+            child: SpCrossFade(
+              duration: ConfigConstant.duration * 1.5,
+              firstChild: Container(
+                margin: EdgeInsets.only(bottom: index != messages.length - 1 ? ConfigConstant.margin0 : 0),
+                child: buildMessage(
+                  context: context,
+                  message: message.message ?? "",
+                  error: message.isError,
                 ),
-              );
-            },
-          ).toList() ??
-          [],
+              ),
+              secondChild: const SizedBox(width: double.infinity),
+              showFirst: message.message != null,
+            ),
+          );
+        },
+      ),
     );
   }
 

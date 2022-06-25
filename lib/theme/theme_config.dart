@@ -125,40 +125,41 @@ class ThemeConfig {
   }
 
   TextButtonThemeData buildTextButtonStyle(ColorScheme colorScheme) {
-    return TextButtonThemeData(
-      style: TextButton.styleFrom(
-        onSurface: colorScheme.onSurface,
-        primary: colorScheme.onPrimary,
-      ).copyWith(
-        padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1)),
-        overlayColor: MaterialStateProperty.all(ThemeConstant.splashColor),
-        backgroundColor: MaterialStateProperty.resolveWith(
-          (states) {
-            if (states.isNotEmpty) {
-              switch (states.last) {
-                case MaterialState.hovered:
-                  return colorScheme.onPrimary.withOpacity(0.1);
-                case MaterialState.focused:
-                  return colorScheme.onPrimary.withOpacity(0.1);
-                case MaterialState.pressed:
-                  return colorScheme.onPrimary.withOpacity(0.1);
-                case MaterialState.dragged:
-                  return colorScheme.onPrimary.withOpacity(0.1);
-                case MaterialState.selected:
-                  return colorScheme.onPrimary.withOpacity(0.1);
-                case MaterialState.scrolledUnder:
-                  return colorScheme.onPrimary.withOpacity(0.1);
-                case MaterialState.disabled:
-                  return colorScheme.onPrimary.withOpacity(0.1);
-                case MaterialState.error:
-                  return colorScheme.onPrimary.withOpacity(0.1);
-              }
-            }
-            return colorScheme.primary;
-          },
-        ),
-      ),
-    );
+    return const TextButtonThemeData(
+        // style: TextButton.styleFrom(
+        //   onSurface: colorScheme.onSurface,
+        //   primary: colorScheme.primary,
+        //   backgroundColor: colorScheme.background,
+        // ).copyWith(
+        //   padding: MaterialStateProperty.all(const EdgeInsets.symmetric(horizontal: ConfigConstant.margin1)),
+        //   overlayColor: MaterialStateProperty.all(ThemeConstant.splashColor),
+        // backgroundColor: MaterialStateProperty.resolveWith(
+        //   (states) {
+        //     if (states.isNotEmpty) {
+        //       switch (states.last) {
+        //         case MaterialState.hovered:
+        //           return colorScheme.onPrimary.withOpacity(0.1);
+        //         case MaterialState.focused:
+        //           return colorScheme.onPrimary.withOpacity(0.1);
+        //         case MaterialState.pressed:
+        //           return colorScheme.onPrimary.withOpacity(0.1);
+        //         case MaterialState.dragged:
+        //           return colorScheme.onPrimary.withOpacity(0.1);
+        //         case MaterialState.selected:
+        //           return colorScheme.onPrimary.withOpacity(0.1);
+        //         case MaterialState.scrolledUnder:
+        //           return colorScheme.onPrimary.withOpacity(0.1);
+        //         case MaterialState.disabled:
+        //           return colorScheme.onPrimary.withOpacity(0.1);
+        //         case MaterialState.error:
+        //           return colorScheme.onPrimary.withOpacity(0.1);
+        //       }
+        //     }
+        //     return colorScheme.primary;
+        //   },
+        // ),
+        // ),
+        );
   }
 
   TextTheme buildTextTheme() {

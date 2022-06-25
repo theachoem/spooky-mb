@@ -10,7 +10,10 @@ class _UserMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: const SpAppBarTitle(fallbackRouter: router.SpRouter.user),
+        title: Text(
+          currentUser?.displayName ?? "",
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
         actions: [
           if (viewModel.connectedProviders.isNotEmpty)
             SpIconButton(
@@ -25,6 +28,8 @@ class _UserMobile extends StatelessWidget {
                 switch (result) {
                   case OkCancelResult.ok:
                     viewModel.logout();
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
                     break;
                   case OkCancelResult.cancel:
                     break;
@@ -62,8 +67,9 @@ class _UserMobile extends StatelessWidget {
   SpSectionContents buildProviders(BuildContext context) {
     final connectedProviders = viewModel.availableProviders.values.toList();
     return SpSectionContents(
-      headline: "Providers",
+      headline: null,
       tiles: [
+        ConfigConstant.sizedBoxH2,
         ...List.generate(
           connectedProviders.length,
           (index) {
@@ -71,7 +77,7 @@ class _UserMobile extends StatelessWidget {
             final connectedInfo = viewModel.getUserInfo(providerInfo.providerId);
             return buildProviderTile(
               context: context,
-              title: providerInfo.title,
+              title: "Connect with ${providerInfo.title}",
               iconData: providerInfo.iconData,
               connectedInfo: connectedInfo,
               onConnectPressed: () => viewModel.connect(providerInfo, context),
@@ -83,7 +89,15 @@ class _UserMobile extends StatelessWidget {
     );
   }
 
-  Future<void> onDisconnect(AvailableAuthProvider providerInfo, BuildContext context) async {
+  Future<void> onDisconnect(AuthProviderDatas providerInfo, BuildContext context) async {
+    if (viewModel.connectedProviders.length == 1) {
+      MessengerService.instance.showSnackBar(
+        "Keep at least one connected provider.",
+        success: false,
+      );
+      return;
+    }
+
     final providerId = providerInfo.providerId;
     final result = await showOkCancelAlertDialog(
       context: context,
@@ -141,145 +155,6 @@ class _UserMobile extends StatelessWidget {
           onDisconnectPressed();
         }
       },
-    );
-  }
-}
-
-class UserImageProfile extends StatelessWidget {
-  late final String? profileUrl;
-  final User currentUser;
-  final ValueNotifier<double> scrollOffsetNotifier;
-
-  UserImageProfile({
-    Key? key,
-    required this.scrollOffsetNotifier,
-    required this.currentUser,
-  }) : super(key: key) {
-    profileUrl = maximizeImage(currentUser.photoURL);
-  }
-
-  String? maximizeImage(String? imageUrl) {
-    if (imageUrl == null) return null;
-    String lowQuality = "s96-c";
-    String highQuality = "s0";
-    return imageUrl.replaceAll(lowQuality, highQuality);
-  }
-
-  final double avatarSize = 72;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraint) {
-      final width = constraint.maxWidth;
-      return ValueListenableBuilder(
-        valueListenable: scrollOffsetNotifier,
-        builder: (context, double offset, child) {
-          final bool isCollapse = offset < 200;
-          final avatarSize = isCollapse ? width : this.avatarSize;
-          final padding = isCollapse ? EdgeInsets.zero : const EdgeInsets.all(16);
-          return AnimatedContainer(
-            duration: ConfigConstant.duration,
-            curve: Curves.easeOutQuart,
-            width: width,
-            height: width,
-            padding: padding,
-            alignment: Alignment.bottomLeft,
-            color: M3Color.of(context).background,
-            child: AnimatedOpacity(
-              duration: ConfigConstant.fadeDuration,
-              curve: Curves.decelerate,
-              opacity: offset < 350 ? 1 : 0,
-              child: Stack(
-                alignment: Alignment.bottomLeft,
-                children: [
-                  buildPhoto(avatarSize, isCollapse),
-                  buildProfileInfoTile(isCollapse, context),
-                ],
-              ),
-            ),
-          );
-        },
-      );
-    });
-  }
-
-  Widget buildProfileInfoTile(bool isCollapse, BuildContext context) {
-    return AnimatedContainer(
-      duration: ConfigConstant.duration,
-      width: double.infinity,
-      curve: Curves.easeOutQuart,
-      height: 72,
-      margin: EdgeInsets.only(left: isCollapse ? 0 : avatarSize + 16),
-      decoration: BoxDecoration(
-        borderRadius: isCollapse ? BorderRadius.zero : ConfigConstant.circlarRadius2,
-        color: M3Color.of(context).primaryContainer.withOpacity(isCollapse ? 1 : 1),
-      ),
-      child: SpPopupMenuButton(
-        dxGetter: (dx) => MediaQuery.of(context).size.width,
-        dyGetter: (dy) => dy + kToolbarHeight + 24.0,
-        items: (context) {
-          return [
-            SpPopMenuItem(
-              title: "Identity",
-              subtitle: currentUser.uid,
-            ),
-            if (currentUser.metadata.creationTime != null)
-              SpPopMenuItem(
-                title: "Created at",
-                subtitle: DateFormatHelper.dateTimeFormat().format(currentUser.metadata.creationTime!),
-              ),
-            if (currentUser.metadata.lastSignInTime != null)
-              SpPopMenuItem(
-                title: "Last sign in",
-                subtitle: DateFormatHelper.dateTimeFormat().format(currentUser.metadata.lastSignInTime!),
-              ),
-          ];
-        },
-        builder: (callback) {
-          return ListTile(
-            onTap: callback,
-            title: Text(
-              currentUser.displayName ?? "",
-              style: TextStyle(color: M3Color.of(context).primary),
-            ),
-            subtitle: Text(
-              currentUser.email ?? currentUser.uid,
-              style: TextStyle(color: M3Color.of(context).primary),
-            ),
-            trailing: Icon(
-              Icons.info,
-              color: M3Color.of(context).primary,
-            ),
-          );
-        },
-      ),
-    );
-  }
-
-  Widget buildPhoto(double avatarSize, bool isCollapse) {
-    bool hasPhoto = profileUrl != null;
-    return AnimatedContainer(
-      duration: ConfigConstant.duration,
-      curve: Curves.easeOutQuart,
-      width: avatarSize,
-      height: avatarSize,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          isCollapse ? 0 : avatarSize,
-        ),
-        image: hasPhoto
-            ? DecorationImage(
-                image: CachedNetworkImageProvider(profileUrl!),
-                fit: BoxFit.cover,
-              )
-            : null,
-      ),
-      child: !hasPhoto
-          ? const Icon(
-              Icons.person,
-              size: ConfigConstant.iconSize5,
-            )
-          : null,
     );
   }
 }
