@@ -10,6 +10,8 @@ import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
 import 'package:spooky/views/archive/archive_view.dart';
+import 'package:spooky/views/authentication/sign_in_view.dart';
+import 'package:spooky/views/authentication/sign_up_view.dart';
 import 'package:spooky/views/backups_details/backups_details_view.dart';
 import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
@@ -168,6 +170,21 @@ part 'app_router.gr.dart';
           path: 'user',
           page: UserView,
           name: 'User',
+        ),
+        AutoRoute(
+          path: 'user',
+          page: UserView,
+          name: 'User',
+        ),
+        AutoRoute(
+          path: 'sign-in',
+          page: SignInView,
+          name: 'SignIn',
+        ),
+        AutoRoute(
+          path: 'sign-up',
+          page: SignUpView,
+          name: 'SignUp',
         ),
       ],
     ),

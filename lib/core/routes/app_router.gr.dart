@@ -148,6 +148,14 @@ class _$AppRouter extends RootStackRouter {
     User.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const UserView());
+    },
+    SignIn.name: (routeData) {
+      return AdaptivePage<dynamic>(
+          routeData: routeData, child: const SignInView());
+    },
+    SignUp.name: (routeData) {
+      return AdaptivePage<dynamic>(
+          routeData: routeData, child: const SignUpView());
     }
   };
 
@@ -188,7 +196,10 @@ class _$AppRouter extends RootStackRouter {
               path: 'storypad-restore', parent: Main.name),
           RouteConfig(ThemeSetting.name,
               path: 'theme-setting', parent: Main.name),
-          RouteConfig(User.name, path: 'user', parent: Main.name)
+          RouteConfig(User.name, path: 'user', parent: Main.name),
+          RouteConfig(User.name, path: 'user', parent: Main.name),
+          RouteConfig(SignIn.name, path: 'sign-in', parent: Main.name),
+          RouteConfig(SignUp.name, path: 'sign-up', parent: Main.name)
         ])
       ];
 }
@@ -577,4 +588,20 @@ class User extends PageRouteInfo<void> {
   const User() : super(User.name, path: 'user');
 
   static const String name = 'User';
+}
+
+/// generated route for
+/// [SignInView]
+class SignIn extends PageRouteInfo<void> {
+  const SignIn() : super(SignIn.name, path: 'sign-in');
+
+  static const String name = 'SignIn';
+}
+
+/// generated route for
+/// [SignUpView]
+class SignUp extends PageRouteInfo<void> {
+  const SignUp() : super(SignUp.name, path: 'sign-up');
+
+  static const String name = 'SignUp';
 }

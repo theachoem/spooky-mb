@@ -8,6 +8,8 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
 import 'package:spooky/views/archive/archive_view.dart';
+import 'package:spooky/views/authentication/sign_in_view.dart';
+import 'package:spooky/views/authentication/sign_up_view.dart';
 import 'package:spooky/views/backups_details/backups_details_view.dart';
 import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
@@ -255,6 +257,16 @@ class SpRouteConfig {
         return DefaultRouteSetting(
           fullscreenDialog: false,
           route: (context) => const UserView(),
+        );
+      case SpRouter.signIn:
+        return DefaultRouteSetting(
+          fullscreenDialog: false,
+          route: (context) => const SignInView(),
+        );
+      case SpRouter.signUp:
+        return DefaultRouteSetting(
+          fullscreenDialog: false,
+          route: (context) => const SignUpView(),
         );
     }
   }

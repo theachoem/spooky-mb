@@ -145,7 +145,7 @@ class _AddOnsMobile extends StatelessWidget {
     );
     if (result == OkCancelResult.ok) {
       // ignore: use_build_context_synchronously
-      Navigator.of(context).pushNamed(SpRouter.user.path);
+      Navigator.of(context).pushNamed(SpRouter.signUp.path);
     }
   }
 

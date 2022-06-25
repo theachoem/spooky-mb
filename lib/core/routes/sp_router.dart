@@ -27,4 +27,6 @@ enum SpRouter {
   setting,
   storyPadRestore,
   user,
+  signIn,
+  signUp,
 }
