@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:spooky/core/api/cloud_firestore/models/user_cf_model.dart';
+import 'package:spooky/core/api/cloud_firestore/users_firestore_database.dart';
 
 abstract class BaseSocialAuthApi {
   String? errorMessage;
@@ -18,11 +20,19 @@ abstract class BaseSocialAuthApi {
         await FirebaseAuth.instance.signInWithCredential(credential);
       }
       // String? idToken = await FirebaseAuth.instance.currentUser?.getIdToken();
+      await setInitialUserDatas();
       return FirebaseAuth.instance.currentUser;
     } on FirebaseException catch (e) {
       if (kDebugMode) print("ERROR: getCredential $e");
       errorMessage = e.message;
       return null;
+    }
+  }
+
+  Future<void> setInitialUserDatas() async {
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid != null) {
+      await UsersFirestoreDatabase().set(uid, UserCfModel(uid: uid));
     }
   }
 }

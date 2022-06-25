@@ -7,6 +7,8 @@ import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart' as router;
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/views/authentication/base/auth_provider_datas.dart';
 import 'package:spooky/views/user/local_widgets/user_image_profile.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';

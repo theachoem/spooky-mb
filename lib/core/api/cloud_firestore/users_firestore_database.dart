@@ -1,14 +1,14 @@
 import 'package:spooky/core/api/cloud_firestore/base_cloud_firestore.dart';
-import 'package:spooky/core/models/base_model.dart';
+import 'package:spooky/core/api/cloud_firestore/models/user_cf_model.dart';
 import 'package:spooky/core/models/purchased_info_model.dart';
 
-class UsersFirestoreDatabase extends BaseCloudFirestore {
+class UsersFirestoreDatabase extends BaseCloudFirestore<UserCfModel> {
   @override
   String get collectionName => "users";
 
   @override
-  BaseModel objectTransformer(Map<String, dynamic> json) {
-    throw UnimplementedError();
+  UserCfModel objectTransformer(Map<String, dynamic> json) {
+    return UserCfModel.fromJson(json);
   }
 
   Future<void> addProduct(
@@ -37,4 +37,7 @@ class UsersFirestoreDatabase extends BaseCloudFirestore {
 
     return purchases;
   }
+
+  // @override
+  // Future<void> set(String id, UserCfModel object) async {}
 }

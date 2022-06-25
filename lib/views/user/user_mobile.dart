@@ -10,7 +10,10 @@ class _UserMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: const SpAppBarTitle(fallbackRouter: router.SpRouter.user),
+        title: Text(
+          currentUser?.displayName ?? "",
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
         actions: [
           if (viewModel.connectedProviders.isNotEmpty)
             SpIconButton(
@@ -25,6 +28,8 @@ class _UserMobile extends StatelessWidget {
                 switch (result) {
                   case OkCancelResult.ok:
                     viewModel.logout();
+                    // ignore: use_build_context_synchronously
+                    Navigator.of(context).pop();
                     break;
                   case OkCancelResult.cancel:
                     break;
@@ -62,8 +67,9 @@ class _UserMobile extends StatelessWidget {
   SpSectionContents buildProviders(BuildContext context) {
     final connectedProviders = viewModel.availableProviders.values.toList();
     return SpSectionContents(
-      headline: "Providers",
+      headline: null,
       tiles: [
+        ConfigConstant.sizedBoxH2,
         ...List.generate(
           connectedProviders.length,
           (index) {
@@ -71,7 +77,7 @@ class _UserMobile extends StatelessWidget {
             final connectedInfo = viewModel.getUserInfo(providerInfo.providerId);
             return buildProviderTile(
               context: context,
-              title: providerInfo.title,
+              title: "Connect with ${providerInfo.title}",
               iconData: providerInfo.iconData,
               connectedInfo: connectedInfo,
               onConnectPressed: () => viewModel.connect(providerInfo, context),
@@ -83,7 +89,15 @@ class _UserMobile extends StatelessWidget {
     );
   }
 
-  Future<void> onDisconnect(AvailableAuthProvider providerInfo, BuildContext context) async {
+  Future<void> onDisconnect(AuthProviderDatas providerInfo, BuildContext context) async {
+    if (viewModel.connectedProviders.length == 1) {
+      MessengerService.instance.showSnackBar(
+        "Keep at least one connected provider.",
+        success: false,
+      );
+      return;
+    }
+
     final providerId = providerInfo.providerId;
     final result = await showOkCancelAlertDialog(
       context: context,
