@@ -2,7 +2,6 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/api/cloud_firestore/models/user_cf_model.dart';
 import 'package:spooky/core/api/cloud_firestore/users_firestore_database.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/routes/sp_router.dart' as r;
