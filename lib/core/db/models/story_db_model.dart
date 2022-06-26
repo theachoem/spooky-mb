@@ -18,6 +18,7 @@ class StoryDbModel extends BaseDbModel {
 
   final bool? starred;
   final String? feeling;
+  final List<String>? tags;
 
   final List<StoryContentDbModel> changes;
 
@@ -37,6 +38,7 @@ class StoryDbModel extends BaseDbModel {
     required this.changes,
     required this.updatedAt,
     required this.createdAt,
+    required this.tags,
     this.movedToBinAt,
   });
 
@@ -91,6 +93,7 @@ class StoryDbModel extends BaseDbModel {
       ],
       updatedAt: now,
       createdAt: now,
+      tags: [],
     );
   }
 }

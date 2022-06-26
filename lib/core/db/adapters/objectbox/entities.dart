@@ -24,6 +24,7 @@ class StoryObjectBox {
   DateTime? movedToBinAt;
 
   List<String> changes;
+  List<String>? tags;
 
   StoryObjectBox({
     required this.id,
@@ -38,5 +39,32 @@ class StoryObjectBox {
     required this.updatedAt,
     required this.movedToBinAt,
     required this.changes,
+    required this.tags,
+  });
+}
+
+@Entity()
+class TagObjectBox {
+  int id;
+  String title;
+
+  int version;
+  bool? starred;
+  String? emoji;
+
+  @Property(type: PropertyType.date)
+  DateTime createdAt;
+
+  @Property(type: PropertyType.date)
+  DateTime updatedAt;
+
+  TagObjectBox({
+    required this.id,
+    required this.title,
+    required this.version,
+    required this.starred,
+    required this.emoji,
+    required this.createdAt,
+    required this.updatedAt,
   });
 }

@@ -6,10 +6,12 @@ import 'package:spooky/utils/constants/config_constant.dart';
 class SpSectionContents {
   final String? headline;
   final List<Widget> tiles;
+  final IconData? leadingIcon;
 
   SpSectionContents({
     required this.headline,
     required this.tiles,
+    this.leadingIcon,
   });
 }
 
@@ -63,7 +65,12 @@ class SpSectionsTiles extends StatelessWidget {
     return [
       if (showTopDivider) const Divider(height: 1),
       for (int i = 0; i < sections.length; i++) ...[
-        if (sections[i].headline != null) ...header(context: context, headline: sections[i].headline!).children,
+        if (sections[i].headline != null)
+          ...header(
+            context: context,
+            headline: sections[i].headline!,
+            leadingIcon: sections[i].leadingIcon,
+          ).children,
         ...sections[i].tiles,
         if (i != sections.length - 1) const Divider(height: 1),
       ]

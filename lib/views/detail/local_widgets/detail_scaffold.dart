@@ -149,85 +149,97 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
         context: context,
         showTopDivider: true,
         sections: [
+          buildSettingSection(context),
           SpSectionContents(
-            headline: "Settings",
+            headline: "Tags",
+            leadingIcon: CommunityMaterialIcons.tag,
             tiles: [
-              if ((widget.viewModel.currentContent.pages ?? []).length > 1)
-                ListTile(
-                  title: const Text("Pages"),
-                  subtitle: Text(widget.viewModel.currentContent.pages?.length.toString() ?? ""),
-                  trailing: const Icon(Icons.keyboard_arrow_right),
-                  onTap: () {
-                    if (widget.viewModel.hasChangeNotifer.value) {
-                      MessengerService.instance.showSnackBar("Please save document first");
-                      return;
-                    }
-                    ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
-                    Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
-                      if (value is StoryContentDbModel) widget.viewModel.updatePages(value);
-                    });
-
-                    if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
-                  },
-                ),
-              ListTile(
-                title: const Text("Changes History"),
-                subtitle: Text(widget.viewModel.currentStory.changes.length.toString()),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () async {
-                  if (widget.viewModel.hasChangeNotifer.value) {
-                    MessengerService.instance.showSnackBar("Please save document first");
-                    return;
-                  }
-
-                  ChangesHistoryArgs arguments = ChangesHistoryArgs(
-                    story: widget.viewModel.currentStory,
-                    onRestorePressed: (content) => widget.viewModel.restore(content.id),
-                    onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds),
-                  );
-
-                  Navigator.of(context).pushNamed(
-                    SpRouter.changesHistory.path,
-                    arguments: arguments,
-                  );
-
-                  if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
-                },
-              ),
-              if (widget.viewModel.flowType == DetailViewFlowType.update && widget.viewModel.currentStory.archivable)
-                Container(
-                  margin: const EdgeInsets.only(left: ConfigConstant.margin2, top: ConfigConstant.margin0),
-                  child: SpButton(
-                    label: "Archive",
-                    onTap: () async {
-                      if (widget.viewModel.hasChangeNotifer.value) {
-                        MessengerService.instance.showSnackBar("Please save document first");
-                        return;
-                      }
-                      OkCancelResult result = await showOkCancelAlertDialog(
-                        context: context,
-                        useRootNavigator: true,
-                        title: "Are you sure to archive document?",
-                      );
-                      switch (result) {
-                        case OkCancelResult.ok:
-                          await database.archiveDocument(widget.viewModel.currentStory).then((story) async {
-                            if (story != null) {
-                              MessengerService.instance.showSnackBar("Archived!");
-                            }
-                            Navigator.of(context).maybePop(widget.viewModel.currentStory);
-                          });
-                          break;
-                        case OkCancelResult.cancel:
-                          break;
-                      }
-                    },
-                  ),
-                ),
+              StoryTags(),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  SpSectionContents buildSettingSection(BuildContext context) {
+    return SpSectionContents(
+      headline: "Settings",
+      tiles: [
+        if ((widget.viewModel.currentContent.pages ?? []).length > 1)
+          ListTile(
+            title: Text(SpRouter.managePages.title),
+            subtitle: Text(widget.viewModel.currentContent.pages?.length.toString() ?? ""),
+            trailing: const Icon(Icons.keyboard_arrow_right),
+            onTap: () {
+              if (widget.viewModel.hasChangeNotifer.value) {
+                MessengerService.instance.showSnackBar("Please save document first");
+                return;
+              }
+              ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
+              Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
+                if (value is StoryContentDbModel) widget.viewModel.updatePages(value);
+              });
+
+              if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
+            },
+          ),
+        ListTile(
+          title: Text(SpRouter.changesHistory.title),
+          subtitle: Text(widget.viewModel.currentStory.changes.length.toString()),
+          trailing: const Icon(Icons.keyboard_arrow_right),
+          onTap: () async {
+            if (widget.viewModel.hasChangeNotifer.value) {
+              MessengerService.instance.showSnackBar("Please save document first");
+              return;
+            }
+
+            ChangesHistoryArgs arguments = ChangesHistoryArgs(
+              story: widget.viewModel.currentStory,
+              onRestorePressed: (content) => widget.viewModel.restore(content.id),
+              onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds),
+            );
+
+            Navigator.of(context).pushNamed(
+              SpRouter.changesHistory.path,
+              arguments: arguments,
+            );
+
+            if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
+          },
+        ),
+        if (widget.viewModel.flowType == DetailViewFlowType.update && widget.viewModel.currentStory.archivable)
+          Container(
+            margin: const EdgeInsets.only(left: ConfigConstant.margin2, top: ConfigConstant.margin0),
+            child: SpButton(
+              label: "Archive",
+              onTap: () async {
+                if (widget.viewModel.hasChangeNotifer.value) {
+                  MessengerService.instance.showSnackBar("Please save document first");
+                  return;
+                }
+                OkCancelResult result = await showOkCancelAlertDialog(
+                  context: context,
+                  useRootNavigator: true,
+                  title: "Are you sure to archive document?",
+                );
+                switch (result) {
+                  case OkCancelResult.ok:
+                    await database.archiveDocument(widget.viewModel.currentStory).then((story) async {
+                      if (story != null) {
+                        MessengerService.instance.showSnackBar("Archived!");
+                      }
+                      Navigator.of(context).maybePop(widget.viewModel.currentStory);
+                    });
+                    break;
+                  case OkCancelResult.cancel:
+                    break;
+                }
+              },
+            ),
+          ),
+        ConfigConstant.sizedBoxH2,
+      ],
     );
   }
 
@@ -285,6 +297,37 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           },
         );
       },
+    );
+  }
+}
+
+class StoryTags extends StatefulWidget {
+  // ignore: prefer_const_constructors_in_immutables
+  StoryTags({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<StoryTags> createState() => _StoryTagsState();
+}
+
+class _StoryTagsState extends State<StoryTags> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      shrinkWrap: true,
+      children: [
+        CheckboxListTile(
+          value: true,
+          title: const Text("Personal"),
+          onChanged: (value) {},
+        ),
+        CheckboxListTile(
+          value: true,
+          title: const Text("School"),
+          onChanged: (value) {},
+        ),
+      ],
     );
   }
 }

@@ -26,7 +26,7 @@ class _StoryTestDbAdapter extends BaseDbAdapter with BaseStoryDbExternalActions 
         return StoryDbModel.fromNow();
       }).map((e) => e.toJson()).toList(),
       "meta": MetaModel().toJson(),
-      "links": MetaModel().toJson(),
+      "links": LinksModel().toJson(),
     };
   }
 

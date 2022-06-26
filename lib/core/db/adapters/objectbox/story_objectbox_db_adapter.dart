@@ -42,7 +42,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     return {
       "data": docs,
       "meta": MetaModel().toJson(),
-      "links": MetaModel().toJson(),
+      "links": LinksModel().toJson(),
     };
   }
 
@@ -77,6 +77,7 @@ Map<String, dynamic> _objectTransformer(StoryObjectBox object) {
     day: object.day,
     updatedAt: object.updatedAt,
     createdAt: object.createdAt,
+    tags: object.tags,
     changes: object.changes.map((str) {
       String decoded = HtmlCharacterEntities.decode(str);
       dynamic json = jsonDecode(decoded);
@@ -94,6 +95,7 @@ StoryObjectBox _objectConstructor(Map<String, dynamic> json) {
     year: story.year,
     month: story.month,
     day: story.day,
+    tags: story.tags,
     starred: story.starred,
     feeling: story.feeling,
     createdAt: story.createdAt,
