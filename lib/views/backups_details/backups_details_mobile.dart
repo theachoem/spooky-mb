@@ -36,7 +36,7 @@ class _BackupsDetailsMobile extends StatelessWidget {
                     tableName: e.key,
                     rowsCount: value is List ? value.length : 0,
                     context: context,
-                    onReview: () => onReview(e, value, context),
+                    element: e,
                   );
                 }) ??
                 []
@@ -112,27 +112,40 @@ class _BackupsDetailsMobile extends StatelessWidget {
     required String tableName,
     required int rowsCount,
     required BuildContext context,
-    required void Function() onReview,
+    required MapEntry<String, dynamic> element,
   }) {
+    IconData iconData;
+    void Function()? review;
+
+    switch (tableName) {
+      case "stories":
+        iconData = Icons.people;
+        review = () => onReview(element, element.value, context);
+        break;
+      default:
+        iconData = CommunityMaterialIcons.table;
+    }
+
     return ListTile(
-      leading: const SizedBox(width: 44, height: 44, child: Icon(Icons.people)),
+      leading: SizedBox(width: 44, height: 44, child: Icon(iconData)),
       contentPadding: const EdgeInsets.all(ConfigConstant.margin2),
       title: Text(tableName.capitalize),
-      isThreeLine: true,
+      isThreeLine: review != null,
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text("$rowsCount documents"),
-          ConfigConstant.sizedBoxH1,
-          SpButton(
-            label: "Review",
-            onTap: () => onReview(),
-            backgroundColor: M3Color.of(context).secondary,
-            foregroundColor: M3Color.of(context).onSecondary,
-          )
+          if (review != null) ConfigConstant.sizedBoxH1,
+          if (review != null)
+            SpButton(
+              label: "Review",
+              onTap: review,
+              backgroundColor: M3Color.of(context).secondary,
+              foregroundColor: M3Color.of(context).onSecondary,
+            )
         ],
       ),
-      onTap: () => onReview(),
+      onTap: review,
     );
   }
 }
