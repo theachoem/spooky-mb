@@ -8,15 +8,18 @@ import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
+import 'package:spooky/views/detail/local_widgets/story_tags.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
+import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
-import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
+import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DetailScaffold extends StatefulWidget {
@@ -43,10 +46,11 @@ class DetailScaffold extends StatefulWidget {
   State<DetailScaffold> createState() => _DetailScaffoldState();
 }
 
-class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
+class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldkey,
       appBar: buildAppBar(),
       floatingActionButton: buildFloatActionButton(mediaQueryPadding),
       body: widget.editorBuilder(),
@@ -73,10 +77,15 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
         ),
       ),
       builder: (context, readOnly, child) {
-        return SpCrossFade(
-          showFirst: !readOnly,
-          secondChild: const SizedBox.shrink(),
-          firstChild: child!,
+        return buildSheetVisibilityBuilder(
+          child: child,
+          builder: (context, sheetOpen, child) {
+            return SpCrossFade(
+              showFirst: !readOnly && !sheetOpen,
+              secondChild: const SizedBox.shrink(),
+              firstChild: child!,
+            );
+          },
         );
       },
     );
@@ -85,23 +94,38 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
   MorphingAppBar buildAppBar() {
     return MorphingAppBar(
       leading: const SpPopButton(),
-      title: widget.titleBuilder(),
+      title: buildSheetVisibilityBuilder(
+        child: widget.titleBuilder(),
+        builder: (context, isOpen, child) {
+          return AnimatedOpacity(
+            opacity: isOpen ? 0.0 : 1.0,
+            curve: Curves.ease,
+            duration: ConfigConstant.fadeDuration,
+            child: child,
+          );
+        },
+      ),
       actions: [
         ValueListenableBuilder<bool>(
           valueListenable: widget.readOnlyNotifier,
           child: SpIconButton(
             icon: const Icon(CommunityMaterialIcons.format_page_break),
             key: const ValueKey(CommunityMaterialIcons.format_page_break),
+            tooltip: "Insert page break",
             onPressed: () {
               widget.viewModel.addPage();
             },
-            tooltip: "Insert page break",
           ),
           builder: (context, value, child) {
-            return SpAnimatedIcons(
-              showFirst: !widget.readOnlyNotifier.value,
-              secondChild: const SizedBox.shrink(key: ValueKey("AddPageSizedBox")),
-              firstChild: child!,
+            return buildSheetVisibilityBuilder(
+              child: child,
+              builder: (context, sheetOpen, child) {
+                return SpAnimatedIcons(
+                  showFirst: !widget.readOnlyNotifier.value && !sheetOpen,
+                  secondChild: const SizedBox.shrink(key: ValueKey("AddPageSizedBox")),
+                  firstChild: child!,
+                );
+              },
             );
           },
         ),
@@ -111,22 +135,87 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
           pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
           quillControllerGetter: (page) => widget.viewModel.quillControllers[page],
         ),
-        buildMoreVertButton(),
+        buildMoreButton(),
       ],
     );
   }
 
   final StoryDatabase database = StoryDatabase.instance;
 
-  Widget buildMoreVertButton() {
-    return SpPopupMenuButton(
-      fromAppBar: true,
-      items: (context) => [
+  @override
+  Widget buildSheet(BuildContext context) {
+    return ListView(
+      physics: const ScrollPhysics(),
+      children: SpSectionsTiles.divide(
+        context: context,
+        showTopDivider: true,
+        sections: [
+          buildSettingSection(context),
+          // buildActionsSection(context),
+          SpSectionContents(
+            headline: "Tags",
+            leadingIcon: CommunityMaterialIcons.tag,
+            tiles: [
+              StoryTags(
+                selectedTagsIds: widget.viewModel.currentStory.tags ?? [],
+                onUpdated: (List<int> ids) {
+                  widget.viewModel.setTagIds(ids);
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  SpSectionContents buildActionsSection(BuildContext context) {
+    return SpSectionContents(
+      headline: "Actions",
+      tiles: [
+        if (widget.viewModel.flowType == DetailViewFlowType.update && widget.viewModel.currentStory.archivable)
+          Container(
+            margin: const EdgeInsets.only(left: ConfigConstant.margin2, top: ConfigConstant.margin0),
+            child: SpButton(
+              label: "Archive",
+              onTap: () async {
+                if (widget.viewModel.hasChangeNotifer.value) {
+                  MessengerService.instance.showSnackBar("Please save document first");
+                  return;
+                }
+                OkCancelResult result = await showOkCancelAlertDialog(
+                  context: context,
+                  useRootNavigator: true,
+                  title: "Are you sure to archive document?",
+                );
+                switch (result) {
+                  case OkCancelResult.ok:
+                    await database.archiveDocument(widget.viewModel.currentStory).then((story) async {
+                      if (story != null) {
+                        MessengerService.instance.showSnackBar("Archived!");
+                      }
+                      Navigator.of(context).maybePop(widget.viewModel.currentStory);
+                    });
+                    break;
+                  case OkCancelResult.cancel:
+                    break;
+                }
+              },
+            ),
+          ),
+      ],
+    );
+  }
+
+  SpSectionContents buildSettingSection(BuildContext context) {
+    return SpSectionContents(
+      headline: "Settings",
+      tiles: [
         if ((widget.viewModel.currentContent.pages ?? []).length > 1)
-          SpPopMenuItem(
-            title: "Manage Pages",
-            leadingIconData: Icons.edit,
-            onPressed: () async {
+          ListTile(
+            title: Text(SpRouter.managePages.title),
+            trailing: const Icon(Icons.edit),
+            onTap: () {
               if (widget.viewModel.hasChangeNotifer.value) {
                 MessengerService.instance.showSnackBar("Please save document first");
                 return;
@@ -135,41 +224,14 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
                 if (value is StoryContentDbModel) widget.viewModel.updatePages(value);
               });
-            },
-          ),
-        if (widget.viewModel.flowType == DetailViewFlowType.update && widget.viewModel.currentStory.archivable)
-          SpPopMenuItem(
-            title: "Archive",
-            leadingIconData: Icons.archive,
-            onPressed: () async {
-              if (widget.viewModel.hasChangeNotifer.value) {
-                MessengerService.instance.showSnackBar("Please save document first");
-                return;
-              }
-              OkCancelResult result = await showOkCancelAlertDialog(
-                context: context,
-                useRootNavigator: true,
-                title: "Are you sure to archive document?",
-              );
-              switch (result) {
-                case OkCancelResult.ok:
-                  await database.archiveDocument(widget.viewModel.currentStory).then((story) async {
-                    if (story != null) {
-                      MessengerService.instance.showSnackBar("Archived!");
-                    }
-                    Navigator.of(context).maybePop(widget.viewModel.currentStory);
-                  });
 
-                  break;
-                case OkCancelResult.cancel:
-                  break;
-              }
+              if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
             },
           ),
-        SpPopMenuItem(
-          title: "Changes History",
-          leadingIconData: Icons.history,
-          onPressed: () async {
+        ListTile(
+          title: Text(SpRouter.changesHistory.title),
+          trailing: const Icon(Icons.edit),
+          onTap: () async {
             if (widget.viewModel.hasChangeNotifer.value) {
               MessengerService.instance.showSnackBar("Please save document first");
               return;
@@ -185,23 +247,11 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
               SpRouter.changesHistory.path,
               arguments: arguments,
             );
+
+            if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
           },
         ),
       ],
-      onDimissed: (result) {
-        if (result == null) {
-          FocusScope.of(context).requestFocus();
-        }
-      },
-      builder: (void Function() callback) {
-        return SpIconButton(
-          icon: const Icon(Icons.more_vert, key: ValueKey(Icons.more_vert)),
-          onPressed: () {
-            FocusScope.of(context).unfocus();
-            callback();
-          },
-        );
-      },
     );
   }
 
@@ -220,7 +270,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin {
     if (widget.viewModel.currentStory.type != PathType.docs) {
       return const SizedBox.shrink();
     }
-    return buildFabEndWidget(context);
+    return buildSheetVisibilityWrapper(buildFabEndWidget(context));
   }
 
   Widget buildFabEndWidget(BuildContext context) {

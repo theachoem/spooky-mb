@@ -6,6 +6,7 @@ import 'package:spooky/core/backups/mixins/backups_constructor.dart';
 import 'package:spooky/core/backups/models/backups_model.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
 
@@ -16,6 +17,7 @@ class BackupsService with BackupsConstructor, BackupsCachable {
 
   final List<BaseDatabase> databases = [
     StoryDatabase.instance,
+    TagDatabase.instance,
   ];
 
   Future<CloudFileModel?> backup({

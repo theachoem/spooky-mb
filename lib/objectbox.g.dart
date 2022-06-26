@@ -21,7 +21,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 2962579780537594759),
       name: 'StoryObjectBox',
-      lastPropertyId: const IdUid(12, 5871534476772289101),
+      lastPropertyId: const IdUid(13, 6005849190320169908),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -83,6 +83,55 @@ final _entities = <ModelEntity>[
             id: const IdUid(12, 5871534476772289101),
             name: 'changes',
             type: 30,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(13, 6005849190320169908),
+            name: 'tags',
+            type: 30,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(2, 5548558812249966101),
+      name: 'TagObjectBox',
+      lastPropertyId: const IdUid(7, 4116584270770327746),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 5046052891972916251),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 8744880092533568590),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 7863427692914238443),
+            name: 'version',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 6417690656797806340),
+            name: 'starred',
+            type: 1,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 3138951263147849158),
+            name: 'emoji',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 3746821438504660808),
+            name: 'createdAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 4116584270770327746),
+            name: 'updatedAt',
+            type: 10,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -109,7 +158,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(1, 2962579780537594759),
+      lastEntityId: const IdUid(2, 5548558812249966101),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -136,7 +185,11 @@ ModelDefinition getObjectBoxModel() {
               object.feeling == null ? null : fbb.writeString(object.feeling!);
           final changesOffset = fbb.writeList(
               object.changes.map(fbb.writeString).toList(growable: false));
-          fbb.startTable(13);
+          final tagsOffset = object.tags == null
+              ? null
+              : fbb.writeList(
+                  object.tags!.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(14);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.version);
           fbb.addOffset(2, typeOffset);
@@ -149,6 +202,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addInt64(9, object.updatedAt.millisecondsSinceEpoch);
           fbb.addInt64(10, object.movedToBinAt?.millisecondsSinceEpoch);
           fbb.addOffset(11, changesOffset);
+          fbb.addOffset(12, tagsOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -180,7 +234,52 @@ ModelDefinition getObjectBoxModel() {
                   : DateTime.fromMillisecondsSinceEpoch(movedToBinAtValue),
               changes:
                   const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false)
-                      .vTableGet(buffer, rootOffset, 26, []));
+                      .vTableGet(buffer, rootOffset, 26, []),
+              tags: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGetNullable(buffer, rootOffset, 28));
+
+          return object;
+        }),
+    TagObjectBox: EntityDefinition<TagObjectBox>(
+        model: _entities[1],
+        toOneRelations: (TagObjectBox object) => [],
+        toManyRelations: (TagObjectBox object) => {},
+        getId: (TagObjectBox object) => object.id,
+        setId: (TagObjectBox object, int id) {
+          object.id = id;
+        },
+        objectToFB: (TagObjectBox object, fb.Builder fbb) {
+          final titleOffset = fbb.writeString(object.title);
+          final emojiOffset =
+              object.emoji == null ? null : fbb.writeString(object.emoji!);
+          fbb.startTable(8);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, titleOffset);
+          fbb.addInt64(2, object.version);
+          fbb.addBool(3, object.starred);
+          fbb.addOffset(4, emojiOffset);
+          fbb.addInt64(5, object.createdAt.millisecondsSinceEpoch);
+          fbb.addInt64(6, object.updatedAt.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = TagObjectBox(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              title: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              version:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
+              starred: const fb.BoolReader()
+                  .vTableGetNullable(buffer, rootOffset, 10),
+              emoji: const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 12),
+              createdAt: DateTime.fromMillisecondsSinceEpoch(
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0)),
+              updatedAt: DateTime.fromMillisecondsSinceEpoch(
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0)));
 
           return object;
         })
@@ -238,4 +337,39 @@ class StoryObjectBox_ {
   /// see [StoryObjectBox.changes]
   static final changes =
       QueryStringVectorProperty<StoryObjectBox>(_entities[0].properties[11]);
+
+  /// see [StoryObjectBox.tags]
+  static final tags =
+      QueryStringVectorProperty<StoryObjectBox>(_entities[0].properties[12]);
+}
+
+/// [TagObjectBox] entity fields to define ObjectBox queries.
+class TagObjectBox_ {
+  /// see [TagObjectBox.id]
+  static final id =
+      QueryIntegerProperty<TagObjectBox>(_entities[1].properties[0]);
+
+  /// see [TagObjectBox.title]
+  static final title =
+      QueryStringProperty<TagObjectBox>(_entities[1].properties[1]);
+
+  /// see [TagObjectBox.version]
+  static final version =
+      QueryIntegerProperty<TagObjectBox>(_entities[1].properties[2]);
+
+  /// see [TagObjectBox.starred]
+  static final starred =
+      QueryBooleanProperty<TagObjectBox>(_entities[1].properties[3]);
+
+  /// see [TagObjectBox.emoji]
+  static final emoji =
+      QueryStringProperty<TagObjectBox>(_entities[1].properties[4]);
+
+  /// see [TagObjectBox.createdAt]
+  static final createdAt =
+      QueryIntegerProperty<TagObjectBox>(_entities[1].properties[5]);
+
+  /// see [TagObjectBox.updatedAt]
+  static final updatedAt =
+      QueryIntegerProperty<TagObjectBox>(_entities[1].properties[6]);
 }

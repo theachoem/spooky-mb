@@ -57,6 +57,8 @@ extension SpRouterExtension on SpRouter {
         return '/user';
       case SpRouter.signUp:
         return '/sign-up';
+      case SpRouter.search:
+        return '/search';
     }
   }
 
@@ -114,6 +116,8 @@ extension SpRouterExtension on SpRouter {
         return "User";
       case SpRouter.signUp:
         return 'Sign up';
+      case SpRouter.search:
+        return 'Search';
     }
   }
 
@@ -171,6 +175,8 @@ extension SpRouterExtension on SpRouter {
         return "Account is mainly used to store purchased histories.";
       case SpRouter.signUp:
         return 'Sign up';
+      case SpRouter.search:
+        return 'Search';
     }
   }
 
@@ -191,6 +197,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.storyPadRestore:
       case SpRouter.backupsDetails:
       case SpRouter.signUp:
+      case SpRouter.search:
         return null;
       case SpRouter.home:
         return MainTabBarItem(

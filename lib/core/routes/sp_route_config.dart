@@ -25,6 +25,7 @@ import 'package:spooky/views/main/main_view.dart';
 import 'package:spooky/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/views/nickname_creator/nickname_creator_view.dart';
 import 'package:spooky/views/not_found/not_found_view.dart';
+import 'package:spooky/views/search/search_view.dart';
 import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/sound_list/sound_list_view.dart';
@@ -260,8 +261,19 @@ class SpRouteConfig {
       case SpRouter.signUp:
         return DefaultRouteSetting(
           fullscreenDialog: true,
-          // fillColor: M3Color.of(context).background,
           route: (context) => const SignUpView(),
+        );
+      case SpRouter.search:
+        return DefaultRouteSetting(
+          fullscreenDialog: false,
+          route: (context) {
+            Object? arguments = settings?.arguments;
+            if (arguments is SearchArgs) {
+              return SearchView(initialQuery: arguments.initialQuery);
+            } else {
+              return const SearchView(initialQuery: null);
+            }
+          },
         );
     }
   }

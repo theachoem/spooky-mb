@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/mixins/comparable_mixin.dart';

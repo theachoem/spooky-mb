@@ -21,9 +21,11 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     int? year = params?["year"];
     int? month = params?["month"];
     int? day = params?["day"];
+    String? tag = params?["tag"];
 
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
 
+    if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.contains(tag));
     if (type != null) conditions = conditions.and(StoryObjectBox_.type.equals(type));
     if (year != null) conditions = conditions.and(StoryObjectBox_.year.equals(year));
     if (month != null) conditions = conditions.and(StoryObjectBox_.month.equals(month));
@@ -42,7 +44,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     return {
       "data": docs,
       "meta": MetaModel().toJson(),
-      "links": MetaModel().toJson(),
+      "links": LinksModel().toJson(),
     };
   }
 
@@ -77,6 +79,7 @@ Map<String, dynamic> _objectTransformer(StoryObjectBox object) {
     day: object.day,
     updatedAt: object.updatedAt,
     createdAt: object.createdAt,
+    tags: object.tags,
     changes: object.changes.map((str) {
       String decoded = HtmlCharacterEntities.decode(str);
       dynamic json = jsonDecode(decoded);
@@ -94,6 +97,7 @@ StoryObjectBox _objectConstructor(Map<String, dynamic> json) {
     year: story.year,
     month: story.month,
     day: story.day,
+    tags: story.tags,
     starred: story.starred,
     feeling: story.feeling,
     createdAt: story.createdAt,
