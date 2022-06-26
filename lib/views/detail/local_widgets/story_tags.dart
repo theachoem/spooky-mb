@@ -28,16 +28,19 @@ class _StoryTagsState extends State<StoryTags> {
   void initState() {
     super.initState();
     selectedTagsIdNotifiers = ValueNotifier<List<int>>([]);
-    loadSelected();
-    load();
+    load().then((value) => loadSelected());
   }
 
-  void loadSelected() {
+  void loadSelected() async {
     List<int> selectedTagsIds = [];
     for (String id in widget.selectedTagsIds) {
       int? validatedId = int.tryParse(id);
       if (validatedId != null) selectedTagsIds.add(validatedId);
     }
+
+    Iterable<int> tagIds = tags?.map((e) => e.id) ?? [];
+    selectedTagsIds.removeWhere((id) => !tagIds.contains(id));
+
     selectedTagsIdNotifiers.value = selectedTagsIds;
   }
 
