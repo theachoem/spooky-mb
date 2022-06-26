@@ -8,12 +8,14 @@ class StoryQueryOptionsModel {
   final int? year;
   final int? month;
   final int? day;
+  final String? tag;
   final PathType type;
 
   StoryQueryOptionsModel({
     this.year,
     this.month,
     this.day,
+    this.tag,
     required this.type,
   });
 

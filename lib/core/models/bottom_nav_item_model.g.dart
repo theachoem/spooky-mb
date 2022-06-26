@@ -45,4 +45,5 @@ const _$SpRouterEnumMap = {
   SpRouter.storyPadRestore: 'storyPadRestore',
   SpRouter.user: 'user',
   SpRouter.signUp: 'signUp',
+  SpRouter.search: 'search',
 };

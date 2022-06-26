@@ -6,6 +6,7 @@ import 'package:spooky/core/backups/providers/base_cloud_provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
+import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
@@ -28,6 +29,7 @@ import 'package:spooky/views/main/main_view.dart';
 import 'package:spooky/views/manage_pages/manage_pages_view.dart';
 import 'package:spooky/views/nickname_creator/nickname_creator_view.dart';
 import 'package:spooky/views/not_found/not_found_view.dart';
+import 'package:spooky/views/search/search_view.dart';
 import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/sound_list/sound_list_view.dart';
@@ -179,6 +181,11 @@ part 'app_router.gr.dart';
           path: 'sign-up',
           page: SignUpView,
           name: 'SignUp',
+        ),
+        AutoRoute(
+          path: 'sarch',
+          page: SearchView,
+          name: 'Search',
         ),
       ],
     ),

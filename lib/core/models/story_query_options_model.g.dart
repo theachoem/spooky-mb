@@ -12,6 +12,7 @@ StoryQueryOptionsModel _$StoryQueryOptionsModelFromJson(
       year: json['year'] as int?,
       month: json['month'] as int?,
       day: json['day'] as int?,
+      tag: json['tag'] as String?,
       type: $enumDecode(_$PathTypeEnumMap, json['type']),
     );
 
@@ -21,6 +22,7 @@ Map<String, dynamic> _$StoryQueryOptionsModelToJson(
       'year': instance.year,
       'month': instance.month,
       'day': instance.day,
+      'tag': instance.tag,
       'type': _$PathTypeEnumMap[instance.type],
     };
 

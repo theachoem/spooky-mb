@@ -1,11 +1,18 @@
 // ignore_for_file: implementation_imports
 
 import 'dart:io';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/db/databases/tag_database.dart';
+import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
+import 'package:spooky/core/db/models/tag_db_model.dart';
+import 'package:spooky/core/models/story_query_options_model.dart';
+import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
@@ -61,7 +68,31 @@ class StoryTileChips extends StatelessWidget {
         SpChip(
           labelText: tags.length.toString(),
           avatar: const Icon(CommunityMaterialIcons.tag, size: ConfigConstant.iconSize1),
-          onTap: () {},
+          onTap: () async {
+            BaseDbListModel<TagDbModel>? items = await TagDatabase.instance.fetchAll();
+            List<TagDbModel> dbTags = items?.items ?? [];
+
+            dbTags = dbTags.where((e) {
+              return tags.contains(e.id.toString());
+            }).toList();
+
+            int? id = await showConfirmationDialog(
+              context: context,
+              title: 'Tags',
+              actions: dbTags.map((e) {
+                return AlertDialogAction(key: e.id, label: e.title);
+              }).toList(),
+            );
+
+            if (id == null) return;
+            // ignore: use_build_context_synchronously
+            Navigator.of(context).pushNamed(
+              SpRouter.search.path,
+              arguments: SearchArgs(
+                initialQuery: StoryQueryOptionsModel(type: PathType.docs, tag: id.toString()),
+              ),
+            );
+          },
         ),
       if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
       if (images.isNotEmpty) buildImageChip(images),

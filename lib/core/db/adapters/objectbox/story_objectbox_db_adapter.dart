@@ -21,9 +21,11 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     int? year = params?["year"];
     int? month = params?["month"];
     int? day = params?["day"];
+    String? tag = params?["tag"];
 
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
 
+    if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.contains(tag));
     if (type != null) conditions = conditions.and(StoryObjectBox_.type.equals(type));
     if (year != null) conditions = conditions.and(StoryObjectBox_.year.equals(year));
     if (month != null) conditions = conditions.and(StoryObjectBox_.month.equals(month));
