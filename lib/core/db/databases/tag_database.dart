@@ -9,7 +9,7 @@ TagDbModel _constructTagIsolate(Map<String, dynamic> json) {
   return TagDbModel.fromJson(json);
 }
 
-class TagsDatabase extends BaseDatabase<TagDbModel> {
+class TagDatabase extends BaseDatabase<TagDbModel> {
   @override
   BaseDbAdapter get adapter => TagObjectboxDbAdapter(tableName);
 

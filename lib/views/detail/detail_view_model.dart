@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
@@ -49,6 +50,14 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     initMixinState(flowType, currentContent);
     WidgetsBinding.instance.addObserver(this);
     setListener();
+  }
+
+  // TODO: find consistent way
+  Future<void> setTagIds(List<int> ids) async {
+    StoryDbModel? story = await StoryDatabase.instance.set(
+      body: currentStory.copyWith(tags: ids.map((e) => e.toString()).toList()).toJson(),
+    );
+    if (story != null) currentStory = story;
   }
 
   Future<void> loadHasChange() async {
