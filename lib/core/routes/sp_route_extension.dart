@@ -83,7 +83,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.contentReader:
         return 'Content Reader';
       case SpRouter.changesHistory:
-        return 'Changes History';
+        return 'Changes history';
       case SpRouter.detail:
         return 'Detail';
       case SpRouter.main:
@@ -142,7 +142,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.contentReader:
         return 'Content Reader';
       case SpRouter.changesHistory:
-        return 'Changes History';
+        return 'Changes history';
       case SpRouter.detail:
         return 'Detail';
       case SpRouter.main:

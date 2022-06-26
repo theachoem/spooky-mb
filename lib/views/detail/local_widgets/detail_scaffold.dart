@@ -97,11 +97,14 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
       title: buildSheetVisibilityBuilder(
         child: widget.titleBuilder(),
         builder: (context, isOpen, child) {
-          return AnimatedOpacity(
-            opacity: isOpen ? 0.0 : 1.0,
-            curve: Curves.ease,
-            duration: ConfigConstant.fadeDuration,
-            child: child,
+          return IgnorePointer(
+            ignoring: isOpen,
+            child: AnimatedOpacity(
+              opacity: isOpen ? 0.0 : 1.0,
+              curve: Curves.ease,
+              duration: ConfigConstant.fadeDuration,
+              child: child,
+            ),
           );
         },
       ),
@@ -150,6 +153,28 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
         context: context,
         showTopDivider: true,
         sections: [
+          SpSectionContents(
+            headline: "Story",
+            tiles: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+                child: ValueListenableBuilder<bool>(
+                  valueListenable: widget.readOnlyNotifier,
+                  builder: (context, readOnly, child) {
+                    return TextField(
+                      maxLines: null,
+                      readOnly: readOnly,
+                      controller: widget.viewModel.titleController,
+                      decoration: const InputDecoration(
+                        hintText: "Title...",
+                        border: InputBorder.none,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
           buildSettingSection(context),
           // buildActionsSection(context),
           SpSectionContents(
