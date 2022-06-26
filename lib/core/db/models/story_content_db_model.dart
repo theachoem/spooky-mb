@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/models/base_model.dart';
 import 'package:spooky/utils/mixins/comparable_mixin.dart';
@@ -56,6 +59,30 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
 
   @override
   String? get objectId => id.toString();
+
+  // avoid save without add anythings
+  bool hasDataWritten(StoryContentDbModel content) {
+    List<List<dynamic>> pagesClone = content.pages ?? [];
+    List<List<dynamic>> pages = [...pagesClone];
+
+    pages.removeWhere((items) {
+      bool empty = items.isEmpty;
+      if (items.length == 1) {
+        dynamic first = items.first;
+        if (first is Map) {
+          dynamic insert = items.first['insert'];
+          if (insert is String) return insert.trim().isEmpty;
+        }
+      }
+      return empty;
+    });
+
+    bool emptyPages = pages.isEmpty;
+    String title = content.title ?? "";
+
+    bool hasNoDataWritten = emptyPages && title.trim().isEmpty;
+    return !hasNoDataWritten;
+  }
 
   @override
   List<String> get excludeCompareKeys {

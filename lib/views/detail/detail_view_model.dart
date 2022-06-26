@@ -28,7 +28,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   late DetailViewFlowType flowType;
   late StoryContentDbModel currentContent;
 
-  DetailViewModelGetter get info {
+  Future<DetailViewModelGetter> get info async {
+    await loadHasChange();
     return DetailViewModelGetter(
       currentStory: currentStory,
       flowType: flowType,
@@ -56,14 +57,24 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   }
 
   Future<bool> _fetchHasChange() async {
-    if (currentStory.changes.isEmpty) return true;
+    if (currentStory.changes.isEmpty) return false;
+    if (currentStory.changes.length == 1) {
+      StoryContentDbModel content = await buildContent();
+      return content.hasDataWritten(content);
+    }
+
+    StoryContentDbModel content = await buildContent();
+    return content.hasChanges(currentStory.changes.last);
+  }
+
+  Future<StoryContentDbModel> buildContent() async {
     StoryContentDbModel content = await StoryWriteHelper.buildContent(
       currentContent,
       quillControllers,
       titleController.text,
       openOn,
     );
-    return content.hasChanges(currentStory.changes.last);
+    return content;
   }
 
   void onChange(Document _) {
@@ -100,7 +111,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     if (!hasChangeNotifer.value) return;
     InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
     AutoSaveStoryWriter writer = AutoSaveStoryWriter();
-    StoryDbModel? story = await writer.save(DraftStoryObject(info));
+    StoryDbModel? story = await writer.save(DraftStoryObject(await info));
     if (story != null) saveStates(story);
   }
 
@@ -110,7 +121,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     DraftStoryWriter writer = DraftStoryWriter();
 
     StoryDbModel? story = await MessengerService.instance.showLoading(
-      future: () => writer.save(DraftStoryObject(info)),
+      future: () async => writer.save(DraftStoryObject(await info)),
       context: context,
       debugSource: "DetailView#onWillPop",
     );
@@ -122,7 +133,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     DefaultStoryWriter writer = DefaultStoryWriter();
 
     StoryDbModel? story = await MessengerService.instance.showLoading(
-      future: () => writer.save(DefaultStoryObject(info)),
+      future: () async => writer.save(DefaultStoryObject(await info)),
       context: context,
       debugSource: "DetailViewModel#save",
     );
@@ -132,7 +143,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   Future<StoryDbModel> deleteChange(List<int> contentIds) async {
     DeleteChangeWriter writer = DeleteChangeWriter();
-    StoryDbModel? story = await writer.save(DeleteChangeObject(info, contentIds: contentIds));
+    StoryDbModel? story = await writer.save(DeleteChangeObject(await info, contentIds: contentIds));
     if (story != null) saveStates(story);
     return currentStory;
   }
@@ -141,12 +152,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   /// so, no need to saveStates(story)
   Future<void> restore(int contentId) async {
     RestoreStoryWriter writer = RestoreStoryWriter();
-    await writer.save(RestoreStoryObject(info, contentId: contentId));
+    await writer.save(RestoreStoryObject(await info, contentId: contentId));
   }
 
   Future<void> updatePages(StoryContentDbModel value) async {
     UpdatePageWriter writer = UpdatePageWriter();
-    await writer.save(UpdatePageObject(info, pages: value.pages));
+    await writer.save(UpdatePageObject(await info, pages: value.pages));
   }
 
   @override
