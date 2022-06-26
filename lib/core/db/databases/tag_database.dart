@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:spooky/core/backups/backups_file_manager.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/adapters/objectbox/tag_objectbox_db_adapter.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
@@ -10,6 +11,9 @@ TagDbModel _constructTagIsolate(Map<String, dynamic> json) {
 }
 
 class TagDatabase extends BaseDatabase<TagDbModel> {
+  static TagDatabase get instance => TagDatabase._();
+  TagDatabase._();
+
   @override
   BaseDbAdapter get adapter => TagObjectboxDbAdapter(tableName);
 
@@ -31,5 +35,7 @@ class TagDatabase extends BaseDatabase<TagDbModel> {
   }
 
   @override
-  Future<void> onCRUD(TagDbModel? object) async {}
+  Future<void> onCRUD(TagDbModel? object) async {
+    BackupsFileManager().clear();
+  }
 }

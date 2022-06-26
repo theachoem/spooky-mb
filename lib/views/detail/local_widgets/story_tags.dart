@@ -20,7 +20,7 @@ class StoryTags extends StatefulWidget {
 }
 
 class _StoryTagsState extends State<StoryTags> {
-  final TagDatabase tagDatabase = TagDatabase();
+  final TagDatabase tagDatabase = TagDatabase.instance;
   late final ValueNotifier<List<int>> selectedTagsIdNotifiers;
   List<TagDbModel>? tags;
 
