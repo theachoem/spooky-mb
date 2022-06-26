@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
+import 'package:spooky/widgets/sp_show_hide_animator.dart';
 
 mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   late ValueNotifier<bool> isSpBottomSheetOpenNotifer;
@@ -36,6 +37,35 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
   }
 
   Widget buildSheet(BuildContext context);
+  Widget buildSheetVisibilityBuilder({
+    required Widget Function(BuildContext context, bool isOpen, Widget? child) builder,
+    Widget? child,
+  }) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: isSpBottomSheetOpenNotifer,
+      child: child,
+      builder: (context, isOpen, child) {
+        return builder(context, isOpen, child);
+      },
+    );
+  }
+
+  Widget buildSheetVisibilityWrapper(
+    Widget child, {
+    bool reverse = false,
+  }) {
+    return ValueListenableBuilder<bool>(
+      valueListenable: isSpBottomSheetOpenNotifer,
+      child: child,
+      builder: (context, isOpen, child) {
+        if (reverse) isOpen = !isOpen;
+        return SpShowHideAnimator(
+          shouldShow: !isOpen,
+          child: child!,
+        );
+      },
+    );
+  }
 
   void toggleSpBottomSheet() async {
     MessengerService.instance.clearSnackBars();
@@ -56,7 +86,10 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
     isSpBottomSheetOpenNotifer.value = !isSpBottomSheetOpenNotifer.value;
   }
 
-  Widget buildMoreButton([IconData icon = Icons.more_vert]) {
+  Widget buildMoreButton([
+    IconData icon = Icons.more_vert,
+    void Function()? onPressed,
+  ]) {
     return ValueListenableBuilder<bool>(
       valueListenable: isSpBottomSheetOpenNotifer,
       builder: (context, value, child) {
@@ -67,7 +100,15 @@ mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
             showFirst: !isSpBottomSheetOpenNotifer.value,
           ),
           onPressed: () {
-            toggleSpBottomSheet();
+            if (isSpBottomSheetOpenNotifer.value) {
+              toggleSpBottomSheet();
+            } else {
+              if (onPressed != null) {
+                onPressed();
+              } else {
+                toggleSpBottomSheet();
+              }
+            }
           },
         );
       },

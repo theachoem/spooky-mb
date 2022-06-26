@@ -16,6 +16,20 @@ class SpPopButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final bool forceCloseButton;
 
+  static IconData getIconData(BuildContext context) {
+    final platform = Theme.of(context).platform;
+    switch (platform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return Icons.arrow_back;
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return Icons.arrow_back_ios;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     ModalRoute<Object?>? parentRoute = ModalRoute.of(context);

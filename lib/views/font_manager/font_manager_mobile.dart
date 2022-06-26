@@ -52,6 +52,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldSta
       physics: const ScrollPhysics(),
       children: SpSectionsTiles.divide(
         context: context,
+        showTopDivider: true,
         sections: [
           buildSettingSection(context),
           buildInfoSection(provider, context),
