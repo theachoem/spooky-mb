@@ -49,12 +49,19 @@ class StoryTileChips extends StatelessWidget {
     StoryDbModel story,
     BuildContext context,
   ) {
+    final tags = story.tags ?? [];
     final fileImages = fetchFileImages();
     return [
       if (content.draft == true)
         const SpChip(
           labelText: "Draft",
           avatar: Icon(CommunityMaterialIcons.pen, size: ConfigConstant.iconSize1),
+        ),
+      if (tags.isNotEmpty)
+        SpChip(
+          labelText: tags.length.toString(),
+          avatar: const Icon(CommunityMaterialIcons.tag, size: ConfigConstant.iconSize1),
+          onTap: () {},
         ),
       if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
       if (images.isNotEmpty) buildImageChip(images),
