@@ -9,6 +9,7 @@ import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
+import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
 import 'package:spooky/views/detail/local_widgets/story_tags.dart';
@@ -93,6 +94,7 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
 
   MorphingAppBar buildAppBar() {
     return MorphingAppBar(
+      heroTag: DetailView.appBarHeroKey,
       leading: const SpPopButton(),
       title: buildSheetVisibilityBuilder(
         child: widget.titleBuilder(),

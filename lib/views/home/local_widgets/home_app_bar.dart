@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/providers/nickname_provider.dart';
+import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/views/home/local_widgets/home_tab_bar.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
@@ -98,6 +99,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
         child as _FakeChild;
         bool hasTabs = animationValue == 1;
         return MorphingSliverAppBar(
+          heroTag: DetailView.appBarHeroKey,
           elevation: appBarTheme.elevation,
           pinned: true,
           floating: true,

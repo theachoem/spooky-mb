@@ -16,6 +16,8 @@ import 'package:spooky/views/detail/detail_view_model.dart';
 part 'detail_mobile.dart';
 
 class DetailView extends StatelessWidget {
+  static const String appBarHeroKey = "DetailViewAppBar";
+
   const DetailView({
     Key? key,
     required this.initialStory,
