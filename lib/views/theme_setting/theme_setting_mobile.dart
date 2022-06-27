@@ -210,8 +210,7 @@ class _ThemeSettingMobile extends StatelessWidget {
         leading: const Icon(Icons.sort),
         title: const Text("Sort"),
         onTap: () async {
-          SortType? sortType;
-          sortType = await SortTypeStorage().readEnum() ?? SortType.oldToNew;
+          SortType? sortType = provider.sortType;
 
           String sortTitle(SortType? type) {
             switch (type) {

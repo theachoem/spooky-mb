@@ -341,14 +341,20 @@ class StoryTileState extends State<StoryTile> {
           Container(
             margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : contentRightMargin),
             child: Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
-              return Markdown(
+              return MarkdownBody(
                 data: body(content),
-                shrinkWrap: true,
                 onTapLink: (url, _, __) => AppHelper.openLinkDialog(url),
                 styleSheet: MarkdownStyleSheet(
-                  blockquoteDecoration: BoxDecoration(color: M3Color.of(context).tertiaryContainer),
-                  blockquote: TextStyle(color: M3Color.of(context).onTertiaryContainer),
-                  codeblockDecoration: BoxDecoration(border: Border.all(color: Theme.of(context).dividerColor)),
+                  blockquoteDecoration: BoxDecoration(
+                    color: Colors.transparent,
+                    border: Border(
+                      left: BorderSide(color: Theme.of(context).dividerColor),
+                    ),
+                  ),
+                  blockquotePadding: const EdgeInsets.symmetric(vertical: 0, horizontal: ConfigConstant.margin1),
+                  codeblockDecoration: BoxDecoration(
+                    border: Border.all(color: Theme.of(context).dividerColor),
+                  ),
                   listBulletPadding: const EdgeInsets.all(2),
                   listIndent: ConfigConstant.iconSize1,
                   blockSpacing: 0.0,
@@ -362,8 +368,6 @@ class StoryTileState extends State<StoryTile> {
                     ),
                   );
                 },
-                padding: EdgeInsets.zero,
-                physics: const NeverScrollableScrollPhysics(),
                 softLineBreak: true,
               );
             }),
@@ -372,9 +376,25 @@ class StoryTileState extends State<StoryTile> {
     );
   }
 
+  String trimBody(String body) {
+    body = body.trim();
+    int length = body.length;
+    int end = body.length;
+
+    List<String> endWiths = ["- [", "- [x", "- [ ]", "- [x]", "-"];
+    for (String ew in endWiths) {
+      if (body.endsWith(ew)) {
+        end = length - ew.length;
+      }
+    }
+
+    return body.substring(0, end);
+  }
+
   String body(StoryContentDbModel content) {
     String body = content.plainText?.trim() ?? "content.plainText";
-    return body;
+    String extract = body.length > 200 ? body.substring(0, 200) : body;
+    return trimBody(extract);
   }
 
   Widget buildTime(BuildContext context, StoryContentDbModel content) {

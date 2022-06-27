@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/src/models/documents/attribute.dart' as attribute;
 import 'package:flutter_quill/src/models/documents/nodes/block.dart' as block;
+import 'package:flutter_quill/src/models/documents/nodes/line.dart' as line;
 import 'package:flutter_quill/src/models/documents/nodes/node.dart' as node;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
@@ -36,18 +37,23 @@ class QuillHelper {
   static String toPlainText(node.Root root) {
     String plainText = root.children.map((node.Node e) {
       final atts = e.style.attributes;
-      attribute.Attribute? att = atts['list'] ?? atts['blockquote'] ?? atts['code-block'];
+      attribute.Attribute? att = atts['list'] ?? atts['blockquote'] ?? atts['code-block'] ?? atts['header'];
 
       if (e is block.Block) {
         int index = 0;
         String result = "";
+
+        if (att?.key == "code-block") {
+          result += "```\n";
+        }
+
         for (node.Node entry in e.children) {
           if (att?.key == "blockquote") {
             String text = entry.toPlainText();
             text = text.replaceFirst(RegExp('\n'), '', text.length - 1);
             result += "\n> $text";
           } else if (att?.key == "code-block") {
-            result += '```\n${entry.toPlainText()}\n```';
+            result += entry.toPlainText();
           } else {
             if (att?.value == "checked") {
               result += '- [x] ${entry.toPlainText()}';
@@ -61,7 +67,15 @@ class QuillHelper {
             }
           }
         }
+
+        if (att?.key == "code-block") {
+          result += "```";
+        }
+
         return result;
+      } else if (e is line.Line && att != null) {
+        String prefix = "#" * ((att.value as int) + 3);
+        return "$prefix ${e.toPlainText()}";
       } else {
         return e.toPlainText();
       }
@@ -69,7 +83,7 @@ class QuillHelper {
 
     // replace all image object to empty
     plainText = plainText.replaceAll("\uFFFC", "");
-    return plainText.length > 200 ? "${plainText.substring(0, 200)}..." : plainText;
+    return plainText;
   }
 
   static ImageProvider? imageByUrl(String imageUrl) {

@@ -25,7 +25,7 @@ class StoryListConfigurationProvider extends ChangeNotifier {
   Future<void> load() async {
     shouldShowChip = await showChipsStorage.read() ?? shouldShowChip;
     prioritied = await priorityStarredStorage.read() ?? prioritied;
-    sortType = await sortTypeStorage.readEnum();
+    sortType = await sortTypeStorage.readEnum() ?? SortType.newToOld;
     _loaded = true;
     notifyListeners();
   }
