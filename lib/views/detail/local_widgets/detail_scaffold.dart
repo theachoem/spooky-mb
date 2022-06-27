@@ -177,8 +177,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
               ),
             ],
           ),
-          buildSettingSection(context),
           // buildActionsSection(context),
+          buildSettingSection(context),
           SpSectionContents(
             headline: "Tags",
             leadingIcon: CommunityMaterialIcons.tag,
@@ -236,27 +236,29 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
 
   SpSectionContents buildSettingSection(BuildContext context) {
     return SpSectionContents(
-      headline: "Settings",
+      headline: "Others",
       tiles: [
-        if ((widget.viewModel.currentContent.pages ?? []).length > 1)
-          ListTile(
-            title: Text(SpRouter.managePages.title),
-            trailing: const Icon(Icons.edit),
-            onTap: () {
-              if (widget.viewModel.hasChangeNotifer.value) {
-                MessengerService.instance.showSnackBar("Please save document first");
-                return;
-              }
-              ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
-              Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
-                if (value is StoryContentDbModel) widget.viewModel.updatePages(value);
-              });
-
-              if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
-            },
-          ),
+        // if ((widget.viewModel.currentContent.pages ?? []).length > 1)
         ListTile(
-          title: Text(SpRouter.changesHistory.title),
+          leading: const Icon(CommunityMaterialIcons.book_settings),
+          title: const Text("Pages"),
+          trailing: const Icon(Icons.edit),
+          onTap: () {
+            if (widget.viewModel.hasChangeNotifer.value) {
+              MessengerService.instance.showSnackBar("Please save document first");
+              return;
+            }
+            ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
+            Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
+              if (value is StoryContentDbModel) widget.viewModel.updatePages(value);
+            });
+
+            if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
+          },
+        ),
+        ListTile(
+          leading: const Icon(Icons.history),
+          title: const Text("Changes"),
           trailing: const Icon(Icons.edit),
           onTap: () async {
             if (widget.viewModel.hasChangeNotifer.value) {

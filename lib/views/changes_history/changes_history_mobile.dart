@@ -18,6 +18,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
       },
       child: Scaffold(
         appBar: MorphingAppBar(
+          heroTag: DetailView.appBarHeroKey,
           leading: buildPopButton(),
           actions: [
             buildDeleteChangeButton(),

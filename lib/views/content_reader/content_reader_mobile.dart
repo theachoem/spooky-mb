@@ -15,6 +15,7 @@ class _ContentReaderMobile extends StatelessWidget {
 
   PreferredSizeWidget buildAppBar(BuildContext context) {
     return MorphingAppBar(
+      heroTag: DetailView.appBarHeroKey,
       leading: const SpPopButton(),
       actions: [
         PageIndicatorButton(
