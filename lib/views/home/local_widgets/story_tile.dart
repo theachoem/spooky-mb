@@ -70,8 +70,8 @@ class StoryTileState extends State<StoryTile> {
 
   Future<void> toggleStarred() async {
     StoryDbModel copiedStory = story.copyWith(starred: !starred);
-    StoryDbModel? updatedStory = await database.update(id: copiedStory.id, body: copiedStory.toJson());
-    if (updatedStory != null) await reloadStory();
+    setState(() => story = copiedStory);
+    await database.update(id: copiedStory.id, body: copiedStory.toJson());
   }
 
   Future<void> replaceContent(StoryContentDbModel content) async {
@@ -317,7 +317,10 @@ class StoryTileState extends State<StoryTile> {
               ],
             ),
           ),
-          buildTime(context, content),
+          Positioned(
+            right: 0,
+            child: buildTime(context, content),
+          ),
         ],
       ),
     );
@@ -326,6 +329,7 @@ class StoryTileState extends State<StoryTile> {
   Column buildTitleBody(bool hasTitle, StoryContentDbModel content, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (hasTitle)
           Container(
