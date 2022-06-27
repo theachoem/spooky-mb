@@ -5,11 +5,13 @@ import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/views/home/local_widgets/home_tab_bar.dart';
+import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
+import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
@@ -95,7 +97,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
       builder: (context, child) {
         child as _FakeChild;
         bool hasTabs = animationValue == 1;
-        return SliverAppBar(
+        return MorphingSliverAppBar(
           elevation: appBarTheme.elevation,
           pinned: true,
           floating: true,
@@ -107,6 +109,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
               32.0 +
               16.0,
           flexibleSpace: child.flexibleSpace,
+          title: const SizedBox.shrink(),
           bottom: HomeTabBarWrapper(
             height: hasTabs ? 48 + 8 : 0,
             visible: hasTabs,
@@ -128,13 +131,16 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildTitle(),
+                SpFadeIn(child: buildTitle()),
                 ConfigConstant.sizedBoxH0,
-                SpTapEffect(
-                  onTap: () => widget.viewModel.pickYear(context),
-                  child: Text(
-                    widget.subtitle,
-                    style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+                SpFadeIn(
+                  duration: ConfigConstant.duration,
+                  child: SpTapEffect(
+                    onTap: () => widget.viewModel.pickYear(context),
+                    child: Text(
+                      widget.subtitle,
+                      style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+                    ),
                   ),
                 ),
               ],
@@ -163,7 +169,10 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
   Widget buildThemeSwitcherButton() {
     return Positioned(
       right: 0,
-      child: SpThemeSwitcher(),
+      child: SpFadeIn(
+        duration: ConfigConstant.fadeDuration * 2,
+        child: SpThemeSwitcher(),
+      ),
     );
   }
 }

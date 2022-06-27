@@ -5,14 +5,16 @@ class SpFadeIn extends StatelessWidget {
   const SpFadeIn({
     Key? key,
     required this.child,
+    this.duration = ConfigConstant.fadeDuration,
   }) : super(key: key);
 
   final Widget child;
+  final Duration duration;
 
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<int>(
-      duration: ConfigConstant.fadeDuration,
+      duration: duration,
       tween: IntTween(begin: 0, end: 1),
       child: child,
       builder: (context, value, child) {
