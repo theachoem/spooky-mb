@@ -89,7 +89,11 @@ class StoryTileChips extends StatelessWidget {
             Navigator.of(context).pushNamed(
               SpRouter.search.path,
               arguments: SearchArgs(
-                initialQuery: StoryQueryOptionsModel(type: PathType.docs, tag: id.toString()),
+                displayTag: dbTags.where((e) => e.id == id).first.title,
+                initialQuery: StoryQueryOptionsModel(
+                  type: PathType.docs,
+                  tag: id.toString(),
+                ),
               ),
             );
           },

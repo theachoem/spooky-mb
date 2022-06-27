@@ -3,5 +3,10 @@ import 'package:spooky/core/models/story_query_options_model.dart';
 
 class SearchViewModel extends BaseViewModel {
   final StoryQueryOptionsModel? initialQuery;
-  SearchViewModel(this.initialQuery);
+  final String? displayTag;
+
+  SearchViewModel(
+    this.initialQuery,
+    this.displayTag,
+  );
 }

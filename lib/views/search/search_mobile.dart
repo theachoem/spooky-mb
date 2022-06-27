@@ -9,7 +9,10 @@ class _SearchMobile extends StatelessWidget {
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
-        title: const SpAppBarTitle(fallbackRouter: SpRouter.search),
+        title: SpAppBarTitle(
+          fallbackRouter: SpRouter.search,
+          overridedTitle: viewModel.displayTag,
+        ),
       ),
       body: StoryQueryList(
         queryOptions: viewModel.initialQuery ?? StoryQueryOptionsModel(type: PathType.docs),

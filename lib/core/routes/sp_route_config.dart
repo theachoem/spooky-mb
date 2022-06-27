@@ -269,7 +269,10 @@ class SpRouteConfig {
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is SearchArgs) {
-              return SearchView(initialQuery: arguments.initialQuery);
+              return SearchView(
+                initialQuery: arguments.initialQuery,
+                displayTag: arguments.displayTag,
+              );
             } else {
               return const SearchView(initialQuery: null);
             }

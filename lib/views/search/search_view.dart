@@ -18,14 +18,16 @@ class SearchView extends StatelessWidget {
   const SearchView({
     Key? key,
     required this.initialQuery,
+    this.displayTag,
   }) : super(key: key);
 
   final StoryQueryOptionsModel? initialQuery;
+  final String? displayTag;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<SearchViewModel>(
-      create: (context) => SearchViewModel(initialQuery),
+      create: (context) => SearchViewModel(initialQuery, displayTag),
       onModelReady: (context, viewModel) {},
       builder: (context, viewModel, child) {
         return _SearchMobile(viewModel);

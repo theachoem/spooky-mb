@@ -5,9 +5,12 @@ class SpAppBarTitle extends StatelessWidget {
   const SpAppBarTitle({
     Key? key,
     required this.fallbackRouter,
+    this.overridedTitle,
   }) : super(key: key);
 
   final SpRouter? fallbackRouter;
+  final String? overridedTitle;
+
   static SpRouter? router(
     BuildContext context, [
     SpRouter? fallbackRouter,
@@ -25,7 +28,7 @@ class SpAppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? title = fallbackRouter?.title ?? router(context)?.title;
+    String? title = overridedTitle ?? fallbackRouter?.title ?? router(context)?.title;
     return Text(
       title ?? "",
       style: Theme.of(context).appBarTheme.titleTextStyle,

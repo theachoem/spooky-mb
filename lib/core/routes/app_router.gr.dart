@@ -157,7 +157,10 @@ class _$AppRouter extends RootStackRouter {
       final args = routeData.argsAs<SearchArgs>();
       return AdaptivePage<dynamic>(
           routeData: routeData,
-          child: SearchView(key: args.key, initialQuery: args.initialQuery));
+          child: SearchView(
+              key: args.key,
+              initialQuery: args.initialQuery,
+              displayTag: args.displayTag));
     }
   };
 
@@ -603,23 +606,29 @@ class SignUp extends PageRouteInfo<void> {
 /// generated route for
 /// [SearchView]
 class Search extends PageRouteInfo<SearchArgs> {
-  Search({Key? key, required StoryQueryOptionsModel? initialQuery})
+  Search(
+      {Key? key,
+      required StoryQueryOptionsModel? initialQuery,
+      String? displayTag})
       : super(Search.name,
             path: 'sarch',
-            args: SearchArgs(key: key, initialQuery: initialQuery));
+            args: SearchArgs(
+                key: key, initialQuery: initialQuery, displayTag: displayTag));
 
   static const String name = 'Search';
 }
 
 class SearchArgs {
-  const SearchArgs({this.key, required this.initialQuery});
+  const SearchArgs({this.key, required this.initialQuery, this.displayTag});
 
   final Key? key;
 
   final StoryQueryOptionsModel? initialQuery;
 
+  final String? displayTag;
+
   @override
   String toString() {
-    return 'SearchArgs{key: $key, initialQuery: $initialQuery}';
+    return 'SearchArgs{key: $key, initialQuery: $initialQuery, displayTag: $displayTag}';
   }
 }
