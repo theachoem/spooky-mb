@@ -10,6 +10,14 @@ class _StoryPadRestoreMobile extends StatelessWidget {
       appBar: MorphingAppBar(
         title: const SpAppBarTitle(fallbackRouter: SpRouter.storyPadRestore),
         leading: const SpPopButton(),
+        actions: [
+          SpIconButton(
+            icon: const Icon(CommunityMaterialIcons.chat_question),
+            onPressed: () {
+              AppHelper.openLinkDialog(AppConstant.customerSupport);
+            },
+          ),
+        ],
       ),
       body: SpStepper(
         onStepPressed: (step, currentStep) async {

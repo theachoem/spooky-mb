@@ -6,6 +6,7 @@ class AppConstant {
   static const String driveFolderName = appName;
   static const String privacyPolicy = 'https://github.com/juniorise/spooky/wiki/Privacy-Policy';
   static const String telegramChannel = 'https://t.me/spookyjuniorise';
+  static const String customerSupport = 'https://t.me/spookymb';
   static const Duration deleteInDuration = Duration(days: 30);
 
   static const supportedLocales = [
