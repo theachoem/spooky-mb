@@ -10,6 +10,7 @@ class _ManagePagesMobile extends StatelessWidget {
       onWillPop: () async => onWillPop(context),
       child: Scaffold(
         appBar: MorphingAppBar(
+          heroTag: DetailView.appBarHeroKey,
           leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
           title: const SpAppBarTitle(fallbackRouter: SpRouter.managePages),
           actions: buildActionsButton(context),

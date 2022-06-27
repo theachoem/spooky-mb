@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/views/home/local_widgets/home_tab_indicator.dart';
+import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
@@ -20,19 +21,7 @@ class HomeTabBarWrapper extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return Visibility(
       visible: visible,
-      child: TweenAnimationBuilder<int>(
-        tween: IntTween(begin: 0, end: 1),
-        duration: ConfigConstant.duration,
-        builder: (context, value, child) {
-          return AnimatedOpacity(
-            opacity: value.toDouble(),
-            curve: Curves.linear,
-            duration: ConfigConstant.duration,
-            child: child,
-          );
-        },
-        child: child,
-      ),
+      child: child,
     );
   }
 
