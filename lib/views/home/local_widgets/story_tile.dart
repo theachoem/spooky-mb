@@ -235,9 +235,16 @@ class StoryTileState extends State<StoryTile> {
   }
 
   Future<void> view(StoryDbModel story, BuildContext context) async {
-    DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlowType.update);
-    await Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args);
-    reloadStory();
+    if (story.viewOnly) {
+      await Navigator.of(context).pushNamed(
+        SpRouter.contentReader.path,
+        arguments: ContentReaderArgs(content: story.changes.last),
+      );
+    } else {
+      DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlowType.update);
+      await Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args);
+      reloadStory();
+    }
   }
 
   Widget buildMonogram(
