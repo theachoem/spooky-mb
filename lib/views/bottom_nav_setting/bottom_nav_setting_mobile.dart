@@ -11,6 +11,30 @@ class _BottomNavSettingMobile extends StatelessWidget {
         title: const SpAppBarTitle(fallbackRouter: SpRouter.bottomNavSetting),
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
       ),
+      bottomNavigationBar: Consumer<BottomNavItemsProvider>(builder: (context, provider, child) {
+        if (provider.tabs == null) return const SizedBox.shrink();
+        return Container(
+          margin: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+          child: Material(
+            borderOnForeground: true,
+            borderRadius: ConfigConstant.circlarRadiusTop1,
+            clipBehavior: Clip.hardEdge,
+            child: NavigationBar(
+              selectedIndex: 0,
+              height: 80 + 16.0,
+              destinations: provider.tabs?.map((e) {
+                    final tab = e.tab!;
+                    return NavigationDestination(
+                      icon: Icon(tab.inactiveIcon),
+                      selectedIcon: Icon(tab.activeIcon),
+                      label: tab.label,
+                    );
+                  }).toList() ??
+                  [],
+            ),
+          ),
+        );
+      }),
       body: Consumer<BottomNavItemsProvider>(
         builder: (context, provider, child) {
           List<BottomNavItemModel> items = provider.availableTabs?.items ?? [];

@@ -76,7 +76,7 @@ class HomeBottomNavigation extends StatelessWidget {
                     tooltip: e.router.title,
                     selectedIcon: Icon(e.activeIcon),
                     icon: Icon(e.inactiveIcon),
-                    label: e.router.title,
+                    label: e.label,
                   ),
                 );
               }).toList(),

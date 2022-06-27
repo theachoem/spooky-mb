@@ -8,6 +8,11 @@ class MainTabBarItem {
   final IconData activeIcon;
   final bool optinal;
 
+  String get label {
+    if (router == SpRouter.cloudStorages) return "Cloud";
+    return router.title;
+  }
+
   MainTabBarItem({
     required this.navigatorKey,
     required this.router,
