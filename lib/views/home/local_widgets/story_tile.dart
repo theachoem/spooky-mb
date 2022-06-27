@@ -108,9 +108,8 @@ class StoryTileState extends State<StoryTile> {
       dxGetter: (double dx) => MediaQuery.of(context).size.width,
       dyGetter: (double dy) => dy + ConfigConstant.margin2,
       builder: (callback) {
-        return SpTapEffect(
-          onTap: () => view(story, context),
-          onLongPressed: () => callback(),
+        return GestureDetector(
+          onLongPress: () => callback(),
           child: Padding(
             padding: widget.itemPadding,
             child: Row(
@@ -118,7 +117,11 @@ class StoryTileState extends State<StoryTile> {
               children: [
                 buildMonogram(context, story, previousStory, dayColors),
                 ConfigConstant.sizedBoxW2,
-                buildContent(context, story),
+                buildContent(
+                  context,
+                  story,
+                  () => view(story, context),
+                ),
               ],
             ),
           ),
@@ -280,7 +283,11 @@ class StoryTileState extends State<StoryTile> {
     return kToolbarHeight + 16;
   }
 
-  Widget buildContent(BuildContext context, StoryDbModel story) {
+  Widget buildContent(
+    BuildContext context,
+    StoryDbModel story,
+    void Function() onPressed,
+  ) {
     Set<String> images = {};
     StoryContentDbModel content = _content(story);
 
@@ -297,58 +304,10 @@ class StoryTileState extends State<StoryTile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (hasTitle)
-                  Container(
-                    margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: contentRightMargin),
-                    child: Text(
-                      content.title ?? "content.title",
-                      style: M3TextTheme.of(context).titleMedium,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                if (content.plainText != null && content.plainText!.trim().length > 1)
-                  Container(
-                    margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : contentRightMargin),
-                    child: Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
-                      return Markdown(
-                        data: body(content),
-                        shrinkWrap: true,
-                        onTapLink: (url, _, __) => AppHelper.openLinkDialog(url),
-                        styleSheet: MarkdownStyleSheet(
-                          blockquoteDecoration: BoxDecoration(color: M3Color.of(context).tertiaryContainer),
-                          blockquote: TextStyle(color: M3Color.of(context).onTertiaryContainer),
-                          codeblockDecoration: BoxDecoration(border: Border.all(color: Theme.of(context).dividerColor)),
-                          listBulletPadding: const EdgeInsets.all(2),
-                          listIndent: ConfigConstant.iconSize1,
-                          blockSpacing: 0.0,
-                        ),
-                        checkboxBuilder: (checked) {
-                          return Transform.translate(
-                            offset: const Offset(-3.5, 2.5),
-                            child: Icon(
-                              checked ? Icons.check_box : Icons.check_box_outline_blank,
-                              size: ConfigConstant.iconSize1,
-                            ),
-                          );
-                        },
-                        padding: EdgeInsets.zero,
-                        physics: const NeverScrollableScrollPhysics(),
-                        softLineBreak: true,
-                      );
-                      // return ExpandableText(
-                      //   body(content),
-                      //   expandText: 'show more',
-                      //   collapseText: "show less",
-                      //   maxLines: provider.maxLine,
-                      //   animation: true,
-                      //   collapseOnTextTap: false,
-                      //   style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onSurface),
-                      //   linkColor: M3Color.of(context).onSurface,
-                      //   linkStyle: const TextStyle(fontWeight: FontWeight.w300),
-                      // );
-                    }),
-                  ),
+                SpTapEffect(
+                  onTap: onPressed,
+                  child: buildTitleBody(hasTitle, content, context),
+                ),
                 StoryTileChips(
                   images: images,
                   content: content,
@@ -361,6 +320,55 @@ class StoryTileState extends State<StoryTile> {
           buildTime(context, content),
         ],
       ),
+    );
+  }
+
+  Column buildTitleBody(bool hasTitle, StoryContentDbModel content, BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (hasTitle)
+          Container(
+            margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: contentRightMargin),
+            child: Text(
+              content.title ?? "content.title",
+              style: M3TextTheme.of(context).titleMedium,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        if (content.plainText != null && content.plainText!.trim().length > 1)
+          Container(
+            margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : contentRightMargin),
+            child: Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
+              return Markdown(
+                data: body(content),
+                shrinkWrap: true,
+                onTapLink: (url, _, __) => AppHelper.openLinkDialog(url),
+                styleSheet: MarkdownStyleSheet(
+                  blockquoteDecoration: BoxDecoration(color: M3Color.of(context).tertiaryContainer),
+                  blockquote: TextStyle(color: M3Color.of(context).onTertiaryContainer),
+                  codeblockDecoration: BoxDecoration(border: Border.all(color: Theme.of(context).dividerColor)),
+                  listBulletPadding: const EdgeInsets.all(2),
+                  listIndent: ConfigConstant.iconSize1,
+                  blockSpacing: 0.0,
+                ),
+                checkboxBuilder: (checked) {
+                  return Transform.translate(
+                    offset: const Offset(-3.5, 2.5),
+                    child: Icon(
+                      checked ? Icons.check_box : Icons.check_box_outline_blank,
+                      size: ConfigConstant.iconSize1,
+                    ),
+                  );
+                },
+                padding: EdgeInsets.zero,
+                physics: const NeverScrollableScrollPhysics(),
+                softLineBreak: true,
+              );
+            }),
+          ),
+      ],
     );
   }
 
