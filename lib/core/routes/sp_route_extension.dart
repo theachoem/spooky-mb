@@ -59,6 +59,8 @@ extension SpRouterExtension on SpRouter {
         return '/sign-up';
       case SpRouter.search:
         return '/search';
+      case SpRouter.backupHistoriesManager:
+        return '/backup-histories-manager';
     }
   }
 
@@ -118,6 +120,8 @@ extension SpRouterExtension on SpRouter {
         return 'Sign up';
       case SpRouter.search:
         return 'Search';
+      case SpRouter.backupHistoriesManager:
+        return 'Backup Histories';
     }
   }
 
@@ -177,6 +181,8 @@ extension SpRouterExtension on SpRouter {
         return 'Sign up';
       case SpRouter.search:
         return 'Search';
+      case SpRouter.backupHistoriesManager:
+        return 'Backup Histories';
     }
   }
 
@@ -197,6 +203,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.storyPadRestore:
       case SpRouter.backupsDetails:
       case SpRouter.signUp:
+      case SpRouter.backupHistoriesManager:
       case SpRouter.search:
         return null;
       case SpRouter.home:

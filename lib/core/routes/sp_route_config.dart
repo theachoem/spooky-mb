@@ -9,6 +9,7 @@ import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
 import 'package:spooky/views/archive/archive_view.dart';
 import 'package:spooky/views/authentication/sign_up_view.dart';
+import 'package:spooky/views/backup_histories_manager/backup_histories_manager_view.dart';
 import 'package:spooky/views/backups_details/backups_details_view.dart';
 import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
@@ -68,7 +69,7 @@ class SpRouteConfig {
     switch (router) {
       case SpRouter.backupsDetails:
         return DefaultRouteSetting(
-          fullscreenDialog: true,
+          fullscreenDialog: false,
           route: (context) {
             Object? arguments = settings?.arguments;
             if (arguments is BackupsDetailArgs) {
@@ -262,6 +263,19 @@ class SpRouteConfig {
         return DefaultRouteSetting(
           fullscreenDialog: true,
           route: (context) => const SignUpView(),
+        );
+      case SpRouter.backupHistoriesManager:
+        return DefaultRouteSetting(
+          fullscreenDialog: false,
+          route: (context) {
+            Object? arguments = settings?.arguments;
+            if (arguments is BackupHistoriesManagerArgs) {
+              return BackupHistoriesManagerView(
+                destination: arguments.destination,
+              );
+            }
+            return const NotFoundView();
+          },
         );
       case SpRouter.search:
         return DefaultRouteSetting(

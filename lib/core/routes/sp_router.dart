@@ -29,4 +29,5 @@ enum SpRouter {
   user,
   signUp,
   search,
+  backupHistoriesManager,
 }

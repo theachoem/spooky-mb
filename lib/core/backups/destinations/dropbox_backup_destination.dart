@@ -31,4 +31,7 @@ class DropBoxBackupDestination extends BaseBackupDestination<DropboxCloudProvide
 
   @override
   IconData get iconData => CommunityMaterialIcons.dropbox;
+
+  @override
+  Future<void> delete(CloudFileModel file) async {}
 }

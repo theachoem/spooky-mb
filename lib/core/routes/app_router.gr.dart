@@ -161,6 +161,13 @@ class _$AppRouter extends RootStackRouter {
               key: args.key,
               initialQuery: args.initialQuery,
               displayTag: args.displayTag));
+    },
+    BackupHistoriesManager.name: (routeData) {
+      final args = routeData.argsAs<BackupHistoriesManagerArgs>();
+      return AdaptivePage<dynamic>(
+          routeData: routeData,
+          child: BackupHistoriesManagerView(
+              key: args.key, destination: args.destination));
     }
   };
 
@@ -204,7 +211,9 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig(User.name, path: 'user', parent: Main.name),
           RouteConfig(User.name, path: 'user', parent: Main.name),
           RouteConfig(SignUp.name, path: 'sign-up', parent: Main.name),
-          RouteConfig(Search.name, path: 'sarch', parent: Main.name)
+          RouteConfig(Search.name, path: 'search', parent: Main.name),
+          RouteConfig(BackupHistoriesManager.name,
+              path: 'backup-histories-manager', parent: Main.name)
         ])
       ];
 }
@@ -611,7 +620,7 @@ class Search extends PageRouteInfo<SearchArgs> {
       required StoryQueryOptionsModel? initialQuery,
       String? displayTag})
       : super(Search.name,
-            path: 'sarch',
+            path: 'search',
             args: SearchArgs(
                 key: key, initialQuery: initialQuery, displayTag: displayTag));
 
@@ -630,5 +639,31 @@ class SearchArgs {
   @override
   String toString() {
     return 'SearchArgs{key: $key, initialQuery: $initialQuery, displayTag: $displayTag}';
+  }
+}
+
+/// generated route for
+/// [BackupHistoriesManagerView]
+class BackupHistoriesManager extends PageRouteInfo<BackupHistoriesManagerArgs> {
+  BackupHistoriesManager(
+      {Key? key, required BaseBackupDestination<BaseCloudProvider> destination})
+      : super(BackupHistoriesManager.name,
+            path: 'backup-histories-manager',
+            args:
+                BackupHistoriesManagerArgs(key: key, destination: destination));
+
+  static const String name = 'BackupHistoriesManager';
+}
+
+class BackupHistoriesManagerArgs {
+  const BackupHistoriesManagerArgs({this.key, required this.destination});
+
+  final Key? key;
+
+  final BaseBackupDestination<BaseCloudProvider> destination;
+
+  @override
+  String toString() {
+    return 'BackupHistoriesManagerArgs{key: $key, destination: $destination}';
   }
 }

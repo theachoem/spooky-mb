@@ -12,6 +12,7 @@ import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
 import 'package:spooky/views/archive/archive_view.dart';
 import 'package:spooky/views/authentication/sign_up_view.dart';
+import 'package:spooky/views/backup_histories_manager/backup_histories_manager_view.dart';
 import 'package:spooky/views/backups_details/backups_details_view.dart';
 import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
@@ -183,9 +184,14 @@ part 'app_router.gr.dart';
           name: 'SignUp',
         ),
         AutoRoute(
-          path: 'sarch',
+          path: 'search',
           page: SearchView,
           name: 'Search',
+        ),
+        AutoRoute(
+          path: 'backup-histories-manager',
+          page: BackupHistoriesManagerView,
+          name: 'BackupHistoriesManager',
         ),
       ],
     ),

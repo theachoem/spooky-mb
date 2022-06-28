@@ -93,6 +93,7 @@ abstract class BaseBackupDestination<T extends BaseCloudProvider> {
 
   /// only call from base class
   Future<String?> fetchContent(CloudFileModel file);
+  Future<void> delete(CloudFileModel file);
 
   Future<BackupsModel?> download(CloudFileModel file) async {
     String? content = await fetchContent(file);

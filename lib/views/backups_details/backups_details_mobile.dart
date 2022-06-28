@@ -7,8 +7,8 @@ class _BackupsDetailsMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
       appBar: MorphingAppBar(
+        leading: const SpPopButton(),
         title: const SpAppBarTitle(fallbackRouter: SpRouter.backupsDetails),
         actions: [
           buildActionButtons(context),
@@ -49,31 +49,61 @@ class _BackupsDetailsMobile extends StatelessWidget {
     );
   }
 
-  SpIconButton buildActionButtons(BuildContext context) {
-    return SpIconButton(
-      icon: const Icon(Icons.more_vert),
-      onPressed: () async {
-        Iterable<CloudFileTuple> result = viewModel.cloudFiles.reversed;
-
-        String? cloudId = await showConfirmationDialog(
-          context: context,
-          title: "Select a version",
-          initialSelectedActionKey: viewModel.selectCloudFileId,
-          actions: result.map((e) {
-            String cloudFileId = e.cloudFile.id;
-            return AlertDialogAction(
-              key: cloudFileId,
-              label: e.metadata.displayCreatedAt,
-              isDefaultAction: cloudFileId == viewModel.selectCloudFileId,
-            );
-          }).toList(),
+  Widget buildActionButtons(BuildContext context) {
+    return SpPopupMenuButton(
+      fromAppBar: true,
+      items: (context) {
+        return [
+          SpPopMenuItem(
+            title: "Select version",
+            trailingIconData: Icons.keyboard_arrow_right,
+            onPressed: () {
+              selectVersion(context);
+            },
+          ),
+          SpPopMenuItem(
+            title: "Manage versions",
+            trailingIconData: Icons.keyboard_arrow_right,
+            onPressed: () async {
+              await Navigator.of(context).pushNamed(
+                SpRouter.backupHistoriesManager.path,
+                arguments: BackupHistoriesManagerArgs(destination: viewModel.destination),
+              );
+              // ignore: use_build_context_synchronously
+              Navigator.maybePop(context);
+            },
+          ),
+        ];
+      },
+      builder: (callback) {
+        return SpIconButton(
+          icon: const Icon(Icons.more_vert),
+          onPressed: callback,
         );
-
-        if (cloudId != null) {
-          viewModel.setCurrentCloudVersion(cloudId);
-        }
       },
     );
+  }
+
+  Future<void> selectVersion(BuildContext context) async {
+    Iterable<CloudFileTuple> result = viewModel.cloudFiles.reversed;
+
+    String? cloudId = await showConfirmationDialog(
+      context: context,
+      title: "Select a version",
+      initialSelectedActionKey: viewModel.selectCloudFileId,
+      actions: result.map((e) {
+        String cloudFileId = e.cloudFile.id;
+        return AlertDialogAction(
+          key: cloudFileId,
+          label: e.metadata.displayCreatedAt,
+          isDefaultAction: cloudFileId == viewModel.selectCloudFileId,
+        );
+      }).toList(),
+    );
+
+    if (cloudId != null) {
+      viewModel.setCurrentCloudVersion(cloudId);
+    }
   }
 
   // TODO: improve this

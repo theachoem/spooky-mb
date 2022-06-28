@@ -58,4 +58,13 @@ class GDriveBackupDestination extends BaseBackupDestination<GoogleCloudProvider>
 
   @override
   IconData get iconData => CommunityMaterialIcons.google_drive;
+
+  @override
+  Future<void> delete(CloudFileModel file) async {
+    await cloudStorage.execHandler(() {
+      return cloudStorage.delete({
+        "file_id": file.id,
+      });
+    });
+  }
 }
