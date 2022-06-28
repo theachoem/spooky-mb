@@ -45,6 +45,7 @@ class StoryObjectBox {
 
 @Entity()
 class TagObjectBox {
+  @Id(assignable: true)
   int id;
   String title;
 
