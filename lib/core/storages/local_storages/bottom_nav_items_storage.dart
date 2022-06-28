@@ -4,7 +4,11 @@ import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/storages/base_object_storages/object_storage.dart';
 
 class BottomNavItemStorage extends ObjectStorage<BottomNavItemListModel> {
-  List<SpRouter> defaultTabs = [SpRouter.home, SpRouter.setting];
+  List<SpRouter> defaultTabs = [
+    SpRouter.home,
+    SpRouter.cloudStorages,
+    SpRouter.setting,
+  ];
 
   @override
   BottomNavItemListModel decode(Map<String, dynamic> json) {
@@ -36,7 +40,7 @@ class BottomNavItemStorage extends ObjectStorage<BottomNavItemListModel> {
         validatedItems.add(
           BottomNavItemModel(
             router: route,
-            selected: route.tab?.optinal == false,
+            selected: route.tab?.optinal == false || defaultTabs.contains(route),
           ),
         );
       }
