@@ -141,7 +141,7 @@ class StoryList extends StatelessWidget {
       controller: controller,
       itemCount: configuredStories.length,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: kToolbarHeight, top: ConfigConstant.margin0),
+      padding: const EdgeInsets.only(bottom: kToolbarHeight),
       itemBuilder: (context, index) {
         StoryDbModel story = storyAt(configuredStories, index)!;
         StoryDbModel? previousStory = storyAt(configuredStories, index - 1);

@@ -7,6 +7,20 @@ enum SpTapEffectType {
   border,
 }
 
+class SpTapEffectBorderOption {
+  final BoxShape shape;
+  final double scale;
+  final double width;
+  final Color color;
+
+  SpTapEffectBorderOption({
+    required this.shape,
+    required this.scale,
+    required this.width,
+    required this.color,
+  });
+}
+
 class SpTapEffect extends StatefulWidget {
   const SpTapEffect({
     Key? key,
@@ -19,9 +33,11 @@ class SpTapEffect extends StatefulWidget {
       SpTapEffectType.touchableOpacity,
     ],
     this.onLongPressed,
+    this.borderOption,
   }) : super(key: key);
 
   final Widget child;
+  final SpTapEffectBorderOption? borderOption;
   final List<SpTapEffectType> effects;
   final void Function()? onTap;
   final void Function()? onLongPressed;
@@ -108,14 +124,18 @@ class _SpTapEffectState extends State<SpTapEffect> with SingleTickerProviderStat
                   result,
                   Positioned.fill(
                     child: Container(
-                      transform: Matrix4.identity()..scale(1.25),
+                      transform: Matrix4.identity()..scale(widget.borderOption?.scale ?? 1.25),
                       transformAlignment: Alignment.center,
                       decoration: BoxDecoration(
                         border: Border.all(
-                          color: Color.lerp(Colors.transparent, M3Color.of(context).onSurface, borderAnimation.value)!,
-                          width: 2,
+                          width: widget.borderOption?.width ?? 2,
+                          color: Color.lerp(
+                            Colors.transparent,
+                            widget.borderOption?.color ?? M3Color.of(context).onSurface,
+                            borderAnimation.value,
+                          )!,
                         ),
-                        shape: BoxShape.circle,
+                        shape: widget.borderOption?.shape ?? BoxShape.circle,
                       ),
                     ),
                   )

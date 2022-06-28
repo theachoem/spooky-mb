@@ -108,20 +108,18 @@ class StoryTileState extends State<StoryTile> {
       dxGetter: (double dx) => MediaQuery.of(context).size.width,
       dyGetter: (double dy) => dy + ConfigConstant.margin2,
       builder: (callback) {
-        return GestureDetector(
-          onLongPress: () => callback(),
-          child: Padding(
+        return SpTapEffect(
+          onLongPressed: () => callback(),
+          onTap: () => view(story, context),
+          child: Container(
             padding: widget.itemPadding,
+            color: Colors.transparent,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 buildMonogram(context, story, previousStory, dayColors),
                 ConfigConstant.sizedBoxW2,
-                buildContent(
-                  context,
-                  story,
-                  () => view(story, context),
-                ),
+                buildContent(context, story),
               ],
             ),
           ),
@@ -290,11 +288,7 @@ class StoryTileState extends State<StoryTile> {
     return kToolbarHeight + 16;
   }
 
-  Widget buildContent(
-    BuildContext context,
-    StoryDbModel story,
-    void Function() onPressed,
-  ) {
+  Widget buildContent(BuildContext context, StoryDbModel story) {
     Set<String> images = {};
     StoryContentDbModel content = _content(story);
 
@@ -311,10 +305,7 @@ class StoryTileState extends State<StoryTile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SpTapEffect(
-                  onTap: onPressed,
-                  child: buildTitleBody(hasTitle, content, context),
-                ),
+                buildTitleBody(hasTitle, content, context),
                 StoryTileChips(
                   images: images,
                   content: content,
