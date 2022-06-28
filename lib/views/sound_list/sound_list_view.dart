@@ -17,6 +17,7 @@ import 'package:spooky/providers/notification_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
+import 'package:spooky/views/setting/local_widgets/notification_permission_button.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';

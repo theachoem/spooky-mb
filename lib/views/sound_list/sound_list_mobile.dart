@@ -26,6 +26,7 @@ class _SoundListMobile extends StatelessWidget {
       leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton(forceCloseButton: true) : null,
       title: const SpAppBarTitle(fallbackRouter: SpRouter.soundList),
       actions: [
+        const NotificationPermissionButton(),
         Consumer<MiniSoundPlayerProvider>(
           child: SpIconButton(
             tooltip: "Stop",

@@ -1,7 +1,8 @@
 import 'package:spooky/core/storages/storage_adapters/base_storage_adapter.dart';
 
 abstract class BaseStorage<T> {
-  String get key => runtimeType.toString();
+  int? get version => null;
+  String get key => version != null ? "$version-$runtimeType" : runtimeType.toString();
   Future<BaseStorageAdapter<T>> get adapter;
 
   Future<T?> read() async {
