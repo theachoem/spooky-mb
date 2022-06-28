@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/api/authentication/google_auth_service.dart';
 import 'package:spooky/core/api/cloud_storages/gdrive_spooky_folder_storage.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
@@ -34,6 +35,21 @@ class _AddToDriveButtonState extends State<AddToDriveButton> {
   bool uploading = false;
 
   Future<String?> uploadToDrive(String src) async {
+    bool signedIn = await GoogleAuthService.instance.isSignedIn;
+
+    if (!signedIn) {
+      OkCancelResult result = await showOkAlertDialog(
+        context: context,
+        title: "Connect with Google Drive",
+        okLabel: "Connect",
+      );
+      if (result == OkCancelResult.ok) {
+        await GoogleAuthService.instance.signIn();
+      } else {
+        return null;
+      }
+    }
+
     return GDriveSpookyFolderStorage().uploadImage(File(src));
   }
 
@@ -105,7 +121,9 @@ class _AddToDriveButtonState extends State<AddToDriveButton> {
         duration: ConfigConstant.duration,
         child: SpChip(
           labelText: "Upload",
-          onTap: () => upload(),
+          onTap: () async {
+            upload();
+          },
           avatar: SpAnimatedIcons(
             showFirst: uploading,
             firstChild: const CircularProgressIndicator.adaptive(),

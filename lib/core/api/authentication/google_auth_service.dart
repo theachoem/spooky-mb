@@ -4,6 +4,7 @@ import 'package:spooky/core/api/authentication/google_auth_client.dart';
 import 'package:spooky/core/storages/local_storages/google_auth_headers_storage.dart';
 
 class GoogleAuthService {
+  Future<bool> get isSignedIn => googleSignIn.isSignedIn();
   static GoogleAuthService get instance => GoogleAuthService._();
   GoogleAuthService._();
 
