@@ -335,7 +335,7 @@ class StoryTileState extends State<StoryTile> {
             child: Text(
               content.title ?? "content.title",
               style: M3TextTheme.of(context).titleMedium,
-              maxLines: 1,
+              maxLines: 3,
               overflow: TextOverflow.ellipsis,
             ),
           ),
