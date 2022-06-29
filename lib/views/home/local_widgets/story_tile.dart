@@ -390,12 +390,12 @@ class StoryTileState extends State<StoryTile> {
       }
     }
 
-    return body.substring(0, end);
+    return length > end ? "${body.substring(0, end)}..." : body;
   }
 
   String body(StoryContentDbModel content) {
     String body = content.plainText?.trim() ?? "content.plainText";
-    String extract = body.length > 200 ? body.substring(0, 200) : body;
+    String extract = body.length > 200 ? "${body.substring(0, 200)}..." : body;
     return trimBody(extract);
   }
 
