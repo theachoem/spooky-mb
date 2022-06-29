@@ -58,15 +58,22 @@ class _DeveloperModeMobile extends StatelessWidget {
                   subtitle: info != null ? Text(info.version) : null,
                   trailing: const Icon(Icons.keyboard_arrow_right),
                   onTap: () async {
+                    var map = {
+                      "appName": info?.appName,
+                      "packageName": info?.packageName,
+                      "version": info?.version,
+                      "buildNumber": info?.buildNumber,
+                      "buildSignature": info?.buildSignature,
+                    };
+
                     showOkAlertDialog(
                       context: context,
-                      message: AppHelper.prettifyJson({
-                        "appName": info?.appName,
-                        "packageName": info?.packageName,
-                        "version": info?.version,
-                        "buildNumber": info?.buildNumber,
-                        "buildSignature": info?.buildSignature,
-                      }).trim(),
+                      message: map.entries
+                          .map((e) {
+                            return "${e.key.capitalize}: ${e.value}";
+                          })
+                          .toList()
+                          .join("\n"),
                     );
                   },
                 );

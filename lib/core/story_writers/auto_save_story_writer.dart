@@ -2,7 +2,6 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/story_writers/draft_story_writer.dart';
 import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/types/response_code_type.dart';
-import 'package:spooky/utils/constants/config_constant.dart';
 
 class AutoSaveStoryWriter extends DraftStoryWriter {
   @override

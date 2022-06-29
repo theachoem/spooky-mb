@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
@@ -79,10 +80,14 @@ class UserImageProfile extends StatelessWidget {
         dxGetter: (dx) => MediaQuery.of(context).size.width,
         dyGetter: (dy) => dy + kToolbarHeight + 24.0,
         items: (context) {
+          String id = currentUser.uid;
           return [
             SpPopMenuItem(
               title: "Identity",
-              subtitle: currentUser.uid,
+              subtitle: id,
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: id));
+              },
             ),
             if (currentUser.metadata.creationTime != null)
               SpPopMenuItem(
