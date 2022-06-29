@@ -11,32 +11,30 @@ class AutoSaveStoryWriter extends DraftStoryWriter {
     required ResponseCodeType responseCode,
     required String message,
   }) {
-    Future.delayed(ConfigConstant.fadeDuration).then((_) {
-      DateTime? createdAt = story?.changes.isNotEmpty == true ? story?.changes.last.createdAt : story?.createdAt;
-      if (createdAt == null) return;
+    DateTime? createdAt = story?.changes.isNotEmpty == true ? story?.changes.last.createdAt : story?.createdAt;
+    if (createdAt == null) return;
 
-      switch (responseCode) {
-        case ResponseCodeType.success:
-          AutoSaveChannel().show(
-            id: createdAt.hashCode,
-            groupKey: story?.createdAt.hashCode.toString(),
-            title: message,
-            body: "Saved",
-            payload: AutoSavePayload(story?.id.toString()),
-          );
-          break;
-        case ResponseCodeType.noChange:
-          break;
-        case ResponseCodeType.fail:
-          AutoSaveChannel().show(
-            id: createdAt.hashCode,
-            groupKey: story?.createdAt.hashCode.toString(),
-            title: message,
-            body: "Error",
-            payload: AutoSavePayload(story?.id.toString()),
-          );
-          break;
-      }
-    });
+    switch (responseCode) {
+      case ResponseCodeType.success:
+        AutoSaveChannel().show(
+          id: createdAt.hashCode,
+          groupKey: story?.createdAt.hashCode.toString(),
+          title: message,
+          body: "Saved",
+          payload: AutoSavePayload(story?.id.toString()),
+        );
+        break;
+      case ResponseCodeType.noChange:
+        break;
+      case ResponseCodeType.fail:
+        AutoSaveChannel().show(
+          id: createdAt.hashCode,
+          groupKey: story?.createdAt.hashCode.toString(),
+          title: message,
+          body: "Error",
+          payload: AutoSavePayload(story?.id.toString()),
+        );
+        break;
+    }
   }
 }

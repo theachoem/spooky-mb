@@ -64,7 +64,7 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
     showOkAlertDialog(
       context: context!,
       title: "Your document is saved",
-      message: message != null ? "Document will be move to:\n$message" : null,
+      message: message != null ? "Document is saved in\n$message" : null,
     );
   }
 }

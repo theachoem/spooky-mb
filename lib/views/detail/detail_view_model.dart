@@ -171,9 +171,13 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    List<AppLifecycleState> shouldSaveInStates = [AppLifecycleState.paused, AppLifecycleState.inactive];
+    List<AppLifecycleState> shouldSaveInStates = [
+      AppLifecycleState.inactive,
+    ];
+
     if (shouldSaveInStates.contains(state)) autosave();
     if (state == AppLifecycleState.resumed) loadHasChange();
+
     super.didChangeAppLifecycleState(state);
   }
 
