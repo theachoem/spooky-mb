@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:flutter/foundation.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/objectbox.g.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
@@ -58,15 +56,20 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
-    T constructed = await objectConstructor(body);
-    int id = box.put(constructed, mode: PutMode.put);
-    Map<String, dynamic>? object = await fetchOne(id: body['id']);
-    if (kDebugMode) {
-      print(
-        'OBJECT: $id - ${body['id']} - ${object?['id']}: ${body['year']}/${body['month']} - ${object?['year']}/${object?['month']}',
+    int id = body['id'];
+    bool exists = box.contains(id);
+    if (!exists || id == 0) {
+      return create(
+        body: body,
+        params: params,
+      );
+    } else {
+      return update(
+        id: id,
+        body: body,
+        params: params,
       );
     }
-    return object;
   }
 
   @override
@@ -76,7 +79,8 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   }) async {
     T constructed = await objectConstructor(body);
     int id = box.put(constructed, mode: PutMode.insert);
-    return fetchOne(id: id);
+    body['id'] = id;
+    return body;
   }
 
   @override
@@ -86,10 +90,7 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
     Map<String, dynamic> params = const {},
   }) async {
     T object = await objectConstructor(body);
-    await box.putAsync(
-      object,
-      mode: PutMode.update,
-    );
-    return fetchOne(id: id);
+    box.put(object, mode: PutMode.update);
+    return body;
   }
 }
