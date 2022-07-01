@@ -18,7 +18,7 @@ part '../adapters/objectbox/story_objectbox_db_adapter.dart';
 part '../adapters/objectbox/story_test_db_adapter.dart';
 
 class StoryDatabase extends BaseStoryDatabase {
-  static StoryDatabase get instance => StoryDatabase._();
+  static final StoryDatabase instance = StoryDatabase._();
   StoryDatabase._();
 
   @override

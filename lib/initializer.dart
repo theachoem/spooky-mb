@@ -8,10 +8,11 @@ class _Initializer {
     await EasyLocalization.ensureInitialized();
     tz.initializeTimeZones();
     await FileHelper.initialFile();
-    await Global.instance._initiailize();
+
     await BaseObjectBoxAdapter.initilize();
 
     // ui
+    await Global.instance._initiailize();
     await ThemeProvider.initialize();
     NotificationService.initialize();
     await InitialStoryTabService.initialize();
@@ -25,6 +26,7 @@ class _Initializer {
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
 
+    print("DONE AWAIT");
     // debug
     // FlutterError.onError = (details) => DebugErrorException.run(details);
   }

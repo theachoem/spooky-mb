@@ -19,6 +19,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     ThemeProvider provider = Provider.of<ThemeProvider>(context, listen: true);
+    print("DKD ${Global.instance.appInitiailized}");
     return MaterialApp(
       navigatorKey: App.navigatorKey,
       themeMode: provider.themeMode,

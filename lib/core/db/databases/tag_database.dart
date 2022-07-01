@@ -11,7 +11,7 @@ TagDbModel _constructTagIsolate(Map<String, dynamic> json) {
 }
 
 class TagDatabase extends BaseDatabase<TagDbModel> {
-  static TagDatabase get instance => TagDatabase._();
+  static final TagDatabase instance = TagDatabase._();
   TagDatabase._();
 
   @override

@@ -12,7 +12,7 @@ import 'package:spooky/core/models/cloud_file_model.dart';
 
 class BackupsService with BackupsConstructor, BackupsCachable {
   BackupsService._();
-  static BackupsService get instance => BackupsService._();
+  static final BackupsService instance = BackupsService._();
   final BackupsFileManager manager = BackupsFileManager();
 
   final List<BaseDatabase> databases = [

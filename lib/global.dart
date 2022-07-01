@@ -2,8 +2,9 @@ part of 'main.dart';
 
 class Global {
   Global._();
-  static Global get instance => Global._();
+  static final Global instance = Global._();
 
+  // HELPERS
   final _purchasedAddOnStorage = PurchasedAddOnStorage();
 
   // GLOBAL VAR
@@ -13,6 +14,8 @@ class Global {
   Future<void> _initiailize() async {
     _nickname = await NicknameStorage().read();
     _purchases = await _purchasedAddOnStorage.readList();
+    _purchases ??= [];
+    return;
   }
 
   // ACCESSIBLE
