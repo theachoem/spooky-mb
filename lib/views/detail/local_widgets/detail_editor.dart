@@ -93,6 +93,7 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
       autoFocus: false,
       readOnly: readOnly,
       expands: true,
+      placeholder: "...",
       padding: const EdgeInsets.all(ConfigConstant.margin2).copyWith(
         top: ConfigConstant.margin2 + 8.0,
         bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,

@@ -107,8 +107,9 @@ class _AppStarterAdaptive extends StatelessWidget {
           });
         },
       );
-    }, childBuilder: (context, callback) {
+    }, childBuilder: (context, key, callback) {
       return SpIconButton(
+        key: key,
         icon: Icon(Icons.palette, color: M3Color.of(context).onPrimary),
         onPressed: callback,
       );

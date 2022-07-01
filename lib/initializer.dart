@@ -26,7 +26,6 @@ class _Initializer {
       yield LicenseEntryWithLineBreaks(['google_fonts'], license);
     });
 
-    print("DONE AWAIT");
     // debug
     // FlutterError.onError = (details) => DebugErrorException.run(details);
   }

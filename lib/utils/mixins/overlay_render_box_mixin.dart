@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:rect_getter/rect_getter.dart';
 
 mixin OverlayRenderBoxMixin<T extends StatefulWidget> on State<T> {
-  GlobalKey<RectGetterState> globalKey = RectGetter.createGlobalKey();
+  final GlobalKey<RectGetterState> globalKey = RectGetter.createGlobalKey();
+
   RenderBox? overlay;
   Offset? childPosition;
   Size? childSize;

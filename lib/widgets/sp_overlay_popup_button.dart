@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:rect_getter/rect_getter.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/overlay_render_box_mixin.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
@@ -8,6 +9,12 @@ enum SpOverlayFloatingType {
   topToBottom,
   bottomToTop,
 }
+
+typedef SpOverlayChildBuilder = Widget Function(
+  BuildContext context,
+  GlobalKey<RectGetterState> key,
+  VoidCallback callback,
+);
 
 typedef SpOverlayBuilder = Widget Function(
   BuildContext context,
@@ -18,7 +25,7 @@ class SpOverlayEntryButton extends StatefulWidget {
   final Duration duration;
   final SpOverlayFloatingType type;
   final SpOverlayBuilder floatingBuilder;
-  final SpOverlayBuilder childBuilder;
+  final SpOverlayChildBuilder childBuilder;
 
   const SpOverlayEntryButton({
     Key? key,
@@ -133,12 +140,10 @@ class _SpOverlayEntryButtonState extends State<SpOverlayEntryButton>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      key: globalKey,
-      child: widget.childBuilder(
-        context,
-        () => open(),
-      ),
+    return widget.childBuilder(
+      context,
+      globalKey,
+      () => open(),
     );
   }
 

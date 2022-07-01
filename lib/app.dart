@@ -13,13 +13,12 @@ class App extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
   static final RouteObserver<ModalRoute> storyQueryListObserver = RouteObserver<ModalRoute>();
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>(debugLabel: "App");
 
   @override
   Widget build(BuildContext context) {
     ThemeProvider provider = Provider.of<ThemeProvider>(context, listen: true);
-    print("DKD ${Global.instance.appInitiailized}");
     return MaterialApp(
       navigatorKey: App.navigatorKey,
       themeMode: provider.themeMode,

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:animated_clipper/animated_clipper.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/utils/util_widgets/measure_size.dart';
@@ -27,10 +28,10 @@ class SpFloatingPopUpButton extends StatefulWidget {
 class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton>
     with SingleTickerProviderStateMixin, StatefulMixin {
   late final AnimationController animationController;
+  final GlobalKey floatingKey = LabeledGlobalKey("Floating");
 
   OverlayEntry? floating;
   bool isFloatingOpen = false;
-  GlobalKey floatingKey = LabeledGlobalKey("Floating");
   Size? childSize;
 
   @override
@@ -47,6 +48,7 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton>
   }
 
   void toggle() async {
+    BuildContext context = App.navigatorKey.currentContext ?? this.context;
     if (animationController.isAnimating == false) {
       if (isFloatingOpen) {
         await animationController.reverse();

@@ -150,10 +150,11 @@ class _ThemeSettingMobile extends StatelessWidget {
           });
         },
       );
-    }, childBuilder: (context, callback) {
+    }, childBuilder: (context, key, callback) {
       bool isSystemTheme = context.read<ThemeProvider>().themeMode == ThemeMode.system;
       bool hasDynamicColor = ThemeProvider.darkDynamic != null || ThemeProvider.lightDynamic != null;
       return ListTile(
+        key: key,
         title: const Text("Color"),
         trailing: SizedBox(
           width: 48,
