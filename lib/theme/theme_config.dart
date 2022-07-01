@@ -103,24 +103,26 @@ class ThemeConfig {
 
   static ThemeData withDefault(ThemeData themeData) {
     return themeData.copyWith(
-      splashFactory: isApple(themeData.platform) ? NoSplash.splashFactory : InkSparkle.splashFactory,
-      // InkSparkle.splashFactory,
-      // InkRipple.splashFactory,
-      // InkSplash.splashFactory,
-      // NoSplash.splashFactory
+      // selection toolbars
+      cardColor: themeData.colorScheme.readOnly.surface5,
+      splashFactory: buildSplash(themeData.platform),
     );
   }
 
-  static bool isApple(TargetPlatform platform) {
+  // InkSparkle.splashFactory,
+  // InkRipple.splashFactory,
+  // InkSplash.splashFactory,
+  // NoSplash.splashFactory
+  static InteractiveInkFeatureFactory buildSplash(TargetPlatform platform) {
     switch (platform) {
       case TargetPlatform.android:
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        return false;
+        return InkSparkle.splashFactory;
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:
-        return true;
+        return NoSplash.splashFactory;
     }
   }
 
