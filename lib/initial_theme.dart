@@ -19,7 +19,6 @@ class InitialTheme extends StatelessWidget {
     return Consumer<ThemeProvider>(
       child: child,
       builder: (context, provider, child) {
-        ThemeConfig.dark();
         return MaterialApp(
           themeMode: provider.themeMode,
           debugShowCheckedModeBanner: false,
