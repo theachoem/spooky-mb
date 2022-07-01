@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
+import 'package:spooky/providers/in_app_update_provider.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/util_widgets/measure_size.dart';
 import 'package:spooky/views/main/main_view_item.dart';
 import 'package:spooky/views/main/main_view_model.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
+import 'package:badges/badges.dart';
 
 class HomeBottomNavigation extends StatelessWidget {
   const HomeBottomNavigation({
@@ -70,15 +74,35 @@ class HomeBottomNavigation extends StatelessWidget {
               selectedIndex: viewModel.selectedIndex(provider),
               destinations: (provider.tabs ?? []).map((tab) {
                 MainTabBarItem e = tab.tab!;
-                return SpTapEffect(
-                  onTap: () => viewModel.setActiveRouter(e.router),
-                  child: NavigationDestination(
-                    tooltip: e.router.title,
-                    selectedIcon: Icon(e.activeIcon),
-                    icon: Icon(e.inactiveIcon),
-                    label: e.label,
-                  ),
-                );
+
+                if (e.router == SpRouter.setting) {
+                  return Consumer<InAppUpdateProvider>(
+                    builder: (context, provider, _) {
+                      return SpTapEffect(
+                        onTap: () => viewModel.setActiveRouter(e.router),
+                        child: NavigationDestination(
+                          tooltip: e.router.title,
+                          selectedIcon: Icon(e.activeIcon),
+                          label: viewModel.activeRouter == e.router || !provider.isUpdateAvailable ? e.label : "Update",
+                          icon: Icon(
+                            provider.isUpdateAvailable ? Icons.system_update_outlined : e.inactiveIcon,
+                            color: provider.isUpdateAvailable ? M3Color.of(context).error : null,
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return SpTapEffect(
+                    onTap: () => viewModel.setActiveRouter(e.router),
+                    child: NavigationDestination(
+                      tooltip: e.router.title,
+                      selectedIcon: Icon(e.activeIcon),
+                      icon: Icon(e.inactiveIcon),
+                      label: e.label,
+                    ),
+                  );
+                }
               }).toList(),
             )
           : const SizedBox.shrink(),

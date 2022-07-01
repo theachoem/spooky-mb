@@ -126,6 +126,19 @@ class ThemeConfig {
     }
   }
 
+  static bool isApple(TargetPlatform platform) {
+    switch (platform) {
+      case TargetPlatform.android:
+      case TargetPlatform.fuchsia:
+      case TargetPlatform.linux:
+      case TargetPlatform.windows:
+        return false;
+      case TargetPlatform.iOS:
+      case TargetPlatform.macOS:
+        return true;
+    }
+  }
+
   TextButtonThemeData buildTextButtonStyle(ColorScheme colorScheme) {
     return const TextButtonThemeData(
         // style: TextButton.styleFrom(

@@ -10,19 +10,10 @@ class _SettingMobile extends StatelessWidget {
       appBar: MorphingAppBar(
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
         title: const SpAppBarTitle(fallbackRouter: SpRouter.setting),
-        actions: [
-          Consumer<InAppUpdateProvider>(builder: (context, provider, child) {
-            return SpAnimatedIcons(
-              firstChild: SpIconButton(
-                icon: const Icon(Icons.system_update),
-                onPressed: () => provider.update(),
-              ),
-              secondChild: const SizedBox.shrink(),
-              showFirst: provider.isUpdateAvailable,
-            );
-          }),
-          const NotificationPermissionButton(),
-          ConfigConstant.sizedBoxW0
+        actions: const [
+          InAppUpdateButton(),
+          NotificationPermissionButton(),
+          ConfigConstant.sizedBoxW0,
         ],
       ),
       body: ListView(
@@ -137,7 +128,7 @@ class _SettingMobile extends StatelessWidget {
             SpSectionContents(
               headline: "Version",
               tiles: [
-                buildCheckForUpdateTile(),
+                if (Platform.isAndroid) buildCheckForUpdateTile(),
                 SpDeveloperVisibility(
                   child: ListTile(
                     leading: const Icon(Icons.developer_mode),
