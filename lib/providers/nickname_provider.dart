@@ -33,7 +33,7 @@ class NicknameProvider extends ChangeNotifier {
 
   @override
   void notifyListeners() {
-    spAppIntiailized = name?.trim().isNotEmpty == true;
+    Global.instance.nickname = name?.trim();
     super.notifyListeners();
   }
 }

@@ -11,7 +11,6 @@ import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/provider_scope.dart';
-import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:flutter/material.dart';
@@ -21,68 +20,23 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:spooky/firebase_options.dart';
 // import 'package:spooky/utils/helpers/debug_error_exception.dart';
 
-bool spFlutterTest = Platform.environment.containsKey('FLUTTER_TEST');
-bool spAppIntiailized = false;
+part 'global.dart';
+part 'initializer.dart';
 
 void main() async {
-  await _initialize();
-  runApp(const _App());
-}
-
-Future<void> _initialize() async {
-  // core
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  await EasyLocalization.ensureInitialized();
-  tz.initializeTimeZones();
-  await FileHelper.initialFile();
-
-  // ui
-  spAppIntiailized = await NicknameStorage().read() != null;
-  await ThemeProvider.initialize();
-  NotificationService.initialize();
-  await InitialStoryTabService.initialize();
-  if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
-    await DesktopWindow.setMinWindowSize(const Size(320, 510));
-  }
-
-  await InAppPurchaseProvider.initialize();
-  await BaseObjectBoxAdapter.initilize();
-
-  // license
-  LicenseRegistry.addLicense(() async* {
-    final license = await rootBundle.loadString('google_fonts/OFL.txt');
-    yield LicenseEntryWithLineBreaks(['google_fonts'], license);
-  });
-
-  // debug
-  // FlutterError.onError = (details) => DebugErrorException.run(details);
-}
-
-class _App extends StatelessWidget {
-  const _App({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Phoenix(
+  await _Initializer.load();
+  runApp(
+    Phoenix(
       child: EasyLocalization(
         supportedLocales: AppConstant.supportedLocales,
         fallbackLocale: AppConstant.fallbackLocale,
         path: 'assets/translations',
-        child: ProviderScope(
-          child: buildInitialTheme(),
+        child: const ProviderScope(
+          child: InitialTheme(
+            child: App(),
+          ),
         ),
       ),
-    );
-  }
-
-  // InitialTheme is used to minimal theme as much as possible
-  // which will be use in eg. dialog.
-  Widget buildInitialTheme() {
-    return const InitialTheme(
-      child: App(),
-    );
-  }
+    ),
+  );
 }

@@ -23,7 +23,7 @@ class StoryDatabase extends BaseStoryDatabase {
 
   @override
   BaseDbAdapter get adapter {
-    if (spFlutterTest) {
+    if (Global.instance.unitTesting) {
       return _StoryTestDbAdapter(tableName);
     } else {
       return _StoryObjectBoxDbAdapter(tableName);

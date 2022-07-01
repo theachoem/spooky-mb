@@ -68,7 +68,7 @@ mixin BackupsConstructor {
   }
 
   Future<List<String>> _getDeviceModel() async {
-    if (spFlutterTest) return ["Device Model", "device_id"];
+    if (Global.instance.unitTesting) return ["Device Model", "device_id"];
 
     DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
     String? device;

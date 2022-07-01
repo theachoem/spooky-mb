@@ -13,7 +13,7 @@ import 'package:spooky/core/types/product_as_type.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
 class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
-  static List<String>? purchases;
+  List<String>? purchases;
 
   bool purchased(ProductAsType type) {
     return purchases?.contains(type.productId) == true;
@@ -87,22 +87,6 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
     messageNotifier.dispose();
     purchaseNotifier.dispose();
     super.dispose();
-  }
-
-  static Future<void> initialize() async {
-    final user = FirebaseAuth.instance.currentUser;
-    if (user != null) {
-      PurchasedAddOnStorage storage = PurchasedAddOnStorage();
-      purchases = await storage.readList();
-      try {
-        UsersFirestoreDatabase database = UsersFirestoreDatabase();
-        List<String> purchasesFromAPI = await database.fetchPurchasedProducts(user.uid);
-        storage.writeList(purchasesFromAPI);
-        purchases = purchasesFromAPI;
-      } catch (e) {
-        if (kDebugMode) rethrow;
-      }
-    }
   }
 
   Future<void> loadPurchasedProducts() async {

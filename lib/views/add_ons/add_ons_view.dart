@@ -38,6 +38,7 @@ class AddOnsView extends StatelessWidget {
       create: (_) => AddOnsViewModel(context),
       onModelReady: (context, provider) {
         context.read<InAppPurchaseProvider>().fetchProducts();
+        context.read<InAppPurchaseProvider>().loadPurchasedProducts();
       },
       builder: (context, viewModel, child) {
         return ScreenTypeLayout(

@@ -11,7 +11,7 @@ class FileHelper {
   static Directory? _exposedDirectory;
 
   static Future<void> initialFile() async {
-    if (spFlutterTest) {
+    if (Global.instance.unitTesting) {
       _exposedDirectory = Directory.current;
       _directory = Directory.current;
     } else {

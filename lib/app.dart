@@ -25,7 +25,7 @@ class App extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: spAppIntiailized ? const MainView() : const AppStarterView(),
+      home: Global.instance.appInitiailized ? const MainView() : const AppStarterView(),
       theme: provider.lightTheme,
       darkTheme: provider.darkTheme,
       debugShowCheckedModeBanner: false,
