@@ -3,6 +3,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_bg_null_safety/flutter_weather_bg.dart';
 import 'package:miniplayer/miniplayer.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/file_manager/managers/sound_file_manager.dart';
 import 'package:spooky/core/models/sound_model.dart';
 import 'package:spooky/core/notification/channels/play_sound_channel.dart';
@@ -11,6 +12,7 @@ import 'package:spooky/core/services/loop_audio_seamlessly.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/storages/local_storages/background_sound_storage.dart';
 import 'package:spooky/core/types/sound_type.dart';
+import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 
 class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver {
@@ -133,16 +135,25 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
     }
 
     if (compare(cache)) {
-      MessengerService.instance.showSnackBar(
-        "Download more music?",
-        action: (color) => SnackBarAction(
-          label: "Sound Library",
-          textColor: color,
-          onPressed: () {
-            Navigator.of(context).pushNamed(SpRouter.soundList.path);
-          },
-        ),
-      );
+      final notifier = context.read<BottomNavItemsProvider>();
+
+      if (notifier.tabs?.contains(SpRouter.soundList) == true) {
+        MessengerService.instance.showSnackBar(
+          "Download more in sound libary",
+          showAction: false,
+        );
+      } else {
+        MessengerService.instance.showSnackBar(
+          "Download more music?",
+          action: (color) => SnackBarAction(
+            label: "Sound Library",
+            textColor: color,
+            onPressed: () async {
+              Navigator.of(context).pushNamed(SpRouter.soundList.path);
+            },
+          ),
+        );
+      }
     }
   }
 

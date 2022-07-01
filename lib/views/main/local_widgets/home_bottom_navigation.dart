@@ -67,7 +67,7 @@ class HomeBottomNavigation extends StatelessWidget {
           ? NavigationBar(
               key: ValueKey(viewModel.shouldShowBottomNavNotifier.value),
               onDestinationSelected: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
-              selectedIndex: provider.tabs?.indexOf(viewModel.activeRouter) ?? 0,
+              selectedIndex: viewModel.selectedIndex(provider),
               destinations: (provider.tabs ?? []).map((tab) {
                 MainTabBarItem e = tab.tab!;
                 return SpTapEffect(

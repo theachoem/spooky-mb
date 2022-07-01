@@ -4,6 +4,7 @@ import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
@@ -106,5 +107,13 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   void onConfirm(DateTime date, BuildContext context) {
     DetailArgs args = DetailArgs(initialStory: StoryDbModel.fromDate(date), intialFlow: DetailViewFlowType.create);
     Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args);
+  }
+
+  int selectedIndex(BottomNavItemsProvider provider) {
+    if (provider.tabs?.contains(activeRouter) == true) {
+      return provider.tabs!.indexOf(activeRouter);
+    } else {
+      return 0;
+    }
   }
 }

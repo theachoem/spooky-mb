@@ -241,7 +241,7 @@ class SpRouteConfig {
         );
       case SpRouter.soundList:
         return DefaultRouteSetting(
-          fullscreenDialog: true,
+          fullscreenDialog: false,
           route: (context) => const SoundListView(),
         );
       case SpRouter.bottomNavSetting:

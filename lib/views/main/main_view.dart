@@ -7,6 +7,7 @@ import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/setting/base_route_setting.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/quick_actions_type.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';

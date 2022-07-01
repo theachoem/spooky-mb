@@ -23,7 +23,7 @@ class _SoundListMobile extends StatelessWidget {
 
   MorphingAppBar buildAppBar(BuildContext context) {
     return MorphingAppBar(
-      leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton(forceCloseButton: true) : null,
+      leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
       title: const SpAppBarTitle(fallbackRouter: SpRouter.soundList),
       actions: [
         const NotificationPermissionButton(),

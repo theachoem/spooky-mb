@@ -18,7 +18,9 @@ class _MainViewAdpative extends StatelessWidget {
     if (showSoundLibraryButton) {
       final notifier = context.read<BottomNavItemsProvider>();
       if (notifier.tabs?.contains(SpRouter.soundList) == true) {
+        MessengerService.instance.clearSnackBars();
         await Navigator.of(context).maybePop();
+        await Future.delayed(ConfigConstant.duration);
         viewModel.setActiveRouter(SpRouter.soundList);
       } else {
         Navigator.of(context).pushNamed(SpRouter.soundList.path);
@@ -35,7 +37,7 @@ class _MainViewAdpative extends StatelessWidget {
         return Stack(
           children: List.generate(tabs.length, (index) {
             SpRouter? item = tabs[index];
-            bool selected = viewModel.activeRouter == item;
+            bool selected = viewModel.selectedIndex(provider) == index;
             return buildAnimatedPageWrapper(
               selected: selected,
               index: index,
