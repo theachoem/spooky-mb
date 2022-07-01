@@ -4,13 +4,11 @@ import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/in_app_update_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
-import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/util_widgets/measure_size.dart';
 import 'package:spooky/views/main/main_view_item.dart';
 import 'package:spooky/views/main/main_view_model.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
-import 'package:badges/badges.dart';
 
 class HomeBottomNavigation extends StatelessWidget {
   const HomeBottomNavigation({

@@ -9,7 +9,6 @@ class _SoundListMobile extends StatelessWidget {
     List<SoundType> types = SoundType.values.reversed.toList();
     return Scaffold(
       appBar: buildAppBar(context),
-      extendBody: true,
       body: CustomScrollView(
         slivers: List.generate(
           types.length,
@@ -107,25 +106,22 @@ class _SoundListMobile extends StatelessWidget {
     List<SoundModel>? sounds = viewModel.soundsMap[type];
     return SliverStickyHeader(
       header: SpFadeIn(child: _SoundTypeHeader(context: context, text: type.name.capitalize, type: type)),
-      sliver: SliverPadding(
-        padding: EdgeInsets.only(bottom: index == SoundType.values.length - 1 ? kToolbarHeight * 2 : 0.0),
-        sliver: SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) {
-              SoundModel sound = sounds![index];
-              bool downloaded = viewModel.fileManager.downloaded(sound);
-              return SpFadeIn(
-                child: _SoundTile(
-                  sound: sound,
-                  downloaded: downloaded,
-                  index: index,
-                  viewModel: viewModel,
-                  onTap: () => onSoundPressed(context, downloaded, sound.type, sound),
-                ),
-              );
-            },
-            childCount: sounds?.length ?? 0,
-          ),
+      sliver: SliverList(
+        delegate: SliverChildBuilderDelegate(
+          (context, index) {
+            SoundModel sound = sounds![index];
+            bool downloaded = viewModel.fileManager.downloaded(sound);
+            return SpFadeIn(
+              child: _SoundTile(
+                sound: sound,
+                downloaded: downloaded,
+                index: index,
+                viewModel: viewModel,
+                onTap: () => onSoundPressed(context, downloaded, sound.type, sound),
+              ),
+            );
+          },
+          childCount: sounds?.length ?? 0,
         ),
       ),
     );

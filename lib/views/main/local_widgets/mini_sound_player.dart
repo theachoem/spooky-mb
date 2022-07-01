@@ -2,17 +2,25 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
+import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:miniplayer/miniplayer.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/types/sound_type.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:spooky/views/main/local_widgets/enhanced_weather_bg.dart';
 import 'package:spooky/views/main/local_widgets/mini_player_bottom_padding_builder.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
+import 'package:spooky/widgets/sp_tap_effect.dart';
+
+part 'sound_player_timer.dart';
 
 class MiniSoundPlayer extends StatelessWidget {
   const MiniSoundPlayer({
@@ -102,6 +110,13 @@ class _MiniSoundPlayer extends StatelessWidget {
                   percentageExpandedPlayer,
                   context,
                 ),
+                Positioned(
+                  top: 8.0,
+                  left: 8.0,
+                  child: SoundPlayerTimer(
+                    shouldShowBottomNavNotifier: shouldShowBottomNavNotifier,
+                  ),
+                )
               ],
             )
           ],
@@ -254,21 +269,11 @@ class _MiniSoundPlayer extends StatelessWidget {
             children: [
               Container(width: provider.playerMinHeight + 8.0),
               buildCollapseTile(provider),
-              buildFullScreenButton(provider),
               Container(width: 8.0),
             ],
           ),
         ),
       ),
-    );
-  }
-
-  Widget buildFullScreenButton(MiniSoundPlayerProvider provider) {
-    return SpIconButton(
-      icon: const Icon(Icons.fullscreen),
-      onPressed: () {
-        provider.controller.animateToHeight(state: PanelState.MAX);
-      },
     );
   }
 
