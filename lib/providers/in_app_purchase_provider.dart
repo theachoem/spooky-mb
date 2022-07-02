@@ -16,7 +16,7 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
   List<String>? purchases;
 
   bool purchased(ProductAsType type) {
-    return purchases?.contains(type.productId) == true;
+    return purchases?.contains(type.productId) == true || purchases?.contains(type.oldProductId) == true;
   }
 
   final InAppPurchase inAppPurchase = InAppPurchase.instance;
