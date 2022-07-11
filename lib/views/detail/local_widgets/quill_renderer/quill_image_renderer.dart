@@ -6,10 +6,13 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:overscroll_pop/overscroll_pop.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/quill_image_size_helper.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/image_zoom_view.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
@@ -77,11 +80,6 @@ class QuillImageRenderer extends StatelessWidget {
         onTap: () async {
           FocusScope.of(context).unfocus();
 
-          if (readOnly) {
-            viewImage(context, imageUrl);
-            return;
-          }
-
           String? result = await showModalActionSheet<String>(
             context: context,
             title: "Image",
@@ -92,6 +90,18 @@ class QuillImageRenderer extends StatelessWidget {
                   key: "resize",
                   icon: CommunityMaterialIcons.resize,
                 ),
+              if (readOnly && imageUrl.startsWith('http')) ...[
+                const SheetAction(
+                  label: "View on web",
+                  key: "view-on-web",
+                  icon: CommunityMaterialIcons.image,
+                ),
+                const SheetAction(
+                  label: "Copy link",
+                  key: "copy-link",
+                  icon: CommunityMaterialIcons.image,
+                ),
+              ],
               const SheetAction(
                 label: "View",
                 key: "view",
@@ -104,6 +114,13 @@ class QuillImageRenderer extends StatelessWidget {
             case "resize":
               // ignore: use_build_context_synchronously
               sizeHelper.resize(context, controller);
+              break;
+            case "copy-link":
+              await Clipboard.setData(ClipboardData(text: imageUrl));
+              MessengerService.instance.showSnackBar("Copied", showAction: false);
+              break;
+            case "view-on-web":
+              AppHelper.openLinkDialog(imageUrl);
               break;
             case "view":
               // ignore: use_build_context_synchronously

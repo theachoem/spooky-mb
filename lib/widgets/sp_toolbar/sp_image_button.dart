@@ -1,8 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/file.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 
@@ -100,16 +101,15 @@ class SpImageButton extends StatelessWidget {
     );
     if (result?.isNotEmpty == true) {
       String imageUrl = result!.first;
-      Uri? uri = Uri.tryParse(imageUrl);
-      http.Response? response;
+      File? file;
 
       try {
-        response = uri != null ? await http.head(uri) : null;
+        file = await DefaultCacheManager().getSingleFile(imageUrl);
       } catch (e) {
         if (kDebugMode) print("ERROR: _typeLink: $e");
       }
 
-      if (response?.statusCode == 200) {
+      if (file != null) {
         _linkSubmitted(imageUrl);
       } else {
         MessengerService.instance.showSnackBar("Invalid image url", success: false);
