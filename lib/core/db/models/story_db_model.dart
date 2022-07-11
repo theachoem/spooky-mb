@@ -30,11 +30,8 @@ class StoryDbModel extends BaseDbModel {
       year,
       month,
       day,
-      createdAt.hour,
-      createdAt.minute,
-      createdAt.second,
-      createdAt.millisecond,
-      createdAt.microsecond,
+      pathDate?.hour ?? createdAt.hour,
+      pathDate?.minute ?? createdAt.minute,
     );
   }
 
@@ -83,10 +80,6 @@ class StoryDbModel extends BaseDbModel {
   void addChange(StoryContentDbModel content) {
     removeChangeById(content.id);
     changes.add(content);
-  }
-
-  DateTime toDateTime() {
-    return DateTime(year, month, day);
   }
 
   factory StoryDbModel.fromNow() {

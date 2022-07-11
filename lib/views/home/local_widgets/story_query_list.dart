@@ -168,7 +168,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   }
 
   Future<bool> onPutBack(StoryDbModel story) async {
-    String? date = DateFormatHelper.yM().format(story.toDateTime());
+    String? date = DateFormatHelper.yM().format(story.displayPathDate);
     String title, message, label;
 
     title = "Are you sure put back?";

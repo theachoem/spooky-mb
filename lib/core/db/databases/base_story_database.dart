@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:spooky/core/backups/backups_file_manager.dart';
 import 'package:spooky/core/db/adapters/base/base_story_db_external_actions.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
@@ -64,7 +65,32 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
   }
 
   Future<StoryDbModel?> updatePathDate(StoryDbModel story, DateTime pathDate) async {
-    StoryDbModel updatedStory = story.copyWith(year: pathDate.year, month: pathDate.month, day: pathDate.day);
+    StoryDbModel updatedStory = story.copyWith(
+      year: pathDate.year,
+      month: pathDate.month,
+      day: pathDate.day,
+      pathDate: DateTime(
+        pathDate.year,
+        pathDate.month,
+        pathDate.day,
+        story.displayPathDate.hour,
+        story.displayPathDate.minute,
+      ),
+    );
+    StoryDbModel? result = await update(id: story.id, body: updatedStory.toJson());
+    return result;
+  }
+
+  Future<StoryDbModel?> updatePathTime(StoryDbModel story, TimeOfDay time) async {
+    StoryDbModel updatedStory = story.copyWith(
+      pathDate: DateTime(
+        story.displayPathDate.year,
+        story.displayPathDate.month,
+        story.displayPathDate.day,
+        time.hour,
+        time.minute,
+      ),
+    );
     StoryDbModel? result = await update(id: story.id, body: updatedStory.toJson());
     return result;
   }

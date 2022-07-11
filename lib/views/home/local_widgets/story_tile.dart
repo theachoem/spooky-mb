@@ -1,3 +1,4 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
@@ -9,6 +10,7 @@ import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/theme/theme_config.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_tile_chips.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
@@ -18,6 +20,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
+import 'package:day_night_time_picker/day_night_time_picker.dart' as dn;
 
 class StoryTile extends StatefulWidget {
   const StoryTile({
@@ -136,11 +139,11 @@ class StoryTileState extends State<StoryTile> {
           if (story.editable)
             SpPopMenuItem(
               title: "Change Date",
-              leadingIconData: Icons.folder_open,
+              leadingIconData: CommunityMaterialIcons.calendar,
               onPressed: () async {
                 DateTime? pathDate = await SpDatePicker.showDatePicker(
                   context,
-                  story.toDateTime(),
+                  story.displayPathDate,
                 );
 
                 if (pathDate != null) {
@@ -148,6 +151,36 @@ class StoryTileState extends State<StoryTile> {
                   if (database.error == null) {
                     widget.onRefresh();
                   }
+                }
+              },
+            ),
+          if (story.editable)
+            SpPopMenuItem(
+              title: "Change Time",
+              leadingIconData: CommunityMaterialIcons.clock,
+              onPressed: () async {
+                TimeOfDay? time;
+
+                await Navigator.of(context).push(
+                  dn.showPicker(
+                    context: context,
+                    value: TimeOfDay.fromDateTime(story.displayPathDate),
+                    okStyle: TextStyle(fontFamily: M3TextTheme.of(context).labelLarge?.fontFamily),
+                    cancelStyle: TextStyle(fontFamily: M3TextTheme.of(context).labelLarge?.fontFamily),
+                    buttonStyle: ThemeConfig.isApple(Theme.of(context).platform)
+                        ? ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent))
+                        : null,
+                    onCancel: () {
+                      Navigator.of(context).pop();
+                    },
+                    onChangeDateTime: (date) => time = TimeOfDay.fromDateTime(date),
+                    onChange: (t) => time = t,
+                  ),
+                );
+
+                if (time != null) {
+                  StoryDbModel? result = await database.updatePathTime(story, time!);
+                  if (result != null) reloadStory();
                 }
               },
             ),
@@ -252,7 +285,7 @@ class StoryTileState extends State<StoryTile> {
     Map<int, Color> dayColors,
   ) {
     // bool sameDay = previousStory?.path != null ? story.path.sameDayAs(previousStory!.path) : false;
-    DateTime displayDate = story.toDateTime();
+    DateTime displayDate = story.displayPathDate;
     return Container(
       color: M3Color.of(context).background,
       child: Column(
@@ -425,7 +458,7 @@ class StoryTileState extends State<StoryTile> {
               ),
             ),
           Text(
-            DateFormatHelper.timeFormat().format(content.createdAt),
+            DateFormatHelper.timeFormat().format(story.displayPathDate),
             style: M3TextTheme.of(context).bodySmall,
           ),
         ],

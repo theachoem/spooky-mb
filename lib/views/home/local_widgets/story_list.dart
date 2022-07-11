@@ -28,8 +28,8 @@ class _ConfiguredStoryArgs {
         sortType = configuration.sortType;
 }
 
-DateTime _dateForCompare(StoryDbModel story) {
-  return story.toDateTime();
+int _dateForCompare(StoryDbModel story) {
+  return story.displayPathDate.millisecondsSinceEpoch;
 }
 
 List<StoryDbModel> _fetchConfiguredStory(_ConfiguredStoryArgs args) {
@@ -39,10 +39,10 @@ List<StoryDbModel> _fetchConfiguredStory(_ConfiguredStoryArgs args) {
     switch (args.sortType) {
       case SortType.oldToNew:
       case null:
-        stories.sort((a, b) => (_dateForCompare(a)).compareTo(_dateForCompare(b)));
+        stories.sort((a, b) => _dateForCompare(a) >= _dateForCompare(b) ? 1 : -1);
         break;
       case SortType.newToOld:
-        stories.sort((a, b) => (_dateForCompare(a)).compareTo(_dateForCompare(b)));
+        stories.sort((a, b) => _dateForCompare(a) >= _dateForCompare(b) ? 1 : -1);
         stories = stories.reversed.toList();
         break;
     }
@@ -276,7 +276,7 @@ class StoryList extends StatelessWidget {
                 borderRadius: ConfigConstant.circlarRadius2,
               ),
               child: Text(
-                DateFormatHelper.toNameOfMonth().format(story.toDateTime()),
+                DateFormatHelper.toNameOfMonth().format(story.displayPathDate),
                 style: M3TextTheme.of(context).labelSmall,
               ),
             ),
