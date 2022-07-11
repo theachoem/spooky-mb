@@ -7,7 +7,6 @@ import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
-import 'package:spooky/views/detail/local_widgets/story_tags.dart';
 import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
@@ -35,7 +34,7 @@ class DetailSheet extends StatelessWidget {
         showTopDivider: true,
         sections: [
           SpSectionContents(
-            headline: "Headline",
+            headline: "Title",
             tiles: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
@@ -79,7 +78,7 @@ class DetailSheet extends StatelessWidget {
 
   SpSectionContents buildSettingSection(BuildContext context) {
     return SpSectionContents(
-      headline: "Advance",
+      headline: "Options",
       tiles: [
         // if ((widget.viewModel.currentContent.pages ?? []).length > 1)
         ListTile(
