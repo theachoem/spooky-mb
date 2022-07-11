@@ -74,7 +74,7 @@ class StoryList extends StatelessWidget {
   })  : _stories = stories,
         super(key: key);
 
-  final PathType pathType;
+  final PathType? pathType;
   final Future<void> Function() onRefresh;
   final Future<bool> Function(StoryDbModel story)? onDelete;
   final Future<bool> Function(StoryDbModel story)? onArchive;

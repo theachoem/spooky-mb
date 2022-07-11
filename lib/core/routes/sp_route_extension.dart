@@ -204,7 +204,6 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.backupsDetails:
       case SpRouter.signUp:
       case SpRouter.backupHistoriesManager:
-      case SpRouter.search:
         return null;
       case SpRouter.home:
         return MainTabBarItem(
@@ -228,6 +227,13 @@ extension SpRouterExtension on SpRouter {
           router: SpRouter.cloudStorages,
           inactiveIcon: Icons.cloud_outlined,
           activeIcon: Icons.cloud,
+        );
+      case SpRouter.search:
+        return MainTabBarItem(
+          navigatorKey: GlobalKey<NavigatorState>(),
+          router: SpRouter.search,
+          inactiveIcon: Icons.search_outlined,
+          activeIcon: Icons.search,
         );
       case SpRouter.user:
         return null;

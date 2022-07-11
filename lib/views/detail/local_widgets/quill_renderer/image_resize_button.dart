@@ -8,7 +8,6 @@ import 'package:spooky/utils/util_widgets/quill_image_resizer.dart';
 import 'package:spooky/widgets/sp_floating_popup_button.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:tuple/tuple.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_quill/src/utils/string.dart';
 
 class ImageResizeButton extends StatelessWidget {

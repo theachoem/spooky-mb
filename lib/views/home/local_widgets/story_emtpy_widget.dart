@@ -18,7 +18,7 @@ class StoryEmptyWidget extends StatelessWidget {
   }
 
   final bool isEmpty;
-  final PathType pathType;
+  final PathType? pathType;
 
   late final String title;
   late final IconData iconData;
@@ -26,6 +26,7 @@ class StoryEmptyWidget extends StatelessWidget {
   void load() {
     switch (pathType) {
       case PathType.docs:
+      case null:
         title = "New here?";
         iconData = Icons.color_lens;
         break;
@@ -123,6 +124,7 @@ class StoryEmptyWidget extends StatelessWidget {
   Widget? buildSubtitle(BuildContext context) {
     switch (pathType) {
       case PathType.docs:
+      case null:
         return buildDocsSubtitle(context);
       case PathType.bins:
       case PathType.archives:
@@ -133,6 +135,7 @@ class StoryEmptyWidget extends StatelessWidget {
   void Function()? iconPressedCallback(BuildContext context) {
     switch (pathType) {
       case PathType.docs:
+      case null:
         return () => Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
       case PathType.bins:
       case PathType.archives:
@@ -165,6 +168,7 @@ class StoryEmptyWidget extends StatelessWidget {
   Color fetchIconBgColor(BuildContext context) {
     switch (pathType) {
       case PathType.docs:
+      case null:
         return M3Color.of(context).primary;
       case PathType.bins:
         return M3Color.of(context).error;

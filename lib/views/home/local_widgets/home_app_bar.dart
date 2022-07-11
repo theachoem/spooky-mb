@@ -175,7 +175,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
         duration: ConfigConstant.fadeDuration * 2,
         child: const SizedBox(
           width: kToolbarHeight,
-          height: kToolbarHeight,
+          height: kToolbarHeight - 8,
           child: SearchThemeSwicher(),
         ),
       ),

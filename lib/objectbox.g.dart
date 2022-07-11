@@ -21,7 +21,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 2962579780537594759),
       name: 'StoryObjectBox',
-      lastPropertyId: const IdUid(14, 4968158570417504072),
+      lastPropertyId: const IdUid(17, 8623820136669220816),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -93,6 +93,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(14, 4968158570417504072),
             name: 'pathDate',
             type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(17, 8623820136669220816),
+            name: 'metadata',
+            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -169,7 +174,7 @@ ModelDefinition getObjectBoxModel() {
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [7351525936100002271, 3655265263412929559],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -194,7 +199,10 @@ ModelDefinition getObjectBoxModel() {
               ? null
               : fbb.writeList(
                   object.tags!.map(fbb.writeString).toList(growable: false));
-          fbb.startTable(15);
+          final metadataOffset = object.metadata == null
+              ? null
+              : fbb.writeString(object.metadata!);
+          fbb.startTable(18);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.version);
           fbb.addOffset(2, typeOffset);
@@ -209,6 +217,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addOffset(11, changesOffset);
           fbb.addOffset(12, tagsOffset);
           fbb.addInt64(13, object.pathDate?.millisecondsSinceEpoch);
+          fbb.addOffset(16, metadataOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -244,7 +253,8 @@ ModelDefinition getObjectBoxModel() {
                   ? null
                   : DateTime.fromMillisecondsSinceEpoch(movedToBinAtValue),
               changes: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGet(buffer, rootOffset, 26, []),
-              tags: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGetNullable(buffer, rootOffset, 28));
+              tags: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGetNullable(buffer, rootOffset, 28),
+              metadata: const fb.StringReader(asciiOptimization: true).vTableGetNullable(buffer, rootOffset, 36));
 
           return object;
         }),
@@ -354,6 +364,10 @@ class StoryObjectBox_ {
   /// see [StoryObjectBox.pathDate]
   static final pathDate =
       QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[13]);
+
+  /// see [StoryObjectBox.metadata]
+  static final metadata =
+      QueryStringProperty<StoryObjectBox>(_entities[0].properties[14]);
 }
 
 /// [TagObjectBox] entity fields to define ObjectBox queries.

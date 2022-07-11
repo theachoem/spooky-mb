@@ -16,6 +16,11 @@ class StoryWriteHelper {
     bool draft = false,
   }) async {
     final pages = pagesData(currentContent, quillControllers).values.toList();
+    final metadata = [
+      title,
+      quillControllers.entries.map((e) => e.value.getPlainText()).join("\n"),
+    ].join("\n");
+
     final root = AppHelper.listItem(quillControllers.values, 0)?.document.root;
     return await compute(_buildContent, {
       'title': title,
@@ -24,6 +29,7 @@ class StoryWriteHelper {
       'pages': pages,
       'root': root,
       'draft': draft,
+      'metadata': metadata,
     });
   }
 
@@ -49,7 +55,9 @@ StoryContentDbModel _buildContent(Map<String, dynamic> params) {
   StoryContentDbModel currentContent = params['current_content'];
   List<List<dynamic>> pages = params['pages'];
   bool draft = params['draft'];
+  String metadata = params['metadata'];
   doc.Root root = params['root'] ?? Document.fromJson(pages.first).root;
+
   return currentContent.copyWith(
     id: openOn.millisecondsSinceEpoch,
     title: title,
@@ -57,5 +65,6 @@ StoryContentDbModel _buildContent(Map<String, dynamic> params) {
     pages: pages,
     createdAt: DateTime.now(),
     draft: draft,
+    metadata: metadata,
   );
 }

@@ -14,6 +14,13 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
   final DateTime createdAt;
   final bool? draft;
 
+  // metadata should be title + plain text
+  // better if with all pages.
+  final String? metadata;
+  String? get safeMetadata {
+    return metadata ?? [title ?? "", plainText ?? ""].join("\n");
+  }
+
   // List: Returns JSON-serializable version of quill delta.
   List<List<dynamic>>? pages;
 
@@ -23,6 +30,7 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
     required this.plainText,
     required this.createdAt,
     required this.pages,
+    required this.metadata,
     this.draft = false,
   });
 
@@ -46,6 +54,7 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
     required this.createdAt,
     required this.id,
   })  : plainText = null,
+        metadata = null,
         title = null,
         pages = [[]],
         draft = true;

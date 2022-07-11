@@ -19,10 +19,12 @@ class StoryQueryList extends StatefulWidget {
     Key? key,
     required this.queryOptions,
     this.overridedLayout,
+    this.showLoadingAfterInit = false,
   }) : super(key: key);
 
   final StoryQueryOptionsModel queryOptions;
   final ListLayoutType? overridedLayout;
+  final bool showLoadingAfterInit;
 
   @override
   State<StoryQueryList> createState() => _StoryListState();
@@ -76,7 +78,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     if (loadingFlag == true) return;
 
     final completer = Completer();
-    if (stories != null && !callFromRefresh) {
+    if (stories != null && (!callFromRefresh || widget.showLoadingAfterInit)) {
       loadingFlag = true;
       MessengerService.instance
           .showLoading(

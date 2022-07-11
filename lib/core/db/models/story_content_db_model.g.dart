@@ -13,6 +13,8 @@ abstract class _$StoryContentDbModelCWProxy {
 
   StoryContentDbModel id(int id);
 
+  StoryContentDbModel metadata(String? metadata);
+
   StoryContentDbModel pages(List<List<dynamic>>? pages);
 
   StoryContentDbModel plainText(String? plainText);
@@ -29,6 +31,7 @@ abstract class _$StoryContentDbModelCWProxy {
     DateTime? createdAt,
     bool? draft,
     int? id,
+    String? metadata,
     List<List<dynamic>>? pages,
     String? plainText,
     String? title,
@@ -52,6 +55,9 @@ class _$StoryContentDbModelCWProxyImpl implements _$StoryContentDbModelCWProxy {
   StoryContentDbModel id(int id) => this(id: id);
 
   @override
+  StoryContentDbModel metadata(String? metadata) => this(metadata: metadata);
+
+  @override
   StoryContentDbModel pages(List<List<dynamic>>? pages) => this(pages: pages);
 
   @override
@@ -73,6 +79,7 @@ class _$StoryContentDbModelCWProxyImpl implements _$StoryContentDbModelCWProxy {
     Object? createdAt = const $CopyWithPlaceholder(),
     Object? draft = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
+    Object? metadata = const $CopyWithPlaceholder(),
     Object? pages = const $CopyWithPlaceholder(),
     Object? plainText = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
@@ -90,6 +97,10 @@ class _$StoryContentDbModelCWProxyImpl implements _$StoryContentDbModelCWProxy {
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
           : id as int,
+      metadata: metadata == const $CopyWithPlaceholder()
+          ? _value.metadata
+          // ignore: cast_nullable_to_non_nullable
+          : metadata as String?,
       pages: pages == const $CopyWithPlaceholder()
           ? _value.pages
           // ignore: cast_nullable_to_non_nullable
@@ -125,6 +136,7 @@ StoryContentDbModel _$StoryContentDbModelFromJson(Map<String, dynamic> json) =>
       pages: (json['pages'] as List<dynamic>?)
           ?.map((e) => e as List<dynamic>)
           .toList(),
+      metadata: json['metadata'] as String?,
       draft: json['draft'] as bool? ?? false,
     );
 
@@ -136,5 +148,6 @@ Map<String, dynamic> _$StoryContentDbModelToJson(
       'plain_text': instance.plainText,
       'created_at': instance.createdAt.toIso8601String(),
       'draft': instance.draft,
+      'metadata': instance.metadata,
       'pages': instance.pages,
     };

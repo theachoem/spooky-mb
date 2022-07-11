@@ -17,19 +17,31 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
   Future<Map<String, dynamic>?> fetchAll({
     Map<String, dynamic>? params,
   }) async {
+    String? keyword = params?["query"];
     String? type = params?["type"];
     int? year = params?["year"];
     int? month = params?["month"];
     int? day = params?["day"];
     String? tag = params?["tag"];
+    bool? starred = params?["starred"];
 
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
 
     if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.contains(tag));
+    if (starred == true) conditions = conditions.and(StoryObjectBox_.starred.equals(true));
     if (type != null) conditions = conditions.and(StoryObjectBox_.type.equals(type));
     if (year != null) conditions = conditions.and(StoryObjectBox_.year.equals(year));
     if (month != null) conditions = conditions.and(StoryObjectBox_.month.equals(month));
     if (day != null) conditions = conditions.and(StoryObjectBox_.day.equals(day));
+
+    if (keyword != null) {
+      conditions = conditions.and(
+        StoryObjectBox_.metadata.contains(
+          keyword,
+          caseSensitive: false,
+        ),
+      );
+    }
 
     QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions);
     Query<StoryObjectBox> query = queryBuilder.build();
@@ -39,6 +51,9 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     for (StoryObjectBox object in objects) {
       Map<String, dynamic> json = await objectTransformer(object);
       docs.add(json);
+
+      // set in case old data has no metadata for query
+      if (object.metadata == null) set(body: json);
     }
 
     return {
@@ -110,6 +125,7 @@ StoryObjectBox _objectConstructor(Map<String, dynamic> json) {
       String encoded = jsonEncode(json);
       return HtmlCharacterEntities.encode(encoded);
     }).toList(),
+    metadata: story.changes.last.safeMetadata,
   );
   return object;
 }

@@ -54,6 +54,7 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
   @override
   Future<BaseDbListModel<StoryDbModel>?> fetchAll({Map<String, dynamic>? params}) async {
     BaseDbListModel<StoryDbModel>? result = await super.fetchAll(params: params);
+
     Iterable<StoryDbModel>? items = result?.items.where((story) {
       DateTime? movedToBinAt = story.movedToBinAt;
       bool shouldDelete = AppHelper.shouldDelete(movedToBinAt: movedToBinAt);
@@ -61,6 +62,7 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
       // if (shouldDelete) deleteDocument(story);
       return !shouldDelete;
     });
+
     return result?.copyWith(items: items?.toList());
   }
 

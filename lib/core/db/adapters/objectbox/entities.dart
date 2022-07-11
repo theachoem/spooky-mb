@@ -29,6 +29,9 @@ class StoryObjectBox {
   List<String> changes;
   List<String>? tags;
 
+  // for query
+  String? metadata;
+
   StoryObjectBox({
     required this.id,
     required this.version,
@@ -44,6 +47,7 @@ class StoryObjectBox {
     required this.movedToBinAt,
     required this.changes,
     required this.tags,
+    required this.metadata,
   });
 }
 

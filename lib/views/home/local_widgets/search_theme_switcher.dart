@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/models/story_query_options_model.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_page_view/sp_page_view_datas.dart';
@@ -61,7 +63,7 @@ class _SearchThemeSwicherState extends State<SearchThemeSwicher> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraint) {
-      double width = constraint.maxWidth;
+      double height = constraint.maxHeight;
       return PageView.builder(
         controller: controller,
         itemCount: null,
@@ -78,11 +80,18 @@ class _SearchThemeSwicherState extends State<SearchThemeSwicher> {
                         Icons.search,
                         color: M3Color.of(context).primary,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(
+                          SpRouter.search.path,
+                          arguments: SearchArgs(
+                            initialQuery: StoryQueryOptionsModel(),
+                          ),
+                        );
+                      },
                     ),
             ),
             builder: (context, offset, child) {
-              return buildItem(index, width, child);
+              return buildItem(index, height, child);
             },
           );
         },
@@ -90,13 +99,13 @@ class _SearchThemeSwicherState extends State<SearchThemeSwicher> {
     });
   }
 
-  Widget buildItem(int index, double width, Widget? child) {
+  Widget buildItem(int index, double height, Widget? child) {
     SpPageViewDatas? datas = controller.position.haveDimensions
         ? SpPageViewDatas.fromOffset(
             pageOffset: offsetNotifier.value,
             itemIndex: index,
             controller: controller,
-            width: width,
+            width: height,
           )
         : null;
     double opacity = datas?.opacity ?? 1.0;

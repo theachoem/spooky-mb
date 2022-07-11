@@ -6,18 +6,33 @@ class _SearchMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: MorphingAppBar(
-        leading: const SpPopButton(),
-        title: SpAppBarTitle(
-          fallbackRouter: SpRouter.search,
-          overridedTitle: viewModel.displayTag,
-        ),
-      ),
-      body: StoryQueryList(
-        queryOptions: viewModel.initialQuery ?? StoryQueryOptionsModel(type: PathType.docs),
-        overridedLayout: ListLayoutType.single,
-      ),
+    return SearchScaffold(
+      initialQuery: viewModel.query,
+      titleBuilder: (setQuery) {
+        return viewModel.displayTag != null
+            ? SpAppBarTitle(
+                fallbackRouter: SpRouter.search,
+                overridedTitle: viewModel.displayTag,
+              )
+            : TextField(
+                textInputAction: TextInputAction.search,
+                style: Theme.of(context).appBarTheme.titleTextStyle,
+                decoration: const InputDecoration(
+                  hintText: "Search...",
+                  border: InputBorder.none,
+                ),
+                onSubmitted: (text) {
+                  setQuery(text);
+                },
+              );
+      },
+      resultBuilder: (query) {
+        return StoryQueryList(
+          queryOptions: query,
+          showLoadingAfterInit: true,
+          overridedLayout: ListLayoutType.single,
+        );
+      },
     );
   }
 }
