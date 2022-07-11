@@ -1,11 +1,13 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_color_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_image_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_link_style_button.dart';
+import 'package:spooky/widgets/sp_toolbar/sp_move_cursor_button.dart';
 
 /// [QuillToolbar]
 class SpToolbar extends StatefulWidget {
@@ -50,6 +52,8 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
+            buildMoveCursurButtons(context),
+            ConfigConstant.sizedBoxW0,
             HistoryButton(
               icon: Icons.undo_outlined,
               iconSize: toolbarIconSize,
@@ -253,6 +257,32 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
             );
           }).toList(),
         ),
+      ),
+    );
+  }
+
+  Container buildMoveCursurButtons(BuildContext context) {
+    return Container(
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+        color: M3Color.of(context).readOnly.surface5,
+        borderRadius: ConfigConstant.circlarRadius1,
+      ),
+      child: Row(
+        children: [
+          SpMoveCursurButton(
+            controller: controller,
+            iconSize: toolbarIconSize,
+            iconTheme: iconTheme,
+            isRight: false,
+          ),
+          SpMoveCursurButton(
+            controller: controller,
+            iconSize: toolbarIconSize,
+            iconTheme: iconTheme,
+            isRight: true,
+          ),
+        ],
       ),
     );
   }
