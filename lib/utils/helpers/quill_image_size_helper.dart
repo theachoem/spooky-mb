@@ -1,5 +1,6 @@
 // ignore_for_file: implementation_imports
 
+import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_quill/src/utils/string.dart';
@@ -34,7 +35,7 @@ class QuillImageResizeHelper {
 
   void resize(BuildContext context, quill.QuillController controller) {
     Tuple2<double?, double?>? size = fetchSize();
-    showCupertinoModalPopup<void>(
+    showModal(
       context: context,
       builder: (context) {
         final screenSize = MediaQuery.of(context).size;

@@ -75,6 +75,13 @@ class QuillImageRenderer extends StatelessWidget {
       child: GestureDetector(
         onDoubleTap: () => viewImage(context, imageUrl),
         onTap: () async {
+          FocusScope.of(context).unfocus();
+
+          if (readOnly) {
+            viewImage(context, imageUrl);
+            return;
+          }
+
           String? result = await showModalActionSheet<String>(
             context: context,
             title: "Image",

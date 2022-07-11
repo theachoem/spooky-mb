@@ -1,8 +1,5 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:spooky/theme/theme_config.dart';
 
 class QuillImageResizer extends StatefulWidget {
   const QuillImageResizer({
@@ -37,34 +34,17 @@ class QuillImageResizerState extends State<QuillImageResizer> {
 
   @override
   Widget build(BuildContext context) {
-    if (ThemeConfig.isApple(defaultTargetPlatform)) {
-      return _showCupertinoMenu();
-    } else {
-      return _showMaterialMenu();
-    }
-  }
-
-  Widget _showMaterialMenu() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        _widthSlider(),
-        // _heightSlider(),
-      ],
-    );
-  }
-
-  Widget _showCupertinoMenu() {
-    return CupertinoActionSheet(actions: [
-      CupertinoActionSheetAction(
-        onPressed: () {},
-        child: _widthSlider(),
+    return Container(
+      alignment: Alignment.bottomCenter,
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: SafeArea(
+        child: Wrap(
+          children: [
+            _widthSlider(),
+          ],
+        ),
       ),
-      // CupertinoActionSheetAction(
-      //   onPressed: () {},
-      //   child: _heightSlider(),
-      // )
-    ]);
+    );
   }
 
   Widget _slider(double value, double max, String label, ValueChanged<double> onChanged) {
