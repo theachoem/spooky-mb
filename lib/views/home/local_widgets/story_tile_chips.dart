@@ -1,13 +1,11 @@
 // ignore_for_file: implementation_imports
 
 import 'dart:io';
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
-import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/views/home/local_widgets/add_to_drive_button.dart';
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
@@ -53,11 +51,6 @@ class StoryTileChips extends StatelessWidget {
     final tags = story.tags ?? [];
     final fileImages = fetchFileImages();
     return [
-      if (content.draft == true)
-        const SpChip(
-          labelText: "Draft",
-          avatar: Icon(CommunityMaterialIcons.pen, size: ConfigConstant.iconSize1),
-        ),
       if (tags.isNotEmpty) StoryTileTagChips(tags: tags),
       if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
       if (images.isNotEmpty) buildImageChip(images),

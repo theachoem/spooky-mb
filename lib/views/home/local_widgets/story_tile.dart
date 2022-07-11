@@ -416,6 +416,14 @@ class StoryTileState extends State<StoryTile> {
             ),
           ),
           ConfigConstant.sizedBoxW0,
+          if (content.draft == true)
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: ConfigConstant.margin0),
+              child: Icon(
+                Icons.edit_note,
+                size: ConfigConstant.iconSize1,
+              ),
+            ),
           Text(
             DateFormatHelper.timeFormat().format(content.createdAt),
             style: M3TextTheme.of(context).bodySmall,
