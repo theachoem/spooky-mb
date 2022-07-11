@@ -52,8 +52,6 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
         scrollDirection: Axis.horizontal,
         child: Row(
           children: [
-            buildMoveCursurButtons(context),
-            ConfigConstant.sizedBoxW0,
             HistoryButton(
               icon: Icons.undo_outlined,
               iconSize: toolbarIconSize,
@@ -250,6 +248,8 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
               iconTheme: iconTheme,
               dialogTheme: null,
             ),
+            ConfigConstant.sizedBoxW0,
+            buildMoveCursurButtons(context),
           ].map((e) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: !kIsWeb ? 1.0 : 5.0),
