@@ -54,8 +54,9 @@ class QuillImageResizerState extends State<QuillImageResizer> {
         child: Slider(
           value: value,
           max: max,
-          divisions: 1000,
-          label: "Resize",
+          min: kToolbarHeight,
+          divisions: max.toInt(),
+          label: value.toInt().toString(),
           onChanged: (val) {
             setState(() {
               onChanged(val);
@@ -81,7 +82,6 @@ class QuillImageResizerState extends State<QuillImageResizer> {
   }
 
   bool _scheduled = false;
-
   void _resizeImage() {
     if (_scheduled) {
       return;

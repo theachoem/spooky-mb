@@ -43,7 +43,11 @@ class QuillImageResizeHelper {
           onImageResize: (w, h) {
             Tuple2<int, quill.Embed> res = getImageNode(controller, controller.selection.start);
             String attr = replaceStyleString(getImageStyleString(controller), w, h);
-            controller.formatText(res.item1, 1, quill.StyleAttribute(attr));
+            controller.formatText(
+              res.item1,
+              1,
+              quill.StyleAttribute(attr),
+            );
           },
           imageWidth: size?.item1,
           imageHeight: size?.item2,

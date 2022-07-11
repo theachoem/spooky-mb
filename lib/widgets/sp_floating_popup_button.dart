@@ -14,12 +14,14 @@ class SpFloatingPopUpButton extends StatefulWidget {
     required this.cacheFloatingSize,
     required this.builder,
     required this.floatBuilder,
+    this.bottomToTop = true,
   }) : super(key: key);
 
   final double cacheFloatingSize;
   final double Function(double dy)? dyGetter;
   final Widget Function(void Function() callback) floatBuilder;
   final Widget Function(void Function() callback) builder;
+  final bool bottomToTop;
 
   @override
   State<SpFloatingPopUpButton> createState() => _SpFloatingPopUpButtonState();
@@ -95,7 +97,10 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton>
                     animation: animationController,
                     builder: (context, child) {
                       return Transform.translate(
-                        offset: Offset(0.0, (1 - animationController.value) * 10),
+                        offset: Offset(
+                          0.0,
+                          (1 - animationController.value) * (widget.bottomToTop ? 10 : -10),
+                        ),
                         child: Opacity(
                           opacity: animationController.value,
                           child: child,

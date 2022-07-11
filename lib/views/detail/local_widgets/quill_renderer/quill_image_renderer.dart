@@ -14,7 +14,9 @@ import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/quill_image_size_helper.dart';
+import 'package:spooky/views/detail/local_widgets/quill_renderer/image_resize_button.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/image_zoom_view.dart';
+import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 
@@ -76,30 +78,23 @@ class QuillImageRenderer extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
       alignment: Alignment.centerLeft,
       child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
         onDoubleTap: () => viewImage(context, imageUrl),
         onTap: () async {
-          FocusScope.of(context).unfocus();
-
           String? result = await showModalActionSheet<String>(
             context: context,
             title: "Image",
             actions: [
-              if (!readOnly)
-                const SheetAction(
-                  label: "Resize",
-                  key: "resize",
-                  icon: CommunityMaterialIcons.resize,
-                ),
-              if (readOnly && imageUrl.startsWith('http')) ...[
+              if (imageUrl.startsWith('http')) ...[
                 const SheetAction(
                   label: "View on web",
                   key: "view-on-web",
-                  icon: CommunityMaterialIcons.image,
+                  icon: CommunityMaterialIcons.web,
                 ),
                 const SheetAction(
                   label: "Copy link",
                   key: "copy-link",
-                  icon: CommunityMaterialIcons.image,
+                  icon: CommunityMaterialIcons.link,
                 ),
               ],
               const SheetAction(
@@ -111,10 +106,6 @@ class QuillImageRenderer extends StatelessWidget {
           );
 
           switch (result) {
-            case "resize":
-              // ignore: use_build_context_synchronously
-              sizeHelper.resize(context, controller);
-              break;
             case "copy-link":
               await Clipboard.setData(ClipboardData(text: imageUrl));
               MessengerService.instance.showSnackBar("Copied", showAction: false);
@@ -129,12 +120,28 @@ class QuillImageRenderer extends StatelessWidget {
             default:
           }
         },
-        child: SizedBox(
-          width: size?.item1,
-          child: ClipRRect(
-            borderRadius: ConfigConstant.circlarRadius1,
-            child: imageByUrl(imageUrl),
-          ),
+        child: Stack(
+          children: [
+            SizedBox(
+              width: size?.item1,
+              child: ClipRRect(
+                borderRadius: ConfigConstant.circlarRadius1,
+                child: imageByUrl(imageUrl),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: SpCrossFade(
+                showFirst: !readOnly,
+                secondChild: const SizedBox(width: 48),
+                firstChild: ImageResizeButton(
+                  controller: controller,
+                  size: size,
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );

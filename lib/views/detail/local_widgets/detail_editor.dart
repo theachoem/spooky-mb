@@ -87,6 +87,7 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
   editor.QuillEditor buildEditor(BuildContext context, bool readOnly) {
     return editor.QuillEditor(
       controller: controller,
+      showCursor: !readOnly,
       scrollController: scrollController,
       scrollable: true,
       focusNode: focusNode,
