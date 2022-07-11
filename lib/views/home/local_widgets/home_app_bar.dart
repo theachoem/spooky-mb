@@ -6,10 +6,10 @@ import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/views/home/local_widgets/home_tab_bar.dart';
+import 'package:spooky/views/home/local_widgets/search_theme_switcher.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
-import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
@@ -173,7 +173,11 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
       right: 0,
       child: SpFadeIn(
         duration: ConfigConstant.fadeDuration * 2,
-        child: SpThemeSwitcher(),
+        child: const SizedBox(
+          width: kToolbarHeight,
+          height: kToolbarHeight,
+          child: SearchThemeSwicher(),
+        ),
       ),
     );
   }

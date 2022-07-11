@@ -14,7 +14,7 @@ class SpPageView extends StatefulWidget {
   }) : super(key: key);
 
   final PageController controller;
-  final int itemCount;
+  final int? itemCount;
   final IndexedWidgetBuilder itemBuilder;
   final ScrollPhysics? physics;
   final ValueChanged<int>? onPageChanged;
