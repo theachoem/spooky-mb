@@ -2,6 +2,7 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:overscroll_pop/overscroll_pop.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/helpers/quill_image_size_helper.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/image_zoom_view.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
@@ -17,9 +19,13 @@ class QuillImageRenderer extends StatelessWidget {
   const QuillImageRenderer({
     Key? key,
     required this.node,
+    required this.controller,
+    required this.readOnly,
   }) : super(key: key);
 
   final quill.Embed node;
+  final quill.QuillController controller;
+  final bool readOnly;
 
   Widget? imageByUrl(String imageUrl) {
     if (isImageBase64(imageUrl)) {
@@ -59,30 +65,67 @@ class QuillImageRenderer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String imageUrl = standardizeImageUrl(node.value.data);
-    return GestureDetector(
-      onDoubleTap: () {
-        pushDragToPopRoute(
-          context: context,
-          fullscreenDialog: true,
-          barrierDismissible: true,
-          barrierColor: Colors.black12,
-          child: ImageZoomView(
-            scrollToPopOption: ScrollToPopOption.both,
-            dragToPopDirection: DragToPopDirection.vertical,
-            imageUrl: imageUrl,
+
+    final sizeHelper = QuillImageResizeHelper(node: node);
+    final size = sizeHelper.fetchSize();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
+      alignment: Alignment.centerLeft,
+      child: GestureDetector(
+        onDoubleTap: () => viewImage(context, imageUrl),
+        onTap: () async {
+          String? result = await showModalActionSheet<String>(
+            context: context,
+            title: "Image",
+            actions: [
+              if (!readOnly)
+                const SheetAction(
+                  label: "Resize",
+                  key: "resize",
+                  icon: CommunityMaterialIcons.resize,
+                ),
+              const SheetAction(
+                label: "View",
+                key: "view",
+                icon: CommunityMaterialIcons.image,
+              ),
+            ],
+          );
+
+          switch (result) {
+            case "resize":
+              // ignore: use_build_context_synchronously
+              sizeHelper.resize(context, controller);
+              break;
+            case "view":
+              // ignore: use_build_context_synchronously
+              viewImage(context, imageUrl);
+              break;
+            default:
+          }
+        },
+        child: SizedBox(
+          width: size?.item1,
+          child: ClipRRect(
+            borderRadius: ConfigConstant.circlarRadius1,
+            child: imageByUrl(imageUrl),
           ),
-        );
-      },
-      child: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
-            child: ClipRRect(
-              borderRadius: ConfigConstant.circlarRadius1,
-              child: imageByUrl(imageUrl),
-            ),
-          ),
-        ],
+        ),
+      ),
+    );
+  }
+
+  Future<dynamic> viewImage(BuildContext context, String imageUrl) {
+    return pushDragToPopRoute(
+      context: context,
+      fullscreenDialog: true,
+      barrierDismissible: true,
+      barrierColor: Colors.black12,
+      child: ImageZoomView(
+        scrollToPopOption: ScrollToPopOption.both,
+        dragToPopDirection: DragToPopDirection.vertical,
+        imageUrl: imageUrl,
       ),
     );
   }

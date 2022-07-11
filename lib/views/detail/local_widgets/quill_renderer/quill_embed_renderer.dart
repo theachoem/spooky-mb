@@ -22,7 +22,11 @@ class QuillEmbedRenderer extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (node.value.type) {
       case quill.BlockEmbed.imageType:
-        return QuillImageRenderer(node: node);
+        return QuillImageRenderer(
+          node: node,
+          controller: controller,
+          readOnly: readOnly,
+        );
       default:
         return Container(
           width: double.infinity,
