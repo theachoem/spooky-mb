@@ -8,7 +8,7 @@ class _FontManagerMobile extends StatefulWidget {
   State<_FontManagerMobile> createState() => _FontManagerMobileState();
 }
 
-class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldStateMixin {
+class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldToggleSheetableMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

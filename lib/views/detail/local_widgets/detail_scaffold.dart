@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
-import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
+import 'package:spooky/utils/mixins/scaffold_toggle_sheetable_mixin.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/views/detail/local_widgets/detail_sheet.dart';
@@ -40,7 +40,7 @@ class DetailScaffold extends StatefulWidget {
   State<DetailScaffold> createState() => _DetailScaffoldState();
 }
 
-class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldStateMixin {
+class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldToggleSheetableMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

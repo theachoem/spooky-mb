@@ -7,7 +7,7 @@ import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
-import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
+import 'package:spooky/utils/mixins/scaffold_toggle_sheetable_mixin.dart';
 import 'package:spooky/views/font_manager/local_widgets/font_list.dart';
 import 'package:spooky/views/font_manager/local_widgets/font_manager_search_delegate.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';

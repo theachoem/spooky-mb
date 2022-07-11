@@ -4,7 +4,7 @@ import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_show_hide_animator.dart';
 
-mixin ScaffoldStateMixin<T extends StatefulWidget> on State<T> {
+mixin ScaffoldToggleSheetableMixin<T extends StatefulWidget> on State<T> {
   late ValueNotifier<bool> isSpBottomSheetOpenNotifer;
   final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
   PersistentBottomSheetController<dynamic>? persistentBottomSheetController;
