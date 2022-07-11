@@ -1,3 +1,4 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -97,7 +98,7 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
           width: ConfigConstant.objectHeight1,
           duration: ConfigConstant.fadeDuration,
           alignment: Alignment.center,
-          child: const Icon(Icons.menu_book_rounded),
+          child: const Icon(CommunityMaterialIcons.book_multiple),
         ),
         firstChild: Container(
           height: ConfigConstant.iconSize3,

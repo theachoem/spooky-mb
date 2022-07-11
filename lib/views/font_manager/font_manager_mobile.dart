@@ -12,7 +12,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldTog
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldkey,
+      key: sheetScaffoldkey,
       appBar: MorphingAppBar(
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
         title: const SpAppBarTitle(fallbackRouter: SpRouter.fontManager),

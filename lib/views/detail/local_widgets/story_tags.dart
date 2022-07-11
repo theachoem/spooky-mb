@@ -19,7 +19,7 @@ class StoryTags extends StatefulWidget {
   State<StoryTags> createState() => _StoryTagsState();
 }
 
-class _StoryTagsState extends State<StoryTags> {
+class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixin {
   final TagDatabase tagDatabase = TagDatabase.instance;
   late final ValueNotifier<List<int>> selectedTagsIdNotifiers;
   List<TagDbModel>? tags;
@@ -187,6 +187,7 @@ class _StoryTagsState extends State<StoryTags> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Column(
       children: [
         ...tags?.map((object) {
@@ -236,4 +237,7 @@ class _StoryTagsState extends State<StoryTags> {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

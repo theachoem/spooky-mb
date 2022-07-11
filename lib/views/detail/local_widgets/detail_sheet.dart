@@ -62,18 +62,6 @@ class DetailSheet extends StatelessWidget {
 
           // buildActionsSection(context),
           buildSettingSection(context),
-          SpSectionContents(
-            headline: "Tags",
-            leadingIcon: CommunityMaterialIcons.tag,
-            tiles: [
-              StoryTags(
-                selectedTagsIds: viewModel.currentStory.tags ?? [],
-                onUpdated: (List<int> ids) {
-                  viewModel.setTagIds(ids);
-                },
-              ),
-            ],
-          ),
         ],
       ),
     );

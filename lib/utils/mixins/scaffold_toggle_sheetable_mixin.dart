@@ -6,8 +6,10 @@ import 'package:spooky/widgets/sp_show_hide_animator.dart';
 
 mixin ScaffoldToggleSheetableMixin<T extends StatefulWidget> on State<T> {
   late ValueNotifier<bool> isSpBottomSheetOpenNotifer;
-  final GlobalKey<ScaffoldState> scaffoldkey = GlobalKey<ScaffoldState>();
   PersistentBottomSheetController<dynamic>? persistentBottomSheetController;
+
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+  GlobalKey<ScaffoldState> get sheetScaffoldkey => _scaffoldkey;
 
   @override
   void initState() {
@@ -70,7 +72,7 @@ mixin ScaffoldToggleSheetableMixin<T extends StatefulWidget> on State<T> {
   void toggleSpBottomSheet() async {
     MessengerService.instance.clearSnackBars();
     if (!isSpBottomSheetOpenNotifer.value) {
-      persistentBottomSheetController = scaffoldkey.currentState?.showBottomSheet((context) {
+      persistentBottomSheetController = sheetScaffoldkey.currentState?.showBottomSheet((context) {
         return BottomSheet(
           onClosing: () {},
           enableDrag: false,

@@ -3,17 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/utils/mixins/scaffold_end_drawerable_mixin.dart';
 import 'package:spooky/utils/mixins/scaffold_toggle_sheetable_mixin.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/views/detail/local_widgets/detail_sheet.dart';
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
+import 'package:spooky/views/detail/local_widgets/story_tags.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
+import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DetailScaffold extends StatefulWidget {
@@ -40,14 +43,25 @@ class DetailScaffold extends StatefulWidget {
   State<DetailScaffold> createState() => _DetailScaffoldState();
 }
 
-class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, ScaffoldToggleSheetableMixin {
+class _DetailScaffoldState extends State<DetailScaffold>
+    with StatefulMixin, ScaffoldToggleSheetableMixin, ScaffoldEndDrawableMixin {
+  final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
+
+  @override
+  GlobalKey<ScaffoldState> get endDrawerScaffoldKey => _scaffoldkey;
+
+  @override
+  GlobalKey<ScaffoldState> get sheetScaffoldkey => _scaffoldkey;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldkey,
+      endDrawerEnableOpenDragGesture: false,
+      key: _scaffoldkey,
       appBar: buildAppBar(),
       floatingActionButton: buildFloatActionButton(mediaQueryPadding),
       body: widget.editorBuilder(),
+      endDrawer: buildEndDrawer(context),
       bottomNavigationBar: buildBottomNavigation(),
     );
   }
@@ -129,6 +143,8 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
           },
         ),
         ConfigConstant.sizedBoxW0,
+        buildEndDrawerButton(CommunityMaterialIcons.tag),
+        ConfigConstant.sizedBoxW0,
         PageIndicatorButton(
           controller: widget.viewModel.pageController,
           pagesCount: widget.viewModel.currentContent.pages?.length ?? 0,
@@ -136,6 +152,33 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
         ),
         buildMoreButton(),
       ],
+    );
+  }
+
+  @override
+  Widget buildEndDrawer(BuildContext context) {
+    return Drawer(
+      child: ListView(
+        children: [
+          ...SpSectionsTiles.divide(
+            context: context,
+            sections: [
+              SpSectionContents(
+                headline: "Tags",
+                leadingIcon: CommunityMaterialIcons.tag,
+                tiles: [
+                  StoryTags(
+                    selectedTagsIds: widget.viewModel.currentStory.tags ?? [],
+                    onUpdated: (List<int> ids) {
+                      widget.viewModel.setTagIds(ids);
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 
