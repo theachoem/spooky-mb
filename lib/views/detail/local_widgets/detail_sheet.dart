@@ -78,25 +78,32 @@ class DetailSheet extends StatelessWidget {
 
   SpSectionContents buildSettingSection(BuildContext context) {
     return SpSectionContents(
-      headline: "Options",
+      headline: "Setting",
       tiles: [
-        // if ((widget.viewModel.currentContent.pages ?? []).length > 1)
         ListTile(
-          leading: const Icon(CommunityMaterialIcons.book_settings),
-          title: const Text("Pages"),
+          title: Text(SpRouter.fontManager.title),
+          leading: const Icon(Icons.font_download),
           onTap: () {
-            if (viewModel.hasChangeNotifer.value) {
-              MessengerService.instance.showSnackBar("Please save document first");
-              return;
-            }
-            ManagePagesArgs arguments = ManagePagesArgs(content: viewModel.currentContent);
-            Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
-              if (value is StoryContentDbModel) viewModel.updatePages(value);
-            });
-
-            if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
+            Navigator.of(context).pushNamed(SpRouter.fontManager.path);
           },
         ),
+        if ((viewModel.currentContent.pages ?? []).length > 1)
+          ListTile(
+            leading: const Icon(CommunityMaterialIcons.book_settings),
+            title: const Text("Pages"),
+            onTap: () {
+              if (viewModel.hasChangeNotifer.value) {
+                MessengerService.instance.showSnackBar("Please save document first");
+                return;
+              }
+              ManagePagesArgs arguments = ManagePagesArgs(content: viewModel.currentContent);
+              Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
+                if (value is StoryContentDbModel) viewModel.updatePages(value);
+              });
+
+              if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
+            },
+          ),
         ListTile(
           leading: const Icon(Icons.history),
           title: const Text("Changes"),
@@ -118,13 +125,6 @@ class DetailSheet extends StatelessWidget {
             );
 
             if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
-          },
-        ),
-        ListTile(
-          title: Text(SpRouter.fontManager.title),
-          leading: const Icon(Icons.font_download),
-          onTap: () {
-            Navigator.of(context).pushNamed(SpRouter.fontManager.path);
           },
         ),
       ],
