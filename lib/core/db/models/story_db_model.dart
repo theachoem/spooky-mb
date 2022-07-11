@@ -22,6 +22,22 @@ class StoryDbModel extends BaseDbModel {
 
   final List<StoryContentDbModel> changes;
 
+  // year, month, day is better for query,
+  // prefer date time to store whole info include time.
+  final DateTime? pathDate;
+  DateTime get displayPathDate {
+    return DateTime(
+      year,
+      month,
+      day,
+      createdAt.hour,
+      createdAt.minute,
+      createdAt.second,
+      createdAt.millisecond,
+      createdAt.microsecond,
+    );
+  }
+
   final DateTime createdAt;
   final DateTime updatedAt;
   final DateTime? movedToBinAt;
@@ -36,6 +52,7 @@ class StoryDbModel extends BaseDbModel {
     required this.month,
     required this.day,
     required this.changes,
+    required this.pathDate,
     required this.updatedAt,
     required this.createdAt,
     required this.tags,
@@ -91,6 +108,7 @@ class StoryDbModel extends BaseDbModel {
       changes: [
         StoryContentDbModel.create(createdAt: now, id: now.millisecondsSinceEpoch),
       ],
+      pathDate: date,
       updatedAt: now,
       createdAt: now,
       tags: [],

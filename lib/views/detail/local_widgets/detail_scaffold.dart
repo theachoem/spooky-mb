@@ -1,26 +1,19 @@
-import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/db/databases/story_database.dart';
-import 'package:spooky/core/db/models/story_content_db_model.dart';
-import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
-import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/utils/mixins/scaffold_state_mixin.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
+import 'package:spooky/views/detail/local_widgets/detail_sheet.dart';
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
-import 'package:spooky/views/detail/local_widgets/story_tags.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
-import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
-import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DetailScaffold extends StatefulWidget {
@@ -96,20 +89,21 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
     return MorphingAppBar(
       heroTag: DetailView.appBarHeroKey,
       leading: const SpPopButton(),
-      title: buildSheetVisibilityBuilder(
-        child: widget.titleBuilder(),
-        builder: (context, isOpen, child) {
-          return IgnorePointer(
-            ignoring: isOpen,
-            child: AnimatedOpacity(
-              opacity: isOpen ? 0.0 : 1.0,
-              curve: Curves.ease,
-              duration: ConfigConstant.fadeDuration,
-              child: child,
-            ),
-          );
-        },
-      ),
+      title: const SizedBox.shrink(),
+      // title: buildSheetVisibilityBuilder(
+      //   child: widget.titleBuilder(),
+      //   builder: (context, isOpen, child) {
+      //     return IgnorePointer(
+      //       ignoring: isOpen,
+      //       child: AnimatedOpacity(
+      //         opacity: isOpen ? 0.0 : 1.0,
+      //         curve: Curves.ease,
+      //         duration: ConfigConstant.fadeDuration,
+      //         child: child,
+      //       ),
+      //     );
+      //   },
+      // ),
       actions: [
         ValueListenableBuilder<bool>(
           valueListenable: widget.readOnlyNotifier,
@@ -145,149 +139,13 @@ class _DetailScaffoldState extends State<DetailScaffold> with StatefulMixin, Sca
     );
   }
 
-  final StoryDatabase database = StoryDatabase.instance;
-
   @override
   Widget buildSheet(BuildContext context) {
-    return ListView(
-      physics: const ScrollPhysics(),
-      children: SpSectionsTiles.divide(
-        context: context,
-        showTopDivider: true,
-        sections: [
-          SpSectionContents(
-            headline: "Story",
-            tiles: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
-                child: ValueListenableBuilder<bool>(
-                  valueListenable: widget.readOnlyNotifier,
-                  builder: (context, readOnly, child) {
-                    return TextField(
-                      maxLines: null,
-                      readOnly: readOnly,
-                      controller: widget.viewModel.titleController,
-                      decoration: const InputDecoration(
-                        hintText: "Title...",
-                        border: InputBorder.none,
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-          // buildActionsSection(context),
-          buildSettingSection(context),
-          SpSectionContents(
-            headline: "Tags",
-            leadingIcon: CommunityMaterialIcons.tag,
-            tiles: [
-              StoryTags(
-                selectedTagsIds: widget.viewModel.currentStory.tags ?? [],
-                onUpdated: (List<int> ids) {
-                  widget.viewModel.setTagIds(ids);
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  SpSectionContents buildActionsSection(BuildContext context) {
-    return SpSectionContents(
-      headline: "Actions",
-      tiles: [
-        if (widget.viewModel.flowType == DetailViewFlowType.update && widget.viewModel.currentStory.archivable)
-          Container(
-            margin: const EdgeInsets.only(left: ConfigConstant.margin2, top: ConfigConstant.margin0),
-            child: SpButton(
-              label: "Archive",
-              onTap: () async {
-                if (widget.viewModel.hasChangeNotifer.value) {
-                  MessengerService.instance.showSnackBar("Please save document first");
-                  return;
-                }
-                OkCancelResult result = await showOkCancelAlertDialog(
-                  context: context,
-                  useRootNavigator: true,
-                  title: "Are you sure to archive document?",
-                );
-                switch (result) {
-                  case OkCancelResult.ok:
-                    await database.archiveDocument(widget.viewModel.currentStory).then((story) async {
-                      if (story != null) {
-                        MessengerService.instance.showSnackBar("Archived!");
-                      }
-                      Navigator.of(context).maybePop(widget.viewModel.currentStory);
-                    });
-                    break;
-                  case OkCancelResult.cancel:
-                    break;
-                }
-              },
-            ),
-          ),
-      ],
-    );
-  }
-
-  SpSectionContents buildSettingSection(BuildContext context) {
-    return SpSectionContents(
-      headline: "Others",
-      tiles: [
-        // if ((widget.viewModel.currentContent.pages ?? []).length > 1)
-        ListTile(
-          leading: const Icon(CommunityMaterialIcons.book_settings),
-          title: const Text("Pages"),
-          trailing: const Icon(Icons.edit),
-          onTap: () {
-            if (widget.viewModel.hasChangeNotifer.value) {
-              MessengerService.instance.showSnackBar("Please save document first");
-              return;
-            }
-            ManagePagesArgs arguments = ManagePagesArgs(content: widget.viewModel.currentContent);
-            Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
-              if (value is StoryContentDbModel) widget.viewModel.updatePages(value);
-            });
-
-            if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.history),
-          title: const Text("Changes"),
-          trailing: const Icon(Icons.edit),
-          onTap: () async {
-            if (widget.viewModel.hasChangeNotifer.value) {
-              MessengerService.instance.showSnackBar("Please save document first");
-              return;
-            }
-
-            ChangesHistoryArgs arguments = ChangesHistoryArgs(
-              story: widget.viewModel.currentStory,
-              onRestorePressed: (content) => widget.viewModel.restore(content.id),
-              onDeletePressed: (contentIds) => widget.viewModel.deleteChange(contentIds),
-            );
-
-            Navigator.of(context).pushNamed(
-              SpRouter.changesHistory.path,
-              arguments: arguments,
-            );
-
-            if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
-          },
-        ),
-        ListTile(
-          title: Text(SpRouter.fontManager.title),
-          leading: const Icon(Icons.font_download),
-          onTap: () {
-            Navigator.of(context).pushNamed(SpRouter.fontManager.path);
-          },
-        ),
-      ],
+    return DetailSheet(
+      viewModel: widget.viewModel,
+      toggleSpBottomSheet: toggleSpBottomSheet,
+      isSpBottomSheetOpenNotifer: isSpBottomSheetOpenNotifer,
+      readOnlyNotifier: widget.readOnlyNotifier,
     );
   }
 

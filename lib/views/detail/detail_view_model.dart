@@ -52,14 +52,6 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     setListener();
   }
 
-  // TODO: find consistent way
-  Future<void> setTagIds(List<int> ids) async {
-    StoryDbModel? story = await StoryDatabase.instance.set(
-      body: currentStory.copyWith(tags: ids.map((e) => e.toString()).toList()).toJson(),
-    );
-    if (story != null) currentStory = story;
-  }
-
   Future<void> loadHasChange() async {
     bool hasChange = await _fetchHasChange();
     hasChangeNotifer.value = hasChange;
@@ -199,5 +191,32 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   void dispose() {
     super.dispose();
     WidgetsBinding.instance.removeObserver(this);
+  }
+
+  // ==============================
+  // METHOD that set to db directly
+  // ==============================
+
+  Future<StoryDbModel> setTagIds(List<int> ids) async {
+    StoryDbModel? story = await StoryDatabase.instance.set(
+      body: currentStory.copyWith(tags: ids.map((e) => e.toString()).toList()).toJson(),
+    );
+    if (story != null) currentStory = story;
+    return currentStory;
+  }
+
+  Future<StoryDbModel> setPathDate(DateTime pathDate) async {
+    StoryDbModel? story = await StoryDatabase.instance.set(
+      body: currentStory
+          .copyWith(
+            year: pathDate.year,
+            month: pathDate.month,
+            day: pathDate.day,
+            pathDate: pathDate,
+          )
+          .toJson(),
+    );
+    if (story != null) currentStory = story;
+    return currentStory;
   }
 }

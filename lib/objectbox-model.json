@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:2962579780537594759",
-      "lastPropertyId": "13:6005849190320169908",
+      "lastPropertyId": "14:4968158570417504072",
       "name": "StoryObjectBox",
       "properties": [
         {
@@ -73,6 +73,11 @@
           "id": "13:6005849190320169908",
           "name": "tags",
           "type": 30
+        },
+        {
+          "id": "14:4968158570417504072",
+          "name": "pathDate",
+          "type": 10
         }
       ],
       "relations": []

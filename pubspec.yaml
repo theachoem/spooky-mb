@@ -94,6 +94,7 @@ dependencies:
   flutter_signin_button: ^2.0.0
   visibility_detector: ^0.3.3
   flutter_countdown_timer: ^4.1.0
+  day_night_time_picker: ^1.1.2
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 

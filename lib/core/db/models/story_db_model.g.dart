@@ -21,6 +21,8 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel movedToBinAt(DateTime? movedToBinAt);
 
+  StoryDbModel pathDate(DateTime? pathDate);
+
   StoryDbModel starred(bool? starred);
 
   StoryDbModel tags(List<String>? tags);
@@ -47,6 +49,7 @@ abstract class _$StoryDbModelCWProxy {
     int? id,
     int? month,
     DateTime? movedToBinAt,
+    DateTime? pathDate,
     bool? starred,
     List<String>? tags,
     PathType? type,
@@ -86,6 +89,9 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
       this(movedToBinAt: movedToBinAt);
 
   @override
+  StoryDbModel pathDate(DateTime? pathDate) => this(pathDate: pathDate);
+
+  @override
   StoryDbModel starred(bool? starred) => this(starred: starred);
 
   @override
@@ -119,6 +125,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
     Object? id = const $CopyWithPlaceholder(),
     Object? month = const $CopyWithPlaceholder(),
     Object? movedToBinAt = const $CopyWithPlaceholder(),
+    Object? pathDate = const $CopyWithPlaceholder(),
     Object? starred = const $CopyWithPlaceholder(),
     Object? tags = const $CopyWithPlaceholder(),
     Object? type = const $CopyWithPlaceholder(),
@@ -155,6 +162,10 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.movedToBinAt
           // ignore: cast_nullable_to_non_nullable
           : movedToBinAt as DateTime?,
+      pathDate: pathDate == const $CopyWithPlaceholder()
+          ? _value.pathDate
+          // ignore: cast_nullable_to_non_nullable
+          : pathDate as DateTime?,
       starred: starred == const $CopyWithPlaceholder()
           ? _value.starred
           // ignore: cast_nullable_to_non_nullable
@@ -204,6 +215,9 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
       changes: (json['changes'] as List<dynamic>)
           .map((e) => StoryContentDbModel.fromJson(e as Map<String, dynamic>))
           .toList(),
+      pathDate: json['path_date'] == null
+          ? null
+          : DateTime.parse(json['path_date'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -224,6 +238,7 @@ Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
       'feeling': instance.feeling,
       'tags': instance.tags,
       'changes': instance.changes.map((e) => e.toJson()).toList(),
+      'path_date': instance.pathDate?.toIso8601String(),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'moved_to_bin_at': instance.movedToBinAt?.toIso8601String(),

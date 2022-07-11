@@ -15,6 +15,9 @@ class StoryObjectBox {
   String? feeling;
 
   @Property(type: PropertyType.date)
+  DateTime? pathDate;
+
+  @Property(type: PropertyType.date)
   DateTime createdAt;
 
   @Property(type: PropertyType.date)
@@ -35,6 +38,7 @@ class StoryObjectBox {
     required this.day,
     required this.starred,
     required this.feeling,
+    required this.pathDate,
     required this.createdAt,
     required this.updatedAt,
     required this.movedToBinAt,

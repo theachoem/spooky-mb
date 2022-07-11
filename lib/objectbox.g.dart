@@ -21,7 +21,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 2962579780537594759),
       name: 'StoryObjectBox',
-      lastPropertyId: const IdUid(13, 6005849190320169908),
+      lastPropertyId: const IdUid(14, 4968158570417504072),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -88,6 +88,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(13, 6005849190320169908),
             name: 'tags',
             type: 30,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(14, 4968158570417504072),
+            name: 'pathDate',
+            type: 10,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -189,7 +194,7 @@ ModelDefinition getObjectBoxModel() {
               ? null
               : fbb.writeList(
                   object.tags!.map(fbb.writeString).toList(growable: false));
-          fbb.startTable(14);
+          fbb.startTable(15);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.version);
           fbb.addOffset(2, typeOffset);
@@ -203,6 +208,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addInt64(10, object.movedToBinAt?.millisecondsSinceEpoch);
           fbb.addOffset(11, changesOffset);
           fbb.addOffset(12, tagsOffset);
+          fbb.addInt64(13, object.pathDate?.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -211,6 +217,8 @@ ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
           final movedToBinAtValue =
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 24);
+          final pathDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 30);
           final object = StoryObjectBox(
               id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
               version:
@@ -225,6 +233,9 @@ ModelDefinition getObjectBoxModel() {
                   .vTableGetNullable(buffer, rootOffset, 16),
               feeling: const fb.StringReader(asciiOptimization: true)
                   .vTableGetNullable(buffer, rootOffset, 18),
+              pathDate: pathDateValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(pathDateValue),
               createdAt: DateTime.fromMillisecondsSinceEpoch(
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0)),
               updatedAt: DateTime.fromMillisecondsSinceEpoch(
@@ -232,9 +243,7 @@ ModelDefinition getObjectBoxModel() {
               movedToBinAt: movedToBinAtValue == null
                   ? null
                   : DateTime.fromMillisecondsSinceEpoch(movedToBinAtValue),
-              changes:
-                  const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false)
-                      .vTableGet(buffer, rootOffset, 26, []),
+              changes: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGet(buffer, rootOffset, 26, []),
               tags: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGetNullable(buffer, rootOffset, 28));
 
           return object;
@@ -341,6 +350,10 @@ class StoryObjectBox_ {
   /// see [StoryObjectBox.tags]
   static final tags =
       QueryStringVectorProperty<StoryObjectBox>(_entities[0].properties[12]);
+
+  /// see [StoryObjectBox.pathDate]
+  static final pathDate =
+      QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[13]);
 }
 
 /// [TagObjectBox] entity fields to define ObjectBox queries.
