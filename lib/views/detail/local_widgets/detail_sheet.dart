@@ -1,6 +1,7 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
@@ -87,47 +88,74 @@ class DetailSheet extends StatelessWidget {
             Navigator.of(context).pushNamed(SpRouter.fontManager.path);
           },
         ),
-        if ((viewModel.currentContent.pages ?? []).length > 1)
-          ListTile(
-            leading: const Icon(CommunityMaterialIcons.book_settings),
-            title: const Text("Pages"),
-            onTap: () {
-              if (viewModel.hasChangeNotifer.value) {
-                MessengerService.instance.showSnackBar("Please save document first");
-                return;
-              }
-              ManagePagesArgs arguments = ManagePagesArgs(content: viewModel.currentContent);
-              Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
-                if (value is StoryContentDbModel) viewModel.updatePages(value);
-              });
-
-              if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
-            },
-          ),
-        ListTile(
-          leading: const Icon(Icons.history),
-          title: const Text("Changes"),
-          onTap: () async {
-            if (viewModel.hasChangeNotifer.value) {
-              MessengerService.instance.showSnackBar("Please save document first");
-              return;
-            }
-
-            ChangesHistoryArgs arguments = ChangesHistoryArgs(
-              story: viewModel.currentStory,
-              onRestorePressed: (content) => viewModel.restore(content.id),
-              onDeletePressed: (contentIds) => viewModel.deleteChange(contentIds),
-            );
-
-            Navigator.of(context).pushNamed(
-              SpRouter.changesHistory.path,
-              arguments: arguments,
-            );
-
-            if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
-          },
-        ),
+        if ((viewModel.currentContent.pages ?? []).length > 1) buildPagesTile(context),
+        if (viewModel.currentStory.changes.length > 1) buildChangesTile(context),
       ],
+    );
+  }
+
+  ListTile buildChangesTile(BuildContext context) {
+    return ListTile(
+      leading: const Icon(Icons.history),
+      title: const Text("Changes"),
+      onTap: () async {
+        if (viewModel.hasChangeNotifer.value) {
+          MessengerService.instance.showSnackBar("Please save document first");
+          return;
+        }
+
+        ChangesHistoryArgs arguments = ChangesHistoryArgs(
+          story: viewModel.currentStory,
+          onRestorePressed: (content) {
+            MessengerService.instance.showLoading(
+              future: () => viewModel.restore(content.id).then((value) => 1),
+              context: App.navigatorKey.currentContext!,
+              debugSource: "DetailSheet",
+            );
+          },
+          onDeletePressed: (contentIds) async {
+            return await MessengerService.instance.showLoading(
+                  future: () => viewModel.deleteChange(contentIds),
+                  context: App.navigatorKey.currentContext!,
+                  debugSource: "DetailSheet",
+                ) ??
+                viewModel.currentStory;
+          },
+        );
+
+        Navigator.of(context).pushNamed(
+          SpRouter.changesHistory.path,
+          arguments: arguments,
+        );
+
+        // if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
+      },
+    );
+  }
+
+  ListTile buildPagesTile(BuildContext context) {
+    return ListTile(
+      leading: const Icon(CommunityMaterialIcons.book_settings),
+      title: const Text("Pages"),
+      onTap: () {
+        if (viewModel.hasChangeNotifer.value) {
+          MessengerService.instance.showSnackBar("Please save document first");
+          return;
+        }
+
+        ManagePagesArgs arguments = ManagePagesArgs(content: viewModel.currentContent);
+        Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
+          if (value is StoryContentDbModel) {
+            MessengerService.instance.showLoading(
+              future: () => viewModel.updatePages(value).then((value) => 1),
+              context: App.navigatorKey.currentContext!,
+              debugSource: "DetailSheet",
+            );
+          }
+        });
+
+        // if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
+      },
     );
   }
 

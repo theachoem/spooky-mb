@@ -102,7 +102,15 @@ class _DetailScaffoldState extends State<DetailScaffold>
   MorphingAppBar buildAppBar() {
     return MorphingAppBar(
       heroTag: DetailView.appBarHeroKey,
-      leading: const SpPopButton(),
+      leading: SpPopButton(
+        onPressed: () {
+          if (isSpBottomSheetOpenNotifer.value) {
+            toggleSpBottomSheet();
+          } else {
+            Navigator.maybePop(context);
+          }
+        },
+      ),
       title: const SizedBox.shrink(),
       // title: buildSheetVisibilityBuilder(
       //   child: widget.titleBuilder(),

@@ -59,7 +59,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   Future<bool> _fetchHasChange() async {
     if (currentStory.changes.isEmpty) return false;
-    if (currentStory.changes.length == 1) {
+
+    if (currentStory.changes.length == 1 && flowType == DetailViewFlowType.create) {
       StoryContentDbModel content = await buildContent();
       return content.hasDataWritten(content);
     }

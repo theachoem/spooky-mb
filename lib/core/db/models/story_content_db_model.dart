@@ -14,6 +14,9 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
   final DateTime createdAt;
   final bool? draft;
 
+  @override
+  List<String>? get includeCompareKeys => ['title', 'pages'];
+
   // metadata should be title + plain text
   // better if with all pages.
   final String? metadata;
@@ -96,6 +99,7 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
       'id',
       'plain_text',
       'created_at',
+      'metadata',
       'draft',
     ];
   }

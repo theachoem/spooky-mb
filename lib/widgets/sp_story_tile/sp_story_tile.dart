@@ -1,5 +1,7 @@
 library sp_story_tile;
 
+import 'dart:async';
+
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -8,6 +10,7 @@ import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -52,6 +55,8 @@ class _SpStoryTileState extends State<SpStoryTile> {
   late final SpStoryTileUtils utils;
   late StoryDbModel story;
 
+  Completer<int>? completer;
+
   StoryDbModel? get previousStory => widget.previousStory;
   bool get starred => story.starred == true;
   Color? get starredColor => starred ? M3Color.of(context).error : null;
@@ -71,11 +76,14 @@ class _SpStoryTileState extends State<SpStoryTile> {
 
   // reload current story only
   Future<void> reloadStory() async {
+    completer = Completer<int>();
     StoryDbModel? storyResult = await database.fetchOne(id: story.id);
     if (storyResult != null) {
       setState(() => story = storyResult);
+      completer!.complete(1);
     } else {
-      widget.onRefresh();
+      await widget.onRefresh();
+      completer!.complete(1);
     }
   }
 
@@ -93,14 +101,29 @@ class _SpStoryTileState extends State<SpStoryTile> {
   }
 
   Future<void> view(StoryDbModel story, BuildContext context) async {
+    if (completer != null && !completer!.isCompleted) {
+      await MessengerService.instance.showLoading(
+        future: () => completer!.future,
+        context: context,
+        debugSource: "_SpStoryTileState#view",
+      );
+    }
+
     if (story.viewOnly) {
+      // ignore: use_build_context_synchronously
       await Navigator.of(context).pushNamed(
         SpRouter.contentReader.path,
         arguments: ContentReaderArgs(content: story.changes.last),
       );
     } else {
-      DetailArgs args = DetailArgs(initialStory: story, intialFlow: DetailViewFlowType.update);
-      await Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args);
+      // ignore: use_build_context_synchronously
+      await Navigator.of(context).pushNamed(
+        SpRouter.detail.path,
+        arguments: DetailArgs(
+          initialStory: story,
+          intialFlow: DetailViewFlowType.update,
+        ),
+      );
       reloadStory();
     }
   }
