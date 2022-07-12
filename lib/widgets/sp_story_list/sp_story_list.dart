@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
+import 'package:spooky/providers/has_tags_changes_provider.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -13,6 +14,7 @@ import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_emtpy_widget.dart';
 import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
+import 'package:spooky/widgets/sp_story_list/has_tag_changes_alerter.dart';
 import 'package:spooky/widgets/sp_story_tile/sp_story_tile.dart';
 
 part 'utils/sp_layout_type.dart';
@@ -64,12 +66,19 @@ class SpStoryList extends StatelessWidget {
               child: Stack(
                 children: [
                   if (!loading && loaded) buildTimelineDivider(configuredStories, layoutType),
-                  if (!loading && loaded) buildList(configuredStories, layoutType),
+                  if (!loading && loaded) buildListWrapper(configuredStories, layoutType),
                   buildLoading(loading),
                   StoryEmptyWidget(
                     isEmpty: !loading && configuredStories.isEmpty,
                     pathType: null,
                   ),
+                  if (layoutType == SpListLayoutType.library)
+                    const Positioned(
+                      top: 0,
+                      left: 16,
+                      right: 16,
+                      child: HasTagChangesAlerter(),
+                    )
                 ],
               ),
             );
@@ -77,6 +86,22 @@ class SpStoryList extends StatelessWidget {
         );
       },
     );
+  }
+
+  Widget buildListWrapper(List<StoryDbModel> configuredStories, SpListLayoutType layoutType) {
+    if (layoutType == SpListLayoutType.library) {
+      return Consumer<HasTagsChangesProvider>(
+        child: buildList(configuredStories, layoutType),
+        builder: (context, provider, child) {
+          return Padding(
+            padding: EdgeInsets.only(top: provider.hasChanges ? 24.0 : 0),
+            child: child,
+          );
+        },
+      );
+    } else {
+      return buildList(configuredStories, layoutType);
+    }
   }
 
   Widget buildTimelineDivider(

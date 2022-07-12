@@ -1,4 +1,7 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/backups/backups_file_manager.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/adapters/objectbox/tag_objectbox_db_adapter.dart';
@@ -6,6 +9,7 @@ import 'package:spooky/core/db/databases/base_database.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/main.dart';
+import 'package:spooky/providers/has_tags_changes_provider.dart';
 
 TagDbModel _constructTagIsolate(Map<String, dynamic> json) {
   return TagDbModel.fromJson(json);
@@ -45,5 +49,6 @@ class TagDatabase extends BaseDatabase<TagDbModel> {
   @override
   Future<void> onCRUD(TagDbModel? object) async {
     BackupsFileManager().clear();
+    App.navigatorKey.currentContext?.read<HasTagsChangesProvider>().changed();
   }
 }
