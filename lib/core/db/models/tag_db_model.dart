@@ -25,6 +25,13 @@ class TagDbModel extends BaseDbModel {
     required this.updatedAt,
   });
 
+  TagDbModel.fromIDTitle(this.id, this.title)
+      : version = 0,
+        starred = null,
+        emoji = null,
+        createdAt = DateTime.now(),
+        updatedAt = DateTime.now();
+
   @override
   Map<String, dynamic> toJson() => _$TagDbModelToJson(this);
   factory TagDbModel.fromJson(Map<String, dynamic> json) => _$TagDbModelFromJson(json);

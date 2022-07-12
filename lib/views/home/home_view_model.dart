@@ -11,14 +11,14 @@ class HomeViewModel extends BaseViewModel {
   late int year;
   late int month;
 
-  final void Function(int index) onTabChange;
+  final void Function(int index) onMonthChange;
   final void Function(int year) onYearChange;
   final void Function(ScrollController controller) onScrollControllerReady;
 
   late final ScrollController scrollController;
 
   HomeViewModel(
-    this.onTabChange,
+    this.onMonthChange,
     this.onYearChange,
     this.onScrollControllerReady,
   ) {

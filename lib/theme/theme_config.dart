@@ -71,13 +71,13 @@ class ThemeConfig {
       ),
       tabBarTheme: TabBarTheme(
         labelColor: colorScheme.primary,
-        unselectedLabelColor: colorScheme.onSurface,
-        labelStyle: textTheme.titleSmall,
-        unselectedLabelStyle: textTheme.titleSmall,
+        unselectedLabelColor: colorScheme.onSurface.withOpacity(0.75),
+        labelStyle: textTheme.labelLarge,
+        unselectedLabelStyle: textTheme.labelLarge,
         indicator: UnderlineTabIndicator(
           borderSide: BorderSide(
-            color: colorScheme.onPrimaryContainer,
-            width: 1,
+            color: colorScheme.primary,
+            width: 2,
           ),
         ),
       ),

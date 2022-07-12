@@ -58,13 +58,13 @@ class SpStoryList extends StatelessWidget {
         return SpListLayoutBuilder(
           overridedLayout: overridedLayout,
           builder: (context, layoutType, loaded) {
-            loading = loading && !loaded;
+            loading = loading;
             return RefreshIndicator(
               onRefresh: onRefresh,
               child: Stack(
                 children: [
-                  if (!loading) buildTimelineDivider(configuredStories, layoutType),
-                  if (!loading) buildList(configuredStories, layoutType),
+                  if (!loading && loaded) buildTimelineDivider(configuredStories, layoutType),
+                  if (!loading && loaded) buildList(configuredStories, layoutType),
                   buildLoading(loading),
                   StoryEmptyWidget(
                     isEmpty: !loading && configuredStories.isEmpty,

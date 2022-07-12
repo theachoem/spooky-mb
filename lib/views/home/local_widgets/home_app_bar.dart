@@ -21,6 +21,7 @@ class HomeAppBar extends StatefulWidget {
     required this.tabLabels,
     required this.tabController,
     required this.viewModel,
+    required this.useDefaultTabStyle,
     this.onTap,
   }) : super(key: key);
 
@@ -29,6 +30,7 @@ class HomeAppBar extends StatefulWidget {
   final TabController tabController;
   final HomeViewModel viewModel;
   final ValueChanged<int>? onTap;
+  final bool useDefaultTabStyle;
 
   @override
   State<HomeAppBar> createState() => _HomeAppBarState();
@@ -80,21 +82,46 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
     }
   }
 
+  StatelessWidget buildTab() {
+    if (widget.useDefaultTabStyle) {
+      return PreferredSize(
+        preferredSize: const Size.fromHeight(40),
+        child: Container(
+          alignment: Alignment.centerLeft,
+          child: TabBar(
+            padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+            isScrollable: true,
+            controller: widget.tabController,
+            tabs: widget.tabLabels.map((e) {
+              bool starred = e == "*";
+              return Tab(
+                text: starred ? null : e,
+                child: starred ? const Icon(Icons.star) : null,
+              );
+            }).toList(),
+          ),
+        ),
+      );
+    } else {
+      return HomeTabBar(
+        height: 40,
+        onTap: widget.onTap,
+        controller: widget.tabController,
+        tabs: List.generate(
+          widget.tabLabels.length,
+          (index) => widget.tabLabels[index],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: controller,
       child: _FakeChild(
         flexibleSpace: buildBackground(),
-        tabBar: HomeTabBar(
-          height: 40,
-          onTap: widget.onTap,
-          controller: widget.tabController,
-          tabs: List.generate(
-            widget.tabLabels.length,
-            (index) => widget.tabLabels[index],
-          ),
-        ),
+        tabBar: buildTab(),
       ),
       builder: (context, child) {
         child as _FakeChild;

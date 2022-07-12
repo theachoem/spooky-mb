@@ -1,10 +1,10 @@
 part of sp_story_list;
 
 enum SpListLayoutType {
-  /// grid display
+  /// mutlple list with tab of tags
   library,
 
-  /// single list display, no tab
+  /// mutlple list with tab of month
   diary,
 
   /// single list display, no tab

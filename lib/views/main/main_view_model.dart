@@ -78,7 +78,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     );
   }
 
-  void onTabChange(int month) {
+  void onMonthChange(int month) {
     this.month = month;
   }
 

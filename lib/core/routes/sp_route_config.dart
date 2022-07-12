@@ -182,7 +182,7 @@ class SpRouteConfig {
             Object? arguments = settings?.arguments;
             if (arguments is HomeArgs) {
               return HomeView(
-                onTabChange: arguments.onTabChange,
+                onMonthChange: arguments.onMonthChange,
                 onYearChange: arguments.onYearChange,
                 onScrollControllerReady: arguments.onScrollControllerReady,
               );
