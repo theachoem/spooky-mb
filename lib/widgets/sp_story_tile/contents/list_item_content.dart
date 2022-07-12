@@ -28,6 +28,10 @@ class _ListStoryTileContent extends _BaseTileContent {
     );
   }
 
+  double get contentRightMargin {
+    return kToolbarHeight + 16;
+  }
+
   Widget buildContent(BuildContext context, StoryDbModel story) {
     Set<String> images = {};
     StoryContentDbModel content = getStoryContent(story);
@@ -36,7 +40,6 @@ class _ListStoryTileContent extends _BaseTileContent {
       images.addAll(QuillHelper.imagesFromJson(page));
     });
 
-    bool hasTitle = content.title?.trim().isNotEmpty == true;
     return Expanded(
       child: Stack(
         children: [
@@ -45,7 +48,7 @@ class _ListStoryTileContent extends _BaseTileContent {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                buildTitleBody(hasTitle, content, context),
+                buildTitleBody(content, context, contentRightMargin),
                 StoryTileChips(
                   images: images,
                   content: content,
@@ -61,64 +64,6 @@ class _ListStoryTileContent extends _BaseTileContent {
           ),
         ],
       ),
-    );
-  }
-
-  double get contentRightMargin {
-    return kToolbarHeight + 16;
-  }
-
-  Column buildTitleBody(bool hasTitle, StoryContentDbModel content, BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (hasTitle)
-          Container(
-            margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: contentRightMargin),
-            child: Text(
-              content.title ?? "content.title",
-              style: M3TextTheme.of(context).titleMedium,
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        if (content.plainText != null && content.plainText!.trim().length > 1)
-          Container(
-            margin: EdgeInsets.only(bottom: ConfigConstant.margin0, right: hasTitle ? 0 : contentRightMargin),
-            child: Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
-              return MarkdownBody(
-                data: body(content),
-                onTapLink: (url, _, __) => AppHelper.openLinkDialog(url),
-                styleSheet: MarkdownStyleSheet(
-                  blockquoteDecoration: BoxDecoration(
-                    color: Colors.transparent,
-                    border: Border(
-                      left: BorderSide(color: Theme.of(context).dividerColor),
-                    ),
-                  ),
-                  blockquotePadding: const EdgeInsets.symmetric(vertical: 0, horizontal: ConfigConstant.margin1),
-                  codeblockDecoration: BoxDecoration(
-                    border: Border.all(color: Theme.of(context).dividerColor),
-                  ),
-                  listBulletPadding: const EdgeInsets.all(2),
-                  listIndent: ConfigConstant.iconSize1,
-                  blockSpacing: 0.0,
-                ),
-                checkboxBuilder: (checked) {
-                  return Transform.translate(
-                    offset: const Offset(-3.5, 2.5),
-                    child: Icon(
-                      checked ? Icons.check_box : Icons.check_box_outline_blank,
-                      size: ConfigConstant.iconSize1,
-                    ),
-                  );
-                },
-                softLineBreak: true,
-              );
-            }),
-          ),
-      ],
     );
   }
 

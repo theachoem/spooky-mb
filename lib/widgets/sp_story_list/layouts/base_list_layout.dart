@@ -46,10 +46,10 @@ abstract class _BaseSpListLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     if (gridLayout) {
       return MasonryGridView.count(
-        padding: ConfigConstant.layoutPadding,
+        padding: const EdgeInsets.all(16.0),
         crossAxisCount: 2,
-        mainAxisSpacing: ConfigConstant.margin0,
-        crossAxisSpacing: ConfigConstant.margin0,
+        mainAxisSpacing: ConfigConstant.margin1,
+        crossAxisSpacing: ConfigConstant.margin1,
         itemCount: _stories.length,
         itemBuilder: (context, index) {
           StoryDbModel story = storyAt(_stories, index)!;
@@ -59,6 +59,7 @@ abstract class _BaseSpListLayout extends StatelessWidget {
             context: context,
             story: story,
             previousStory: previousStory,
+            itemPadding: EdgeInsets.zero,
           );
         },
       );
