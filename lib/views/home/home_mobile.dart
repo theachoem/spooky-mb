@@ -14,7 +14,8 @@ class _HomeMobile extends StatefulWidget {
 
 class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderStateMixin {
   late TabController controller;
-  ListLayoutType? layoutType;
+  late SpListLayoutType layoutType;
+  late List<TagDbModel> tags;
 
   // doesn't needed in single list
   // {
@@ -28,14 +29,28 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 12, vsync: this, initialIndex: widget.viewModel.month - 1);
-    SpListLayoutBuilder.get().then((value) {
-      WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-        setState(() {
-          layoutType = value;
-        });
-      });
-    });
+    tags = [
+      TagDbModel.fromIDTitle(0, "*"),
+      ...Global.instance.tags,
+      TagDbModel.fromIDTitle(0, "All"),
+    ];
+
+    layoutType = Global.instance.layoutType;
+    switch (layoutType) {
+      case SpListLayoutType.library:
+        controller = TabController(
+          length: tags.length,
+          vsync: this,
+          initialIndex: 0,
+        );
+        break;
+      case SpListLayoutType.diary:
+        controller = TabController(length: 12, vsync: this, initialIndex: widget.viewModel.month - 1);
+        break;
+      case SpListLayoutType.timeline:
+        controller = TabController(length: 1, vsync: this, initialIndex: 0);
+        break;
+    }
   }
 
   @override
@@ -57,14 +72,11 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
 
   Widget buildLayouts() {
     switch (layoutType) {
-      case ListLayoutType.single:
+      case SpListLayoutType.timeline:
         return buildSingleLayout();
-      case ListLayoutType.tabs:
+      case SpListLayoutType.library:
+      case SpListLayoutType.diary:
         return buildTabLayout();
-      case null:
-        return const Center(
-          child: CircularProgressIndicator.adaptive(),
-        );
     }
   }
 
@@ -81,20 +93,47 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     return SpTabView(
       controller: controller,
       listener: (controller) {
-        // set reloader on listen to tabs
-        int monthIndex = (controller.animation?.value.round() ?? controller.index) + 1;
-        widget.viewModel.onTabChange(monthIndex);
+        switch (layoutType) {
+          case SpListLayoutType.library:
+          case SpListLayoutType.timeline:
+            break;
+          case SpListLayoutType.diary:
+            // set reloader on listen to tabs
+            int monthIndex = (controller.animation?.value.round() ?? controller.index) + 1;
+            widget.viewModel.onMonthChange(monthIndex);
+            break;
+        }
       },
       children: List.generate(
         controller.length,
         (index) {
-          return StoryQueryList(
-            queryOptions: StoryQueryOptionsModel(
-              type: PathType.docs,
-              year: widget.viewModel.year,
-              month: index + 1,
-            ),
-          );
+          switch (layoutType) {
+            case SpListLayoutType.library:
+              bool starredList = tags[index].title == "*";
+              bool allList = tags[index].id == 0 && !starredList;
+
+              String? tag;
+              if (!starredList && !allList) tag = tags[index].id.toString();
+
+              return StoryQueryList(
+                queryOptions: StoryQueryOptionsModel(
+                  type: PathType.docs,
+                  year: widget.viewModel.year,
+                  tag: tag,
+                  starred: starredList ? true : null,
+                ),
+              );
+            case SpListLayoutType.diary:
+              return StoryQueryList(
+                queryOptions: StoryQueryOptionsModel(
+                  type: PathType.docs,
+                  year: widget.viewModel.year,
+                  month: index + 1,
+                ),
+              );
+            case SpListLayoutType.timeline:
+              throw Exception("Timeline shouldn't has tab");
+          }
         },
       ),
     );
@@ -112,7 +151,14 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       tabController: controller,
       viewModel: widget.viewModel,
       onTap: (index) {
-        widget.viewModel.onTabChange(index + 1);
+        switch (layoutType) {
+          case SpListLayoutType.diary:
+            widget.viewModel.onMonthChange(index + 1);
+            break;
+          case SpListLayoutType.library:
+          case SpListLayoutType.timeline:
+            break;
+        }
         // if (index == controller.index) {
         //   PrimaryScrollController.of(context)?.animateTo(
         //     0,
@@ -121,14 +167,28 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
         //   );
         // }
       },
-      tabLabels: List.generate(
-        12,
-        (index) {
-          return DateFormatHelper.toNameOfMonth().format(
-            DateTime(2020, index + 1),
-          );
-        },
-      ),
+      useDefaultTabStyle: layoutType == SpListLayoutType.library,
+      tabLabels: tabLabels,
     );
+  }
+
+  List<String> get tabLabels {
+    switch (layoutType) {
+      case SpListLayoutType.diary:
+        return List.generate(
+          12,
+          (index) {
+            return DateFormatHelper.toNameOfMonth().format(
+              DateTime(2020, index + 1),
+            );
+          },
+        );
+      case SpListLayoutType.library:
+        return tags.map((e) => e.title).toList();
+      case SpListLayoutType.timeline:
+        return [
+          "Exception",
+        ];
+    }
   }
 }

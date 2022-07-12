@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/home/home_view_model.dart';
@@ -9,6 +8,7 @@ import 'package:spooky/views/home/local_widgets/home_tab_bar.dart';
 import 'package:spooky/views/home/local_widgets/search_theme_switcher.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
+import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
@@ -21,6 +21,7 @@ class HomeAppBar extends StatefulWidget {
     required this.tabLabels,
     required this.tabController,
     required this.viewModel,
+    required this.useDefaultTabStyle,
     this.onTap,
   }) : super(key: key);
 
@@ -29,6 +30,7 @@ class HomeAppBar extends StatefulWidget {
   final TabController tabController;
   final HomeViewModel viewModel;
   final ValueChanged<int>? onTap;
+  final bool useDefaultTabStyle;
 
   @override
   State<HomeAppBar> createState() => _HomeAppBarState();
@@ -66,16 +68,50 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
     super.dispose();
   }
 
-  ListLayoutType? layoutType;
+  SpListLayoutType? layoutType;
   void handle() async {
-    ListLayoutType layoutType = this.layoutType = await SpListLayoutBuilder.get();
+    SpListLayoutType layoutType = this.layoutType = await SpListLayoutBuilder.get();
     switch (layoutType) {
-      case ListLayoutType.single:
+      case SpListLayoutType.timeline:
         if (controller.isCompleted) controller.reverse();
         break;
-      case ListLayoutType.tabs:
+      case SpListLayoutType.library:
+      case SpListLayoutType.diary:
         if (controller.isDismissed) controller.forward();
         break;
+    }
+  }
+
+  StatelessWidget buildTab() {
+    if (widget.useDefaultTabStyle) {
+      return PreferredSize(
+        preferredSize: const Size.fromHeight(40),
+        child: Container(
+          alignment: Alignment.centerLeft,
+          child: TabBar(
+            padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+            isScrollable: true,
+            controller: widget.tabController,
+            tabs: widget.tabLabels.map((e) {
+              bool starred = e == "*";
+              return Tab(
+                text: starred ? null : e,
+                child: starred ? const Icon(Icons.star) : null,
+              );
+            }).toList(),
+          ),
+        ),
+      );
+    } else {
+      return HomeTabBar(
+        height: 40,
+        onTap: widget.onTap,
+        controller: widget.tabController,
+        tabs: List.generate(
+          widget.tabLabels.length,
+          (index) => widget.tabLabels[index],
+        ),
+      );
     }
   }
 
@@ -85,15 +121,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
       animation: controller,
       child: _FakeChild(
         flexibleSpace: buildBackground(),
-        tabBar: HomeTabBar(
-          height: 40,
-          onTap: widget.onTap,
-          controller: widget.tabController,
-          tabs: List.generate(
-            widget.tabLabels.length,
-            (index) => widget.tabLabels[index],
-          ),
-        ),
+        tabBar: buildTab(),
       ),
       builder: (context, child) {
         child as _FakeChild;

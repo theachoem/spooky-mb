@@ -135,7 +135,7 @@ class _MainViewAdpative extends StatelessWidget {
 
   Widget buildHomeView(int index) {
     return HomeView(
-      onTabChange: viewModel.onTabChange,
+      onMonthChange: viewModel.onMonthChange,
       onYearChange: (int year) => viewModel.setYear(year),
       onScrollControllerReady: (ScrollController controller) {
         viewModel.setScrollController(index: index, controller: controller);

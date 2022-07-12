@@ -3,12 +3,12 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
-import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:spooky/core/base/base_view_model.dart';
+import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 
 class MainViewModel extends BaseViewModel with ScheduleMixin {
   late final ValueNotifier<bool> shouldShowBottomNavNotifier;
@@ -78,7 +78,7 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     );
   }
 
-  void onTabChange(int month) {
+  void onMonthChange(int month) {
     this.month = month;
   }
 
@@ -90,10 +90,11 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     await SpListLayoutBuilder.get().then((layout) async {
       Future<DateTime?> date;
       switch (layout) {
-        case ListLayoutType.single:
+        case SpListLayoutType.timeline:
+        case SpListLayoutType.library:
           date = SpDatePicker.showMonthDayPicker(context, this.date);
           break;
-        case ListLayoutType.tabs:
+        case SpListLayoutType.diary:
           date = SpDatePicker.showDayPicker(context, this.date);
           break;
       }

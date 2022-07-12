@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/storages/local_storages/list_layout_type.dart';
-import 'package:spooky/core/types/list_layout_type.dart';
+import 'package:spooky/core/storages/local_storages/sp_list_layout_type_storage.dart';
+import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 
-typedef SpListLayoutBuilderTypedef = Widget Function(BuildContext context, ListLayoutType type, bool loaded);
+typedef SpListLayoutBuilderTypedef = Widget Function(BuildContext context, SpListLayoutType type, bool loaded);
 
 class SpListLayoutBuilder extends StatelessWidget {
   const SpListLayoutBuilder({
@@ -12,22 +12,22 @@ class SpListLayoutBuilder extends StatelessWidget {
   }) : super(key: key);
 
   final SpListLayoutBuilderTypedef builder;
-  final ListLayoutType? overridedLayout;
+  final SpListLayoutType? overridedLayout;
 
-  static ListLayoutStorage get storage => ListLayoutStorage();
-  static ListLayoutType get defaultLayout => ListLayoutType.tabs;
+  static SpListLayoutTypeStorage get storage => SpListLayoutTypeStorage();
+  static SpListLayoutType get defaultLayout => SpListLayoutType.diary;
 
-  static Future<ListLayoutType> get() async {
+  static Future<SpListLayoutType> get() async {
     return await storage.readEnum() ?? defaultLayout;
   }
 
-  static Future<void> set(ListLayoutType type) async {
+  static Future<void> set(SpListLayoutType type) async {
     return await storage.writeEnum(type);
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<ListLayoutType>(
+    return FutureBuilder<SpListLayoutType>(
       future: get(),
       builder: (context, snapshot) {
         return builder(
