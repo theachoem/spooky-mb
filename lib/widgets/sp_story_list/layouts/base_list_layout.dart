@@ -31,6 +31,7 @@ abstract class _BaseSpListLayout extends StatelessWidget {
     return SpStoryTile(
       gridLayout: gridLayout,
       story: story,
+      onRefresh: () async {},
     );
   }
 
