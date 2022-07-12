@@ -12,6 +12,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_emtpy_widget.dart';
 import 'package:spooky/core/types/sort_type.dart';
+import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_story_tile/sp_story_tile.dart';
 
 part 'utils/sp_layout_type.dart';
@@ -26,12 +27,16 @@ part 'layouts/timeline_list_layout.dart';
 class SpStoryList extends StatelessWidget {
   const SpStoryList({
     Key? key,
-    required this.layoutType,
     required this.stories,
     required this.onRefresh,
+    this.overridedLayout,
+    this.controller,
+    this.viewOnly = false,
   }) : super(key: key);
 
-  final SpListLayoutType layoutType;
+  final bool viewOnly;
+  final ScrollController? controller;
+  final SpListLayoutType? overridedLayout;
   final List<StoryDbModel>? stories;
   final Future<void> Function() onRefresh;
 
@@ -50,36 +55,34 @@ class SpStoryList extends StatelessWidget {
       builder: (context, snapshot) {
         List<StoryDbModel> configuredStories = snapshot.data ?? [];
         bool loading = stories == null || snapshot.data == null;
-        return RefreshIndicator(
-          onRefresh: onRefresh,
-          child: Stack(
-            children: [
-              buildTimelineDivider(configuredStories),
-              if (!loading) buildList(configuredStories),
-              buildLoading(loading),
-              StoryEmptyWidget(
-                isEmpty: !loading && configuredStories.isEmpty,
-                pathType: null,
+        return SpListLayoutBuilder(
+          overridedLayout: overridedLayout,
+          builder: (context, layoutType, loaded) {
+            loading = loading && !loaded;
+            return RefreshIndicator(
+              onRefresh: onRefresh,
+              child: Stack(
+                children: [
+                  if (!loading) buildTimelineDivider(configuredStories, layoutType),
+                  if (!loading) buildList(configuredStories, layoutType),
+                  buildLoading(loading),
+                  StoryEmptyWidget(
+                    isEmpty: !loading && configuredStories.isEmpty,
+                    pathType: null,
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
   }
 
-  Widget buildTimelineDivider(List<StoryDbModel>? stories) {
-    Widget child;
-
-    switch (layoutType) {
-      case SpListLayoutType.library:
-      case SpListLayoutType.diary:
-        return const SizedBox.shrink();
-      case SpListLayoutType.timeline:
-        child = const VerticalDivider(width: 1);
-        break;
-    }
-
+  Widget buildTimelineDivider(
+    List<StoryDbModel>? stories,
+    SpListLayoutType layoutType,
+  ) {
     return Positioned(
       left: 16.0 + 20,
       top: 0,
@@ -87,21 +90,43 @@ class SpStoryList extends StatelessWidget {
       child: AnimatedOpacity(
         opacity: stories?.isNotEmpty == true ? 1 : 0,
         duration: ConfigConstant.fadeDuration,
-        child: child,
+        child: Builder(
+          builder: (context) {
+            switch (layoutType) {
+              case SpListLayoutType.library:
+              case SpListLayoutType.diary:
+                return const SizedBox.shrink();
+              case SpListLayoutType.timeline:
+                return const VerticalDivider(width: 1);
+            }
+          },
+        ),
       ),
     );
   }
 
-  Widget buildList(List<StoryDbModel> stories) {
-    final options = _ListLayoutOptions(stories);
-    switch (layoutType) {
-      case SpListLayoutType.library:
-        return _LibraryListLayout(options: options);
-      case SpListLayoutType.diary:
-        return _DiaryListLayout(options: options);
-      case SpListLayoutType.timeline:
-        return _TimelineListLayout(options: options);
-    }
+  Widget buildList(
+    List<StoryDbModel> stories,
+    SpListLayoutType layoutType,
+  ) {
+    final options = _ListLayoutOptions(
+      stories: stories,
+      controller: controller,
+      viewOnly: viewOnly,
+    );
+
+    return Builder(
+      builder: (context) {
+        switch (layoutType) {
+          case SpListLayoutType.library:
+            return _LibraryListLayout(options: options);
+          case SpListLayoutType.diary:
+            return _DiaryListLayout(options: options);
+          case SpListLayoutType.timeline:
+            return _TimelineListLayout(options: options);
+        }
+      },
+    );
   }
 
   Widget buildLoading(bool loading) {

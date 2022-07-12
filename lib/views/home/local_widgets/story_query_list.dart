@@ -7,7 +7,6 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/storages/local_storages/last_update_story_list_hash_storage.dart';
-import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 
 class StoryQueryList extends StatefulWidget {
@@ -19,7 +18,7 @@ class StoryQueryList extends StatefulWidget {
   }) : super(key: key);
 
   final StoryQueryOptionsModel queryOptions;
-  final ListLayoutType? overridedLayout;
+  final SpListLayoutType? overridedLayout;
   final bool showLoadingAfterInit;
 
   @override
@@ -119,36 +118,9 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
 
     return SpStoryList(
       onRefresh: () => load(true),
-      layoutType: SpListLayoutType.library,
+      overridedLayout: widget.overridedLayout,
       stories: stories,
     );
-    // return StoryList(
-    //   onRefresh: () => load(true),
-    //   stories: stories,
-    //   emptyMessage: "Empty",
-    //   pathType: widget.queryOptions.type,
-    //   overridedLayout: widget.overridedLayout,
-    //   onDelete: (story) async {
-    //     bool success = await onDelete(story);
-    //     if (success) await load();
-    //     return success;
-    //   },
-    //   onArchive: (story) async {
-    //     bool success = await onArchive(story);
-    //     if (success) await load();
-    //     return success;
-    //   },
-    //   onUnarchive: (story) async {
-    //     bool success = await onPutBack(story);
-    //     if (success) await load();
-    //     return success;
-    //   },
-    //   onPutBack: (story) async {
-    //     bool success = await onPutBack(story);
-    //     if (success) await load();
-    //     return success;
-    //   },
-    // );
   }
 
   @override

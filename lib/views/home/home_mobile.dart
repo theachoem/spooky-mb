@@ -14,7 +14,7 @@ class _HomeMobile extends StatefulWidget {
 
 class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderStateMixin {
   late TabController controller;
-  ListLayoutType? layoutType;
+  SpListLayoutType? layoutType;
 
   // doesn't needed in single list
   // {
@@ -57,9 +57,10 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
 
   Widget buildLayouts() {
     switch (layoutType) {
-      case ListLayoutType.single:
+      case SpListLayoutType.timeline:
+      case SpListLayoutType.library:
         return buildSingleLayout();
-      case ListLayoutType.tabs:
+      case SpListLayoutType.diary:
         return buildTabLayout();
       case null:
         return const Center(

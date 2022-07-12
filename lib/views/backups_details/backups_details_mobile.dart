@@ -126,12 +126,12 @@ class _BackupsDetailsMobile extends StatelessWidget {
         context: App.navigatorKey.currentContext ?? context,
         title: e.key.capitalize,
         builder: (context, controller) {
-          return StoryList(
+          return SpStoryList(
+            overridedLayout: SpListLayoutType.timeline,
+            stories: stories,
             viewOnly: true,
             controller: controller,
             onRefresh: () async {},
-            stories: stories,
-            overridedLayout: ListLayoutType.single,
           );
         },
       );

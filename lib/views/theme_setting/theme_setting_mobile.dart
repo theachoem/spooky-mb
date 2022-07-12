@@ -260,32 +260,23 @@ class _ThemeSettingMobile extends StatelessWidget {
       leading: const Icon(Icons.list_alt),
       title: const Text("Layout"),
       onTap: () async {
-        ListLayoutType layoutType = await SpListLayoutBuilder.get();
+        SpListLayoutType layoutType = await SpListLayoutBuilder.get();
 
-        String layoutTitle(ListLayoutType type) {
-          switch (type) {
-            case ListLayoutType.single:
-              return "Single List";
-            case ListLayoutType.tabs:
-              return "Tabs";
-          }
+        String layoutTitle(SpListLayoutType type) {
+          return type.name.capitalize;
         }
 
-        ListLayoutType? layoutTypeResult = await showConfirmationDialog(
+        SpListLayoutType? layoutTypeResult = await showConfirmationDialog(
           context: context,
           title: "Layout",
           initialSelectedActionKey: layoutType,
-          actions: [
-            AlertDialogAction(
-              key: ListLayoutType.single,
-              label: layoutTitle(ListLayoutType.single),
-            ),
-            AlertDialogAction(
-              key: ListLayoutType.tabs,
-              label: layoutTitle(ListLayoutType.tabs),
-            ),
-          ].map((e) {
-            return AlertDialogAction<ListLayoutType>(
+          actions: SpListLayoutType.values.map((e) {
+            return AlertDialogAction(
+              key: e,
+              label: layoutTitle(e),
+            );
+          }).map((e) {
+            return AlertDialogAction<SpListLayoutType>(
               key: e.key,
               isDefaultAction: e.key == layoutType,
               label: e.label,

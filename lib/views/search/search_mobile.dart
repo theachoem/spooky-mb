@@ -30,7 +30,7 @@ class _SearchMobile extends StatelessWidget {
         return StoryQueryList(
           queryOptions: query,
           showLoadingAfterInit: true,
-          overridedLayout: ListLayoutType.single,
+          overridedLayout: SpListLayoutType.timeline,
         );
       },
     );

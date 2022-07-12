@@ -13,17 +13,16 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/models/cloud_file_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/bottom_sheet_service.dart';
-import 'package:spooky/core/types/list_layout_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
-import 'package:spooky/views/home/local_widgets/story_list.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/widgets/sp_single_button_bottom_navigation.dart';
+import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'backups_details_view_model.dart';
 

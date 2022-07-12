@@ -65,12 +65,12 @@ class _StoryPadRestoreMobile extends StatelessWidget {
                 context: App.navigatorKey.currentContext ?? context,
                 title: "StoryPad",
                 builder: (context, controller) {
-                  return StoryList(
+                  return SpStoryList(
+                    overridedLayout: SpListLayoutType.timeline,
+                    stories: viewModel.stories,
                     viewOnly: true,
                     controller: controller,
                     onRefresh: () async {},
-                    stories: viewModel.stories,
-                    overridedLayout: ListLayoutType.single,
                   );
                 },
               );
