@@ -34,8 +34,10 @@ class SpStoryTile extends StatefulWidget {
     required this.story,
     required this.gridLayout,
     required this.onRefresh,
+    this.itemPadding = const EdgeInsets.all(ConfigConstant.margin2),
   }) : super(key: key);
 
+  final EdgeInsets itemPadding;
   final bool gridLayout;
   final StoryDbModel story;
   final StoryDbModel? previousStory;
@@ -123,7 +125,10 @@ class _SpStoryTileState extends State<SpStoryTile> {
         return SpTapEffect(
           onLongPressed: () => callback(),
           onTap: () => view(widget.story, context),
-          child: buildTileContent(),
+          child: Padding(
+            padding: widget.itemPadding,
+            child: buildTileContent(),
+          ),
         );
       },
     );

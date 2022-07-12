@@ -119,7 +119,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
 
     return SpStoryList(
       onRefresh: () => load(true),
-      layoutType: SpListLayoutType.timeline,
+      layoutType: SpListLayoutType.diary,
       stories: stories,
     );
     // return StoryList(

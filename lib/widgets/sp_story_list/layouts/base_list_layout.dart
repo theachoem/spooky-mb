@@ -12,6 +12,8 @@ abstract class _BaseSpListLayout extends StatelessWidget {
   late final List<StoryDbModel> _stories;
 
   bool get gridLayout => false;
+  bool get separatorOnTop => true;
+
   StoryDbModel? storyAt(List<StoryDbModel> stories, int index) {
     if (stories.isNotEmpty) {
       if (index >= 0 && stories.length > index) {
@@ -21,14 +23,19 @@ abstract class _BaseSpListLayout extends StatelessWidget {
     return null;
   }
 
-  Widget buildSeperatorBuilder() => const SizedBox.shrink();
+  Widget buildSeperatorBuilder(BuildContext context, int index) {
+    return const SizedBox(height: ConfigConstant.margin2);
+  }
+
   Widget buildTile({
     required BuildContext context,
     required int index,
     required StoryDbModel story,
     required StoryDbModel? previousStory,
+    EdgeInsets itemPadding = const EdgeInsets.all(16.0),
   }) {
     return SpStoryTile(
+      itemPadding: itemPadding,
       gridLayout: gridLayout,
       story: story,
       onRefresh: () async {},
@@ -39,6 +46,7 @@ abstract class _BaseSpListLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     if (gridLayout) {
       return MasonryGridView.count(
+        padding: ConfigConstant.layoutPadding,
         crossAxisCount: 2,
         mainAxisSpacing: ConfigConstant.margin0,
         crossAxisSpacing: ConfigConstant.margin0,
@@ -55,16 +63,21 @@ abstract class _BaseSpListLayout extends StatelessWidget {
         },
       );
     } else {
+      int itemCount = separatorOnTop ? _stories.length + 1 : _stories.length;
+      EdgeInsets padding = EdgeInsets.symmetric(vertical: separatorOnTop ? ConfigConstant.margin2 : 0);
       return ListView.separated(
-        itemCount: _stories.length,
-        separatorBuilder: (context, index) {
-          return buildSeperatorBuilder();
-        },
+        separatorBuilder: buildSeperatorBuilder,
+        padding: padding,
+        itemCount: itemCount,
         itemBuilder: (context, index) {
-          StoryDbModel story = storyAt(_stories, index)!;
-          StoryDbModel? previousStory = storyAt(_stories, index - 1);
+          if (index == 0 && separatorOnTop) return const SizedBox.shrink();
+
+          int configuredIndex = separatorOnTop ? index - 1 : index;
+          StoryDbModel story = storyAt(_stories, configuredIndex)!;
+          StoryDbModel? previousStory = storyAt(_stories, configuredIndex - 1);
+
           return buildTile(
-            index: index,
+            index: configuredIndex,
             context: context,
             story: story,
             previousStory: previousStory,

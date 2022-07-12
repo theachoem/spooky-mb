@@ -8,20 +8,23 @@ class _ListStoryTileContent extends _BaseTileContent {
   @override
   Widget build(BuildContext context) {
     Map<int, Color> dayColors = M3Color.dayColorsOf(context);
-    return Row(
-      children: [
-        buildMonogram(
-          context,
-          options.story,
-          options.previousStory,
-          dayColors,
-        ),
-        ConfigConstant.sizedBoxW2,
-        buildContent(
-          context,
-          options.story,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Row(
+        children: [
+          buildMonogram(
+            context,
+            options.story,
+            options.previousStory,
+            dayColors,
+          ),
+          ConfigConstant.sizedBoxW2,
+          buildContent(
+            context,
+            options.story,
+          ),
+        ],
+      ),
     );
   }
 
@@ -123,31 +126,36 @@ class _ListStoryTileContent extends _BaseTileContent {
     return SpTapEffect(
       effects: const [SpTapEffectType.touchableOpacity],
       onTap: () => options.toggleStarred(),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          SpAnimatedIcons(
-            showFirst: options.starred,
-            secondChild: const SizedBox(),
-            firstChild: Icon(
-              Icons.favorite,
-              size: ConfigConstant.iconSize1,
-              color: options.starredColor,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              SpAnimatedIcons(
+                showFirst: options.starred,
+                secondChild: const SizedBox(),
+                firstChild: Icon(
+                  Icons.favorite,
+                  size: ConfigConstant.iconSize1,
+                  color: options.starredColor,
+                ),
+              ),
+              ConfigConstant.sizedBoxW0,
+              Text(
+                DateFormatHelper.timeFormat().format(options.story.displayPathDate),
+                style: M3TextTheme.of(context).bodySmall,
+              ),
+            ],
           ),
-          ConfigConstant.sizedBoxW0,
           if (content.draft == true)
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: ConfigConstant.margin0),
+              padding: EdgeInsets.symmetric(vertical: 8.0),
               child: Icon(
                 Icons.edit_note,
                 size: ConfigConstant.iconSize1,
               ),
             ),
-          Text(
-            DateFormatHelper.timeFormat().format(options.story.displayPathDate),
-            style: M3TextTheme.of(context).bodySmall,
-          ),
         ],
       ),
     );
