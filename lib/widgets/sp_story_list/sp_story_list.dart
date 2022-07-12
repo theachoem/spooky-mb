@@ -17,7 +17,7 @@ import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_story_list/has_tag_changes_alerter.dart';
 import 'package:spooky/widgets/sp_story_tile/sp_story_tile.dart';
 
-part 'utils/sp_layout_type.dart';
+part 'utils/sp_list_layout_type.dart';
 part 'utils/sp_story_list_util.dart';
 
 part 'layouts/base_list_layout.dart';
@@ -138,6 +138,7 @@ class SpStoryList extends StatelessWidget {
       stories: stories,
       controller: controller,
       viewOnly: viewOnly,
+      onRefresh: onRefresh,
     );
 
     return Builder(
