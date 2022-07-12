@@ -2,12 +2,22 @@ library sp_story_tile;
 
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/helpers/app_helper.dart';
+import 'package:spooky/utils/helpers/date_format_helper.dart';
+import 'package:spooky/utils/helpers/quill_helper.dart';
+import 'package:spooky/views/home/local_widgets/story_tile_chips.dart';
+import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/widgets/sp_story_tile/sp_story_tile_util.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
@@ -15,6 +25,7 @@ import 'package:spooky/widgets/sp_tap_effect.dart';
 part 'contents/base_tile_content.dart';
 part 'contents/grid_item_content.dart';
 part 'contents/list_item_content.dart';
+part 'contents/tile_content_options.dart';
 
 class SpStoryTile extends StatefulWidget {
   const SpStoryTile({
@@ -72,6 +83,13 @@ class _SpStoryTileState extends State<SpStoryTile> {
     await database.update(id: copiedStory.id, body: copiedStory.toJson());
   }
 
+  Future<void> replaceContent(StoryContentDbModel content) async {
+    StoryDbModel copiedStory = story.copyWith();
+    copiedStory.addChange(content);
+    StoryDbModel? updatedStory = await database.update(id: copiedStory.id, body: copiedStory.toJson());
+    if (updatedStory != null) await reloadStory();
+  }
+
   Future<void> view(StoryDbModel story, BuildContext context) async {
     if (story.viewOnly) {
       await Navigator.of(context).pushNamed(
@@ -112,10 +130,17 @@ class _SpStoryTileState extends State<SpStoryTile> {
   }
 
   Widget buildTileContent() {
+    _TileContentOptions options = _TileContentOptions(
+      context: context,
+      story: story,
+      previousStory: previousStory,
+      replaceContent: replaceContent,
+      toggleStarred: toggleStarred,
+    );
     if (widget.gridLayout) {
-      return _GridItemContent();
+      return _GridItemContent(options: options);
     } else {
-      return _ListStoryTileContent();
+      return _ListStoryTileContent(options: options);
     }
   }
 
