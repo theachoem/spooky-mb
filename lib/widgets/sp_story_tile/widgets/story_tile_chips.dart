@@ -7,9 +7,9 @@ import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
-import 'package:spooky/views/home/local_widgets/add_to_drive_button.dart';
+import 'package:spooky/widgets/sp_story_tile/widgets/add_to_drive_button.dart';
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
-import 'package:spooky/views/home/local_widgets/story_tile_tag_chips.dart';
+import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_tag_chips.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 
 class StoryTileChips extends StatelessWidget {

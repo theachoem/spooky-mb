@@ -16,7 +16,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
-import 'package:spooky/views/home/local_widgets/story_tile_chips.dart';
+import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_chips.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/widgets/sp_story_tile/sp_story_tile_util.dart';
