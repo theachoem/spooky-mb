@@ -33,7 +33,6 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
   Future<P> objectTransformer(T object);
   Future<List<P>> itemsTransformer(List<T> objects);
   Future<T> objectConstructor(Map<String, dynamic> json);
-
   QueryBuilder<T>? buildQuery({Map<String, dynamic>? params});
 
   @override
@@ -41,8 +40,8 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     Map<String, dynamic>? params,
   }) async {
     List<T> objects;
-
     QueryBuilder<T>? queryBuilder = buildQuery(params: params);
+
     if (queryBuilder != null) {
       Query<T>? query = queryBuilder.build();
       objects = query.find();
@@ -109,7 +108,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     T constructed = await objectConstructor(body);
     int id = box.put(constructed, mode: PutMode.insert);
     body['id'] = id;
-    return fetchOne(id: id);
+    return null;
   }
 
   @override
@@ -120,6 +119,6 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
   }) async {
     T object = await objectConstructor(body);
     box.put(object, mode: PutMode.update);
-    return fetchOne(id: id);
+    return null;
   }
 }

@@ -15,13 +15,17 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel feeling(String? feeling);
 
+  StoryDbModel hour(int? hour);
+
   StoryDbModel id(int id);
+
+  StoryDbModel minute(int? minute);
 
   StoryDbModel month(int month);
 
   StoryDbModel movedToBinAt(DateTime? movedToBinAt);
 
-  StoryDbModel pathDate(DateTime? pathDate);
+  StoryDbModel second(int? second);
 
   StoryDbModel starred(bool? starred);
 
@@ -46,10 +50,12 @@ abstract class _$StoryDbModelCWProxy {
     DateTime? createdAt,
     int? day,
     String? feeling,
+    int? hour,
     int? id,
+    int? minute,
     int? month,
     DateTime? movedToBinAt,
-    DateTime? pathDate,
+    int? second,
     bool? starred,
     List<String>? tags,
     PathType? type,
@@ -79,7 +85,13 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
   StoryDbModel feeling(String? feeling) => this(feeling: feeling);
 
   @override
+  StoryDbModel hour(int? hour) => this(hour: hour);
+
+  @override
   StoryDbModel id(int id) => this(id: id);
+
+  @override
+  StoryDbModel minute(int? minute) => this(minute: minute);
 
   @override
   StoryDbModel month(int month) => this(month: month);
@@ -89,7 +101,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
       this(movedToBinAt: movedToBinAt);
 
   @override
-  StoryDbModel pathDate(DateTime? pathDate) => this(pathDate: pathDate);
+  StoryDbModel second(int? second) => this(second: second);
 
   @override
   StoryDbModel starred(bool? starred) => this(starred: starred);
@@ -122,10 +134,12 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
     Object? createdAt = const $CopyWithPlaceholder(),
     Object? day = const $CopyWithPlaceholder(),
     Object? feeling = const $CopyWithPlaceholder(),
+    Object? hour = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
+    Object? minute = const $CopyWithPlaceholder(),
     Object? month = const $CopyWithPlaceholder(),
     Object? movedToBinAt = const $CopyWithPlaceholder(),
-    Object? pathDate = const $CopyWithPlaceholder(),
+    Object? second = const $CopyWithPlaceholder(),
     Object? starred = const $CopyWithPlaceholder(),
     Object? tags = const $CopyWithPlaceholder(),
     Object? type = const $CopyWithPlaceholder(),
@@ -150,10 +164,18 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.feeling
           // ignore: cast_nullable_to_non_nullable
           : feeling as String?,
+      hour: hour == const $CopyWithPlaceholder()
+          ? _value.hour
+          // ignore: cast_nullable_to_non_nullable
+          : hour as int?,
       id: id == const $CopyWithPlaceholder() || id == null
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
           : id as int,
+      minute: minute == const $CopyWithPlaceholder()
+          ? _value.minute
+          // ignore: cast_nullable_to_non_nullable
+          : minute as int?,
       month: month == const $CopyWithPlaceholder() || month == null
           ? _value.month
           // ignore: cast_nullable_to_non_nullable
@@ -162,10 +184,10 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.movedToBinAt
           // ignore: cast_nullable_to_non_nullable
           : movedToBinAt as DateTime?,
-      pathDate: pathDate == const $CopyWithPlaceholder()
-          ? _value.pathDate
+      second: second == const $CopyWithPlaceholder()
+          ? _value.second
           // ignore: cast_nullable_to_non_nullable
-          : pathDate as DateTime?,
+          : second as int?,
       starred: starred == const $CopyWithPlaceholder()
           ? _value.starred
           // ignore: cast_nullable_to_non_nullable
@@ -212,12 +234,12 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
       year: json['year'] as int,
       month: json['month'] as int,
       day: json['day'] as int,
+      hour: json['hour'] as int?,
+      minute: json['minute'] as int?,
+      second: json['second'] as int?,
       changes: (json['changes'] as List<dynamic>)
           .map((e) => StoryContentDbModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      pathDate: json['path_date'] == null
-          ? null
-          : DateTime.parse(json['path_date'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
@@ -234,11 +256,13 @@ Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
       'year': instance.year,
       'month': instance.month,
       'day': instance.day,
+      'hour': instance.hour,
+      'minute': instance.minute,
+      'second': instance.second,
       'starred': instance.starred,
       'feeling': instance.feeling,
       'tags': instance.tags,
       'changes': instance.changes.map((e) => e.toJson()).toList(),
-      'path_date': instance.pathDate?.toIso8601String(),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'moved_to_bin_at': instance.movedToBinAt?.toIso8601String(),

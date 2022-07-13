@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:2962579780537594759",
-      "lastPropertyId": "17:8623820136669220816",
+      "lastPropertyId": "20:4113637293536721721",
       "name": "StoryObjectBox",
       "properties": [
         {
@@ -75,14 +75,24 @@
           "type": 30
         },
         {
-          "id": "14:4968158570417504072",
-          "name": "pathDate",
-          "type": 10
-        },
-        {
           "id": "17:8623820136669220816",
           "name": "metadata",
           "type": 9
+        },
+        {
+          "id": "18:1429297690659026930",
+          "name": "hour",
+          "type": 6
+        },
+        {
+          "id": "19:862060011000399226",
+          "name": "minute",
+          "type": 6
+        },
+        {
+          "id": "20:4113637293536721721",
+          "name": "second",
+          "type": 6
         }
       ],
       "relations": []
@@ -142,7 +152,8 @@
   "retiredIndexUids": [],
   "retiredPropertyUids": [
     7351525936100002271,
-    3655265263412929559
+    3655265263412929559,
+    4968158570417504072
   ],
   "retiredRelationUids": [],
   "version": 1

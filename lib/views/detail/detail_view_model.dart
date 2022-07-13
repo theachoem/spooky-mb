@@ -213,7 +213,8 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
             year: pathDate.year,
             month: pathDate.month,
             day: pathDate.day,
-            pathDate: pathDate,
+            hour: pathDate.hour,
+            minute: pathDate.minute,
           )
           .toJson(),
     );
