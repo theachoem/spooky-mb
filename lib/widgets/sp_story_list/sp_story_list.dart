@@ -13,6 +13,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_emtpy_widget.dart';
 import 'package:spooky/core/types/sort_type.dart';
+import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_story_list/has_tag_changes_alerter.dart';
 import 'package:spooky/widgets/sp_story_tile/sp_story_tile.dart';
@@ -57,32 +58,39 @@ class SpStoryList extends StatelessWidget {
       builder: (context, snapshot) {
         List<StoryDbModel> configuredStories = snapshot.data ?? [];
         bool loading = stories == null || snapshot.data == null;
-        return SpListLayoutBuilder(
-          overridedLayout: overridedLayout,
-          builder: (context, layoutType, loaded) {
-            loading = loading;
-            return RefreshIndicator(
-              onRefresh: onRefresh,
-              child: Stack(
-                children: [
-                  if (!loading && loaded) buildTimelineDivider(configuredStories, layoutType),
-                  if (!loading && loaded) buildListWrapper(configuredStories, layoutType),
-                  buildLoading(loading),
-                  StoryEmptyWidget(
-                    isEmpty: !loading && configuredStories.isEmpty,
-                    pathType: null,
-                  ),
-                  if (layoutType == SpListLayoutType.library)
-                    const Positioned(
-                      top: 0,
-                      left: 16,
-                      right: 16,
-                      child: HasTagChangesAlerter(),
-                    )
-                ],
+        return buildParents(
+          loading,
+          configuredStories,
+        );
+      },
+    );
+  }
+
+  Widget buildParents(bool loading, List<StoryDbModel> configuredStories) {
+    return SpListLayoutBuilder(
+      overridedLayout: overridedLayout,
+      builder: (context, layoutType, loaded) {
+        loading = loading;
+        return RefreshIndicator(
+          onRefresh: onRefresh,
+          child: Stack(
+            children: [
+              if (!loading && loaded) buildTimelineDivider(configuredStories, layoutType),
+              if (!loading && loaded) buildListWrapper(configuredStories, layoutType),
+              buildLoading(loading),
+              StoryEmptyWidget(
+                isEmpty: !loading && configuredStories.isEmpty,
+                pathType: null,
               ),
-            );
-          },
+              if (layoutType == SpListLayoutType.library)
+                const Positioned(
+                  top: 0,
+                  left: 16,
+                  right: 16,
+                  child: HasTagChangesAlerter(),
+                )
+            ],
+          ),
         );
       },
     );

@@ -49,14 +49,11 @@ abstract class _BaseSpListLayout extends StatelessWidget {
       tween: IntTween(begin: 0, end: 1),
       child: child,
       builder: (BuildContext context, int value, Widget? child) {
-        return AnimatedContainer(
+        return AnimatedOpacity(
           duration: ConfigConstant.duration,
-          child: AnimatedOpacity(
-            duration: ConfigConstant.duration,
-            opacity: value == 1 ? 1.0 : 0.0,
-            curve: Curves.ease,
-            child: child,
-          ),
+          opacity: value == 1 ? 1.0 : 0.0,
+          curve: Curves.ease,
+          child: child,
         );
       },
     );
@@ -109,7 +106,12 @@ abstract class _BaseSpListLayout extends StatelessWidget {
       int itemCount = separatorOnTop ? _stories.length + 1 : _stories.length;
       EdgeInsets padding = EdgeInsets.symmetric(vertical: separatorOnTop ? ConfigConstant.margin2 : 0);
       return ListView.separated(
-        separatorBuilder: buildSeperatorBuilder,
+        separatorBuilder: (context, index) {
+          return buildAnimatedTileWrapper(
+            story: _stories[index],
+            child: buildSeperatorBuilder(context, index),
+          );
+        },
         padding: padding,
         itemCount: itemCount,
         controller: options.controller,
