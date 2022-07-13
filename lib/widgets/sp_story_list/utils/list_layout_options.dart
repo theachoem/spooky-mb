@@ -6,8 +6,10 @@ class _ListLayoutOptions {
     required this.onRefresh,
     this.controller,
     this.viewOnly = false,
+    this.hasDifferentYear = true,
   });
 
+  final bool hasDifferentYear;
   final List<StoryDbModel> stories;
   final ScrollController? controller;
   final bool viewOnly;

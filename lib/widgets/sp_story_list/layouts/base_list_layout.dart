@@ -14,6 +14,31 @@ abstract class _BaseSpListLayout extends StatelessWidget {
   bool get gridLayout => false;
   bool get separatorOnTop => true;
 
+  bool differentDay(
+    StoryDbModel story,
+    StoryDbModel? previousStory,
+  ) {
+    String storyForCompare = "${story.year} ${story.month} ${story.day}";
+    String previousStoryForCompare = "${previousStory?.year} ${previousStory?.month} ${previousStory?.day}";
+    return storyForCompare != previousStoryForCompare;
+  }
+
+  bool differentMonth(
+    StoryDbModel story,
+    StoryDbModel? previousStory,
+  ) {
+    String storyForCompare = "${story.year} ${story.month}";
+    String previousStoryForCompare = "${previousStory?.year} ${previousStory?.month}";
+    return storyForCompare != previousStoryForCompare;
+  }
+
+  bool differentYear(
+    StoryDbModel story,
+    StoryDbModel? previousStory,
+  ) {
+    return story.year != previousStory?.year;
+  }
+
   String buildIdentity(
     StoryDbModel? story,
   ) {
@@ -35,7 +60,12 @@ abstract class _BaseSpListLayout extends StatelessWidget {
     return null;
   }
 
-  Widget buildSeperatorBuilder(BuildContext context, int index) {
+  Widget buildSeperatorBuilder(
+    BuildContext context,
+    int index,
+    StoryDbModel story,
+    StoryDbModel? previousStory,
+  ) {
     return const SizedBox(height: ConfigConstant.margin2);
   }
 
@@ -64,7 +94,7 @@ abstract class _BaseSpListLayout extends StatelessWidget {
     required int index,
     required StoryDbModel story,
     required StoryDbModel? previousStory,
-    EdgeInsets itemPadding = const EdgeInsets.all(16.0),
+    required EdgeInsets itemPadding,
   }) {
     return IgnorePointer(
       ignoring: options.viewOnly,
@@ -74,6 +104,7 @@ abstract class _BaseSpListLayout extends StatelessWidget {
           itemPadding: itemPadding,
           gridLayout: gridLayout,
           story: story,
+          previousStory: previousStory,
           onRefresh: () => options.onRefresh(),
         ),
       ),
@@ -104,12 +135,17 @@ abstract class _BaseSpListLayout extends StatelessWidget {
       );
     } else {
       int itemCount = separatorOnTop ? _stories.length + 1 : _stories.length;
-      EdgeInsets padding = EdgeInsets.symmetric(vertical: separatorOnTop ? ConfigConstant.margin2 : 0);
+      EdgeInsets padding = EdgeInsets.symmetric(
+        vertical: separatorOnTop ? ConfigConstant.margin2 : ConfigConstant.margin1,
+      );
+
       return ListView.separated(
         separatorBuilder: (context, index) {
+          StoryDbModel story = storyAt(_stories, index)!;
+          StoryDbModel? previousStory = storyAt(_stories, index - 1);
           return buildAnimatedTileWrapper(
             story: _stories[index],
-            child: buildSeperatorBuilder(context, index),
+            child: buildSeperatorBuilder(context, index, story, previousStory),
           );
         },
         padding: padding,
@@ -127,6 +163,7 @@ abstract class _BaseSpListLayout extends StatelessWidget {
             context: context,
             story: story,
             previousStory: previousStory,
+            itemPadding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24),
           );
         },
       );

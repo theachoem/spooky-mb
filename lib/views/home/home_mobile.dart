@@ -82,6 +82,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
 
   Widget buildSingleLayout() {
     return StoryQueryList(
+      hasDifferentYear: false,
       queryOptions: StoryQueryOptionsModel(
         type: PathType.docs,
         year: widget.viewModel.year,
@@ -116,6 +117,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
               if (!starredList && !allList) tag = tags[index].id.toString();
 
               return StoryQueryList(
+                hasDifferentYear: false,
                 queryOptions: StoryQueryOptionsModel(
                   type: PathType.docs,
                   year: widget.viewModel.year,
@@ -125,6 +127,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
               );
             case SpListLayoutType.diary:
               return StoryQueryList(
+                hasDifferentYear: false,
                 queryOptions: StoryQueryOptionsModel(
                   type: PathType.docs,
                   year: widget.viewModel.year,

@@ -12,7 +12,12 @@ class _DiaryListLayout extends _BaseSpListLayout {
   bool get separatorOnTop => false;
 
   @override
-  Widget buildSeperatorBuilder(BuildContext context, int index) {
-    return const Divider(height: 0);
+  Widget buildSeperatorBuilder(
+    BuildContext context,
+    int index,
+    StoryDbModel story,
+    StoryDbModel? previousStory,
+  ) {
+    return const Divider(height: 1, indent: 16.0 + 20);
   }
 }
