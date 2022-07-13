@@ -1,17 +1,18 @@
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:html_character_entities/html_character_entities.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/adapters/base/base_story_db_external_actions.dart';
 import 'package:spooky/core/db/adapters/objectbox/entities.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/links_model.dart';
 import 'package:spooky/core/db/models/base/meta_model.dart';
-import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/storages/local_storages/priority_starred_storage.dart';
+import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
+import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/main.dart';
+import 'package:spooky/utils/helpers/story_db_constructor_helper.dart';
 import './base_story_database.dart';
 import 'package:spooky/objectbox.g.dart';
 
@@ -36,7 +37,7 @@ class StoryDatabase extends BaseStoryDatabase {
     StoryDbModel binStory = story.copyWith(type: PathType.bins, movedToBinAt: DateTime.now());
     return update(
       id: binStory.id,
-      body: binStory.toJson(),
+      body: binStory,
     );
   }
 
@@ -45,15 +46,16 @@ class StoryDatabase extends BaseStoryDatabase {
     StoryDbModel archivedStory = story.copyWith(type: PathType.archives);
     return update(
       id: archivedStory.id,
-      body: archivedStory.toJson(),
+      body: archivedStory,
     );
   }
 
   Future<StoryDbModel?> putBackToDocs(StoryDbModel story) async {
     if (story.type == PathType.docs) return null;
     StoryDbModel unarchivedStory = story.copyWith(type: PathType.docs);
-    Map<String, dynamic> json = unarchivedStory.toJson();
-    json['moved_to_bin_at'] = null;
-    return update(id: unarchivedStory.id, body: json);
+    return update(
+      id: unarchivedStory.id,
+      body: unarchivedStory.copyWith(movedToBinAt: null),
+    );
   }
 }

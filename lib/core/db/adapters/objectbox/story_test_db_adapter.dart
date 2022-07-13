@@ -7,7 +7,7 @@ class _StoryTestDbAdapter extends BaseDbAdapter<StoryDbModel> with BaseStoryDbEx
 
   @override
   Future<StoryDbModel?> create({
-    Map<String, dynamic> body = const {},
+    required StoryDbModel body,
     Map<String, dynamic> params = const {},
   }) async {}
 
@@ -53,14 +53,14 @@ class _StoryTestDbAdapter extends BaseDbAdapter<StoryDbModel> with BaseStoryDbEx
 
   @override
   Future<StoryDbModel?> set({
-    Map<String, dynamic> body = const {},
+    required StoryDbModel body,
     Map<String, dynamic> params = const {},
   }) async {}
 
   @override
   Future<StoryDbModel?> update({
     required int id,
-    Map<String, dynamic> body = const {},
+    required StoryDbModel body,
     Map<String, dynamic> params = const {},
   }) async {}
 }

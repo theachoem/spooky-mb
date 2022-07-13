@@ -71,29 +71,19 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
       year: pathDate.year,
       month: pathDate.month,
       day: pathDate.day,
-      pathDate: DateTime(
-        pathDate.year,
-        pathDate.month,
-        pathDate.day,
-        story.displayPathDate.hour,
-        story.displayPathDate.minute,
-      ),
+      hour: story.displayPathDate.hour,
+      minute: story.displayPathDate.minute,
     );
-    StoryDbModel? result = await update(id: story.id, body: updatedStory.toJson());
+    StoryDbModel? result = await update(id: story.id, body: updatedStory);
     return result;
   }
 
   Future<StoryDbModel?> updatePathTime(StoryDbModel story, TimeOfDay time) async {
     StoryDbModel updatedStory = story.copyWith(
-      pathDate: DateTime(
-        story.displayPathDate.year,
-        story.displayPathDate.month,
-        story.displayPathDate.day,
-        time.hour,
-        time.minute,
-      ),
+      hour: time.hour,
+      minute: time.minute,
     );
-    StoryDbModel? result = await update(id: story.id, body: updatedStory.toJson());
+    StoryDbModel? result = await update(id: story.id, body: updatedStory);
     return result;
   }
 

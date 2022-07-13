@@ -8,23 +8,20 @@ class _ListStoryTileContent extends _BaseTileContent {
   @override
   Widget build(BuildContext context) {
     Map<int, Color> dayColors = M3Color.dayColorsOf(context);
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
-        children: [
-          buildMonogram(
-            context,
-            options.story,
-            options.previousStory,
-            dayColors,
-          ),
-          ConfigConstant.sizedBoxW2,
-          buildContent(
-            context,
-            options.story,
-          ),
-        ],
-      ),
+    return Row(
+      children: [
+        buildMonogram(
+          context,
+          options.story,
+          options.previousStory,
+          dayColors,
+        ),
+        ConfigConstant.sizedBoxW2,
+        buildContent(
+          context,
+          options.story,
+        ),
+      ],
     );
   }
 
@@ -112,7 +109,12 @@ class _ListStoryTileContent extends _BaseTileContent {
     StoryDbModel? previousStory,
     Map<int, Color> dayColors,
   ) {
-    // bool sameDay = previousStory?.path != null ? story.path.sameDayAs(previousStory!.path) : false;
+    // if (Global.instance.layoutType == SpListLayoutType.diary) {
+    //   String storyForCompare = "${story.year} ${story.month} ${story.day}";
+    //   String previousStoryForCompare = "${previousStory?.year} ${previousStory?.month} ${previousStory?.day}";
+    //   bool sameDay = storyForCompare == previousStoryForCompare;
+    //   if (sameDay) return const SizedBox(width: 20 * 2);
+    // }
     DateTime displayDate = story.displayPathDate;
     return Container(
       color: M3Color.of(context).background,

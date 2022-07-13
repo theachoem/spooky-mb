@@ -15,11 +15,13 @@ class StoryQueryList extends StatefulWidget {
     required this.queryOptions,
     this.overridedLayout,
     this.showLoadingAfterInit = false,
+    this.hasDifferentYear = true,
   }) : super(key: key);
 
   final StoryQueryOptionsModel queryOptions;
   final SpListLayoutType? overridedLayout;
   final bool showLoadingAfterInit;
+  final bool hasDifferentYear;
 
   @override
   State<StoryQueryList> createState() => _StoryListState();
@@ -120,6 +122,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
       onRefresh: () => load(true),
       overridedLayout: widget.overridedLayout,
       stories: stories,
+      hasDifferentYear: widget.hasDifferentYear,
     );
   }
 

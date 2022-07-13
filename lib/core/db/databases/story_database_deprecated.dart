@@ -26,7 +26,7 @@ class StoryDatabaseDeprecated extends BaseStoryDatabase {
   Future<StoryDbModel?> moveToTrash(StoryDbModel story) async {
     if (story.type == PathType.bins) return null;
     StoryDbModel binStory = story.copyWith(type: PathType.bins, movedToBinAt: DateTime.now());
-    StoryDbModel? result = await create(body: binStory.toJson());
+    StoryDbModel? result = await create(body: binStory);
     if (result != null) {
       return deleteDocument(story);
     } else {
@@ -37,7 +37,7 @@ class StoryDatabaseDeprecated extends BaseStoryDatabase {
   Future<StoryDbModel?> archiveDocument(StoryDbModel story) async {
     if (story.type == PathType.archives) return null;
     StoryDbModel archivedStory = story.copyWith(type: PathType.archives);
-    StoryDbModel? result = await create(body: archivedStory.toJson());
+    StoryDbModel? result = await create(body: archivedStory);
     if (result != null) {
       return deleteDocument(story);
     } else {
@@ -49,11 +49,11 @@ class StoryDatabaseDeprecated extends BaseStoryDatabase {
     if (story.type == PathType.docs) return null;
     StoryDbModel unarchivedStory = story.copyWith(type: PathType.docs);
 
-    Map<String, dynamic> json = unarchivedStory.toJson();
-    json['moved_to_bin_at'] = null;
-
     // create on docs path & remove from bin path
-    StoryDbModel? result = await create(body: json);
+    StoryDbModel? result = await create(
+      body: unarchivedStory.copyWith(movedToBinAt: null),
+    );
+
     if (result != null) {
       return deleteDocument(story);
     } else {

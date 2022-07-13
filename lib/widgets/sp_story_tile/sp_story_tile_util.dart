@@ -34,7 +34,7 @@ class SpStoryTileUtils {
   }) async {
     bool success = await callback();
     if (success && refreshList) await reloadList();
-    if (success && refreshStory) await reloadList();
+    if (success && refreshStory) await reloadStory();
     return success;
   }
 
@@ -176,7 +176,7 @@ class SpStoryTileUtils {
                 label: "Undo",
                 textColor: foreground,
                 onPressed: () async {
-                  await database.create(body: story.toJson());
+                  await database.create(body: story);
                   reloadList();
                 },
               );

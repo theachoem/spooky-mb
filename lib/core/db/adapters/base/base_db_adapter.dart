@@ -15,18 +15,18 @@ abstract class BaseDbAdapter<T extends BaseDbModel> {
   });
 
   Future<T?> set({
-    Map<String, dynamic> body = const {},
+    required T body,
     Map<String, dynamic> params = const {},
   });
 
   Future<T?> create({
-    Map<String, dynamic> body = const {},
+    required T body,
     Map<String, dynamic> params = const {},
   });
 
   Future<T?> update({
     required int id,
-    Map<String, dynamic> body = const {},
+    required T body,
     Map<String, dynamic> params = const {},
   });
 

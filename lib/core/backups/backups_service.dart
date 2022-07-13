@@ -48,7 +48,7 @@ class BackupsService with BackupsConstructor, BackupsCachable {
       List<BaseDbModel>? items = datas[db.tableName];
       if (items != null) {
         for (BaseDbModel element in items) {
-          await db.set(body: element.toJson());
+          await db.set(body: element);
         }
       }
     }

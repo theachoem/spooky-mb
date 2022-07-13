@@ -73,7 +73,7 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
         title: title.trim(),
         updatedAt: DateTime.now(),
         version: 0,
-      ).toJson(),
+      ),
     );
     await load();
   }
@@ -85,7 +85,7 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
   }) async {
     await tagDatabase.update(
       id: object.id,
-      body: object.copyWith(title: title, updatedAt: DateTime.now()).toJson(),
+      body: object.copyWith(title: title, updatedAt: DateTime.now()),
     );
     await load();
   }
