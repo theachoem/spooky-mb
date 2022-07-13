@@ -4,6 +4,7 @@ import 'package:html_character_entities/html_character_entities.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/adapters/base/base_story_db_external_actions.dart';
 import 'package:spooky/core/db/adapters/objectbox/entities.dart';
+import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/links_model.dart';
 import 'package:spooky/core/db/models/base/meta_model.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
@@ -22,7 +23,7 @@ class StoryDatabase extends BaseStoryDatabase {
   StoryDatabase._();
 
   @override
-  BaseDbAdapter get adapter {
+  BaseDbAdapter<StoryDbModel> get adapter {
     if (Global.instance.unitTesting) {
       return _StoryTestDbAdapter(tableName);
     } else {

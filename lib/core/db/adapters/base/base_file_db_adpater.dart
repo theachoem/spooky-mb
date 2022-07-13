@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
+import 'package:spooky/core/db/models/base/base_db_model.dart';
 
-abstract class BaseFileDbAdapter extends BaseDbAdapter {
+abstract class BaseFileDbAdapter<T extends BaseDbModel> extends BaseDbAdapter<T> {
   BaseFileDbAdapter(String tableName) : super(tableName);
 
   Future<void> ensureDirExist(Directory directory) async {

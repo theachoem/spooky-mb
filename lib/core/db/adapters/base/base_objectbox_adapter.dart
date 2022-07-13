@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
+import 'package:spooky/core/db/models/base/base_db_model.dart';
 import 'package:spooky/objectbox.g.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
-abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
+abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdapter<P> {
   BaseObjectBoxAdapter(String tableName) : super(tableName);
   static Store? _store;
   Store get store => _store!;
@@ -26,11 +27,11 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
     store.close();
   }
 
-  Future<Map<String, dynamic>> objectTransformer(T object);
+  Future<P> objectTransformer(T object);
   Future<T> objectConstructor(Map<String, dynamic> json);
 
   @override
-  Future<Map<String, dynamic>?> fetchOne({
+  Future<P?> fetchOne({
     required int id,
     Map<String, dynamic>? params,
   }) async {
@@ -43,7 +44,7 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   }
 
   @override
-  Future<Map<String, dynamic>?> delete({
+  Future<P?> delete({
     required int id,
     Map<String, dynamic> params = const {},
   }) async {
@@ -52,7 +53,7 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   }
 
   @override
-  Future<Map<String, dynamic>?> set({
+  Future<P?> set({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
@@ -73,24 +74,24 @@ abstract class BaseObjectBoxAdapter<T> extends BaseDbAdapter {
   }
 
   @override
-  Future<Map<String, dynamic>?> create({
+  Future<P?> create({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
     T constructed = await objectConstructor(body);
     int id = box.put(constructed, mode: PutMode.insert);
     body['id'] = id;
-    return body;
+    return fetchOne(id: id);
   }
 
   @override
-  Future<Map<String, dynamic>?> update({
+  Future<P?> update({
     required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
     T object = await objectConstructor(body);
     box.put(object, mode: PutMode.update);
-    return body;
+    return fetchOne(id: id);
   }
 }

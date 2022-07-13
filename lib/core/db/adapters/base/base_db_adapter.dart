@@ -1,33 +1,36 @@
-abstract class BaseDbAdapter {
+import 'package:spooky/core/db/models/base/base_db_list_model.dart';
+import 'package:spooky/core/db/models/base/base_db_model.dart';
+
+abstract class BaseDbAdapter<T extends BaseDbModel> {
   final String tableName;
   BaseDbAdapter(this.tableName);
 
-  Future<Map<String, dynamic>?> fetchAll({
+  Future<BaseDbListModel<T>?> fetchAll({
     Map<String, dynamic>? params,
   });
 
-  Future<Map<String, dynamic>?> fetchOne({
+  Future<T?> fetchOne({
     required int id,
     Map<String, dynamic>? params,
   });
 
-  Future<Map<String, dynamic>?> set({
+  Future<T?> set({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   });
 
-  Future<Map<String, dynamic>?> create({
+  Future<T?> create({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   });
 
-  Future<Map<String, dynamic>?> update({
+  Future<T?> update({
     required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   });
 
-  Future<Map<String, dynamic>?> delete({
+  Future<T?> delete({
     required int id,
     Map<String, dynamic> params = const {},
   });

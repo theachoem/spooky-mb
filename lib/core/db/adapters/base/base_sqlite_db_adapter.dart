@@ -1,10 +1,12 @@
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
+import 'package:spooky/core/db/models/base/base_db_model.dart';
+import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 
 class BaseSqliteDbAdapter extends BaseDbAdapter {
   BaseSqliteDbAdapter(String tableName) : super(tableName);
 
   @override
-  Future<Map<String, dynamic>?> create({
+  Future<BaseDbModel?> create({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) {
@@ -12,7 +14,7 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }
 
   @override
-  Future<Map<String, dynamic>?> delete({
+  Future<BaseDbModel?> delete({
     required int id,
     Map<String, dynamic> params = const {},
   }) {
@@ -20,14 +22,14 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }
 
   @override
-  Future<Map<String, dynamic>?> fetchAll({
+  Future<BaseDbListModel<BaseDbModel>> fetchAll({
     Map<String, dynamic>? params,
   }) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Map<String, dynamic>?> fetchOne({
+  Future<BaseDbModel?> fetchOne({
     required int id,
     Map<String, dynamic>? params,
   }) {
@@ -35,16 +37,16 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }
 
   @override
-  Future<Map<String, dynamic>?> update({
-    required int id,
+  Future<BaseDbModel?> set({
     Map<String, dynamic> body = const {},
-    Map<String, dynamic>? params,
+    Map<String, dynamic> params = const {},
   }) {
     throw UnimplementedError();
   }
 
   @override
-  Future<Map<String, dynamic>?> set({
+  Future<BaseDbModel?> update({
+    required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) {

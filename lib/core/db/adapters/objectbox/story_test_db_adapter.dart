@@ -2,36 +2,43 @@
 
 part of 'package:spooky/core/db/databases/story_database.dart';
 
-class _StoryTestDbAdapter extends BaseDbAdapter with BaseStoryDbExternalActions {
+class _StoryTestDbAdapter extends BaseDbAdapter<StoryDbModel> with BaseStoryDbExternalActions {
   _StoryTestDbAdapter(String tableName) : super(tableName);
 
   @override
-  Future<Map<String, dynamic>?> create({
+  Future<StoryDbModel?> create({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {}
 
   @override
-  Future<Map<String, dynamic>?> delete({
+  Future<StoryDbModel?> delete({
     required int id,
     Map<String, dynamic> params = const {},
   }) async {}
 
   @override
-  Future<Map<String, dynamic>?> fetchAll({
+  Future<BaseDbListModel<StoryDbModel>?> fetchAll({
     Map<String, dynamic>? params,
   }) async {
-    return {
-      "data": List.generate(10, (index) {
+    // {
+    //   "data": List.generate(10, (index) {
+    //     return StoryDbModel.fromNow();
+    //   }).map((e) => e.toJson()).toList(),
+    //   "meta": MetaModel().toJson(),
+    //   "links": LinksModel().toJson(),
+    // };
+    return BaseDbListModel(
+      items: List.generate(10, (index) {
         return StoryDbModel.fromNow();
-      }).map((e) => e.toJson()).toList(),
-      "meta": MetaModel().toJson(),
-      "links": LinksModel().toJson(),
-    };
+      }).toList(),
+      meta: MetaModel(),
+      links: LinksModel(),
+    );
   }
 
   @override
-  Future<Map<String, dynamic>?> fetchOne({
+  Future<StoryDbModel?> fetchOne({
     required int id,
     Map<String, dynamic>? params,
   }) async {}
@@ -45,13 +52,13 @@ class _StoryTestDbAdapter extends BaseDbAdapter with BaseStoryDbExternalActions 
   }
 
   @override
-  Future<Map<String, dynamic>?> set({
+  Future<StoryDbModel?> set({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {}
 
   @override
-  Future<Map<String, dynamic>?> update({
+  Future<StoryDbModel?> update({
     required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},

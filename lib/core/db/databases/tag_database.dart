@@ -1,5 +1,4 @@
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/backups/backups_file_manager.dart';
@@ -20,7 +19,7 @@ class TagDatabase extends BaseDatabase<TagDbModel> {
   TagDatabase._();
 
   @override
-  BaseDbAdapter get adapter => TagObjectboxDbAdapter(tableName);
+  BaseDbAdapter<TagDbModel> get adapter => TagObjectboxDbAdapter(tableName);
 
   @override
   String get tableName => "tags";

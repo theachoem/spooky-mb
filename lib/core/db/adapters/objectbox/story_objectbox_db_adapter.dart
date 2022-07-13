@@ -1,6 +1,7 @@
 part of 'package:spooky/core/db/databases/story_database.dart';
 
-class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with BaseStoryDbExternalActions {
+class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, StoryDbModel>
+    with BaseStoryDbExternalActions {
   _StoryObjectBoxDbAdapter(String tableName) : super(tableName);
 
   @override
@@ -9,12 +10,12 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
   }
 
   @override
-  Future<Map<String, dynamic>> objectTransformer(StoryObjectBox object) {
+  Future<StoryDbModel> objectTransformer(StoryObjectBox object) {
     return compute(_objectTransformer, object);
   }
 
   @override
-  Future<Map<String, dynamic>?> fetchAll({
+  Future<BaseDbListModel<StoryDbModel>> fetchAll({
     Map<String, dynamic>? params,
   }) async {
     String? keyword = params?["query"];
@@ -47,20 +48,20 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
     Query<StoryObjectBox> query = queryBuilder.build();
     List<StoryObjectBox> objects = query.find();
 
-    List<Map<String, dynamic>> docs = [];
+    List<StoryDbModel> docs = [];
     for (StoryObjectBox object in objects) {
-      Map<String, dynamic> json = await objectTransformer(object);
+      StoryDbModel json = await objectTransformer(object);
       docs.add(json);
 
       // set in case old data has no metadata for query
-      if (object.metadata == null) set(body: json);
+      if (object.metadata == null) set(body: json.toJson());
     }
 
-    return {
-      "data": docs,
-      "meta": MetaModel().toJson(),
-      "links": LinksModel().toJson(),
-    };
+    return BaseDbListModel(
+      items: docs,
+      meta: MetaModel(),
+      links: LinksModel(),
+    );
   }
 
   @override
@@ -82,7 +83,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox> with
   }
 }
 
-Map<String, dynamic> _objectTransformer(StoryObjectBox object) {
+StoryDbModel _objectTransformer(StoryObjectBox object) {
   Iterable<PathType> types = PathType.values.where((e) => e.name == object.type);
   return StoryDbModel(
     type: types.isNotEmpty ? types.first : PathType.docs,
@@ -101,7 +102,7 @@ Map<String, dynamic> _objectTransformer(StoryObjectBox object) {
       dynamic json = jsonDecode(decoded);
       return StoryContentDbModel.fromJson(json);
     }).toList(),
-  ).toJson();
+  );
 }
 
 StoryObjectBox _objectConstructor(Map<String, dynamic> json) {

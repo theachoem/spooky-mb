@@ -8,7 +8,7 @@ import 'package:spooky/core/db/models/base/meta_model.dart';
 
 abstract class BaseDatabase<T extends BaseDbModel> {
   String get tableName;
-  BaseDbAdapter get adapter;
+  BaseDbAdapter<T> get adapter;
   ErrorMessage? error;
   Object? errorObject;
 
@@ -35,10 +35,9 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     Map<String, dynamic>? params,
   }) async {
     return beforeExec<BaseDbListModel<T>>(() async {
-      Map<String, dynamic>? map = await adapter.fetchAll(params: params);
+      BaseDbListModel<T>? map = await adapter.fetchAll(params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
-      BaseDbListModel<T>? items = await itemsTransformer(map);
-      return items;
+      return map;
     });
   }
 
@@ -47,10 +46,9 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     Map<String, dynamic>? params,
   }) {
     return beforeExec<T>(() async {
-      Map<String, dynamic>? map = await adapter.fetchOne(id: id, params: params);
+      T? map = await adapter.fetchOne(id: id, params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
-      T? object = await objectTransformer(map);
-      return object;
+      return map;
     });
   }
 
@@ -59,11 +57,10 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     Map<String, dynamic> params = const {},
   }) async {
     return beforeExec<T>(() async {
-      Map<String, dynamic>? map = await adapter.set(body: body, params: params);
+      T? map = await adapter.set(body: body, params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
-      T? object = await objectTransformer(map);
-      onCRUD(object);
-      return object;
+      onCRUD(map);
+      return map;
     });
   }
 
@@ -72,11 +69,10 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     Map<String, dynamic> params = const {},
   }) async {
     return beforeExec<T>(() async {
-      Map<String, dynamic>? map = await adapter.create(body: body, params: params);
+      T? map = await adapter.create(body: body, params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
-      T? object = await objectTransformer(map);
-      onCRUD(object);
-      return object;
+      onCRUD(map);
+      return map;
     });
   }
 
@@ -86,11 +82,10 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     Map<String, dynamic> params = const {},
   }) async {
     return beforeExec<T>(() async {
-      Map<String, dynamic>? map = await adapter.update(id: id, body: body, params: params);
+      T? map = await adapter.update(id: id, body: body, params: params);
       if (map == null) throw ErrorMessage(errorMessage: "Response null");
-      T? object = await objectTransformer(map);
-      onCRUD(object);
-      return object;
+      onCRUD(map);
+      return map;
     });
   }
 
@@ -99,11 +94,10 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     Map<String, dynamic> params = const {},
   }) async {
     return beforeExec<T>(() async {
-      Map<String, dynamic>? map = await adapter.delete(id: id, params: params);
+      T? map = await adapter.delete(id: id, params: params);
       if (map != null) {
-        T? object = await objectTransformer(map);
-        onCRUD(object);
-        return object;
+        onCRUD(map);
+        return map;
       }
       return null;
     });

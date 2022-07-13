@@ -1,6 +1,10 @@
 part of 'package:spooky/core/db/databases/story_database_deprecated.dart';
 
-class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExternalActions {
+StoryDbModel _constructStoryIsolate(Map<String, dynamic> json) {
+  return StoryDbModel.fromJson(json);
+}
+
+class _StoryFileDbAdapter extends BaseFileDbAdapter<StoryDbModel> implements BaseStoryDbExternalActions {
   _StoryFileDbAdapter(String tableName) : super(tableName);
 
   String dirPath({
@@ -61,7 +65,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
   }
 
   @override
-  Future<Map<String, dynamic>?> set({
+  Future<StoryDbModel?> set({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) {
@@ -69,11 +73,11 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
   }
 
   @override
-  Future<Map<String, dynamic>?> create({
+  Future<StoryDbModel?> create({
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},
   }) async {
-    StoryDbModel story = StoryDbModel.fromJson(body);
+    StoryDbModel story = await compute(_constructStoryIsolate, body);
     String json = AppHelper.prettifyJson(story.toJson());
 
     File file = await buildFile(
@@ -89,7 +93,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
   }
 
   @override
-  Future<Map<String, dynamic>?> delete({
+  Future<StoryDbModel?> delete({
     required int id,
     Map<String, dynamic> params = const {},
   }) async {
@@ -115,7 +119,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
   }
 
   @override
-  Future<Map<String, dynamic>?> fetchAll({
+  Future<BaseDbListModel<StoryDbModel>?> fetchAll({
     Map<String, dynamic>? params,
   }) async {
     String? type = params?["type"];
@@ -126,31 +130,31 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
     Directory directory = await buildFileParentDir(year: year, month: month, day: day, type: type);
     if (directory.existsSync()) {
       List<FileSystemEntity> entities = directory.listSync(recursive: true);
-      List<Map<String, dynamic>> docs = [];
+      List<StoryDbModel> docs = [];
 
       for (FileSystemEntity item in entities) {
         if (item is File && item.absolute.path.endsWith(".json")) {
-          Map<String, dynamic>? json = await fetchOne(id: 0, params: {"file": item});
+          StoryDbModel? json = await fetchOne(id: 0, params: {"file": item});
           if (json != null) {
             dynamic id = basename(item.path).split(".")[0];
-            json['id'] = int.tryParse(id) ?? json['id'];
-            docs.add(json);
+            StoryDbModel object = json.copyWith(id: int.tryParse(id) ?? json.id);
+            docs.add(object);
           }
         }
       }
 
-      return {
-        "data": docs,
-        "meta": MetaModel().toJson(),
-        "links": MetaModel().toJson(),
-      };
+      return BaseDbListModel(
+        items: docs,
+        meta: MetaModel(),
+        links: LinksModel(),
+      );
     }
 
     return null;
   }
 
   @override
-  Future<Map<String, dynamic>?> fetchOne({
+  Future<StoryDbModel?> fetchOne({
     required int id,
     Map<String, dynamic>? params,
   }) async {
@@ -160,7 +164,9 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
     if (file != null) {
       String result = await file.readAsString();
       dynamic json = jsonDecode(result);
-      if (json is Map<String, dynamic>) return json;
+      if (json is Map<String, dynamic>) {
+        return await compute(_constructStoryIsolate, json);
+      }
     } else {
       Directory directory = await buildDir(type: null);
       List<FileSystemEntity> list = directory.listSync(recursive: true);
@@ -169,7 +175,9 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
         if (file.path.endsWith("$id.json") && file is File) {
           String result = await file.readAsString();
           dynamic json = jsonDecode(result);
-          if (json is Map<String, dynamic>) return json;
+          if (json is Map<String, dynamic>) {
+            return await compute(_constructStoryIsolate, json);
+          }
         }
       }
     }
@@ -178,7 +186,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter implements BaseStoryDbExtern
   }
 
   @override
-  Future<Map<String, dynamic>?> update({
+  Future<StoryDbModel?> update({
     required int id,
     Map<String, dynamic> body = const {},
     Map<String, dynamic> params = const {},

@@ -1,28 +1,29 @@
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
 import 'package:spooky/core/db/adapters/objectbox/entities.dart';
+import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/links_model.dart';
 import 'package:spooky/core/db/models/base/meta_model.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
 
-class TagObjectboxDbAdapter extends BaseObjectBoxAdapter<TagObjectBox> {
+class TagObjectboxDbAdapter extends BaseObjectBoxAdapter<TagObjectBox, TagDbModel> {
   TagObjectboxDbAdapter(String tableName) : super(tableName);
 
   @override
-  Future<Map<String, dynamic>?> fetchAll({Map<String, dynamic>? params}) async {
+  Future<BaseDbListModel<TagDbModel>?> fetchAll({Map<String, dynamic>? params}) async {
     List<TagObjectBox> tags = box.getAll();
-    List<Map<String, dynamic>> docs = [];
+    List<TagDbModel> docs = [];
 
     for (TagObjectBox tag in tags) {
-      Map<String, dynamic> json = await objectTransformer(tag);
+      TagDbModel json = await objectTransformer(tag);
       docs.add(json);
     }
 
-    return {
-      "data": docs,
-      "meta": MetaModel().toJson(),
-      "links": LinksModel().toJson(),
-    };
+    return BaseDbListModel(
+      items: docs,
+      meta: MetaModel(),
+      links: LinksModel(),
+    );
   }
 
   @override
@@ -31,7 +32,7 @@ class TagObjectboxDbAdapter extends BaseObjectBoxAdapter<TagObjectBox> {
   }
 
   @override
-  Future<Map<String, dynamic>> objectTransformer(TagObjectBox object) {
+  Future<TagDbModel> objectTransformer(TagObjectBox object) {
     return compute(_objectTransformer, object);
   }
 }
@@ -49,7 +50,7 @@ TagObjectBox _objectConstructor(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _objectTransformer(TagObjectBox object) {
+TagDbModel _objectTransformer(TagObjectBox object) {
   return TagDbModel(
     id: object.id,
     version: object.version,
@@ -58,5 +59,5 @@ Map<String, dynamic> _objectTransformer(TagObjectBox object) {
     emoji: object.emoji,
     createdAt: object.createdAt,
     updatedAt: object.updatedAt,
-  ).toJson();
+  );
 }
