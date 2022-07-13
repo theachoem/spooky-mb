@@ -11,7 +11,7 @@ class TagObjectboxDbAdapter extends BaseObjectBoxAdapter<TagObjectBox, TagDbMode
   QueryBuilder<TagObjectBox>? buildQuery({Map<String, dynamic>? params}) => null;
 
   @override
-  Future<TagObjectBox> objectConstructor(Map<String, dynamic> json) {
+  Future<TagObjectBox> objectConstructor(TagDbModel json) {
     return compute(_objectConstructor, json);
   }
 
@@ -32,8 +32,7 @@ List<TagDbModel> _itemsTransformer(List<TagObjectBox> object) {
   }).toList();
 }
 
-TagObjectBox _objectConstructor(Map<String, dynamic> json) {
-  TagDbModel tag = TagDbModel.fromJson(json);
+TagObjectBox _objectConstructor(TagDbModel tag) {
   return TagObjectBox(
     id: tag.id,
     title: tag.title,

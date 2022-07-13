@@ -49,7 +49,8 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
       key: endDrawerScaffoldKey,
       endDrawer: buildEndDrawer(context),
       appBar: MorphingAppBar(
-        heroTag: DetailView.appBarHeroKey,
+        // avoid conflict hero with home
+        heroTag: ModalRoute.of(context)?.settings.name == "/" ? "MorphingAppBar" : DetailView.appBarHeroKey,
         title: widget.titleBuilder((text) {
           setState(() {
             queryOption = queryOption.copyWith(

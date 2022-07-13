@@ -38,7 +38,7 @@ class StoryDatabase extends BaseStoryDatabase {
     StoryDbModel binStory = story.copyWith(type: PathType.bins, movedToBinAt: DateTime.now());
     return update(
       id: binStory.id,
-      body: binStory.toJson(),
+      body: binStory,
     );
   }
 
@@ -47,15 +47,16 @@ class StoryDatabase extends BaseStoryDatabase {
     StoryDbModel archivedStory = story.copyWith(type: PathType.archives);
     return update(
       id: archivedStory.id,
-      body: archivedStory.toJson(),
+      body: archivedStory,
     );
   }
 
   Future<StoryDbModel?> putBackToDocs(StoryDbModel story) async {
     if (story.type == PathType.docs) return null;
     StoryDbModel unarchivedStory = story.copyWith(type: PathType.docs);
-    Map<String, dynamic> json = unarchivedStory.toJson();
-    json['moved_to_bin_at'] = null;
-    return update(id: unarchivedStory.id, body: json);
+    return update(
+      id: unarchivedStory.id,
+      body: unarchivedStory.copyWith(movedToBinAt: null),
+    );
   }
 }

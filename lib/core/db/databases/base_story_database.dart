@@ -74,7 +74,7 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
       hour: story.displayPathDate.hour,
       minute: story.displayPathDate.minute,
     );
-    StoryDbModel? result = await update(id: story.id, body: updatedStory.toJson());
+    StoryDbModel? result = await update(id: story.id, body: updatedStory);
     return result;
   }
 
@@ -83,7 +83,7 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
       hour: time.hour,
       minute: time.minute,
     );
-    StoryDbModel? result = await update(id: story.id, body: updatedStory.toJson());
+    StoryDbModel? result = await update(id: story.id, body: updatedStory);
     return result;
   }
 

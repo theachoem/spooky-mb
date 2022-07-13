@@ -105,13 +105,13 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   Future<void> toggleStarred() async {
     StoryDbModel copiedStory = story.copyWith(starred: !starred);
     setState(() => story = copiedStory);
-    await database.update(id: copiedStory.id, body: copiedStory.toJson());
+    await database.update(id: copiedStory.id, body: copiedStory);
   }
 
   Future<void> replaceContent(StoryContentDbModel content) async {
     StoryDbModel copiedStory = story.copyWith();
     copiedStory.addChange(content);
-    StoryDbModel? updatedStory = await database.update(id: copiedStory.id, body: copiedStory.toJson());
+    StoryDbModel? updatedStory = await database.update(id: copiedStory.id, body: copiedStory);
     if (updatedStory != null) await reloadStory();
   }
 

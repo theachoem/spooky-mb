@@ -229,12 +229,13 @@ extension SpRouterExtension on SpRouter {
           activeIcon: Icons.cloud,
         );
       case SpRouter.search:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.search,
-          inactiveIcon: Icons.search_outlined,
-          activeIcon: Icons.search,
-        );
+        // return MainTabBarItem(
+        //   navigatorKey: GlobalKey<NavigatorState>(),
+        //   router: SpRouter.search,
+        //   inactiveIcon: Icons.search_outlined,
+        //   activeIcon: Icons.search,
+        // );
+        return null;
       case SpRouter.user:
         return null;
       // return MainTabBarItem(

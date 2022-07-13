@@ -66,7 +66,7 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter<StoryDbModel> implements Bas
 
   @override
   Future<StoryDbModel?> set({
-    Map<String, dynamic> body = const {},
+    required StoryDbModel body,
     Map<String, dynamic> params = const {},
   }) {
     throw UnimplementedError();
@@ -74,22 +74,20 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter<StoryDbModel> implements Bas
 
   @override
   Future<StoryDbModel?> create({
-    Map<String, dynamic> body = const {},
+    required StoryDbModel body,
     Map<String, dynamic> params = const {},
   }) async {
-    StoryDbModel story = await compute(_constructStoryIsolate, body);
-    String json = AppHelper.prettifyJson(story.toJson());
-
+    String json = AppHelper.prettifyJson(body.toJson());
     File file = await buildFile(
-      year: story.year,
-      month: story.month,
-      day: story.day,
-      type: story.type.name,
-      id: story.id,
+      year: body.year,
+      month: body.month,
+      day: body.day,
+      type: body.type.name,
+      id: body.id,
     );
 
     file = await file.writeAsString(json);
-    return fetchOne(id: story.id);
+    return fetchOne(id: body.id);
   }
 
   @override
@@ -188,10 +186,10 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter<StoryDbModel> implements Bas
   @override
   Future<StoryDbModel?> update({
     required int id,
-    Map<String, dynamic> body = const {},
+    required StoryDbModel body,
     Map<String, dynamic> params = const {},
   }) async {
-    StoryDbModel story = StoryDbModel.fromJson(body).copyWith(updatedAt: DateTime.now());
+    StoryDbModel story = body.copyWith(updatedAt: DateTime.now());
     Directory directory = await buildDir(type: story.type.name);
     File? fileToUpdate;
 

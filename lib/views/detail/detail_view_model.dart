@@ -199,24 +199,21 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   // ==============================
 
   Future<StoryDbModel> setTagIds(List<int> ids) async {
-    StoryDbModel? story = await StoryDatabase.instance.set(
-      body: currentStory.copyWith(tags: ids.map((e) => e.toString()).toList()).toJson(),
-    );
+    StoryDbModel? story =
+        await StoryDatabase.instance.set(body: currentStory.copyWith(tags: ids.map((e) => e.toString()).toList()));
     if (story != null) currentStory = story;
     return currentStory;
   }
 
   Future<StoryDbModel> setPathDate(DateTime pathDate) async {
     StoryDbModel? story = await StoryDatabase.instance.set(
-      body: currentStory
-          .copyWith(
-            year: pathDate.year,
-            month: pathDate.month,
-            day: pathDate.day,
-            hour: pathDate.hour,
-            minute: pathDate.minute,
-          )
-          .toJson(),
+      body: currentStory.copyWith(
+        year: pathDate.year,
+        month: pathDate.month,
+        day: pathDate.day,
+        hour: pathDate.hour,
+        minute: pathDate.minute,
+      ),
     );
     if (story != null) currentStory = story;
     return currentStory;

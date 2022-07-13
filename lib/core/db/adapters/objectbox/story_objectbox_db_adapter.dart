@@ -10,8 +10,8 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
   }
 
   @override
-  Future<StoryObjectBox> objectConstructor(Map<String, dynamic> json) async {
-    return compute(_objectConstructor, json);
+  Future<StoryObjectBox> objectConstructor(StoryDbModel body) async {
+    return compute(_objectConstructor, body);
   }
 
   @override
@@ -114,7 +114,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
         }
 
         await objectTransformer(object).then((value) {
-          set(body: value.toJson());
+          return set(body: value);
         });
 
         object = box.get(object.id);
@@ -158,8 +158,7 @@ StoryDbModel _objectTransformer(StoryObjectBox object) {
   );
 }
 
-StoryObjectBox _objectConstructor(Map<String, dynamic> json) {
-  StoryDbModel story = StoryDbModel.fromJson(json);
+StoryObjectBox _objectConstructor(StoryDbModel story) {
   StoryObjectBox object = StoryObjectBox(
     id: story.id,
     version: story.version,

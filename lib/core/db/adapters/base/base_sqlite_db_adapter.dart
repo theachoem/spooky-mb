@@ -7,7 +7,7 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
 
   @override
   Future<BaseDbModel?> create({
-    Map<String, dynamic> body = const {},
+    required BaseDbModel body,
     Map<String, dynamic> params = const {},
   }) {
     throw UnimplementedError();
@@ -38,7 +38,7 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
 
   @override
   Future<BaseDbModel?> set({
-    Map<String, dynamic> body = const {},
+    required BaseDbModel body,
     Map<String, dynamic> params = const {},
   }) {
     throw UnimplementedError();
@@ -47,7 +47,7 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   @override
   Future<BaseDbModel?> update({
     required int id,
-    Map<String, dynamic> body = const {},
+    required BaseDbModel body,
     Map<String, dynamic> params = const {},
   }) {
     throw UnimplementedError();

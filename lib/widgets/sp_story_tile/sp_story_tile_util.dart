@@ -176,7 +176,7 @@ class SpStoryTileUtils {
                 label: "Undo",
                 textColor: foreground,
                 onPressed: () async {
-                  await database.create(body: story.toJson());
+                  await database.create(body: story);
                   reloadList();
                 },
               );

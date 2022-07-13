@@ -32,7 +32,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
 
   Future<P> objectTransformer(T object);
   Future<List<P>> itemsTransformer(List<T> objects);
-  Future<T> objectConstructor(Map<String, dynamic> json);
+  Future<T> objectConstructor(P json);
   QueryBuilder<T>? buildQuery({Map<String, dynamic>? params});
 
   @override
@@ -81,10 +81,10 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
 
   @override
   Future<P?> set({
-    Map<String, dynamic> body = const {},
+    required P body,
     Map<String, dynamic> params = const {},
   }) async {
-    int id = body['id'];
+    int id = body.toJson()['id'];
     bool exists = box.contains(id);
     if (!exists || id == 0) {
       return create(
@@ -102,23 +102,22 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
 
   @override
   Future<P?> create({
-    Map<String, dynamic> body = const {},
+    required P body,
     Map<String, dynamic> params = const {},
   }) async {
     T constructed = await objectConstructor(body);
-    int id = box.put(constructed, mode: PutMode.insert);
-    body['id'] = id;
-    return null;
+    box.put(constructed, mode: PutMode.insert);
+    return body;
   }
 
   @override
   Future<P?> update({
     required int id,
-    Map<String, dynamic> body = const {},
+    required P body,
     Map<String, dynamic> params = const {},
   }) async {
     T object = await objectConstructor(body);
     box.put(object, mode: PutMode.update);
-    return null;
+    return body;
   }
 }

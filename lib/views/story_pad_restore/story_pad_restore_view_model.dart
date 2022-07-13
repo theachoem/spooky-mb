@@ -46,12 +46,9 @@ class StoryPadRestoreViewModel extends BaseViewModel {
   }
 
   Future<void> restore() async {
-    for (StoryDbModel e in stories ?? []) {
-      Map<String, dynamic> json = e.toJson();
-      String createAtStr = json['created_at'];
-      DateTime? createdAt = DateTime.tryParse(createAtStr);
-      if (createdAt != null) json['id'] = createdAt.millisecondsSinceEpoch;
-      await StoryDatabase.instance.set(body: json);
+    for (StoryDbModel element in stories ?? []) {
+      StoryDbModel story = element.copyWith(id: element.createdAt.millisecondsSinceEpoch);
+      await StoryDatabase.instance.set(body: story);
     }
     MessengerService.instance.showSnackBar("Restored");
   }
