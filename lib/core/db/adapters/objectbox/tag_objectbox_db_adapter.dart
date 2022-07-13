@@ -1,30 +1,14 @@
 import 'package:flutter/foundation.dart';
+import 'package:objectbox/objectbox.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
 import 'package:spooky/core/db/adapters/objectbox/entities.dart';
-import 'package:spooky/core/db/models/base/base_db_list_model.dart';
-import 'package:spooky/core/db/models/base/links_model.dart';
-import 'package:spooky/core/db/models/base/meta_model.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
 
 class TagObjectboxDbAdapter extends BaseObjectBoxAdapter<TagObjectBox, TagDbModel> {
   TagObjectboxDbAdapter(String tableName) : super(tableName);
 
   @override
-  Future<BaseDbListModel<TagDbModel>?> fetchAll({Map<String, dynamic>? params}) async {
-    List<TagObjectBox> tags = box.getAll();
-    List<TagDbModel> docs = [];
-
-    for (TagObjectBox tag in tags) {
-      TagDbModel json = await objectTransformer(tag);
-      docs.add(json);
-    }
-
-    return BaseDbListModel(
-      items: docs,
-      meta: MetaModel(),
-      links: LinksModel(),
-    );
-  }
+  QueryBuilder<TagObjectBox>? buildQuery({Map<String, dynamic>? params}) => null;
 
   @override
   Future<TagObjectBox> objectConstructor(Map<String, dynamic> json) {
@@ -35,6 +19,17 @@ class TagObjectboxDbAdapter extends BaseObjectBoxAdapter<TagObjectBox, TagDbMode
   Future<TagDbModel> objectTransformer(TagObjectBox object) {
     return compute(_objectTransformer, object);
   }
+
+  @override
+  Future<List<TagDbModel>> itemsTransformer(List<TagObjectBox> objects) {
+    return compute(_itemsTransformer, objects);
+  }
+}
+
+List<TagDbModel> _itemsTransformer(List<TagObjectBox> object) {
+  return object.map((e) {
+    return _objectTransformer(e);
+  }).toList();
 }
 
 TagObjectBox _objectConstructor(Map<String, dynamic> json) {

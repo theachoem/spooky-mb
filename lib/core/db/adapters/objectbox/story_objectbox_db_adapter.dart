@@ -5,6 +5,11 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
   _StoryObjectBoxDbAdapter(String tableName) : super(tableName);
 
   @override
+  Future<List<StoryDbModel>> itemsTransformer(List<StoryObjectBox> objects) {
+    return compute(_itemsTransformer, objects);
+  }
+
+  @override
   Future<StoryObjectBox> objectConstructor(Map<String, dynamic> json) async {
     return compute(_objectConstructor, json);
   }
@@ -15,9 +20,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
   }
 
   @override
-  Future<BaseDbListModel<StoryDbModel>> fetchAll({
-    Map<String, dynamic>? params,
-  }) async {
+  QueryBuilder<StoryObjectBox> buildQuery({Map<String, dynamic>? params}) {
     String? keyword = params?["query"];
     String? type = params?["type"];
     int? year = params?["year"];
@@ -45,7 +48,14 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     }
 
     QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions);
-    Query<StoryObjectBox> query = queryBuilder.build();
+    return queryBuilder;
+  }
+
+  @override
+  Future<BaseDbListModel<StoryDbModel>> fetchAll({
+    Map<String, dynamic>? params,
+  }) async {
+    Query<StoryObjectBox> query = buildQuery(params: params).build();
     List<StoryObjectBox> objects = query.find();
     List<StoryDbModel> docs = await compute(_itemsTransformer, objects);
 

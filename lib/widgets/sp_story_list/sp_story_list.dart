@@ -13,7 +13,6 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/views/home/local_widgets/story_emtpy_widget.dart';
 import 'package:spooky/core/types/sort_type.dart';
-import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_story_list/has_tag_changes_alerter.dart';
 import 'package:spooky/widgets/sp_story_tile/sp_story_tile.dart';

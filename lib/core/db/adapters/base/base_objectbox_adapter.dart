@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
+import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
+import 'package:spooky/core/db/models/base/links_model.dart';
+import 'package:spooky/core/db/models/base/meta_model.dart';
 import 'package:spooky/objectbox.g.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
@@ -28,7 +31,32 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
   }
 
   Future<P> objectTransformer(T object);
+  Future<List<P>> itemsTransformer(List<T> objects);
   Future<T> objectConstructor(Map<String, dynamic> json);
+
+  QueryBuilder<T>? buildQuery({Map<String, dynamic>? params});
+
+  @override
+  Future<BaseDbListModel<P>> fetchAll({
+    Map<String, dynamic>? params,
+  }) async {
+    List<T> objects;
+
+    QueryBuilder<T>? queryBuilder = buildQuery(params: params);
+    if (queryBuilder != null) {
+      Query<T>? query = queryBuilder.build();
+      objects = query.find();
+    } else {
+      objects = box.getAll();
+    }
+
+    List<P> docs = await itemsTransformer(objects);
+    return BaseDbListModel(
+      items: docs,
+      meta: MetaModel(),
+      links: LinksModel(),
+    );
+  }
 
   @override
   Future<P?> fetchOne({
