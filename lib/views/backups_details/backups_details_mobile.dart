@@ -70,7 +70,7 @@ class _BackupsDetailsMobile extends StatelessWidget {
                 arguments: BackupHistoriesManagerArgs(destination: viewModel.destination),
               );
               // ignore: use_build_context_synchronously
-              Navigator.maybePop(context);
+              Navigator.maybePop(context, true);
             },
           ),
         ];

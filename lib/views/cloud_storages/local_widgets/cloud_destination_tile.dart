@@ -160,15 +160,21 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
               label: "View",
               backgroundColor: M3Color.of(context).secondary,
               foregroundColor: M3Color.of(context).onSecondary,
-              onTap: () {
-                Navigator.of(context).pushNamed(
+              onTap: () async {
+                await Navigator.of(context)
+                    .pushNamed(
                   SpRouter.backupsDetails.path,
                   arguments: BackupsDetailArgs(
                     destination: provider.destination,
                     cloudFiles: provider.destination.metaDatasFromCloudFiles(provider.fileList),
                     initialCloudFile: provider.lastMetaData!.cloudFile,
                   ),
-                );
+                )
+                    .then((result) {
+                  if (result is bool && result) {
+                    provider.load(true);
+                  }
+                });
               },
             ),
         ],
