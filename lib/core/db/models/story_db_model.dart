@@ -25,6 +25,9 @@ class StoryDbModel extends BaseDbModel {
 
   final List<StoryContentDbModel> changes;
 
+  @JsonKey(ignore: true)
+  final List<String>? rawChanges;
+
   DateTime get displayPathDate {
     return DateTime(
       year,
@@ -56,6 +59,7 @@ class StoryDbModel extends BaseDbModel {
     required this.createdAt,
     required this.tags,
     this.movedToBinAt,
+    this.rawChanges,
   });
 
   @override

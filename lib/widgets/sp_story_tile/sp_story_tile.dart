@@ -3,6 +3,7 @@ library sp_story_tile;
 import 'dart:async';
 
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
@@ -19,6 +20,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
+import 'package:spooky/utils/helpers/story_db_constructor_helper.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_chips.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
@@ -51,12 +53,14 @@ class SpStoryTile extends StatefulWidget {
   State<SpStoryTile> createState() => _SpStoryTileState();
 }
 
+List<StoryContentDbModel> _changesConstructor(List<String> rawChanges) {
+  return StoryDbConstructorHelper.strsToChanges(rawChanges);
+}
+
 class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   late final StoryDatabase database;
   late final SpStoryTileUtils utils;
   late StoryDbModel story;
-
-  Completer<int>? _completer;
 
   StoryDbModel? get previousStory => widget.previousStory;
   bool get starred => story.starred == true;
@@ -66,40 +70,37 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   void initState() {
     database = StoryDatabase.instance;
     story = widget.story;
+    loadChanges();
+
     utils = SpStoryTileUtils(
       context: context,
       story: story,
       reloadList: () => widget.onRefresh(),
       reloadStory: () => reloadStory(),
     );
+
     super.initState();
   }
 
-  Completer<int> setComputer() {
-    _completer = Completer<int>();
-    scheduleAction(() {
-      completeLoading();
-    }, duration: const Duration(seconds: 5));
-    return _completer!;
-  }
-
-  void completeLoading() {
-    if (_completer != null && !_completer!.isCompleted) {
-      _completer?.complete(1);
+  Future<int> loadChanges() async {
+    if (story.rawChanges != null) {
+      List<StoryContentDbModel> changes = await compute(_changesConstructor, story.rawChanges!);
+      story = story.copyWith(changes: changes);
     }
+    return 0;
   }
 
   // reload current story only
   Future<void> reloadStory() async {
-    setComputer();
     StoryDbModel? storyResult = await database.fetchOne(id: story.id);
+
     if (storyResult != null) {
       setState(() => story = storyResult);
-      completeLoading();
     } else {
       await widget.onRefresh();
-      completeLoading();
     }
+
+    loadChanges();
   }
 
   Future<void> toggleStarred() async {
@@ -115,12 +116,12 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     if (updatedStory != null) await reloadStory();
   }
 
-  Future<void> view(StoryDbModel story, BuildContext context) async {
-    if (_completer != null && !_completer!.isCompleted) {
+  Future<void> view(BuildContext context) async {
+    if (story.rawChanges != null && story.rawChanges?.length != story.changes.length) {
       await MessengerService.instance.showLoading(
-        future: () => _completer!.future,
+        future: () => loadChanges(),
         context: context,
-        debugSource: "_SpStoryTileState#view",
+        debugSource: "_SpStoryTileState",
       );
     }
 
@@ -131,8 +132,6 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
         arguments: ContentReaderArgs(content: story.changes.last),
       );
     } else {
-      Stopwatch stopwatch = Stopwatch()..start();
-
       // ignore: use_build_context_synchronously
       await Navigator.of(context).pushNamed(
         SpRouter.detail.path,
@@ -141,12 +140,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
           intialFlow: DetailViewFlowType.update,
         ),
       );
-
-      // Play around to avoid always reload
-      stopwatch.stop();
-      if (stopwatch.elapsedMilliseconds > 1000) {
-        reloadStory();
-      }
+      reloadStory();
     }
   }
 
@@ -169,7 +163,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       builder: (callback) {
         return SpTapEffect(
           onLongPressed: () => callback(),
-          onTap: () => view(widget.story, context),
+          onTap: () => view(context),
           child: Padding(
             padding: widget.itemPadding,
             child: buildTileContent(),
@@ -198,7 +192,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: "View",
       leadingIconData: Icons.chrome_reader_mode,
-      onPressed: () => view(story, context),
+      onPressed: () => view(context),
     );
   }
 

@@ -150,11 +150,9 @@ StoryDbModel _objectTransformer(StoryObjectBox object) {
     updatedAt: object.updatedAt,
     createdAt: object.createdAt,
     tags: object.tags,
-    changes: object.changes.map((str) {
-      String decoded = HtmlCharacterEntities.decode(str);
-      dynamic json = jsonDecode(decoded);
-      return StoryContentDbModel.fromJson(json);
-    }).toList(),
+    rawChanges: object.changes,
+    // set only last & load everything on story tile instead.
+    changes: StoryDbConstructorHelper.strsToChanges([object.changes.last]),
   );
 }
 
@@ -176,11 +174,7 @@ StoryObjectBox _objectConstructor(StoryDbModel story) {
     updatedAt: story.updatedAt,
     movedToBinAt: story.movedToBinAt,
     metadata: story.changes.last.safeMetadata,
-    changes: story.changes.map((e) {
-      Map<String, dynamic> json = e.toJson();
-      String encoded = jsonEncode(json);
-      return HtmlCharacterEntities.encode(encoded);
-    }).toList(),
+    changes: StoryDbConstructorHelper.changesToStrs(story.changes),
   );
   return object;
 }

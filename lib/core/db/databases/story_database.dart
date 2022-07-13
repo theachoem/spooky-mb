@@ -14,6 +14,7 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
 import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/main.dart';
+import 'package:spooky/utils/helpers/story_db_constructor_helper.dart';
 import './base_story_database.dart';
 import 'package:spooky/objectbox.g.dart';
 
