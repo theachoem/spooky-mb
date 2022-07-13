@@ -19,6 +19,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
+import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_chips.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
@@ -50,12 +51,12 @@ class SpStoryTile extends StatefulWidget {
   State<SpStoryTile> createState() => _SpStoryTileState();
 }
 
-class _SpStoryTileState extends State<SpStoryTile> {
+class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   late final StoryDatabase database;
   late final SpStoryTileUtils utils;
   late StoryDbModel story;
 
-  Completer<int>? completer;
+  Completer<int>? _completer;
 
   StoryDbModel? get previousStory => widget.previousStory;
   bool get starred => story.starred == true;
@@ -74,16 +75,30 @@ class _SpStoryTileState extends State<SpStoryTile> {
     super.initState();
   }
 
+  Completer<int> setComputer() {
+    _completer = Completer<int>();
+    scheduleAction(() {
+      completeLoading();
+    }, duration: const Duration(seconds: 5));
+    return _completer!;
+  }
+
+  void completeLoading() {
+    if (_completer != null && !_completer!.isCompleted) {
+      _completer?.complete(1);
+    }
+  }
+
   // reload current story only
   Future<void> reloadStory() async {
-    completer = Completer<int>();
+    setComputer();
     StoryDbModel? storyResult = await database.fetchOne(id: story.id);
     if (storyResult != null) {
       setState(() => story = storyResult);
-      completer!.complete(1);
+      completeLoading();
     } else {
       await widget.onRefresh();
-      completer!.complete(1);
+      completeLoading();
     }
   }
 
@@ -101,9 +116,9 @@ class _SpStoryTileState extends State<SpStoryTile> {
   }
 
   Future<void> view(StoryDbModel story, BuildContext context) async {
-    if (completer != null && !completer!.isCompleted) {
+    if (_completer != null && !_completer!.isCompleted) {
       await MessengerService.instance.showLoading(
-        future: () => completer!.future,
+        future: () => _completer!.future,
         context: context,
         debugSource: "_SpStoryTileState#view",
       );
@@ -116,6 +131,8 @@ class _SpStoryTileState extends State<SpStoryTile> {
         arguments: ContentReaderArgs(content: story.changes.last),
       );
     } else {
+      Stopwatch stopwatch = Stopwatch()..start();
+
       // ignore: use_build_context_synchronously
       await Navigator.of(context).pushNamed(
         SpRouter.detail.path,
@@ -124,7 +141,12 @@ class _SpStoryTileState extends State<SpStoryTile> {
           intialFlow: DetailViewFlowType.update,
         ),
       );
-      reloadStory();
+
+      // Play around to avoid always reload
+      stopwatch.stop();
+      if (stopwatch.elapsedMilliseconds > 1000) {
+        reloadStory();
+      }
     }
   }
 
