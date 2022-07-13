@@ -11,6 +11,7 @@ import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/core/services/is_changed_story_service.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
@@ -62,6 +63,8 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   late final SpStoryTileUtils utils;
   late StoryDbModel story;
 
+  Completer<bool>? completer;
+
   StoryDbModel? get previousStory => widget.previousStory;
   bool get starred => story.starred == true;
   Color? get starredColor => starred ? M3Color.of(context).error : null;
@@ -90,17 +93,34 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return 0;
   }
 
+  void complete() {
+    if (completer != null && !completer!.isCompleted) {
+      completer?.complete(true);
+    }
+  }
+
+  // complete with 5 seconds timeout
+  void setCompleter() {
+    completer = Completer();
+    scheduleAction(
+      () => complete(),
+      duration: const Duration(seconds: 10),
+    );
+  }
+
   // reload current story only
   Future<void> reloadStory() async {
+    setCompleter();
     StoryDbModel? storyResult = await database.fetchOne(id: story.id);
 
     if (storyResult != null) {
       setState(() => story = storyResult);
+      await loadChanges();
     } else {
       await widget.onRefresh();
     }
 
-    loadChanges();
+    complete();
   }
 
   Future<void> toggleStarred() async {
@@ -117,11 +137,16 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   }
 
   Future<void> view(BuildContext context) async {
-    if (story.rawChanges != null && story.rawChanges?.length != story.changes.length) {
+    bool hasntLoadChanges = story.rawChanges != null && story.rawChanges?.length != story.changes.length;
+    bool hasIncompleteFuture = completer != null && !completer!.isCompleted;
+
+    if (hasntLoadChanges || hasIncompleteFuture) {
       await MessengerService.instance.showLoading(
-        future: () => loadChanges(),
+        future: () => Future.wait([
+          if (hasIncompleteFuture) completer!.future else if (hasntLoadChanges) loadChanges(),
+        ]),
         context: context,
-        debugSource: "_SpStoryTileState",
+        debugSource: "_SpStoryTileState#view",
       );
     }
 
@@ -140,7 +165,9 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
           intialFlow: DetailViewFlowType.update,
         ),
       );
-      reloadStory();
+
+      bool changed = IsChangedStoryService.instance.hasChanged(story);
+      if (changed) reloadStory();
     }
   }
 

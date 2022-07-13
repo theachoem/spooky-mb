@@ -29,6 +29,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     String? tag = params?["tag"];
     bool? starred = params?["starred"];
     int? order = params?["order"];
+    bool priority = params?["priority"] == true;
 
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
 
@@ -48,13 +49,15 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
       );
     }
 
-    QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions)
+    QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions);
+    if (priority) queryBuilder.order(StoryObjectBox_.starred, flags: Order.descending);
+
+    queryBuilder
       ..order(StoryObjectBox_.year, flags: order ?? Order.descending)
       ..order(StoryObjectBox_.month, flags: order ?? Order.descending)
       ..order(StoryObjectBox_.day, flags: order ?? Order.descending)
       ..order(StoryObjectBox_.hour, flags: order ?? Order.descending)
-      ..order(StoryObjectBox_.minute, flags: order ?? Order.descending)
-      ..order(StoryObjectBox_.starred, flags: Order.descending);
+      ..order(StoryObjectBox_.minute, flags: order ?? Order.descending);
 
     return queryBuilder;
   }
@@ -64,6 +67,10 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     Map<String, dynamic>? params,
   }) async {
     params ??= {};
+
+    bool priority = (await PriorityStarredStorage().read() ?? true) == true;
+    params['priority'] = priority;
+
     SortType? sort = await SortTypeStorage().readEnum();
     if (sort == SortType.newToOld) params['order'] = Order.descending;
     if (sort == SortType.oldToNew) params['order'] = 0;

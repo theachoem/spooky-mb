@@ -123,7 +123,7 @@ class DetailSheet extends StatelessWidget {
           },
         );
 
-        Navigator.of(context).pushNamed(
+        await Navigator.of(context).pushNamed(
           SpRouter.changesHistory.path,
           arguments: arguments,
         );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
+import 'package:spooky/core/services/is_changed_story_service.dart';
 import 'package:spooky/core/story_writers/objects/base_writer_object.dart';
 import 'package:spooky/core/types/response_code_type.dart';
 
@@ -30,7 +31,9 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
     StoryDbModel? result;
     if (validation == null) {
       StoryDbModel story = await buildStory(object);
-      result = await database.set(body: story.copyWith(updatedAt: DateTime.now()));
+      story = story.copyWith(updatedAt: DateTime.now());
+      IsChangedStoryService.instance.setChanged(story);
+      result = await database.set(body: story);
       return result != null ? _nextSuccess(result) : _nextError(result);
     } else {
       return _nextError(result, validation);

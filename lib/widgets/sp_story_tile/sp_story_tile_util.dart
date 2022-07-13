@@ -34,7 +34,7 @@ class SpStoryTileUtils {
   }) async {
     bool success = await callback();
     if (success && refreshList) await reloadList();
-    if (success && refreshStory) await reloadList();
+    if (success && refreshStory) await reloadStory();
     return success;
   }
 
