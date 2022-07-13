@@ -31,7 +31,7 @@ class SpExpandedAppBar extends StatelessWidget {
       expandedHeight: expandedHeight,
       collapsedHeight: collapsedHeight,
       backgroundColor: backgroundColor,
-      leading: const SpPopButton(),
+      leading: ModalRoute.of(context)?.settings.name == "/" ? null : const SpPopButton(),
       pinned: true,
       floating: true,
       stretch: true,
