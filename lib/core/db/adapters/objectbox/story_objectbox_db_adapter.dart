@@ -47,14 +47,15 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions);
     Query<StoryObjectBox> query = queryBuilder.build();
     List<StoryObjectBox> objects = query.find();
+    List<StoryDbModel> docs = await compute(_itemsTransformer, objects);
 
-    List<StoryDbModel> docs = [];
+    // in has there is no metadata.
     for (StoryObjectBox object in objects) {
-      StoryDbModel json = await objectTransformer(object);
-      docs.add(json);
-
-      // set in case old data has no metadata for query
-      if (object.metadata == null) set(body: json.toJson());
+      if (object.metadata == null) {
+        objectTransformer(object).then((value) {
+          set(body: value.toJson());
+        });
+      }
     }
 
     return BaseDbListModel(
@@ -81,6 +82,15 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     Query<StoryObjectBox> query = queryBuilder.build();
     return query.count();
   }
+}
+
+List<StoryDbModel> _itemsTransformer(List<StoryObjectBox> objects) {
+  List<StoryDbModel> docs = [];
+  for (StoryObjectBox object in objects) {
+    StoryDbModel json = _objectTransformer(object);
+    docs.add(json);
+  }
+  return docs;
 }
 
 StoryDbModel _objectTransformer(StoryObjectBox object) {
