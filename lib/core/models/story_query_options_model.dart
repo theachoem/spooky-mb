@@ -14,6 +14,8 @@ class StoryQueryOptionsModel {
   final PathType? type;
   final bool? starred;
   final String? query;
+  final List<int>? selectedYears;
+  final List<int>? yearsRange;
 
   StoryQueryOptionsModel({
     this.year,
@@ -23,6 +25,8 @@ class StoryQueryOptionsModel {
     this.starred = false,
     this.query,
     this.type,
+    this.selectedYears,
+    this.yearsRange,
   });
 
   String join() {

@@ -30,6 +30,7 @@ class SearchScaffold extends StatefulWidget {
 class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawableMixin {
   List<TagDbModel>? tags;
   late StoryQueryOptionsModel queryOption;
+  bool advanceSearch = false;
 
   Future<void> load() async {
     tags = await TagDatabase.instance.fetchAll().then((value) => value?.items);
@@ -52,11 +53,40 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
         // avoid conflict hero with home
         heroTag: ModalRoute.of(context)?.settings.name == "/" ? "MorphingAppBar" : DetailView.appBarHeroKey,
         title: widget.titleBuilder((text) {
-          setState(() {
-            queryOption = queryOption.copyWith(
-              query: text.trim().isNotEmpty ? text.trim() : null,
-            );
-          });
+          if (advanceSearch) {
+            List<int>? selectedYears;
+            List<int>? yearsRange;
+
+            List<String> years = text.split(",");
+            List<String> yearsRanges = text.split("-");
+
+            if (yearsRanges.length == 2) {
+              int? from = int.tryParse(yearsRanges[0]);
+              int? to = int.tryParse(yearsRanges[1]);
+              if (from != null && to != null) yearsRange = [from, to];
+            } else if (years.isNotEmpty) {
+              List<int?> selected = years.map((year) {
+                return int.tryParse(year);
+              }).toList();
+              if (!selected.contains(null)) {
+                selectedYears = selected.map((e) => e as int).toList();
+              }
+            }
+
+            setState(() {
+              queryOption = queryOption.copyWith(
+                query: yearsRange != null || selectedYears != null || text.trim().isEmpty ? null : text.trim(),
+                selectedYears: selectedYears,
+                yearsRange: yearsRange,
+              );
+            });
+          } else {
+            setState(() {
+              queryOption = queryOption.copyWith(
+                query: text.trim().isEmpty ? null : text.trim(),
+              );
+            });
+          }
         }),
         leading: ModalRoute.of(context)?.settings.name == "/" ? null : const SpPopButton(),
         actions: [
@@ -74,6 +104,8 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
         children: SpSectionsTiles.divide(
           context: context,
           sections: [
+            buildTypes(),
+            buildTagsSection(),
             SpSectionContents(
               headline: "Options",
               tiles: [
@@ -86,10 +118,17 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
                     });
                   },
                 ),
+                CheckboxListTile(
+                  value: advanceSearch,
+                  title: const Text("Advance search"),
+                  onChanged: (value) {
+                    setState(() {
+                      advanceSearch = !advanceSearch;
+                    });
+                  },
+                ),
               ],
             ),
-            buildTypes(),
-            buildTagsSection(),
           ],
         ),
       ),

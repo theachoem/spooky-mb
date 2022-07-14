@@ -16,11 +16,11 @@ SoundModel _$SoundModelFromJson(Map<String, dynamic> json) => SoundModel(
 
 Map<String, dynamic> _$SoundModelToJson(SoundModel instance) =>
     <String, dynamic>{
-      'type': _$SoundTypeEnumMap[instance.type],
+      'type': _$SoundTypeEnumMap[instance.type]!,
       'sound_name': instance.soundName,
       'file_name': instance.fileName,
       'file_size': instance.fileSize,
-      'weather_type': _$WeatherTypeEnumMap[instance.weatherType],
+      'weather_type': _$WeatherTypeEnumMap[instance.weatherType]!,
     };
 
 const _$SoundTypeEnumMap = {

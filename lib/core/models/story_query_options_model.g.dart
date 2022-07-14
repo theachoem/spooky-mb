@@ -13,6 +13,8 @@ abstract class _$StoryQueryOptionsModelCWProxy {
 
   StoryQueryOptionsModel query(String? query);
 
+  StoryQueryOptionsModel selectedYears(List<int>? selectedYears);
+
   StoryQueryOptionsModel starred(bool? starred);
 
   StoryQueryOptionsModel tag(String? tag);
@@ -20,6 +22,8 @@ abstract class _$StoryQueryOptionsModelCWProxy {
   StoryQueryOptionsModel type(PathType? type);
 
   StoryQueryOptionsModel year(int? year);
+
+  StoryQueryOptionsModel yearsRange(List<int>? yearsRange);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `StoryQueryOptionsModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -31,10 +35,12 @@ abstract class _$StoryQueryOptionsModelCWProxy {
     int? day,
     int? month,
     String? query,
+    List<int>? selectedYears,
     bool? starred,
     String? tag,
     PathType? type,
     int? year,
+    List<int>? yearsRange,
   });
 }
 
@@ -55,6 +61,10 @@ class _$StoryQueryOptionsModelCWProxyImpl
   StoryQueryOptionsModel query(String? query) => this(query: query);
 
   @override
+  StoryQueryOptionsModel selectedYears(List<int>? selectedYears) =>
+      this(selectedYears: selectedYears);
+
+  @override
   StoryQueryOptionsModel starred(bool? starred) => this(starred: starred);
 
   @override
@@ -65,6 +75,10 @@ class _$StoryQueryOptionsModelCWProxyImpl
 
   @override
   StoryQueryOptionsModel year(int? year) => this(year: year);
+
+  @override
+  StoryQueryOptionsModel yearsRange(List<int>? yearsRange) =>
+      this(yearsRange: yearsRange);
 
   @override
 
@@ -78,10 +92,12 @@ class _$StoryQueryOptionsModelCWProxyImpl
     Object? day = const $CopyWithPlaceholder(),
     Object? month = const $CopyWithPlaceholder(),
     Object? query = const $CopyWithPlaceholder(),
+    Object? selectedYears = const $CopyWithPlaceholder(),
     Object? starred = const $CopyWithPlaceholder(),
     Object? tag = const $CopyWithPlaceholder(),
     Object? type = const $CopyWithPlaceholder(),
     Object? year = const $CopyWithPlaceholder(),
+    Object? yearsRange = const $CopyWithPlaceholder(),
   }) {
     return StoryQueryOptionsModel(
       day: day == const $CopyWithPlaceholder()
@@ -96,6 +112,10 @@ class _$StoryQueryOptionsModelCWProxyImpl
           ? _value.query
           // ignore: cast_nullable_to_non_nullable
           : query as String?,
+      selectedYears: selectedYears == const $CopyWithPlaceholder()
+          ? _value.selectedYears
+          // ignore: cast_nullable_to_non_nullable
+          : selectedYears as List<int>?,
       starred: starred == const $CopyWithPlaceholder()
           ? _value.starred
           // ignore: cast_nullable_to_non_nullable
@@ -112,6 +132,10 @@ class _$StoryQueryOptionsModelCWProxyImpl
           ? _value.year
           // ignore: cast_nullable_to_non_nullable
           : year as int?,
+      yearsRange: yearsRange == const $CopyWithPlaceholder()
+          ? _value.yearsRange
+          // ignore: cast_nullable_to_non_nullable
+          : yearsRange as List<int>?,
     );
   }
 }
@@ -136,6 +160,12 @@ StoryQueryOptionsModel _$StoryQueryOptionsModelFromJson(
       starred: json['starred'] as bool? ?? false,
       query: json['query'] as String?,
       type: $enumDecodeNullable(_$PathTypeEnumMap, json['type']),
+      selectedYears: (json['selected_years'] as List<dynamic>?)
+          ?.map((e) => e as int)
+          .toList(),
+      yearsRange: (json['years_range'] as List<dynamic>?)
+          ?.map((e) => e as int)
+          .toList(),
     );
 
 Map<String, dynamic> _$StoryQueryOptionsModelToJson(
@@ -148,6 +178,8 @@ Map<String, dynamic> _$StoryQueryOptionsModelToJson(
       'type': _$PathTypeEnumMap[instance.type],
       'starred': instance.starred,
       'query': instance.query,
+      'selected_years': instance.selectedYears,
+      'years_range': instance.yearsRange,
     };
 
 const _$PathTypeEnumMap = {

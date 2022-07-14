@@ -25,6 +25,8 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel movedToBinAt(DateTime? movedToBinAt);
 
+  StoryDbModel rawChanges(List<String>? rawChanges);
+
   StoryDbModel second(int? second);
 
   StoryDbModel starred(bool? starred);
@@ -55,6 +57,7 @@ abstract class _$StoryDbModelCWProxy {
     int? minute,
     int? month,
     DateTime? movedToBinAt,
+    List<String>? rawChanges,
     int? second,
     bool? starred,
     List<String>? tags,
@@ -101,6 +104,10 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
       this(movedToBinAt: movedToBinAt);
 
   @override
+  StoryDbModel rawChanges(List<String>? rawChanges) =>
+      this(rawChanges: rawChanges);
+
+  @override
   StoryDbModel second(int? second) => this(second: second);
 
   @override
@@ -139,6 +146,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
     Object? minute = const $CopyWithPlaceholder(),
     Object? month = const $CopyWithPlaceholder(),
     Object? movedToBinAt = const $CopyWithPlaceholder(),
+    Object? rawChanges = const $CopyWithPlaceholder(),
     Object? second = const $CopyWithPlaceholder(),
     Object? starred = const $CopyWithPlaceholder(),
     Object? tags = const $CopyWithPlaceholder(),
@@ -184,6 +192,10 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.movedToBinAt
           // ignore: cast_nullable_to_non_nullable
           : movedToBinAt as DateTime?,
+      rawChanges: rawChanges == const $CopyWithPlaceholder()
+          ? _value.rawChanges
+          // ignore: cast_nullable_to_non_nullable
+          : rawChanges as List<String>?,
       second: second == const $CopyWithPlaceholder()
           ? _value.second
           // ignore: cast_nullable_to_non_nullable
@@ -251,7 +263,7 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
 Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
     <String, dynamic>{
       'version': instance.version,
-      'type': _$PathTypeEnumMap[instance.type],
+      'type': _$PathTypeEnumMap[instance.type]!,
       'id': instance.id,
       'year': instance.year,
       'month': instance.month,

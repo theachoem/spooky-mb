@@ -30,6 +30,8 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     bool? starred = params?["starred"];
     int? order = params?["order"];
     bool priority = params?["priority"] == true;
+    List<int>? selectedYears = params?["selected_years"];
+    List<int>? yearsRange = params?["years_range"];
 
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
 
@@ -47,6 +49,18 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
           caseSensitive: false,
         ),
       );
+    }
+
+    if (yearsRange != null && yearsRange.length == 2) {
+      yearsRange.sort();
+      conditions = conditions.and(
+        StoryObjectBox_.year.between(
+          yearsRange[0],
+          yearsRange[1],
+        ),
+      );
+    } else if (selectedYears != null) {
+      conditions = conditions.and(StoryObjectBox_.year.oneOf(selectedYears));
     }
 
     QueryBuilder<StoryObjectBox> queryBuilder = box.query(conditions);
