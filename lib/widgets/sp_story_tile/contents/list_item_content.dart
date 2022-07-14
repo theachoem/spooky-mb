@@ -9,6 +9,7 @@ class _ListStoryTileContent extends _BaseTileContent {
   Widget build(BuildContext context) {
     Map<int, Color> dayColors = M3Color.dayColorsOf(context);
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildMonogram(
           context,

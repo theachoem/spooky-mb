@@ -99,7 +99,13 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
         top: ConfigConstant.margin2 + 8.0,
         bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
       ),
-      embedBuilder: (context, controller, node, readOnly) {
+      embedBuilder: (
+        BuildContext context,
+        editor.QuillController controller,
+        editor.Embed node,
+        bool readOnly,
+        void Function(GlobalKey videoContainerKey)? onVideoInit,
+      ) {
         return QuillEmbedRenderer(
           controller: controller,
           node: node,
