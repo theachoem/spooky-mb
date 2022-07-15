@@ -84,20 +84,23 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     required P body,
     Map<String, dynamic> params = const {},
   }) async {
-    int id = body.toJson()['id'];
-    bool exists = box.contains(id);
-    if (!exists || id == 0) {
-      return create(
-        body: body,
-        params: params,
-      );
-    } else {
-      return update(
-        id: id,
-        body: body,
-        params: params,
-      );
-    }
+    // int id = body.toJson()['id'];
+    // bool exists = box.contains(id);
+    // if (!exists || id == 0) {
+    //   return create(
+    //     body: body,
+    //     params: params,
+    //   );
+    // } else {
+    //   return update(
+    //     id: id,
+    //     body: body,
+    //     params: params,
+    //   );
+    // }
+    T constructed = await objectConstructor(body);
+    box.putQueued(constructed, mode: PutMode.put);
+    return body;
   }
 
   @override
@@ -106,7 +109,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     Map<String, dynamic> params = const {},
   }) async {
     T constructed = await objectConstructor(body);
-    box.put(constructed, mode: PutMode.insert);
+    box.putQueued(constructed, mode: PutMode.insert);
     return body;
   }
 
@@ -117,7 +120,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     Map<String, dynamic> params = const {},
   }) async {
     T object = await objectConstructor(body);
-    box.put(object, mode: PutMode.update);
+    box.putQueued(object, mode: PutMode.update);
     return body;
   }
 }

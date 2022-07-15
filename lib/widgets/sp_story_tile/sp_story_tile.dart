@@ -54,10 +54,6 @@ class SpStoryTile extends StatefulWidget {
   State<SpStoryTile> createState() => _SpStoryTileState();
 }
 
-List<StoryContentDbModel> _changesConstructor(List<String> rawChanges) {
-  return StoryDbConstructorHelper.strsToChanges(rawChanges);
-}
-
 class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   late final StoryDatabase database;
   late final SpStoryTileUtils utils;
@@ -85,12 +81,8 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     super.initState();
   }
 
-  Future<int> loadChanges() async {
-    if (story.rawChanges != null) {
-      List<StoryContentDbModel> changes = await compute(_changesConstructor, story.rawChanges!);
-      story = story.copyWith(changes: changes);
-    }
-    return 0;
+  Future<void> loadChanges() async {
+    story = await StoryDbConstructorHelper.loadChanges(story);
   }
 
   void complete() {
