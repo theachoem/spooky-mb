@@ -5,11 +5,11 @@ import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:dismissible_page/dismissible_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
-import 'package:overscroll_pop/overscroll_pop.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
@@ -32,7 +32,7 @@ class QuillImageRenderer extends StatelessWidget {
   final quill.QuillController controller;
   final bool readOnly;
 
-  Widget? imageByUrl(String imageUrl) {
+  Widget imageByUrl(String imageUrl) {
     if (isImageBase64(imageUrl)) {
       return Image.memory(
         base64.decode(imageUrl),
@@ -57,7 +57,7 @@ class QuillImageRenderer extends StatelessWidget {
       );
     }
 
-    return null;
+    return const SizedBox.shrink();
   }
 
   String standardizeImageUrl(String url) {
@@ -80,53 +80,17 @@ class QuillImageRenderer extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onDoubleTap: () => viewImage(context, imageUrl),
-        onTap: () async {
-          String? result = await showModalActionSheet<String>(
-            context: context,
-            title: "Image",
-            actions: [
-              if (imageUrl.startsWith('http')) ...[
-                const SheetAction(
-                  label: "View on web",
-                  key: "view-on-web",
-                  icon: CommunityMaterialIcons.web,
-                ),
-                const SheetAction(
-                  label: "Copy link",
-                  key: "copy-link",
-                  icon: CommunityMaterialIcons.link,
-                ),
-              ],
-              const SheetAction(
-                label: "View",
-                key: "view",
-                icon: CommunityMaterialIcons.image,
-              ),
-            ],
-          );
-
-          switch (result) {
-            case "copy-link":
-              await Clipboard.setData(ClipboardData(text: imageUrl));
-              MessengerService.instance.showSnackBar("Copied", showAction: false);
-              break;
-            case "view-on-web":
-              AppHelper.openLinkDialog(imageUrl);
-              break;
-            case "view":
-              // ignore: use_build_context_synchronously
-              viewImage(context, imageUrl);
-              break;
-            default:
-          }
-        },
+        onTap: readOnly ? () => onImageTap(context, imageUrl) : null,
         child: Stack(
           children: [
             SizedBox(
               width: size?.item1,
               child: ClipRRect(
                 borderRadius: ConfigConstant.circlarRadius1,
-                child: imageByUrl(imageUrl),
+                child: Hero(
+                  tag: ImageZoomView.imageHeroKey,
+                  child: imageByUrl(imageUrl),
+                ),
               ),
             ),
             Positioned(
@@ -147,17 +111,57 @@ class QuillImageRenderer extends StatelessWidget {
     );
   }
 
-  Future<dynamic> viewImage(BuildContext context, String imageUrl) {
-    return pushDragToPopRoute(
-      context: context,
-      fullscreenDialog: true,
-      barrierDismissible: true,
-      barrierColor: Colors.black12,
-      child: ImageZoomView(
-        scrollToPopOption: ScrollToPopOption.both,
-        dragToPopDirection: DragToPopDirection.vertical,
-        imageUrl: imageUrl,
+  Future<void> onImageTap(BuildContext context, String imageUrl) async {
+    List<SheetAction<String>> actions = [
+      if (imageUrl.startsWith('http')) ...[
+        const SheetAction(
+          label: "View on web",
+          key: "view-on-web",
+          icon: CommunityMaterialIcons.web,
+        ),
+        const SheetAction(
+          label: "Copy link",
+          key: "copy-link",
+          icon: CommunityMaterialIcons.link,
+        ),
+      ],
+      const SheetAction(
+        label: "View",
+        key: "view",
+        icon: CommunityMaterialIcons.image,
       ),
+    ];
+
+    if (actions.length == 1 && actions.first.key == 'view') {
+      viewImage(context, imageUrl);
+      return;
+    }
+
+    String? result = await showModalActionSheet<String>(
+      context: context,
+      title: "Image",
+      actions: actions,
+    );
+
+    switch (result) {
+      case "copy-link":
+        await Clipboard.setData(ClipboardData(text: imageUrl));
+        MessengerService.instance.showSnackBar("Copied", showAction: false);
+        break;
+      case "view-on-web":
+        AppHelper.openLinkDialog(imageUrl);
+        break;
+      case "view":
+        // ignore: use_build_context_synchronously
+        viewImage(context, imageUrl);
+        break;
+      default:
+    }
+  }
+
+  Future<void> viewImage(BuildContext context, String imageUrl) async {
+    context.pushTransparentRoute(
+      ImageZoomView(imageUrl: imageUrl),
     );
   }
 

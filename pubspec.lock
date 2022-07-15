@@ -416,6 +416,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.1"
+  dismissible_page:
+    dependency: "direct main"
+    description:
+      name: dismissible_page
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.3"
   dynamic_color:
     dependency: "direct main"
     description:
@@ -1308,13 +1315,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
-  overscroll_pop:
-    dependency: "direct main"
-    description:
-      name: overscroll_pop
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.0.9"
   package_config:
     dependency: transitive
     description:
