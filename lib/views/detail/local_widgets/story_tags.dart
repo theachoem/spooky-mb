@@ -118,23 +118,29 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
     required int oldIndex,
     required int newIndex,
   }) async {
+    if (oldIndex < newIndex) newIndex -= 1;
+
     if (tags == null) return;
-    List<TagDbModel> tagsQueue = [];
+    if (newIndex > tags!.length - 1) return;
+    if (oldIndex > tags!.length - 1) return;
 
-    for (int i = 0; i < tags!.length; i++) {
-      int index = i;
-      if (i == oldIndex) index = newIndex;
-      if (i == newIndex) index = oldIndex;
-      TagDbModel item = tags![i].copyWith(index: index);
-      tagsQueue.add(item);
+    List<TagDbModel> tagsQueue = [...tags!];
+    TagDbModel item = tagsQueue.removeAt(oldIndex);
+    tagsQueue.insert(newIndex, item);
+
+    setState(() {
+      tags = List.generate(tagsQueue.length, (index) {
+        return tagsQueue[index].copyWith(index: index);
+      });
+    });
+
+    for (TagDbModel tag in tags!) {
+      await tagDatabase.update(
+        id: tag.id,
+        body: tag,
+      );
     }
 
-    tagsQueue.sort((a, b) => a.index.compareTo(b.index));
-    setState(() => tags = tagsQueue);
-
-    for (TagDbModel tag in tagsQueue) {
-      await tagDatabase.update(id: tag.id, body: tag);
-    }
     await load();
   }
 
