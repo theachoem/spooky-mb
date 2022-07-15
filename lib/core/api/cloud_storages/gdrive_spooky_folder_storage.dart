@@ -28,21 +28,13 @@ class GDriveSpookyFolderStorage extends GDriveStorage {
     fileToUpload.name = basename(image.path);
 
     /// try create file
-    drive.File response;
-    try {
-      response = await driveApi.files.create(
-        fileToUpload,
-        uploadMedia: drive.Media(image.openRead(), image.lengthSync()),
-      );
-    } catch (e) {
-      return null;
-    }
+    drive.File response = await driveApi.files.create(
+      fileToUpload,
+      uploadMedia: drive.Media(image.openRead(), image.lengthSync()),
+    );
 
     if (response.id == null) return null;
-
-    // TODO: compress image before upload
-    // delete compress image from local storage
-    // await image.delete();
+    await image.delete();
 
     /// result
     final link = 'https://drive.google.com/uc?export=download&id=${response.id}';
