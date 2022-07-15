@@ -25,7 +25,7 @@ class _SearchThemeSwicherState extends State<SearchThemeSwicher> {
   @override
   void initState() {
     offsetNotifier = ValueNotifier(0);
-    controller = PageController();
+    controller = PageController(initialPage: 100, keepPage: false);
 
     controller.addListener(_listener);
     setTimer();
@@ -72,23 +72,7 @@ class _SearchThemeSwicherState extends State<SearchThemeSwicher> {
           return ValueListenableBuilder<double>(
             valueListenable: offsetNotifier,
             child: Center(
-              child: index.isEven
-                  ? SpThemeSwitcher()
-                  : SpIconButton(
-                      backgroundColor: M3Color.of(context).readOnly.surface5,
-                      icon: Icon(
-                        Icons.search,
-                        color: M3Color.of(context).primary,
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(
-                          SpRouter.search.path,
-                          arguments: SearchArgs(
-                            initialQuery: StoryQueryOptionsModel(),
-                          ),
-                        );
-                      },
-                    ),
+              child: index.isEven ? SpThemeSwitcher() : const _SearchButton(),
             ),
             builder: (context, offset, child) {
               return buildItem(index, height, child);
@@ -118,6 +102,31 @@ class _SearchThemeSwicherState extends State<SearchThemeSwicher> {
         opacity: opacity,
         child: child,
       ),
+    );
+  }
+}
+
+class _SearchButton extends StatelessWidget {
+  const _SearchButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SpIconButton(
+      backgroundColor: M3Color.of(context).readOnly.surface5,
+      icon: Icon(
+        Icons.search,
+        color: M3Color.of(context).primary,
+      ),
+      onPressed: () {
+        Navigator.of(context).pushNamed(
+          SpRouter.search.path,
+          arguments: SearchArgs(
+            initialQuery: StoryQueryOptionsModel(),
+          ),
+        );
+      },
     );
   }
 }
