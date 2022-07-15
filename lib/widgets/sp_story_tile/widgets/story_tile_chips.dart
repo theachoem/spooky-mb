@@ -7,6 +7,7 @@ import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
+import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/add_to_drive_button.dart';
 import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_tag_chips.dart';
@@ -19,26 +20,36 @@ class StoryTileChips extends StatelessWidget {
     required this.content,
     required this.story,
     required this.onImageUploaded,
+    this.minimize = false,
   }) : super(key: key);
 
   final Set<String> images;
   final StoryContentDbModel content;
   final StoryDbModel story;
   final void Function(StoryContentDbModel) onImageUploaded;
+  final bool minimize;
 
   @override
   Widget build(BuildContext context) {
     StoryListConfigurationProvider provider = Provider.of<StoryListConfigurationProvider>(context, listen: true);
+
     if (!provider.shouldShowChip) return const SizedBox.shrink();
-    return Wrap(
-      children: getChipList(images, content, story, context).map(
-        (child) {
-          return Padding(
-            padding: const EdgeInsets.only(right: 4.0),
-            child: child,
-          );
-        },
-      ).toList(),
+    List<Widget> chips = getChipList(images, content, story, context);
+    if (chips.isEmpty) return const SizedBox.shrink();
+    return SpCrossFade(
+      showFirst: !minimize,
+      alignment: Alignment.topLeft,
+      secondChild: const SizedBox(width: double.infinity),
+      firstChild: Wrap(
+        children: chips.map(
+          (child) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 4.0),
+              child: child,
+            );
+          },
+        ).toList(),
+      ),
     );
   }
 
@@ -54,13 +65,16 @@ class StoryTileChips extends StatelessWidget {
       if (tags.isNotEmpty) StoryTileTagChips(tags: tags),
       if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
       if (images.isNotEmpty) buildImageChip(images),
-      AddToDriveButton(
-        content: content,
-        story: story,
-        fileImages: fileImages,
-        onUploaded: onImageUploaded,
+      SpCrossFade(
+        showFirst: fileImages.isEmpty,
+        firstChild: const SizedBox(width: double.infinity),
+        secondChild: AddToDriveButton(
+          content: content,
+          story: story,
+          fileImages: fileImages,
+          onUploaded: onImageUploaded,
+        ),
       ),
-
       // SpDeveloperVisibility(
       //   child: SpChip(
       //     avatar: Icon(Icons.developer_board, size: ConfigConstant.iconSize1),

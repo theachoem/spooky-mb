@@ -88,7 +88,7 @@ class QuillImageRenderer extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: ConfigConstant.circlarRadius1,
                 child: Hero(
-                  tag: ImageZoomView.imageHeroKey,
+                  tag: imageUrl,
                   child: imageByUrl(imageUrl),
                 ),
               ),

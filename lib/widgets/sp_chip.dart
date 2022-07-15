@@ -10,11 +10,13 @@ class SpChip extends StatelessWidget {
     required this.labelText,
     this.avatar,
     this.onTap,
+    this.padding = const EdgeInsets.all(ConfigConstant.margin1),
   }) : super(key: key);
 
   final String labelText;
   final Widget? avatar;
   final void Function()? onTap;
+  final EdgeInsets padding;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class SpChip extends StatelessWidget {
             color: M3Color.of(context).outline,
           ),
         ),
-        padding: const EdgeInsets.all(ConfigConstant.margin1),
+        padding: padding,
         avatar: avatar,
       ),
     );

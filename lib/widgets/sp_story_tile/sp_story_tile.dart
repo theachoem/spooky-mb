@@ -21,6 +21,7 @@ import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/utils/helpers/story_db_constructor_helper.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
+import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_chips.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
@@ -53,6 +54,7 @@ class SpStoryTile extends StatefulWidget {
 }
 
 class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
+  late final ValueNotifier<bool> expandedNotifier;
   late final StoryDatabase database;
   late final SpStoryTileUtils utils;
   late StoryDbModel story;
@@ -65,6 +67,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   @override
   void initState() {
+    expandedNotifier = ValueNotifier<bool>(false);
     database = StoryDatabase.instance;
     story = widget.story;
     loadChanges();
@@ -181,6 +184,12 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   }
 
   @override
+  void dispose() {
+    expandedNotifier.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SpPopupMenuButton(
       dxGetter: (double dx) => MediaQuery.of(context).size.width,
@@ -216,6 +225,10 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       previousStory: previousStory,
       replaceContent: replaceContent,
       toggleStarred: toggleStarred,
+      expandedNotifier: expandedNotifier,
+      toggleExpand: () {
+        expandedNotifier.value = !expandedNotifier.value;
+      },
     );
     if (widget.gridLayout) {
       return _GridItemContent(options: options);
