@@ -100,10 +100,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   void _checkUpdatation(StoryQueryList? oldWidget, String source) {
     bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions.join() != widget.queryOptions.join();
     hashStorage.read().then((hash) {
-      if (this.hash != hash || didUpdateQueries) {
-        bool showLoading = oldWidget?.queryOptions.year != widget.queryOptions.year;
-        load(source, oldWidget != null ? showLoading : false);
-      }
+      if (this.hash != hash || didUpdateQueries) load(source, false);
     });
   }
 

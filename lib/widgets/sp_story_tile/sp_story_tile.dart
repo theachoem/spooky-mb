@@ -144,16 +144,22 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   }
 
   Future<void> view(BuildContext context) async {
-    bool hasntLoadChanges = story.rawChanges != null && story.rawChanges?.length != story.changes.length;
+    bool hasntLoadChanges =
+        story.rawChanges != null && story.rawChanges!.length >= story.changes.length && story.changes.length == 1;
     bool hasIncompleteFuture = completer != null && !completer!.isCompleted;
 
     if (hasntLoadChanges || hasIncompleteFuture) {
       await MessengerService.instance.showLoading(
-        future: () => Future.wait([
-          if (hasIncompleteFuture) completer!.future else if (hasntLoadChanges) loadChanges(),
-        ]),
         context: context,
         debugSource: "_SpStoryTileState#view",
+        future: () async {
+          if (hasIncompleteFuture) {
+            await completer!.future;
+          } else if (hasntLoadChanges) {
+            await loadChanges();
+          }
+          return true;
+        },
       );
     }
 

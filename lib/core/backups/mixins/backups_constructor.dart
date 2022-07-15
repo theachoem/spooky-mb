@@ -24,7 +24,7 @@ mixin BackupsConstructor {
     Map<String, dynamic> tables = {};
     for (BaseDatabase db in databases) {
       BaseDbListModel<BaseDbModel>? items;
-      items = await db.fetchAll();
+      items = await db.fetchAll(params: {'all_changes': true});
       if (items != null) {
         List<Map<String, dynamic>> data = await compute(_toJson, items);
         tables[db.tableName] = data;

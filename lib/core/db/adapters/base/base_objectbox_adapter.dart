@@ -30,9 +30,9 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     store.close();
   }
 
-  Future<P> objectTransformer(T object);
-  Future<List<P>> itemsTransformer(List<T> objects);
-  Future<T> objectConstructor(P json);
+  Future<P> objectTransformer(T object, [Map<String, dynamic>? params]);
+  Future<List<P>> itemsTransformer(List<T> objects, [Map<String, dynamic>? params]);
+  Future<T> objectConstructor(P json, [Map<String, dynamic>? params]);
   QueryBuilder<T>? buildQuery({Map<String, dynamic>? params});
 
   @override

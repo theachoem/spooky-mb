@@ -5,18 +5,24 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
   _StoryObjectBoxDbAdapter(String tableName) : super(tableName);
 
   @override
-  Future<List<StoryDbModel>> itemsTransformer(List<StoryObjectBox> objects) {
-    return compute(_itemsTransformer, objects);
+  Future<List<StoryDbModel>> itemsTransformer(List<StoryObjectBox> objects, [Map<String, dynamic>? params]) {
+    return compute(_itemsTransformer, {
+      'objects': objects,
+      'all_changes': params?['all_changes'],
+    });
   }
 
   @override
-  Future<StoryObjectBox> objectConstructor(StoryDbModel body) async {
+  Future<StoryObjectBox> objectConstructor(StoryDbModel body, [Map<String, dynamic>? params]) async {
     return compute(_objectConstructor, body);
   }
 
   @override
-  Future<StoryDbModel> objectTransformer(StoryObjectBox object) {
-    return compute(_objectTransformer, object);
+  Future<StoryDbModel> objectTransformer(StoryObjectBox object, [Map<String, dynamic>? params]) {
+    return compute(_objectTransformer, {
+      'object': object,
+      'all_changes': params?['all_changes'],
+    });
   }
 
   @override
@@ -76,6 +82,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     return queryBuilder;
   }
 
+  // :all_changes
   @override
   Future<BaseDbListModel<StoryDbModel>> fetchAll({
     Map<String, dynamic>? params,
@@ -93,7 +100,10 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     Query<StoryObjectBox> query = queryBuilder.build();
     List<StoryObjectBox> find = query.find();
     List<StoryObjectBox> objects = await migrate(find);
-    List<StoryDbModel> docs = await compute(_itemsTransformer, objects);
+    List<StoryDbModel> docs = await compute(_itemsTransformer, {
+      'objects': objects,
+      'all_changes': params['all_changes'],
+    });
 
     return BaseDbListModel(
       items: docs,
@@ -146,16 +156,26 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
   }
 }
 
-List<StoryDbModel> _itemsTransformer(List<StoryObjectBox> objects) {
+List<StoryDbModel> _itemsTransformer(Map<String, dynamic> map) {
+  List<StoryObjectBox> objects = map['objects'];
+  bool allChanges = map['all_changes'] ?? false;
+
   List<StoryDbModel> docs = [];
   for (StoryObjectBox object in objects) {
-    StoryDbModel json = _objectTransformer(object);
+    StoryDbModel json = _objectTransformer({
+      'object': object,
+      'all_changes': allChanges,
+    });
     docs.add(json);
   }
+
   return docs;
 }
 
-StoryDbModel _objectTransformer(StoryObjectBox object) {
+StoryDbModel _objectTransformer(Map<String, dynamic> map) {
+  StoryObjectBox object = map['object'];
+  bool allChanges = map['all_changes'] ?? false;
+
   Iterable<PathType> types = PathType.values.where((e) => e.name == object.type);
   return StoryDbModel(
     type: types.isNotEmpty ? types.first : PathType.docs,
@@ -172,8 +192,10 @@ StoryDbModel _objectTransformer(StoryObjectBox object) {
     createdAt: object.createdAt,
     tags: object.tags,
     rawChanges: object.changes,
-    // set only last & load everything on story tile instead.
-    changes: StoryDbConstructorHelper.strsToChanges([object.changes.last]),
+    changes: StoryDbConstructorHelper.strsToChanges(
+      // set only last & load everything on story tile instead.
+      !allChanges ? [object.changes.last] : object.changes,
+    ),
   );
 }
 
