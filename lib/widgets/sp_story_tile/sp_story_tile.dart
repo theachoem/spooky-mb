@@ -113,17 +113,30 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     complete();
   }
 
-  Future<void> toggleStarred() async {
-    StoryDbModel copiedStory = story.copyWith(starred: !starred);
-    setState(() => story = copiedStory);
-    await database.update(id: copiedStory.id, body: copiedStory);
+  Future<bool> toggleStarred() async {
+    return utils.refreshSuccess(
+      () async {
+        StoryDbModel copiedStory = story.copyWith(starred: !starred);
+        setState(() => story = copiedStory);
+        await database.update(id: copiedStory.id, body: copiedStory);
+        return true;
+      },
+      refreshList: false,
+      refreshStory: true,
+    );
   }
 
-  Future<void> replaceContent(StoryContentDbModel content) async {
-    StoryDbModel copiedStory = story.copyWith();
-    copiedStory.addChange(content);
-    StoryDbModel? updatedStory = await database.update(id: copiedStory.id, body: copiedStory);
-    if (updatedStory != null) await reloadStory();
+  Future<bool> replaceContent(StoryContentDbModel content) async {
+    return utils.refreshSuccess(
+      () async {
+        StoryDbModel copiedStory = story.copyWith();
+        copiedStory.addChange(content);
+        await database.update(id: copiedStory.id, body: copiedStory);
+        return true;
+      },
+      refreshList: false,
+      refreshStory: true,
+    );
   }
 
   Future<void> view(BuildContext context) async {
@@ -219,6 +232,14 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     );
   }
 
+  SpPopMenuItem _buildStarredItem() {
+    return SpPopMenuItem(
+      title: starred ? "Unstarred" : "Starred",
+      leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
+      onPressed: () => toggleStarred(),
+    );
+  }
+
   SpPopMenuItem _buildDeleteItem(BuildContext context) {
     return SpPopMenuItem(
       title: "Delete",
@@ -241,14 +262,6 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       title: "Archive",
       leadingIconData: Icons.archive,
       onPressed: () => utils.refreshSuccess(utils.archiveStory, refreshList: true, refreshStory: false),
-    );
-  }
-
-  SpPopMenuItem _buildStarredItem() {
-    return SpPopMenuItem(
-      title: starred ? "Unstarred" : "Starred",
-      leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
-      onPressed: () => toggleStarred(),
     );
   }
 

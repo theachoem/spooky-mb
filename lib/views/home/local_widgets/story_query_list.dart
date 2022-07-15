@@ -40,7 +40,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   @override
   void initState() {
     super.initState();
-    load();
+    load(false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ModalRoute? modalRoute = ModalRoute.of(context);
       if (modalRoute != null) App.storyQueryListObserver.subscribe(this, modalRoute);
@@ -71,11 +71,11 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     return result;
   }
 
-  Future<void> load([bool callFromRefresh = false]) async {
+  Future<void> load([bool showLoading = true]) async {
     if (loadingFlag == true) return;
 
     final completer = Completer();
-    if (stories != null && (!callFromRefresh || widget.showLoadingAfterInit)) {
+    if (stories != null && (showLoading || widget.showLoadingAfterInit)) {
       loadingFlag = true;
       MessengerService.instance
           .showLoading(
@@ -87,12 +87,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     }
 
     final result = await _fetchStory();
-    if (result != stories) {
-      setState(() {
-        stories = result;
-      });
-    }
-
+    setState(() => stories = result);
     completer.complete(1);
   }
 
@@ -106,7 +101,8 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions.join() != widget.queryOptions.join();
     hashStorage.read().then((hash) {
       if (this.hash != hash || didUpdateQueries) {
-        load(true);
+        bool showLoading = oldWidget?.queryOptions.year != widget.queryOptions.year;
+        load(showLoading);
       }
     });
   }
@@ -119,7 +115,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     }
 
     return SpStoryList(
-      onRefresh: () => load(true),
+      onRefresh: () => load(false),
       overridedLayout: widget.overridedLayout,
       stories: stories,
       hasDifferentYear: widget.hasDifferentYear,
