@@ -29,8 +29,8 @@ class SpStoryTileUtils {
 
   Future<bool> refreshSuccess(
     Future<bool> Function() callback, {
-    bool refreshList = true,
-    bool refreshStory = false,
+    required bool refreshList,
+    required bool refreshStory,
   }) async {
     bool success = await callback();
     if (success && refreshList) await reloadList();

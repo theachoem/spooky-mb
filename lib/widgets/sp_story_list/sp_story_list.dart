@@ -55,7 +55,6 @@ class SpStoryList extends StatelessWidget {
     return SpListLayoutBuilder(
       overridedLayout: overridedLayout,
       builder: (context, layoutType, loaded) {
-        loading = loading;
         return RefreshIndicator(
           onRefresh: onRefresh,
           child: Stack(

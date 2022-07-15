@@ -1,9 +1,7 @@
 library sp_story_tile;
 
 import 'dart:async';
-
 import 'package:community_material_icon/community_material_icon.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
@@ -74,8 +72,8 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     utils = SpStoryTileUtils(
       context: context,
       story: story,
-      reloadList: () => widget.onRefresh(),
-      reloadStory: () => reloadStory(),
+      reloadList: widget.onRefresh,
+      reloadStory: reloadStory,
     );
 
     super.initState();
@@ -159,8 +157,14 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       );
 
       bool changed = IsChangedStoryService.instance.hasChanged(story);
-      if (changed) reloadStory();
+      if (changed) await reloadStory();
     }
+  }
+
+  @override
+  void didUpdateWidget(covariant SpStoryTile oldWidget) {
+    story = widget.story;
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -220,7 +224,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       title: "Delete",
       leadingIconData: Icons.delete,
       titleStyle: TextStyle(color: M3Color.of(context).error),
-      onPressed: () => utils.refreshSuccess(utils.deleteStory),
+      onPressed: () => utils.refreshSuccess(utils.deleteStory, refreshList: true, refreshStory: false),
     );
   }
 
@@ -228,7 +232,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: "Put back",
       leadingIconData: Icons.restore_from_trash,
-      onPressed: () => utils.refreshSuccess(utils.putBackStory),
+      onPressed: () => utils.refreshSuccess(utils.putBackStory, refreshList: true, refreshStory: false),
     );
   }
 
@@ -236,7 +240,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: "Archive",
       leadingIconData: Icons.archive,
-      onPressed: () => utils.refreshSuccess(utils.archiveStory),
+      onPressed: () => utils.refreshSuccess(utils.archiveStory, refreshList: true, refreshStory: false),
     );
   }
 
@@ -252,7 +256,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: "Change Time",
       leadingIconData: CommunityMaterialIcons.clock,
-      onPressed: () => utils.refreshSuccess(utils.changeStoryTime),
+      onPressed: () => utils.refreshSuccess(utils.changeStoryTime, refreshList: true, refreshStory: false),
     );
   }
 
@@ -260,7 +264,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: "Change Date",
       leadingIconData: CommunityMaterialIcons.calendar,
-      onPressed: () => utils.refreshSuccess(utils.changeStoryDate),
+      onPressed: () => utils.refreshSuccess(utils.changeStoryDate, refreshList: true, refreshStory: false),
     );
   }
 }

@@ -99,7 +99,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     //   );
     // }
     T constructed = await objectConstructor(body);
-    box.putQueued(constructed, mode: PutMode.put);
+    await box.putAsync(constructed, mode: PutMode.put);
     return body;
   }
 
@@ -109,7 +109,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     Map<String, dynamic> params = const {},
   }) async {
     T constructed = await objectConstructor(body);
-    box.putQueued(constructed, mode: PutMode.insert);
+    await box.putAsync(constructed, mode: PutMode.insert);
     return body;
   }
 
@@ -120,7 +120,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     Map<String, dynamic> params = const {},
   }) async {
     T object = await objectConstructor(body);
-    box.putQueued(object, mode: PutMode.update);
+    await box.putAsync(object, mode: PutMode.update);
     return body;
   }
 }
