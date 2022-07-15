@@ -13,6 +13,8 @@ abstract class _$TagDbModelCWProxy {
 
   TagDbModel id(int id);
 
+  TagDbModel index(int? index);
+
   TagDbModel starred(bool? starred);
 
   TagDbModel title(String title);
@@ -31,6 +33,7 @@ abstract class _$TagDbModelCWProxy {
     DateTime? createdAt,
     String? emoji,
     int? id,
+    int? index,
     bool? starred,
     String? title,
     DateTime? updatedAt,
@@ -52,6 +55,9 @@ class _$TagDbModelCWProxyImpl implements _$TagDbModelCWProxy {
 
   @override
   TagDbModel id(int id) => this(id: id);
+
+  @override
+  TagDbModel index(int? index) => this(index: index);
 
   @override
   TagDbModel starred(bool? starred) => this(starred: starred);
@@ -77,6 +83,7 @@ class _$TagDbModelCWProxyImpl implements _$TagDbModelCWProxy {
     Object? createdAt = const $CopyWithPlaceholder(),
     Object? emoji = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
+    Object? index = const $CopyWithPlaceholder(),
     Object? starred = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
     Object? updatedAt = const $CopyWithPlaceholder(),
@@ -95,6 +102,10 @@ class _$TagDbModelCWProxyImpl implements _$TagDbModelCWProxy {
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
           : id as int,
+      index: index == const $CopyWithPlaceholder()
+          ? _value.index
+          // ignore: cast_nullable_to_non_nullable
+          : index as int?,
       starred: starred == const $CopyWithPlaceholder()
           ? _value.starred
           // ignore: cast_nullable_to_non_nullable
@@ -132,11 +143,13 @@ TagDbModel _$TagDbModelFromJson(Map<String, dynamic> json) => TagDbModel(
       emoji: json['emoji'] as String?,
       createdAt: DateTime.parse(json['created_at'] as String),
       updatedAt: DateTime.parse(json['updated_at'] as String),
+      index: json['index'] as int?,
     );
 
 Map<String, dynamic> _$TagDbModelToJson(TagDbModel instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'index': instance.index,
       'version': instance.version,
       'title': instance.title,
       'starred': instance.starred,

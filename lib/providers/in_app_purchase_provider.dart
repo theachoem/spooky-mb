@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'dart:async';
+// ignore: depend_on_referenced_packages
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
 import 'package:spooky/core/api/cloud_firestore/purchased_histories_database.dart';
 import 'package:spooky/core/api/cloud_firestore/users_firestore_database.dart';

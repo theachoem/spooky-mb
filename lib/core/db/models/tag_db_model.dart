@@ -8,6 +8,7 @@ part 'tag_db_model.g.dart';
 @CopyWith()
 class TagDbModel extends BaseDbModel {
   final int id;
+  final int index;
   final int version;
   final String title;
   final bool? starred;
@@ -23,16 +24,21 @@ class TagDbModel extends BaseDbModel {
     required this.emoji,
     required this.createdAt,
     required this.updatedAt,
-  });
+    int? index,
+  }) : index = index ?? 0;
 
   TagDbModel.fromIDTitle(this.id, this.title)
       : version = 0,
         starred = null,
         emoji = null,
+        index = 0,
         createdAt = DateTime.now(),
         updatedAt = DateTime.now();
 
   @override
   Map<String, dynamic> toJson() => _$TagDbModelToJson(this);
-  factory TagDbModel.fromJson(Map<String, dynamic> json) => _$TagDbModelFromJson(json);
+  factory TagDbModel.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('index')) json['index'] = 0;
+    return _$TagDbModelFromJson(json);
+  }
 }

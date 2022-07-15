@@ -1,7 +1,9 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 
 class StoryTags extends StatefulWidget {
@@ -103,6 +105,7 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
       title: "Are you sure to delete tag?",
       message: "This tags will be deleted globally, you can't undo this action",
       okLabel: "Delete",
+      barrierDismissible: true,
       isDestructiveAction: true,
     );
 
@@ -111,10 +114,35 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
     }
   }
 
+  Future<void> onReorder({
+    required int oldIndex,
+    required int newIndex,
+  }) async {
+    if (tags == null) return;
+    List<TagDbModel> tagsQueue = [];
+
+    for (int i = 0; i < tags!.length; i++) {
+      int index = i;
+      if (i == oldIndex) index = newIndex;
+      if (i == newIndex) index = oldIndex;
+      TagDbModel item = tags![i].copyWith(index: index);
+      tagsQueue.add(item);
+    }
+
+    tagsQueue.sort((a, b) => a.index.compareTo(b.index));
+    setState(() => tags = tagsQueue);
+
+    for (TagDbModel tag in tagsQueue) {
+      await tagDatabase.update(id: tag.id, body: tag);
+    }
+    await load();
+  }
+
   Future<void> onUpdate(BuildContext context, TagDbModel object) async {
     List<String>? result = await showTextInputDialog(
       context: context,
       title: "Update tag",
+      barrierDismissible: true,
       textFields: [
         DialogTextField(
           initialText: object.title,
@@ -190,10 +218,19 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
     super.build(context);
     return Column(
       children: [
-        ...tags?.map((object) {
+        if (tags != null)
+          ReorderableListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: tags?.length ?? 0,
+            onReorder: (int oldIndex, int newIndex) {
+              onReorder(oldIndex: oldIndex, newIndex: newIndex);
+            },
+            itemBuilder: (context, index) {
+              TagDbModel object = tags![index];
               return buildTagTile(context, object);
-            }) ??
-            [],
+            },
+          ),
         ListTile(
           title: const Text("Add"),
           leading: const Icon(Icons.add),
@@ -206,35 +243,51 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
   }
 
   Widget buildTagTile(BuildContext context, TagDbModel object) {
-    return GestureDetector(
-      onLongPress: () async {
-        String? option = await showModalActionSheet(context: context, actions: [
-          const SheetAction(label: "Update", key: "update"),
-          const SheetAction(label: "Delete", key: "delete", isDestructiveAction: true),
-        ]);
-
-        switch (option) {
-          case "update":
-            // ignore: use_build_context_synchronously
-            onUpdate(context, object);
-            break;
-          case "delete":
-            // ignore: use_build_context_synchronously
-            onDelete(context, object);
-            break;
-        }
-      },
-      child: ValueListenableBuilder<List<int>>(
-        valueListenable: selectedTagsIdNotifiers,
-        builder: (context, selectedIds, child) {
-          return CheckboxListTile(
-            value: selectedIds.contains(object.id),
-            title: Text(object.title),
-            subtitle: Text(DateFormatHelper.dateTimeFormat().format(object.createdAt)),
-            onChanged: (value) => setSelected(object.id, value == true),
-          );
-        },
+    return ClipRRect(
+      key: ValueKey(object.id),
+      clipBehavior: Clip.hardEdge,
+      child: Slidable(
+        key: ValueKey(object.id),
+        endActionPane: buildActionsPane(context, object),
+        child: ValueListenableBuilder<List<int>>(
+          valueListenable: selectedTagsIdNotifiers,
+          builder: (context, selectedIds, child) {
+            return CheckboxListTile(
+              value: selectedIds.contains(object.id),
+              title: Text(object.title),
+              subtitle: Text(DateFormatHelper.dateTimeFormat().format(object.createdAt)),
+              onChanged: (value) => setSelected(object.id, value == true),
+            );
+          },
+        ),
       ),
+    );
+  }
+
+  ActionPane buildActionsPane(
+    BuildContext context,
+    TagDbModel object,
+  ) {
+    return ActionPane(
+      motion: const StretchMotion(),
+      dismissible: null,
+      extentRatio: 0.5,
+      children: [
+        SlidableAction(
+          backgroundColor: M3Color.of(context).error,
+          foregroundColor: M3Color.of(context).onError,
+          onPressed: (_) => onDelete(context, object),
+          icon: Icons.delete,
+          label: null,
+        ),
+        SlidableAction(
+          backgroundColor: M3Color.of(context).primary,
+          foregroundColor: M3Color.of(context).onPrimary,
+          icon: Icons.edit,
+          label: null,
+          onPressed: (_) => onUpdate(context, object),
+        ),
+      ],
     );
   }
 

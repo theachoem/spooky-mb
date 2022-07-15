@@ -59,6 +59,7 @@ class TagObjectBox {
   int id;
   String title;
 
+  int? index;
   int version;
   bool? starred;
   String? emoji;
@@ -72,6 +73,7 @@ class TagObjectBox {
   TagObjectBox({
     required this.id,
     required this.title,
+    required this.index,
     required this.version,
     required this.starred,
     required this.emoji,

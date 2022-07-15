@@ -115,7 +115,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(2, 5548558812249966101),
       name: 'TagObjectBox',
-      lastPropertyId: const IdUid(7, 4116584270770327746),
+      lastPropertyId: const IdUid(8, 6011272584059291333),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -152,6 +152,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(7, 4116584270770327746),
             name: 'updatedAt',
             type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 6011272584059291333),
+            name: 'index',
+            type: 6,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -285,7 +290,7 @@ ModelDefinition getObjectBoxModel() {
           final titleOffset = fbb.writeString(object.title);
           final emojiOffset =
               object.emoji == null ? null : fbb.writeString(object.emoji!);
-          fbb.startTable(8);
+          fbb.startTable(9);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
           fbb.addInt64(2, object.version);
@@ -293,6 +298,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addOffset(4, emojiOffset);
           fbb.addInt64(5, object.createdAt.millisecondsSinceEpoch);
           fbb.addInt64(6, object.updatedAt.millisecondsSinceEpoch);
+          fbb.addInt64(7, object.index);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -304,6 +310,8 @@ ModelDefinition getObjectBoxModel() {
               id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
               title: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 6, ''),
+              index: const fb.Int64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 18),
               version:
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
               starred: const fb.BoolReader()
@@ -422,4 +430,8 @@ class TagObjectBox_ {
   /// see [TagObjectBox.updatedAt]
   static final updatedAt =
       QueryIntegerProperty<TagObjectBox>(_entities[1].properties[6]);
+
+  /// see [TagObjectBox.index]
+  static final index =
+      QueryIntegerProperty<TagObjectBox>(_entities[1].properties[7]);
 }

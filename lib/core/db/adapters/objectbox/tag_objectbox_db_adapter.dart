@@ -41,6 +41,7 @@ TagObjectBox _objectConstructor(TagDbModel tag) {
     emoji: tag.emoji,
     createdAt: tag.createdAt,
     updatedAt: tag.updatedAt,
+    index: tag.index,
   );
 }
 
@@ -53,5 +54,6 @@ TagDbModel _objectTransformer(TagObjectBox object) {
     emoji: object.emoji,
     createdAt: object.createdAt,
     updatedAt: object.updatedAt,
+    index: object.index,
   );
 }

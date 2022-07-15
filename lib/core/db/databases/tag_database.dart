@@ -35,7 +35,9 @@ class TagDatabase extends BaseDatabase<TagDbModel> {
 
   @override
   Future<BaseDbListModel<TagDbModel>?> fetchAll({Map<String, dynamic>? params}) async {
-    var result = await super.fetchAll(params: params);
+    BaseDbListModel<TagDbModel>? result = await super.fetchAll(params: params);
+    List<TagDbModel> items = [...result?.items ?? []]..sort((a, b) => a.index.compareTo(b.index));
+    result = result?.copyWith(items: items);
     Global.instance.setTags(result?.items ?? []);
     return result;
   }
