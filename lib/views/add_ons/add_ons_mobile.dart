@@ -14,16 +14,19 @@ class _AddOnsMobile extends StatelessWidget {
       bottomNavigationBar: SpSingleButtonBottomNavigation(
         buttonLabel: "Restore Purchases",
         show: provider.restorable,
-        onTap: () {
+        onTap: () async {
           if (provider.currentUser == null) {
             openLoginDialog(context);
             return;
           }
+
           MessengerService.instance.showLoading(
-            future: () => context.read<InAppPurchaseProvider>().restore().then((value) => 1),
+            future: () => provider.loadPurchasedProducts().then((value) => 1),
             context: context,
             debugSource: '_AddOnsMobile#build - Restore Purchase',
           );
+
+          provider.restore();
         },
       ),
       body: RefreshIndicator(

@@ -53,8 +53,7 @@ dependencies:
   googleapis: ^9.1.0
   http: ^0.13.4
   image_picker: ^0.8.5+3
-  in_app_purchase: ^3.0.4
-  in_app_purchase_android: ^0.2.2+6
+  in_app_purchase: ^3.0.6
   json_annotation: ^4.5.0
   just_audio: ^0.9.24
   local_auth: ^2.1.0

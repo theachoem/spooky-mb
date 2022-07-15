@@ -1029,7 +1029,7 @@ packages:
     source: hosted
     version: "3.0.6"
   in_app_purchase_android:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: in_app_purchase_android
       url: "https://pub.dartlang.org"

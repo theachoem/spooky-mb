@@ -116,13 +116,29 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
 
   void listener(List<PurchaseDetails> purchaseDetailsList) async {
     purchaseNotifier.value = purchaseDetailsList;
+
     for (PurchaseDetails purchaseDetails in purchaseDetailsList) {
       switch (purchaseDetails.status) {
         case PurchaseStatus.purchased:
         case PurchaseStatus.restored:
+          if (purchaseDetails.pendingCompletePurchase) {
+            inAppPurchase.completePurchase(purchaseDetails);
+          }
+
+          if (Platform.isAndroid && consumableIds.contains(purchaseDetails.productID)) {
+            final androidAddition = inAppPurchase.getPlatformAddition<InAppPurchaseAndroidPlatformAddition>();
+            androidAddition.consumePurchase(purchaseDetails);
+          }
+
           String? error = await verifyPurchase(purchaseDetails.status, purchaseDetails);
           if (error == null) {
             await deliverProduct(purchaseDetails);
+            setMessage(
+              productId: purchaseDetails.productID,
+              message: purchaseDetails.status == PurchaseStatus.restored ? "Restored" : "Purchased",
+              isError: false,
+              status: purchaseDetails.status,
+            );
           } else {
             setMessage(
               productId: purchaseDetails.productID,
@@ -142,14 +158,12 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
           break;
         case PurchaseStatus.error:
           IAPError? error = purchaseDetails.error;
-          if (error != null) {
-            setMessage(
-              productId: purchaseDetails.productID,
-              message: error.message,
-              isError: true,
-              status: purchaseDetails.status,
-            );
-          }
+          setMessage(
+            productId: purchaseDetails.productID,
+            message: error?.message ?? "Error",
+            isError: true,
+            status: purchaseDetails.status,
+          );
           break;
         case PurchaseStatus.canceled:
           setMessage(
@@ -160,14 +174,6 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
           );
           break;
       }
-
-      if (Platform.isAndroid && consumableIds.contains(purchaseDetails.productID)) {
-        final androidAddition = inAppPurchase.getPlatformAddition<InAppPurchaseAndroidPlatformAddition>();
-        await androidAddition.consumePurchase(purchaseDetails);
-      }
-      if (purchaseDetails.pendingCompletePurchase) {
-        await inAppPurchase.completePurchase(purchaseDetails);
-      }
     }
   }
 
@@ -177,7 +183,7 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
       await database.addProduct(
         purchaseDetails.productID,
         cacheUid ?? currentUser!.uid,
-        buildPurchaedDetail(purchaseDetails, currentUser!),
+        buildPurchaseDetails(purchaseDetails, currentUser!),
       );
       await loadPurchasedProducts();
     }
@@ -193,7 +199,7 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
       case PurchaseStatus.restored:
         bool validated = result == null || result.uid == uid;
         if (validated) {
-          PurchaseHistoriesDatabase().addProduct(buildPurchaedDetail(purchaseDetails, currentUser!));
+          PurchaseHistoriesDatabase().addProduct(buildPurchaseDetails(purchaseDetails, currentUser!));
         } else {
           return "User doesn't match with previous purchase";
         }
@@ -201,7 +207,7 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
       case PurchaseStatus.purchased:
         bool purchasedOnce = result?.purchaseId != null;
         if (!purchasedOnce) {
-          PurchaseHistoriesDatabase().addProduct(buildPurchaedDetail(purchaseDetails, currentUser!));
+          PurchaseHistoriesDatabase().addProduct(buildPurchaseDetails(purchaseDetails, currentUser!));
         } else {
           return "Already purchased";
         }
@@ -215,7 +221,7 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
     return null;
   }
 
-  PurchasedInfoModel buildPurchaedDetail(PurchaseDetails purchaseDetails, User user) {
+  PurchasedInfoModel buildPurchaseDetails(PurchaseDetails purchaseDetails, User user) {
     return PurchasedInfoModel(
       purchaseDetails.purchaseID,
       purchaseDetails.productID,
