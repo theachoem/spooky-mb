@@ -84,7 +84,6 @@ class StoryTileChips extends StatelessWidget {
     final fileImages = fetchFileImages();
 
     List<Widget> level3Widgets = [
-      if (tags.isNotEmpty) StoryTileTagChips(tags: tags),
       if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
       if (showDate)
         SpChip(
@@ -119,6 +118,7 @@ class StoryTileChips extends StatelessWidget {
                 ]),
         ),
 
+      if (tags.isNotEmpty) StoryTileTagChips(tags: tags),
       if (images.isNotEmpty) buildImageChip(images),
       SpCrossFade(
         alignment: Alignment.topLeft,
