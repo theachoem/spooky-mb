@@ -201,7 +201,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   Future<StoryDbModel> setTagIds(List<int> ids) async {
     StoryDbModel? story =
         await StoryDatabase.instance.set(body: currentStory.copyWith(tags: ids.map((e) => e.toString()).toList()));
-    if (story != null) currentStory = story;
+
+    if (story != null) {
+      currentStory = story;
+      notifyListeners();
+    }
+
     return currentStory;
   }
 
@@ -215,7 +220,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
         minute: pathDate.minute,
       ),
     );
-    if (story != null) currentStory = story;
+
+    if (story != null) {
+      currentStory = story;
+      notifyListeners();
+    }
+
     return currentStory;
   }
 }
