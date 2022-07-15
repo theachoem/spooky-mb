@@ -1,11 +1,15 @@
 // ignore_for_file: implementation_imports
 
 import 'dart:io';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/add_to_drive_button.dart';
@@ -13,21 +17,37 @@ import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_tag_chips.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 
+enum ChipsExpandLevelType {
+  level1,
+  level2,
+  level3,
+}
+
 class StoryTileChips extends StatelessWidget {
-  const StoryTileChips({
+  StoryTileChips({
     Key? key,
-    required this.images,
     required this.content,
     required this.story,
     required this.onImageUploaded,
-    this.minimize = false,
-  }) : super(key: key);
+    this.expandedLevel,
+    this.showDate = false,
+  }) : super(key: key) {
+    images = {};
+    content.pages?.forEach((page) {
+      images.addAll(QuillHelper.imagesFromJson(page));
+    });
+  }
 
-  final Set<String> images;
+  late final Set<String> images;
+  final void Function(StoryContentDbModel) onImageUploaded;
+  final ChipsExpandLevelType? expandedLevel;
   final StoryContentDbModel content;
   final StoryDbModel story;
-  final void Function(StoryContentDbModel) onImageUploaded;
-  final bool minimize;
+  final bool showDate;
+
+  bool get level1 => expandedLevel == ChipsExpandLevelType.level1;
+  bool get level2 => expandedLevel == ChipsExpandLevelType.level2;
+  bool get level3 => expandedLevel == ChipsExpandLevelType.level3;
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +56,12 @@ class StoryTileChips extends StatelessWidget {
     if (!provider.shouldShowChip) return const SizedBox.shrink();
     List<Widget> chips = getChipList(images, content, story, context);
     if (chips.isEmpty) return const SizedBox.shrink();
+
     return SpCrossFade(
-      showFirst: !minimize,
+      showFirst: level1,
       alignment: Alignment.topLeft,
-      secondChild: const SizedBox(width: double.infinity),
-      firstChild: Wrap(
+      firstChild: const SizedBox(width: double.infinity),
+      secondChild: Wrap(
         children: chips.map(
           (child) {
             return Padding(
@@ -61,11 +82,46 @@ class StoryTileChips extends StatelessWidget {
   ) {
     final tags = story.tags ?? [];
     final fileImages = fetchFileImages();
-    return [
+
+    List<Widget> level3Widgets = [
       if (tags.isNotEmpty) StoryTileTagChips(tags: tags),
       if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
+      if (showDate)
+        SpChip(
+          avatar: const Icon(CommunityMaterialIcons.clock, size: ConfigConstant.iconSize1),
+          labelText: DateFormatHelper.timeFormat().format(story.displayPathDate),
+        ),
+      if (showDate)
+        SpChip(
+          avatar: const Icon(CommunityMaterialIcons.calendar, size: ConfigConstant.iconSize1),
+          labelText: DateFormatHelper.dateFormat().format(story.displayPathDate),
+        ),
+    ];
+
+    return [
+      if (expandedLevel == null)
+        ...level3Widgets
+      else if (level3Widgets.isNotEmpty)
+        SpCrossFade(
+          alignment: Alignment.topLeft,
+          showFirst: level3,
+          secondChild: const SizedBox(width: double.infinity),
+          firstChild: level3Widgets.length == 1
+              ? level3Widgets[0]
+              : Wrap(children: [
+                  ...level3Widgets.take(level3Widgets.length - 1).map((e) {
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 4.0),
+                      child: e,
+                    );
+                  }).toList(),
+                  level3Widgets.last,
+                ]),
+        ),
+
       if (images.isNotEmpty) buildImageChip(images),
       SpCrossFade(
+        alignment: Alignment.topLeft,
         showFirst: fileImages.isEmpty,
         firstChild: const SizedBox(width: double.infinity),
         secondChild: AddToDriveButton(
@@ -75,6 +131,7 @@ class StoryTileChips extends StatelessWidget {
           onUploaded: onImageUploaded,
         ),
       ),
+
       // SpDeveloperVisibility(
       //   child: SpChip(
       //     avatar: Icon(Icons.developer_board, size: ConfigConstant.iconSize1),
@@ -104,7 +161,7 @@ class StoryTileChips extends StatelessWidget {
     }
 
     return SpChip(
-      labelText: "${images.length} Images",
+      labelText: images.length > 1 ? "${images.length} Images" : "${images.length} Image",
       avatar: imageProvider != null ? CircleAvatar(backgroundImage: imageProvider) : null,
     );
   }

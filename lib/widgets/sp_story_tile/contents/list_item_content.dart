@@ -31,12 +31,7 @@ class _ListStoryTileContent extends _BaseTileContent {
   }
 
   Widget buildContent(BuildContext context, StoryDbModel story) {
-    Set<String> images = {};
     StoryContentDbModel content = getStoryContent(story);
-
-    content.pages?.forEach((page) {
-      images.addAll(QuillHelper.imagesFromJson(page));
-    });
 
     return Expanded(
       child: Stack(
@@ -48,7 +43,6 @@ class _ListStoryTileContent extends _BaseTileContent {
               children: [
                 buildTitleBody(content, context, contentRightMargin),
                 StoryTileChips(
-                  images: images,
                   content: content,
                   story: story,
                   onImageUploaded: (content) => options.replaceContent(content),

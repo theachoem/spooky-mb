@@ -40,7 +40,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   @override
   void initState() {
     super.initState();
-    load(false);
+    load("initState", false);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ModalRoute? modalRoute = ModalRoute.of(context);
       if (modalRoute != null) App.storyQueryListObserver.subscribe(this, modalRoute);
@@ -67,11 +67,11 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   Future<List<StoryDbModel>> _fetchStory() async {
     final list = await database.fetchAll(params: widget.queryOptions.toJson());
     List<StoryDbModel> result = list?.items ?? [];
-    loadHash();
+    await loadHash();
     return result;
   }
 
-  Future<void> load([bool showLoading = true]) async {
+  Future<void> load(String source, [bool showLoading = true]) async {
     if (loadingFlag == true) return;
 
     final completer = Completer();
@@ -81,7 +81,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
           .showLoading(
             future: () => completer.future,
             context: context,
-            debugSource: "StoryQueryList#load",
+            debugSource: "StoryQueryList#load #$source",
           )
           .then((value) => loadingFlag = false);
     }
@@ -94,15 +94,15 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   @override
   void didUpdateWidget(covariant StoryQueryList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _checkUpdatation(oldWidget);
+    _checkUpdatation(oldWidget, "didUpdateWidget");
   }
 
-  void _checkUpdatation(StoryQueryList? oldWidget) {
+  void _checkUpdatation(StoryQueryList? oldWidget, String source) {
     bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions.join() != widget.queryOptions.join();
     hashStorage.read().then((hash) {
       if (this.hash != hash || didUpdateQueries) {
         bool showLoading = oldWidget?.queryOptions.year != widget.queryOptions.year;
-        load(showLoading);
+        load(source, oldWidget != null ? showLoading : false);
       }
     });
   }
@@ -115,7 +115,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     }
 
     return SpStoryList(
-      onRefresh: () => load(false),
+      onRefresh: () => load("build", false),
       overridedLayout: widget.overridedLayout,
       stories: stories,
       hasDifferentYear: widget.hasDifferentYear,
@@ -125,13 +125,13 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   @override
   void didPopNext() {
     super.didPopNext();
-    _checkUpdatation(null);
+    _checkUpdatation(null, "didPopNext");
   }
 
   @override
   void didPushNext() {
     super.didPushNext();
-    _checkUpdatation(null);
+    _checkUpdatation(null, "didPushNext");
   }
 
   @override

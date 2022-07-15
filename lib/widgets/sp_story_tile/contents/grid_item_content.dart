@@ -8,10 +8,6 @@ class _GridItemContent extends _BaseTileContent {
   @override
   Widget build(BuildContext context) {
     StoryContentDbModel content = getStoryContent(options.story);
-    Set<String> images = {};
-    content.pages?.forEach((page) {
-      images.addAll(QuillHelper.imagesFromJson(page));
-    });
 
     return Stack(
       children: [
@@ -26,13 +22,13 @@ class _GridItemContent extends _BaseTileContent {
             children: [
               buildTitleBody(content, context, ConfigConstant.margin2),
               const SizedBox(height: ConfigConstant.margin0),
-              ValueListenableBuilder(
-                valueListenable: options.expandedNotifier,
+              ValueListenableBuilder<ChipsExpandLevelType>(
+                valueListenable: options.expandedLevelNotifier,
                 builder: (context, value, child) {
                   return StoryTileChips(
-                    images: images,
                     content: content,
-                    minimize: !options.expandedNotifier.value,
+                    showDate: true,
+                    expandedLevel: value,
                     story: options.story,
                     onImageUploaded: (content) => options.replaceContent(content),
                   );
@@ -52,18 +48,18 @@ class _GridItemContent extends _BaseTileContent {
       top: 4,
       child: SpIconButton(
         onPressed: () => options.toggleExpand(),
-        icon: ValueListenableBuilder(
-          valueListenable: options.expandedNotifier,
+        icon: ValueListenableBuilder<ChipsExpandLevelType>(
+          valueListenable: options.expandedLevelNotifier,
           builder: (context, value, child) {
             return SpAnimatedIcons(
-              showFirst: !options.expandedNotifier.value,
+              showFirst: value != ChipsExpandLevelType.level1,
               secondChild: Icon(
                 Icons.arrow_drop_down,
                 size: ConfigConstant.iconSize1,
                 color: M3Color.of(context).primary,
               ),
               firstChild: Icon(
-                Icons.arrow_right,
+                Icons.add,
                 size: ConfigConstant.iconSize1,
                 color: M3TextTheme.of(context).caption?.color,
               ),

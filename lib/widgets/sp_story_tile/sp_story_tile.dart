@@ -1,6 +1,7 @@
 library sp_story_tile;
 
 import 'dart:async';
+import 'dart:math';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -54,7 +55,7 @@ class SpStoryTile extends StatefulWidget {
 }
 
 class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
-  late final ValueNotifier<bool> expandedNotifier;
+  late final ValueNotifier<ChipsExpandLevelType> expandedLevelNotifier;
   late final StoryDatabase database;
   late final SpStoryTileUtils utils;
   late StoryDbModel story;
@@ -67,7 +68,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   @override
   void initState() {
-    expandedNotifier = ValueNotifier<bool>(false);
+    expandedLevelNotifier = ValueNotifier<ChipsExpandLevelType>(ChipsExpandLevelType.level1);
     database = StoryDatabase.instance;
     story = widget.story;
     loadChanges();
@@ -185,7 +186,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   @override
   void dispose() {
-    expandedNotifier.dispose();
+    expandedLevelNotifier.dispose();
     super.dispose();
   }
 
@@ -225,9 +226,19 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       previousStory: previousStory,
       replaceContent: replaceContent,
       toggleStarred: toggleStarred,
-      expandedNotifier: expandedNotifier,
+      expandedLevelNotifier: expandedLevelNotifier,
       toggleExpand: () {
-        expandedNotifier.value = !expandedNotifier.value;
+        switch (expandedLevelNotifier.value) {
+          case ChipsExpandLevelType.level1:
+            expandedLevelNotifier.value = ChipsExpandLevelType.level2;
+            break;
+          case ChipsExpandLevelType.level2:
+            expandedLevelNotifier.value = ChipsExpandLevelType.level3;
+            break;
+          case ChipsExpandLevelType.level3:
+            expandedLevelNotifier.value = ChipsExpandLevelType.level1;
+            break;
+        }
       },
     );
     if (widget.gridLayout) {
