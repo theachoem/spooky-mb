@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
-import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
@@ -31,6 +30,7 @@ class StoryTileChips extends StatelessWidget {
     required this.onImageUploaded,
     this.expandedLevel,
     this.showDate = false,
+    this.showZeroInTags = false,
   }) : super(key: key) {
     images = {};
     content.pages?.forEach((page) {
@@ -44,6 +44,7 @@ class StoryTileChips extends StatelessWidget {
   final StoryContentDbModel content;
   final StoryDbModel story;
   final bool showDate;
+  final bool showZeroInTags;
 
   bool get level1 => expandedLevel == ChipsExpandLevelType.level1;
   bool get level2 => expandedLevel == ChipsExpandLevelType.level2;
@@ -118,7 +119,7 @@ class StoryTileChips extends StatelessWidget {
                 ]),
         ),
 
-      if (tags.isNotEmpty) StoryTileTagChips(tags: tags),
+      if (tags.isNotEmpty || showZeroInTags) StoryTileTagChips(tags: tags, showZero: showZeroInTags),
       if (images.isNotEmpty) buildImageChip(images),
       SpCrossFade(
         alignment: Alignment.topLeft,

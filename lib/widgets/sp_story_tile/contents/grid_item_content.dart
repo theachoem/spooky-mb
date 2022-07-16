@@ -30,6 +30,7 @@ class _GridItemContent extends _BaseTileContent {
                     showDate: true,
                     expandedLevel: value,
                     story: options.story,
+                    showZeroInTags: true,
                     onImageUploaded: (content) => options.replaceContent(content),
                   );
                 },

@@ -15,9 +15,11 @@ class StoryTileTagChips extends StatelessWidget {
   const StoryTileTagChips({
     Key? key,
     required this.tags,
+    this.showZero = false,
   }) : super(key: key);
 
   final List<String> tags;
+  final bool showZero;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +33,16 @@ class StoryTileTagChips extends StatelessWidget {
           return tags.contains(e.id.toString());
         }).toList();
 
-        return SpCrossFade(
-          showFirst: items == null,
-          alignment: Alignment.center,
-          firstChild: buildChip(dbTags, context),
-          secondChild: buildChip(dbTags, context),
-        );
+        if (!showZero) {
+          return SpCrossFade(
+            showFirst: items == null,
+            alignment: Alignment.center,
+            firstChild: buildChip(dbTags, context),
+            secondChild: buildChip(dbTags, context),
+          );
+        } else {
+          return buildChip(dbTags, context);
+        }
       },
     );
   }
