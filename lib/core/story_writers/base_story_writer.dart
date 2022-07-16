@@ -33,7 +33,8 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
       StoryDbModel story = await buildStory(object);
       story = story.copyWith(updatedAt: DateTime.now());
       IsChangedStoryService.instance.setChanged(story);
-      result = await database.set(body: story) ?? story;
+      result = await database.set(body: story);
+      result ??= story;
       return database.error == null ? _nextSuccess(result) : _nextError(result);
     } else {
       return _nextError(result, validation);

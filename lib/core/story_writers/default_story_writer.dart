@@ -27,7 +27,11 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
     required String message,
   }) {
     if (context != null) {
-      MessengerService.instance.showSnackBar(message, showAction: false);
+      MessengerService.instance.showSnackBar(
+        message,
+        showAction: false,
+        success: responseCode != ResponseCodeType.fail,
+      );
     }
   }
 

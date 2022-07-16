@@ -103,35 +103,9 @@ class DetailSheet extends StatelessWidget {
       leading: const Icon(Icons.history),
       title: const Text("Changes"),
       onTap: () async {
-        if (viewModel.hasChangeNotifer.value) {
-          MessengerService.instance.showSnackBar("Please save document first");
-          return;
-        }
-
-        ChangesHistoryArgs arguments = ChangesHistoryArgs(
-          story: viewModel.currentStory,
-          onRestorePressed: (content) {
-            MessengerService.instance.showLoading(
-              future: () => viewModel.restore(content.id).then((value) => 1),
-              context: App.navigatorKey.currentContext!,
-              debugSource: "DetailSheet",
-            );
-          },
-          onDeletePressed: (contentIds, storyFromChangesView) async {
-            return await MessengerService.instance.showLoading(
-                  future: () => viewModel.deleteChange(contentIds, storyFromChangesView),
-                  context: App.navigatorKey.currentContext!,
-                  debugSource: "DetailSheet",
-                ) ??
-                viewModel.currentStory;
-          },
-        );
-
-        await Navigator.of(context).pushNamed(
-          SpRouter.changesHistory.path,
-          arguments: arguments,
-        );
-
+        viewModel.beforeAction(() {
+          return viewChanges(context);
+        });
         // if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
       },
     );
@@ -142,23 +116,9 @@ class DetailSheet extends StatelessWidget {
       leading: const Icon(CommunityMaterialIcons.book_settings),
       title: const Text("Pages"),
       onTap: () {
-        if (viewModel.hasChangeNotifer.value) {
-          MessengerService.instance.showSnackBar("Please save document first");
-          return;
-        }
-
-        ManagePagesArgs arguments = ManagePagesArgs(content: viewModel.currentContent);
-        Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
-          if (value is StoryContentDbModel) {
-            MessengerService.instance.showLoading(
-              future: () => viewModel.updatePages(value).then((value) => 1),
-              context: App.navigatorKey.currentContext!,
-              debugSource: "DetailSheet",
-            );
-          }
+        viewModel.beforeAction(() {
+          return viewPages(context);
         });
-
-        // if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
       },
     );
   }
@@ -173,33 +133,90 @@ class DetailSheet extends StatelessWidget {
             child: SpButton(
               label: "Archive",
               onTap: () async {
-                final StoryDatabase database = StoryDatabase.instance;
-
-                if (viewModel.hasChangeNotifer.value) {
-                  MessengerService.instance.showSnackBar("Please save document first");
-                  return;
-                }
-                OkCancelResult result = await showOkCancelAlertDialog(
-                  context: context,
-                  useRootNavigator: true,
-                  title: "Are you sure to archive document?",
-                );
-                switch (result) {
-                  case OkCancelResult.ok:
-                    await database.archiveDocument(viewModel.currentStory).then((story) async {
-                      if (story != null) {
-                        MessengerService.instance.showSnackBar("Archived!");
-                      }
-                      Navigator.of(context).maybePop(viewModel.currentStory);
-                    });
-                    break;
-                  case OkCancelResult.cancel:
-                    break;
-                }
+                viewModel.beforeAction(() {
+                  return onArchive(context);
+                });
               },
             ),
           ),
       ],
+    );
+  }
+
+  Future<void> onArchive(BuildContext context) async {
+    final StoryDatabase database = StoryDatabase.instance;
+
+    if (viewModel.hasChangeNotifer.value) {
+      MessengerService.instance.showSnackBar("Please save document first");
+      return;
+    }
+    OkCancelResult result = await showOkCancelAlertDialog(
+      context: context,
+      useRootNavigator: true,
+      title: "Are you sure to archive document?",
+    );
+    switch (result) {
+      case OkCancelResult.ok:
+        await database.archiveDocument(viewModel.currentStory).then((story) async {
+          if (story != null) {
+            MessengerService.instance.showSnackBar("Archived!");
+          }
+          Navigator.of(context).maybePop(viewModel.currentStory);
+        });
+        break;
+      case OkCancelResult.cancel:
+        break;
+    }
+  }
+
+  Future<void> viewPages(BuildContext context) async {
+    if (viewModel.hasChangeNotifer.value) {
+      MessengerService.instance.showSnackBar("Please save document first");
+      return;
+    }
+
+    ManagePagesArgs arguments = ManagePagesArgs(content: viewModel.currentContent);
+    Navigator.of(context).pushNamed(SpRouter.managePages.path, arguments: arguments).then((value) {
+      if (value is StoryContentDbModel) {
+        MessengerService.instance.showLoading(
+          future: () => viewModel.updatePages(value).then((value) => 1),
+          context: App.navigatorKey.currentContext!,
+          debugSource: "DetailSheet",
+        );
+      }
+    });
+
+    // if (isSpBottomSheetOpenNotifer.value) toggleSpBottomSheet();
+  }
+
+  Future<void> viewChanges(BuildContext context) async {
+    if (viewModel.hasChangeNotifer.value) {
+      MessengerService.instance.showSnackBar("Please save document first");
+      return;
+    }
+
+    ChangesHistoryArgs arguments = ChangesHistoryArgs(
+      story: viewModel.currentStory,
+      onRestorePressed: (content) {
+        MessengerService.instance.showLoading(
+          future: () => viewModel.restore(content.id).then((value) => 1),
+          context: App.navigatorKey.currentContext!,
+          debugSource: "DetailSheet",
+        );
+      },
+      onDeletePressed: (contentIds, storyFromChangesView) async {
+        return await MessengerService.instance.showLoading(
+              future: () => viewModel.deleteChange(contentIds, storyFromChangesView),
+              context: App.navigatorKey.currentContext!,
+              debugSource: "DetailSheet",
+            ) ??
+            viewModel.currentStory;
+      },
+    );
+
+    await Navigator.of(context).pushNamed(
+      SpRouter.changesHistory.path,
+      arguments: arguments,
     );
   }
 }

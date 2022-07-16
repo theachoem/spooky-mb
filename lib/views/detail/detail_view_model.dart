@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
@@ -105,66 +108,88 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     notifyListeners();
   }
 
+  Future<T> beforeAction<T>(Future<T> Function() callback) async {
+    await verifyLoaded();
+    return callback();
+  }
+
+  Future<void> reload(StoryDbModel? savedStory) async {
+    setCompleter();
+    await StoryDatabase.instance.fetchOne(id: currentStory.id).then((story) {
+      if (story != null) saveStates(story);
+    });
+    complete();
+  }
+
   // if user close app, we store initial tab on home
   // so they new it is saved.
   //
   // This consider as draft.
   Future<void> autosave() async {
     if (!hasChangeNotifer.value) return;
-    InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
-    AutoSaveStoryWriter writer = AutoSaveStoryWriter();
-    StoryDbModel? story = await writer.save(DraftStoryObject(await info));
-    if (story != null) saveStates(story);
+    return beforeAction(() async {
+      InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
+      AutoSaveStoryWriter writer = AutoSaveStoryWriter();
+      StoryDbModel? result = await writer.save(DraftStoryObject(await info));
+      await reload(result);
+    });
   }
 
   Future<void> saveDraft(BuildContext context) async {
     if (!hasChangeNotifer.value) return;
-    InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
-    DraftStoryWriter writer = DraftStoryWriter();
+    return beforeAction(() async {
+      InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
+      DraftStoryWriter writer = DraftStoryWriter();
 
-    StoryDbModel? story = await MessengerService.instance.showLoading(
-      future: () async => writer.save(DraftStoryObject(await info)),
-      context: context,
-      debugSource: "DetailView#onWillPop",
-    );
+      StoryDbModel? result = await MessengerService.instance.showLoading(
+        future: () async => writer.save(DraftStoryObject(await info)),
+        context: context,
+        debugSource: "DetailView#onWillPop",
+      );
 
-    if (story != null) saveStates(story);
+      await reload(result);
+    });
   }
 
   Future<void> save(BuildContext context) async {
-    DefaultStoryWriter writer = DefaultStoryWriter();
-
-    StoryDbModel? story = await MessengerService.instance.showLoading(
-      future: () async => writer.save(DefaultStoryObject(await info)),
-      context: context,
-      debugSource: "DetailViewModel#save",
-    );
-
-    if (story != null) saveStates(story);
+    return beforeAction(() async {
+      DefaultStoryWriter writer = DefaultStoryWriter();
+      StoryDbModel? result = await MessengerService.instance.showLoading(
+        future: () async => writer.save(DefaultStoryObject(await info)),
+        context: context,
+        debugSource: "DetailViewModel#save",
+      );
+      await reload(result);
+    });
   }
 
   Future<StoryDbModel> deleteChange(List<int> contentIds, StoryDbModel storyFromChangesView) async {
-    DeleteChangeWriter writer = DeleteChangeWriter();
-    StoryDbModel? story = await writer.save(DeleteChangeObject(
-      await info,
-      contentIds: contentIds,
-      storyFromChangesView: storyFromChangesView,
-    ));
-
-    if (story != null) saveStates(story);
-    return currentStory;
+    return beforeAction(() async {
+      DeleteChangeWriter writer = DeleteChangeWriter();
+      StoryDbModel? story = await writer.save(DeleteChangeObject(
+        await info,
+        contentIds: contentIds,
+        storyFromChangesView: storyFromChangesView,
+      ));
+      if (story != null) await reload(story);
+      return currentStory;
+    });
   }
 
   /// restore and updatePages will be push replace to same screen instead.
   /// so, no need to saveStates(story)
   Future<void> restore(int contentId) async {
-    RestoreStoryWriter writer = RestoreStoryWriter();
-    await writer.save(RestoreStoryObject(await info, contentId: contentId));
+    return beforeAction(() async {
+      RestoreStoryWriter writer = RestoreStoryWriter();
+      await writer.save(RestoreStoryObject(await info, contentId: contentId));
+    });
   }
 
   Future<void> updatePages(StoryContentDbModel value) async {
-    UpdatePageWriter writer = UpdatePageWriter();
-    await writer.save(UpdatePageObject(await info, pages: value.pages));
+    return beforeAction(() async {
+      UpdatePageWriter writer = UpdatePageWriter();
+      await writer.save(UpdatePageObject(await info, pages: value.pages));
+    });
   }
 
   @override
@@ -232,5 +257,37 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     }
 
     return currentStory;
+  }
+
+  /// for avoid push without load new changes
+  ///
+  Completer<bool>? completer;
+  Future<bool?> verifyLoaded() async {
+    bool hasIncompleteFuture = completer != null && !completer!.isCompleted;
+
+    if (hasIncompleteFuture && App.navigatorKey.currentContext != null) {
+      return MessengerService.instance.showLoading<bool>(
+        context: App.navigatorKey.currentContext!,
+        debugSource: "DetailViewModel#verifyLoaded",
+        future: () => completer!.future,
+      );
+    }
+
+    return true;
+  }
+
+  void complete() {
+    if (completer != null && !completer!.isCompleted) {
+      completer?.complete(true);
+    }
+  }
+
+  // complete with 5 seconds timeout
+  void setCompleter() {
+    completer = Completer();
+    scheduleAction(
+      () => complete(),
+      duration: const Duration(seconds: 10),
+    );
   }
 }

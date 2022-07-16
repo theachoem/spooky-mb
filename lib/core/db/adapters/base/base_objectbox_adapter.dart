@@ -84,23 +84,9 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     required P body,
     Map<String, dynamic> params = const {},
   }) async {
-    // int id = body.toJson()['id'];
-    // bool exists = box.contains(id);
-    // if (!exists || id == 0) {
-    //   return create(
-    //     body: body,
-    //     params: params,
-    //   );
-    // } else {
-    //   return update(
-    //     id: id,
-    //     body: body,
-    //     params: params,
-    //   );
-    // }
     T constructed = await objectConstructor(body);
     await box.putAsync(constructed, mode: PutMode.put);
-    return objectTransformer(constructed);
+    return body;
   }
 
   @override
@@ -110,7 +96,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
   }) async {
     T constructed = await objectConstructor(body);
     await box.putAsync(constructed, mode: PutMode.insert);
-    return objectTransformer(constructed);
+    return body;
   }
 
   @override
@@ -121,6 +107,6 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
   }) async {
     T constructed = await objectConstructor(body);
     await box.putAsync(constructed, mode: PutMode.update);
-    return objectTransformer(constructed);
+    return body;
   }
 }
