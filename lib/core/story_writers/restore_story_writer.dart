@@ -57,8 +57,7 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
     Iterable<StoryContentDbModel> selected = object.info.currentStory.changes.where((e) => e.id == object.contentId);
     if (selected.isNotEmpty) {
       StoryContentDbModel content = selected.last;
-      story.removeChangeById(content.id);
-      story.addChange(content.restore(content));
+      story.addChange(StoryContentDbModel.dublicate(content));
       return story;
     } else {
       return story;

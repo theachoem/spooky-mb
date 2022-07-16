@@ -45,7 +45,7 @@ class StoryContentDbModel extends BaseModel with ComparableMixin {
     }
   }
 
-  StoryContentDbModel restore(StoryContentDbModel oldContent) {
+  factory StoryContentDbModel.dublicate(StoryContentDbModel oldContent) {
     DateTime now = DateTime.now();
     return oldContent.copyWith(
       id: now.millisecondsSinceEpoch,

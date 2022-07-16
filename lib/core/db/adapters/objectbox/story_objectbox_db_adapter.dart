@@ -194,7 +194,7 @@ StoryDbModel _objectTransformer(Map<String, dynamic> map) {
     rawChanges: object.changes,
     changes: StoryDbConstructorHelper.strsToChanges(
       // set only last & load everything on story tile instead.
-      !allChanges ? [object.changes.last] : object.changes,
+      !allChanges && object.changes.isNotEmpty ? [object.changes.last] : object.changes,
     ),
   );
 }
@@ -216,8 +216,8 @@ StoryObjectBox _objectConstructor(StoryDbModel story) {
     createdAt: story.createdAt,
     updatedAt: story.updatedAt,
     movedToBinAt: story.movedToBinAt,
-    metadata: story.changes.last.safeMetadata,
-    changes: StoryDbConstructorHelper.changesToStrs(story.changes),
+    metadata: story.changes.isNotEmpty ? story.changes.last.safeMetadata : "",
+    changes: StoryDbConstructorHelper.storyToRawChanges(story),
   );
   return object;
 }

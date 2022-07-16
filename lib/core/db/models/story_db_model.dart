@@ -27,6 +27,7 @@ class StoryDbModel extends BaseDbModel {
 
   @JsonKey(ignore: true)
   final List<String>? rawChanges;
+  bool get useRawChanges => rawChanges?.isNotEmpty == true;
 
   DateTime get displayPathDate {
     return DateTime(
@@ -75,16 +76,7 @@ class StoryDbModel extends BaseDbModel {
   bool get archivable => type == PathType.docs;
   bool get unarchivable => type == PathType.archives;
 
-  void removeChangeById(int id) {
-    return changes.removeWhere((e) => e.id == id);
-  }
-
-  void removeChangeByIds(List<int> ids) {
-    return changes.removeWhere((e) => ids.contains(e.id));
-  }
-
   void addChange(StoryContentDbModel content) {
-    removeChangeById(content.id);
     changes.add(content);
   }
 

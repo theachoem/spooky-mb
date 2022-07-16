@@ -35,7 +35,7 @@ class ChangesHistoryView extends StatelessWidget {
 
   final StoryDbModel story;
   final void Function(StoryContentDbModel content) onRestorePressed;
-  final Future<StoryDbModel> Function(List<int> contentIds) onDeletePressed;
+  final Future<StoryDbModel> Function(List<int> contentIds, StoryDbModel storyFromChangesView) onDeletePressed;
 
   @override
   Widget build(BuildContext context) {

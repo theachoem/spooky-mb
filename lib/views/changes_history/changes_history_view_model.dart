@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/base/base_view_model.dart';
+import 'package:spooky/utils/helpers/story_db_constructor_helper.dart';
 
 class ChangesHistoryViewModel extends BaseViewModel {
-  StoryDbModel story;
+  StoryDbModel? story;
   final void Function(StoryContentDbModel content) onRestorePressed;
-  final Future<StoryDbModel> Function(List<int> contentIds) onDeletePressed;
+  final Future<StoryDbModel> Function(List<int> contentIds, StoryDbModel storyFromChangesView) onDeletePressed;
 
   bool _editing = false;
   bool get editing => _editing;
@@ -19,15 +20,35 @@ class ChangesHistoryViewModel extends BaseViewModel {
   late final ValueNotifier<Set<int>> selectedNotifier;
 
   ChangesHistoryViewModel(
-    this.story,
+    StoryDbModel story,
     this.onRestorePressed,
     this.onDeletePressed,
   ) {
     selectedNotifier = ValueNotifier({});
+    initStory(story);
+  }
+
+  void initStory(StoryDbModel story) {
+    StoryDbConstructorHelper.loadChanges(story).then((value) {
+      Map<int, StoryContentDbModel> changes = {};
+
+      for (StoryContentDbModel change in value.changes) {
+        changes[change.id] = change;
+      }
+
+      if (changes.values.isNotEmpty) {
+        this.story = value.copyWith(changes: changes.values.toList());
+      } else {
+        this.story = value;
+      }
+
+      notifyListeners();
+    });
   }
 
   void delele() async {
-    StoryDbModel value = await onDeletePressed(selectedNotifier.value.toList());
+    if (story == null) return;
+    StoryDbModel value = await onDeletePressed(selectedNotifier.value.toList(), story!);
     story = value;
     notifyListeners();
   }
@@ -41,7 +62,8 @@ class ChangesHistoryViewModel extends BaseViewModel {
     }
 
     // make sure select id is in story
-    final list = story.changes.map((e) => e.id);
+    if (story == null) return;
+    final list = story!.changes.map((e) => e.id);
     Set<int> value = selectedNotifier.value;
     value.removeWhere((e) => !list.contains(e));
     selectedNotifier.value = value;

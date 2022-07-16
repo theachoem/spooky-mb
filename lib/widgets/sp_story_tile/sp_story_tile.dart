@@ -1,7 +1,6 @@
 library sp_story_tile;
 
 import 'dart:async';
-import 'dart:math';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
@@ -19,8 +18,6 @@ import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
-import 'package:spooky/utils/helpers/quill_helper.dart';
-import 'package:spooky/utils/helpers/story_db_constructor_helper.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_chips.dart';
@@ -71,20 +68,32 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     expandedLevelNotifier = ValueNotifier<ChipsExpandLevelType>(ChipsExpandLevelType.level1);
     database = StoryDatabase.instance;
     story = widget.story;
-    loadChanges();
 
     utils = SpStoryTileUtils(
       context: context,
       story: story,
       reloadList: widget.onRefresh,
       reloadStory: reloadStory,
+      beforeAction: () async {
+        await confirmStory(context);
+      },
     );
 
     super.initState();
   }
 
-  Future<void> loadChanges() async {
-    story = await StoryDbConstructorHelper.loadChanges(story);
+  Future<bool?> confirmStory(BuildContext context) async {
+    bool hasIncompleteFuture = completer != null && !completer!.isCompleted;
+
+    if (hasIncompleteFuture) {
+      return MessengerService.instance.showLoading<bool>(
+        context: context,
+        debugSource: "_SpStoryTileState#view",
+        future: () => completer!.future,
+      );
+    }
+
+    return true;
   }
 
   void complete() {
@@ -109,7 +118,6 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
     if (storyResult != null) {
       setState(() => story = storyResult);
-      await loadChanges();
     } else {
       await widget.onRefresh();
     }
@@ -144,22 +152,14 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   }
 
   Future<void> view(BuildContext context) async {
-    bool hasntLoadChanges =
-        story.rawChanges != null && story.rawChanges!.length >= story.changes.length && story.changes.length == 1;
+    await confirmStory(context);
     bool hasIncompleteFuture = completer != null && !completer!.isCompleted;
 
-    if (hasntLoadChanges || hasIncompleteFuture) {
+    if (hasIncompleteFuture) {
       await MessengerService.instance.showLoading(
         context: context,
         debugSource: "_SpStoryTileState#view",
-        future: () async {
-          if (hasIncompleteFuture) {
-            await completer!.future;
-          } else if (hasntLoadChanges) {
-            await loadChanges();
-          }
-          return true;
-        },
+        future: () => completer!.future,
       );
     }
 

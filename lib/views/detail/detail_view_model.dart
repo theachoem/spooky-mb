@@ -143,9 +143,14 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     if (story != null) saveStates(story);
   }
 
-  Future<StoryDbModel> deleteChange(List<int> contentIds) async {
+  Future<StoryDbModel> deleteChange(List<int> contentIds, StoryDbModel storyFromChangesView) async {
     DeleteChangeWriter writer = DeleteChangeWriter();
-    StoryDbModel? story = await writer.save(DeleteChangeObject(await info, contentIds: contentIds));
+    StoryDbModel? story = await writer.save(DeleteChangeObject(
+      await info,
+      contentIds: contentIds,
+      storyFromChangesView: storyFromChangesView,
+    ));
+
     if (story != null) saveStates(story);
     return currentStory;
   }

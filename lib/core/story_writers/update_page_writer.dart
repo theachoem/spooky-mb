@@ -39,8 +39,7 @@ class UpdatePageWriter extends DefaultStoryWriter<UpdatePageObject> {
     StoryContentDbModel newContent = story.changes.last;
 
     // update pages
-    newContent.pages = object.pages;
-    story.removeChangeById(newContent.id);
+    newContent = newContent.copyWith(pages: object.pages);
     story.addChange(newContent);
 
     return story;

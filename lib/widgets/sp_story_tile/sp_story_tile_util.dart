@@ -16,6 +16,7 @@ class SpStoryTileUtils {
   final BuildContext context;
   final Future<void> Function() reloadList;
   final Future<void> Function() reloadStory;
+  final Future<void> Function() beforeAction;
   late final StoryDatabase database;
 
   SpStoryTileUtils({
@@ -23,6 +24,7 @@ class SpStoryTileUtils {
     required this.context,
     required this.reloadList,
     required this.reloadStory,
+    required this.beforeAction,
   }) {
     database = StoryDatabase.instance;
   }
@@ -32,6 +34,7 @@ class SpStoryTileUtils {
     required bool refreshList,
     required bool refreshStory,
   }) async {
+    await beforeAction();
     bool success = await callback();
     if (success && refreshList) await reloadList();
     if (success && refreshStory) await reloadStory();

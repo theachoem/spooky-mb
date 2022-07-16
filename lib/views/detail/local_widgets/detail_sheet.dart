@@ -78,6 +78,10 @@ class DetailSheet extends StatelessWidget {
   // }
 
   SpSectionContents buildSettingSection(BuildContext context) {
+    bool showChanges = false;
+    if (viewModel.currentStory.rawChanges?.isNotEmpty == true) showChanges = true;
+    if (viewModel.currentStory.changes.isNotEmpty == true) showChanges = true;
+
     return SpSectionContents(
       headline: "Setting",
       tiles: [
@@ -89,7 +93,7 @@ class DetailSheet extends StatelessWidget {
           },
         ),
         if ((viewModel.currentContent.pages ?? []).length > 1) buildPagesTile(context),
-        if (viewModel.currentStory.changes.length > 1) buildChangesTile(context),
+        if (showChanges) buildChangesTile(context),
       ],
     );
   }
@@ -113,9 +117,9 @@ class DetailSheet extends StatelessWidget {
               debugSource: "DetailSheet",
             );
           },
-          onDeletePressed: (contentIds) async {
+          onDeletePressed: (contentIds, storyFromChangesView) async {
             return await MessengerService.instance.showLoading(
-                  future: () => viewModel.deleteChange(contentIds),
+                  future: () => viewModel.deleteChange(contentIds, storyFromChangesView),
                   context: App.navigatorKey.currentContext!,
                   debugSource: "DetailSheet",
                 ) ??

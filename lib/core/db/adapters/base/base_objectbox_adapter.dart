@@ -100,7 +100,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     // }
     T constructed = await objectConstructor(body);
     await box.putAsync(constructed, mode: PutMode.put);
-    return body;
+    return objectTransformer(constructed);
   }
 
   @override
@@ -110,7 +110,7 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
   }) async {
     T constructed = await objectConstructor(body);
     await box.putAsync(constructed, mode: PutMode.insert);
-    return body;
+    return objectTransformer(constructed);
   }
 
   @override
@@ -119,8 +119,8 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     required P body,
     Map<String, dynamic> params = const {},
   }) async {
-    T object = await objectConstructor(body);
-    await box.putAsync(object, mode: PutMode.update);
-    return body;
+    T constructed = await objectConstructor(body);
+    await box.putAsync(constructed, mode: PutMode.update);
+    return objectTransformer(constructed);
   }
 }

@@ -31,7 +31,9 @@ class _ChangesHistoryMobile extends StatelessWidget {
           ],
           title: buildAppBarTitle(context),
         ),
-        body: buildListView(context),
+        body: viewModel.story == null
+            ? const Center(child: CircularProgressIndicator.adaptive())
+            : buildListView(context, viewModel.story!),
       ),
     );
   }
@@ -103,15 +105,15 @@ class _ChangesHistoryMobile extends StatelessWidget {
     );
   }
 
-  Widget buildListView(BuildContext context) {
+  Widget buildListView(BuildContext context, StoryDbModel story) {
     return ListView.separated(
       separatorBuilder: (context, index) => const Divider(height: 0),
-      itemCount: viewModel.story.changes.length,
+      itemCount: story.changes.length,
       physics: const AlwaysScrollableScrollPhysics(),
       itemBuilder: (_, index) {
-        StoryContentDbModel content = viewModel.story.changes[index];
+        StoryContentDbModel content = story.changes[index];
         int id = content.id;
-        bool latest = index == viewModel.story.changes.length - 1;
+        bool latest = index == story.changes.length - 1;
         bool draft = content.draft == true;
         return SpPopupMenuButton(
           dx: MediaQuery.of(context).size.width,

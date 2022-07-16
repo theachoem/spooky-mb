@@ -354,7 +354,8 @@ class ChangesHistory extends PageRouteInfo<ChangesHistoryArgs> {
       {Key? key,
       required StoryDbModel story,
       required void Function(StoryContentDbModel) onRestorePressed,
-      required Future<StoryDbModel> Function(List<int>) onDeletePressed})
+      required Future<StoryDbModel> Function(List<int>, StoryDbModel)
+          onDeletePressed})
       : super(ChangesHistory.name,
             path: 'changes-history',
             args: ChangesHistoryArgs(
@@ -379,7 +380,7 @@ class ChangesHistoryArgs {
 
   final void Function(StoryContentDbModel) onRestorePressed;
 
-  final Future<StoryDbModel> Function(List<int>) onDeletePressed;
+  final Future<StoryDbModel> Function(List<int>, StoryDbModel) onDeletePressed;
 
   @override
   String toString() {
