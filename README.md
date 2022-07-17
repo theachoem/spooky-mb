@@ -1,16 +1,17 @@
-# spooky
+# Spooky
+Spooky is a minimalist design application to write stories, journals, notes, diaries, todo, etc. It's also the first journal with Material 3 design. Spooky offers a variety of features that you can expect for your daily usage.
 
-A new Flutter project.
+## Installation
+Spooky is developed using Flutter 3.0.0. If you have a different version on your machine, please consider [installing FVM](https://soksereyphon8.medium.com/flutter-version-management-3c318c4ff97d). 
 
-## Getting Started
+```s
+fvm flutter pub get
+fvm flutter run
+```
 
-This project is a starting point for a Flutter application.
+## License
+Spooky is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## References
+- Download on Play Store: https://play.google.com/store/apps/details?id=com.juniorise.spooky
+- Download on App Store: https://apps.apple.com/us/app/spooky/id1629372753?platform=iphone
