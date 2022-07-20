@@ -10,6 +10,8 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   BuildContext? get context => App.navigatorKey.currentContext;
   final StoryDatabase database = StoryDatabase.instance;
 
+  bool get reloadOnSave => false;
+
   Future<StoryDbModel> buildStory(T object);
   String buildMessage(ResponseCodeType responseCode);
 
@@ -35,7 +37,12 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
       IsChangedStoryService.instance.setChanged(story);
       result = await database.set(body: story);
       result ??= story;
-      return database.error == null ? _nextSuccess(result) : _nextError(result);
+
+      if (reloadOnSave) {
+        result = await database.fetchOne(id: result.id);
+      }
+
+      return database.error == null ? _nextSuccess(result!) : _nextError(result);
     } else {
       return _nextError(result, validation);
     }

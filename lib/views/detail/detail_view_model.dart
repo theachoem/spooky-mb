@@ -178,10 +178,14 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   /// restore and updatePages will be push replace to same screen instead.
   /// so, no need to saveStates(story)
-  Future<void> restore(int contentId) async {
+  Future<void> restore(int contentId, StoryDbModel storyFromChangesView) async {
     return beforeAction(() async {
       RestoreStoryWriter writer = RestoreStoryWriter();
-      await writer.save(RestoreStoryObject(await info, contentId: contentId));
+      await writer.save(RestoreStoryObject(
+        await info,
+        contentId: contentId,
+        storyFromChangesView: storyFromChangesView,
+      ));
     });
   }
 

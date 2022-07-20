@@ -9,6 +9,9 @@ import 'package:spooky/core/types/response_code_type.dart';
 
 class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
   @override
+  bool get reloadOnSave => true;
+
+  @override
   String? validate(RestoreStoryObject object) {
     return null;
   }
@@ -53,10 +56,10 @@ class RestoreStoryWriter extends DefaultStoryWriter<RestoreStoryObject> {
 
   @override
   Future<StoryDbModel> buildStory(RestoreStoryObject object) async {
-    StoryDbModel story = object.info.currentStory;
-    Iterable<StoryContentDbModel> selected = object.info.currentStory.changes.where((e) => e.id == object.contentId);
+    StoryDbModel story = object.storyFromChangesView;
+    Iterable<StoryContentDbModel> selected = story.changes.where((e) => e.id == object.contentId);
     if (selected.isNotEmpty) {
-      StoryContentDbModel content = selected.last;
+      StoryContentDbModel content = selected.first;
       story.addChange(StoryContentDbModel.dublicate(content));
       return story;
     } else {

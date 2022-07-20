@@ -6,7 +6,7 @@ import 'package:spooky/utils/helpers/story_db_constructor_helper.dart';
 
 class ChangesHistoryViewModel extends BaseViewModel {
   StoryDbModel? story;
-  final void Function(StoryContentDbModel content) onRestorePressed;
+  final void Function(int contentId, StoryDbModel storyFromChangesView) onRestorePressed;
   final Future<StoryDbModel> Function(List<int> contentIds, StoryDbModel storyFromChangesView) onDeletePressed;
 
   bool _editing = false;
@@ -51,6 +51,11 @@ class ChangesHistoryViewModel extends BaseViewModel {
     StoryDbModel value = await onDeletePressed(selectedNotifier.value.toList(), story!);
     story = value;
     notifyListeners();
+  }
+
+  void restore(StoryContentDbModel content) {
+    if (story == null) return;
+    onRestorePressed(content.id, story!);
   }
 
   @override

@@ -197,9 +197,9 @@ class DetailSheet extends StatelessWidget {
 
     ChangesHistoryArgs arguments = ChangesHistoryArgs(
       story: viewModel.currentStory,
-      onRestorePressed: (content) {
+      onRestorePressed: (contentId, storyFromChangesView) {
         MessengerService.instance.showLoading(
-          future: () => viewModel.restore(content.id).then((value) => 1),
+          future: () => viewModel.restore(contentId, storyFromChangesView).then((value) => 1),
           context: App.navigatorKey.currentContext!,
           debugSource: "DetailSheet",
         );

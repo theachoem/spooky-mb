@@ -139,7 +139,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               SpPopMenuItem(
                 title: "Restore this version",
                 onPressed: () {
-                  viewModel.onRestorePressed(content);
+                  viewModel.restore(content);
                   Navigator.of(context).maybePop();
                 },
               ),
