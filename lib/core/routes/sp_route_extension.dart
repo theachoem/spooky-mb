@@ -61,6 +61,8 @@ extension SpRouterExtension on SpRouter {
         return '/search';
       case SpRouter.backupHistoriesManager:
         return '/backup-histories-manager';
+      case SpRouter.accountDeletion:
+        return '/account-deletion';
     }
   }
 
@@ -122,6 +124,8 @@ extension SpRouterExtension on SpRouter {
         return 'Search';
       case SpRouter.backupHistoriesManager:
         return 'Backup Histories';
+      case SpRouter.accountDeletion:
+        return 'Delete Account';
     }
   }
 
@@ -183,6 +187,8 @@ extension SpRouterExtension on SpRouter {
         return 'Search';
       case SpRouter.backupHistoriesManager:
         return 'Backup Histories';
+      case SpRouter.accountDeletion:
+        return 'Account Deletion';
     }
   }
 
@@ -204,6 +210,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.backupsDetails:
       case SpRouter.signUp:
       case SpRouter.backupHistoriesManager:
+      case SpRouter.accountDeletion:
         return null;
       case SpRouter.home:
         return MainTabBarItem(

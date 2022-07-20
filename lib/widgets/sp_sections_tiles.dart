@@ -7,11 +7,13 @@ class SpSectionContents {
   final String? headline;
   final List<Widget> tiles;
   final IconData? leadingIcon;
+  final Color? headlineColor;
 
   SpSectionContents({
     required this.headline,
     required this.tiles,
     this.leadingIcon,
+    this.headlineColor,
   });
 }
 
@@ -21,6 +23,7 @@ class SpSectionsTiles extends StatelessWidget {
   static Column header({
     required BuildContext context,
     required String headline,
+    Color? headlineColor,
     IconData? leadingIcon,
   }) {
     return Column(
@@ -33,7 +36,7 @@ class SpSectionsTiles extends StatelessWidget {
           child: RichText(
             textAlign: TextAlign.start,
             text: TextSpan(
-              style: M3TextTheme.of(context).titleSmall?.copyWith(color: M3Color.of(context).primary),
+              style: M3TextTheme.of(context).titleSmall?.copyWith(color: headlineColor ?? M3Color.of(context).primary),
               children: [
                 TextSpan(text: headline),
                 if (leadingIcon != null)
@@ -69,6 +72,7 @@ class SpSectionsTiles extends StatelessWidget {
           ...header(
             context: context,
             headline: sections[i].headline!,
+            headlineColor: sections[i].headlineColor,
             leadingIcon: sections[i].leadingIcon,
           ).children,
         ...sections[i].tiles,

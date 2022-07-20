@@ -30,4 +30,5 @@ enum SpRouter {
   signUp,
   search,
   backupHistoriesManager,
+  accountDeletion,
 }

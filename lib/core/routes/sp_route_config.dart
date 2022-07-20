@@ -5,6 +5,7 @@ import 'package:spooky/core/routes/setting/base_route_setting.dart';
 import 'package:spooky/core/routes/setting/default_route_setting.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/views/account_deletion/account_deletion_view.dart';
 import 'package:spooky/views/add_ons/add_ons_view.dart';
 import 'package:spooky/views/app_starter/app_starter_view.dart';
 import 'package:spooky/views/archive/archive_view.dart';
@@ -263,6 +264,11 @@ class SpRouteConfig {
         return DefaultRouteSetting(
           fullscreenDialog: true,
           route: (context) => const SignUpView(),
+        );
+      case SpRouter.accountDeletion:
+        return DefaultRouteSetting(
+          fullscreenDialog: true,
+          route: (context) => const AccountDeletionView(),
         );
       case SpRouter.backupHistoriesManager:
         return DefaultRouteSetting(

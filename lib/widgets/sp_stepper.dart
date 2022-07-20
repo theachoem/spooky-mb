@@ -8,6 +8,8 @@ class SpStep {
   final Widget content;
   final String Function(StepState) buttonLabel;
   final Future<StepState> Function(StepState) onPressed;
+  final Color? Function(StepState)? backgroundColor;
+  final Color? Function(StepState)? foregroundColor;
 
   SpStep({
     required this.title,
@@ -15,6 +17,8 @@ class SpStep {
     required this.content,
     required this.buttonLabel,
     required this.onPressed,
+    this.backgroundColor,
+    this.foregroundColor,
   });
 }
 
@@ -72,6 +76,8 @@ class _SpStepperState extends State<SpStepper> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 SpButton(
+                  backgroundColor: step.backgroundColor != null ? step.backgroundColor!(state) : null,
+                  foregroundColor: step.backgroundColor != null ? step.foregroundColor!(state) : null,
                   loading: state == StepState.editing,
                   label: step.buttonLabel(state),
                   onTap: () async {
@@ -79,7 +85,9 @@ class _SpStepperState extends State<SpStepper> {
                     final nextState = await step.onPressed(state);
                     setStepState(details.stepIndex, nextState);
                     if (details.stepIndex == widget.steps.length - 1) return;
-                    setCurrentStep(details.stepIndex + 1);
+                    if (nextState != StepState.error) {
+                      setCurrentStep(details.stepIndex + 1);
+                    }
                   },
                 ),
               ],

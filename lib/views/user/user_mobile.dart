@@ -85,7 +85,30 @@ class _UserMobile extends StatelessWidget {
             );
           },
         ),
+        ConfigConstant.sizedBoxH2,
+        buildDeletionTile(context)
       ],
+    );
+  }
+
+  Widget buildDeletionTile(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ListTile(
+        title: Text(SpRouter.accountDeletion.title),
+        iconColor: M3Color.of(context).error,
+        trailing: const Icon(Icons.keyboard_arrow_right),
+        leading: const Icon(Icons.delete),
+        shape: RoundedRectangleBorder(
+          borderRadius: ConfigConstant.circlarRadius2,
+          side: BorderSide(
+            color: Theme.of(context).dividerColor,
+          ),
+        ),
+        onTap: () {
+          Navigator.of(context).pushNamed(SpRouter.accountDeletion.path);
+        },
+      ),
     );
   }
 
