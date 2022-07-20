@@ -78,6 +78,21 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     );
   }
 
+  String? tagId;
+  bool initialStarred = false;
+  void onTagChange(String? tag) {
+    if (tag == "*") {
+      tagId = null;
+      initialStarred = true;
+    } else if (tag == null) {
+      tagId = null;
+      initialStarred = false;
+    } else {
+      tagId = tag;
+      initialStarred = false;
+    }
+  }
+
   void onMonthChange(int month) {
     this.month = month;
   }
@@ -106,7 +121,13 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   void onConfirm(DateTime date, BuildContext context) {
-    DetailArgs args = DetailArgs(initialStory: StoryDbModel.fromDate(date), intialFlow: DetailViewFlowType.create);
+    DetailArgs args = DetailArgs(
+      intialFlow: DetailViewFlowType.create,
+      initialStory: StoryDbModel.fromDate(date).copyWith(
+        tags: tagId != null ? [tagId!] : null,
+        starred: initialStarred,
+      ),
+    );
     Navigator.of(context).pushNamed(SpRouter.detail.path, arguments: args);
   }
 

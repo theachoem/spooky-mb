@@ -186,6 +186,7 @@ class SpRouteConfig {
                 onMonthChange: arguments.onMonthChange,
                 onYearChange: arguments.onYearChange,
                 onScrollControllerReady: arguments.onScrollControllerReady,
+                onTagChange: arguments.onTagChange,
               );
             }
             return const NotFoundView();

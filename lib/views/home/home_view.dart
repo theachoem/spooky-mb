@@ -21,16 +21,23 @@ class HomeView extends StatelessWidget {
     required this.onMonthChange,
     required this.onYearChange,
     required this.onScrollControllerReady,
+    required this.onTagChange,
   }) : super(key: key);
 
   final void Function(int index) onMonthChange;
   final void Function(int year) onYearChange;
+  final void Function(String? tag) onTagChange;
   final void Function(ScrollController controller) onScrollControllerReady;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<HomeViewModel>(
-      create: (BuildContext context) => HomeViewModel(onMonthChange, onYearChange, onScrollControllerReady),
+      create: (BuildContext context) => HomeViewModel(
+        onMonthChange,
+        onYearChange,
+        onScrollControllerReady,
+        onTagChange,
+      ),
       builder: (context, viewModel, child) {
         return _HomeMobile(viewModel);
       },

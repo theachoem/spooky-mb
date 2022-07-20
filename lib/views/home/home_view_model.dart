@@ -13,6 +13,7 @@ class HomeViewModel extends BaseViewModel {
 
   final void Function(int index) onMonthChange;
   final void Function(int year) onYearChange;
+  final void Function(String? tag) onTagChange;
   final void Function(ScrollController controller) onScrollControllerReady;
 
   late final ScrollController scrollController;
@@ -21,6 +22,7 @@ class HomeViewModel extends BaseViewModel {
     this.onMonthChange,
     this.onYearChange,
     this.onScrollControllerReady,
+    this.onTagChange,
   ) {
     year = InitialStoryTabService.initial.year;
     month = InitialStoryTabService.initial.month;

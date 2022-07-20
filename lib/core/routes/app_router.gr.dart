@@ -109,7 +109,8 @@ class _$AppRouter extends RootStackRouter {
               key: args.key,
               onMonthChange: args.onMonthChange,
               onYearChange: args.onYearChange,
-              onScrollControllerReady: args.onScrollControllerReady));
+              onScrollControllerReady: args.onScrollControllerReady,
+              onTagChange: args.onTagChange));
     },
     ManagePages.name: (routeData) {
       final args = routeData.argsAs<ManagePagesArgs>();
@@ -482,14 +483,16 @@ class Home extends PageRouteInfo<HomeArgs> {
       {Key? key,
       required void Function(int) onMonthChange,
       required void Function(int) onYearChange,
-      required void Function(ScrollController) onScrollControllerReady})
+      required void Function(ScrollController) onScrollControllerReady,
+      required void Function(String?) onTagChange})
       : super(Home.name,
             path: '',
             args: HomeArgs(
                 key: key,
                 onMonthChange: onMonthChange,
                 onYearChange: onYearChange,
-                onScrollControllerReady: onScrollControllerReady));
+                onScrollControllerReady: onScrollControllerReady,
+                onTagChange: onTagChange));
 
   static const String name = 'Home';
 }
@@ -499,7 +502,8 @@ class HomeArgs {
       {this.key,
       required this.onMonthChange,
       required this.onYearChange,
-      required this.onScrollControllerReady});
+      required this.onScrollControllerReady,
+      required this.onTagChange});
 
   final Key? key;
 
@@ -509,9 +513,11 @@ class HomeArgs {
 
   final void Function(ScrollController) onScrollControllerReady;
 
+  final void Function(String?) onTagChange;
+
   @override
   String toString() {
-    return 'HomeArgs{key: $key, onMonthChange: $onMonthChange, onYearChange: $onYearChange, onScrollControllerReady: $onScrollControllerReady}';
+    return 'HomeArgs{key: $key, onMonthChange: $onMonthChange, onYearChange: $onYearChange, onScrollControllerReady: $onScrollControllerReady, onTagChange: $onTagChange}';
   }
 }
 

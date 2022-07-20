@@ -94,16 +94,9 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     return SpTabView(
       controller: controller,
       listener: (controller) {
-        switch (layoutType) {
-          case SpListLayoutType.library:
-          case SpListLayoutType.timeline:
-            break;
-          case SpListLayoutType.diary:
-            // set reloader on listen to tabs
-            int monthIndex = (controller.animation?.value.round() ?? controller.index) + 1;
-            widget.viewModel.onMonthChange(monthIndex);
-            break;
-        }
+        listener(
+          (controller.animation?.value.round() ?? controller.index),
+        );
       },
       children: List.generate(
         controller.length,
@@ -154,14 +147,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       tabController: controller,
       viewModel: widget.viewModel,
       onTap: (index) {
-        switch (layoutType) {
-          case SpListLayoutType.diary:
-            widget.viewModel.onMonthChange(index + 1);
-            break;
-          case SpListLayoutType.library:
-          case SpListLayoutType.timeline:
-            break;
-        }
+        listener(index);
         // if (index == controller.index) {
         //   PrimaryScrollController.of(context)?.animateTo(
         //     0,
@@ -173,6 +159,30 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       useDefaultTabStyle: layoutType == SpListLayoutType.library,
       tabLabels: tabLabels,
     );
+  }
+
+  void listener(int index) {
+    switch (layoutType) {
+      case SpListLayoutType.diary:
+        widget.viewModel.onMonthChange(index + 1);
+        break;
+      case SpListLayoutType.library:
+        TagDbModel tag = tags[index];
+        String? tagId;
+
+        if (tag.id == 0 && tag.title == "*") {
+          tagId = "*";
+        } else if (tag.id == 0) {
+          tagId = null;
+        } else {
+          tagId = tag.id.toString();
+        }
+
+        widget.viewModel.onTagChange(tagId);
+        break;
+      case SpListLayoutType.timeline:
+        break;
+    }
   }
 
   List<String> get tabLabels {

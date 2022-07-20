@@ -47,4 +47,5 @@ const _$SpRouterEnumMap = {
   SpRouter.signUp: 'signUp',
   SpRouter.search: 'search',
   SpRouter.backupHistoriesManager: 'backupHistoriesManager',
+  SpRouter.accountDeletion: 'accountDeletion',
 };
