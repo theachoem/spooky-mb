@@ -1,5 +1,6 @@
 library home_view;
 
+import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
@@ -29,6 +30,12 @@ class HomeView extends StatelessWidget {
   final void Function(String? tag) onTagChange;
   final void Function(ScrollController controller) onScrollControllerReady;
 
+  // On CRUD
+  static final GlobalKey homeKey = GlobalKey();
+  static void reloadDocsCount() {
+    homeKey.currentContext?.read<HomeViewModel>().reloadDocsCount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<HomeViewModel>(
@@ -39,7 +46,10 @@ class HomeView extends StatelessWidget {
         onTagChange,
       ),
       builder: (context, viewModel, child) {
-        return _HomeMobile(viewModel);
+        return _HomeMobile(
+          viewModel,
+          key: homeKey,
+        );
       },
     );
   }

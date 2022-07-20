@@ -17,6 +17,7 @@ class HomeViewModel extends BaseViewModel {
   final void Function(ScrollController controller) onScrollControllerReady;
 
   late final ScrollController scrollController;
+  late final ValueNotifier<int> docsCountNotifier;
 
   HomeViewModel(
     this.onMonthChange,
@@ -27,15 +28,29 @@ class HomeViewModel extends BaseViewModel {
     year = InitialStoryTabService.initial.year;
     month = InitialStoryTabService.initial.month;
     scrollController = ScrollController();
+    docsCountNotifier = ValueNotifier<int>(0);
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      reloadDocsCount();
       onScrollControllerReady(scrollController);
     });
   }
 
   @override
+  void notifyListeners() {
+    reloadDocsCount();
+    super.notifyListeners();
+  }
+
+  @override
   void dispose() {
     scrollController.dispose();
+    docsCountNotifier.dispose();
     super.dispose();
+  }
+
+  void reloadDocsCount() {
+    docsCountNotifier.value = StoryDatabase.instance.getDocsCount(year);
   }
 
   void setYear(int? selectedYear) {
@@ -49,10 +64,6 @@ class HomeViewModel extends BaseViewModel {
     Set<int> years = await StoryDatabase.instance.fetchYears() ?? {};
     years.add(year);
     return (years.toList()..sort()).reversed.toList();
-  }
-
-  int get docsCount {
-    return StoryDatabase.instance.getDocsCount(year);
   }
 
   Future<void> pickYear(BuildContext context) async {

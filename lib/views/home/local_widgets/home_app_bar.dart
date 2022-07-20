@@ -22,14 +22,16 @@ class HomeAppBar extends StatefulWidget {
     required this.tabController,
     required this.viewModel,
     required this.useDefaultTabStyle,
+    required this.docsCountNotifier,
     this.onTap,
   }) : super(key: key);
 
-  final String subtitle;
   final List<String> tabLabels;
   final TabController tabController;
   final HomeViewModel viewModel;
   final ValueChanged<int>? onTap;
+  final ValueNotifier<int> docsCountNotifier;
+  final String Function(int docsCount) subtitle;
   final bool useDefaultTabStyle;
 
   @override
@@ -167,9 +169,14 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
                   duration: ConfigConstant.duration,
                   child: SpTapEffect(
                     onTap: () => widget.viewModel.pickYear(context),
-                    child: Text(
-                      widget.subtitle,
-                      style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+                    child: ValueListenableBuilder<int>(
+                      valueListenable: widget.docsCountNotifier,
+                      builder: (context, docsCount, child) {
+                        return Text(
+                          widget.subtitle(docsCount),
+                          style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+                        );
+                      },
                     ),
                   ),
                 ),

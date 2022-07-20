@@ -29,6 +29,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   @override
   void initState() {
     super.initState();
+
     tags = [
       TagDbModel.fromIDTitle(0, "*"),
       ...Global.instance.tags,
@@ -142,8 +143,14 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   }
 
   Widget buildAppBar() {
+    String storyCounter;
+
     return HomeAppBar(
-      subtitle: "${widget.viewModel.year} - ${widget.viewModel.docsCount} Stories",
+      docsCountNotifier: widget.viewModel.docsCountNotifier,
+      subtitle: (int docsCount) {
+        storyCounter = docsCount > 1 ? "$docsCount Stories" : "$docsCount Story";
+        return "${widget.viewModel.year} - $storyCounter";
+      },
       tabController: controller,
       viewModel: widget.viewModel,
       onTap: (index) {
