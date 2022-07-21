@@ -1,5 +1,9 @@
+import 'dart:io';
+
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_custom_tabs/flutter_custom_tabs.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:spooky/main.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -123,5 +127,45 @@ class AppHelper {
     DateTime deleteAt = movedToBinAt.add(deletedIn ?? AppConstant.deleteInDuration);
     currentDate = currentDate ?? DateTime.now();
     return currentDate.isAfter(deleteAt);
+  }
+
+  static Future<List<String>> getDeviceModel() async {
+    if (Global.instance.unitTesting) return ["Device Model", "device_id"];
+
+    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+    String? device;
+    String? id;
+
+    if (Platform.isIOS) {
+      IosDeviceInfo info = await deviceInfo.iosInfo;
+      device = info.model ?? info.name;
+      id = info.identifierForVendor;
+    }
+
+    if (Platform.isAndroid) {
+      AndroidDeviceInfo info = await deviceInfo.androidInfo;
+      device = info.model ?? info.device;
+      id = info.androidId;
+    }
+
+    if (Platform.isMacOS) {
+      MacOsDeviceInfo info = await deviceInfo.macOsInfo;
+      device = info.model;
+      id = info.systemGUID;
+    }
+
+    if (Platform.isWindows) {
+      WindowsDeviceInfo info = await deviceInfo.windowsInfo;
+      device = info.computerName;
+      id = info.computerName;
+    }
+
+    if (Platform.isLinux) {
+      LinuxDeviceInfo info = await deviceInfo.linuxInfo;
+      device = info.name;
+      id = info.machineId;
+    }
+
+    return [device ?? "Unknown", id ?? "unknown_id"];
   }
 }

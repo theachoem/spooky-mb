@@ -8,7 +8,6 @@ class _Initializer {
     await EasyLocalization.ensureInitialized();
     tz.initializeTimeZones();
     await FileHelper.initialFile();
-
     await BaseObjectBoxAdapter.initilize();
 
     // ui
@@ -28,5 +27,21 @@ class _Initializer {
 
     // debug
     // FlutterError.onError = (details) => DebugErrorException.run(details);
+
+    // analytic
+    initialAnalytic();
+  }
+
+  static Future<void> initialAnalytic() async {
+    bool supported = await FirebaseAnalytics.instance.isSupported();
+    if (supported) {
+      await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
+      if (!FirebaseAnalytics.instance.app.isAutomaticDataCollectionEnabled) {
+        await FirebaseAnalytics.instance.app.setAutomaticDataCollectionEnabled(true);
+      }
+
+      String? uid = FirebaseAuth.instance.currentUser?.uid;
+      if (uid != null) await FirebaseAnalytics.instance.setUserId(id: uid);
+    }
   }
 }

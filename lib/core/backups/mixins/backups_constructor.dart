@@ -4,9 +4,8 @@ import 'package:spooky/core/backups/models/backups_model.dart';
 import 'package:spooky/core/db/databases/base_database.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
-import 'package:device_info_plus/device_info_plus.dart';
-import 'package:spooky/main.dart';
-import 'dart:io';
+
+import 'package:spooky/utils/helpers/app_helper.dart';
 
 mixin BackupsConstructor {
   /// ```dart
@@ -55,7 +54,7 @@ mixin BackupsConstructor {
     List<BaseDatabase> databases, [
     DateTime? currentDate,
   ]) async {
-    List<String> deviceInfos = await _getDeviceModel();
+    List<String> deviceInfos = await AppHelper.getDeviceModel();
     Map<String, dynamic> tables = await constructTables(databases);
     return BackupsModel(
       tables: tables,
@@ -65,46 +64,6 @@ mixin BackupsConstructor {
         createdAt: currentDate ?? DateTime.now(),
       ),
     );
-  }
-
-  Future<List<String>> _getDeviceModel() async {
-    if (Global.instance.unitTesting) return ["Device Model", "device_id"];
-
-    DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-    String? device;
-    String? id;
-
-    if (Platform.isIOS) {
-      IosDeviceInfo info = await deviceInfo.iosInfo;
-      device = info.model ?? info.name;
-      id = info.identifierForVendor;
-    }
-
-    if (Platform.isAndroid) {
-      AndroidDeviceInfo info = await deviceInfo.androidInfo;
-      device = info.model ?? info.device;
-      id = info.androidId;
-    }
-
-    if (Platform.isMacOS) {
-      MacOsDeviceInfo info = await deviceInfo.macOsInfo;
-      device = info.model;
-      id = info.systemGUID;
-    }
-
-    if (Platform.isWindows) {
-      WindowsDeviceInfo info = await deviceInfo.windowsInfo;
-      device = info.computerName;
-      id = info.computerName;
-    }
-
-    if (Platform.isLinux) {
-      LinuxDeviceInfo info = await deviceInfo.linuxInfo;
-      device = info.name;
-      id = info.machineId;
-    }
-
-    return [device ?? "Unknown", id ?? "unknown_id"];
   }
 
   Future<List<T>> _decodeContents<T extends BaseDbModel>(
