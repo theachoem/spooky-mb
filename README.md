@@ -12,7 +12,7 @@ fvm flutter run
 ```
 
 ## Support
-Only source to purchase us are to download the application & leave us feedback. Optionally, you can purchase add-ons in Spooky to try great features as well as supporting us. Please consider join our [Telegram channel](https://t.me/spookyjuniorise) & like our [Facebook page](https://web.facebook.com/spooky.juniorise) to get news & updates on Spooky.
+You can support us by downloading the application & leave us feedback. Optionally, you can purchase add-ons in Spooky to try great features as well as supporting us. Please consider join our [Telegram channel](https://t.me/spookyjuniorise) & like our [Facebook page](https://web.facebook.com/spooky.juniorise) to get news & updates on Spooky.
 
 ## License
 Spooky is licensed under the GNU General Public License v3.0.<br>
