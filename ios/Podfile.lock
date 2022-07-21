@@ -17,8 +17,13 @@ PODS:
     - Flutter
   - device_info_plus (0.0.1):
     - Flutter
+  - facebook_app_events (0.0.1):
+    - FBAudienceNetwork (~> 6.9.0)
+    - FBSDKCoreKit (~> 14.0.0)
+    - Flutter
   - FBAEMKit (14.0.0):
     - FBSDKCoreKit_Basics (= 14.0.0)
+  - FBAudienceNetwork (6.9.0)
   - FBSDKCoreKit (14.0.0):
     - FBAEMKit (= 14.0.0)
     - FBSDKCoreKit_Basics (= 14.0.0)
@@ -244,6 +249,7 @@ DEPENDENCIES:
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - facebook_app_events (from `.symlinks/plugins/facebook_app_events/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -278,6 +284,7 @@ SPEC REPOS:
   trunk:
     - AppAuth
     - FBAEMKit
+    - FBAudienceNetwork
     - FBSDKCoreKit
     - FBSDKCoreKit_Basics
     - FBSDKLoginKit
@@ -317,6 +324,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/cloud_firestore/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
+  facebook_app_events:
+    :path: ".symlinks/plugins/facebook_app_events/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_auth:
@@ -389,7 +398,9 @@ SPEC CHECKSUMS:
   awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
   cloud_firestore: 08dddc0c63b2b1b6474fd5f30aa5e8d8aedd5353
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
+  facebook_app_events: 0f7e9d4b115f161f926462f5f0b367b88881dd2f
   FBAEMKit: d00064597439e75885c70d9adbcb5f3e9ad84f5d
+  FBAudienceNetwork: 83096d73433759c10f9cf9b3bad5e5cff58694cb
   FBSDKCoreKit: e5d3acfffe5063a9d0b967ba2ad1f5afc460cf43
   FBSDKCoreKit_Basics: 1ff46a12e80f0b66e6c00e1ef32d6a5b5b9008a5
   FBSDKLoginKit: dbe86ef42ab142f3bd0f1c904a21bb33f31c5569

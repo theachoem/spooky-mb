@@ -56,7 +56,7 @@ packages:
       name: archive
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.0"
+    version: "3.3.1"
   args:
     dependency: transitive
     description:
@@ -84,7 +84,7 @@ packages:
       name: audio_session
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.9"
+    version: "0.1.10"
   auto_route:
     dependency: "direct main"
     description:
@@ -458,6 +458,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
+  facebook_app_events:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "1.0.0"
+      resolved-ref: fc0d1b1072d6b9bdbdaf060d0a40ba207c9c9911
+      url: "git@github.com:juniorise/flutter_facebook_app_events.git"
+    source: git
+    version: "0.16.0"
   fake_async:
     dependency: transitive
     description:
@@ -714,7 +723,7 @@ packages:
       name: flutter_markdown
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.6.10+2"
+    version: "0.6.10+3"
   flutter_native_splash:
     dependency: "direct dev"
     description:
@@ -1132,7 +1141,7 @@ packages:
       name: just_audio
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.9.27"
+    version: "0.9.28"
   just_audio_platform_interface:
     dependency: transitive
     description:
@@ -1195,7 +1204,7 @@ packages:
       name: local_auth_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.5"
+    version: "1.0.6"
   local_auth_ios:
     dependency: transitive
     description:
@@ -1461,7 +1470,7 @@ packages:
       name: pointycastle
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.6.0"
+    version: "3.6.1"
   pool:
     dependency: transitive
     description:
@@ -1559,7 +1568,7 @@ packages:
       name: rxdart
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.27.4"
+    version: "0.27.5"
   scrollable_positioned_list:
     dependency: transitive
     description:
@@ -1643,7 +1652,7 @@ packages:
       name: sign_in_with_apple
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0"
+    version: "4.1.0"
   sign_in_with_apple_platform_interface:
     dependency: transitive
     description:
@@ -1914,7 +1923,7 @@ packages:
       name: video_player_android
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.7"
+    version: "2.3.8"
   video_player_avfoundation:
     dependency: transitive
     description:
@@ -1935,7 +1944,7 @@ packages:
       name: video_player_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.10"
+    version: "2.0.11"
   visibility_detector:
     dependency: "direct main"
     description:

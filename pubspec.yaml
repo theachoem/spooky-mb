@@ -1,7 +1,7 @@
 name: spooky
 description: Minimalist application to write stories, notes, diary!
 publish_to: none
-version: 1.2.0+58
+version: 1.2.1+59
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
@@ -36,6 +36,10 @@ dependencies:
       url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git
       ref: 3.0.1
   flutter_facebook_auth: ^4.4.0+1
+  facebook_app_events:
+    git:
+      url: git@github.com:juniorise/flutter_facebook_app_events.git
+      ref: 1.0.0
   flutter_markdown: ^0.6.10+1
   flutter_phoenix: ^1.0.0
   flutter_quill: ^5.0.3
