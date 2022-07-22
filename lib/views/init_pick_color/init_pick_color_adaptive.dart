@@ -58,21 +58,30 @@ class _InitPickColorAdaptive extends StatelessWidget {
                 ),
                 if (ThemeProvider.hasDynamicColor)
                   Positioned(
-                    top: 0,
+                    top: ConfigConstant.margin2,
                     left: 0,
                     right: 0,
-                    child: SwitchListTile.adaptive(
-                      title: const Text("Dynamic color"),
-                      subtitle: const Text("Use colors base on your system."),
-                      value: Provider.of<ThemeProvider>(context, listen: false).themeMode == ThemeMode.system,
-                      onChanged: (bool value) {
-                        final provider = Provider.of<ThemeProvider>(context, listen: false);
-                        provider.setThemeMode(value
-                            ? ThemeMode.system
-                            : provider.isDarkMode()
-                                ? ThemeMode.dark
-                                : ThemeMode.light);
-                      },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: SwitchListTile.adaptive(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: ConfigConstant.circlarRadius2,
+                          side: BorderSide(
+                            color: Theme.of(context).dividerColor,
+                          ),
+                        ),
+                        title: const Text("Dynamic color"),
+                        subtitle: const Text("Use colors base on your system."),
+                        value: Provider.of<ThemeProvider>(context, listen: false).themeMode == ThemeMode.system,
+                        onChanged: (bool value) {
+                          final provider = Provider.of<ThemeProvider>(context, listen: false);
+                          provider.setThemeMode(value
+                              ? ThemeMode.system
+                              : provider.isDarkMode()
+                                  ? ThemeMode.dark
+                                  : ThemeMode.light);
+                        },
+                      ),
                     ),
                   ),
               ],
