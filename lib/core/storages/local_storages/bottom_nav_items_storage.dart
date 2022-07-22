@@ -4,9 +4,12 @@ import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/storages/base_object_storages/object_storage.dart';
 
 class BottomNavItemStorage extends ObjectStorage<BottomNavItemListModel> {
-  List<SpRouter> defaultTabs = [
+  @override
+  int? get version => 1;
+
+  final List<SpRouter> defaultTabs = [
     SpRouter.home,
-    SpRouter.cloudStorages,
+    SpRouter.soundList,
     SpRouter.setting,
   ];
 
