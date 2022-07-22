@@ -1,11 +1,14 @@
+import 'dart:io';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/file.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spooky/core/services/messenger_service.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 
 class SpImageButton extends StatelessWidget {
   const SpImageButton({
@@ -78,10 +81,38 @@ class SpImageButton extends StatelessWidget {
       context,
       controller,
       source,
-      onImagePickCallback,
+      (file) => _onPickedImage(context, file),
       filePickImpl: filePickImpl,
       webImagePickImpl: webImagePickImpl,
     );
+  }
+
+  Future<String?> _onPickedImage(BuildContext context, File file) async {
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: file.path,
+      aspectRatioPresets: CropAspectRatioPreset.values,
+      uiSettings: [
+        AndroidUiSettings(
+          toolbarTitle: 'Crop Image',
+          toolbarColor: Theme.of(context).appBarTheme.backgroundColor,
+          toolbarWidgetColor: Theme.of(context).appBarTheme.titleTextStyle?.color,
+          backgroundColor: Theme.of(context).colorScheme.background,
+          initAspectRatio: CropAspectRatioPreset.original,
+        ),
+        IOSUiSettings(
+          title: 'Crop Image',
+        ),
+      ],
+    );
+
+    if (croppedFile != null) {
+      await file.delete();
+      await file.create(recursive: true);
+      await file.writeAsBytes(await croppedFile.readAsBytes());
+      return file.path;
+    }
+
+    return null;
   }
 
   void _typeLink(BuildContext context) async {
