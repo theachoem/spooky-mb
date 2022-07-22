@@ -6,6 +6,7 @@ import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/views/home/local_widgets/home_tab_bar.dart';
 import 'package:spooky/views/home/local_widgets/search_theme_switcher.dart';
+import 'package:spooky/views/sound_list/local_widgets/miniplayer_app_bar_background.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
@@ -156,35 +157,44 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
     return FlexibleSpaceBar(
       collapseMode: CollapseMode.pin,
       stretchModes: const [StretchMode.zoomBackground],
-      background: Container(
-        padding: EdgeInsets.fromLTRB(16.0, statusBarHeight + 24.0 + 4.0, 16.0, 0),
-        child: Stack(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SpFadeIn(child: buildTitle()),
-                ConfigConstant.sizedBoxH0,
-                SpFadeIn(
-                  duration: ConfigConstant.duration,
-                  child: SpTapEffect(
-                    onTap: () => widget.viewModel.pickYear(context),
-                    child: ValueListenableBuilder<int>(
-                      valueListenable: widget.docsCountNotifier,
-                      builder: (context, docsCount, child) {
-                        return Text(
-                          widget.subtitle(docsCount),
-                          style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
-                        );
-                      },
-                    ),
+      background: Stack(
+        children: [
+          const MiniplayerAppBarBackground(
+            wave: 0.55,
+          ),
+          Positioned.fill(
+            child: Container(
+              padding: EdgeInsets.fromLTRB(16.0, statusBarHeight + 24.0 + 4.0, 16.0, 0),
+              child: Stack(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SpFadeIn(child: buildTitle()),
+                      ConfigConstant.sizedBoxH0,
+                      SpFadeIn(
+                        duration: ConfigConstant.duration,
+                        child: SpTapEffect(
+                          onTap: () => widget.viewModel.pickYear(context),
+                          child: ValueListenableBuilder<int>(
+                            valueListenable: widget.docsCountNotifier,
+                            builder: (context, docsCount, child) {
+                              return Text(
+                                widget.subtitle(docsCount),
+                                style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  buildThemeSwitcherButton()
+                ],
+              ),
             ),
-            buildThemeSwitcherButton()
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

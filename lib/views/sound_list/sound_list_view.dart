@@ -1,5 +1,6 @@
 library sound_list_view;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:just_audio/just_audio.dart';
@@ -18,6 +19,7 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/views/setting/local_widgets/notification_permission_button.dart';
+import 'package:spooky/views/sound_list/local_widgets/miniplayer_app_bar_background.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';

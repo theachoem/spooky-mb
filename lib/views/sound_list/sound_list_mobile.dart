@@ -24,6 +24,9 @@ class _SoundListMobile extends StatelessWidget {
     return MorphingAppBar(
       leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
       title: const SpAppBarTitle(fallbackRouter: SpRouter.soundList),
+      flexibleSpace: const FlexibleSpaceBar(
+        background: MiniplayerAppBarBackground(),
+      ),
       actions: [
         const NotificationPermissionButton(),
         Consumer<MiniSoundPlayerProvider>(
