@@ -82,49 +82,34 @@ class _SettingMobile extends StatelessWidget {
                 ),
               ],
             ),
-            SpSectionContents(
-              headline: "Info",
-              tiles: [
-                ListTile(
-                  leading: const SizedBox(height: 40, child: Icon(Icons.telegram)),
-                  title: const Text('Telegram Channel'),
-                  onTap: () {
-                    AppHelper.openLinkDialog(AppConstant.telegramChannel);
-                  },
-                  subtitle: const Text(
-                    "News, report bugs etc.",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                ListTile(
-                  leading: const SizedBox(height: 40, child: Icon(Icons.privacy_tip_rounded)),
-                  title: const Text('Privacy Policy'),
-                  onTap: () {
-                    AppHelper.openLinkDialog(AppConstant.privacyPolicy);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.newspaper),
-                  title: const Text("Licenses"),
-                  onTap: () async {
-                    PackageInfo info = await PackageInfo.fromPlatform();
-                    showLicensePage(
-                      context: context,
-                      applicationIcon: const Padding(
-                        padding: EdgeInsets.all(ConfigConstant.margin2),
-                        child: FlutterLogo(
-                          size: ConfigConstant.iconSize4,
-                        ),
+            SpSectionContents(headline: "Info", tiles: [
+              ListTile(
+                leading: const SizedBox(height: 40, child: Icon(Icons.privacy_tip_rounded)),
+                title: const Text('Privacy Policy'),
+                onTap: () {
+                  AppHelper.openLinkDialog(AppConstant.privacyPolicy);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.newspaper),
+                title: const Text("Licenses"),
+                onTap: () async {
+                  PackageInfo info = await PackageInfo.fromPlatform();
+                  showLicensePage(
+                    context: context,
+                    applicationIcon: const Padding(
+                      padding: EdgeInsets.all(ConfigConstant.margin2),
+                      child: FlutterLogo(
+                        size: ConfigConstant.iconSize4,
                       ),
-                      applicationLegalese: "© ${DateTime.now().year} Juniorise",
-                      applicationVersion: "${info.version}+${info.buildNumber}",
-                      applicationName: info.appName,
-                    );
-                  },
-                ),
-              ],
-            ),
+                    ),
+                    applicationLegalese: "© ${DateTime.now().year} Juniorise",
+                    applicationVersion: "${info.version}+${info.buildNumber}",
+                    applicationName: info.appName,
+                  );
+                },
+              ),
+            ]),
             SpSectionContents(
               headline: "Version",
               tiles: [
@@ -146,10 +131,58 @@ class _SettingMobile extends StatelessWidget {
                   },
                 ),
                 const SpAppVersion(),
+                ConfigConstant.sizedBoxH2,
+                buildCommunity(context),
               ],
             ),
+            // SpSectionContents(
+            //   headline: null,
+            //   tiles: [
+            //     ConfigConstant.sizedBoxH2,
+            //   ],
+            // )
           ],
         ),
+      ),
+    );
+  }
+
+  Widget buildCommunity(BuildContext context) {
+    return Card(
+      clipBehavior: Clip.hardEdge,
+      margin: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+      color: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: ConfigConstant.circlarRadius2,
+        side: BorderSide(
+          color: Theme.of(context).dividerColor,
+        ),
+      ),
+      child: Column(
+        children: [
+          ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(
+              top: ConfigConstant.margin0,
+            ),
+            leading: const CircleAvatar(backgroundColor: Colors.transparent, child: Icon(Icons.facebook)),
+            title: const Text('Spooky Community'),
+            subtitle: const Text("Share experience, report & request"),
+            onTap: () {
+              AppHelper.openLinkDialog(AppConstant.facebookGroup);
+            },
+          ),
+          ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(
+              bottom: ConfigConstant.margin0,
+            ),
+            leading: const CircleAvatar(backgroundColor: Colors.transparent, child: Icon(Icons.telegram)),
+            title: const Text('Telegram Channel'),
+            subtitle: const Text("News"),
+            onTap: () {
+              AppHelper.openLinkDialog(AppConstant.telegramChannel);
+            },
+          ),
+        ],
       ),
     );
   }
