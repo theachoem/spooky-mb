@@ -81,9 +81,9 @@ class HomeBottomNavigation extends StatelessWidget {
                         child: NavigationDestination(
                           tooltip: e.router.title,
                           selectedIcon: Icon(e.activeIcon),
-                          label: viewModel.activeRouter == e.router || !provider.isUpdateAvailable ? e.label : "Update",
+                          label: e.label,
                           icon: Icon(
-                            provider.isUpdateAvailable ? Icons.system_update_outlined : e.inactiveIcon,
+                            e.inactiveIcon,
                             color: provider.isUpdateAvailable ? M3Color.of(context).error : null,
                           ),
                         ),
