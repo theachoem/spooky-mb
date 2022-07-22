@@ -11,6 +11,7 @@ import 'package:spooky/core/models/product_list_model.dart';
 import 'package:spooky/core/models/purchased_info_model.dart';
 import 'package:spooky/core/storages/local_storages/purchased_add_on_storage.dart';
 import 'package:spooky/core/types/product_as_type.dart';
+import 'package:spooky/main.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
 class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
@@ -71,6 +72,7 @@ class InAppPurchaseProvider extends ChangeNotifier with ScheduleMixin {
   InAppPurchaseProvider() {
     purchaseNotifier = ValueNotifier([]);
     messageNotifier = ValueNotifier({});
+    purchases = Global.instance.purchases;
 
     inAppPurchase.isAvailable().then((available) {
       if (!available) return;

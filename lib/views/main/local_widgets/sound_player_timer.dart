@@ -72,7 +72,11 @@ class _SoundPlayerTimerState extends State<SoundPlayerTimer> {
   }
 
   bool get currentlyPlaying {
-    return context.read<MiniSoundPlayerProvider>().currentlyPlaying;
+    if (mounted) {
+      return context.read<MiniSoundPlayerProvider>().currentlyPlaying;
+    } else {
+      return false;
+    }
   }
 
   int get endTime {
