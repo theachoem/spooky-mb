@@ -143,26 +143,35 @@ class _SoundListMobile extends StatelessWidget {
           provider.stop(sound.type);
         }
       } else {
-        if (inAppPurchaseProvider.purchased(ProductAsType.relexSound) ||
-            downloadedSounds.where((element) => element.type == type).isEmpty) {
+        bool purchased = inAppPurchaseProvider.purchased(ProductAsType.relexSound);
+        if (!purchased && viewModel.downloadingSoundsNotifier.value.length > 2) {
+          alertRequiredPurchase(context);
+          return;
+        }
+
+        if (purchased || downloadedSounds.where((element) => element.type == type).isEmpty) {
           String? errorMessage = await viewModel.download(sound);
           provider.load();
           if (errorMessage != null) {
             MessengerService.instance.showSnackBar(errorMessage, success: false);
           }
         } else {
-          MessengerService.instance.showSnackBar(
-            "Purchase to download more",
-            action: (color) => SnackBarAction(
-              label: "Add-ons",
-              textColor: color,
-              onPressed: () {
-                Navigator.of(context).pushNamed(SpRouter.addOn.path);
-              },
-            ),
-          );
+          alertRequiredPurchase(context);
         }
       }
     });
+  }
+
+  void alertRequiredPurchase(BuildContext context) {
+    MessengerService.instance.showSnackBar(
+      "Purchase to download more",
+      action: (color) => SnackBarAction(
+        label: "Add-ons",
+        textColor: color,
+        onPressed: () {
+          Navigator.of(context).pushNamed(SpRouter.addOn.path);
+        },
+      ),
+    );
   }
 }
