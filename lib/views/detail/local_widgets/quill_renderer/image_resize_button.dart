@@ -30,8 +30,8 @@ class ImageResizeButton extends StatelessWidget {
         final screenSize = MediaQuery.of(context).size;
         return QuillImageResizer(
           onImageResize: (w, h) {
-            Tuple2<int, quill.Embed> res = getImageNode(controller, controller.selection.start);
-            String attr = replaceStyleString(getImageStyleString(controller), w, h);
+            final res = quill.getEmbedNode(controller, controller.selection.start);
+            final attr = replaceStyleString(getImageStyleString(controller), w, h);
             controller.formatText(res.item1, 1, quill.StyleAttribute(attr));
           },
           imageWidth: size?.item1,
