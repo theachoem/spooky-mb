@@ -5,7 +5,6 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_color_button.dart';
-import 'package:spooky/widgets/sp_toolbar/sp_font_family_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_image_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_link_style_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_move_cursor_button.dart';
@@ -134,11 +133,11 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
             //   iconSize: toolbarIconSize,
             //   iconTheme: iconTheme,
             // ),
-            SpFontFamilyButton(
-              controller: controller,
-              toolbarIconSize: toolbarIconSize,
-              iconTheme: iconTheme,
-            ),
+            // SpFontFamilyButton(
+            //   controller: controller,
+            //   toolbarIconSize: toolbarIconSize,
+            //   iconTheme: iconTheme,
+            // ),
             SpImageButton(
               icon: Icons.image,
               iconSize: toolbarIconSize,
