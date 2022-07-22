@@ -32,11 +32,14 @@ class QuillImageRenderer extends StatelessWidget {
   final quill.QuillController controller;
   final bool readOnly;
 
-  Widget imageByUrl(String imageUrl) {
+  Widget imageByUrl(
+    String imageUrl, {
+    required double? width,
+  }) {
     if (isImageBase64(imageUrl)) {
       return Image.memory(
         base64.decode(imageUrl),
-        width: null,
+        width: width,
         height: null,
       );
     }
@@ -44,7 +47,7 @@ class QuillImageRenderer extends StatelessWidget {
     if (imageUrl.startsWith('http')) {
       return CachedNetworkImage(
         imageUrl: imageUrl,
-        width: null,
+        width: width,
         height: null,
       );
     }
@@ -52,7 +55,7 @@ class QuillImageRenderer extends StatelessWidget {
     if (File(imageUrl).existsSync()) {
       return Image.file(
         File(imageUrl),
-        width: null,
+        width: width,
         height: null,
       );
     }
@@ -74,39 +77,36 @@ class QuillImageRenderer extends StatelessWidget {
     final sizeHelper = QuillImageResizeHelper(node: node);
     final size = sizeHelper.fetchSize();
 
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
-      alignment: Alignment.centerLeft,
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onDoubleTap: () => viewImage(context, imageUrl),
-        onTap: readOnly ? () => onImageTap(context, imageUrl) : null,
-        child: Stack(
-          children: [
-            SizedBox(
-              width: size?.item1,
-              child: ClipRRect(
-                borderRadius: ConfigConstant.circlarRadius1,
-                child: Hero(
-                  tag: imageUrl,
-                  child: imageByUrl(imageUrl),
-                ),
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onDoubleTap: () => viewImage(context, imageUrl),
+      onTap: readOnly ? () => onImageTap(context, imageUrl) : null,
+      child: Stack(
+        fit: StackFit.loose,
+        children: [
+          ClipRRect(
+            borderRadius: ConfigConstant.circlarRadius1,
+            child: Hero(
+              tag: imageUrl,
+              child: imageByUrl(
+                imageUrl,
+                width: size?.item1,
               ),
             ),
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: SpCrossFade(
-                showFirst: !readOnly,
-                secondChild: const SizedBox(width: 48),
-                firstChild: ImageResizeButton(
-                  controller: controller,
-                  size: size,
-                ),
+          ),
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: SpCrossFade(
+              showFirst: !readOnly,
+              secondChild: const SizedBox(width: 48),
+              firstChild: ImageResizeButton(
+                controller: controller,
+                size: size,
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

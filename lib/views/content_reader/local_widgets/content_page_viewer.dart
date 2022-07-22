@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
+import 'package:logger/logger.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_embed_renderer.dart';
 
@@ -31,6 +32,7 @@ class ContentPageViewerState extends State<ContentPageViewer> {
 
   editor.QuillController getDocumentController() {
     try {
+      Logger().d(widget.document);
       if (widget.document != null && widget.document?.isNotEmpty == true) {
         return editor.QuillController(
           document: editor.Document.fromJson(widget.document!),
