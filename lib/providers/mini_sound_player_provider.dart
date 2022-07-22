@@ -16,6 +16,15 @@ import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
 
 class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver {
+  static final MiniSoundPlayerProvider instance = MiniSoundPlayerProvider._();
+  MiniSoundPlayerProvider._() {
+    playerExpandProgressNotifier = ValueNotifier(playerMinHeight);
+    controller = MiniplayerController();
+    load();
+    initPlayers();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
   final SoundFileManager manager = SoundFileManager();
   late final Map<SoundType, LoopAudioSeamlessly> audioPlayers;
   late final ValueNotifier<double> playerExpandProgressNotifier;
@@ -49,14 +58,6 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
 
   SoundModel? currentSound(SoundType type) => audioPlayers[type]?.currentSound;
   // SoundType get baseSoundType => SoundType.sound;
-
-  MiniSoundPlayerProvider() {
-    playerExpandProgressNotifier = ValueNotifier(playerMinHeight);
-    controller = MiniplayerController();
-    load();
-    initPlayers();
-    WidgetsBinding.instance.addObserver(this);
-  }
 
   @override
   void dispose() {

@@ -55,7 +55,7 @@ class ProviderScope extends StatelessWidget {
           create: (context) => InAppPurchaseProvider(),
         ),
         ListenableProvider<MiniSoundPlayerProvider>(
-          create: (context) => MiniSoundPlayerProvider(),
+          create: (context) => MiniSoundPlayerProvider.instance,
         ),
         ListenableProvider<BottomNavItemsProvider>(
           create: (context) => BottomNavItemsProvider(),
