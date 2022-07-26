@@ -187,6 +187,26 @@ class _SettingMobile extends StatelessWidget {
     );
   }
 
+  Future<void> openFacebookGroup() async {
+    String fallbackUrl = AppConstant.facebookGroup;
+    String fbProtocolUrl =
+        Platform.isIOS ? AppConstant.facebookGroupDeeplinkIos : AppConstant.facebookGroupDeeplinkAndroid;
+
+    Uri fbBundleUri = Uri.parse(fbProtocolUrl);
+    bool canLaunchNatively = await canLaunchUrl(fbBundleUri);
+
+    if (canLaunchNatively) {
+      launchUrl(fbBundleUri);
+    } else {
+      AppHelper.openLinkDialog(fallbackUrl);
+
+      await launchUrl(
+        Uri.parse(fallbackUrl),
+        mode: LaunchMode.externalApplication,
+      );
+    }
+  }
+
   Widget buildCheckForUpdateTile() {
     return Consumer<InAppUpdateProvider>(builder: (context, provider, child) {
       return ListTile(

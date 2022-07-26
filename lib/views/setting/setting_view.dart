@@ -24,6 +24,7 @@ import 'package:spooky/views/setting/setting_view_model.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:launch_review/launch_review.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 part 'setting_mobile.dart';
 

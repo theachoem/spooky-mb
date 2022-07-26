@@ -7,6 +7,8 @@ class AppConstant {
   static const String privacyPolicy = 'https://github.com/juniorise/spooky/wiki/Privacy-Policy';
   static const String telegramChannel = 'https://t.me/spookyjuniorise';
   static const String facebookGroup = 'https://www.facebook.com/groups/593901148915391';
+  static const String facebookGroupDeeplinkIos = 'fb://group?id=593901148915391';
+  static const String facebookGroupDeeplinkAndroid = 'fb://group/593901148915391';
   static const String customerSupport = 'https://t.me/spookymb';
   static const Duration deleteInDuration = Duration(days: 30);
 
