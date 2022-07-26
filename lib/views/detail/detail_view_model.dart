@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
+import 'package:spooky/core/notification/channels/auto_save_channel.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/story_writers/auto_save_story_writer.dart';
 import 'package:spooky/core/story_writers/default_story_writer.dart';
@@ -128,9 +131,23 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   Future<void> autosave() async {
     if (!hasChangeNotifer.value) return;
     return beforeAction(() async {
+      DetailViewModelGetter information = await info;
+      StoryDbModel story = information.currentStory;
+      DateTime createdAt = story.changes.isNotEmpty == true ? story.changes.last.createdAt : story.createdAt;
+
+      AutoSaveChannel().show(
+        id: createdAt.hashCode,
+        groupKey: story.createdAt.hashCode.toString(),
+        title: "Saving draft...",
+        body: null,
+        ticker: "Saving draft...",
+        notificationLayout: Platform.isAndroid ? NotificationLayout.ProgressBar : null,
+        payload: AutoSavePayload(story.id.toString()),
+      );
+
       InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
       AutoSaveStoryWriter writer = AutoSaveStoryWriter();
-      StoryDbModel? result = await writer.save(DraftStoryObject(await info));
+      StoryDbModel? result = await writer.save(DraftStoryObject(information));
       await reload(result);
     });
   }

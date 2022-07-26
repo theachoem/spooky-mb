@@ -30,7 +30,7 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
   List<NotificationActionButton>? get actionButtons => null;
 
   @override
-  bool get singleInstance => false;
+  bool get singleInstance => true;
 
   @override
   Future<void> triggered({

@@ -31,6 +31,7 @@ abstract class BaseNotificationChannel<T extends BaseNotificationPayload> {
     required String? body,
     required T? payload,
     String? groupKey,
+    String? ticker,
     String? bigPicture,
     bool? autoDismissible,
     NotificationSchedule? schedule,
@@ -51,6 +52,7 @@ abstract class BaseNotificationChannel<T extends BaseNotificationPayload> {
       bigPicture: bigPicture,
       notificationLayout: notificationLayout,
       payload: payload?.toPayload(),
+      ticker: ticker,
       icon: icon != null ? "resource://drawable/${icon!}" : null,
     );
 
