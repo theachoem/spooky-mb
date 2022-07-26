@@ -1,7 +1,9 @@
+Execute all bulid runners
 ```s
 fvm flutter pub run build_runner build --delete-conflicting-outputs
 ```
 
+Setup Firebase
 ```s
 flutterfire configure
 ```
@@ -11,6 +13,7 @@ package androidx.multidex does not exist.
 flutter run --multidex
 ```
 
+Check android signing report
 ```s
 ./gradlew signingReport
 ```
@@ -23,4 +26,13 @@ keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore |
 Set var in info plish. eg. facebook client token. Not work yet, TODO..
 ```s
 xcodebuild build FACEBOOK_CLIENT_TOKEN=53abd38937fd92ae45ef347396245d9d -project ios/Runner.xcodeproj -target Runner -sdk iphonesimulator
+```
+
+Flavor:
+
+https://medium.com/flutter-community/flutter-ready-to-go-e59873f9d7de
+```s
+fvm flutter run –flavor dev -t lib/main_production.dart
+fvm flutter build apk --release –-flavor dev -t lib/main_dev.dart
+fvm flutter build apk --release --flavor dev -t lib/main_dev.dart
 ```
