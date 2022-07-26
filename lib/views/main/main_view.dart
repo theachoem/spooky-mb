@@ -66,7 +66,7 @@ class MainView extends StatelessWidget {
       }
       switch (type) {
         case QuickActionsType.create:
-          viewModel.createStory(context);
+          viewModel.createStory(context, useTodayDate: true);
           break;
         case null:
           break;
@@ -75,7 +75,11 @@ class MainView extends StatelessWidget {
 
     quickActions.setShortcutItems(
       QuickActionsType.values.map((e) {
-        return ShortcutItem(localizedTitle: quickActionLabel(e), type: e.name);
+        return ShortcutItem(
+          localizedTitle: quickActionLabel(e),
+          type: e.name,
+          icon: quickActionIcon(e),
+        );
       }).toList(),
     );
   }
@@ -85,5 +89,15 @@ class MainView extends StatelessWidget {
       case QuickActionsType.create:
         return "Create New Story";
     }
+  }
+
+  String? quickActionIcon(QuickActionsType type) {
+    switch (type) {
+      case QuickActionsType.create:
+        if (Platform.isAndroid) {
+          return "ic_create_story";
+        }
+    }
+    return null;
   }
 }

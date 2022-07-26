@@ -101,22 +101,26 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
     shouldShowBottomNavNotifier.value = value;
   }
 
-  Future<void> createStory(BuildContext context) async {
+  Future<void> createStory(BuildContext context, {bool useTodayDate = false}) async {
     await SpListLayoutBuilder.get().then((layout) async {
-      Future<DateTime?> date;
-      switch (layout) {
-        case SpListLayoutType.timeline:
-        case SpListLayoutType.library:
-          date = SpDatePicker.showMonthDayPicker(context, this.date);
-          break;
-        case SpListLayoutType.diary:
-          date = SpDatePicker.showDayPicker(context, this.date);
-          break;
+      DateTime? date;
+
+      if (useTodayDate) {
+        date = DateTime.now();
+      } else {
+        switch (layout) {
+          case SpListLayoutType.timeline:
+          case SpListLayoutType.library:
+            date = await SpDatePicker.showMonthDayPicker(context, this.date);
+            break;
+          case SpListLayoutType.diary:
+            date = await SpDatePicker.showDayPicker(context, this.date);
+            break;
+        }
       }
 
-      date.then((date) {
-        if (date != null) onConfirm(date, context);
-      });
+      // ignore: use_build_context_synchronously
+      if (date != null) onConfirm(date, context);
     });
   }
 
