@@ -73,7 +73,7 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
           leading: const SizedBox(height: 40, child: Icon(Icons.build)),
           title: const Text('Version'),
           subtitle: Text(
-            "${info.version} (${info.buildNumber})",
+            "${info.version}.${info.buildNumber}",
           ),
         );
       },
