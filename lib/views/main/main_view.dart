@@ -87,7 +87,7 @@ class MainView extends StatelessWidget {
   String quickActionLabel(QuickActionsType type) {
     switch (type) {
       case QuickActionsType.create:
-        return "Create New Story";
+        return "New Story";
     }
   }
 
