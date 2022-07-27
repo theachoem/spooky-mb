@@ -63,7 +63,6 @@ class _SecurityMobile extends StatelessWidget {
     return SpSectionContents(
       headline: "Lock Methods",
       tiles: [
-        // TODO: Implement set password
         // ListTile(
         //   leading: SizedBox(height: 40, child: Icon(Icons.password)),
         //   trailing: Radio(value: LockType.password, groupValue: lockedType, onChanged: (value) {}),

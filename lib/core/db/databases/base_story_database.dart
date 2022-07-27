@@ -60,8 +60,7 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
     Iterable<StoryDbModel>? items = result?.items.where((story) {
       DateTime? movedToBinAt = story.movedToBinAt;
       bool shouldDelete = AppHelper.shouldDelete(movedToBinAt: movedToBinAt);
-      // TODO: test to delete this
-      // if (shouldDelete) deleteDocument(story);
+      if (shouldDelete) deleteDocument(story);
       return !shouldDelete;
     });
 
