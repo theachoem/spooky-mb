@@ -7,12 +7,13 @@ import 'package:spooky/utils/mixins/scaffold_end_drawerable_mixin.dart';
 import 'package:spooky/utils/mixins/scaffold_toggle_sheetable_mixin.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
+import 'package:spooky/views/detail/local_widgets/detail_insert_page_button.dart';
 import 'package:spooky/views/detail/local_widgets/detail_sheet.dart';
+import 'package:spooky/views/detail/local_widgets/detail_title.dart';
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
 import 'package:spooky/views/detail/local_widgets/story_tags.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
-import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
@@ -101,55 +102,15 @@ class _DetailScaffoldState extends State<DetailScaffold>
 
   MorphingAppBar buildAppBar() {
     return MorphingAppBar(
+      backgroundColor: M3Color.of(context).background,
       heroTag: DetailView.appBarHeroKey,
-      leading: SpPopButton(
-        onPressed: () {
-          if (isSpBottomSheetOpenNotifer.value) {
-            toggleSpBottomSheet();
-          } else {
-            Navigator.maybePop(context);
-          }
-        },
-      ),
-      title: const SizedBox.shrink(),
-      // title: buildSheetVisibilityBuilder(
-      //   child: widget.titleBuilder(),
-      //   builder: (context, isOpen, child) {
-      //     return IgnorePointer(
-      //       ignoring: isOpen,
-      //       child: AnimatedOpacity(
-      //         opacity: isOpen ? 0.0 : 1.0,
-      //         curve: Curves.ease,
-      //         duration: ConfigConstant.fadeDuration,
-      //         child: child,
-      //       ),
-      //     );
-      //   },
-      // ),
+      titleSpacing: 8.0,
+      elevation: 0,
+      leading: buildLeading(),
+      title: buildTitle(),
+      flexibleSpace: buildFlexibleSpace(),
       actions: [
-        ValueListenableBuilder<bool>(
-          valueListenable: widget.readOnlyNotifier,
-          child: SpIconButton(
-            icon: const Icon(CommunityMaterialIcons.format_page_break),
-            key: const ValueKey(CommunityMaterialIcons.format_page_break),
-            tooltip: "Insert page break",
-            onPressed: () {
-              widget.viewModel.addPage();
-            },
-          ),
-          builder: (context, value, child) {
-            return buildSheetVisibilityBuilder(
-              child: child,
-              builder: (context, sheetOpen, child) {
-                return SpAnimatedIcons(
-                  showFirst: !widget.readOnlyNotifier.value && !sheetOpen,
-                  secondChild: const SizedBox.shrink(key: ValueKey("AddPageSizedBox")),
-                  firstChild: child!,
-                );
-              },
-            );
-          },
-        ),
+        DetailInsertPageButton(widget: widget, buildSheetVisibilityBuilder: buildSheetVisibilityBuilder),
         ConfigConstant.sizedBoxW0,
         buildEndDrawerButton(CommunityMaterialIcons.tag),
         ConfigConstant.sizedBoxW0,
@@ -160,6 +121,68 @@ class _DetailScaffoldState extends State<DetailScaffold>
         ),
         buildMoreButton(),
       ],
+    );
+  }
+
+  Widget buildLeading() {
+    return SpPopButton(
+      onPressed: () {
+        if (isSpBottomSheetOpenNotifer.value) {
+          toggleSpBottomSheet();
+        } else {
+          Navigator.maybePop(context);
+        }
+      },
+    );
+  }
+
+  Widget buildFlexibleSpace() {
+    return FlexibleSpaceBar(
+      background: buildSheetVisibilityBuilder(
+        child: TweenAnimationBuilder<int>(
+          duration: ConfigConstant.fadeDuration,
+          tween: IntTween(begin: 0, end: 1),
+          child: const Divider(height: 1),
+          builder: (context, value, child) {
+            return AnimatedContainer(
+              width: value == 1 ? screenSize.width : 0,
+              duration: ConfigConstant.fadeDuration,
+              child: child!,
+            );
+          },
+        ),
+        builder: (context, isOpen, child) {
+          return AnimatedContainer(
+            duration: ConfigConstant.fadeDuration,
+            alignment: Alignment.bottomCenter,
+            color: isOpen ? Theme.of(context).appBarTheme.backgroundColor : M3Color.of(context).background,
+            child: child,
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildTitle() {
+    return buildSheetVisibilityBuilder(
+      child: DetailTitle(
+        widget: widget,
+        context: context,
+      ),
+      builder: (context, isOpen, child) {
+        return IgnorePointer(
+          ignoring: isOpen,
+          child: SpCrossFade(
+            showFirst: !isOpen,
+            duration: ConfigConstant.fadeDuration,
+            alignment: Alignment.topLeft,
+            secondChild: const SizedBox(width: double.infinity),
+            firstChild: Wrap(
+              children: [child!],
+            ),
+          ),
+        );
+      },
     );
   }
 
