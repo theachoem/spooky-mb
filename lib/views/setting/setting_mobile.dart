@@ -127,7 +127,7 @@ class _SettingMobile extends StatelessWidget {
                   leading: const SizedBox(height: 40, child: Icon(Icons.rate_review)),
                   title: const Text('Rate us'),
                   onTap: () {
-                    LaunchReview.launch();
+                    LaunchReview.launch(iOSAppId: "1629372753");
                   },
                 ),
                 const SpAppVersion(),
