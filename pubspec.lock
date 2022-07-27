@@ -1317,6 +1317,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  new_version:
+    dependency: "direct main"
+    description:
+      name: new_version
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
   objectbox:
     dependency: "direct main"
     description:

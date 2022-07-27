@@ -113,7 +113,7 @@ class _SettingMobile extends StatelessWidget {
             SpSectionContents(
               headline: "Version",
               tiles: [
-                if (Platform.isAndroid) buildCheckForUpdateTile(),
+                buildCheckForUpdateTile(),
                 SpDeveloperVisibility(
                   child: ListTile(
                     leading: const Icon(Icons.developer_mode),
@@ -202,33 +202,34 @@ class _SettingMobile extends StatelessWidget {
           ),
         ),
         title: Text(provider.isUpdateAvailable ? 'Update available' : 'Check for update'),
-        subtitle: provider.isUpdateAvailable && provider.updateInfo?.availableVersionCode != null
-            ? Text(provider.updateInfo!.availableVersionCode!.toString())
-            : null,
+        subtitle:
+            provider.isUpdateAvailable && provider.storeVersion != null ? Text(provider.storeVersion ?? "") : null,
         onTap: () async {
+          if (!provider.isUpdateAvailable) await provider.load();
           if (provider.isUpdateAvailable) {
-            await provider.update();
+            // ignore: use_build_context_synchronously
+            alertUpdate(context, provider);
           } else {
-            await provider.load();
-            if (provider.isUpdateAvailable) {
-              final result = await showOkAlertDialog(
-                context: context,
-                title: "Update available",
-                okLabel: "Update",
-              );
-              switch (result) {
-                case OkCancelResult.ok:
-                  await provider.update();
-                  break;
-                case OkCancelResult.cancel:
-                  break;
-              }
-            } else {
-              MessengerService.instance.showSnackBar("No update available");
-            }
+            MessengerService.instance.showSnackBar("No update available");
           }
         },
       );
     });
+  }
+
+  Future<void> alertUpdate(BuildContext context, InAppUpdateProvider provider) async {
+    final result = await showOkCancelAlertDialog(
+      context: context,
+      title: "Update available",
+      okLabel: "Update",
+      defaultType: OkCancelAlertDefaultType.ok,
+    );
+    switch (result) {
+      case OkCancelResult.ok:
+        await provider.update();
+        break;
+      case OkCancelResult.cancel:
+        break;
+    }
   }
 }
