@@ -7,7 +7,7 @@ class FlavorConfig {
   final Flavor flavor;
 
   static FlavorConfig? _instance;
-  static FlavorConfig get instance => _instance ?? FlavorConfig(flavor: Flavor.dev);
+  static FlavorConfig get instance => _instance ?? FlavorConfig(flavor: Flavor.production);
 
   FlavorConfig._(this.flavor);
   factory FlavorConfig({

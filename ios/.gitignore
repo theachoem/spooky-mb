@@ -34,3 +34,17 @@ Runner/GeneratedPluginRegistrant.*
 !default.perspectivev3
 
 GoogleService-Info.plist
+vendor
+appConnectApiKey.json
+
+# temporary ignore, as it may regenerate
+5LKNY3A3YB.cer
+5LKNY3A3YB.certSigningRequest
+5LKNY3A3YB.p12
+Development_com.juniorise.spooky.mobileprovision
+WNY3VB2D2J.cer
+WNY3VB2D2J.certSigningRequest
+WNY3VB2D2J.p12
+ZD2AD5KL6L.cer
+ReleaseApp.app.dSYM.zip
+ReleaseApp.ipa

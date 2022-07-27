@@ -1,0 +1,69 @@
+# You can find the documentation at:
+# https://docs.fastlane.tools
+
+# For a list of all available actions: 
+# https://docs.fastlane.tools/actions
+# 
+# For a list of all available plugins: 
+# https://docs.fastlane.tools/plugins/available-plugins
+
+# Article: 
+# https://mobileappcircular.com/fastlane-in-flutter-app-c351358c64ba
+
+default_platform(:ios)
+
+platform :ios do
+  version_number = "1.2.2"
+  build_number = "63"
+
+  # execute only once
+  lane :certificates do
+    cert(
+      username: "info@juniorise.com",
+      team_name: "Thea Choem",
+      development: true)
+    sigh(
+      username: "info@juniorise.com",
+      team_name: "Thea Choem",
+      app_identifier: "com.juniorise.spooky",
+      development: true)
+  end
+
+  desc "Release"
+  lane :release do
+    build(
+      version_number: version_number,
+      build_number: build_number,
+    )
+    upload_app
+  end
+
+  desc "Clean & Build App"
+  lane :build do |options|
+    match(type: "appstore")
+    
+    version_number = options[:version_number]
+    build_number = options[:build_number]
+
+    # version
+    increment_version_number(version_number: version_number)
+    increment_build_number(build_number: build_number)
+
+    gym(
+      workspace: "Runner.xcworkspace",
+      scheme: "Runner",
+      clean: true,
+      export_method: "app-store",
+      xcargs: "-allowProvisioningUpdates",
+      output_name: "ReleaseApp.ipa"
+    )
+  end
+
+  desc "Upload App To TestFlight"
+  lane :upload_app do
+    pilot(
+      skip_waiting_for_build_processing: true,
+      api_key_path: "fastlane/appConnectApiKey.json"
+    )
+  end
+end

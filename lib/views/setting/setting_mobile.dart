@@ -168,7 +168,7 @@ class _SettingMobile extends StatelessWidget {
             title: const Text('Spooky Community'),
             subtitle: const Text("Share experience, report & request"),
             onTap: () {
-              AppHelper.openLinkDialog(AppConstant.facebookGroup);
+              openFacebookGroup();
             },
           ),
           ListTile(

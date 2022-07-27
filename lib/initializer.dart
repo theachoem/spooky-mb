@@ -4,7 +4,7 @@ class _Initializer {
   static Future<void> load() async {
     // core
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp();
+    await initialFirebase();
     await EasyLocalization.ensureInitialized();
     tz.initializeTimeZones();
     await FileHelper.initialFile();
@@ -30,6 +30,20 @@ class _Initializer {
 
     // analytic
     initialAnalytic();
+  }
+
+  static Future<void> initialFirebase() async {
+    switch (FlavorConfig.instance.flavor) {
+      case Flavor.dev:
+      case Flavor.qa:
+        await Firebase.initializeApp();
+        break;
+      case Flavor.production:
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
+        );
+        break;
+    }
   }
 
   static Future<void> initialAnalytic() async {
