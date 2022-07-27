@@ -36,6 +36,7 @@ class MiniplayerAppBarBackground extends StatelessWidget {
               ),
               Positioned.fill(
                 child: WaveWidget(
+                  backgroundColor: foregroundColor.withOpacity(0.3),
                   config: CustomConfig(
                     gradients: [
                       [foregroundColor.withOpacity(0.2), foregroundColor.withOpacity(0.6)],

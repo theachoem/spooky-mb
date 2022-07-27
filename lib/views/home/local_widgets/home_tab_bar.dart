@@ -57,48 +57,49 @@ class HomeTabBar extends StatelessWidget {
     TabController? tabController,
     BuildContext context,
   ) {
-    return Theme(
-      data: Theme.of(context).copyWith(highlightColor: Colors.transparent),
-      child: TabBar(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        controller: tabController,
-        isScrollable: true,
-        onTap: onTap,
-        overlayColor: MaterialStateProperty.all(Colors.transparent),
-        unselectedLabelColor: M3Color.of(context).primary,
-        labelColor: M3Color.of(context).onPrimary,
-        indicator: SpTabIndicator(
-          borderSide: BorderSide(
-            width: height,
-            color: M3Color.of(context).primary,
-          ),
-        ),
-        tabs: List.generate(
-          tabs.length,
-          (index) {
-            final text = tabs[index];
-            return AnimatedBuilder(
-              animation: tabController!.animation!,
-              child: Container(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(text),
-              ),
-              builder: (context, child) {
-                return SpTapEffect(
-                  onTap: tabController.index == index
-                      ? null
-                      : () {
-                          if (onTap != null) onTap!(index);
-                          tabController.animateTo(index);
-                        },
-                  behavior: HitTestBehavior.opaque,
-                  child: child ?? const SizedBox.shrink(),
-                );
-              },
-            );
-          },
+    return TabBar(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      controller: tabController,
+      isScrollable: true,
+      onTap: onTap,
+      splashBorderRadius: BorderRadius.circular(48),
+      unselectedLabelColor: M3Color.of(context).primary,
+      labelColor: M3Color.of(context).onPrimary,
+      indicator: SpTabIndicator(
+        borderSide: BorderSide(
+          width: height,
+          color: M3Color.of(context).primary,
         ),
       ),
+      tabs: List.generate(
+        tabs.length,
+        (index) {
+          final text = tabs[index];
+          return buildTabItem(tabController, text, index);
+        },
+      ),
+    );
+  }
+
+  Widget buildTabItem(TabController? tabController, String text, int index) {
+    return AnimatedBuilder(
+      animation: tabController!.animation!,
+      child: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: Text(text, textAlign: TextAlign.center),
+      ),
+      builder: (context, child) {
+        return SpTapEffect(
+          onTap: () {
+            if (tabController.index == index) return;
+            if (onTap != null) onTap!(index);
+            tabController.animateTo(index);
+          },
+          behavior: HitTestBehavior.opaque,
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }

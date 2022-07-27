@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/main.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/home/home_view_model.dart';
@@ -159,8 +160,8 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
       stretchModes: const [StretchMode.zoomBackground],
       background: Stack(
         children: [
-          const MiniplayerAppBarBackground(
-            wave: 0.55,
+          MiniplayerAppBarBackground(
+            wave: Global.instance.layoutType == SpListLayoutType.timeline ? 0.75 : 0.55,
           ),
           Positioned.fill(
             child: Container(
