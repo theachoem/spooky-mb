@@ -25,7 +25,6 @@ class DraftStoryWriter extends DefaultStoryWriter<DraftStoryObject> {
       object.info.currentContent,
       object.info.quillControllers,
       object.info.title,
-      object.info.openOn,
       draft: true,
     );
 

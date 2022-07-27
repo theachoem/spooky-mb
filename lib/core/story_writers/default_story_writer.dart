@@ -41,7 +41,6 @@ class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T
       object.info.currentContent,
       object.info.quillControllers,
       object.info.title,
-      object.info.openOn,
       draft: false,
     );
 

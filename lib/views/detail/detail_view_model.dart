@@ -80,7 +80,6 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       currentContent,
       quillControllers,
       titleController.text,
-      openOn,
     );
     return content;
   }

@@ -41,15 +41,14 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
       if (reloadOnSave) {
         result = await database.fetchOne(id: result.id);
       }
-
-      return database.error == null ? _nextSuccess(result!) : _nextError(result);
+      return database.error == null ? _nextSuccess(result!) : _nextError(result, object);
     } else {
-      return _nextError(result, validation);
+      return _nextError(result, object, validation);
     }
   }
 
-  Future<StoryDbModel?> _nextError(StoryDbModel? result, [String? validation]) async {
-    ResponseCodeType code = ResponseCodeType.fail;
+  Future<StoryDbModel?> _nextError(StoryDbModel? result, T object, [String? validation]) async {
+    ResponseCodeType code = !object.info.hasChange ? ResponseCodeType.noChange : ResponseCodeType.fail;
     onSaved(story: null, responseCode: code, message: validation ?? buildMessage(code));
     return null;
   }
