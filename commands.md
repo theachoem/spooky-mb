@@ -36,3 +36,17 @@ fvm flutter run –flavor dev -t lib/main_production.dart
 fvm flutter build apk --release –-flavor dev -t lib/main_dev.dart
 fvm flutter build apk --release --flavor dev -t lib/main_dev.dart
 ```
+
+Fastlan (in ios/):
+```s
+# invoke certificate
+fastlane match nuke
+
+# certificate & git
+fastlane certificates
+fastlane match init
+fastlane match development
+fastlane match appstore
+
+fastlane release
+```
