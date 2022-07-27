@@ -39,7 +39,7 @@ class ThemeConfig {
     ColorScheme colorScheme = this.colorScheme ?? (isDarkMode ? _dark : _light);
     TextTheme textTheme = buildTextTheme();
 
-    final themeData = ThemeData(
+    ThemeData themeData = ThemeData(
       // platform: TargetPlatform.android,
       useMaterial3: true,
       applyElevationOverlayColor: true,
@@ -95,6 +95,21 @@ class ThemeConfig {
       textButtonTheme: buildTextButtonStyle(colorScheme),
       cupertinoOverrideTheme: const CupertinoThemeData(
         textTheme: CupertinoTextThemeData(),
+      ),
+    );
+
+    themeData = themeData.copyWith(
+      cardTheme: CardTheme(
+        clipBehavior: Clip.hardEdge,
+        elevation: 0.0,
+        margin: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+        color: colorScheme.readOnly.surface1,
+        shape: RoundedRectangleBorder(
+          borderRadius: ConfigConstant.circlarRadius2,
+          side: BorderSide(
+            color: themeData.dividerColor,
+          ),
+        ),
       ),
     );
 

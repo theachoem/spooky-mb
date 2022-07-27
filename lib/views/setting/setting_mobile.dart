@@ -149,22 +149,12 @@ class _SettingMobile extends StatelessWidget {
 
   Widget buildCommunity(BuildContext context) {
     return Card(
-      clipBehavior: Clip.hardEdge,
-      margin: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
-      color: Colors.transparent,
-      shape: RoundedRectangleBorder(
-        borderRadius: ConfigConstant.circlarRadius2,
-        side: BorderSide(
-          color: Theme.of(context).dividerColor,
-        ),
-      ),
       child: Column(
         children: [
           ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(
-              top: ConfigConstant.margin0,
-            ),
-            leading: const CircleAvatar(backgroundColor: Colors.transparent, child: Icon(Icons.facebook)),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(top: ConfigConstant.margin0),
+            leading: const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.facebook)),
             title: const Text('Spooky Community'),
             subtitle: const Text("Share experience, report & request"),
             onTap: () {
@@ -172,10 +162,9 @@ class _SettingMobile extends StatelessWidget {
             },
           ),
           ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(
-              bottom: ConfigConstant.margin0,
-            ),
-            leading: const CircleAvatar(backgroundColor: Colors.transparent, child: Icon(Icons.telegram)),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(bottom: ConfigConstant.margin0),
+            leading: const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.telegram)),
             title: const Text('Telegram Channel'),
             subtitle: const Text("News"),
             onTap: () {
@@ -199,11 +188,6 @@ class _SettingMobile extends StatelessWidget {
       launchUrl(fbBundleUri);
     } else {
       AppHelper.openLinkDialog(fallbackUrl);
-
-      await launchUrl(
-        Uri.parse(fallbackUrl),
-        mode: LaunchMode.externalApplication,
-      );
     }
   }
 
