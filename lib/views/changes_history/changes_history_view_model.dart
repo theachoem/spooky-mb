@@ -30,18 +30,7 @@ class ChangesHistoryViewModel extends BaseViewModel {
 
   void initStory(StoryDbModel story) {
     StoryDbConstructorHelper.loadChanges(story).then((value) {
-      Map<int, StoryContentDbModel> changes = {};
-
-      for (StoryContentDbModel change in value.changes) {
-        changes[change.id] = change;
-      }
-
-      if (changes.values.isNotEmpty) {
-        this.story = value.copyWith(changes: changes.values.toList());
-      } else {
-        this.story = value;
-      }
-
+      this.story = value;
       notifyListeners();
     });
   }

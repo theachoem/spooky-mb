@@ -39,13 +39,14 @@ class StoryDbConstructorHelper {
   }
 
   static List<StoryContentDbModel> strsToChanges(List<String> changes) {
-    List<StoryContentDbModel> items = [];
+    Map<String, StoryContentDbModel> items = {};
     for (String str in changes) {
       String decoded = HtmlCharacterEntities.decode(str);
       dynamic json = jsonDecode(decoded);
-      items.add(StoryContentDbModel.fromJson(json));
+      String id = json['id'].toString();
+      items[id] ??= StoryContentDbModel.fromJson(json);
     }
-    return items;
+    return items.values.toList();
   }
 
   static List<String> changesToStrs(List<StoryContentDbModel> changes) {

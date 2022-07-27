@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
@@ -63,9 +65,15 @@ class StoryDbModel extends BaseDbModel {
     this.rawChanges,
   });
 
-  @override
-  Map<String, dynamic> toJson() => _$StoryDbModelToJson(this);
   factory StoryDbModel.fromJson(Map<String, dynamic> json) => _$StoryDbModelFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() {
+    // remove dublicate
+    Map<int, StoryContentDbModel> changes = {};
+    for (final e in this.changes) changes[e.id] ??= e;
+    return _$StoryDbModelToJson(copyWith(changes: changes.values.toList()));
+  }
 
   bool get viewOnly => unarchivable || inBins;
 
