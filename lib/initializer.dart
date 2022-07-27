@@ -4,7 +4,7 @@ class _Initializer {
   static Future<void> load() async {
     // core
     WidgetsFlutterBinding.ensureInitialized();
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp();
     await EasyLocalization.ensureInitialized();
     tz.initializeTimeZones();
     await FileHelper.initialFile();
