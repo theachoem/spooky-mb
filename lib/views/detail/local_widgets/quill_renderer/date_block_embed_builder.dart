@@ -44,7 +44,7 @@ class DateBlockEmbedBuilder extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          date.day.toString(),
+          date.day.toString().padLeft(2, '0'),
           style: M3TextTheme.of(context).headlineLarge?.copyWith(color: M3Color.of(context).primary),
         ),
         ConfigConstant.sizedBoxW0,
