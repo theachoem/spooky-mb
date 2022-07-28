@@ -102,6 +102,7 @@ dependencies:
   dismissible_page: ^0.7.3
   image_cropper: ^2.0.3
   new_version: ^0.3.1
+  string_similarity: ^2.0.0
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 

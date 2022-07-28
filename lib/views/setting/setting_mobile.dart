@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 part of setting_view;
 
 class _SettingMobile extends StatelessWidget {
@@ -12,6 +14,7 @@ class _SettingMobile extends StatelessWidget {
         title: const SpAppBarTitle(fallbackRouter: SpRouter.setting),
         actions: const [
           InAppUpdateButton(),
+          SecurityQuestionButton(),
           NotificationPermissionButton(),
           ConfigConstant.sizedBoxW0,
         ],
@@ -60,8 +63,14 @@ class _SettingMobile extends StatelessWidget {
                 ListTile(
                   leading: const Icon(Icons.lock),
                   title: Text(SpRouter.security.title),
-                  onTap: () {
-                    Navigator.of(context).pushNamed(SpRouter.security.path);
+                  onTap: () async {
+                    bool authenticated = await SecurityService().showLockIfHas(
+                      context,
+                      flowType: LockFlowType.middleware,
+                    );
+                    if (authenticated) {
+                      Navigator.of(context).pushNamed(SpRouter.security.path);
+                    }
                   },
                 ),
                 ListTile(
@@ -207,7 +216,6 @@ class _SettingMobile extends StatelessWidget {
         onTap: () async {
           if (!provider.isUpdateAvailable) await provider.load();
           if (provider.isUpdateAvailable) {
-            // ignore: use_build_context_synchronously
             alertUpdate(context, provider);
           } else {
             MessengerService.instance.showSnackBar("No update available");

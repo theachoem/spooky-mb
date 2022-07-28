@@ -20,6 +20,7 @@ abstract class _BaseLockOptions {
       case LockFlowType.unlock:
         return false;
       case LockFlowType.remove:
+      case LockFlowType.middleware:
       case LockFlowType.set:
         return true;
     }
