@@ -20,6 +20,9 @@ abstract class BaseBackupDestination<T extends BaseCloudProvider> {
   String get cloudId;
   Future<CloudFileModel?> backup(FileSystemEntity file, BackupsModel backups);
 
+  bool canLaunchSource() => false;
+  Future<void>? viewSource(BuildContext context) => null;
+
   Future<void> _restore(BackupsModel backups, BuildContext context) async {
     await MessengerService.instance.showLoading<int>(
       context: context,

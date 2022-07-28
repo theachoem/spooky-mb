@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:spooky/core/backups/backups_service.dart';
@@ -225,6 +226,14 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
 
   List<SpPopMenuItem> buildTilePopUpItems(BuildContext context, BaseCloudProvider provider) {
     return [
+      if (widget.destination.canLaunchSource())
+        SpPopMenuItem(
+          title: "Photos",
+          leadingIconData: CommunityMaterialIcons.folder_google_drive,
+          onPressed: () async {
+            widget.destination.viewSource(context);
+          },
+        ),
       SpPopMenuItem(
         title: "Logout",
         leadingIconData: Icons.logout,
