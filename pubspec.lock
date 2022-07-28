@@ -677,13 +677,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.2.0"
-  flutter_inappwebview:
+  flutter_inappwebview_quill:
     dependency: transitive
     description:
-      name: flutter_inappwebview
+      name: flutter_inappwebview_quill
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.4.3+7"
+    version: "5.4.6"
   flutter_keyboard_visibility:
     dependency: transitive
     description:
@@ -751,7 +751,7 @@ packages:
       name: flutter_quill
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.2.0"
+    version: "5.2.11"
   flutter_screen_lock:
     dependency: "direct main"
     description:
@@ -2029,13 +2029,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.1.1"
-  youtube_player_flutter:
+  youtube_player_flutter_quill:
     dependency: transitive
     description:
-      name: youtube_player_flutter
+      name: youtube_player_flutter_quill
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "8.1.0"
+    version: "8.2.2"
 sdks:
   dart: ">=2.17.0 <3.0.0"
   flutter: ">=3.0.0"
