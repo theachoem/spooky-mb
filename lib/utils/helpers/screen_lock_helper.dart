@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
 class ScreenLockHelper {
@@ -51,20 +52,27 @@ class ScreenLockHelper {
     );
   }
 
-  static InputButtonConfig inputButtonConfig(TextTheme textTheme, BuildContext context, ColorScheme colorScheme) {
-    return InputButtonConfig(
+  static KeyPadConfig keyPadConfig(
+    TextTheme textTheme,
+    BuildContext context,
+    ColorScheme colorScheme,
+  ) {
+    return KeyPadConfig(
       clearOnLongPressed: true,
-      textStyle: textTheme.headlineSmall,
-      buttonStyle: ButtonStyle(
-        overlayColor: MaterialStateProperty.all(Theme.of(context).splashColor),
-        backgroundColor: MaterialStateProperty.resolveWith(
-          (states) {
-            if (states.isNotEmpty) {
-              return colorScheme.onBackground.withOpacity(0.1);
-            } else {
-              return Colors.transparent;
-            }
-          },
+      buttonConfig: StyledInputConfig(
+        textStyle: textTheme.headlineSmall,
+        buttonStyle: ButtonStyle(
+          overlayColor: MaterialStateProperty.all(Theme.of(context).splashColor),
+          foregroundColor: MaterialStateProperty.all(M3Color.of(context).onSurface),
+          backgroundColor: MaterialStateProperty.resolveWith(
+            (states) {
+              if (states.isNotEmpty) {
+                return colorScheme.onBackground.withOpacity(0.1);
+              } else {
+                return Colors.transparent;
+              }
+            },
+          ),
         ),
       ),
     );

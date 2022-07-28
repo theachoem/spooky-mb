@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 
-typedef LockBuilder = ScreenLock Function(
+typedef LockBuilder = Widget Function(
   BuildContext context,
   Animation<double> animation,
   Animation<double> secondaryAnimation,

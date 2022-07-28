@@ -43,7 +43,7 @@ dependencies:
   flutter_markdown: ^0.6.10+1
   flutter_phoenix: ^1.0.0
   flutter_quill: ^5.2.11
-  flutter_screen_lock: ^5.0.12
+  flutter_screen_lock: ^7.0.4
   flutter_secure_storage: ^5.0.2
   flutter_sticky_header: ^0.6.3
   flutter_weather_bg_null_safety:
