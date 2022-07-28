@@ -32,9 +32,9 @@ Flavor:
 
 https://medium.com/flutter-community/flutter-ready-to-go-e59873f9d7de
 ```s
-fvm flutter run –flavor dev -t lib/main_production.dart
-fvm flutter build apk --release –-flavor dev -t lib/main_dev.dart
-fvm flutter build apk --release --flavor dev -t lib/main_dev.dart
+fvm flutter run -t lib/main_dev.dart –-flavor dev
+fvm flutter build apk --release -t lib/main_dev.dart –-flavor dev 
+fvm flutter build apk --release -t lib/main_dev.dart –-flavor dev 
 ```
 
 Fastlan (in ios/):

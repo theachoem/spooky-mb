@@ -2,8 +2,6 @@ part of 'main.dart';
 
 class _Initializer {
   static Future<void> load() async {
-    // core
-    WidgetsFlutterBinding.ensureInitialized();
     await initialFirebase();
     await EasyLocalization.ensureInitialized();
     tz.initializeTimeZones();

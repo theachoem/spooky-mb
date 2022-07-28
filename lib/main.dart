@@ -33,6 +33,11 @@ part 'global.dart';
 part 'initializer.dart';
 
 void main() async {
+  // core
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent));
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+
   await _Initializer.load();
   runApp(
     Phoenix(

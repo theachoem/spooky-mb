@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:spooky/flavor_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -15,22 +14,19 @@ class AppBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemUiOverlayStyle overlay = fetchOverlayStyle(context);
-    SystemChrome.setSystemUIOverlayStyle(overlay);
     if (FlavorConfig.isProduction()) {
-      return buildWrapper(overlay);
+      return buildWrapper();
     } else {
-      return buildWrapperWithBanner(overlay, context);
+      return buildWrapperWithBanner(context);
     }
   }
 
   Widget buildWrapperWithBanner(
-    SystemUiOverlayStyle overlay,
     BuildContext context,
   ) {
     return Stack(
       children: [
-        buildWrapper(overlay),
+        buildWrapper(),
         buildBanner(context),
       ],
     );
@@ -53,26 +49,7 @@ class AppBuilder extends StatelessWidget {
     );
   }
 
-  Widget buildWrapper(SystemUiOverlayStyle overlay) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: overlay,
-        child: child ?? const SizedBox.shrink(),
-      ),
-    );
-  }
-
-  SystemUiOverlayStyle fetchOverlayStyle(BuildContext context) {
-    SystemUiOverlayStyle overlay = fetchOverlay(context);
-    return overlay.copyWith(systemNavigationBarColor: Theme.of(context).appBarTheme.backgroundColor);
-  }
-
-  SystemUiOverlayStyle fetchOverlay(BuildContext context) {
-    if (Theme.of(context).brightness == Brightness.dark) {
-      return SystemUiOverlayStyle.dark;
-    } else {
-      return SystemUiOverlayStyle.light;
-    }
+  Widget buildWrapper() {
+    return GestureDetector(onTap: () => FocusManager.instance.primaryFocus?.unfocus(), child: child);
   }
 }
