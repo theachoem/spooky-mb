@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/core/security/helpers/security_question_list_model.dart';
+import 'package:spooky/core/security/helpers/security_question_model.dart';
 import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/storages/local_storages/security/lock_life_circle_duration_storage.dart';
+import 'package:spooky/core/storages/local_storages/security/security_questions_storage.dart';
 import 'package:spooky/core/types/lock_type.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/core/base/base_view_model.dart';
@@ -8,12 +11,15 @@ import 'package:spooky/core/base/base_view_model.dart';
 class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
   final SecurityService service = SecurityService();
   final LockLifeCircleDurationStorage lockLifeCircleDurationStorage = LockLifeCircleDurationStorage();
+  final SecurityQuestionsStorage securityQuestionsStorage = SecurityQuestionsStorage();
 
   late final ValueNotifier<LockType?> lockedTypeNotifier;
   late final ValueNotifier<int> lockLifeCircleDurationNotifier;
+  late final ValueNotifier<SecurityQuestionListModel> securityQuestionNotifier;
 
   SecurityViewModel() {
     lockedTypeNotifier = ValueNotifier(null);
+    securityQuestionNotifier = ValueNotifier(SecurityQuestionListModel([]));
     lockLifeCircleDurationNotifier = ValueNotifier(AppConstant.lockLifeDefaultCircleDuration.inSeconds);
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       load();
@@ -22,6 +28,9 @@ class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
   }
 
   Future<void> load() async {
+    securityQuestionsStorage.readObject().then((value) {
+      securityQuestionNotifier.value = value ?? initialQuestions();
+    });
     service.lockInfo.getLock().then((e) {
       lockedTypeNotifier.value = e?.type;
     });
@@ -31,10 +40,49 @@ class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
     });
   }
 
+  SecurityQuestionListModel initialQuestions() {
+    return SecurityQuestionListModel([
+      SecurityQuestionModel(
+        question: 'What is the first name of your best friend in primary school?',
+        key: 'best_friend',
+        answer: null,
+      ),
+      SecurityQuestionModel(
+        question: 'What is your favorite movie?',
+        key: 'favorite_movie',
+        answer: null,
+      )
+    ]);
+  }
+
+  Future<void> setAnswer(SecurityQuestionModel question) async {
+    SecurityQuestionListModel questions = securityQuestionNotifier.value;
+    List<SecurityQuestionModel> items = questions.items ?? [];
+
+    // clear if no answer & custom question
+    if (question.key.startsWith("custom") && question.answer == null) {
+      items.removeWhere((element) => question.key == element.key);
+    } else {
+      bool alreadySet = items.map((e) => e.key).contains(question.key) == true;
+      if (alreadySet) {
+        int index = items.indexWhere((e) => e.key == question.key);
+        items[index] = question;
+      } else {
+        items.add(question);
+      }
+    }
+
+    securityQuestionNotifier.value = SecurityQuestionListModel(items);
+    securityQuestionsStorage.writeObject(securityQuestionNotifier.value);
+  }
+
+  Future<void> clearAnswer(SecurityQuestionModel question) async {}
+
   @override
   void dispose() {
     lockedTypeNotifier.dispose();
     lockLifeCircleDurationNotifier.dispose();
+    securityQuestionNotifier.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }

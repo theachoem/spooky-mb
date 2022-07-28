@@ -14,9 +14,13 @@ mixin ScaffoldEndDrawableMixin<T extends StatefulWidget> on State<T> {
     return SpIconButton(
       icon: Icon(icon),
       onPressed: () {
-        if (endDrawerScaffoldKey.currentState?.isEndDrawerOpen == true) return;
-        endDrawerScaffoldKey.currentState?.openEndDrawer();
+        openEndDrawer();
       },
     );
+  }
+
+  void openEndDrawer() {
+    if (endDrawerScaffoldKey.currentState?.isEndDrawerOpen == true) return;
+    endDrawerScaffoldKey.currentState?.openEndDrawer();
   }
 }

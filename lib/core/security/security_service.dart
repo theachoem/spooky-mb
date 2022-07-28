@@ -31,10 +31,17 @@ class SecurityService with _SecurityServiceMixin {
   late final biometricsService = _BiometricsService(lockInfo);
   late final passwordService = _PasswordService(lockInfo);
 
-  Future<bool> showLockIfHas(BuildContext context) async {
+  Future<bool> showLockIfHas(
+    BuildContext context, {
+    LockFlowType flowType = LockFlowType.unlock,
+  }) async {
     SecurityObject? object = await getObject(lockInfo);
     if (object == null) return true;
-    return unlock(context: context, type: object.type);
+    return unlock(
+      context: context,
+      type: object.type,
+      flowType: flowType,
+    );
   }
 
   Future<bool> unlock({
