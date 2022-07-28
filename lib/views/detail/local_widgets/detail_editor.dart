@@ -114,7 +114,6 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
           controller: controller,
           block: block,
           readOnly: readOnly,
-          viewModel: widget.viewModel,
         );
       },
       embedBuilder: (

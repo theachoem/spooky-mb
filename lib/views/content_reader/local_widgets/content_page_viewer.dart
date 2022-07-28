@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as editor;
-import 'package:logger/logger.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/views/detail/local_widgets/quill_renderer/custom_element_embed.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_embed_renderer.dart';
 
 class ContentPageViewer extends StatefulWidget {
@@ -32,7 +32,6 @@ class ContentPageViewerState extends State<ContentPageViewer> {
 
   editor.QuillController getDocumentController() {
     try {
-      Logger().d(widget.document);
       if (widget.document != null && widget.document?.isNotEmpty == true) {
         return editor.QuillController(
           document: editor.Document.fromJson(widget.document!),
@@ -63,6 +62,19 @@ class ContentPageViewerState extends State<ContentPageViewer> {
         horizontal: ConfigConstant.margin2,
         vertical: ConfigConstant.margin2 + 8.0,
       ),
+      customElementsEmbedBuilder: (
+        BuildContext context,
+        editor.QuillController controller,
+        editor.CustomBlockEmbed block,
+        bool readOnly,
+        void Function(GlobalKey videoContainerKey)? onVideoInit,
+      ) {
+        return CustomElementEmbed(
+          controller: controller,
+          block: block,
+          readOnly: readOnly,
+        );
+      },
       embedBuilder: (
         BuildContext context,
         editor.QuillController controller,
