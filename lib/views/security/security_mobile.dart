@@ -41,24 +41,6 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
     return SpSectionContents(
       headline: "Settings",
       tiles: [
-        ValueListenableBuilder<SecurityQuestionListModel?>(
-          valueListenable: widget.viewModel.securityQuestionNotifier,
-          builder: (context, questions, child) {
-            int questionCount = questions?.items?.where((e) => e.answer != null).length ?? 0;
-            return ListTile(
-              leading: const SizedBox(height: 40, child: Icon(CommunityMaterialIcons.lock_question)),
-              title: const Text("Security questions"),
-              subtitle: Text(
-                questionCount > 1
-                    ? "$questionCount questions added"
-                    : "${questionCount == 0 ? "No" : questionCount} question added",
-              ),
-              onTap: () {
-                openEndDrawer();
-              },
-            );
-          },
-        ),
         ValueListenableBuilder<int>(
           valueListenable: widget.viewModel.lockLifeCircleDurationNotifier,
           builder: (context, seconds, child) {
@@ -81,7 +63,36 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
               ),
             );
           },
-        )
+        ),
+        ValueListenableBuilder<SecurityQuestionListModel?>(
+          valueListenable: widget.viewModel.securityQuestionNotifier,
+          builder: (context, questions, child) {
+            int questionCount = questions?.items?.where((e) => e.answer != null).length ?? 0;
+            return FutureBuilder(
+              future: Future.delayed(ConfigConstant.duration * 1.5).then((value) => 1),
+              builder: (context, snapshot) {
+                bool shouldUpdate = questionCount > 0 || snapshot.hasData;
+                return AnimatedContainer(
+                  duration: ConfigConstant.duration * 2,
+                  curve: Curves.ease,
+                  color: shouldUpdate ? M3Color.of(context).background : M3Color.of(context).readOnly.surface1,
+                  child: ListTile(
+                    leading: const SizedBox(height: 40, child: Icon(CommunityMaterialIcons.lock_question)),
+                    title: const Text("Security questions"),
+                    subtitle: Text(
+                      questionCount > 1
+                          ? "$questionCount questions added"
+                          : "${questionCount == 0 ? "No" : questionCount} question added",
+                    ),
+                    onTap: () {
+                      openEndDrawer();
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ],
     );
   }

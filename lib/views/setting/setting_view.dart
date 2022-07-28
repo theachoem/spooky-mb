@@ -17,6 +17,7 @@ import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/views/lock/types/lock_flow_type.dart';
 import 'package:spooky/views/setting/local_widgets/in_app_update_button.dart';
 import 'package:spooky/views/setting/local_widgets/notification_permission_button.dart';
+import 'package:spooky/views/setting/local_widgets/security_question_button.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_app_version.dart';
 import 'package:spooky/widgets/sp_developer_visibility.dart';

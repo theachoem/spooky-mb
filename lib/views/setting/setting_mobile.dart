@@ -14,6 +14,7 @@ class _SettingMobile extends StatelessWidget {
         title: const SpAppBarTitle(fallbackRouter: SpRouter.setting),
         actions: const [
           InAppUpdateButton(),
+          SecurityQuestionButton(),
           NotificationPermissionButton(),
           ConfigConstant.sizedBoxW0,
         ],
