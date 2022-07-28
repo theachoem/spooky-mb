@@ -17,7 +17,7 @@ class StoryWriteHelper {
     final pages = pagesData(currentContent, quillControllers).values.toList();
     final metadata = [
       title,
-      quillControllers.entries.map((e) => e.value.getPlainText()).join("\n"),
+      quillControllers.entries.map((e) => plainText(e)).join("\n"),
     ].join("\n");
 
     final root = AppHelper.listItem(quillControllers.values, 0)?.document.root;
@@ -29,6 +29,14 @@ class StoryWriteHelper {
       'draft': draft,
       'metadata': metadata,
     });
+  }
+
+  static String plainText(MapEntry<int, QuillController> e) {
+    try {
+      return e.value.getPlainText();
+    } catch (e) {
+      return "";
+    }
   }
 
   static Map<int, List<dynamic>> pagesData(

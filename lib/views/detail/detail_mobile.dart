@@ -49,6 +49,7 @@ class _DetailMobile extends StatelessWidget {
                 onChange: (_) => viewModel.onChange(_),
                 onControllerReady: (controller) => viewModel.setQuillController(index, controller),
                 onFocusNodeReady: (focusNode) => viewModel.setFocusNode(index, focusNode),
+                viewModel: viewModel,
               );
             },
           );

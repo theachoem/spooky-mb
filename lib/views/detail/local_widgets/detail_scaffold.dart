@@ -9,7 +9,6 @@ import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/views/detail/local_widgets/detail_insert_page_button.dart';
 import 'package:spooky/views/detail/local_widgets/detail_sheet.dart';
-import 'package:spooky/views/detail/local_widgets/detail_title.dart';
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
 import 'package:spooky/views/detail/local_widgets/story_tags.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
@@ -102,13 +101,10 @@ class _DetailScaffoldState extends State<DetailScaffold>
 
   MorphingAppBar buildAppBar() {
     return MorphingAppBar(
-      backgroundColor: M3Color.of(context).background,
       heroTag: DetailView.appBarHeroKey,
-      titleSpacing: 8.0,
       elevation: 0,
       leading: buildLeading(),
-      title: buildTitle(),
-      flexibleSpace: buildFlexibleSpace(),
+      title: const SizedBox(),
       actions: [
         DetailInsertPageButton(widget: widget, buildSheetVisibilityBuilder: buildSheetVisibilityBuilder),
         ConfigConstant.sizedBoxW0,
@@ -132,56 +128,6 @@ class _DetailScaffoldState extends State<DetailScaffold>
         } else {
           Navigator.maybePop(context);
         }
-      },
-    );
-  }
-
-  Widget buildFlexibleSpace() {
-    return FlexibleSpaceBar(
-      background: buildSheetVisibilityBuilder(
-        child: TweenAnimationBuilder<int>(
-          duration: ConfigConstant.fadeDuration,
-          tween: IntTween(begin: 0, end: 1),
-          child: const Divider(height: 1),
-          builder: (context, value, child) {
-            return AnimatedContainer(
-              width: value == 1 ? screenSize.width : 0,
-              duration: ConfigConstant.fadeDuration,
-              child: child!,
-            );
-          },
-        ),
-        builder: (context, isOpen, child) {
-          return AnimatedContainer(
-            duration: ConfigConstant.fadeDuration,
-            alignment: Alignment.bottomCenter,
-            color: isOpen ? Theme.of(context).appBarTheme.backgroundColor : M3Color.of(context).background,
-            child: child,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget buildTitle() {
-    return buildSheetVisibilityBuilder(
-      child: DetailTitle(
-        widget: widget,
-        context: context,
-      ),
-      builder: (context, isOpen, child) {
-        return IgnorePointer(
-          ignoring: isOpen,
-          child: SpCrossFade(
-            showFirst: !isOpen,
-            duration: ConfigConstant.fadeDuration,
-            alignment: Alignment.topLeft,
-            secondChild: const SizedBox(width: double.infinity),
-            firstChild: Wrap(
-              children: [child!],
-            ),
-          ),
-        );
       },
     );
   }

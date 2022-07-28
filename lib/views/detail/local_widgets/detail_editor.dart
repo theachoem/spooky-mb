@@ -5,6 +5,8 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
+import 'package:spooky/views/detail/detail_view_model.dart';
+import 'package:spooky/views/detail/local_widgets/quill_renderer/custom_element_embed.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_embed_renderer.dart';
 
 class DetailEditor extends StatefulWidget {
@@ -15,9 +17,11 @@ class DetailEditor extends StatefulWidget {
     required this.onControllerReady,
     required this.onFocusNodeReady,
     required this.onChange,
+    required this.viewModel,
   }) : super(key: key);
 
   final editor.Document? document;
+  final DetailViewModel viewModel;
   final ValueNotifier<bool> readOnlyNotifier;
   final void Function(editor.QuillController controller) onControllerReady;
   final void Function(FocusNode focusNode) onFocusNodeReady;
@@ -99,6 +103,20 @@ class _DetailEditorState extends State<DetailEditor> with StatefulMixin, Automat
         top: ConfigConstant.margin2 + 8.0,
         bottom: kToolbarHeight + MediaQuery.of(context).viewPadding.bottom + ConfigConstant.margin2,
       ),
+      customElementsEmbedBuilder: (
+        BuildContext context,
+        editor.QuillController controller,
+        editor.CustomBlockEmbed block,
+        bool readOnly,
+        void Function(GlobalKey videoContainerKey)? onVideoInit,
+      ) {
+        return CustomElementEmbed(
+          controller: controller,
+          block: block,
+          readOnly: readOnly,
+          viewModel: widget.viewModel,
+        );
+      },
       embedBuilder: (
         BuildContext context,
         editor.QuillController controller,

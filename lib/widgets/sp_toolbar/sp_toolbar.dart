@@ -5,6 +5,7 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_color_button.dart';
+import 'package:spooky/widgets/sp_toolbar/sp_date_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_image_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_link_style_button.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_move_cursor_button.dart';
@@ -66,6 +67,7 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
               undo: false,
               iconTheme: iconTheme,
             ),
+
             ToggleStyleButton(
               attribute: Attribute.bold,
               icon: Icons.format_bold,
@@ -174,6 +176,7 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
             //   iconTheme: iconTheme,
             // ),
             buildDivider(),
+
             SelectAlignmentButton(
               controller: controller,
               iconSize: toolbarIconSize,
@@ -257,6 +260,10 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
               iconSize: toolbarIconSize,
               iconTheme: iconTheme,
               dialogTheme: null,
+            ),
+            SpDateButton(
+              iconSize: toolbarIconSize,
+              controller: controller,
             ),
             ConfigConstant.sizedBoxW0,
             buildMoveCursurButtons(context),
