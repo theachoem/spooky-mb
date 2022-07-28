@@ -40,7 +40,7 @@ void main() async {
         supportedLocales: AppConstant.supportedLocales,
         fallbackLocale: AppConstant.fallbackLocale,
         path: 'assets/translations',
-        child: const ProviderScope(
+        child: ProviderScope(
           child: InitialTheme(
             child: App(),
           ),

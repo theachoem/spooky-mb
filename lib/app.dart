@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/utils/util_widgets/app_builder.dart';
@@ -9,12 +10,13 @@ import 'package:spooky/views/main/main_view.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  const App({
+  App({
     Key? key,
   }) : super(key: key);
 
   static final RouteObserver<ModalRoute> storyQueryListObserver = RouteObserver<ModalRoute>();
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>(debugLabel: "App");
+  final FirebaseAnalyticsObserver analyticsObserver = FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance);
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class App extends StatelessWidget {
       onGenerateRoute: (settings) => SpRouteConfig(context: context, settings: settings).generate(),
       navigatorObservers: [
         storyQueryListObserver,
+        analyticsObserver,
       ],
     );
   }
