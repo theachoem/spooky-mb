@@ -13,6 +13,7 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
       context: option.context,
       correctString: option.object!.secret,
       customizedButtonChild: const Icon(Icons.fingerprint),
+      footer: buildFooter(option.context),
       didUnlocked: () => Navigator.of(option.context).pop(true),
       customizedButtonTap: () async {
         await _authentication().then((authenticated) {

@@ -71,7 +71,7 @@ Future<T?> enhancedScreenLock<T>({
           customizedButtonChild: customizedButtonChild,
           footer: footer,
           deleteButton: deleteButton,
-          cancelButton: cancelButton,
+          cancelButton: const Icon(Icons.keyboard_arrow_down),
           title: title,
           confirmTitle: confirmTitle,
           inputController: inputController,
