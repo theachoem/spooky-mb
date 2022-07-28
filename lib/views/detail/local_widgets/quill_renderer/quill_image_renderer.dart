@@ -13,12 +13,15 @@ import 'package:flutter_quill/src/widgets/embeds/image.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
+import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/utils/helpers/quill_image_size_helper.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/image_resize_button.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/image_zoom_view.dart';
+import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_unsupported_embed.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
+import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class QuillImageRenderer extends StatelessWidget {
   const QuillImageRenderer({
@@ -35,6 +38,7 @@ class QuillImageRenderer extends StatelessWidget {
   Widget imageByUrl(
     String imageUrl, {
     required double? width,
+    required BuildContext context,
   }) {
     if (isImageBase64(imageUrl)) {
       return Image.memory(
@@ -60,7 +64,18 @@ class QuillImageRenderer extends StatelessWidget {
       );
     }
 
-    return const SizedBox.shrink();
+    return SpTapEffect(
+      onTap: () {
+        showOkAlertDialog(
+          context: context,
+          title: "Image source",
+          message: imageUrl,
+        );
+      },
+      child: const QuillUnsupportedEmbed(
+        message: "Invalid image source",
+      ),
+    );
   }
 
   String standardizeImageUrl(String url) {
@@ -91,21 +106,23 @@ class QuillImageRenderer extends StatelessWidget {
               child: imageByUrl(
                 imageUrl,
                 width: size?.item1,
+                context: context,
               ),
             ),
           ),
-          Positioned(
-            right: 0,
-            bottom: 0,
-            child: SpCrossFade(
-              showFirst: !readOnly,
-              secondChild: const SizedBox(width: 48),
-              firstChild: ImageResizeButton(
-                controller: controller,
-                size: size,
+          if (QuillHelper.imageExist(imageUrl))
+            Positioned(
+              right: 0,
+              bottom: 0,
+              child: SpCrossFade(
+                showFirst: !readOnly,
+                secondChild: const SizedBox(width: 48),
+                firstChild: ImageResizeButton(
+                  controller: controller,
+                  size: size,
+                ),
               ),
-            ),
-          )
+            )
         ],
       ),
     );

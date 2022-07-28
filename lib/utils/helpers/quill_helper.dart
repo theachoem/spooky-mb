@@ -21,7 +21,10 @@ class QuillHelper {
         if (insert is Map) {
           for (MapEntry<dynamic, dynamic> e in insert.entries) {
             if (e.value != null && e.value.isNotEmpty) {
-              images.add(e.value);
+              String imageUrl = e.value;
+              if (imageExist(imageUrl)) {
+                images.add(e.value);
+              }
             }
           }
         }
@@ -33,6 +36,9 @@ class QuillHelper {
     }
     return images;
   }
+
+  static bool imageExist(String imageUrl) =>
+      isImageBase64(imageUrl) || imageUrl.startsWith('http') || File(imageUrl).existsSync();
 
   static String toPlainText(node.Root root) {
     String plainText = root.children.map((node.Node e) {

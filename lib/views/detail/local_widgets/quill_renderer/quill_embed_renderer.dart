@@ -2,9 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:spooky/theme/m3/m3_color.dart';
-import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_image_renderer.dart';
+import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_unsupported_embed.dart';
 
 class QuillEmbedRenderer extends StatelessWidget {
   const QuillEmbedRenderer({
@@ -28,23 +27,7 @@ class QuillEmbedRenderer extends StatelessWidget {
           readOnly: readOnly,
         );
       default:
-        return Container(
-          width: double.infinity,
-          margin: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
-          padding: const EdgeInsets.symmetric(vertical: ConfigConstant.margin2),
-          decoration: BoxDecoration(
-            color: M3Color.of(context).tertiaryContainer,
-            borderRadius: ConfigConstant.circlarRadius2,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            children: const [
-              Icon(Icons.error),
-              ConfigConstant.sizedBoxH1,
-              Text('Unsupported embed type'),
-            ],
-          ),
-        );
+        return const QuillUnsupportedEmbed();
     }
   }
 }
