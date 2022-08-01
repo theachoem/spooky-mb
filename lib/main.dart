@@ -33,19 +33,17 @@ part 'global.dart';
 part 'initializer.dart';
 
 void main() async {
-  // core
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent));
-  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   await _Initializer.load();
+
   runApp(
     Phoenix(
       child: EasyLocalization(
         supportedLocales: AppConstant.supportedLocales,
         fallbackLocale: AppConstant.fallbackLocale,
         path: 'assets/translations',
-        child: ProviderScope(
+        child: const ProviderScope(
           child: InitialTheme(
             child: App(),
           ),

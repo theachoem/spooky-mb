@@ -2,6 +2,7 @@ part of 'main.dart';
 
 class _Initializer {
   static Future<void> load() async {
+    // core
     await initialFirebase();
     await EasyLocalization.ensureInitialized();
     tz.initializeTimeZones();

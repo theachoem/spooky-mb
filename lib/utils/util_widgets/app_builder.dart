@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spooky/flavor_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -14,19 +15,21 @@ class AppBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemUiOverlayStyle overlay = const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent);
     if (FlavorConfig.isProduction()) {
-      return buildWrapper();
+      return buildWrapper(overlay);
     } else {
-      return buildWrapperWithBanner(context);
+      return buildWrapperWithBanner(overlay, context);
     }
   }
 
   Widget buildWrapperWithBanner(
+    SystemUiOverlayStyle overlay,
     BuildContext context,
   ) {
     return Stack(
       children: [
-        buildWrapper(),
+        buildWrapper(overlay),
         buildBanner(context),
       ],
     );
@@ -49,7 +52,13 @@ class AppBuilder extends StatelessWidget {
     );
   }
 
-  Widget buildWrapper() {
-    return GestureDetector(onTap: () => FocusManager.instance.primaryFocus?.unfocus(), child: child);
+  Widget buildWrapper(SystemUiOverlayStyle overlay) {
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: overlay,
+        child: child ?? const SizedBox.shrink(),
+      ),
+    );
   }
 }
