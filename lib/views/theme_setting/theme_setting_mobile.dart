@@ -200,8 +200,8 @@ class _ThemeSettingMobile extends StatelessWidget {
         showFirst: M3Color.of(context).brightness == Brightness.dark,
       ),
       trailing: SpThemeSwitcher(backgroundColor: Colors.transparent),
-      onTap: () => SpThemeSwitcher?.onLongPress(context),
-      onLongPress: () => SpThemeSwitcher?.onLongPress(context),
+      onTap: () => SpThemeSwitcher.onLongPress(context),
+      onLongPress: () => SpThemeSwitcher.onLongPress(context),
     );
   }
 
