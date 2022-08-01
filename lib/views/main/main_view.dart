@@ -29,10 +29,16 @@ part 'main_view_adaptive.dart';
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
 
+  static final GlobalKey globalKey = GlobalKey(debugLabel: "MainView");
+  static MainViewModel? provider() {
+    return globalKey.currentContext?.read<MainViewModel>();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppLocalAuth(
       child: ViewModelProvider<MainViewModel>(
+        key: globalKey,
         create: (BuildContext context) => MainViewModel(context),
         onModelReady: (context, viewModel) => onModelReady(context, viewModel),
         builder: (context, viewModel, child) {

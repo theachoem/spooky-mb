@@ -462,8 +462,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: "1.0.0"
-      resolved-ref: fc0d1b1072d6b9bdbdaf060d0a40ba207c9c9911
+      ref: "1.0.1"
+      resolved-ref: "42d0efb98f7d72c3278a9d7568236d41292fd42b"
       url: "git@github.com:juniorise/flutter_facebook_app_events.git"
     source: git
     version: "0.16.0"

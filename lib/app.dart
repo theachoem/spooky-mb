@@ -10,13 +10,14 @@ import 'package:spooky/views/main/main_view.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
-  App({
+  const App({
     Key? key,
   }) : super(key: key);
 
   static final RouteObserver<ModalRoute> storyQueryListObserver = RouteObserver<ModalRoute>();
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>(debugLabel: "App");
-  final FirebaseAnalyticsObserver analyticsObserver = FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance);
+  static final FirebaseAnalyticsObserver _analyticsObserver =
+      FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +37,7 @@ class App extends StatelessWidget {
       onGenerateRoute: (settings) => SpRouteConfig(context: context, settings: settings).generate(),
       navigatorObservers: [
         storyQueryListObserver,
-        analyticsObserver,
+        _analyticsObserver,
       ],
     );
   }

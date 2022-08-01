@@ -1,3 +1,5 @@
+# Quick documentations
+
 Execute all bulid runners
 ```s
 fvm flutter pub run build_runner build --delete-conflicting-outputs
@@ -49,4 +51,17 @@ fastlane match development
 fastlane match appstore
 
 fastlane release
+```
+
+
+Log when app crash android:
+```s
+adb logcat
+```
+
+dlopen failed: library "libflutter.so":
+```
+ndk {
+  abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'mips', 'mips64', 'arm64-v8a'
+}
 ```
