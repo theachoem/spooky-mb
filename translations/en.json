@@ -10,6 +10,9 @@
     "already_used_dynamic_color": {
       "title": "You are using system dynamic color!",
       "message": "Please change theme mode, to set custom color."
+    },
+    "storypad_list": {
+      "title": "StoryPad"
     }
   },
   "app": {
@@ -42,6 +45,9 @@
       "validation": {
         "empty": "Nickname must not empty!"
       }
+    },
+    "backup_url": {
+      "hint_text": "Backup url..."
     }
   },
   "msg": {
@@ -54,7 +60,10 @@
       "success": "Disconnect successfully"
     },
     "keep_at_least_one_provider": "Keep at least one connected provider.",
-    "synced": "Synced"
+    "synced": "Synced",
+    "restore": {
+      "success": "Restored"
+    }
   },
   "page": {
     "account_deletion": {
@@ -224,6 +233,26 @@
         "library": "Library",
         "diary": "Diary",
         "timeline": "Timeline"
+      }
+    }
+  },
+  "step": {
+    "migrate_storypad": {
+      "step1": {
+        "title": "Enter backup url",
+        "message": "In Google Drive. \"Story\" folder, find a zip file & paste its url here."
+      },
+      "step2": {
+        "title": "Download & Validate",
+        "subtitle": "Check if input url is valid"
+      },
+      "step3": {
+        "title": "Review",
+        "subtitle": "Make sure stories are correct"
+      },
+      "step4": {
+        "title": "Restore",
+        "subtitle": "Write them to Spooky"
       }
     }
   }
