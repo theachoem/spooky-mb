@@ -42,7 +42,7 @@ void main() async {
       child: EasyLocalization(
         supportedLocales: AppConstant.supportedLocales,
         fallbackLocale: AppConstant.fallbackLocale,
-        path: 'assets/translations',
+        path: 'translations',
         child: const ProviderScope(
           child: InitialTheme(
             child: App(),
