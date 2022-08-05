@@ -1,4 +1,8 @@
 {
+  "app": {
+    "description": "Express yourself freely and safely",
+    "name": "Spooky"
+  },
   "button": {
     "accept": "Accept",
     "agree": "Agree",
@@ -18,6 +22,14 @@
     "verify": "Verify",
     "view": "View"
   },
+  "field": {
+    "nickname": {
+      "hint_text": "Nickname",
+      "validation": {
+        "empty": "Nickname must not empty!"
+      }
+    }
+  },
   "msg": {
     "synced": "Synced"
   },
@@ -31,9 +43,9 @@
       "title": "Add-ons"
     },
     "app_starter": {
+      "policy_alert": "By tapping on “Sign up & Accept”, you agree to the [Privacy Policy]()",
       "subtitle": "App Starter",
-      "title": "App Starter",
-      "policy_alert": "By tapping on “Sign up & Accept”, you agree to the [Privacy Policy]()"
+      "title": "App Starter"
     },
     "archive": {
       "subtitle": "Archive",
@@ -100,6 +112,7 @@
       "title": "Manage pages"
     },
     "nickname_creator": {
+      "ask_for_name": "So, what's your nickname?",
       "subtitle": "Nickname Creator",
       "title": "Nickname Creator"
     },
@@ -139,8 +152,10 @@
       "title": "User"
     }
   },
-  "app": {
-    "name": "Spooky",
-    "description": "Express yourself freely and safely"
+  "tile": {
+    "dynamic_color": {
+      "title": "Dynamic color",
+      "subtitle": "Use colors base on your system."
+    }
   }
 }
