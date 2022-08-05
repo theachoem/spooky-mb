@@ -28,7 +28,7 @@ class SpAppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? title = overridedTitle ?? fallbackRouter?.title ?? router(context)?.title;
+    String? title = overridedTitle ?? fallbackRouter?.datas.title ?? router(context)?.datas.title;
     return Text(
       title ?? "",
       style: Theme.of(context).appBarTheme.titleTextStyle,

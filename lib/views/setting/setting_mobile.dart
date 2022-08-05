@@ -29,7 +29,7 @@ class _SettingMobile extends StatelessWidget {
               tiles: [
                 ListTile(
                   leading: const Icon(Icons.cloud),
-                  title: Text(SpRouter.cloudStorages.title),
+                  title: Text(SpRouter.cloudStorages.datas.title),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.cloudStorages.path);
                   },
@@ -43,14 +43,14 @@ class _SettingMobile extends StatelessWidget {
                 // ),
                 ListTile(
                   leading: const Icon(Icons.color_lens),
-                  title: Text(SpRouter.themeSetting.title),
+                  title: Text(SpRouter.themeSetting.datas.title),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.themeSetting.path);
                   },
                 ),
                 ListTile(
                   leading: const Icon(Icons.archive),
-                  title: Text(SpRouter.archive.title),
+                  title: Text(SpRouter.archive.datas.title),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.archive.path);
                   },
@@ -62,7 +62,7 @@ class _SettingMobile extends StatelessWidget {
               tiles: [
                 ListTile(
                   leading: const Icon(Icons.lock),
-                  title: Text(SpRouter.security.title),
+                  title: Text(SpRouter.security.datas.title),
                   onTap: () async {
                     bool authenticated = await SecurityService().showLockIfHas(
                       context,
@@ -75,15 +75,15 @@ class _SettingMobile extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const Icon(Icons.music_note),
-                  title: Text(SpRouter.soundList.title),
+                  title: Text(SpRouter.soundList.datas.title),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.soundList.path);
                   },
                 ),
                 ListTile(
                   leading: SizedBox(height: 40, child: Icon(Icons.extension, color: M3Color.of(context).primary)),
-                  title: Text(SpRouter.addOn.title),
-                  subtitle: Text(SpRouter.addOn.subtitle),
+                  title: Text(SpRouter.addOn.datas.title),
+                  subtitle: Text(SpRouter.addOn.datas.subtitle),
                   trailing: const Icon(Icons.keyboard_arrow_right),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.addOn.path);
@@ -126,7 +126,7 @@ class _SettingMobile extends StatelessWidget {
                 SpDeveloperVisibility(
                   child: ListTile(
                     leading: const Icon(Icons.developer_mode),
-                    title: Text(SpRouter.developerMode.title),
+                    title: Text(SpRouter.developerMode.datas.title),
                     onTap: () {
                       Navigator.of(context).pushNamed(SpRouter.developerMode.path);
                     },

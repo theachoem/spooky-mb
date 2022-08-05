@@ -42,7 +42,7 @@ class _MainViewAdpative extends StatelessWidget {
               selected: selected,
               index: index,
               child: buildTabItem(
-                item: item.tab!,
+                item: item.datas.tab!,
                 index: index,
                 context: context,
               ),

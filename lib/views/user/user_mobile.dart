@@ -95,7 +95,7 @@ class _UserMobile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListTile(
-        title: Text(SpRouter.accountDeletion.title),
+        title: Text(SpRouter.accountDeletion.datas.title),
         iconColor: M3Color.of(context).error,
         trailing: const Icon(Icons.keyboard_arrow_right),
         leading: const Icon(Icons.delete),

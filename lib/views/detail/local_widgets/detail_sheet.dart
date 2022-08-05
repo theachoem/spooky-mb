@@ -86,7 +86,7 @@ class DetailSheet extends StatelessWidget {
       headline: "Setting",
       tiles: [
         ListTile(
-          title: Text(SpRouter.fontManager.title),
+          title: Text(SpRouter.fontManager.datas.title),
           leading: const Icon(Icons.font_download),
           onTap: () {
             Navigator.of(context).pushNamed(SpRouter.fontManager.path);

@@ -26,7 +26,7 @@ class _ThemeSettingMobile extends StatelessWidget {
               headline: "Font",
               tiles: [
                 ListTile(
-                  title: Text(SpRouter.fontManager.title),
+                  title: Text(SpRouter.fontManager.datas.title),
                   leading: const Icon(Icons.font_download),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.fontManager.path);
@@ -52,7 +52,7 @@ class _ThemeSettingMobile extends StatelessWidget {
                     height: 40,
                     child: Icon(Icons.settings_suggest),
                   ),
-                  title: Text(SpRouter.bottomNavSetting.subtitle),
+                  title: Text(SpRouter.bottomNavSetting.datas.subtitle),
                   onTap: () {
                     Navigator.of(context).pushNamed(SpRouter.bottomNavSetting.path);
                   },

@@ -28,7 +28,7 @@ class BottomNavItemStorage extends ObjectStorage<BottomNavItemListModel> {
     List<BottomNavItemModel> validatedItems = [];
 
     for (final item in listModel?.items ?? <BottomNavItemModel>[]) {
-      if (item.router?.tab != null) {
+      if (item.router?.datas.tab != null) {
         validatedItems.add(item);
       }
     }
@@ -39,11 +39,11 @@ class BottomNavItemStorage extends ObjectStorage<BottomNavItemListModel> {
 
     // make sure other index available
     for (SpRouter route in SpRouter.values) {
-      if (route.tab != null && !validatedRouters.contains(route)) {
+      if (route.datas.tab != null && !validatedRouters.contains(route)) {
         validatedItems.add(
           BottomNavItemModel(
             router: route,
-            selected: route.tab?.optinal == false || defaultTabs.contains(route),
+            selected: route.datas.tab?.optinal == false || defaultTabs.contains(route),
           ),
         );
       }
