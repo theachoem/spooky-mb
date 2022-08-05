@@ -32,7 +32,8 @@
     },
     "app_starter": {
       "subtitle": "App Starter",
-      "title": "App Starter"
+      "title": "App Starter",
+      "policy_alert": "By tapping on “Sign up & Accept”, you agree to the [Privacy Policy]()"
     },
     "archive": {
       "subtitle": "Archive",
@@ -137,5 +138,9 @@
       "subtitle": "Account is mainly used to store purchased histories.",
       "title": "User"
     }
+  },
+  "app": {
+    "name": "Spooky",
+    "description": "Express yourself freely and safely"
   }
 }
