@@ -1,5 +1,141 @@
 {
   "button": {
-    "done": "Done"
+    "accept": "Accept",
+    "agree": "Agree",
+    "archive": "Archive",
+    "backup_now": "Backup now",
+    "continue": "Contnue",
+    "done": "Done",
+    "login": "Login",
+    "next": "Next",
+    "no_longer_access": "No longer access?",
+    "perminently_delete": "Perminently delete",
+    "restore": "Restore",
+    "restore_purchase": "Restore Purchases",
+    "retry": "Retry",
+    "review": "Review",
+    "validate": "Validate",
+    "verify": "Verify",
+    "view": "View"
+  },
+  "msg": {
+    "synced": "Synced"
+  },
+  "page": {
+    "account_deletion": {
+      "subtitle": "Account Deletion",
+      "title": "Account Deletion"
+    },
+    "add_on": {
+      "subtitle": "Add more lifetime access functionalities",
+      "title": "Add-ons"
+    },
+    "app_starter": {
+      "subtitle": "App Starter",
+      "title": "App Starter"
+    },
+    "archive": {
+      "subtitle": "Archive",
+      "title": "Archive"
+    },
+    "backup_histories_manager": {
+      "subtitle": "Backup Histories",
+      "title": "Backup Histories"
+    },
+    "backups_details": {
+      "subtitle": "Backups",
+      "title": "Backups"
+    },
+    "bottom_nav_setting": {
+      "subtitle": "Manage bottom navigation",
+      "title": "Bottom Navigation"
+    },
+    "changes_history": {
+      "subtitle": "Changes History",
+      "title": "Changes History"
+    },
+    "cloud_storages": {
+      "subtitle": "Backup & Restore with cloud storages",
+      "title": "Cloud Storages",
+      "title_short": "Cloud"
+    },
+    "content_reader": {
+      "subtitle": "Content Reader",
+      "title": "Content Reader"
+    },
+    "detail": {
+      "title": "Detail"
+    },
+    "developer_mode": {
+      "subtitle": "Developer Mode",
+      "title": "Developer Mode"
+    },
+    "explore": {
+      "subtitle": "Explore",
+      "title": "Explore"
+    },
+    "font_manager": {
+      "subtitle": "Font Book",
+      "title": "Font Book"
+    },
+    "home": {
+      "subtitle": "Home",
+      "title": "Home"
+    },
+    "init_color_picker": {
+      "subtitle": "Pick one of your favorite color",
+      "title": "Favorite color"
+    },
+    "lock": {
+      "subtitle": "Lock",
+      "title": "Lock"
+    },
+    "main": {
+      "subtitle": "Main",
+      "title": "Main"
+    },
+    "manage_pages": {
+      "subtitle": "Manage pages",
+      "title": "Manage pages"
+    },
+    "nickname_creator": {
+      "subtitle": "Nickname Creator",
+      "title": "Nickname Creator"
+    },
+    "not_found": {
+      "subtitle": "Not Found",
+      "title": "Not Found"
+    },
+    "search": {
+      "title": "Search"
+    },
+    "security": {
+      "subtitle": "Security",
+      "title": "Security"
+    },
+    "setting": {
+      "subtitle": "Setting",
+      "title": "Setting"
+    },
+    "sign_up": {
+      "subtitle": "Sign Up",
+      "title": "Sign Up"
+    },
+    "sounds": {
+      "subtitle": "Sounds",
+      "title": "Sounds"
+    },
+    "storypad_restore": {
+      "subtitle": "StoryPad",
+      "title": "StoryPad"
+    },
+    "theme_setting": {
+      "subtitle": "Theme",
+      "title": "Theme"
+    },
+    "user": {
+      "subtitle": "Account is mainly used to store purchased histories.",
+      "title": "User"
+    }
   }
 }

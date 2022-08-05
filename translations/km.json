@@ -1,5 +1,141 @@
 {
   "button": {
-    "done": "រួចរាល់"
+    "accept": "តតយល",
+    "agree": "យល់របម",
+    "archive": "ក្សីបិប",
+    "backup_now": "បម្រុងទុកឥឡូវនេះ",
+    "continue": "កាង",
+    "done": "រ្យេឱដេនោ",
+    "login": "ចូល",
+    "next": "បន្ទាប់បិនេហ",
+    "no_longer_access": "លែងចូលទៀតទេ?",
+    "perminently_delete": "លុប",
+    "restore": "ចយសចុល",
+    "restore_purchase": "ស្តារការទិញ",
+    "retry": "ាប់រេគ្រប់យ៉ាងបី",
+    "review": "សរសេររិហកន់",
+    "validate": "ធ្វើ​ឱ្យ​មាន​សុពលភាព",
+    "verify": "ផ្ទៀង​ផ្ទាត់",
+    "view": "កមហើញ"
+  },
+  "msg": {
+    "synced": "សញ្ញុង"
+  },
+  "page": {
+    "account_deletion": {
+      "subtitle": "ការលុបគណនី",
+      "title": "ការលុបគណនី"
+    },
+    "add_on": {
+      "subtitle": "បន្ថែមមុខងារចូលប្រើអាយុកាលថែមទៀត",
+      "title": "កម្មវិធីបន្ថែម"
+    },
+    "app_starter": {
+      "subtitle": "កម្មវិធីចាប់ផ្តើម",
+      "title": "កម្មវិធីចាប់ផ្តើម"
+    },
+    "archive": {
+      "subtitle": "ក្សីបិប",
+      "title": "ក្សីបិប"
+    },
+    "backup_histories_manager": {
+      "subtitle": "ប្រវត្តិបម្រុងទុក",
+      "title": "ប្រវត្តិបម្រុងទុក"
+    },
+    "backups_details": {
+      "subtitle": "ការបម្រុងទុក",
+      "title": "ការបម្រុងទុក"
+    },
+    "bottom_nav_setting": {
+      "subtitle": "គ្រប់គ្រងការរុករកខាងក្រោម",
+      "title": "នាវាចរណ៍បាត"
+    },
+    "changes_history": {
+      "subtitle": "ផ្លាស់ប្តូរប្រវត្តិសាស្រ្ត",
+      "title": "ផ្លាស់ប្តូរប្រវត្តិសាស្រ្ត"
+    },
+    "cloud_storages": {
+      "subtitle": "ការបម្រុងទុកនិងស្តារជាមួយការដាក់ពពក",
+      "title": "ការលួចពពក",
+      "title_short": "បបក"
+    },
+    "content_reader": {
+      "subtitle": "អ្នកអានមាតិកា",
+      "title": "អ្នកអានមាតិកា"
+    },
+    "detail": {
+      "title": "សេចក្ដីបិស្ដារ"
+    },
+    "developer_mode": {
+      "subtitle": "របៀបអ្នកអភិវឌ្ឍន៍",
+      "title": "របៀបអ្នកអភិវឌ្ឍន៍"
+    },
+    "explore": {
+      "subtitle": "រុករក",
+      "title": "រុករក"
+    },
+    "font_manager": {
+      "subtitle": "សៀវភៅពុម្ពអក្សរ",
+      "title": "សៀវភៅពុម្ពអក្សរ"
+    },
+    "home": {
+      "subtitle": "ផ្ទហ",
+      "title": "ផ្ទហ"
+    },
+    "init_color_picker": {
+      "subtitle": "ជ្រើសរើសពណ៌ដែលអ្នកចូលចិត្តមួយ",
+      "title": "ព៏​ណ​ដែល​ចូលចិត្ត"
+    },
+    "lock": {
+      "subtitle": "សោ",
+      "title": "សោ"
+    },
+    "main": {
+      "subtitle": "សមខាន់",
+      "title": "សមខាន់"
+    },
+    "manage_pages": {
+      "subtitle": "គ្រប់គ្រងទំព័រនានា",
+      "title": "គ្រប់គ្រងទំព័រនានា"
+    },
+    "nickname_creator": {
+      "subtitle": "អ្នកបង្កើតសម្មតិនាម",
+      "title": "អ្នកបង្កើតសម្មតិនាម"
+    },
+    "not_found": {
+      "subtitle": "រក​មិន​ឃើញ",
+      "title": "រក​មិន​ឃើញ"
+    },
+    "search": {
+      "title": "ការឆេកឆេ"
+    },
+    "security": {
+      "subtitle": "សន្ដិសុខ",
+      "title": "សន្ដិសុខ"
+    },
+    "setting": {
+      "subtitle": "ការកំណត់",
+      "title": "ការកំណត់"
+    },
+    "sign_up": {
+      "subtitle": "ចុះ​ឈ្មោះ",
+      "title": "ចុះ​ឈ្មោះ"
+    },
+    "sounds": {
+      "subtitle": "សំឡេង",
+      "title": "សំឡេង"
+    },
+    "storypad_restore": {
+      "subtitle": "ចាន់",
+      "title": "ចាន់"
+    },
+    "theme_setting": {
+      "subtitle": "និក្ខេបត",
+      "title": "និក្ខេបត"
+    },
+    "user": {
+      "subtitle": "គណនីត្រូវបានប្រើជាចម្បងក្នុងការរក្សាទុកប្រវត្តិសាស្រ្តដែលបានទិញ។",
+      "title": "អ្នក​ប្រើ"
+    }
   }
 }

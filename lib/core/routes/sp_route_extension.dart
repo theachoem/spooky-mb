@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/views/main/main_view_item.dart';
@@ -21,15 +22,15 @@ extension SpRouterExtension on SpRouter {
     switch (this) {
       case SpRouter.backupsDetails:
         return SpRouterDatas(
-          title: 'Backups',
-          subtitle: 'Backup & Restore with cloud storages',
+          title: tr("page.backups_details.title"),
+          subtitle: tr("page.backups_details.subtitle"),
           tab: null,
         );
       case SpRouter.cloudStorages:
         return SpRouterDatas(
-          title: 'Cloud Storage',
-          shortTitle: 'Cloud',
-          subtitle: 'Cloud Storage',
+          title: tr("page.cloud_storages.title"),
+          shortTitle: tr("page.cloud_storages.title_short"),
+          subtitle: tr("page.cloud_storages.subtitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.cloudStorages,
@@ -39,20 +40,20 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.fontManager:
         return SpRouterDatas(
-          title: 'Font Book',
-          subtitle: 'Font Book',
+          title: tr("page.font_manager.title"),
+          subtitle: tr("page.font_manager.subtitle"),
           tab: null,
         );
       case SpRouter.lock:
         return SpRouterDatas(
-          title: 'Lock',
-          subtitle: 'Lock',
+          title: tr("page.lock.title"),
+          subtitle: ("page.lock.subtitle"),
           tab: null,
         );
       case SpRouter.security:
         return SpRouterDatas(
-          title: 'Security',
-          subtitle: 'Security',
+          title: tr("page.security.title"),
+          subtitle: tr("page.security.subtitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.security,
@@ -62,8 +63,8 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.themeSetting:
         return SpRouterDatas(
-          title: 'Theme',
-          subtitle: 'Theme',
+          title: tr("page.theme_setting.title"),
+          subtitle: tr("page.theme_setting.subtitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.themeSetting,
@@ -73,14 +74,14 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.managePages:
         return SpRouterDatas(
-          title: 'Manage pages',
-          subtitle: 'Manage pages',
+          title: tr("page.manage_pages.title"),
+          subtitle: tr("page.manage_pages.subtitle"),
           tab: null,
         );
       case SpRouter.archive:
         return SpRouterDatas(
-          title: 'Archive',
-          subtitle: 'Archive',
+          title: tr("page.archive.title"),
+          subtitle: tr("page.archive.sutitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.archive,
@@ -90,32 +91,32 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.contentReader:
         return SpRouterDatas(
-          title: 'Content Reader',
-          subtitle: 'Content Reader',
+          title: tr("page.content_reader.title"),
+          subtitle: tr("page.content_reader.subtitle"),
           tab: null,
         );
       case SpRouter.changesHistory:
         return SpRouterDatas(
-          title: 'Changes history',
-          subtitle: 'Changes history',
+          title: tr("page.changes_history.title"),
+          subtitle: tr("page.changes_history.subtitle"),
           tab: null,
         );
       case SpRouter.detail:
         return SpRouterDatas(
-          title: 'Detail',
-          subtitle: 'Detail',
+          title: tr("page.detail.title"),
+          subtitle: tr("page.detail.subtitle"),
           tab: null,
         );
       case SpRouter.main:
         return SpRouterDatas(
-          title: 'Main',
-          subtitle: 'Main',
+          title: tr("page.main.title"),
+          subtitle: tr("page.main.sutitle"),
           tab: null,
         );
       case SpRouter.home:
         return SpRouterDatas(
-          title: 'Home',
-          subtitle: 'Home',
+          title: tr("page.home.title"),
+          subtitle: tr("page.home.sutitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.home,
@@ -126,14 +127,14 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.explore:
         return SpRouterDatas(
-          title: 'Explore',
-          subtitle: 'Explore',
+          title: tr("page.explore.title"),
+          subtitle: tr("page.explore.subtitle"),
           tab: null,
         );
       case SpRouter.setting:
         return SpRouterDatas(
-          title: 'Setting',
-          subtitle: 'Setting',
+          title: tr("page.explore.title"),
+          subtitle: tr("page.explore.subtitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.setting,
@@ -144,38 +145,38 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.appStarter:
         return SpRouterDatas(
-          title: 'App Starter',
-          subtitle: 'App Starter',
+          title: tr("page.app_starter.title"),
+          subtitle: tr("page.app_starter.subtitle"),
           tab: null,
         );
       case SpRouter.initPickColor:
         return SpRouterDatas(
-          title: 'Favorite color',
-          subtitle: 'Pick one of your favorite color',
+          title: tr("page.init_color_picker.title"),
+          subtitle: tr("page.init_color_picker.subtitle"),
           tab: null,
         );
       case SpRouter.nicknameCreator:
         return SpRouterDatas(
-          title: 'Nickname Creator',
-          subtitle: 'Nickname Creator',
+          title: tr("page.nickname_creator.title"),
+          subtitle: tr("page.nickname_creator.subtitle"),
           tab: null,
         );
       case SpRouter.developerMode:
         return SpRouterDatas(
-          title: 'Developer',
-          subtitle: 'Developer',
+          title: tr("page.developer_mode.title"),
+          subtitle: tr("page.developer_mode.subtitle"),
           tab: null,
         );
       case SpRouter.notFound:
         return SpRouterDatas(
-          title: 'Not Found',
-          subtitle: 'Not Found',
+          title: tr("page.not_found.title"),
+          subtitle: tr("page.not_found.subtitle"),
           tab: null,
         );
       case SpRouter.addOn:
         return SpRouterDatas(
-          title: 'Add-ons',
-          subtitle: 'Add more lifetime access functionalities',
+          title: tr("page.add_on.title"),
+          subtitle: tr("page.add_on.subtitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.addOn,
@@ -185,8 +186,8 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.soundList:
         return SpRouterDatas(
-          title: "Sounds",
-          subtitle: "Sounds",
+          title: tr("page.sounds.title"),
+          subtitle: tr("page.sounds.title"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.soundList,
@@ -196,44 +197,44 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.bottomNavSetting:
         return SpRouterDatas(
-          title: "Bottom Navigation",
-          subtitle: "Manage bottom navigation",
+          title: tr("page.bottom_nav_setting.title"),
+          subtitle: tr("page.bottom_nav_setting.subtitle"),
           tab: null,
         );
       case SpRouter.storyPadRestore:
         return SpRouterDatas(
-          title: "StoryPad",
-          subtitle: "StoryPad",
+          title: tr("page.storypad_restore.title"),
+          subtitle: tr("page.storypad_restore.subtitle"),
           tab: null,
         );
       case SpRouter.user:
         return SpRouterDatas(
-          title: "User",
-          subtitle: "Account is mainly used to store purchased histories.",
+          title: tr("page.user.title"),
+          subtitle: tr("page.user.subtitle"),
           tab: null,
         );
       case SpRouter.signUp:
         return SpRouterDatas(
-          title: 'Sign up',
-          subtitle: 'Sign up',
+          title: tr("page.sign_up.title"),
+          subtitle: tr("page.sign_up.subtitle"),
           tab: null,
         );
       case SpRouter.search:
         return SpRouterDatas(
-          title: 'Search',
-          subtitle: 'Search',
+          title: tr("page.search.title"),
+          subtitle: tr("page.search.subtitle"),
           tab: null,
         );
       case SpRouter.backupHistoriesManager:
         return SpRouterDatas(
-          title: 'Backup Histories',
-          subtitle: 'Backup Histories',
+          title: tr("page.backup_histories_manager.title"),
+          subtitle: tr("page.backup_histories_manager.subtitle"),
           tab: null,
         );
       case SpRouter.accountDeletion:
         return SpRouterDatas(
-          title: 'Delete Account',
-          subtitle: 'Account Deletion',
+          title: tr("page.account_deletion.title"),
+          subtitle: tr("page.account_deletion.title"),
           tab: null,
         );
     }
