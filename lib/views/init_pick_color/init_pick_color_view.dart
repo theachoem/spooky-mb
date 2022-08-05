@@ -2,6 +2,7 @@ library init_pick_color_view;
 
 import 'dart:math';
 import 'package:bubble_lens/bubble_lens.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';

@@ -13,7 +13,7 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
         child: SpButton(
           backgroundColor: M3Color.of(context).readOnly.surface1,
           foregroundColor: M3Color.of(context).onSurface,
-          label: "No longer access?",
+          label: tr("button.no_longer_access"),
           onTap: () => clearLockWithSecurityQuestions(context),
         ),
       ),

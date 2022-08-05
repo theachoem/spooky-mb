@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:spooky/core/backups/backups_service.dart';
@@ -148,7 +149,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
       children: [
         if (!isSignedIn)
           SpButton(
-            label: "Login",
+            label: tr("button.login"),
             onTap: () {
               provider.signIn();
             },
@@ -158,7 +159,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
           if (lastBackup != null && cloudFileId != null) ConfigConstant.sizedBoxW1,
           if (lastBackup != null && cloudFileId != null)
             SpButton(
-              label: "View",
+              label: tr("button.view"),
               backgroundColor: M3Color.of(context).secondary,
               foregroundColor: M3Color.of(context).onSecondary,
               onTap: () async {
@@ -272,11 +273,11 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
         Color? foregroundColor;
 
         if (synced) {
-          label = "Synced";
+          label = tr("msg.synced");
           backgroundColor = M3Color.of(context).readOnly.surface5;
           foregroundColor = M3Color.of(context).onSurface;
         } else {
-          label = "Backup now";
+          label = tr("button.backup_now");
           backgroundColor = null;
           foregroundColor = null;
         }

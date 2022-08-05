@@ -40,7 +40,7 @@ class _NicknameCreatorAdaptive extends StatelessWidget {
 
   Widget buildBottomNavigation(BuildContext context) {
     return SpSingleButtonBottomNavigation(
-      buttonLabel: "Next",
+      buttonLabel: tr("button.next"),
       onTap: () {
         if (viewModel.nickname.trim().isNotEmpty) {
           context.read<NicknameProvider>().setNickname(viewModel.nickname);

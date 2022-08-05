@@ -33,7 +33,7 @@ class _LockMobile extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: SpSingleButtonBottomNavigation(
-        buttonLabel: "Done",
+        buttonLabel: tr("button.done"),
         onTap: () {},
       ),
     );

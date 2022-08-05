@@ -40,7 +40,7 @@ class _StoryPadRestoreMobile extends StatelessWidget {
                 ),
               ],
             ),
-            buttonLabel: (state) => "Contnue",
+            buttonLabel: (state) => tr("button.continue"),
             onPressed: (state) async {
               return state;
             },
@@ -49,7 +49,7 @@ class _StoryPadRestoreMobile extends StatelessWidget {
             title: "Download & Validate",
             subtitle: 'Check if input url is valid',
             content: const SizedBox.shrink(),
-            buttonLabel: (state) => "Validate",
+            buttonLabel: (state) => tr("button.validate"),
             onPressed: (state) async {
               await viewModel.load();
               return state;
@@ -59,7 +59,7 @@ class _StoryPadRestoreMobile extends StatelessWidget {
             title: "Review",
             subtitle: "Make sure stories are correct",
             content: const SizedBox.shrink(),
-            buttonLabel: (state) => "Review",
+            buttonLabel: (state) => tr("button.review"),
             onPressed: (state) async {
               BottomSheetService.instance.showScrollableSheet(
                 context: App.navigatorKey.currentContext ?? context,
@@ -84,12 +84,12 @@ class _StoryPadRestoreMobile extends StatelessWidget {
             buttonLabel: (state) {
               switch (state) {
                 case StepState.complete:
-                  return "Done";
+                  return tr("button.done");
                 case StepState.disabled:
                 case StepState.error:
                 case StepState.indexed:
                 case StepState.editing:
-                  return "Restore";
+                  return tr("button.restore");
               }
             },
             onPressed: (state) async {

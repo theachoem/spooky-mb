@@ -10,7 +10,7 @@ class _InitPickColorAdaptive extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: SpSingleButtonBottomNavigation(
-        buttonLabel: "Next",
+        buttonLabel: tr("button.next"),
         show: viewModel.showNextButton,
         onTap: () {
           // Navigator.of(context).pushNamed(

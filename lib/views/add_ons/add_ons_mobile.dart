@@ -12,7 +12,7 @@ class _AddOnsMobile extends StatelessWidget {
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: SpSingleButtonBottomNavigation(
-        buttonLabel: "Restore Purchases",
+        buttonLabel: tr("button.restore_purchase"),
         show: provider.restorable,
         onTap: () async {
           if (provider.currentUser == null) {

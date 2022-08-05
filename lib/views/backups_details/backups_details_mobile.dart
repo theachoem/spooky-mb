@@ -16,7 +16,7 @@ class _BackupsDetailsMobile extends StatelessWidget {
       ),
       bottomNavigationBar: SpSingleButtonBottomNavigation(
         show: viewModel.backup != null,
-        buttonLabel: "Restore",
+        buttonLabel: tr("button.restore"),
         onTap: () {
           if (viewModel.backup == null) return;
           viewModel.destination.restore(
@@ -168,7 +168,7 @@ class _BackupsDetailsMobile extends StatelessWidget {
           if (review != null) ConfigConstant.sizedBoxH1,
           if (review != null)
             SpButton(
-              label: "Review",
+              label: tr("button.review"),
               onTap: review,
               backgroundColor: M3Color.of(context).secondary,
               foregroundColor: M3Color.of(context).onSecondary,

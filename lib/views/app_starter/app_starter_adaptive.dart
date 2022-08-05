@@ -61,7 +61,7 @@ class _AppStarterAdaptive extends StatelessWidget {
 
   Widget buildSignUpButton(BuildContext context) {
     return SpButton(
-      label: "Sign up & Accept",
+      label: tr("button.accept"),
       backgroundColor: M3Color.of(context).primary,
       foregroundColor: M3Color.of(context).onPrimary,
       onTap: () {

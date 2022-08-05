@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:app_settings/app_settings.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:local_auth/error_codes.dart' as auth_error;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

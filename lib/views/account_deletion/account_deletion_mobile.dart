@@ -47,7 +47,7 @@ class _AccountDeletionMobile extends StatelessWidget {
       foregroundColor: (state) => M3Color.of(context).onError,
       backgroundColor: (state) => M3Color.of(context).error,
       buttonLabel: (state) {
-        return "Perminently delete";
+        return tr("button.perminently_delete");
       },
       onPressed: (state) async {
         await viewModel.deleteAccount(context, nameToType);
@@ -81,13 +81,13 @@ class _AccountDeletionMobile extends StatelessWidget {
         switch (state) {
           case StepState.disabled:
           case StepState.error:
-            return "Retry";
+            return tr("button.retry");
           case StepState.complete:
           case StepState.indexed:
           case StepState.editing:
             break;
         }
-        return "Verify";
+        return tr("button.verify");
       },
       onPressed: (state) async {
         bool validated = viewModel.validate(nameToType);
@@ -108,7 +108,7 @@ class _AccountDeletionMobile extends StatelessWidget {
         "Deleting this account will permanently delete your purchased add-ons that are associated.",
       ),
       buttonLabel: (state) {
-        return "Agree";
+        return tr("button.agree");
       },
       onPressed: (state) async {
         return state;

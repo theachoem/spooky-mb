@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
@@ -130,7 +131,7 @@ class DetailSheet extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(left: ConfigConstant.margin2, top: ConfigConstant.margin0),
             child: SpButton(
-              label: "Archive",
+              label: tr("button.archive"),
               onTap: () async {
                 viewModel.beforeAction(() {
                   return onArchive(context);
