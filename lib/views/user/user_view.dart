@@ -1,6 +1,7 @@
 library user_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/view_model_provider.dart';

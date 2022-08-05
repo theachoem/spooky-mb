@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -83,7 +84,7 @@ class UserImageProfile extends StatelessWidget {
           String id = currentUser.uid;
           return [
             SpPopMenuItem(
-              title: "Identity",
+              title: tr("tile.identity.title"),
               subtitle: id,
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: id));
@@ -91,12 +92,12 @@ class UserImageProfile extends StatelessWidget {
             ),
             if (currentUser.metadata.creationTime != null)
               SpPopMenuItem(
-                title: "Created at",
+                title: tr("tile.created_at.title"),
                 subtitle: DateFormatHelper.dateTimeFormat().format(currentUser.metadata.creationTime!),
               ),
             if (currentUser.metadata.lastSignInTime != null)
               SpPopMenuItem(
-                title: "Last sign in",
+                title: tr("tile.last_sign_in.title"),
                 subtitle: DateFormatHelper.dateTimeFormat().format(currentUser.metadata.lastSignInTime!),
               ),
           ];
