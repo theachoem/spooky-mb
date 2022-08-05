@@ -16,14 +16,14 @@ class _ThemeSettingMobile extends StatelessWidget {
           context: context,
           sections: [
             SpSectionContents(
-              headline: "Personalize",
+              headline: tr("section.personalize"),
               tiles: [
                 buildColorThemeTile(),
                 buildThemeModeTile(context),
               ],
             ),
             SpSectionContents(
-              headline: "Font",
+              headline: tr("section.font"),
               tiles: [
                 ListTile(
                   title: Text(SpRouter.fontManager.datas.title),
@@ -35,7 +35,7 @@ class _ThemeSettingMobile extends StatelessWidget {
               ],
             ),
             SpSectionContents(
-              headline: "Story",
+              headline: tr("section.story"),
               tiles: [
                 buildLayoutTile(context),
                 buildSortTile(context),
@@ -45,7 +45,7 @@ class _ThemeSettingMobile extends StatelessWidget {
               ],
             ),
             SpSectionContents(
-              headline: "Advance",
+              headline: tr("section.advance"),
               tiles: [
                 ListTile(
                   leading: const SizedBox(
@@ -65,48 +65,12 @@ class _ThemeSettingMobile extends StatelessWidget {
     );
   }
 
-  Widget buildMaxLineTile() {
-    return Consumer<TileMaxLineProvider>(builder: (context, provider, child) {
-      return ListTile(
-        leading: const SizedBox(height: 40, child: Icon(Icons.article)),
-        title: const Text("Max line"),
-        subtitle: Text(provider.maxLine.toString()),
-        trailing: const Icon(Icons.keyboard_arrow_right),
-        onTap: () {
-          showTextInputDialog(
-            context: context,
-            title: "Set max line",
-            textFields: [
-              DialogTextField(
-                keyboardType: TextInputType.number,
-                initialText: provider.maxLine.toString(),
-                validator: (String? data) {
-                  if (data != null) {
-                    int? value = int.tryParse(data);
-                    if (value != null) {
-                      return null;
-                    }
-                  }
-                  return "Invalid number";
-                },
-              ),
-            ],
-          ).then((value) {
-            if (value?.isNotEmpty == true) {
-              provider.setMaxLine(int.tryParse(value!.first));
-            }
-          });
-        },
-      );
-    });
-  }
-
   Consumer<StoryListConfigurationProvider> buildPriorityStarredTile() {
     return Consumer<StoryListConfigurationProvider>(
       builder: (context, provider, child) {
         return ListTile(
           leading: const Icon(Icons.favorite),
-          title: const Text("Starred to top"),
+          title: Text(tr("tile.prioritize_starred.title")),
           onTap: () => provider.setPriorityStarred(!provider.prioritied),
           trailing: Switch.adaptive(
             value: provider.prioritied,
@@ -125,7 +89,7 @@ class _ThemeSettingMobile extends StatelessWidget {
       builder: (context, provider, child) {
         return ListTile(
           leading: const Icon(Icons.memory),
-          title: const Text("Show chips on story"),
+          title: Text(tr("tile.show_story_chip.title")),
           onTap: () => provider.setShouldShowChip(!provider.shouldShowChip),
           trailing: Switch.adaptive(
             value: provider.shouldShowChip,
@@ -155,7 +119,7 @@ class _ThemeSettingMobile extends StatelessWidget {
       bool hasDynamicColor = ThemeProvider.darkDynamic != null || ThemeProvider.lightDynamic != null;
       return ListTile(
         key: key,
-        title: const Text("Color"),
+        title: Text(tr("tile.color.title")),
         trailing: SizedBox(
           width: 48,
           child: SpColorItem(
@@ -186,8 +150,8 @@ class _ThemeSettingMobile extends StatelessWidget {
   Future<OkCancelResult> showWarningColorDialog(BuildContext context) {
     return showOkAlertDialog(
       context: context,
-      title: "You are using system dynamic color!",
-      message: "Please change theme mode, to set custom color.",
+      title: tr("alert.already_used_dynamic_color.title"),
+      message: tr("alert.already_used_dynamic_color.message"),
     );
   }
 
@@ -209,16 +173,16 @@ class _ThemeSettingMobile extends StatelessWidget {
     return Consumer<StoryListConfigurationProvider>(builder: (context, provider, child) {
       return ListTile(
         leading: const Icon(Icons.sort),
-        title: const Text("Sort"),
+        title: Text(tr("tile.sort.title")),
         onTap: () async {
           SortType? sortType = provider.sortType;
 
           String sortTitle(SortType? type) {
             switch (type) {
               case SortType.oldToNew:
-                return "Old to New";
+                return tr("tile.sort.types.old_to_new");
               case SortType.newToOld:
-                return "New to Old";
+                return tr("tile.sort.types.new_to_old");
               case null:
                 return "null";
             }
@@ -226,7 +190,7 @@ class _ThemeSettingMobile extends StatelessWidget {
 
           SortType? sortTypeResult = await showConfirmationDialog(
             context: context,
-            title: "Reorder Your Stories",
+            title: tr("tile.sort.title"),
             initialSelectedActionKey: sortType,
             actions: [
               AlertDialogAction(
@@ -258,17 +222,24 @@ class _ThemeSettingMobile extends StatelessWidget {
   Widget buildLayoutTile(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.list_alt),
-      title: const Text("Layout"),
+      title: Text(tr("tile.layout.title")),
       onTap: () async {
         SpListLayoutType layoutType = await SpListLayoutBuilder.get();
 
         String layoutTitle(SpListLayoutType type) {
-          return type.name.capitalize;
+          switch (type) {
+            case SpListLayoutType.library:
+              return tr("title.layout.types.library");
+            case SpListLayoutType.diary:
+              return tr("title.layout.types.diary");
+            case SpListLayoutType.timeline:
+              return tr("title.layout.types.timeline");
+          }
         }
 
         SpListLayoutType? layoutTypeResult = await showConfirmationDialog(
           context: context,
-          title: "Layout",
+          title: tr("tile.layout.title"),
           initialSelectedActionKey: layoutType,
           actions: SpListLayoutType.values.map((e) {
             return AlertDialogAction(

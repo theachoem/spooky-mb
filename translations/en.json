@@ -1,4 +1,17 @@
 {
+  "alert": {
+    "disconnect_provider": {
+      "title": "Are you sure to disconnect?"
+    },
+    "logout": {
+      "subtitle": "You can log in back anytime.",
+      "title": "Are you sure?"
+    },
+    "already_used_dynamic_color": {
+      "title": "You are using system dynamic color!",
+      "message": "Please change theme mode, to set custom color."
+    }
+  },
   "app": {
     "description": "Express yourself freely and safely",
     "name": "Spooky"
@@ -9,6 +22,7 @@
     "archive": "Archive",
     "backup_now": "Backup now",
     "continue": "Contnue",
+    "disconnect": "Disconnect",
     "done": "Done",
     "login": "Login",
     "next": "Next",
@@ -31,6 +45,15 @@
     }
   },
   "msg": {
+    "connect": {
+      "fail": "Connect fail",
+      "success": "Connect successfully"
+    },
+    "disconnect": {
+      "fail": "Fail",
+      "success": "Disconnect successfully"
+    },
+    "keep_at_least_one_provider": "Keep at least one connected provider.",
     "synced": "Synced"
   },
   "page": {
@@ -152,10 +175,56 @@
       "title": "User"
     }
   },
+  "section": {
+    "advance": "Advance",
+    "font": "Font",
+    "personalize": "Personalize",
+    "story": "Story"
+  },
   "tile": {
+    "color": {
+      "title": "Color"
+    },
+    "connect_with": {
+      "title": "Connect with {PROVIDER}"
+    },
+    "created_at": {
+      "title": "Created at"
+    },
     "dynamic_color": {
-      "title": "Dynamic color",
-      "subtitle": "Use colors base on your system."
+      "subtitle": "Use colors base on your system.",
+      "title": "Dynamic color"
+    },
+    "identity": {
+      "title": "Identity"
+    },
+    "last_sign_in": {
+      "title": "Last sign in"
+    },
+    "prioritize_starred": {
+      "title": "Starred to top"
+    },
+    "show_story_chip": {
+      "title": "Show chips on story"
+    },
+    "sort": {
+      "title": "Sort",
+      "types": {
+        "old_to_new": "Old to New",
+        "new_to_old": "New to Old"
+      }
+    },
+    "layout": {
+      "title": "Layout"
+    }
+  },
+  "title": {
+    "layout": {
+      "types": {
+        "library": "Library",
+        "diary": "Diary",
+        "timeline": "Timeline"
+      }
     }
   }
 }
