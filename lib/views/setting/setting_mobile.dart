@@ -167,7 +167,7 @@ class _SettingMobile extends StatelessWidget {
             title: const Text('Spooky Community'),
             subtitle: const Text("Share experience, report & request"),
             onTap: () {
-              openFacebookGroup();
+              openFacebookGroup(context);
             },
           ),
           ListTile(
@@ -185,19 +185,50 @@ class _SettingMobile extends StatelessWidget {
     );
   }
 
-  Future<void> openFacebookGroup() async {
+  Future<void> openFacebookGroup(BuildContext context) async {
     String fallbackUrl = AppConstant.facebookGroup;
     String fbProtocolUrl =
         Platform.isIOS ? AppConstant.facebookGroupDeeplinkIos : AppConstant.facebookGroupDeeplinkAndroid;
 
     Uri fbBundleUri = Uri.parse(fbProtocolUrl);
+    fbBundleUri = await uriBaseOnDevTool(context, fbBundleUri);
+
     bool canLaunchNatively = await canLaunchUrl(fbBundleUri);
+    if (context.read<DeveloperModeProvider>().developerModeOn) {
+      ToastService.show("Can launch nativel: $canLaunchNatively");
+    }
 
     if (canLaunchNatively) {
       launchUrl(fbBundleUri);
     } else {
       AppHelper.openLinkDialog(fallbackUrl);
     }
+  }
+
+  Future<Uri> uriBaseOnDevTool(BuildContext context, Uri fbBundleUri) async {
+    if (context.read<DeveloperModeProvider>().developerModeOn) {
+      final uri = await showConfirmationDialog(
+        context: context,
+        title: "Open via",
+        actions: [
+          const AlertDialogAction(
+            label: "IOS (fb://group?id=id)",
+            key: AppConstant.facebookGroupDeeplinkIos,
+          ),
+          const AlertDialogAction(
+            label: "Android (fb://group/:id)",
+            key: AppConstant.facebookGroupDeeplinkAndroid,
+          ),
+          const AlertDialogAction(
+            label: "Web (https://www.fb.com)",
+            key: AppConstant.facebookGroup,
+          ),
+        ],
+      );
+      if (uri != null) fbBundleUri = Uri.parse(uri);
+    }
+
+    return fbBundleUri;
   }
 
   Widget buildCheckForUpdateTile() {
