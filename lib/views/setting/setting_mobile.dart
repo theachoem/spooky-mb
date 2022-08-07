@@ -186,12 +186,12 @@ class _SettingMobile extends StatelessWidget {
   }
 
   Future<void> openFacebookGroup(BuildContext context) async {
-    String fallbackUrl = AppConstant.facebookGroup;
+    String fallbackUrl = AppConstant.facebookGroupWeb1;
     String fbProtocolUrl =
         Platform.isIOS ? AppConstant.facebookGroupDeeplinkIos : AppConstant.facebookGroupDeeplinkAndroid;
 
-    Uri fbBundleUri = Uri.parse(fbProtocolUrl);
-    fbBundleUri = await uriBaseOnDevTool(context, fbBundleUri);
+    Uri? fbBundleUri = await uriBaseOnDevTool(context, Uri.parse(fbProtocolUrl));
+    if (fbBundleUri == null) return;
 
     bool canLaunchNatively = await canLaunchUrl(fbBundleUri);
     if (context.read<DeveloperModeProvider>().developerModeOn) {
@@ -205,7 +205,7 @@ class _SettingMobile extends StatelessWidget {
     }
   }
 
-  Future<Uri> uriBaseOnDevTool(BuildContext context, Uri fbBundleUri) async {
+  Future<Uri?> uriBaseOnDevTool(BuildContext context, Uri fbBundleUri) async {
     if (context.read<DeveloperModeProvider>().developerModeOn) {
       final uri = await showConfirmationDialog(
         context: context,
@@ -221,14 +221,19 @@ class _SettingMobile extends StatelessWidget {
           ),
           const AlertDialogAction(
             label: "Web (https://www.fb.com)",
-            key: AppConstant.facebookGroup,
+            key: AppConstant.facebookGroupWeb1,
+          ),
+          const AlertDialogAction(
+            label: "Web (https://m.fb.com)",
+            key: AppConstant.facebookGroupWeb2,
           ),
         ],
       );
-      if (uri != null) fbBundleUri = Uri.parse(uri);
+      if (uri != null) return Uri.parse(uri);
+      return null;
+    } else {
+      return fbBundleUri;
     }
-
-    return fbBundleUri;
   }
 
   Widget buildCheckForUpdateTile() {
