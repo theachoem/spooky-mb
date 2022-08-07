@@ -32,7 +32,6 @@ class DetailSheet extends StatelessWidget {
       physics: const ScrollPhysics(),
       children: SpSectionsTiles.divide(
         context: context,
-        showTopDivider: true,
         sections: [
           SpSectionContents(
             headline: "Title",

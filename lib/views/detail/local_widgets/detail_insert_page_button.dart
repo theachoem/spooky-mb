@@ -1,7 +1,8 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/detail/local_widgets/detail_scaffold.dart';
-import 'package:spooky/widgets/sp_animated_icon.dart';
+import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 
 class DetailInsertPageButton extends StatelessWidget {
@@ -33,10 +34,14 @@ class DetailInsertPageButton extends StatelessWidget {
         return buildSheetVisibilityBuilder(
           child: child,
           builder: (context, sheetOpen, child) {
-            return SpAnimatedIcons(
-              showFirst: !widget.readOnlyNotifier.value && !sheetOpen,
-              secondChild: const SizedBox.shrink(key: ValueKey("AddPageSizedBox")),
-              firstChild: child!,
+            return Center(
+              child: SpCrossFade(
+                alignment: Alignment.center,
+                duration: ConfigConstant.duration * 1.5,
+                showFirst: !widget.readOnlyNotifier.value && !sheetOpen,
+                secondChild: const SizedBox(height: 48),
+                firstChild: child!,
+              ),
             );
           },
         );

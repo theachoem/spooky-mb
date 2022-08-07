@@ -1,6 +1,5 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/mixins/scaffold_end_drawerable_mixin.dart';
@@ -13,6 +12,8 @@ import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
 import 'package:spooky/views/detail/local_widgets/story_tags.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
+import 'package:spooky/widgets/sp_fade_in.dart';
+import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
@@ -59,7 +60,6 @@ class _DetailScaffoldState extends State<DetailScaffold>
       endDrawerEnableOpenDragGesture: false,
       key: _scaffoldkey,
       appBar: buildAppBar(),
-      floatingActionButton: buildFloatActionButton(mediaQueryPadding),
       body: widget.editorBuilder(),
       endDrawer: buildEndDrawer(context),
       bottomNavigationBar: buildBottomNavigation(),
@@ -105,7 +105,9 @@ class _DetailScaffoldState extends State<DetailScaffold>
       elevation: 0,
       leading: buildLeading(),
       title: const SizedBox(),
+      flexibleSpace: buildFlexibleSpace(),
       actions: [
+        buildEditButton(),
         DetailInsertPageButton(widget: widget, buildSheetVisibilityBuilder: buildSheetVisibilityBuilder),
         ConfigConstant.sizedBoxW0,
         buildEndDrawerButton(CommunityMaterialIcons.tag),
@@ -117,6 +119,83 @@ class _DetailScaffoldState extends State<DetailScaffold>
         ),
         buildMoreButton(),
       ],
+    );
+  }
+
+  FlexibleSpaceBar buildFlexibleSpace() {
+    return FlexibleSpaceBar(
+      background: ValueListenableBuilder<bool>(
+        valueListenable: widget.readOnlyNotifier,
+        builder: (context, readOnly, child) {
+          return SpFadeIn(
+            duration: ConfigConstant.duration * 2,
+            child: Stack(
+              children: [
+                ValueListenableBuilder<bool>(
+                  valueListenable: widget.hasChangeNotifer,
+                  builder: (context, hasChange, _) {
+                    Color? color;
+
+                    if (hasChange) {
+                      color = M3Color.of(context).readOnly.surface5;
+                    } else if (readOnly) {
+                      color = M3Color.of(context).background;
+                    } else {
+                      color = Theme.of(context).appBarTheme.backgroundColor;
+                    }
+
+                    return AnimatedContainer(
+                      color: color,
+                      duration: ConfigConstant.fadeDuration,
+                    );
+                  },
+                ),
+                const Positioned.fill(
+                  top: null,
+                  child: Divider(height: 1),
+                )
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildEditButton() {
+    if (widget.viewModel.currentStory.type != PathType.docs) {
+      return const SizedBox.shrink();
+    }
+
+    return ValueListenableBuilder<bool>(
+      valueListenable: widget.readOnlyNotifier,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: widget.hasChangeNotifer,
+        builder: (context, hasChange, child) {
+          return Icon(
+            Icons.save,
+            size: hasChange ? 24 : null,
+            color: hasChange ? M3Color.of(context).primary : null,
+          );
+        },
+      ),
+      builder: (context, readOnly, child) {
+        return SpIconButton(
+          onPressed: () async {
+            widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
+            bool saving = widget.readOnlyNotifier.value;
+            if (saving) {
+              await widget.onSave(context);
+            }
+          },
+          icon: SpAnimatedIcons(
+            showFirst: readOnly,
+            duration: ConfigConstant.duration * 1.5,
+            firstChild: const Icon(Icons.edit),
+            secondChild: child!,
+          ),
+        );
+      },
     );
   }
 
@@ -177,52 +256,6 @@ class _DetailScaffoldState extends State<DetailScaffold>
         opacity: 0,
         child: SizedBox(height: kToolbarHeight),
       ),
-    );
-  }
-
-  Widget buildFloatActionButton(EdgeInsets mediaQueryPadding) {
-    if (widget.viewModel.currentStory.type != PathType.docs) {
-      return const SizedBox.shrink();
-    }
-    return buildSheetVisibilityWrapper(buildFabEndWidget(context));
-  }
-
-  Widget buildFabEndWidget(BuildContext context) {
-    return ValueListenableBuilder<bool>(
-      valueListenable: widget.readOnlyNotifier,
-      builder: (context, value, endWidget) {
-        return ValueListenableBuilder<bool>(
-          valueListenable: widget.hasChangeNotifer,
-          child: SpAnimatedIcons(
-            firstChild: const Icon(Icons.edit, key: ValueKey(Icons.edit)),
-            secondChild: const Icon(Icons.save, key: ValueKey(Icons.save)),
-            showFirst: value,
-          ),
-          builder: (context, hasChange, icon) {
-            bool showFirst = !value && hasChange;
-            return FloatingActionButton.extended(
-              backgroundColor: showFirst ? M3Color.of(context).primary : M3Color.of(context).secondary,
-              foregroundColor: showFirst ? M3Color.of(context).onPrimary : M3Color.of(context).onSecondary,
-              onPressed: () async {
-                widget.readOnlyNotifier.value = !widget.readOnlyNotifier.value;
-                bool saving = widget.readOnlyNotifier.value;
-                if (saving) {
-                  await widget.onSave(context);
-                } else {
-                  // clear to avoid snack bar on top of "SAVE" fab.
-                  MessengerService.instance.clearSnackBars();
-                }
-              },
-              label: SpCrossFade(
-                firstChild: const Text("Edit"),
-                secondChild: const Text("Save"),
-                showFirst: value,
-              ),
-              icon: icon,
-            );
-          },
-        );
-      },
     );
   }
 }
