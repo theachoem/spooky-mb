@@ -131,25 +131,29 @@ class _DetailScaffoldState extends State<DetailScaffold>
             duration: ConfigConstant.duration * 2,
             child: Stack(
               children: [
-                ValueListenableBuilder<bool>(
-                  valueListenable: widget.hasChangeNotifer,
-                  builder: (context, hasChange, _) {
-                    Color? color;
+                buildSpBottomSheetListener(builder: (context, toolbarOpened, child) {
+                  return ValueListenableBuilder<bool>(
+                    valueListenable: widget.hasChangeNotifer,
+                    builder: (context, hasChange, _) {
+                      Color? color;
 
-                    if (hasChange) {
-                      color = M3Color.of(context).readOnly.surface5;
-                    } else if (readOnly) {
-                      color = M3Color.of(context).background;
-                    } else {
-                      color = Theme.of(context).appBarTheme.backgroundColor;
-                    }
+                      if (toolbarOpened) {
+                        color = Theme.of(context).appBarTheme.backgroundColor;
+                      } else if (hasChange) {
+                        color = M3Color.of(context).readOnly.surface5;
+                      } else if (readOnly) {
+                        color = M3Color.of(context).background;
+                      } else {
+                        color = Theme.of(context).appBarTheme.backgroundColor;
+                      }
 
-                    return AnimatedContainer(
-                      color: color,
-                      duration: ConfigConstant.fadeDuration,
-                    );
-                  },
-                ),
+                      return AnimatedContainer(
+                        color: color,
+                        duration: ConfigConstant.fadeDuration,
+                      );
+                    },
+                  );
+                }),
                 const Positioned.fill(
                   top: null,
                   child: Divider(height: 1),
