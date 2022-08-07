@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
@@ -26,17 +28,21 @@ class SpMoveCursurButton extends StatelessWidget {
         isRight ? Icons.arrow_right : Icons.arrow_left,
       ),
       onPressed: () {
-        moveCursor(1);
+        moveCursor(1, controller, isRight);
       },
     );
   }
 
-  moveCursor(int value) {
+  static void moveCursor(
+    int value,
+    QuillController controller, [
+    bool toRight = true,
+  ]) {
     final offsetLeft = controller.selection.baseOffset - value;
     final offsetRight = controller.selection.baseOffset + value;
     controller.updateSelection(
       TextSelection.fromPosition(
-        TextPosition(offset: isRight ? offsetRight : offsetLeft),
+        TextPosition(offset: max(toRight ? offsetRight : offsetLeft, 0)),
       ),
       ChangeSource.LOCAL,
     );

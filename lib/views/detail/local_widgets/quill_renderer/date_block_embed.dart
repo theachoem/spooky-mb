@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
+import 'package:spooky/widgets/sp_toolbar/sp_move_cursor_button.dart';
 
 class DateBlockEmbed extends CustomBlockEmbed {
   static const String blockType = 'date';
@@ -56,5 +57,7 @@ class DateBlockEmbed extends CustomBlockEmbed {
     final index = controller.selection.baseOffset;
     final length = controller.selection.extentOffset - index;
     controller.replaceText(index, length, block, null);
+
+    SpMoveCursurButton.moveCursor(1, controller);
   }
 }
