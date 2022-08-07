@@ -6,7 +6,6 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/date_block_embed.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
-import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class DateBlockEmbedBuilder extends StatelessWidget {
   const DateBlockEmbedBuilder({
@@ -24,46 +23,47 @@ class DateBlockEmbedBuilder extends StatelessWidget {
   Widget build(BuildContext context) {
     final document = DateBlockEmbed(block.data).document;
     final date = DateTime.tryParse(document.toPlainText().trim()) ?? DateTime.now();
-    return SpTapEffect(
-      onTap: readOnly
-          ? null
-          : () {
-              DateBlockEmbed.update(
-                controller: controller,
-                initDate: date,
-                context: context,
-                document: document,
-              );
-            },
-      child: buildDate(date, context),
-    );
-  }
 
-  Widget buildDate(DateTime date, BuildContext context) {
+    final onTap = readOnly
+        ? null
+        : () => DateBlockEmbed.update(
+              controller: controller,
+              initDate: date,
+              context: context,
+              document: document,
+            );
+
     return Row(
-      mainAxisSize: MainAxisSize.max,
       children: [
-        Text(
-          date.day.toString().padLeft(2, '0'),
-          style: M3TextTheme.of(context).headlineLarge?.copyWith(color: M3Color.of(context).primary),
-        ),
-        ConfigConstant.sizedBoxW0,
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(getDayOfMonthSuffix(date.day).toLowerCase(), style: M3TextTheme.of(context).labelSmall),
-            Text(
-              DateFormatHelper.yM().format(date).toUpperCase(),
-              style: M3TextTheme.of(context).labelMedium,
-            ),
-          ],
-        ),
-        ConfigConstant.sizedBoxW0,
-        SpAnimatedIcons(
-          showFirst: !readOnly,
-          secondChild: const SizedBox.shrink(),
-          firstChild: const Icon(Icons.arrow_drop_down),
+        InkWell(
+          onTap: onTap,
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(
+                date.day.toString().padLeft(2, '0'),
+                style: M3TextTheme.of(context).headlineLarge?.copyWith(color: M3Color.of(context).primary),
+              ),
+              ConfigConstant.sizedBoxW0,
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(getDayOfMonthSuffix(date.day).toLowerCase(), style: M3TextTheme.of(context).labelSmall),
+                  Text(
+                    DateFormatHelper.yM().format(date).toUpperCase(),
+                    style: M3TextTheme.of(context).labelMedium,
+                  ),
+                ],
+              ),
+              ConfigConstant.sizedBoxW0,
+              SpAnimatedIcons(
+                showFirst: !readOnly,
+                secondChild: const SizedBox.shrink(),
+                firstChild: const Icon(Icons.arrow_drop_down),
+              ),
+            ],
+          ),
         ),
       ],
     );
