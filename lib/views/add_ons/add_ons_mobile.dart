@@ -113,7 +113,7 @@ class _AddOnsMobile extends StatelessWidget {
               if (productDetails != null) {
                 provider.buyProduct(productDetails);
               } else {
-                MessengerService.instance.showSnackBar("Product unavailble");
+                MessengerService.instance.showSnackBar(tr("msg.add_on_unavailable"));
               }
             },
             onTryPressed: () {
@@ -142,9 +142,9 @@ class _AddOnsMobile extends StatelessWidget {
   Future<void> openLoginDialog(BuildContext context) async {
     final result = await showOkCancelAlertDialog(
       context: context,
-      title: "Login required",
-      message: "Please login to purchase the add-on",
-      okLabel: "Login",
+      title: tr("alert.login_required.title"),
+      message: tr("alert.login_required.message"),
+      okLabel: tr("button.login"),
     );
     if (result == OkCancelResult.ok) {
       // ignore: use_build_context_synchronously
@@ -263,13 +263,13 @@ class _AddOnsMobile extends StatelessWidget {
                 items: (context) {
                   return [
                     SpPopMenuItem(
-                      title: "Buy",
+                      title: tr("button.buy"),
                       leadingIconData: Icons.payment,
                       onPressed: onBuyPressed,
                       titleStyle: TextStyle(color: backgroundColor),
                     ),
                     SpPopMenuItem(
-                      title: "Try",
+                      title: tr("button.try"),
                       leadingIconData: Icons.play_arrow,
                       onPressed: onTryPressed,
                     ),
@@ -310,7 +310,7 @@ class _AddOnsMobile extends StatelessWidget {
                             type: type,
                             child: RichText(
                               text: TextSpan(
-                                text: "Purchased ",
+                                text: "${tr("msg.purchased")} ",
                                 style: M3TextTheme.of(context).labelSmall?.copyWith(color: backgroundColor),
                                 children: [
                                   WidgetSpan(
