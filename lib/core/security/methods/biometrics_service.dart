@@ -64,6 +64,7 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
         if (e.code == auth_error.notAvailable) {
           showOkAlertDialog(
             context: context,
+            okLabel: tr("button.ok"),
             title: tr("alert.security.unsupport_biometric.title"),
             message: tr("alert.security.unsupport_biometric.message"),
           );
@@ -73,6 +74,7 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
             title: tr("alert.security.unsupport_biometric.title"),
             message: tr("alert.security.no_enrolled_biometric.message"),
             okLabel: tr("button.open_setting"),
+            cancelLabel: tr("button.cancel"),
           ).then((value) {
             if (value == OkCancelResult.ok) {
               AppSettings.openSecuritySettings();
@@ -83,6 +85,7 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
             context: context,
             message: e.message,
             title: e.code,
+            okLabel: tr("button.ok"),
           );
         }
       }

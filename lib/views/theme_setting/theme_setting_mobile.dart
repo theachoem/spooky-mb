@@ -152,6 +152,7 @@ class _ThemeSettingMobile extends StatelessWidget {
       context: context,
       title: tr("alert.already_used_dynamic_color.title"),
       message: tr("alert.already_used_dynamic_color.message"),
+      okLabel: tr("button.ok"),
     );
   }
 

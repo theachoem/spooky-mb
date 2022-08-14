@@ -108,6 +108,7 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
       okLabel: tr("button.delete"),
       barrierDismissible: true,
       isDestructiveAction: true,
+      cancelLabel: tr("button.cancel"),
     );
 
     if (result == OkCancelResult.ok) {
@@ -150,6 +151,8 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
       context: context,
       title: tr("alert.update_tag.title"),
       barrierDismissible: true,
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
       textFields: [
         buildTagField(object),
       ],
@@ -187,6 +190,8 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
     List<String>? result = await showTextInputDialog(
       context: context,
       title: tr("alert.create_tag.title"),
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
       textFields: [
         buildTagField(null),
       ],

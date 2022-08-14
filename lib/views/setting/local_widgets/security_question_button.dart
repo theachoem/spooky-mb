@@ -54,6 +54,7 @@ class _SecurityQuestionButtonState extends State<SecurityQuestionButton> {
           context: context,
           title: tr("alert.action_required.title"),
           message: tr("alert.action_required.set_security_question"),
+          okLabel: tr("button.ok"),
         ).then((value) {
           if (value == OkCancelResult.ok) {
             navigate(context);

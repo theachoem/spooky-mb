@@ -99,6 +99,7 @@ class SpStoryTileUtils {
       title: title,
       message: message,
       okLabel: label,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (result) {
@@ -126,6 +127,7 @@ class SpStoryTileUtils {
       title: title,
       message: message,
       okLabel: label,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (result) {
@@ -152,6 +154,7 @@ class SpStoryTileUtils {
           message: tr("msg.move_to_bin.message", args: [AppConstant.deleteInDuration.inDays.toString()]),
           okLabel: tr("button.move_to_bin"),
           isDestructiveAction: true,
+          cancelLabel: tr("button.cancel"),
         );
 
         switch (result) {
@@ -171,6 +174,7 @@ class SpStoryTileUtils {
           message: tr("alert.are_you_sure_to_delete.message"),
           okLabel: tr("button.perminent_delete"),
           isDestructiveAction: true,
+          cancelLabel: tr("button.cancel"),
         );
         switch (result) {
           case OkCancelResult.ok:

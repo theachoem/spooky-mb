@@ -139,7 +139,16 @@
       },
       "edit": {
         "title": ""
-      }
+      },
+      "title": ""
+    },
+    "notification_permission": {
+      "title": "",
+      "message": ""
+    },
+    "no_story_found": {
+      "title": "",
+      "message": ""
     }
   },
   "app": {
@@ -205,7 +214,9 @@
     "upload": "",
     "image_via_gallery": "",
     "image_via_camera": "",
-    "image_via_link": ""
+    "image_via_link": "",
+    "enable_notification": "",
+    "ok": ""
   },
   "date": {
     "created_at": ""

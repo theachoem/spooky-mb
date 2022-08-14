@@ -28,6 +28,8 @@ class _ManagePagesMobile extends StatelessWidget {
         message: tr("alert.discard_changes.message"),
         isDestructiveAction: false,
         barrierDismissible: true,
+        okLabel: tr("button.ok"),
+        cancelLabel: tr("button.cancel"),
       );
       switch (result) {
         case OkCancelResult.ok:
@@ -74,6 +76,7 @@ class _ManagePagesMobile extends StatelessWidget {
                     barrierDismissible: true,
                     isDestructiveAction: hasDeleteSomePage,
                     okLabel: MaterialLocalizations.of(context).saveButtonLabel.toLowerCase().capitalize,
+                    cancelLabel: tr("button.cancel"),
                   );
                   switch (result) {
                     case OkCancelResult.ok:

@@ -36,6 +36,7 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
     String? questionKey = await showModalActionSheet(
       context: context,
       title: tr("alert.answer_to_unlock.title"),
+      cancelLabel: tr("button.cancel"),
       actions: items.map((e) {
         return SheetAction(
           label: e.question,
@@ -50,6 +51,8 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
     List<String>? answers = await showTextInputDialog(
       context: context,
       title: question.question,
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
       textFields: const [
         DialogTextField(),
       ],

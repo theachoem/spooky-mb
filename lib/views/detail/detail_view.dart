@@ -53,6 +53,7 @@ class DetailView extends StatelessWidget {
       final action = await showModalActionSheet(
         context: context,
         title: tr("alert.save_draft"),
+        cancelLabel: tr("button.cancel"),
         actions: [
           SheetAction(
             label: tr("button.save_exit"),
@@ -79,6 +80,7 @@ class DetailView extends StatelessWidget {
           message: tr("alert.discard_draft.message"),
           isDestructiveAction: true,
           okLabel: tr("button.discard"),
+          cancelLabel: tr("button.cancel"),
         ).then((value) {
           return value == OkCancelResult.ok;
         });

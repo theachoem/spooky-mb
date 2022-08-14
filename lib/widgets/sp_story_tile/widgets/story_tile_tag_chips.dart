@@ -60,6 +60,7 @@ class StoryTileTagChips extends StatelessWidget {
           id = await showModalActionSheet(
             context: context,
             title: tr("section.tags"),
+            cancelLabel: tr("button.cancel"),
             actions: dbTags.map((e) {
               return SheetAction(
                 key: e.id,

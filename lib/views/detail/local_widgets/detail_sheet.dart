@@ -155,6 +155,8 @@ class DetailSheet extends StatelessWidget {
       context: context,
       useRootNavigator: true,
       title: tr("alert.are_you_sure_to_archive.title"),
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
     );
     switch (result) {
       case OkCancelResult.ok:

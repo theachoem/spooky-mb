@@ -68,6 +68,7 @@ class _DeveloperModeMobile extends StatelessWidget {
 
                     showOkAlertDialog(
                       context: context,
+                      okLabel: tr("button.ok"),
                       message: map.entries
                           .map((e) {
                             return "${e.key.capitalize}: ${e.value}";

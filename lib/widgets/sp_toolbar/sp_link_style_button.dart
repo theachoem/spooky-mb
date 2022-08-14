@@ -106,6 +106,8 @@ class SpLinkStyleButtonState extends State<SpLinkStyleButton> {
             List<String>? values = await showTextInputDialog(
               title: link != null ? tr("alert.link.edit.title") : tr("alert.link.add.title"),
               context: context,
+              okLabel: tr("button.ok"),
+              cancelLabel: tr("button.cancel"),
               textFields: [
                 DialogTextField(
                   initialText: text,

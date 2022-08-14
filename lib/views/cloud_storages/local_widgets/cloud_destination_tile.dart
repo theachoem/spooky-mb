@@ -234,22 +234,23 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
     return [
       if (widget.destination.canLaunchSource())
         SpPopMenuItem(
-          title: "Photos",
+          title: tr("button.photo"),
           leadingIconData: CommunityMaterialIcons.folder_google_drive,
           onPressed: () async {
             widget.destination.viewSource(context);
           },
         ),
       SpPopMenuItem(
-        title: "Logout",
+        title: tr("button.logout"),
         leadingIconData: Icons.logout,
         titleStyle: TextStyle(color: M3Color.of(context).error),
         onPressed: () async {
           OkCancelResult result = await showOkCancelAlertDialog(
             context: context,
-            title: "Are you sure?",
-            message: "You can log back anytime.",
+            title: tr("alert.logout.title"),
+            message: tr("alert.logout.message"),
             isDestructiveAction: true,
+            cancelLabel: tr("button.cancel"),
           );
           switch (result) {
             case OkCancelResult.ok:
@@ -310,8 +311,9 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
     if (!widget.hasStory) {
       showOkAlertDialog(
         context: context,
-        title: "No stories found in device",
-        message: "Required at least one story!",
+        title: tr("alert.no_story_found.title"),
+        message: tr("alert.no_story_found.message"),
+        okLabel: tr("button.ok"),
       );
     } else {
       backup(widget.destination, provider);

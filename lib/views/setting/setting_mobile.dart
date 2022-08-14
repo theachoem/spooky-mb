@@ -273,6 +273,7 @@ class _SettingMobile extends StatelessWidget {
       title: tr("tile.update_available.title"),
       okLabel: tr("button.update"),
       defaultType: OkCancelAlertDefaultType.ok,
+      cancelLabel: tr("button.cancel"),
     );
     switch (result) {
       case OkCancelResult.ok:

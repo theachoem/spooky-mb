@@ -51,6 +51,7 @@ abstract class BaseBackupDestination<T extends BaseCloudProvider> {
         title: tr("alert.backup_override.title"),
         message: tr("alert.backup_override.message"),
         okLabel: tr("button.restore"),
+        cancelLabel: tr("button.cancel"),
         isDestructiveAction: true,
       );
       switch (result) {

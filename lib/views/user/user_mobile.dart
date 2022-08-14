@@ -24,6 +24,8 @@ class _UserMobile extends StatelessWidget {
                   title: tr("alert.logout.title"),
                   message: tr("alert.logout.subtitle"),
                   isDestructiveAction: true,
+                  okLabel: tr("button.ok"),
+                  cancelLabel: tr("button.cancel"),
                 );
                 switch (result) {
                   case OkCancelResult.ok:
@@ -127,6 +129,7 @@ class _UserMobile extends StatelessWidget {
       title: tr("alert.disconnect_provider.title"),
       okLabel: tr("button.disconnect"),
       isDestructiveAction: true,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (result) {

@@ -65,6 +65,7 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
                   context: context,
                   title: "You are now a developer!",
                   barrierDismissible: false,
+                  okLabel: tr("button.ok"),
                 );
               } else {
                 ToastService.show("You are now $left steps away from being a developer");

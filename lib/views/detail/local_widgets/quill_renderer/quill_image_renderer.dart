@@ -69,6 +69,7 @@ class QuillImageRenderer extends StatelessWidget {
           context: context,
           title: tr("alert.image_source.title"),
           message: imageUrl,
+          okLabel: tr("button.ok"),
         );
       },
       child: QuillUnsupportedEmbed(
@@ -157,6 +158,7 @@ class QuillImageRenderer extends StatelessWidget {
       context: context,
       title: tr("alert.image.title"),
       actions: actions,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (result) {

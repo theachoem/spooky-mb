@@ -85,6 +85,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
                 context: context,
                 title: tr("alert.are_you_sure_to_delete_changes.title"),
                 okLabel: tr("button.delete"),
+                cancelLabel: tr("button.cancel"),
                 isDestructiveAction: true,
                 message: tr(
                   "alert.are_you_sure_to_delete_changes.message",

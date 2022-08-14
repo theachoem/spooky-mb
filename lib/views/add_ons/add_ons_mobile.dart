@@ -145,6 +145,7 @@ class _AddOnsMobile extends StatelessWidget {
       title: tr("alert.login_required.title"),
       message: tr("alert.login_required.message"),
       okLabel: tr("button.login"),
+      cancelLabel: tr("button.cancel"),
     );
     if (result == OkCancelResult.ok) {
       // ignore: use_build_context_synchronously

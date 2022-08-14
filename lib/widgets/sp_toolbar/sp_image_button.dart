@@ -56,6 +56,7 @@ class SpImageButton extends StatelessWidget {
   Future<void> _onPressedHandler(BuildContext context) async {
     await showModalActionSheet(
       context: context,
+      cancelLabel: tr("button.cancel"),
       actions: [
         SheetAction(label: tr("button.image_via_gallery"), key: "gallery"),
         SheetAction(label: tr("button.image_via_camera"), key: "camera"),
@@ -119,6 +120,8 @@ class SpImageButton extends StatelessWidget {
     List<String>? result = await showTextInputDialog(
       context: context,
       title: tr("alert.add_image_url.title"),
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
       textFields: [
         DialogTextField(
           initialText: "",

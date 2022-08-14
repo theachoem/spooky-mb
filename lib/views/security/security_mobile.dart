@@ -179,6 +179,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
     String? value = await showModalActionSheet(
       context: context,
       actions: actions,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (value) {
@@ -271,6 +272,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
           title: tr("alert.new_question_answer.title"),
           okLabel: tr("button.save"),
           barrierDismissible: false,
+          cancelLabel: tr("button.cancel"),
           textFields: [
             DialogTextField(
               hintText: tr("field.question.hint_text"),
@@ -328,6 +330,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
                       title: e.question,
                       okLabel: tr("button.save"),
                       barrierDismissible: false,
+                      cancelLabel: tr("button.cancel"),
                       textFields: [
                         DialogTextField(
                           initialText: e.answer,

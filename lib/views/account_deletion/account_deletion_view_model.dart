@@ -21,6 +21,7 @@ class AccountDeletionViewModel extends BaseViewModel {
         title: tr("alert.are_you_sure_to_delete_account.title"),
         isDestructiveAction: true,
         okLabel: tr("button.delete"),
+        cancelLabel: tr("button.cancel"),
         message: tr("alert.are_you_sure_to_delete_account.message"),
       );
 
@@ -44,6 +45,7 @@ class AccountDeletionViewModel extends BaseViewModel {
       context: context,
       title: tr("alert.acc_deletion_access_denied.title"),
       message: tr("alert.acc_deletion_access_denied.message"),
+      cancelLabel: tr("button.cancel"),
       actions: availableProviders.map((e) {
         return SheetAction(
           icon: e.iconData,

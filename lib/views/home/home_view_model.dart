@@ -101,6 +101,8 @@ class HomeViewModel extends BaseViewModel {
     await showTextInputDialog(
       context: context,
       title: tr("alert.what_should_I_call_you.title"),
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
       textFields: [
         DialogTextField(
           initialText: context.read<NicknameProvider>().name,

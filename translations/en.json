@@ -139,7 +139,16 @@
       },
       "edit": {
         "title": "Edit link"
-      }
+      },
+      "title": "Link"
+    },
+    "notification_permission": {
+      "title": "Notification permission",
+      "message": "Required to alert you about such as auto save, background sound etc."
+    },
+    "no_story_found": {
+      "title": "No stories found in device",
+      "message": "Required at least one story!"
     }
   },
   "app": {
@@ -205,7 +214,9 @@
     "upload": "Upload",
     "image_via_gallery": "Gallery",
     "image_via_camera": "Camera",
-    "image_via_link": "Link"
+    "image_via_link": "Link",
+    "enable_notification": "Enable notification",
+    "ok": "Ok"
   },
   "date": {
     "created_at": "Created at {DATE}"

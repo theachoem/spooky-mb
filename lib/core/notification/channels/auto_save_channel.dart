@@ -65,6 +65,7 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
     showOkAlertDialog(
       context: context!,
       title: tr("alert.document_saved.title"),
+      okLabel: tr("button.ok"),
       message: message != null ? "${tr("alert.document_saved.subtitle")}\n$message" : null,
     );
   }
