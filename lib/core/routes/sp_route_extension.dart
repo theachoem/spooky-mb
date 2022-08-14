@@ -133,8 +133,8 @@ extension SpRouterExtension on SpRouter {
         );
       case SpRouter.setting:
         return SpRouterDatas(
-          title: tr("page.explore.title"),
-          subtitle: tr("page.explore.subtitle"),
+          title: tr("page.setting.title"),
+          subtitle: tr("page.setting.subtitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.setting,
