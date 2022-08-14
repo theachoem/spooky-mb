@@ -5,7 +5,7 @@ class _BackupHistoriesManagerMobile extends StatelessWidget {
   const _BackupHistoriesManagerMobile(this.viewModel);
 
   void showPreventEditLatestSnackbar() {
-    MessengerService.instance.showSnackBar("Should not delete the latest one!");
+    MessengerService.instance.showSnackBar(tr("msg.should_not_delete_latest_one"));
   }
 
   void toggleItem(String id, bool latest) {
@@ -85,7 +85,7 @@ class _BackupHistoriesManagerMobile extends StatelessWidget {
                   toggleItem(file.id, index == 0);
                 },
                 title: buildTitle(context, latest, title),
-                subtitle: Text(subtitle ?? "Unsupported file"),
+                subtitle: Text(subtitle ?? tr("msg.unsupported_file")),
                 trailing: SpCrossFade(
                   showFirst: !viewModel.editing,
                   firstChild: const SizedBox(
@@ -118,7 +118,7 @@ class _BackupHistoriesManagerMobile extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(right: 4.0),
                 child: SpSmallChip(
-                  label: "Latest",
+                  label: tr("msg.latest"),
                   color: M3Color.of(context).tertiary,
                 ),
               ),
@@ -160,10 +160,15 @@ class _BackupHistoriesManagerMobile extends StatelessWidget {
             onPressed: () async {
               OkCancelResult result = await showOkCancelAlertDialog(
                 context: context,
-                title: "Are you sure to delete?",
-                message: "${viewModel.selectedNotifier.value.length} selected",
-                okLabel: "Delete",
+                title: tr("alert.are_you_sure_to_delete_backup.title"),
+                okLabel: tr("button.delete"),
                 isDestructiveAction: true,
+                message: tr(
+                  "alert.are_you_sure_to_delete_backup.subtitle",
+                  args: [
+                    viewModel.selectedNotifier.value.length.toString(),
+                  ],
+                ),
               );
 
               switch (result) {
