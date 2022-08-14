@@ -26,7 +26,7 @@ class _ContentReaderMobile extends StatelessWidget {
         SizedBox(width: (viewModel.content.pages ?? []).length > 1 ? 16.0 : 8.0)
       ],
       title: Text(
-        viewModel.content.title ?? "No title",
+        viewModel.content.title ?? tr("msg.no_title"),
         style: Theme.of(context).appBarTheme.titleTextStyle,
       ),
     );
@@ -43,13 +43,6 @@ class _ContentReaderMobile extends StatelessWidget {
           onControllerReady: (controller) => viewModel.quillControllers[index] = controller,
         );
       },
-    );
-  }
-
-  Widget buildAppBarTitle(BuildContext context) {
-    return Text(
-      viewModel.content.title ?? "No title",
-      style: Theme.of(context).appBarTheme.titleTextStyle,
     );
   }
 }
