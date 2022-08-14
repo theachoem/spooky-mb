@@ -74,6 +74,44 @@
     },
     "add_image_url": {
       "title": "Add an image"
+    },
+    "are_you_sure_to_delete_changes": {
+      "title": "Are you sure to delete?",
+      "message": "{} selected"
+    },
+    "are_you_sure_to_delete_backup": {
+      "title": "Are you sure to delete?",
+      "subtitle": "{} selected"
+    },
+    "login_required": {
+      "title": "Login required",
+      "message": "Please login to purchase the add-on"
+    },
+    "are_you_sure_to_delete_account": {
+      "title": "Are you to delete?",
+      "message": "You can't undo this action."
+    },
+    "acc_deletion_access_denied": {
+      "title": "Access Denied",
+      "message": "Verify that you still have access to one of these before you can delete."
+    },
+    "security": {
+      "enter_new_password": {
+        "title": "Please enter new passcode"
+      },
+      "unsupport_biometric": {
+        "title": "Error",
+        "message": "Device does not support for biometrics"
+      },
+      "no_enrolled_biometric": {
+        "title": "Error",
+        "message": "No biometrics set on device"
+      },
+      "enter_passcode": "Please enter passcode",
+      "enter_confirm_passcode": "Please enter confirm passcode"
+    },
+    "answer_to_unlock": {
+      "title": "Answer one of these questions to unlock"
     }
   },
   "app": {
@@ -114,7 +152,13 @@
     "view": "View",
     "insert_page_break": "Insert page break",
     "view_on_web": "View on web",
-    "copy_link": "Copy link"
+    "copy_link": "Copy link",
+    "view_story": "View Story",
+    "select": "Select",
+    "restore_version": "Restore this version",
+    "buy": "Buy",
+    "try": "Try",
+    "open_setting": "Open Setting"
   },
   "field": {
     "answer": {
@@ -148,6 +192,9 @@
     "image_url": {
       "hint_text": "Image url",
       "validation": "Invalid image url"
+    },
+    "verify_name": {
+      "hint_text": "Verify label..."
     }
   },
   "msg": {
@@ -155,7 +202,7 @@
       "mn": "Break time: {} mn"
     },
     "connect": {
-      "fail": "Connect fail",
+      "fail": "Connect unsuccessfully",
       "success": "Connect successfully"
     },
     "copyright": "© {YEAR} Juniorise",
@@ -181,7 +228,32 @@
     "synced": "Synced",
     "archived": "Archived",
     "invalid_image_source": "Invalid image source",
-    "copied": "Copied"
+    "copied": "Copied",
+    "no_title": "No title",
+    "unknown": "Unknown",
+    "last_synced": "Last synced - {DATE}",
+    "logged_in": "Logged in",
+    "login_to_sync_data": "Login to sync data",
+    "coming_soon": "Coming soon",
+    "latest": "Latest",
+    "draft": "Draft",
+    "should_not_delete_latest_one": "Should not delete the latest one!",
+    "must_bigger_than_5_items": "Must not bigger than 5 items",
+    "unsupported_file": "Unsupported file",
+    "sign_up": {
+      "try_somthing_": "Try something...",
+      "_different": "Different",
+      "subtitle": "Register to purchase or restore your add-ons."
+    },
+    "add_on_unavailable": "Add-on unavailable",
+    "purchased": "Purchased",
+    "account_deletion": "Account deletion",
+    "no_security_questions": "No security question!",
+    "security": {
+      "match_cleared": "Matched {}%. Lock cleared!",
+      "incorrect_answer": "Incorrect answer",
+      "unlock_to_open_app": "Unlock to open the app"
+    }
   },
   "page": {
     "account_deletion": {
@@ -385,6 +457,19 @@
         "subtitle": "Write them to Spooky",
         "title": "Restore"
       }
+    },
+    "delete_account": {
+      "step3": {
+        "title": "Confirmation"
+      },
+      "step2": {
+        "title": "Verify deletion",
+        "message": "Please type **{NAME}** to verify."
+      },
+      "step1": {
+        "title": "Agree with condition",
+        "message": "Deleting this account will permanently delete your purchased add-ons that are associated."
+      }
     }
   },
   "tag": {
@@ -406,7 +491,10 @@
       "title": "Color"
     },
     "connect_with": {
-      "title": "Connect with {PROVIDER}"
+      "title": "Connect with {PROVIDER}",
+      "google": "Continue with Google",
+      "facebook": "Continue with Facebook",
+      "apple": "Continue with Apple"
     },
     "created_at": {
       "title": "Created at"
@@ -501,7 +589,11 @@
     "pages": {
       "title": "Pages"
     },
-    "crop_image": "Crop Image"
+    "crop_image": "Crop Image",
+    "spooky_restore": {
+      "subtitle": "Migrate from StoryPad to Spooky",
+      "title": "StoryPad"
+    }
   },
   "time": {
     "mn": "{} mn",
@@ -530,5 +622,8 @@
     "words": {
       "title": "Words"
     }
+  },
+  "date": {
+    "created_at": "Created at {DATE}"
   }
 }

@@ -45,8 +45,9 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
   }
 
   Future<bool> _authentication([
-    String localizedReason = "Unlock to open the app",
+    String? localizedReason,
   ]) async {
+    localizedReason ??= tr("msg.security.unlock_to_open_app");
     try {
       return info._localAuth.authenticate(
         localizedReason: localizedReason,
@@ -63,15 +64,15 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
         if (e.code == auth_error.notAvailable) {
           showOkAlertDialog(
             context: context,
-            title: "Error",
-            message: "Device does not support for biometrics",
+            title: tr("alert.security.unsupport_biometric.title"),
+            message: tr("alert.security.unsupport_biometric.message"),
           );
         } else if (e.code == auth_error.notEnrolled) {
           showOkCancelAlertDialog(
             context: context,
-            title: "Error",
-            message: "No biometrics set on device",
-            okLabel: "Open Setting",
+            title: tr("alert.security.unsupport_biometric.title"),
+            message: tr("alert.security.no_enrolled_biometric.message"),
+            okLabel: tr("button.open_setting"),
           ).then((value) {
             if (value == OkCancelResult.ok) {
               AppSettings.openSecuritySettings();

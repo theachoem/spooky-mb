@@ -74,6 +74,44 @@
     },
     "add_image_url": {
       "title": ""
+    },
+    "are_you_sure_to_delete_changes": {
+      "title": "",
+      "message": ""
+    },
+    "are_you_sure_to_delete_backup": {
+      "title": "",
+      "subtitle": ""
+    },
+    "login_required": {
+      "title": "",
+      "message": ""
+    },
+    "are_you_sure_to_delete_account": {
+      "title": "",
+      "message": ""
+    },
+    "acc_deletion_access_denied": {
+      "title": "",
+      "message": ""
+    },
+    "security": {
+      "enter_new_password": {
+        "title": ""
+      },
+      "unsupport_biometric": {
+        "title": "",
+        "message": ""
+      },
+      "no_enrolled_biometric": {
+        "title": "",
+        "message": ""
+      },
+      "enter_passcode": "",
+      "enter_confirm_passcode": ""
+    },
+    "answer_to_unlock": {
+      "title": ""
     }
   },
   "app": {
@@ -94,7 +132,7 @@
     "disconnect": "ផ្ដាច់",
     "done": "រ្យេឱដេនោ",
     "listen_with_mini_player": "ស្តាប់ជាមួយអ្នកលេងតូច",
-    "login": "ចូល",
+    "login": "",
     "next": "បន្ទាប់បិនេហ",
     "no_longer_access": "លែងចូលទៀតទេ?",
     "perminently_delete": "លុប",
@@ -114,7 +152,13 @@
     "view": "",
     "insert_page_break": "",
     "view_on_web": "",
-    "copy_link": ""
+    "copy_link": "",
+    "view_story": "",
+    "select": "",
+    "restore_version": "",
+    "buy": "",
+    "try": "",
+    "open_setting": ""
   },
   "field": {
     "answer": {
@@ -148,6 +192,9 @@
     "image_url": {
       "hint_text": "",
       "validation": ""
+    },
+    "verify_name": {
+      "hint_text": ""
     }
   },
   "msg": {
@@ -155,7 +202,7 @@
       "mn": "ពេលវេលាសម្រាក: {} Mn"
     },
     "connect": {
-      "fail": "ភ្ជាប់បរាជ័យ",
+      "fail": "",
       "success": "ភ្ជាប់ដោយជោគជ័យ"
     },
     "copyright": "© {មួយឆ្នាំ} ជិន",
@@ -181,7 +228,32 @@
     "synced": "សញ្ញុង",
     "archived": "",
     "invalid_image_source": "",
-    "copied": ""
+    "copied": "",
+    "no_title": "",
+    "unknown": "",
+    "last_synced": "",
+    "logged_in": "",
+    "login_to_sync_data": "",
+    "coming_soon": "",
+    "latest": "",
+    "draft": "",
+    "should_not_delete_latest_one": "",
+    "must_bigger_than_5_items": "",
+    "unsupported_file": "",
+    "sign_up": {
+      "try_somthing_": "",
+      "_different": "",
+      "subtitle": ""
+    },
+    "add_on_unavailable": "",
+    "purchased": "",
+    "account_deletion": "",
+    "no_security_questions": "",
+    "security": {
+      "match_cleared": "",
+      "incorrect_answer": "",
+      "unlock_to_open_app": ""
+    }
   },
   "page": {
     "account_deletion": {
@@ -385,6 +457,19 @@
         "subtitle": "សរសេរពួកវាទៅ spooky",
         "title": "ចយសចុល"
       }
+    },
+    "delete_account": {
+      "step3": {
+        "title": ""
+      },
+      "step2": {
+        "title": "",
+        "message": ""
+      },
+      "step1": {
+        "title": "",
+        "message": ""
+      }
     }
   },
   "tag": {
@@ -406,7 +491,10 @@
       "title": "ប៍ន"
     },
     "connect_with": {
-      "title": "ភ្ជាប់ជាមួយ {អ្នកផ្តល់សេវា}"
+      "title": "ភ្ជាប់ជាមួយ {អ្នកផ្តល់សេវា}",
+      "google": "",
+      "facebook": "",
+      "apple": ""
     },
     "created_at": {
       "title": "បានបង្កើតនៅ"
@@ -501,7 +589,11 @@
     "pages": {
       "title": ""
     },
-    "crop_image": ""
+    "crop_image": "",
+    "spooky_restore": {
+      "subtitle": "",
+      "title": ""
+    }
   },
   "time": {
     "mn": "{} MN",
@@ -530,5 +622,8 @@
     "words": {
       "title": ""
     }
+  },
+  "date": {
+    "created_at": ""
   }
 }
