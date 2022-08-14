@@ -25,7 +25,7 @@ class _SettingMobile extends StatelessWidget {
           context: context,
           sections: [
             SpSectionContents(
-              headline: "User",
+              headline: tr("section.user"),
               tiles: [
                 ListTile(
                   leading: const Icon(Icons.cloud),
@@ -58,7 +58,7 @@ class _SettingMobile extends StatelessWidget {
               ],
             ),
             SpSectionContents(
-              headline: "Features",
+              headline: tr("section.features"),
               tiles: [
                 ListTile(
                   leading: const Icon(Icons.lock),
@@ -91,17 +91,17 @@ class _SettingMobile extends StatelessWidget {
                 ),
               ],
             ),
-            SpSectionContents(headline: "Info", tiles: [
+            SpSectionContents(headline: tr("section.info"), tiles: [
               ListTile(
                 leading: const SizedBox(height: 40, child: Icon(Icons.privacy_tip_rounded)),
-                title: const Text('Privacy Policy'),
+                title: Text(tr("tile.privary_policy")),
                 onTap: () {
                   AppHelper.openLinkDialog(AppConstant.privacyPolicy);
                 },
               ),
               ListTile(
                 leading: const Icon(Icons.newspaper),
-                title: const Text("Licenses"),
+                title: Text(tr("tile.licenses")),
                 onTap: () async {
                   PackageInfo info = await PackageInfo.fromPlatform();
                   showLicensePage(
@@ -112,7 +112,12 @@ class _SettingMobile extends StatelessWidget {
                         size: ConfigConstant.iconSize4,
                       ),
                     ),
-                    applicationLegalese: "© ${DateTime.now().year} Juniorise",
+                    applicationLegalese: tr(
+                      "msg.copyright",
+                      namedArgs: {
+                        "YEAR": DateTime.now().year.toString(),
+                      },
+                    ),
                     applicationVersion: "${info.version}+${info.buildNumber}",
                     applicationName: info.appName,
                   );
@@ -120,7 +125,7 @@ class _SettingMobile extends StatelessWidget {
               ),
             ]),
             SpSectionContents(
-              headline: "Version",
+              headline: tr("tile.version"),
               tiles: [
                 buildCheckForUpdateTile(),
                 SpDeveloperVisibility(
@@ -134,7 +139,7 @@ class _SettingMobile extends StatelessWidget {
                 ),
                 ListTile(
                   leading: const SizedBox(height: 40, child: Icon(Icons.rate_review)),
-                  title: const Text('Rate us'),
+                  title: Text(tr("tile.rate_us")),
                   onTap: () {
                     LaunchReview.launch(iOSAppId: "1629372753");
                   },
@@ -164,8 +169,8 @@ class _SettingMobile extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(top: ConfigConstant.margin0),
             leading: const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.facebook)),
-            title: const Text('Spooky Community'),
-            subtitle: const Text("Share experience, report & request"),
+            title: Text(tr("tile.spooky_communtiy.title")),
+            subtitle: Text(tr("tile.spooky_communtiy.subtitle")),
             onTap: () {
               openFacebookGroup(context);
             },
@@ -174,8 +179,8 @@ class _SettingMobile extends StatelessWidget {
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(bottom: ConfigConstant.margin0),
             leading: const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.telegram)),
-            title: const Text('Telegram Channel'),
-            subtitle: const Text("News"),
+            title: Text(tr("tile.telegram.title")),
+            subtitle: Text(tr("tile.telegram.subtitle")),
             onTap: () {
               AppHelper.openLinkDialog(AppConstant.telegramChannel);
             },
@@ -246,7 +251,7 @@ class _SettingMobile extends StatelessWidget {
             color: M3Color.of(context).secondary,
           ),
         ),
-        title: Text(provider.isUpdateAvailable ? 'Update available' : 'Check for update'),
+        title: Text(provider.isUpdateAvailable ? tr("tile.update_available.title") : tr("tile.check_for_update.title")),
         subtitle:
             provider.isUpdateAvailable && provider.storeVersion != null ? Text(provider.storeVersion ?? "") : null,
         onTap: () async {
@@ -254,7 +259,7 @@ class _SettingMobile extends StatelessWidget {
           if (provider.isUpdateAvailable) {
             alertUpdate(context, provider);
           } else {
-            MessengerService.instance.showSnackBar("No update available");
+            MessengerService.instance.showSnackBar(tr("alert.no_update_available"));
           }
         },
       );
@@ -264,8 +269,8 @@ class _SettingMobile extends StatelessWidget {
   Future<void> alertUpdate(BuildContext context, InAppUpdateProvider provider) async {
     final result = await showOkCancelAlertDialog(
       context: context,
-      title: "Update available",
-      okLabel: "Update",
+      title: tr("tile.update_available.title"),
+      okLabel: tr("button.update"),
       defaultType: OkCancelAlertDefaultType.ok,
     );
     switch (result) {

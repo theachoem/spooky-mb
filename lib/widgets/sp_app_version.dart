@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -71,7 +72,7 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
             }
           },
           leading: const SizedBox(height: 40, child: Icon(Icons.build)),
-          title: const Text('Version'),
+          title: Text(tr("tile.version")),
           subtitle: Text(
             "${info.version}.${info.buildNumber}",
           ),
