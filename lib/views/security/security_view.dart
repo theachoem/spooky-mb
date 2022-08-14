@@ -2,6 +2,7 @@ library security_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/security/helpers/security_question_list_model.dart';
