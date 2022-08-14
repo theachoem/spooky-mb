@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -92,14 +93,14 @@ class SpImageButton extends StatelessWidget {
       aspectRatioPresets: CropAspectRatioPreset.values,
       uiSettings: [
         AndroidUiSettings(
-          toolbarTitle: 'Crop Image',
+          toolbarTitle: tr("tile.crop_image"),
           toolbarColor: Theme.of(context).appBarTheme.backgroundColor,
           toolbarWidgetColor: Theme.of(context).appBarTheme.titleTextStyle?.color,
           backgroundColor: Theme.of(context).colorScheme.background,
           initAspectRatio: CropAspectRatioPreset.original,
         ),
         IOSUiSettings(
-          title: 'Crop Image',
+          title: tr("tile.crop_image"),
         ),
       ],
     );
@@ -117,14 +118,14 @@ class SpImageButton extends StatelessWidget {
   void _typeLink(BuildContext context) async {
     List<String>? result = await showTextInputDialog(
       context: context,
-      title: "Add an image",
+      title: tr("alert.add_image_url.title"),
       textFields: [
         DialogTextField(
           initialText: "",
-          hintText: "Image url",
+          hintText: tr("field.image_url.hint_text"),
           validator: (String? value) {
             if (value?.trim().isNotEmpty == true) return null;
-            return "Invalid";
+            return tr("field.image_url.validation");
           },
         ),
       ],
@@ -142,7 +143,7 @@ class SpImageButton extends StatelessWidget {
       if (file != null) {
         _linkSubmitted(imageUrl);
       } else {
-        MessengerService.instance.showSnackBar("Invalid image url", success: false);
+        MessengerService.instance.showSnackBar(tr("field.image_url.validation"), success: false);
       }
     }
   }

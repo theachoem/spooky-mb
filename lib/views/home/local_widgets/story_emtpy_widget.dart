@@ -1,14 +1,9 @@
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/views/main/main_view_model.dart';
-import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class StoryEmptyWidget extends StatelessWidget {
@@ -70,7 +65,7 @@ class StoryEmptyWidget extends StatelessWidget {
                   Transform.scale(
                     scale: 1.5,
                     child: ImageIcon(
-                      AssetImage("assets/illustrations/two_people.png"),
+                      const AssetImage("assets/illustrations/two_people.png"),
                       size: 200,
                       color: M3Color.of(context).primary,
                     ),

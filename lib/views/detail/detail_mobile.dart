@@ -23,7 +23,7 @@ class _DetailMobile extends StatelessWidget {
   }
 
   Widget buildEditor(BuildContext context) {
-    if (pages.isEmpty) return const Center(child: Text("No documents found"));
+    if (pages.isEmpty) return Center(child: Text(tr("msg.no_document_found")));
     return FocusScope(
       onFocusChange: (bool focused) {
         viewModel.toolbarVisibleNotifier.value = focused || !viewModel.titleFocusNode.hasFocus;
@@ -69,10 +69,10 @@ class _DetailMobile extends StatelessWidget {
           readOnly: readOnlyNotifier.value,
           controller: titleController,
           keyboardAppearance: M3Color.keyboardAppearance(context),
-          decoration: const InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 4.0),
-            hintText: 'Title...',
-            border: UnderlineInputBorder(
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(vertical: 4.0),
+            hintText: tr("field.title.hint_text"),
+            border: const UnderlineInputBorder(
               borderSide: BorderSide.none,
               borderRadius: BorderRadius.zero,
             ),

@@ -1,4 +1,5 @@
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/detail/local_widgets/detail_scaffold.dart';
@@ -25,7 +26,7 @@ class DetailInsertPageButton extends StatelessWidget {
       child: SpIconButton(
         icon: const Icon(CommunityMaterialIcons.format_page_break),
         key: const ValueKey(CommunityMaterialIcons.format_page_break),
-        tooltip: "Insert page break",
+        tooltip: tr("button.insert_page_break"),
         onPressed: () {
           widget.viewModel.addPage();
         },

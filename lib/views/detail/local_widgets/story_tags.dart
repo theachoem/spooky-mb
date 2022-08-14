@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spooky/core/db/databases/tag_database.dart';
@@ -102,9 +103,9 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
   Future<void> onDelete(BuildContext context, TagDbModel object) async {
     OkCancelResult result = await showOkCancelAlertDialog(
       context: context,
-      title: "Are you sure to delete tag?",
-      message: "This tags will be deleted globally, you can't undo this action",
-      okLabel: "Delete",
+      title: tr("alert.remove_tag.title"),
+      message: tr("alert.remove_tag.message"),
+      okLabel: tr("button.delete"),
       barrierDismissible: true,
       isDestructiveAction: true,
     );
@@ -147,25 +148,10 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
   Future<void> onUpdate(BuildContext context, TagDbModel object) async {
     List<String>? result = await showTextInputDialog(
       context: context,
-      title: "Update tag",
+      title: tr("alert.update_tag.title"),
       barrierDismissible: true,
       textFields: [
-        DialogTextField(
-          initialText: object.title,
-          hintText: "Tags",
-          validator: (String? title) {
-            if (title == null || title.trim().isEmpty) {
-              return "Must not empty";
-            }
-
-            final sames = tags?.where((element) => element.title.trim() == title.trim());
-            if (sames?.isNotEmpty == true) {
-              return "$title already exist";
-            }
-
-            return null;
-          },
-        ),
+        buildTagField(object),
       ],
     );
 
@@ -178,26 +164,31 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
     }
   }
 
+  DialogTextField buildTagField(TagDbModel? object) {
+    return DialogTextField(
+      initialText: object?.title,
+      hintText: tr("field.tags.hint_text"),
+      validator: (String? title) {
+        if (title == null || title.trim().isEmpty) {
+          return tr("field.tags.must_not_empty");
+        }
+
+        final sames = tags?.where((element) => element.title.trim() == title.trim());
+        if (sames?.isNotEmpty == true) {
+          return tr("field.tags.already_exist", args: [title]);
+        }
+
+        return null;
+      },
+    );
+  }
+
   Future<void> onCreate(BuildContext context) async {
     List<String>? result = await showTextInputDialog(
       context: context,
-      title: "Enter tag",
+      title: tr("alert.create_tag.title"),
       textFields: [
-        DialogTextField(
-          hintText: "Tags",
-          validator: (String? title) {
-            if (title == null || title.trim().isEmpty) {
-              return "Must not empty";
-            }
-
-            final sames = tags?.where((element) => element.title.trim() == title.trim());
-            if (sames?.isNotEmpty == true) {
-              return "$title already exist";
-            }
-
-            return null;
-          },
-        ),
+        buildTagField(null),
       ],
     );
 
@@ -238,7 +229,7 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
             },
           ),
         ListTile(
-          title: const Text("Add"),
+          title: Text(tr("button.add")),
           leading: const Icon(Icons.add),
           onTap: () async {
             await onCreate(context);

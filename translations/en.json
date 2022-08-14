@@ -8,6 +8,17 @@
       "message": "Please change theme mode, to set custom color.",
       "title": "You are using system dynamic color!"
     },
+    "create_tag": {
+      "title": "Enter tag"
+    },
+    "discard_changes": {
+      "message": "All changes will be lost",
+      "title": "Discard changes?"
+    },
+    "discard_draft": {
+      "message": "You can't undo this action",
+      "title": "Discard draft?"
+    },
     "disconnect_provider": {
       "title": "Are you sure to disconnect?"
     },
@@ -19,31 +30,50 @@
       "title": "New Question & Answer"
     },
     "no_update_available": "No update available",
+    "page_at_least_1": {
+      "title": "Pages can't be less than 1"
+    },
     "purchase_to_download_more": {
       "title": "Purchase to download more"
+    },
+    "remove_tag": {
+      "message": "This tags will be deleted globally, you can't undo this action",
+      "title": "Are you sure to delete tag?"
+    },
+    "save_draft": "Save draft?",
+    "sound_pause_scheduled": {
+      "title": "Sound paused as schedule"
     },
     "storypad_list": {
       "title": "StoryPad"
     },
-    "discard_changes": {
-      "title": "Discard changes?",
-      "message": "All changes will be lost"
-    },
     "sure_to_save_changes": {
-      "title": "Are you sure to save changes?",
-      "message": "You can't undo this action"
+      "message": "You can't undo this action",
+      "title": "Are you sure to save changes?"
     },
-    "page_at_least_1": {
-      "title": "Pages can't be less than 1"
+    "update_tag": {
+      "title": "Update tag"
     },
-    "sound_pause_scheduled": {
-      "title": "Sound paused as schedule"
+    "what_should_I_call_you": {
+      "title": "What should I call you?"
     },
     "year": {
       "title": "Year"
     },
-    "what_should_I_call_you": {
-      "title": "What should I call you?"
+    "save_document_first": {
+      "title": "Please save document first"
+    },
+    "are_you_sure_to_archive": {
+      "title": "Are you sure to archive document?"
+    },
+    "image_source": {
+      "title": "Image source"
+    },
+    "image": {
+      "title": "Image"
+    },
+    "add_image_url": {
+      "title": "Add an image"
     }
   },
   "app": {
@@ -52,11 +82,15 @@
   },
   "button": {
     "accept": "Accept",
+    "add": "Add",
     "add_ons": "Add-ons",
     "agree": "Agree",
     "archive": "Archive",
     "backup_now": "Backup now",
     "continue": "Contnue",
+    "create_new": "Create new",
+    "delete": "Delete",
+    "discard": "Discard",
     "disconnect": "Disconnect",
     "done": "Done",
     "listen_with_mini_player": "Listen with mini player",
@@ -64,21 +98,23 @@
     "next": "Next",
     "no_longer_access": "No longer access?",
     "perminently_delete": "Perminently delete",
+    "play": "Play",
     "restore": "Restore",
     "restore_purchase": "Restore Purchases",
     "retry": "Retry",
     "review": "Review",
     "save": "Save",
+    "save_exit": "Save and exit",
+    "search_fonts": "Search fonts",
+    "sound_library": "Sounds Library",
     "stop": "Stop",
     "update": "Update",
     "validate": "Validate",
     "verify": "Verify",
     "view": "View",
-    "add": "Add",
-    "sound_library": "Sounds Library",
-    "play": "Play",
-    "create_new": "Create new",
-    "search_fonts": "Search fonts"
+    "insert_page_break": "Insert page break",
+    "view_on_web": "View on web",
+    "copy_link": "Copy link"
   },
   "field": {
     "answer": {
@@ -100,9 +136,24 @@
     },
     "search": {
       "hint_text": "Search..."
+    },
+    "tags": {
+      "already_exist": "{} already exist",
+      "hint_text": "Tags",
+      "must_not_empty": "Must not empty"
+    },
+    "title": {
+      "hint_text": "Title..."
+    },
+    "image_url": {
+      "hint_text": "Image url",
+      "validation": "Invalid image url"
     }
   },
   "msg": {
+    "break_time": {
+      "mn": "Break time: {} mn"
+    },
     "connect": {
       "fail": "Connect fail",
       "success": "Connect successfully"
@@ -114,21 +165,23 @@
     },
     "downloaded": "Downloaded",
     "downloading": "Downloading",
+    "enter_password": "Enter your password",
     "file_too_big": "File too big",
+    "hello_user": "Hello {}",
     "keep_at_least_one_provider": "Keep at least one connected provider.",
     "lock_life_circle": "Lock application when inactive for {} seconds",
     "lock_life_circle_minimum": "10 seconds minimum",
+    "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     "no_answer_provided": "No answer provided",
+    "no_document_found": "No documents found",
     "restore": {
       "success": "Restored"
     },
+    "saving_draft": "Saving draft...",
     "synced": "Synced",
-    "break_time": {
-      "mn": "Break time: {} mn"
-    },
-    "enter_password": "Enter your password",
-    "hello_user": "Hello {}",
-    "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+    "archived": "Archived",
+    "invalid_image_source": "Invalid image source",
+    "copied": "Copied"
   },
   "page": {
     "account_deletion": {
@@ -279,6 +332,9 @@
     "favorite_movie": "What is your favorite movie?",
     "name_of_primary_best_friend": "What is the first name of your best friend in primary school?"
   },
+  "quick_action": {
+    "new_story": "New Story"
+  },
   "section": {
     "advance": "Advance",
     "features": "Features",
@@ -287,12 +343,14 @@
     "lock_method": "Lock Methods",
     "personalize": "Personalize",
     "questions": "Questions",
+    "setting": "Setting",
     "settings": "Settings",
     "story": "Story",
     "tags": "Tags",
     "types": "Types",
     "user": "User",
-    "setting": "Setting"
+    "title": "Title",
+    "actions": "Actions"
   },
   "sections": {
     "options": "Options"
@@ -329,6 +387,12 @@
       }
     }
   },
+  "tag": {
+    "all": "All",
+    "fonts": "Fonts",
+    "others": "Others",
+    "recommend": "Recommended"
+  },
   "tile": {
     "add_your_own_questions": "Add your own question",
     "biometric": {
@@ -347,10 +411,20 @@
     "created_at": {
       "title": "Created at"
     },
+    "date": {
+      "title": "Date"
+    },
     "display_on_navigation_bar": "Display on navigation bar",
     "dynamic_color": {
       "subtitle": "Use colors base on your system.",
       "title": "Dynamic color"
+    },
+    "font_total": {
+      "subtitle": "{} fonts",
+      "title": "Total"
+    },
+    "font_weight": {
+      "title": "Font Weight"
     },
     "identity": {
       "title": "Identity"
@@ -380,9 +454,18 @@
       "title": "Starred to top"
     },
     "privary_policy": "Privacy Policy",
+    "provider": {
+      "title": "Provider"
+    },
     "rate_us": "Rate us",
+    "restore_default_font": {
+      "title": "Restore Default Style"
+    },
     "security_question": {
       "title": "Security questions"
+    },
+    "selected_font": {
+      "title": "Selected Font"
     },
     "show_story_chip": {
       "title": "Show chips on story"
@@ -408,30 +491,28 @@
     "update_available": {
       "title": "Update available"
     },
-    "version": "Version",
-    "selected_font": {
-      "title": "Selected Font"
-    },
-    "font_total": {
-      "title": "Total",
-      "subtitle": "{} fonts"
-    },
-    "provider": {
-      "title": "Provider"
-    },
-    "font_weight": {
-      "title": "Font Weight"
-    },
-    "restore_default_font": {
-      "title": "Restore Default Style"
-    },
     "use_this_fonts": {
       "title": "Use this font"
-    }
+    },
+    "version": "Version",
+    "changes": {
+      "title": "Changes"
+    },
+    "pages": {
+      "title": "Pages"
+    },
+    "crop_image": "Crop Image"
+  },
+  "time": {
+    "mn": "{} mn",
+    "sec": "{} s"
   },
   "title": {
     "advance_search": {
       "title": "Advance search"
+    },
+    "characters": {
+      "title": "Characters"
     },
     "layout": {
       "types": {
@@ -439,19 +520,15 @@
         "library": "Library",
         "timeline": "Timeline"
       }
+    },
+    "page": {
+      "title": "Page"
+    },
+    "time": {
+      "title": "Time"
+    },
+    "words": {
+      "title": "Words"
     }
-  },
-  "quick_action": {
-    "new_story": "New Story"
-  },
-  "time": {
-    "mn": "{} mn",
-    "sec": "{} s"
-  },
-  "tag": {
-    "all": "All",
-    "recommend": "Recommended",
-    "others": "Others",
-    "fonts": "Fonts"
   }
 }
