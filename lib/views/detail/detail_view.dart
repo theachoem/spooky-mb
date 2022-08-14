@@ -1,6 +1,7 @@
 library detail_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -51,15 +52,16 @@ class DetailView extends StatelessWidget {
     if (model.hasChangeNotifer.value) {
       final action = await showModalActionSheet(
         context: context,
-        title: "Save draft?",
-        actions: const [
+        title: tr("alert.save_draft"),
+        cancelLabel: tr("button.cancel"),
+        actions: [
           SheetAction(
-            label: "Save and exit",
+            label: tr("button.save_exit"),
             icon: Icons.save,
             key: 'save',
           ),
           SheetAction(
-            label: "Discard",
+            label: tr("button.discard"),
             isDestructiveAction: true,
             icon: Icons.cancel_rounded,
             key: 'discard',
@@ -74,10 +76,11 @@ class DetailView extends StatelessWidget {
       } else if (action == "discard") {
         return showOkCancelAlertDialog(
           context: context,
-          title: "Discard draft?",
-          message: "You can't undo this action",
+          title: tr("alert.discard_draft.title"),
+          message: tr("alert.discard_draft.message"),
           isDestructiveAction: true,
-          okLabel: "Discard",
+          okLabel: tr("button.discard"),
+          cancelLabel: tr("button.cancel"),
         ).then((value) {
           return value == OkCancelResult.ok;
         });

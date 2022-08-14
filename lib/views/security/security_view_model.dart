@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/security/helpers/security_question_list_model.dart';
 import 'package:spooky/core/security/helpers/security_question_model.dart';
@@ -43,12 +44,12 @@ class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
   SecurityQuestionListModel initialQuestions() {
     return SecurityQuestionListModel([
       SecurityQuestionModel(
-        question: 'What is the first name of your best friend in primary school?',
+        question: tr("question.what_is_name_of_primary_best_friend"),
         key: 'best_friend',
         answer: null,
       ),
       SecurityQuestionModel(
-        question: 'What is your favorite movie?',
+        question: tr("question.favorite_movie"),
         key: 'favorite_movie',
         answer: null,
       )

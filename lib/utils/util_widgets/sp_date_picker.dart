@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
+import 'package:spooky/utils/extensions/date_time_locale_extension.dart';
 
 class SpDatePicker {
   static Future<DateTime?> showPicker({
@@ -15,12 +17,29 @@ class SpDatePicker {
   }) {
     ColorScheme color = M3Color.of(context);
     Completer<DateTime?> completer = Completer();
+
+    DateTimePickerLocale locale = DateTimePickerLocale.enUs;
+    Locale currentLocale = context.locale;
+    // DateTimePickerLocale.values.where((element) {
+    //   return element == context.locale.languageCode;
+    // });
+
+    for (final element in DateTimePickerLocale.values) {
+      if (element.locale.languageCode == currentLocale.languageCode) {
+        locale = element;
+        if (element.locale.countryCode == currentLocale.countryCode) {
+          break;
+        }
+      }
+    }
+
     DatePicker.showDatePicker(
       context,
       dateFormat: dateFormat,
       initialDateTime: initialDate,
       minDateTime: minDateTime,
       maxDateTime: maxDateTime,
+      locale: locale,
       pickerTheme: DateTimePickerTheme(
         backgroundColor: color.primary,
         itemTextStyle:

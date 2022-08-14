@@ -33,7 +33,7 @@ class BottomNavItemsProvider extends ChangeNotifier {
   void setTabs(BottomNavItemListModel items) {
     // _tabs
     _availableTabs = items;
-    _nonOptionalTabs = _tabs?.where((e) => e.tab != null && e.tab?.optinal == false).toList();
+    _nonOptionalTabs = _tabs?.where((e) => e.datas.tab != null && e.datas.tab?.optinal == false).toList();
     notifyListeners();
   }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +31,9 @@ abstract class BaseBackupDestination<T extends BaseCloudProvider> {
       debugSource: "BaseBackupDestination#_restore",
     );
 
-    MessengerService.instance.showSnackBar("Restore", success: true, action: (color) {
+    MessengerService.instance.showSnackBar(tr("msg.restored_backup"), success: true, action: (color) {
       return SnackBarAction(
-        label: "Go home",
+        label: tr("button.go_home"),
         onPressed: () {
           Navigator.of(context).popUntil((route) => route.isFirst);
         },
@@ -47,9 +48,10 @@ abstract class BaseBackupDestination<T extends BaseCloudProvider> {
     if (result > 0) {
       OkCancelResult result = await showOkCancelAlertDialog(
         context: context,
-        title: "Notice",
-        message: "Exist stories will be overrided by cloud stories. Are you sure to restore?",
-        okLabel: "Restore",
+        title: tr("alert.backup_override.title"),
+        message: tr("alert.backup_override.message"),
+        okLabel: tr("button.restore"),
+        cancelLabel: tr("button.cancel"),
         isDestructiveAction: true,
       );
       switch (result) {

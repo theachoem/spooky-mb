@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -64,6 +65,7 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
                   context: context,
                   title: "You are now a developer!",
                   barrierDismissible: false,
+                  okLabel: tr("button.ok"),
                 );
               } else {
                 ToastService.show("You are now $left steps away from being a developer");
@@ -71,7 +73,7 @@ class _SpAppVersionState extends State<SpAppVersion> with ScheduleMixin {
             }
           },
           leading: const SizedBox(height: 40, child: Icon(Icons.build)),
-          title: const Text('Version'),
+          title: Text(tr("tile.version")),
           subtitle: Text(
             "${info.version}.${info.buildNumber}",
           ),

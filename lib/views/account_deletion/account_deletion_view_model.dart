@@ -2,6 +2,7 @@
 
 import 'dart:async';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +18,11 @@ class AccountDeletionViewModel extends BaseViewModel {
     if (validate(nameToType)) {
       OkCancelResult result = await showOkCancelAlertDialog(
         context: context,
-        title: "Are you to delete?",
+        title: tr("alert.are_you_sure_to_delete_account.title"),
         isDestructiveAction: true,
-        okLabel: "Delete",
-        message: "You can't undo this action",
+        okLabel: tr("button.delete"),
+        cancelLabel: tr("button.cancel"),
+        message: tr("alert.are_you_sure_to_delete_account.message"),
       );
 
       if (result == OkCancelResult.ok) {
@@ -41,8 +43,9 @@ class AccountDeletionViewModel extends BaseViewModel {
   Future<void> reAuth(BuildContext context, List<AuthProviderDatas> availableProviders) async {
     String? providerId = await showModalActionSheet<String>(
       context: context,
-      title: "Access Denied",
-      message: "Verify that you still have access to one of these before you can delete.",
+      title: tr("alert.acc_deletion_access_denied.title"),
+      message: tr("alert.acc_deletion_access_denied.message"),
+      cancelLabel: tr("button.cancel"),
       actions: availableProviders.map((e) {
         return SheetAction(
           icon: e.iconData,
@@ -84,7 +87,7 @@ class AccountDeletionViewModel extends BaseViewModel {
     String t2 = nameToType;
     bool validated = t1 == t2;
 
-    errorMessage = !validated ? "Please type \"$nameToType\"" : null;
+    errorMessage = !validated ? tr("step.delete_account.step2.message", namedArgs: {"NAME": nameToType}) : null;
     notifyListeners();
 
     return validated;

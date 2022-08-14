@@ -1,6 +1,7 @@
 library main_view;
 
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:quick_actions/quick_actions.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
@@ -93,7 +94,7 @@ class MainView extends StatelessWidget {
   String quickActionLabel(QuickActionsType type) {
     switch (type) {
       case QuickActionsType.create:
-        return "New Story";
+        return tr("quick_action.new_story");
     }
   }
 

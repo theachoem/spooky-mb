@@ -1,4 +1,5 @@
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -58,17 +59,17 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
       items: (BuildContext context) {
         return [
           SpPopMenuItem(
-            title: "Page",
+            title: tr("title.page.title"),
             subtitle: "${lastReportedPage + 1}",
             leadingIconData: Icons.pageview,
           ),
           SpPopMenuItem(
-            title: "Characters",
+            title: tr("title.characters.title"),
             subtitle: widget.quillControllerGetter(lastReportedPage)?.document.toPlainText().length.toString(),
             leadingIconData: Icons.text_snippet,
           ),
           SpPopMenuItem(
-            title: "Words",
+            title: tr("title.words.title"),
             subtitle:
                 widget.quillControllerGetter(lastReportedPage)?.document.toPlainText().split(" ").length.toString(),
             leadingIconData: Icons.text_format,

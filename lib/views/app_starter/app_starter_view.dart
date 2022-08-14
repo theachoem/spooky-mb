@@ -1,6 +1,8 @@
 library app_starter_view;
 
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
@@ -13,7 +15,6 @@ import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_color_picker.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_overlay_popup_button.dart';
-import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:flutter/material.dart';

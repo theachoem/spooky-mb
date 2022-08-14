@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
@@ -18,7 +19,7 @@ class StoryDateTile extends StatelessWidget {
         height: 44,
         child: Icon(Icons.date_range),
       ),
-      title: const Text("Date"),
+      title: Text(tr("tile.date.title")),
       subtitle: Text(DateFormatHelper.dateFormat().format(viewModel.currentStory.displayPathDate)),
       trailing: const Icon(Icons.edit),
       onTap: () async {

@@ -6,6 +6,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:dismissible_page/dismissible_page.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
@@ -19,8 +20,6 @@ import 'package:spooky/views/detail/local_widgets/quill_renderer/image_resize_bu
 import 'package:spooky/views/detail/local_widgets/quill_renderer/image_zoom_view.dart';
 import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_unsupported_embed.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
-import 'package:spooky/widgets/sp_icon_button.dart';
-import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class QuillImageRenderer extends StatelessWidget {
@@ -68,12 +67,13 @@ class QuillImageRenderer extends StatelessWidget {
       onTap: () {
         showOkAlertDialog(
           context: context,
-          title: "Image source",
+          title: tr("alert.image_source.title"),
           message: imageUrl,
+          okLabel: tr("button.ok"),
         );
       },
-      child: const QuillUnsupportedEmbed(
-        message: "Invalid image source",
+      child: QuillUnsupportedEmbed(
+        message: tr("msg.invalid_image_source"),
       ),
     );
   }
@@ -131,19 +131,19 @@ class QuillImageRenderer extends StatelessWidget {
   Future<void> onImageTap(BuildContext context, String imageUrl) async {
     List<SheetAction<String>> actions = [
       if (imageUrl.startsWith('http')) ...[
-        const SheetAction(
-          label: "View on web",
+        SheetAction(
+          label: tr("button.view_on_web"),
           key: "view-on-web",
           icon: CommunityMaterialIcons.web,
         ),
-        const SheetAction(
-          label: "Copy link",
+        SheetAction(
+          label: tr("button.copy_link"),
           key: "copy-link",
           icon: CommunityMaterialIcons.link,
         ),
       ],
-      const SheetAction(
-        label: "View",
+      SheetAction(
+        label: tr("button.view"),
         key: "view",
         icon: CommunityMaterialIcons.image,
       ),
@@ -156,14 +156,15 @@ class QuillImageRenderer extends StatelessWidget {
 
     String? result = await showModalActionSheet<String>(
       context: context,
-      title: "Image",
+      title: tr("alert.image.title"),
       actions: actions,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (result) {
       case "copy-link":
         await Clipboard.setData(ClipboardData(text: imageUrl));
-        MessengerService.instance.showSnackBar("Copied", showAction: false);
+        MessengerService.instance.showSnackBar(tr("msg.copied"), showAction: false);
         break;
       case "view-on-web":
         AppHelper.openLinkDialog(imageUrl);
@@ -179,36 +180,6 @@ class QuillImageRenderer extends StatelessWidget {
   Future<void> viewImage(BuildContext context, String imageUrl) async {
     context.pushTransparentRoute(
       ImageZoomView(imageUrl: imageUrl),
-    );
-  }
-
-  @Deprecated('not yet needed')
-  Widget buildMoreVertButton(String imageUrl) {
-    return Positioned(
-      top: ConfigConstant.margin2 + 4.0,
-      right: ConfigConstant.margin0,
-      child: SpPopupMenuButton(
-        items: (BuildContext context) {
-          return [
-            SpPopMenuItem(
-              leadingIconData: CommunityMaterialIcons.image,
-              title: "View",
-              onPressed: () {},
-            ),
-            SpPopMenuItem(
-              title: "Open in Google Drive",
-              onPressed: () {},
-              leadingIconData: CommunityMaterialIcons.google_drive,
-            ),
-          ];
-        },
-        builder: (callback) {
-          return SpIconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: callback,
-          );
-        },
-      ),
     );
   }
 }

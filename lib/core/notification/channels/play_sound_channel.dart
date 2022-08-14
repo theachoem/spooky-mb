@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
@@ -11,13 +12,13 @@ import 'package:spooky/providers/mini_sound_player_provider.dart';
 
 class PlaySoundChannel extends BaseNotificationChannel<PlaySoundPayload> {
   @override
-  String get channelName => "Play Sounds";
+  String get channelName => tr("notification_channel.play_sound.name");
 
   @override
   bool get enableVibration => false;
 
   @override
-  String get channelDescription => "Show sound player in notification";
+  String get channelDescription => tr("notification_channel.play_sound.description");
 
   @override
   NotificationChannelTypes get channelKey => NotificationChannelTypes.playSounds;
@@ -33,14 +34,14 @@ class PlaySoundChannel extends BaseNotificationChannel<PlaySoundPayload> {
     return [
       NotificationActionButton(
         key: "open",
-        label: "Open",
+        label: tr("button.open"),
         showInCompactView: true,
       ),
       // stop from background only available on IOS
       if (Platform.isIOS)
         NotificationActionButton(
           key: "stop",
-          label: "Stop",
+          label: tr("button.stop"),
           showInCompactView: true,
           actionType: ActionType.DisabledAction,
         ),

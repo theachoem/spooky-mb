@@ -14,6 +14,7 @@ class TileMaxLineProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  @Deprecated("No longer used")
   Future<void> setMaxLine(int? value) async {
     await storage.write(value);
     await load();

@@ -34,7 +34,7 @@ dependencies:
   flutter_cupertino_datetime_picker:
     git:
       url: git@github.com:juniorise/flutter_cupertino_datetime_picker.git
-      ref: 3.0.1
+      ref: 3.0.2
   flutter_facebook_auth: ^4.4.0+1
   facebook_app_events:
     git:
@@ -143,4 +143,5 @@ flutter:
     - assets/
     - google_fonts/
     - translations/
+    - assets/illustrations/
     - assets/sounds/sounds.json

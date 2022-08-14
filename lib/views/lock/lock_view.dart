@@ -1,5 +1,6 @@
 library lock_view;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';

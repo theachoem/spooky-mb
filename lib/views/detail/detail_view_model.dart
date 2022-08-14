@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/app.dart';
@@ -137,9 +138,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       AutoSaveChannel().show(
         id: createdAt.hashCode,
         groupKey: story.createdAt.hashCode.toString(),
-        title: "Saving draft...",
+        title: tr("msg.saving_draft"),
         body: null,
-        ticker: "Saving draft...",
+        ticker: tr("msg.saving_draft"),
         notificationLayout: Platform.isAndroid ? NotificationLayout.ProgressBar : null,
         payload: AutoSavePayload(story.id.toString()),
       );

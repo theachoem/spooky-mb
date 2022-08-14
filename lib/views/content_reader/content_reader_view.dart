@@ -1,5 +1,6 @@
 library content_reader_view;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';

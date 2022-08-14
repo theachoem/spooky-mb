@@ -1,5 +1,6 @@
 library sign_in_view;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_signin_button/button_list.dart';
@@ -115,13 +116,13 @@ abstract class BaseAuthView extends StatelessWidget {
 
     switch (type) {
       case AuthProviderType.google:
-        label = "Continue with Google";
+        label = tr("tile.connect_with.google");
         break;
       case AuthProviderType.apple:
-        label = "Continue with Apple";
+        label = tr("tile.connect_with.apple");
         break;
       case AuthProviderType.facebook:
-        label = "Continue with Facebook";
+        label = tr("tile.connect_with.facebook");
         break;
     }
 
@@ -140,17 +141,17 @@ abstract class BaseAuthView extends StatelessWidget {
   }) {
     return [
       Text(
-        "Try something...",
+        tr("msg.sign_up.try_somthing_"),
         style: M3TextTheme.of(context).headlineLarge?.copyWith(color: foregroundColor),
       ),
       Text(
-        "Different",
+        tr("msg.sign_up._different"),
         style:
             M3TextTheme.of(context).headlineLarge!.copyWith(fontWeight: FontWeight.bold, color: strongForegroundColor),
       ),
       ConfigConstant.sizedBoxH1,
       Text(
-        "Register to purchase or restore your add-ons.",
+        tr("msg.sign_up.subtitle"),
         style: M3TextTheme.of(context).bodyLarge?.copyWith(color: foregroundColor),
       ),
     ];

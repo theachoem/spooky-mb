@@ -39,24 +39,24 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
 
   SpSectionContents buildOtherSetting(BuildContext context) {
     return SpSectionContents(
-      headline: "Settings",
+      headline: tr("section.settings"),
       tiles: [
         ValueListenableBuilder<int>(
           valueListenable: widget.viewModel.lockLifeCircleDurationNotifier,
           builder: (context, seconds, child) {
             return Tooltip(
-              message: "Lock application when inactive for $seconds seconds",
+              message: tr("msg.lock_life_circle", args: [seconds.toString()]),
               child: ListTile(
                 leading: const SizedBox(height: 40, child: Icon(Icons.update_sharp)),
-                title: const Text("Lock life circle"),
-                subtitle: Text("$seconds seconds"),
+                title: Text(tr("tile.lock_life_circle.title")),
+                subtitle: Text(tr("tile.lock_life_circle.subtitle", args: [seconds.toString()])),
                 onTap: () async {
                   DateTime? date = await SpDatePicker.showSecondsPicker(context, seconds);
                   if (date == null) return;
                   if (date.second > 10) {
                     widget.viewModel.setLockLifeCircleDuration(date.second);
                   } else {
-                    MessengerService.instance.showSnackBar("10 seconds minimum");
+                    MessengerService.instance.showSnackBar(tr("msg.lock_life_circle_minimum"));
                     widget.viewModel.setLockLifeCircleDuration(10);
                   }
                 },
@@ -78,12 +78,8 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
                   color: shouldUpdate ? M3Color.of(context).background : M3Color.of(context).readOnly.surface1,
                   child: ListTile(
                     leading: const SizedBox(height: 40, child: Icon(CommunityMaterialIcons.lock_question)),
-                    title: const Text("Security questions"),
-                    subtitle: Text(
-                      questionCount > 1
-                          ? "$questionCount questions added"
-                          : "${questionCount == 0 ? "No" : questionCount} question added",
-                    ),
+                    title: Text(tr("tile.security_question.title")),
+                    subtitle: Text(plural("plural.question_added", questionCount)),
                     onTap: () {
                       openEndDrawer();
                     },
@@ -99,7 +95,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
 
   SpSectionContents buildLockMethods(LockType? lockedType, BuildContext context) {
     return SpSectionContents(
-      headline: "Lock Methods",
+      headline: tr("section.lock_method"),
       tiles: [
         // ListTile(
         //   leading: SizedBox(height: 40, child: Icon(Icons.password)),
@@ -117,16 +113,16 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
         ListTile(
           leading: const SizedBox(height: 40, child: Icon(Icons.pin)),
           trailing: Radio(value: LockType.pin, groupValue: lockedType, onChanged: (value) {}),
-          title: const Text("PIN code"),
-          subtitle: const Text("4 digit"),
+          title: Text(tr("tile.pin_code.title")),
+          subtitle: Text(tr("tile.pin_code.subtitle")),
           onTap: () => onPinCodePressed(context),
         ),
         if (widget.viewModel.service.lockInfo.hasLocalAuth)
           ListTile(
             leading: const SizedBox(height: 40, child: Icon(Icons.fingerprint)),
             trailing: Radio(value: LockType.biometric, groupValue: lockedType, onChanged: (value) {}),
-            title: const Text("Biometrics"),
-            subtitle: const Text("Unlock app base on biometric"),
+            title: Text(tr("tile.biometric.title")),
+            subtitle: Text(tr("tile.biometric.subtitle")),
             onTap: () => onBiometricsPressed(context),
           ),
       ],
@@ -183,6 +179,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
     String? value = await showModalActionSheet(
       context: context,
       actions: actions,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (value) {
@@ -202,9 +199,9 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
     return onPressed(
       type: LockType.pin,
       context: context,
-      hasLockTitle: "Update PIN code",
-      noLockTitle: "Add PIN code",
-      removeLockTitle: "Remove PIN code",
+      hasLockTitle: tr("security.pin_code.update"),
+      noLockTitle: tr("security.pin_code.add"),
+      removeLockTitle: tr("security.pin_code.remove"),
       onSetPressed: () async {
         await widget.viewModel.service.set(context: context, type: LockType.pin);
         await widget.viewModel.load();
@@ -220,9 +217,9 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
     return onPressed(
       type: LockType.biometric,
       context: context,
-      hasLockTitle: "Update Biometrics",
-      noLockTitle: "Add Biometrics",
-      removeLockTitle: "Remove Biometrics",
+      hasLockTitle: tr("security.biometrics.update"),
+      noLockTitle: tr("security.biometrics.add"),
+      removeLockTitle: tr("security.biometrics.remove"),
       onSetPressed: () async {
         await widget.viewModel.service.set(context: context, type: LockType.biometric);
         await widget.viewModel.load();
@@ -242,7 +239,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
           context: context,
           sections: [
             SpSectionContents(
-              headline: "Questions",
+              headline: tr("section.questions"),
               tiles: [
                 ConfigConstant.sizedBoxH2,
                 const Divider(height: 1),
@@ -264,7 +261,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
         horizontal: ConfigConstant.margin2,
         vertical: ConfigConstant.margin0,
       ),
-      title: const Text("Add your own question"),
+      title: Text(tr("tile.add_your_own_questions")),
       onTap: () async {
         if (endDrawerScaffoldKey.currentState?.isEndDrawerOpen == true) {
           endDrawerScaffoldKey.currentState?.closeEndDrawer();
@@ -272,24 +269,25 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
 
         List<String>? qa = await showTextInputDialog(
           context: context,
-          title: "New Question & Answer",
-          okLabel: "Save",
+          title: tr("alert.new_question_answer.title"),
+          okLabel: tr("button.save"),
           barrierDismissible: false,
+          cancelLabel: tr("button.cancel"),
           textFields: [
             DialogTextField(
-              hintText: "Question",
+              hintText: tr("field.question.hint_text"),
               validator: (value) {
                 if ((value?.trim() ?? "").isEmpty) {
-                  return "Must not empty";
+                  return tr("field.question.validation");
                 }
                 return null;
               },
             ),
             DialogTextField(
-              hintText: "Answer",
+              hintText: tr("field.answer.hint_text"),
               validator: (value) {
                 if ((value?.trim() ?? "").isEmpty) {
-                  return "Must not empty";
+                  return tr("field.answer.validation");
                 }
                 return null;
               },
@@ -321,7 +319,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
                   trailing: const SizedBox(height: 44, child: Icon(Icons.question_answer)),
                   contentPadding: const EdgeInsets.all(ConfigConstant.margin2),
                   title: Text(e.question),
-                  subtitle: Text(e.answer != null ? "*" * e.answer!.length : "No answer provided"),
+                  subtitle: Text(e.answer != null ? "*" * e.answer!.length : tr("msg.no_answer_provided")),
                   onTap: () async {
                     if (endDrawerScaffoldKey.currentState?.isEndDrawerOpen == true) {
                       endDrawerScaffoldKey.currentState?.closeEndDrawer();
@@ -330,12 +328,13 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
                     String? answer = await showTextInputDialog(
                       context: context,
                       title: e.question,
-                      okLabel: "Save",
+                      okLabel: tr("button.save"),
                       barrierDismissible: false,
+                      cancelLabel: tr("button.cancel"),
                       textFields: [
                         DialogTextField(
                           initialText: e.answer,
-                          hintText: "No answer provided",
+                          hintText: tr("msg.no_answer_provided"),
                         ),
                       ],
                     ).then((value) {

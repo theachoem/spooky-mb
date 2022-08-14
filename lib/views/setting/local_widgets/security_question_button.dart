@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/security/helpers/security_question_list_model.dart';
@@ -51,8 +52,9 @@ class _SecurityQuestionButtonState extends State<SecurityQuestionButton> {
       onPressed: () async {
         showOkAlertDialog(
           context: context,
-          title: "Action required",
-          message: "Set security questions to recover when no access to unlock",
+          title: tr("alert.action_required.title"),
+          message: tr("alert.action_required.set_security_question"),
+          okLabel: tr("button.ok"),
         ).then((value) {
           if (value == OkCancelResult.ok) {
             navigate(context);

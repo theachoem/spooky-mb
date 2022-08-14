@@ -23,7 +23,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
       digits: 4,
       context: option.context,
       correctString: '',
-      title: const Text('Please enter new passcode'),
+      title: Text(tr("alert.security.enter_new_password.title")),
       confirmation: true,
       didConfirmed: (matchedSecret) {
         Navigator.of(option.context).pop(matchedSecret);

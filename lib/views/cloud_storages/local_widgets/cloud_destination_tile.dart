@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_animations/simple_animations.dart';
 import 'package:spooky/core/backups/backups_service.dart';
@@ -63,19 +64,24 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
 
         if (isSignedIn) {
           if (lastBackup != null) {
-            title = username ?? name ?? "Unknown";
-            subtitle = "Last synced - ${DateFormatHelper.dateTimeFormat().format(lastBackup)}";
+            title = username ?? name ?? tr("msg.unknown");
+            subtitle = tr(
+              "msg.last_synced",
+              namedArgs: {
+                'DATE': DateFormatHelper.dateTimeFormat().format(lastBackup),
+              },
+            );
           } else {
-            title = name ?? "Unknown";
-            subtitle = username ?? "Logged in";
+            title = name ?? tr("msg.unknown");
+            subtitle = username ?? tr("msg.logged_in");
           }
         } else {
           title = cloudName;
-          subtitle = "Login to sync data";
+          subtitle = tr("msg.login_to_sync_data");
         }
 
         if (!released) {
-          subtitle = "Coming soon";
+          subtitle = tr("msg.coming_soon");
         }
 
         return Container(
@@ -148,7 +154,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
       children: [
         if (!isSignedIn)
           SpButton(
-            label: "Login",
+            label: tr("button.login"),
             onTap: () {
               provider.signIn();
             },
@@ -158,7 +164,7 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
           if (lastBackup != null && cloudFileId != null) ConfigConstant.sizedBoxW1,
           if (lastBackup != null && cloudFileId != null)
             SpButton(
-              label: "View",
+              label: tr("button.view"),
               backgroundColor: M3Color.of(context).secondary,
               foregroundColor: M3Color.of(context).onSecondary,
               onTap: () async {
@@ -228,22 +234,23 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
     return [
       if (widget.destination.canLaunchSource())
         SpPopMenuItem(
-          title: "Photos",
+          title: tr("button.photo"),
           leadingIconData: CommunityMaterialIcons.folder_google_drive,
           onPressed: () async {
             widget.destination.viewSource(context);
           },
         ),
       SpPopMenuItem(
-        title: "Logout",
+        title: tr("button.logout"),
         leadingIconData: Icons.logout,
         titleStyle: TextStyle(color: M3Color.of(context).error),
         onPressed: () async {
           OkCancelResult result = await showOkCancelAlertDialog(
             context: context,
-            title: "Are you sure?",
-            message: "You can log back anytime.",
+            title: tr("alert.logout.title"),
+            message: tr("alert.logout.message"),
             isDestructiveAction: true,
+            cancelLabel: tr("button.cancel"),
           );
           switch (result) {
             case OkCancelResult.ok:
@@ -272,11 +279,11 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
         Color? foregroundColor;
 
         if (synced) {
-          label = "Synced";
+          label = tr("msg.synced");
           backgroundColor = M3Color.of(context).readOnly.surface5;
           foregroundColor = M3Color.of(context).onSurface;
         } else {
-          label = "Backup now";
+          label = tr("button.backup_now");
           backgroundColor = null;
           foregroundColor = null;
         }
@@ -304,8 +311,9 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
     if (!widget.hasStory) {
       showOkAlertDialog(
         context: context,
-        title: "No stories found in device",
-        message: "Required at least one story!",
+        title: tr("alert.no_story_found.title"),
+        message: tr("alert.no_story_found.message"),
+        okLabel: tr("button.ok"),
       );
     } else {
       backup(widget.destination, provider);

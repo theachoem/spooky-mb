@@ -15,7 +15,7 @@ class _LockMobile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text("Enter your password"),
+          Text(tr("msg.enter_password")),
           TextFormField(
             keyboardType: TextInputType.number,
             textInputAction: TextInputAction.continueAction,
@@ -33,7 +33,7 @@ class _LockMobile extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: SpSingleButtonBottomNavigation(
-        buttonLabel: "Done",
+        buttonLabel: tr("button.done"),
         onTap: () {},
       ),
     );

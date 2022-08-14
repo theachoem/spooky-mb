@@ -104,9 +104,9 @@ class AppHelper {
 
       OkCancelResult result = await showOkAlertDialog(
         context: context,
-        title: "Link",
+        title: tr("alert.link.title"),
         message: url,
-        okLabel: "Open",
+        okLabel: tr("button.open"),
       );
 
       if (result == OkCancelResult.ok) {
@@ -166,6 +166,6 @@ class AppHelper {
       id = info.machineId;
     }
 
-    return [device ?? "Unknown", id ?? "unknown_id"];
+    return [device ?? tr("msg.unknown"), id ?? "unknown_id"];
   }
 }

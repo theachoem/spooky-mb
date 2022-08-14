@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
@@ -62,6 +63,9 @@ class SpStoryTileUtils {
       dn.showPicker(
         context: context,
         value: TimeOfDay.fromDateTime(story.displayPathDate),
+        cancelText: MaterialLocalizations.of(context).cancelButtonLabel,
+        okText: MaterialLocalizations.of(context).okButtonLabel,
+        // iosStylePicker: ThemeConfig.isApple(Theme.of(context).platform),
         okStyle: TextStyle(fontFamily: M3TextTheme.of(context).labelLarge?.fontFamily),
         cancelStyle: TextStyle(fontFamily: M3TextTheme.of(context).labelLarge?.fontFamily),
         buttonStyle: ThemeConfig.isApple(Theme.of(context).platform)
@@ -86,22 +90,23 @@ class SpStoryTileUtils {
   Future<bool> archiveStory() async {
     String title, message, label;
 
-    title = "Are you sure to archive?";
-    message = "You can unarchive later.";
-    label = "Archive";
+    title = tr("alert.are_you_sure_to_archive.title");
+    message = tr("alert.are_you_sure_to_archive.message");
+    label = tr("button.archive");
 
     OkCancelResult result = await showOkCancelAlertDialog(
       context: context,
       title: title,
       message: message,
       okLabel: label,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (result) {
       case OkCancelResult.ok:
         await database.archiveDocument(story);
         bool success = database.error == null;
-        String message = success ? "Successfully!" : "Unsuccessfully!";
+        String message = success ? tr("msg.archive.success") : tr("msg.archive.fail");
         MessengerService.instance.showSnackBar(message, success: success);
         return success;
       case OkCancelResult.cancel:
@@ -113,22 +118,23 @@ class SpStoryTileUtils {
     String? date = DateFormatHelper.yM().format(story.displayPathDate);
     String title, message, label;
 
-    title = "Are you sure put back?";
-    message = "Document will be move to:\n$date";
-    label = "Put back";
+    title = tr("alert.are_you_sure_to_put_back.title");
+    message = "${tr("alert.are_you_sure_to_put_back.message_")}\n$date";
+    label = tr("button.put_back");
 
     OkCancelResult result = await showOkCancelAlertDialog(
       context: context,
       title: title,
       message: message,
       okLabel: label,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (result) {
       case OkCancelResult.ok:
         await database.putBackToDocs(story);
         bool success = database.error == null;
-        String message = success ? "Successfully!" : "Unsuccessfully!";
+        String message = success ? tr("msg.put_back.success") : tr("msg.put_back.fail");
         MessengerService.instance.showSnackBar(message, success: success);
         return success;
       case OkCancelResult.cancel:
@@ -144,17 +150,18 @@ class SpStoryTileUtils {
       case PathType.archives:
         result = await showOkCancelAlertDialog(
           context: context,
-          title: "Move to Bin",
-          message: "You story will be deleted in ${AppConstant.deleteInDuration.inDays} days.",
-          okLabel: "Move to Bin",
+          title: tr("msg.move_to_bin.title"),
+          message: tr("msg.move_to_bin.message", args: [AppConstant.deleteInDuration.inDays.toString()]),
+          okLabel: tr("button.move_to_bin"),
           isDestructiveAction: true,
+          cancelLabel: tr("button.cancel"),
         );
 
         switch (result) {
           case OkCancelResult.ok:
             await database.moveToTrash(story);
             bool success = database.error == null;
-            String message = success ? "Moved to bin" : "Move unsuccessfully!";
+            String message = success ? tr("msg.move_to_bin.success") : tr("msg.move_to_bin.fail");
             MessengerService.instance.showSnackBar(message, success: success);
             return success;
           case OkCancelResult.cancel:
@@ -163,20 +170,21 @@ class SpStoryTileUtils {
       case PathType.bins:
         result = await showOkCancelAlertDialog(
           context: context,
-          title: "Are you sure to delete?",
-          message: "You can't undo this action",
-          okLabel: "Delete Forever",
+          title: tr("alert.are_you_sure_to_delete.title"),
+          message: tr("alert.are_you_sure_to_delete.message"),
+          okLabel: tr("button.perminent_delete"),
           isDestructiveAction: true,
+          cancelLabel: tr("button.cancel"),
         );
         switch (result) {
           case OkCancelResult.ok:
             await database.deleteDocument(story);
             bool success = database.error == null;
-            String message = success ? "Delete successfully!" : "Delete unsuccessfully!";
+            String message = success ? tr("msg.perminent_delete.success") : tr("msg.perminent_delete.fail");
             MessengerService.instance.showSnackBar(message, success: success, action: (foreground) {
               return SnackBarAction(
                 // ignore: use_build_context_synchronously
-                label: "Undo",
+                label: tr("button.undo"),
                 textColor: foreground,
                 onPressed: () async {
                   await database.create(body: story);

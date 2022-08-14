@@ -2,6 +2,7 @@
 
 import 'dart:io';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
@@ -85,7 +86,10 @@ class StoryTileChips extends StatelessWidget {
     final fileImages = fetchFileImages();
 
     List<Widget> level3Widgets = [
-      if ((content.pages?.length ?? 0) > 1) SpChip(labelText: "${content.pages?.length} Pages"),
+      if ((content.pages?.length ?? 0) > 1)
+        SpChip(
+          labelText: plural("plural.pages", content.pages?.length ?? 0),
+        ),
       if (showDate)
         SpChip(
           avatar: const Icon(CommunityMaterialIcons.clock, size: ConfigConstant.iconSize1),
@@ -162,7 +166,7 @@ class StoryTileChips extends StatelessWidget {
     }
 
     return SpChip(
-      labelText: images.length > 1 ? "${images.length} Images" : "${images.length} Image",
+      labelText: plural("plural.images", images.length),
       avatar: imageProvider != null ? CircleAvatar(backgroundImage: imageProvider) : null,
     );
   }

@@ -61,7 +61,7 @@ class _AppStarterAdaptive extends StatelessWidget {
 
   Widget buildSignUpButton(BuildContext context) {
     return SpButton(
-      label: "Sign up & Accept",
+      label: tr("button.accept"),
       backgroundColor: M3Color.of(context).primary,
       foregroundColor: M3Color.of(context).onPrimary,
       onTap: () {
@@ -71,27 +71,16 @@ class _AppStarterAdaptive extends StatelessWidget {
   }
 
   Widget buildPolicyAlert(BuildContext context) {
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        style: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onBackground),
-        children: [
-          const TextSpan(text: "By tapping on “Sign up & Accept”, you agree to the "),
-          WidgetSpan(
-            child: SpTapEffect(
-              onTap: () {
-                AppHelper.openLinkDialog(AppConstant.privacyPolicy);
-              },
-              child: Text(
-                "Privacy Policy",
-                style: M3TextTheme.of(context)
-                    .bodyMedium
-                    ?.copyWith(color: M3Color.of(context).onBackground, decoration: TextDecoration.underline),
-              ),
-            ),
-          ),
-        ],
+    return MarkdownBody(
+      styleSheet: MarkdownStyleSheet(
+        textAlign: WrapAlignment.center,
+        p: M3TextTheme.of(context).bodyMedium?.copyWith(color: M3Color.of(context).onBackground),
+        a: M3TextTheme.of(context)
+            .bodyMedium
+            ?.copyWith(color: M3Color.of(context).onBackground, decoration: TextDecoration.underline),
       ),
+      onTapLink: (_, __, ___) => AppHelper.openLinkDialog(AppConstant.privacyPolicy),
+      data: tr("page.app_starter.policy_alert"),
     );
   }
 
@@ -172,7 +161,7 @@ class _StartContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              'Spooky',
+              tr("app.name"),
               style: M3TextTheme.of(context).headlineLarge?.copyWith(color: foregroundColor),
               textAlign: TextAlign.center,
             ),
@@ -182,8 +171,8 @@ class _StartContent extends StatelessWidget {
               text: TextSpan(
                 style: M3TextTheme.of(context).bodyMedium?.copyWith(color: foregroundColor),
                 children: [
-                  const TextSpan(
-                    text: "Express yourself freely and safely",
+                  TextSpan(
+                    text: tr("app.description"),
                   ),
                   WidgetSpan(
                     child: Padding(

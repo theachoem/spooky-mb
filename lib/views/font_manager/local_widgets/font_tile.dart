@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -25,8 +26,8 @@ class FontTile extends StatelessWidget {
       items: (BuildContext context) {
         return [
           SpPopMenuItem(
-            title: "Use this font",
-            subtitle: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            title: tr("tile.use_this_fonts.title"),
+            subtitle: tr("msg.lorem"),
             subtitleStyle: GoogleFonts.getFont(fontFamily),
             trailingIconData: Icons.keyboard_arrow_right,
             onPressed: () {

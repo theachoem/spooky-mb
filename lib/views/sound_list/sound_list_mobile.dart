@@ -31,7 +31,7 @@ class _SoundListMobile extends StatelessWidget {
         const NotificationPermissionButton(),
         Consumer<MiniSoundPlayerProvider>(
           child: SpIconButton(
-            tooltip: "Stop",
+            tooltip: tr("button.stop"),
             icon: Icon(Icons.stop_circle_outlined, color: M3Color.of(context).error),
             onPressed: () {
               context.read<MiniSoundPlayerProvider>().onDismissed();
@@ -48,7 +48,7 @@ class _SoundListMobile extends StatelessWidget {
         if (ModalRoute.of(context)?.canPop == true)
           Consumer<MiniSoundPlayerProvider>(
             child: SpIconButton(
-              tooltip: "Listen with mini player",
+              tooltip: tr("button.listen_with_mini_player"),
               icon: Icon(Icons.branding_watermark, color: M3Color.of(context).primary),
               onPressed: () {
                 Navigator.of(context).popUntil((route) => route.isFirst);
@@ -67,7 +67,7 @@ class _SoundListMobile extends StatelessWidget {
           bool hasSoundInNavBar = provider.tabs?.contains(SpRouter.soundList) == true;
           return [
             SpPopMenuItem(
-              title: "Play in Background",
+              title: tr("tile.play_in_background.title"),
               leadingIconData: viewModel.playSoundInBackground ? Icons.check_box : Icons.check_box_outline_blank,
               onPressed: () async {
                 // future value
@@ -83,7 +83,7 @@ class _SoundListMobile extends StatelessWidget {
               },
             ),
             SpPopMenuItem(
-              title: "Display on navigation bar",
+              title: tr("tile.display_on_navigation_bar"),
               leadingIconData: hasSoundInNavBar ? Icons.check_box : Icons.check_box_outline_blank,
               trailingIconData: Icons.arrow_right,
               onPressed: () {
@@ -108,7 +108,13 @@ class _SoundListMobile extends StatelessWidget {
   ) {
     List<SoundModel>? sounds = viewModel.soundsMap[type];
     return SliverStickyHeader(
-      header: SpFadeIn(child: _SoundTypeHeader(context: context, text: type.name.capitalize, type: type)),
+      header: SpFadeIn(
+        child: _SoundTypeHeader(
+          context: context,
+          text: TypeLocalization.soundType(type),
+          type: type,
+        ),
+      ),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
@@ -167,9 +173,9 @@ class _SoundListMobile extends StatelessWidget {
 
   void alertRequiredPurchase(BuildContext context) {
     MessengerService.instance.showSnackBar(
-      "Purchase to download more",
+      tr("alert.purchase_to_download_more.title"),
       action: (color) => SnackBarAction(
-        label: "Add-ons",
+        label: tr("button.add_ons"),
         textColor: color,
         onPressed: () {
           Navigator.of(context).pushNamed(SpRouter.addOn.path);

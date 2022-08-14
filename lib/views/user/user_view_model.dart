@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/base_view_model.dart';
@@ -33,10 +34,13 @@ class UserViewModel extends BaseViewModel {
   Future<void> connect(AuthProviderDatas providerInfo, BuildContext context) async {
     final result = await providerInfo.authApi.connect();
     if (result != null) {
-      MessengerService.instance.showSnackBar("Connect successfully", success: true);
+      MessengerService.instance.showSnackBar(tr("msg.connect.success"), success: true);
       onConnect(result);
     } else {
-      MessengerService.instance.showSnackBar(providerInfo.authApi.errorMessage ?? "Connect fail", success: false);
+      MessengerService.instance.showSnackBar(
+        providerInfo.authApi.errorMessage ?? tr("msg.connect.fail"),
+        success: false,
+      );
     }
   }
 

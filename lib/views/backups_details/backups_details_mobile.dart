@@ -16,7 +16,7 @@ class _BackupsDetailsMobile extends StatelessWidget {
       ),
       bottomNavigationBar: SpSingleButtonBottomNavigation(
         show: viewModel.backup != null,
-        buttonLabel: "Restore",
+        buttonLabel: tr("button.restore"),
         onTap: () {
           if (viewModel.backup == null) return;
           viewModel.destination.restore(
@@ -55,14 +55,14 @@ class _BackupsDetailsMobile extends StatelessWidget {
       items: (context) {
         return [
           SpPopMenuItem(
-            title: "Select version",
+            title: tr("button.select_version"),
             trailingIconData: Icons.keyboard_arrow_right,
             onPressed: () {
               selectVersion(context);
             },
           ),
           SpPopMenuItem(
-            title: "Manage versions",
+            title: tr("button.manage_versions"),
             trailingIconData: Icons.keyboard_arrow_right,
             onPressed: () async {
               await Navigator.of(context).pushNamed(
@@ -89,8 +89,9 @@ class _BackupsDetailsMobile extends StatelessWidget {
 
     String? cloudId = await showConfirmationDialog(
       context: context,
-      title: "Select a version",
+      title: tr("button.select_version"),
       initialSelectedActionKey: viewModel.selectCloudFileId,
+      cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
       actions: result.map((e) {
         String cloudFileId = e.cloudFile.id;
         return AlertDialogAction(
@@ -164,11 +165,11 @@ class _BackupsDetailsMobile extends StatelessWidget {
       subtitle: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("$rowsCount documents"),
+          Text(plural("plural.documents", rowsCount)),
           if (review != null) ConfigConstant.sizedBoxH1,
           if (review != null)
             SpButton(
-              label: "Review",
+              label: tr("button.review"),
               onTap: review,
               backgroundColor: M3Color.of(context).secondary,
               foregroundColor: M3Color.of(context).onSecondary,

@@ -9,8 +9,7 @@ class MainTabBarItem {
   final bool optinal;
 
   String get label {
-    if (router == SpRouter.cloudStorages) return "Cloud";
-    return router.title;
+    return router.datas.shortTitle ?? router.datas.title;
   }
 
   MainTabBarItem({
@@ -26,8 +25,8 @@ class MainTabBar {
   Map<SpRouter, MainTabBarItem> availableTabs = {};
   MainTabBar() {
     for (SpRouter route in SpRouter.values) {
-      if (route.tab != null) {
-        availableTabs[route] = route.tab!;
+      if (route.datas.tab != null) {
+        availableTabs[route] = route.datas.tab!;
       }
     }
   }

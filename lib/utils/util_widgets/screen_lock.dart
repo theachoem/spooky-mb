@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screen_lock/flutter_screen_lock.dart';
 import 'package:spooky/core/routes/page_routes/screen_lock_route.dart';
@@ -44,6 +45,9 @@ Future<T?> enhancedScreenLock<T>({
   KeyPadConfig keyPadConfig = ScreenLockHelper.keyPadConfig(textTheme, context, colorScheme);
   SecretsConfig secretsConfig = ScreenLockHelper.secretsConfig(colorScheme);
   ScreenLockConfig screenLockConfig = ScreenLockHelper.screenLockConfig(colorScheme, context, textTheme);
+
+  title ??= Text(tr("alert.security.enter_passcode"));
+  confirmTitle ??= Text(tr("alert.security.enter_confirm_passcode"));
 
   return Navigator.push<T>(
     context,

@@ -1,16 +1,17 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
 class SpThemeSwitcher extends StatefulWidget {
@@ -35,17 +36,18 @@ class SpThemeSwitcher extends StatefulWidget {
     final actions = themeModeActions;
 
     if (ModalRoute.of(context)?.settings.name != SpRouter.themeSetting.path) {
-      actions.add(const AlertDialogAction(
+      actions.add(AlertDialogAction(
         key: "setting",
-        label: "Go to Setting",
+        label: tr("button.go_to_setting"),
         isDefaultAction: true,
       ));
     }
 
     await showConfirmationDialog(
       context: context,
-      title: "Theme",
+      title: tr("alert.theme.title"),
       initialSelectedActionKey: context.read<ThemeProvider>().themeMode.name,
+      cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
       actions: actions,
     ).then((result) {
       if (result != null) {
@@ -72,7 +74,7 @@ class SpThemeSwitcher extends StatefulWidget {
     return ThemeMode.values.map((e) {
       return AlertDialogAction(
         key: e.name,
-        label: e.name.capitalize,
+        label: TypeLocalization.themeMode(e),
       );
     }).toList();
   }

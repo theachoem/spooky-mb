@@ -47,7 +47,7 @@ class SpExpandedAppBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  fallbackRouter?.title ?? "",
+                  fallbackRouter?.datas.title ?? "",
                   style: Theme.of(context).appBarTheme.titleTextStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -57,7 +57,7 @@ class SpExpandedAppBar extends StatelessWidget {
                   text: TextSpan(
                     style: Theme.of(context).textTheme.bodyMedium,
                     children: [
-                      TextSpan(text: fallbackRouter?.subtitle ?? ""),
+                      TextSpan(text: fallbackRouter?.datas.subtitle ?? ""),
                       if (subtitleIcon != null)
                         WidgetSpan(
                           child: Padding(

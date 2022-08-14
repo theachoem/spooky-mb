@@ -14,7 +14,7 @@ class _AccountDeletionMobile extends StatelessWidget {
       ),
       body: Consumer<NicknameProvider>(
         builder: (context, provider, child) {
-          String nameToType = name ?? provider.name ?? "Delete account";
+          String nameToType = name ?? provider.name ?? tr("msg.account_deletion");
           nameToType = nameToType.trim();
           return ListView(
             children: [
@@ -41,13 +41,13 @@ class _AccountDeletionMobile extends StatelessWidget {
 
   SpStep buildStep3(String nameToType, BuildContext context) {
     return SpStep(
-      title: "Confirmation",
+      title: tr("step.delete_account.step3.title"),
       subtitle: null,
       content: const SizedBox.shrink(),
       foregroundColor: (state) => M3Color.of(context).onError,
       backgroundColor: (state) => M3Color.of(context).error,
       buttonLabel: (state) {
-        return "Perminently delete";
+        return tr("button.perminently_delete");
       },
       onPressed: (state) async {
         await viewModel.deleteAccount(context, nameToType);
@@ -59,7 +59,7 @@ class _AccountDeletionMobile extends StatelessWidget {
   SpStep buildStep2(BuildContext context, String nameToType) {
     TextStyle? style = M3TextTheme.of(context).bodyMedium;
     return SpStep(
-      title: "Verify deletion",
+      title: tr("step.delete_account.step2.title"),
       subtitle: null,
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +71,10 @@ class _AccountDeletionMobile extends StatelessWidget {
               strong: style?.copyWith(fontWeight: FontWeight.bold),
             ),
             selectable: true,
-            data: "Please type \"**$nameToType**\" to verify.",
+            data: tr(
+              "step.delete_account.step2.message",
+              namedArgs: {"NAME": nameToType},
+            ),
           ),
           ConfigConstant.sizedBoxH2,
           buildVerifyTextField(nameToType),
@@ -81,13 +84,13 @@ class _AccountDeletionMobile extends StatelessWidget {
         switch (state) {
           case StepState.disabled:
           case StepState.error:
-            return "Retry";
+            return tr("button.retry");
           case StepState.complete:
           case StepState.indexed:
           case StepState.editing:
             break;
         }
-        return "Verify";
+        return tr("button.verify");
       },
       onPressed: (state) async {
         bool validated = viewModel.validate(nameToType);
@@ -102,13 +105,11 @@ class _AccountDeletionMobile extends StatelessWidget {
 
   SpStep buildStep1() {
     return SpStep(
-      title: "Agree with condition",
+      title: tr("step.delete_account.step1.title"),
       subtitle: null,
-      content: const Text(
-        "Deleting this account will permanently delete your purchased add-ons that are associated.",
-      ),
+      content: Text(tr("step.delete_account.step1.message")),
       buttonLabel: (state) {
-        return "Agree";
+        return tr("button.agree");
       },
       onPressed: (state) async {
         return state;
@@ -123,7 +124,7 @@ class _AccountDeletionMobile extends StatelessWidget {
         viewModel.cacheLabel = text;
       },
       decoration: InputDecoration(
-        hintText: "Verify label...",
+        hintText: tr("field.verify_name.hint_text"),
         errorText: viewModel.errorMessage,
         border: const OutlineInputBorder(),
       ),

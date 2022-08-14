@@ -1,4 +1,5 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/notification/notification_service.dart';
 
@@ -20,9 +21,9 @@ class NotificationProvider extends ChangeNotifier {
   Future<void> requestPermission(BuildContext context) async {
     OkCancelResult value = await showOkAlertDialog(
       context: context,
-      title: "Notification permission",
-      message: "Required to alert you about such as auto save, background sound etc.",
-      okLabel: "Enable notification",
+      title: tr("alert.notification_permission.title"),
+      message: tr("alert.notification_permission.message"),
+      okLabel: tr("button.enable_notification"),
     );
 
     if (value == OkCancelResult.ok) {

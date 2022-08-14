@@ -29,7 +29,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldTog
 
   Widget buildSearch(BuildContext context) {
     return SpIconButton(
-      tooltip: "Search fonts",
+      tooltip: tr("button.search_fonts"),
       icon: const Icon(Icons.search),
       onPressed: () {
         showSearch(
@@ -68,10 +68,10 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldTog
   SpSectionContents buildInfoSection(String provider, BuildContext context) {
     ThemeProvider notifier = Provider.of<ThemeProvider>(context, listen: false);
     return SpSectionContents(
-      headline: "Info",
+      headline: tr("section.info"),
       tiles: [
         ListTile(
-          title: const Text("Selected Font"),
+          title: Text(tr("tile.selected_font.title")),
           subtitle: Text(notifier.fontFamily),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
@@ -86,15 +86,17 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldTog
           },
         ),
         ListTile(
-          title: const Text("Total"),
-          subtitle: Text("${widget.viewModel.allFonts.length} fonts"),
+          title: Text(tr("tile.font_total.title")),
+          subtitle: Text(
+            tr("tile.font_total.subtitle", args: ["${widget.viewModel.allFonts.length}"]),
+          ),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
             openWeb(provider);
           },
         ),
         ListTile(
-          title: const Text("Provider"),
+          title: Text(tr("tile.provider.title")),
           subtitle: const Text("font.google.com"),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () async {
@@ -108,10 +110,10 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldTog
   SpSectionContents buildSettingSection(BuildContext context) {
     ThemeProvider notifier = Provider.of<ThemeProvider>(context, listen: false);
     return SpSectionContents(
-      headline: "Setting",
+      headline: tr("section.setting"),
       tiles: [
         ListTile(
-          title: const Text("Font Weight"),
+          title: Text(tr("tile.font_weight.title")),
           trailing: const Icon(Icons.keyboard_arrow_right),
           subtitle: Text(widget.viewModel.trimFontWeight(notifier.fontWeight)),
           onTap: () async {
@@ -123,8 +125,9 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldTog
 
             await showConfirmationDialog(
               context: context,
-              title: "Font Weight",
+              title: tr("tile.font_weight.title"),
               initialSelectedActionKey: notifier.fontWeight,
+              cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
               actions: weights.map((e) {
                 return AlertDialogAction(
                   key: e,
@@ -140,7 +143,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldTog
           },
         ),
         ListTile(
-          title: const Text("Restore Default Style"),
+          title: Text(tr("tile.restore_default_font.title")),
           trailing: const Icon(Icons.keyboard_arrow_right),
           onTap: () {
             context.read<ThemeProvider>().resetFontStyle();

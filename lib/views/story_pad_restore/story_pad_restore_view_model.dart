@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:html_character_entities/html_character_entities.dart';
 import 'package:spooky/core/base/base_view_model.dart';
@@ -50,7 +51,7 @@ class StoryPadRestoreViewModel extends BaseViewModel {
       StoryDbModel story = element.copyWith(id: element.createdAt.millisecondsSinceEpoch);
       await StoryDatabase.instance.set(body: story);
     }
-    MessengerService.instance.showSnackBar("Restored");
+    MessengerService.instance.showSnackBar(tr("msg.restore.success"));
   }
 }
 

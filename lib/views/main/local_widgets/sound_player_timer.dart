@@ -42,10 +42,10 @@ class _SoundPlayerTimerState extends State<SoundPlayerTimer> {
         }
 
         MessengerService.instance.showSnackBar(
-          "Sound paused as schedule",
+          tr("alert.sound_pause_scheduled.title"),
           action: (color) {
             return SnackBarAction(
-              label: "Play",
+              label: tr("button.play"),
               textColor: color,
               onPressed: () {
                 context.read<MiniSoundPlayerProvider>().togglePlayPause();
@@ -138,10 +138,10 @@ class _SoundPlayerTimerState extends State<SoundPlayerTimer> {
       widgetBuilder: (context, countdown) {
         return Text(
           countdown?.sec == null
-              ? "Break time: $minute mn"
+              ? tr("msg.break_time.mn", args: [minute.toString()])
               : [
-                  if (countdown?.min != null) "${countdown?.min} mn",
-                  "${countdown?.sec} s",
+                  if (countdown?.min != null) tr("time.mn", args: [countdown?.min.toString() ?? ""]),
+                  tr("time.sec", args: [countdown?.sec.toString() ?? ""])
                 ].join(" "),
           style: M3TextTheme.of(context).overline?.copyWith(color: M3Color.of(context).secondary),
         );

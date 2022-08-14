@@ -1,5 +1,6 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:day_night_time_picker/day_night_time_picker.dart' as dn;
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -47,7 +48,7 @@ class _StoryTimeTileState extends State<StoryTimeTile> {
         height: 44,
         child: Icon(CommunityMaterialIcons.clock),
       ),
-      title: const Text("Time"),
+      title: Text(tr("title.time.title")),
       subtitle: Text(DateFormatHelper.timeFormat().format(currentStory.displayPathDate)),
       trailing: const Icon(Icons.edit),
       onTap: () async {

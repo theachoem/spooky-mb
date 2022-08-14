@@ -13,7 +13,7 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
         child: SpButton(
           backgroundColor: M3Color.of(context).readOnly.surface1,
           foregroundColor: M3Color.of(context).onSurface,
-          label: "No longer access?",
+          label: tr("button.no_longer_access"),
           onTap: () => clearLockWithSecurityQuestions(context),
         ),
       ),
@@ -27,7 +27,7 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
 
     if (items.isEmpty) {
       MessengerService.instance.showSnackBar(
-        "No security question!",
+        tr("msg.no_security_questions"),
         success: false,
       );
       return;
@@ -35,7 +35,8 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
 
     String? questionKey = await showModalActionSheet(
       context: context,
-      title: "Answer one of these questions to unlock",
+      title: tr("alert.answer_to_unlock.title"),
+      cancelLabel: tr("button.cancel"),
       actions: items.map((e) {
         return SheetAction(
           label: e.question,
@@ -50,6 +51,8 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
     List<String>? answers = await showTextInputDialog(
       context: context,
       title: question.question,
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
       textFields: const [
         DialogTextField(),
       ],
@@ -62,14 +65,14 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
     if (similarity > 0.8) {
       SecurityService._lockInfo.clear();
       MessengerService.instance.showSnackBar(
-        "Matched ${(similarity * 100).toStringAsFixed(2)}%. Lock cleared!",
+        tr("msg.security.match_cleared", args: [(similarity * 100).toStringAsFixed(2)]),
         success: true,
       );
       // ignore: use_build_context_synchronously
       Navigator.of(context).pop(true);
     } else {
       MessengerService.instance.showSnackBar(
-        "Incorrect answer",
+        tr("msg.security.incorrect_answer"),
         success: false,
       );
     }

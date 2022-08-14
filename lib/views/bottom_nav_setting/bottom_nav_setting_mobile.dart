@@ -13,7 +13,7 @@ class _BottomNavSettingMobile extends StatelessWidget {
   ) async {
     List<BottomNavItemModel> copied = [...items];
     if (oldIndex < newIndex) newIndex -= 1;
-    if (!copied[oldIndex].router!.tab!.optinal || !copied[newIndex].router!.tab!.optinal) return;
+    if (!copied[oldIndex].router!.datas.tab!.optinal || !copied[newIndex].router!.datas.tab!.optinal) return;
 
     final BottomNavItemModel item = copied.removeAt(oldIndex);
     copied.insert(newIndex, item);
@@ -49,7 +49,7 @@ class _BottomNavSettingMobile extends StatelessWidget {
           List<BottomNavItemModel> items = provider.availableTabs?.items ?? [];
           return ReorderableListView.builder(
             itemBuilder: (context, index) {
-              MainTabBarItem tab = items[index].router!.tab!;
+              MainTabBarItem tab = items[index].router!.datas.tab!;
               bool selected = provider.tabs?.contains(tab.router) == true;
               return buildBottomNavItem(
                 tab: tab,
@@ -85,7 +85,7 @@ class _BottomNavSettingMobile extends StatelessWidget {
             Icon(tab.activeIcon),
           ],
         ),
-        title: Text(tab.router.title),
+        title: Text(tab.router.datas.title),
         onTap: () => toggle(),
         trailing: Checkbox(
           value: selected,
@@ -111,7 +111,7 @@ class _BottomNavSettingMobile extends StatelessWidget {
           selectedIndex: 0,
           height: 80 - MediaQuery.of(context).padding.bottom / 2,
           destinations: provider.tabs?.map((e) {
-                final tab = e.tab!;
+                final tab = e.datas.tab!;
                 return Container(
                   transform: Matrix4.identity()..translate(0.0, MediaQuery.of(context).padding.bottom / 2),
                   child: NavigationDestination(
@@ -140,7 +140,7 @@ class _BottomNavSettingMobile extends StatelessWidget {
 
     Iterable<BottomNavItemModel> result = copied.where((e) => e.selected == true);
     if (result.length > 5) {
-      MessengerService.instance.showSnackBar("Must not bigger than 5 items");
+      MessengerService.instance.showSnackBar(tr("msg.must_bigger_than_5_items"));
     } else {
       provider.set(
         tabsList: BottomNavItemListModel(copied),

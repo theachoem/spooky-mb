@@ -2,6 +2,7 @@ library add_ons_view;
 
 import 'dart:async';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';

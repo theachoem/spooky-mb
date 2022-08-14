@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
@@ -72,13 +73,15 @@ class HomeViewModel extends BaseViewModel {
     List<AlertDialogAction<String>> actions = years.map((e) {
       return AlertDialogAction(key: "$e", label: e.toString());
     }).toList()
-      ..insert(0, const AlertDialogAction(key: "create", label: "Create new"));
+      ..insert(0, AlertDialogAction(key: "create", label: tr("button.create_new")));
 
     await showConfirmationDialog(
       context: context,
-      title: "Year",
+      title: tr("alert.year.title"),
       actions: actions,
       initialSelectedActionKey: "$year",
+      // ignore: use_build_context_synchronously
+      cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
     ).then((selectedOption) async {
       if (selectedOption == null) return;
       if (selectedOption == "create") {
@@ -97,7 +100,9 @@ class HomeViewModel extends BaseViewModel {
   Future<void> openNicknameEditor(BuildContext context) async {
     await showTextInputDialog(
       context: context,
-      title: "What should I call you?",
+      title: tr("alert.what_should_I_call_you.title"),
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
       textFields: [
         DialogTextField(
           initialText: context.read<NicknameProvider>().name,

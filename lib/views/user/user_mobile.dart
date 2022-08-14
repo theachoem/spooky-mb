@@ -21,9 +21,11 @@ class _UserMobile extends StatelessWidget {
               onPressed: () async {
                 OkCancelResult result = await showOkCancelAlertDialog(
                   context: context,
-                  title: "Are you sure?",
-                  message: "You can log in back anytime.",
+                  title: tr("alert.logout.title"),
+                  message: tr("alert.logout.subtitle"),
                   isDestructiveAction: true,
+                  okLabel: tr("button.ok"),
+                  cancelLabel: tr("button.cancel"),
                 );
                 switch (result) {
                   case OkCancelResult.ok:
@@ -77,7 +79,7 @@ class _UserMobile extends StatelessWidget {
             final connectedInfo = viewModel.getUserInfo(providerInfo.providerId);
             return buildProviderTile(
               context: context,
-              title: "Connect with ${providerInfo.title}",
+              title: tr("tile.connect_with.title", namedArgs: {"PROVIDER": providerInfo.title}),
               iconData: providerInfo.iconData,
               connectedInfo: connectedInfo,
               onConnectPressed: () => viewModel.connect(providerInfo, context),
@@ -95,7 +97,7 @@ class _UserMobile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: ListTile(
-        title: Text(SpRouter.accountDeletion.title),
+        title: Text(SpRouter.accountDeletion.datas.title),
         iconColor: M3Color.of(context).error,
         trailing: const Icon(Icons.keyboard_arrow_right),
         leading: const Icon(Icons.delete),
@@ -115,7 +117,7 @@ class _UserMobile extends StatelessWidget {
   Future<void> onDisconnect(AuthProviderDatas providerInfo, BuildContext context) async {
     if (viewModel.connectedProviders.length == 1) {
       MessengerService.instance.showSnackBar(
-        "Keep at least one connected provider.",
+        tr("msg.keep_at_least_one_provider"),
         success: false,
       );
       return;
@@ -124,9 +126,10 @@ class _UserMobile extends StatelessWidget {
     final providerId = providerInfo.providerId;
     final result = await showOkCancelAlertDialog(
       context: context,
-      title: "Are you sure to disconnect?",
-      okLabel: "Disconnect",
+      title: tr("alert.disconnect_provider.title"),
+      okLabel: tr("button.disconnect"),
       isDestructiveAction: true,
+      cancelLabel: tr("button.cancel"),
     );
 
     switch (result) {
@@ -137,9 +140,9 @@ class _UserMobile extends StatelessWidget {
           debugSource: "UserMobile#onDisconnect",
         );
         if (success == true) {
-          MessengerService.instance.showSnackBar("Disconnect successfully", success: true);
+          MessengerService.instance.showSnackBar(tr("msg.disconnect.success"), success: true);
         } else {
-          MessengerService.instance.showSnackBar("Disconnect fail", success: false);
+          MessengerService.instance.showSnackBar(tr("msg.disconnect.fail"), success: false);
         }
         break;
       case OkCancelResult.cancel:

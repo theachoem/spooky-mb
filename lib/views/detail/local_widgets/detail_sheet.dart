@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
@@ -34,7 +35,7 @@ class DetailSheet extends StatelessWidget {
         context: context,
         sections: [
           SpSectionContents(
-            headline: "Title",
+            headline: tr("section.title"),
             tiles: [
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
@@ -82,10 +83,10 @@ class DetailSheet extends StatelessWidget {
     if (viewModel.currentStory.changes.isNotEmpty == true) showChanges = true;
 
     return SpSectionContents(
-      headline: "Setting",
+      headline: tr("section.settings"),
       tiles: [
         ListTile(
-          title: Text(SpRouter.fontManager.title),
+          title: Text(SpRouter.fontManager.datas.title),
           leading: const Icon(Icons.font_download),
           onTap: () {
             Navigator.of(context).pushNamed(SpRouter.fontManager.path);
@@ -100,7 +101,7 @@ class DetailSheet extends StatelessWidget {
   ListTile buildChangesTile(BuildContext context) {
     return ListTile(
       leading: const Icon(Icons.history),
-      title: const Text("Changes"),
+      title: Text(tr("tile.changes.title")),
       onTap: () async {
         viewModel.beforeAction(() {
           return viewChanges(context);
@@ -113,7 +114,7 @@ class DetailSheet extends StatelessWidget {
   ListTile buildPagesTile(BuildContext context) {
     return ListTile(
       leading: const Icon(CommunityMaterialIcons.book_settings),
-      title: const Text("Pages"),
+      title: Text(tr("tile.pages.title")),
       onTap: () {
         viewModel.beforeAction(() {
           return viewPages(context);
@@ -124,13 +125,13 @@ class DetailSheet extends StatelessWidget {
 
   SpSectionContents buildActionsSection(BuildContext context) {
     return SpSectionContents(
-      headline: "Actions",
+      headline: tr("section.actions"),
       tiles: [
         if (viewModel.flowType == DetailViewFlowType.update && viewModel.currentStory.archivable)
           Container(
             margin: const EdgeInsets.only(left: ConfigConstant.margin2, top: ConfigConstant.margin0),
             child: SpButton(
-              label: "Archive",
+              label: tr("button.archive"),
               onTap: () async {
                 viewModel.beforeAction(() {
                   return onArchive(context);
@@ -146,19 +147,22 @@ class DetailSheet extends StatelessWidget {
     final StoryDatabase database = StoryDatabase.instance;
 
     if (viewModel.hasChangeNotifer.value) {
-      MessengerService.instance.showSnackBar("Please save document first");
+      MessengerService.instance.showSnackBar(tr("alert.save_document_first.title"));
       return;
     }
+
     OkCancelResult result = await showOkCancelAlertDialog(
       context: context,
       useRootNavigator: true,
-      title: "Are you sure to archive document?",
+      title: tr("alert.are_you_sure_to_archive.title"),
+      okLabel: tr("button.ok"),
+      cancelLabel: tr("button.cancel"),
     );
     switch (result) {
       case OkCancelResult.ok:
         await database.archiveDocument(viewModel.currentStory).then((story) async {
           if (story != null) {
-            MessengerService.instance.showSnackBar("Archived!");
+            MessengerService.instance.showSnackBar(tr("msg.archived"));
           }
           Navigator.of(context).maybePop(viewModel.currentStory);
         });
@@ -170,7 +174,7 @@ class DetailSheet extends StatelessWidget {
 
   Future<void> viewPages(BuildContext context) async {
     if (viewModel.hasChangeNotifer.value) {
-      MessengerService.instance.showSnackBar("Please save document first");
+      MessengerService.instance.showSnackBar(tr("alert.save_document_first.title"));
       return;
     }
 
@@ -190,7 +194,7 @@ class DetailSheet extends StatelessWidget {
 
   Future<void> viewChanges(BuildContext context) async {
     if (viewModel.hasChangeNotifer.value) {
-      MessengerService.instance.showSnackBar("Please save document first");
+      MessengerService.instance.showSnackBar(tr("alert.save_document_first.title"));
       return;
     }
 

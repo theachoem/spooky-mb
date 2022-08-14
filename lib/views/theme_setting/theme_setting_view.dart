@@ -1,16 +1,17 @@
 library theme_setting_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/analytic/list_layout_type_event.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
+import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
-import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_app_bar_title.dart';
 import 'package:spooky/widgets/sp_color_picker.dart';
@@ -22,7 +23,6 @@ import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
-import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'theme_setting_view_model.dart';

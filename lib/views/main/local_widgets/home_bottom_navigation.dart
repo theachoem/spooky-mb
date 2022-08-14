@@ -71,7 +71,7 @@ class HomeBottomNavigation extends StatelessWidget {
               onDestinationSelected: (int index) => viewModel.setActiveRouter(provider.tabs![index]),
               selectedIndex: viewModel.selectedIndex(provider),
               destinations: (provider.tabs ?? []).map((tab) {
-                MainTabBarItem e = tab.tab!;
+                MainTabBarItem e = tab.datas.tab!;
 
                 if (e.router == SpRouter.setting) {
                   return Consumer<InAppUpdateProvider>(
@@ -79,7 +79,7 @@ class HomeBottomNavigation extends StatelessWidget {
                       return SpTapEffect(
                         onTap: () => viewModel.setActiveRouter(e.router),
                         child: NavigationDestination(
-                          tooltip: e.router.title,
+                          tooltip: e.router.datas.title,
                           selectedIcon: Icon(e.activeIcon),
                           label: e.label,
                           icon: Icon(
@@ -94,7 +94,7 @@ class HomeBottomNavigation extends StatelessWidget {
                   return SpTapEffect(
                     onTap: () => viewModel.setActiveRouter(e.router),
                     child: NavigationDestination(
-                      tooltip: e.router.title,
+                      tooltip: e.router.datas.title,
                       selectedIcon: Icon(e.activeIcon),
                       icon: Icon(e.inactiveIcon),
                       label: e.label,

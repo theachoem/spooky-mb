@@ -1,8 +1,245 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/views/main/main_view_item.dart';
 
+class SpRouterDatas {
+  final String title;
+  final String? shortTitle;
+  final String subtitle;
+  final MainTabBarItem? tab;
+
+  SpRouterDatas({
+    required this.title,
+    required this.subtitle,
+    required this.tab,
+    this.shortTitle,
+  });
+}
+
 extension SpRouterExtension on SpRouter {
+  SpRouterDatas get datas {
+    switch (this) {
+      case SpRouter.backupsDetails:
+        return SpRouterDatas(
+          title: tr("page.backups_details.title"),
+          subtitle: tr("page.backups_details.subtitle"),
+          tab: null,
+        );
+      case SpRouter.cloudStorages:
+        return SpRouterDatas(
+          title: tr("page.cloud_storages.title"),
+          shortTitle: tr("page.cloud_storages.title_short"),
+          subtitle: tr("page.cloud_storages.subtitle"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.cloudStorages,
+            inactiveIcon: Icons.cloud_outlined,
+            activeIcon: Icons.cloud,
+          ),
+        );
+      case SpRouter.fontManager:
+        return SpRouterDatas(
+          title: tr("page.font_manager.title"),
+          subtitle: tr("page.font_manager.subtitle"),
+          tab: null,
+        );
+      case SpRouter.lock:
+        return SpRouterDatas(
+          title: tr("page.lock.title"),
+          subtitle: ("page.lock.subtitle"),
+          tab: null,
+        );
+      case SpRouter.security:
+        return SpRouterDatas(
+          title: tr("page.security.title"),
+          subtitle: tr("page.security.subtitle"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.security,
+            inactiveIcon: Icons.security_outlined,
+            activeIcon: Icons.security,
+          ),
+        );
+      case SpRouter.themeSetting:
+        return SpRouterDatas(
+          title: tr("page.theme_setting.title"),
+          subtitle: tr("page.theme_setting.subtitle"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.themeSetting,
+            inactiveIcon: Icons.color_lens_outlined,
+            activeIcon: Icons.color_lens,
+          ),
+        );
+      case SpRouter.managePages:
+        return SpRouterDatas(
+          title: tr("page.manage_pages.title"),
+          subtitle: tr("page.manage_pages.subtitle"),
+          tab: null,
+        );
+      case SpRouter.archive:
+        return SpRouterDatas(
+          title: tr("page.archive.title"),
+          subtitle: tr("page.archive.sutitle"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.archive,
+            inactiveIcon: Icons.archive_outlined,
+            activeIcon: Icons.archive,
+          ),
+        );
+      case SpRouter.contentReader:
+        return SpRouterDatas(
+          title: tr("page.content_reader.title"),
+          subtitle: tr("page.content_reader.subtitle"),
+          tab: null,
+        );
+      case SpRouter.changesHistory:
+        return SpRouterDatas(
+          title: tr("page.changes_history.title"),
+          subtitle: tr("page.changes_history.subtitle"),
+          tab: null,
+        );
+      case SpRouter.detail:
+        return SpRouterDatas(
+          title: tr("page.detail.title"),
+          subtitle: tr("page.detail.subtitle"),
+          tab: null,
+        );
+      case SpRouter.main:
+        return SpRouterDatas(
+          title: tr("page.main.title"),
+          subtitle: tr("page.main.sutitle"),
+          tab: null,
+        );
+      case SpRouter.home:
+        return SpRouterDatas(
+          title: tr("page.home.title"),
+          subtitle: tr("page.home.sutitle"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.home,
+            inactiveIcon: Icons.home_outlined,
+            activeIcon: Icons.home,
+            optinal: false,
+          ),
+        );
+      case SpRouter.explore:
+        return SpRouterDatas(
+          title: tr("page.explore.title"),
+          subtitle: tr("page.explore.subtitle"),
+          tab: null,
+        );
+      case SpRouter.setting:
+        return SpRouterDatas(
+          title: tr("page.setting.title"),
+          subtitle: tr("page.setting.subtitle"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.setting,
+            inactiveIcon: Icons.settings_outlined,
+            activeIcon: Icons.settings,
+            optinal: false,
+          ),
+        );
+      case SpRouter.appStarter:
+        return SpRouterDatas(
+          title: tr("page.app_starter.title"),
+          subtitle: tr("page.app_starter.subtitle"),
+          tab: null,
+        );
+      case SpRouter.initPickColor:
+        return SpRouterDatas(
+          title: tr("page.init_color_picker.title"),
+          subtitle: tr("page.init_color_picker.subtitle"),
+          tab: null,
+        );
+      case SpRouter.nicknameCreator:
+        return SpRouterDatas(
+          title: tr("page.nickname_creator.title"),
+          subtitle: tr("page.nickname_creator.subtitle"),
+          tab: null,
+        );
+      case SpRouter.developerMode:
+        return SpRouterDatas(
+          title: tr("page.developer_mode.title"),
+          subtitle: tr("page.developer_mode.subtitle"),
+          tab: null,
+        );
+      case SpRouter.notFound:
+        return SpRouterDatas(
+          title: tr("page.not_found.title"),
+          subtitle: tr("page.not_found.subtitle"),
+          tab: null,
+        );
+      case SpRouter.addOn:
+        return SpRouterDatas(
+          title: tr("page.add_on.title"),
+          subtitle: tr("page.add_on.subtitle"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.addOn,
+            inactiveIcon: Icons.extension_outlined,
+            activeIcon: Icons.extension,
+          ),
+        );
+      case SpRouter.soundList:
+        return SpRouterDatas(
+          title: tr("page.sounds.title"),
+          subtitle: tr("page.sounds.title"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.soundList,
+            inactiveIcon: Icons.music_note_outlined,
+            activeIcon: Icons.music_note,
+          ),
+        );
+      case SpRouter.bottomNavSetting:
+        return SpRouterDatas(
+          title: tr("page.bottom_nav_setting.title"),
+          subtitle: tr("page.bottom_nav_setting.subtitle"),
+          tab: null,
+        );
+      case SpRouter.storyPadRestore:
+        return SpRouterDatas(
+          title: tr("page.storypad_restore.title"),
+          subtitle: tr("page.storypad_restore.subtitle"),
+          tab: null,
+        );
+      case SpRouter.user:
+        return SpRouterDatas(
+          title: tr("page.user.title"),
+          subtitle: tr("page.user.subtitle"),
+          tab: null,
+        );
+      case SpRouter.signUp:
+        return SpRouterDatas(
+          title: tr("page.sign_up.title"),
+          subtitle: tr("page.sign_up.subtitle"),
+          tab: null,
+        );
+      case SpRouter.search:
+        return SpRouterDatas(
+          title: tr("page.search.title"),
+          subtitle: tr("page.search.subtitle"),
+          tab: null,
+        );
+      case SpRouter.backupHistoriesManager:
+        return SpRouterDatas(
+          title: tr("page.backup_histories_manager.title"),
+          subtitle: tr("page.backup_histories_manager.subtitle"),
+          tab: null,
+        );
+      case SpRouter.accountDeletion:
+        return SpRouterDatas(
+          title: tr("page.account_deletion.title"),
+          subtitle: tr("page.account_deletion.title"),
+          tab: null,
+        );
+    }
+  }
+
   String get path {
     switch (this) {
       case SpRouter.cloudStorages:
@@ -63,245 +300,6 @@ extension SpRouterExtension on SpRouter {
         return '/backup-histories-manager';
       case SpRouter.accountDeletion:
         return '/account-deletion';
-    }
-  }
-
-  String get title {
-    switch (this) {
-      case SpRouter.backupsDetails:
-        return 'Backups';
-      case SpRouter.cloudStorages:
-        return 'Cloud Storage';
-      case SpRouter.fontManager:
-        return 'Font Book';
-      case SpRouter.lock:
-        return 'Lock';
-      case SpRouter.security:
-        return 'Security';
-      case SpRouter.themeSetting:
-        return 'Theme';
-      case SpRouter.managePages:
-        return 'Manage pages';
-      case SpRouter.archive:
-        return 'Archive';
-      case SpRouter.contentReader:
-        return 'Content Reader';
-      case SpRouter.changesHistory:
-        return 'Changes history';
-      case SpRouter.detail:
-        return 'Detail';
-      case SpRouter.main:
-        return 'Main';
-      case SpRouter.home:
-        return 'Home';
-      case SpRouter.explore:
-        return 'Explore';
-      case SpRouter.setting:
-        return 'Setting';
-      case SpRouter.appStarter:
-        return 'App Starter';
-      case SpRouter.initPickColor:
-        return 'Favorite color';
-      case SpRouter.nicknameCreator:
-        return 'Nickname Creator';
-      case SpRouter.developerMode:
-        return 'Developer';
-      case SpRouter.notFound:
-        return 'Not Found';
-      case SpRouter.addOn:
-        return 'Add-ons';
-      case SpRouter.soundList:
-        return "Sounds";
-      case SpRouter.bottomNavSetting:
-        return "Bottom Navigation";
-      case SpRouter.storyPadRestore:
-        return "StoryPad";
-      case SpRouter.user:
-        return "User";
-      case SpRouter.signUp:
-        return 'Sign up';
-      case SpRouter.search:
-        return 'Search';
-      case SpRouter.backupHistoriesManager:
-        return 'Backup Histories';
-      case SpRouter.accountDeletion:
-        return 'Delete Account';
-    }
-  }
-
-  String get subtitle {
-    switch (this) {
-      case SpRouter.cloudStorages:
-        return 'Backup & Restore with cloud storages';
-      case SpRouter.backupsDetails:
-        return 'Backups Details';
-      case SpRouter.fontManager:
-        return 'Font Book';
-      case SpRouter.lock:
-        return 'Lock';
-      case SpRouter.security:
-        return 'Security';
-      case SpRouter.themeSetting:
-        return 'Theme';
-      case SpRouter.managePages:
-        return 'Manage pages';
-      case SpRouter.archive:
-        return 'Archive';
-      case SpRouter.contentReader:
-        return 'Content Reader';
-      case SpRouter.changesHistory:
-        return 'Changes history';
-      case SpRouter.detail:
-        return 'Detail';
-      case SpRouter.main:
-        return 'Main';
-      case SpRouter.home:
-        return 'Home';
-      case SpRouter.explore:
-        return 'Explore';
-      case SpRouter.setting:
-        return 'Setting';
-      case SpRouter.appStarter:
-        return 'App Starter';
-      case SpRouter.initPickColor:
-        return 'Pick one of your favorite color';
-      case SpRouter.nicknameCreator:
-        return 'Nickname Creator';
-      case SpRouter.developerMode:
-        return 'Developer';
-      case SpRouter.notFound:
-        return 'Not Found';
-      case SpRouter.addOn:
-        return 'Add more lifetime access functionalities';
-      case SpRouter.soundList:
-        return "Sounds";
-      case SpRouter.bottomNavSetting:
-        return "Manage bottom navigation";
-      case SpRouter.storyPadRestore:
-        return "StoryPad";
-      case SpRouter.user:
-        return "Account is mainly used to store purchased histories.";
-      case SpRouter.signUp:
-        return 'Sign up';
-      case SpRouter.search:
-        return 'Search';
-      case SpRouter.backupHistoriesManager:
-        return 'Backup Histories';
-      case SpRouter.accountDeletion:
-        return 'Account Deletion';
-    }
-  }
-
-  MainTabBarItem? get tab {
-    switch (this) {
-      case SpRouter.managePages:
-      case SpRouter.contentReader:
-      case SpRouter.changesHistory:
-      case SpRouter.detail:
-      case SpRouter.main:
-      case SpRouter.lock:
-      case SpRouter.appStarter:
-      case SpRouter.initPickColor:
-      case SpRouter.nicknameCreator:
-      case SpRouter.developerMode:
-      case SpRouter.notFound:
-      case SpRouter.bottomNavSetting:
-      case SpRouter.storyPadRestore:
-      case SpRouter.backupsDetails:
-      case SpRouter.signUp:
-      case SpRouter.backupHistoriesManager:
-      case SpRouter.accountDeletion:
-        return null;
-      case SpRouter.home:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.home,
-          inactiveIcon: Icons.home_outlined,
-          activeIcon: Icons.home,
-          optinal: false,
-        );
-      case SpRouter.setting:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.setting,
-          inactiveIcon: Icons.settings_outlined,
-          activeIcon: Icons.settings,
-          optinal: false,
-        );
-      case SpRouter.cloudStorages:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.cloudStorages,
-          inactiveIcon: Icons.cloud_outlined,
-          activeIcon: Icons.cloud,
-        );
-      case SpRouter.search:
-        // return MainTabBarItem(
-        //   navigatorKey: GlobalKey<NavigatorState>(),
-        //   router: SpRouter.search,
-        //   inactiveIcon: Icons.search_outlined,
-        //   activeIcon: Icons.search,
-        // );
-        return null;
-      case SpRouter.user:
-        return null;
-      // return MainTabBarItem(
-      //   navigatorKey: GlobalKey<NavigatorState>(),
-      //   router: SpRouter.user,
-      //   inactiveIcon: Icons.person_outline,
-      //   activeIcon: Icons.person,
-      // );
-      case SpRouter.fontManager:
-        return null;
-      // return MainTabBarItem(
-      //   navigatorKey: GlobalKey<NavigatorState>(),
-      //   router: SpRouter.fontManager,
-      //   inactiveIcon: Icons.font_download_outlined,
-      //   activeIcon: Icons.font_download,
-      // );
-      case SpRouter.security:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.security,
-          inactiveIcon: Icons.security_outlined,
-          activeIcon: Icons.security,
-        );
-      case SpRouter.themeSetting:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.themeSetting,
-          inactiveIcon: Icons.color_lens_outlined,
-          activeIcon: Icons.color_lens,
-        );
-      case SpRouter.archive:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.archive,
-          inactiveIcon: Icons.archive_outlined,
-          activeIcon: Icons.archive,
-        );
-      case SpRouter.explore:
-        return null;
-      // return MainTabBarItem(
-      //   navigatorKey: GlobalKey<NavigatorState>(),
-      //   router: SpRouter.explore,
-      //   inactiveIcon: Icons.explore_outlined,
-      //   activeIcon: Icons.explore,
-      // );
-      case SpRouter.addOn:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.addOn,
-          inactiveIcon: Icons.extension_outlined,
-          activeIcon: Icons.extension,
-        );
-      case SpRouter.soundList:
-        return MainTabBarItem(
-          navigatorKey: GlobalKey<NavigatorState>(),
-          router: SpRouter.soundList,
-          inactiveIcon: Icons.music_note_outlined,
-          activeIcon: Icons.music_note,
-        );
     }
   }
 }

@@ -17,7 +17,7 @@ class _ArchiveMobile extends StatelessWidget {
           items: (context) {
             return pathTypes.map((e) {
               return SpPopMenuItem(
-                title: e.name.capitalize,
+                title: TypeLocalization.pathType(e),
                 trailingIconData: e == selectedPathType ? Icons.check : null,
                 onPressed: () {
                   viewModel.setPathType(e);
@@ -31,7 +31,7 @@ class _ArchiveMobile extends StatelessWidget {
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).appBarTheme.titleTextStyle,
-                  text: selectedPathType.name.capitalize,
+                  text: TypeLocalization.pathType(selectedPathType),
                   children: const [
                     WidgetSpan(
                       child: Icon(Icons.arrow_drop_down),

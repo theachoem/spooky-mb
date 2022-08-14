@@ -13,7 +13,7 @@ class _NicknameCreatorAdaptive extends StatelessWidget {
         elevation: 0.0,
         automaticallyImplyLeading: false,
         title: Text(
-          "So, what's your nickname?",
+          tr("page.nickname_creator.ask_for_name"),
           style: Theme.of(context).appBarTheme.titleTextStyle?.copyWith(color: M3Color.of(context).onBackground),
         ),
         actions: const [
@@ -27,8 +27,8 @@ class _NicknameCreatorAdaptive extends StatelessWidget {
           style: M3TextTheme.of(context).headlineLarge,
           onChanged: (String value) => viewModel.nickname = value,
           initialValue: viewModel.nickname,
-          decoration: const InputDecoration(
-            hintText: "Nickname",
+          decoration: InputDecoration(
+            hintText: tr("hint_text.nickname"),
             border: InputBorder.none,
             errorText: "",
           ),
@@ -40,7 +40,7 @@ class _NicknameCreatorAdaptive extends StatelessWidget {
 
   Widget buildBottomNavigation(BuildContext context) {
     return SpSingleButtonBottomNavigation(
-      buttonLabel: "Next",
+      buttonLabel: tr("button.next"),
       onTap: () {
         if (viewModel.nickname.trim().isNotEmpty) {
           context.read<NicknameProvider>().setNickname(viewModel.nickname);
@@ -52,7 +52,9 @@ class _NicknameCreatorAdaptive extends StatelessWidget {
             ),
           );
         } else {
-          MessengerService.instance.showSnackBar("Nickname must not empty!");
+          MessengerService.instance.showSnackBar(
+            tr("field.nickname.validation.empty"),
+          );
         }
       },
     );

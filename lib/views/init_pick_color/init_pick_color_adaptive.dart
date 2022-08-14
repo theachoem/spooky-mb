@@ -10,7 +10,7 @@ class _InitPickColorAdaptive extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomNavigationBar: SpSingleButtonBottomNavigation(
-        buttonLabel: "Next",
+        buttonLabel: tr("button.next"),
         show: viewModel.showNextButton,
         onTap: () {
           // Navigator.of(context).pushNamed(
@@ -70,8 +70,8 @@ class _InitPickColorAdaptive extends StatelessWidget {
                             color: Theme.of(context).dividerColor,
                           ),
                         ),
-                        title: const Text("Dynamic color"),
-                        subtitle: const Text("Use colors base on your system."),
+                        title: Text(tr("tile.dynamic_color.title")),
+                        subtitle: Text(tr("tile.dynamic_color.subtitle")),
                         value: Provider.of<ThemeProvider>(context, listen: false).themeMode == ThemeMode.system,
                         onChanged: (bool value) {
                           final provider = Provider.of<ThemeProvider>(context, listen: false);

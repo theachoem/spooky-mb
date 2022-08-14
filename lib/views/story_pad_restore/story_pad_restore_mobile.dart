@@ -25,45 +25,45 @@ class _StoryPadRestoreMobile extends StatelessWidget {
         },
         steps: [
           SpStep(
-            title: "Enter backup url",
+            title: tr("step.migrate_storypad.step1.title"),
             subtitle: null,
             content: Column(
               children: [
-                const Text('In Google Drive. "Story" folder, find a zip file & paste its url here.'),
+                Text(tr("step.migrate_storypad.step1.message")),
                 ConfigConstant.sizedBoxH2,
                 TextField(
                   onChanged: (value) => viewModel.url = value,
-                  decoration: const InputDecoration(
-                    hintText: "Backup url...",
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    hintText: tr("field.backup_url.hint_text"),
+                    border: const OutlineInputBorder(),
                   ),
                 ),
               ],
             ),
-            buttonLabel: (state) => "Contnue",
+            buttonLabel: (state) => tr("button.continue"),
             onPressed: (state) async {
               return state;
             },
           ),
           SpStep(
-            title: "Download & Validate",
-            subtitle: 'Check if input url is valid',
+            title: tr("step.migrate_storypad.step2.title"),
+            subtitle: tr("step.migrate_storypad.step2.subtitle"),
             content: const SizedBox.shrink(),
-            buttonLabel: (state) => "Validate",
+            buttonLabel: (state) => tr("button.validate"),
             onPressed: (state) async {
               await viewModel.load();
               return state;
             },
           ),
           SpStep(
-            title: "Review",
-            subtitle: "Make sure stories are correct",
+            title: tr("step.migrate_storypad.step3.title"),
+            subtitle: tr("step.migrate_storypad.step3.subtitle"),
             content: const SizedBox.shrink(),
-            buttonLabel: (state) => "Review",
+            buttonLabel: (state) => tr("button.review"),
             onPressed: (state) async {
               BottomSheetService.instance.showScrollableSheet(
                 context: App.navigatorKey.currentContext ?? context,
-                title: "StoryPad",
+                title: tr("alert.storypad_list.title"),
                 builder: (context, controller) {
                   return SpStoryList(
                     overridedLayout: SpListLayoutType.timeline,
@@ -78,18 +78,18 @@ class _StoryPadRestoreMobile extends StatelessWidget {
             },
           ),
           SpStep(
-            title: "Restore",
-            subtitle: "Write them to Spooky",
+            title: tr("step.migrate_storypad.step4.title"),
+            subtitle: tr("step.migrate_storypad.step4.title"),
             content: const SizedBox.shrink(),
             buttonLabel: (state) {
               switch (state) {
                 case StepState.complete:
-                  return "Done";
+                  return tr("button.done");
                 case StepState.disabled:
                 case StepState.error:
                 case StepState.indexed:
                 case StepState.editing:
-                  return "Restore";
+                  return tr("button.restore");
               }
             },
             onPressed: (state) async {
