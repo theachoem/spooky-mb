@@ -24,8 +24,8 @@ class _ManagePagesMobile extends StatelessWidget {
     if (viewModel.hasChangeNotifier.value) {
       OkCancelResult result = await showOkCancelAlertDialog(
         context: context,
-        title: "Discard changes?",
-        message: "All changes will be lost",
+        title: tr("alert.discard_changes.title"),
+        message: tr("alert.discard_changes.message"),
         isDestructiveAction: false,
         barrierDismissible: true,
       );
@@ -69,8 +69,8 @@ class _ManagePagesMobile extends StatelessWidget {
                   bool hasDeleteSomePage = viewModel.content.pages?.length != viewModel.documents.length;
                   OkCancelResult result = await showOkCancelAlertDialog(
                     context: context,
-                    title: "Are you sure to save changes?",
-                    message: hasDeleteSomePage ? "You can't undo this action" : null,
+                    title: tr("alert.sure_to_save_changes.title"),
+                    message: hasDeleteSomePage ? tr("alert.sure_to_save_changes.message") : null,
                     barrierDismissible: true,
                     isDestructiveAction: hasDeleteSomePage,
                     okLabel: MaterialLocalizations.of(context).saveButtonLabel.toLowerCase().capitalize,
@@ -153,7 +153,7 @@ class _ManagePagesMobile extends StatelessWidget {
       ),
       confirmDismiss: (direction) async {
         bool success = viewModel.deleteAt(index);
-        if (!success) MessengerService.instance.showSnackBar("Pages can't be less than 1");
+        if (!success) MessengerService.instance.showSnackBar(tr("alert.page_at_least_1.title"));
         return success;
       },
       child: child,
