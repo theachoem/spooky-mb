@@ -63,6 +63,9 @@ class SpStoryTileUtils {
       dn.showPicker(
         context: context,
         value: TimeOfDay.fromDateTime(story.displayPathDate),
+        cancelText: MaterialLocalizations.of(context).cancelButtonLabel,
+        okText: MaterialLocalizations.of(context).okButtonLabel,
+        // iosStylePicker: ThemeConfig.isApple(Theme.of(context).platform),
         okStyle: TextStyle(fontFamily: M3TextTheme.of(context).labelLarge?.fontFamily),
         cancelStyle: TextStyle(fontFamily: M3TextTheme.of(context).labelLarge?.fontFamily),
         buttonStyle: ThemeConfig.isApple(Theme.of(context).platform)
