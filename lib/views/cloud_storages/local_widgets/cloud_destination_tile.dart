@@ -64,19 +64,24 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
 
         if (isSignedIn) {
           if (lastBackup != null) {
-            title = username ?? name ?? "Unknown";
-            subtitle = "Last synced - ${DateFormatHelper.dateTimeFormat().format(lastBackup)}";
+            title = username ?? name ?? tr("msg.unknown");
+            subtitle = tr(
+              "msg.last_synced",
+              namedArgs: {
+                'DATE': DateFormatHelper.dateTimeFormat().format(lastBackup),
+              },
+            );
           } else {
-            title = name ?? "Unknown";
-            subtitle = username ?? "Logged in";
+            title = name ?? tr("msg.unknown");
+            subtitle = username ?? tr("msg.logged_in");
           }
         } else {
           title = cloudName;
-          subtitle = "Login to sync data";
+          subtitle = tr("msg.login_to_sync_data");
         }
 
         if (!released) {
-          subtitle = "Coming soon";
+          subtitle = tr("msg.coming_soon");
         }
 
         return Container(

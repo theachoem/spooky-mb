@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -16,8 +17,8 @@ class StoryPadBackupTile extends StatelessWidget {
         leading: CircleAvatar(
           backgroundImage: buildStoryPadLogo(),
         ),
-        title: const Text("StoryPad"),
-        subtitle: const Text("Migrate from StoryPad to Spooky"),
+        title: Text(tr("tile.spooky_restore.title")),
+        subtitle: Text(tr("tile.spooky_restore.subtitle")),
         onTap: () {
           Navigator.of(context).pushNamed(SpRouter.storyPadRestore.path);
         },
