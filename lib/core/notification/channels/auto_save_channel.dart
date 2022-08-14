@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
@@ -18,10 +19,10 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
   bool get enableVibration => true;
 
   @override
-  String get channelName => 'Auto Save Notification';
+  String get channelName => tr("notification_channel.auto_save.name");
 
   @override
-  String get channelDescription => 'Show notification when stories is auto saved on app inactive.';
+  String get channelDescription => tr("notification_channel.auto_save.description");
 
   @override
   String? get icon => "ni_auto_save";
@@ -63,8 +64,8 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
     if (context == null) return;
     showOkAlertDialog(
       context: context!,
-      title: "Your document is saved",
-      message: message != null ? "Document is saved in\n$message" : null,
+      title: tr("alert.document_saved.title"),
+      message: message != null ? "${tr("alert.document_saved.subtitle")}\n$message" : null,
     );
   }
 }
