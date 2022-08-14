@@ -17,8 +17,8 @@ class _SearchMobile extends StatelessWidget {
             : TextField(
                 textInputAction: TextInputAction.search,
                 style: Theme.of(context).appBarTheme.titleTextStyle,
-                decoration: const InputDecoration(
-                  hintText: "Search...",
+                decoration: InputDecoration(
+                  hintText: tr("field.search.hint_text"),
                   border: InputBorder.none,
                 ),
                 onSubmitted: (text) {

@@ -1,5 +1,6 @@
 library search_view;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';

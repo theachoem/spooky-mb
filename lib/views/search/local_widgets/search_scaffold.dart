@@ -1,4 +1,5 @@
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
@@ -107,11 +108,11 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
             buildTypes(),
             buildTagsSection(),
             SpSectionContents(
-              headline: "Options",
+              headline: tr("sections.options"),
               tiles: [
                 CheckboxListTile(
                   value: queryOption.starred,
-                  title: const Text("Starred"),
+                  title: Text(tr("tile.starred.title")),
                   onChanged: (value) {
                     setState(() {
                       queryOption = queryOption.copyWith(starred: value);
@@ -120,7 +121,7 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
                 ),
                 CheckboxListTile(
                   value: advanceSearch,
-                  title: const Text("Advance search"),
+                  title: Text(tr("title.advance_search.title")),
                   onChanged: (value) {
                     setState(() {
                       advanceSearch = !advanceSearch;
@@ -137,7 +138,7 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
 
   SpSectionContents buildTypes() {
     return SpSectionContents(
-      headline: "Types",
+      headline: tr("section.types"),
       leadingIcon: Icons.folder,
       tiles: PathType.values.map(
         (path) {
@@ -158,7 +159,7 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
 
   SpSectionContents buildTagsSection() {
     return SpSectionContents(
-      headline: "Tags",
+      headline: tr("section.tags"),
       leadingIcon: CommunityMaterialIcons.tag,
       tiles: [
         ...tags ?? [],
@@ -179,7 +180,7 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
         ..add(RadioListTile<String>(
           groupValue: queryOption.tag ?? "0",
           value: "0",
-          title: const Text("None"),
+          title: Text(tr("tile.none.title")),
           onChanged: (value) {
             setState(() {
               queryOption = queryOption.copyWith(tag: null);
