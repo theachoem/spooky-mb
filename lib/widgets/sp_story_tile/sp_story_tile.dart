@@ -2,6 +2,7 @@ library sp_story_tile;
 
 import 'dart:async';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:provider/provider.dart';
@@ -256,7 +257,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   SpPopMenuItem _buildViewItem(BuildContext context) {
     return SpPopMenuItem(
-      title: "View",
+      title: tr("button.view"),
       leadingIconData: Icons.chrome_reader_mode,
       onPressed: () => view(context),
     );
@@ -264,7 +265,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   SpPopMenuItem _buildStarredItem() {
     return SpPopMenuItem(
-      title: starred ? "Unstarred" : "Starred",
+      title: starred ? tr("button.unstarred") : tr("button.starred"),
       leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
       onPressed: () => toggleStarred(),
     );
@@ -272,7 +273,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   SpPopMenuItem _buildDeleteItem(BuildContext context) {
     return SpPopMenuItem(
-      title: "Delete",
+      title: tr("button.delete"),
       leadingIconData: Icons.delete,
       titleStyle: TextStyle(color: M3Color.of(context).error),
       onPressed: () => utils.refreshSuccess(utils.deleteStory, refreshList: true, refreshStory: false),
@@ -281,7 +282,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   SpPopMenuItem _buildPutBackItem() {
     return SpPopMenuItem(
-      title: "Put back",
+      title: tr("button.put_back"),
       leadingIconData: Icons.restore_from_trash,
       onPressed: () => utils.refreshSuccess(utils.putBackStory, refreshList: true, refreshStory: false),
     );
@@ -289,7 +290,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   SpPopMenuItem _buildArchiveItem() {
     return SpPopMenuItem(
-      title: "Archive",
+      title: tr("button.archive"),
       leadingIconData: Icons.archive,
       onPressed: () => utils.refreshSuccess(utils.archiveStory, refreshList: true, refreshStory: false),
     );
@@ -297,7 +298,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   SpPopMenuItem _buildChangeTimeItem(BuildContext context) {
     return SpPopMenuItem(
-      title: "Change Time",
+      title: tr("button.change_time"),
       leadingIconData: CommunityMaterialIcons.clock,
       onPressed: () => utils.refreshSuccess(utils.changeStoryTime, refreshList: true, refreshStory: false),
     );
@@ -305,7 +306,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   SpPopMenuItem _buildChangeDateItem(BuildContext context) {
     return SpPopMenuItem(
-      title: "Change Date",
+      title: tr("button.change_date"),
       leadingIconData: CommunityMaterialIcons.calendar,
       onPressed: () => utils.refreshSuccess(utils.changeStoryDate, refreshList: true, refreshStory: false),
     );

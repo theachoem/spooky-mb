@@ -19,7 +19,8 @@
       "title": "Answer one of these questions to unlock"
     },
     "are_you_sure_to_archive": {
-      "title": "Are you sure to archive document?"
+      "title": "Are you sure to archive document?",
+      "message": "You can unarchive later."
     },
     "are_you_sure_to_delete_account": {
       "message": "You can't undo this action.",
@@ -112,6 +113,9 @@
       "message": "You can't undo this action",
       "title": "Are you sure to save changes?"
     },
+    "theme": {
+      "title": "Theme"
+    },
     "update_tag": {
       "title": "Update tag"
     },
@@ -121,8 +125,13 @@
     "year": {
       "title": "Year"
     },
-    "theme": {
-      "title": "Theme"
+    "are_you_sure_to_put_back": {
+      "title": "Are you sure put back?",
+      "message_": "Document will be move to:"
+    },
+    "are_you_sure_to_delete": {
+      "title": "Are you sure to delete?",
+      "message": "You can't undo this action"
     }
   },
   "app": {
@@ -138,6 +147,8 @@
     "backup_now": "Backup now",
     "buy": "Buy",
     "cancel": "Cancel",
+    "change_date": "Change Date",
+    "change_time": "Change Time",
     "continue": "Contnue",
     "copy_link": "Copy link",
     "create_new": "Create new",
@@ -146,6 +157,7 @@
     "disconnect": "Disconnect",
     "done": "Done",
     "go_home": "Go home",
+    "go_to_setting": "Go to Setting",
     "insert_page_break": "Insert page break",
     "listen_with_mini_player": "Listen with mini player",
     "login": "Login",
@@ -156,6 +168,7 @@
     "open_setting": "Open Setting",
     "perminently_delete": "Perminently delete",
     "play": "Play",
+    "put_back": "Put back",
     "restore": "Restore",
     "restore_purchase": "Restore Purchases",
     "restore_version": "Restore this version",
@@ -167,15 +180,19 @@
     "select": "Select",
     "select_version": "Select a version",
     "sound_library": "Sounds Library",
+    "starred": "Starred",
     "stop": "Stop",
     "try": "Try",
+    "unstarred": "Unstarred",
     "update": "Update",
     "validate": "Validate",
     "verify": "Verify",
     "view": "View",
     "view_on_web": "View on web",
     "view_story": "View Story",
-    "go_to_setting": "Go to Setting"
+    "move_to_bin": "Move to Bin",
+    "perminent_delete": "Delete Forever",
+    "undo": "Undo"
   },
   "date": {
     "created_at": "Created at {DATE}"
@@ -238,6 +255,10 @@
     "downloaded": "Downloaded",
     "downloading": "Downloading",
     "draft": "Draft",
+    "empty": {
+      "empty": "Empty",
+      "what_did_you_have_in_mind": "What did you have in mind?"
+    },
     "enter_password": "Enter your password",
     "file_too_big": "File too big",
     "hello_user": "Hello {}",
@@ -276,9 +297,23 @@
     "synced": "Synced",
     "unknown": "Unknown",
     "unsupported_file": "Unsupported file",
-    "empty": {
-      "what_did_you_have_in_mind": "What did you have in mind?",
-      "empty": "Empty"
+    "archive": {
+      "success": "Archived successfuly",
+      "fail": "Archived unsuccessfuly!"
+    },
+    "put_back": {
+      "success": "Put back successfully!",
+      "fail": "Put back unsuccessfuly!"
+    },
+    "move_to_bin": {
+      "title": "Move to Bin",
+      "message": "You story will be deleted in {} days.",
+      "success": "Moved to bin",
+      "fail": "Move unsuccessfully!"
+    },
+    "perminent_delete": {
+      "success": "Delete successfully!",
+      "fail": "Delete unsuccessfully!"
     }
   },
   "notification_channel": {
@@ -410,6 +445,11 @@
       "title": "User"
     }
   },
+  "path_type": {
+    "archives": "Archives",
+    "bins": "Bins",
+    "docs": "Docs"
+  },
   "plural": {
     "documents": {
       "few": "{} documents",
@@ -442,6 +482,22 @@
       "other": "{} stories",
       "two": "2 stories",
       "zero": "0 story"
+    },
+    "images": {
+      "few": "{} Images",
+      "many": "{} Images",
+      "one": "1 Image",
+      "other": "{} Images",
+      "two": "2 Images",
+      "zero": "0 Image"
+    },
+    "pages": {
+      "few": "{} Pages",
+      "many": "{} Pages",
+      "one": "1 Page",
+      "other": "{} Pages",
+      "two": "2 Pages",
+      "zero": "0 Page"
     }
   },
   "question": {
@@ -483,6 +539,10 @@
       "update": "Update PIN code"
     }
   },
+  "sound_type": {
+    "music": "Music",
+    "sound": "Sounds"
+  },
   "step": {
     "delete_account": {
       "step1": {
@@ -521,6 +581,11 @@
     "fonts": "Fonts",
     "others": "Others",
     "recommend": "Recommended"
+  },
+  "theme_mode": {
+    "dark": "Dark",
+    "light": "Light",
+    "system": "System"
   },
   "tile": {
     "add_your_own_questions": "Add your own question",
@@ -666,19 +731,5 @@
     "words": {
       "title": "Words"
     }
-  },
-  "theme_mode": {
-    "system": "System",
-    "dark": "Dark",
-    "light": "Light"
-  },
-  "path_type": {
-    "docs": "Docs",
-    "bins": "Bins",
-    "archives": "Archives"
-  },
-  "sound_type": {
-    "sound": "Sounds",
-    "music": "Music"
   }
 }

@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
@@ -58,7 +59,7 @@ class StoryTileTagChips extends StatelessWidget {
         } else {
           id = await showModalActionSheet(
             context: context,
-            title: 'Tags',
+            title: tr("section.tags"),
             actions: dbTags.map((e) {
               return SheetAction(
                 key: e.id,

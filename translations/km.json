@@ -19,7 +19,8 @@
       "title": ""
     },
     "are_you_sure_to_archive": {
-      "title": ""
+      "title": "",
+      "message": ""
     },
     "are_you_sure_to_delete_account": {
       "message": "",
@@ -112,6 +113,9 @@
       "message": "អ្នកមិនអាចធ្វើសកម្មភាពនេះបានទេ",
       "title": "តើអ្នកប្រាកដជារក្សាទុកការផ្លាស់ប្តូរឬ?"
     },
+    "theme": {
+      "title": ""
+    },
     "update_tag": {
       "title": ""
     },
@@ -121,8 +125,13 @@
     "year": {
       "title": "ឈ្នាម"
     },
-    "theme": {
-      "title": ""
+    "are_you_sure_to_put_back": {
+      "title": "",
+      "message_": ""
+    },
+    "are_you_sure_to_delete": {
+      "title": "",
+      "message": ""
     }
   },
   "app": {
@@ -134,10 +143,12 @@
     "add": "បុក / ករ",
     "add_ons": "កម្មវិធីបន្ថែម",
     "agree": "យល់របម",
-    "archive": "ក្សីបិប",
+    "archive": "",
     "backup_now": "បម្រុងទុកឥឡូវនេះ",
     "buy": "",
     "cancel": "បោះបង់",
+    "change_date": "",
+    "change_time": "",
     "continue": "កាង",
     "copy_link": "",
     "create_new": "បង្កើត​ថ្មី",
@@ -146,6 +157,7 @@
     "disconnect": "ផ្ដាច់",
     "done": "រ្យេឱដេនោ",
     "go_home": "",
+    "go_to_setting": "",
     "insert_page_break": "",
     "listen_with_mini_player": "ស្តាប់ជាមួយអ្នកលេងតូច",
     "login": "",
@@ -156,6 +168,7 @@
     "open_setting": "",
     "perminently_delete": "លុប",
     "play": "ការលេង",
+    "put_back": "",
     "restore": "ចយសចុល",
     "restore_purchase": "ស្តារការទិញ",
     "restore_version": "",
@@ -167,15 +180,19 @@
     "select": "",
     "select_version": "",
     "sound_library": "បណ្ណាល័យស្តាប់ទៅបណ្ណាល័យ",
+    "starred": "",
     "stop": "",
     "try": "",
+    "unstarred": "",
     "update": "ធេវីអាេយយរមយរ",
     "validate": "ធ្វើ​ឱ្យ​មាន​សុពលភាព",
     "verify": "ផ្ទៀង​ផ្ទាត់",
     "view": "",
     "view_on_web": "",
     "view_story": "",
-    "go_to_setting": ""
+    "move_to_bin": "",
+    "perminent_delete": "",
+    "undo": ""
   },
   "date": {
     "created_at": ""
@@ -238,6 +255,10 @@
     "downloaded": "ដេលបានទាញយក",
     "downloading": "ការទាញយក",
     "draft": "",
+    "empty": {
+      "empty": "",
+      "what_did_you_have_in_mind": ""
+    },
     "enter_password": "បញ្ចូលពាក្យសម្ងាត់របស់អ្នក",
     "file_too_big": "ឯកសារធំពេក",
     "hello_user": "សួស្តី {}",
@@ -276,9 +297,23 @@
     "synced": "សញ្ញុង",
     "unknown": "",
     "unsupported_file": "",
-    "empty": {
-      "what_did_you_have_in_mind": "",
-      "empty": ""
+    "archive": {
+      "success": "",
+      "fail": ""
+    },
+    "put_back": {
+      "success": "",
+      "fail": ""
+    },
+    "move_to_bin": {
+      "title": "",
+      "message": "",
+      "success": "",
+      "fail": ""
+    },
+    "perminent_delete": {
+      "success": "",
+      "fail": ""
     }
   },
   "notification_channel": {
@@ -410,6 +445,11 @@
       "title": "អ្នក​ប្រើ"
     }
   },
+  "path_type": {
+    "archives": "",
+    "bins": "",
+    "docs": ""
+  },
   "plural": {
     "documents": {
       "few": "",
@@ -442,6 +482,22 @@
       "other": "{} រឿង",
       "two": "2 រឿង",
       "zero": "0 រឿង"
+    },
+    "images": {
+      "few": "",
+      "many": "",
+      "one": "",
+      "other": "",
+      "two": "",
+      "zero": ""
+    },
+    "pages": {
+      "few": "",
+      "many": "",
+      "one": "",
+      "other": "",
+      "two": "",
+      "zero": ""
     }
   },
   "question": {
@@ -483,6 +539,10 @@
       "update": "លេខកូដ PIN ធ្វើបច្ចុប្បន្នភាព"
     }
   },
+  "sound_type": {
+    "music": "",
+    "sound": ""
+  },
   "step": {
     "delete_account": {
       "step1": {
@@ -521,6 +581,11 @@
     "fonts": "",
     "others": "ផ្សេងៗ",
     "recommend": "បានណែនាំ"
+  },
+  "theme_mode": {
+    "dark": "",
+    "light": "",
+    "system": ""
   },
   "tile": {
     "add_your_own_questions": "បន្ថែមសំណួរផ្ទាល់ខ្លួនរបស់អ្នក",
@@ -666,19 +731,5 @@
     "words": {
       "title": ""
     }
-  },
-  "theme_mode": {
-    "system": "",
-    "dark": "",
-    "light": ""
-  },
-  "path_type": {
-    "docs": "",
-    "bins": "",
-    "archives": ""
-  },
-  "sound_type": {
-    "sound": "",
-    "music": ""
   }
 }

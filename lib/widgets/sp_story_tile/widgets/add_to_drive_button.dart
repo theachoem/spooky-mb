@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/api/authentication/google_auth_service.dart';
@@ -40,8 +41,8 @@ class _AddToDriveButtonState extends State<AddToDriveButton> {
     if (!signedIn) {
       OkCancelResult result = await showOkAlertDialog(
         context: context,
-        title: "Connect with Google Drive",
-        okLabel: "Connect",
+        title: tr("tile.connect_with_drive.title"),
+        okLabel: tr("button.connect"),
       );
       if (result == OkCancelResult.ok) {
         await GoogleAuthService.instance.signIn();
@@ -120,7 +121,7 @@ class _AddToDriveButtonState extends State<AddToDriveButton> {
         opacity: widget.fileImages.isEmpty ? 0 : 1,
         duration: ConfigConstant.duration,
         child: SpChip(
-          labelText: "Upload",
+          labelText: tr("button.upload"),
           onTap: () async {
             upload();
           },
