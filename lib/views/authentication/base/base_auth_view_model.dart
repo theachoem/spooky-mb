@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/api/cloud_firestore/users_firestore_database.dart';
@@ -29,7 +30,7 @@ class BaseAuthViewModel extends BaseViewModel {
         return;
       } else {
         MessengerService.instance.showSnackBar(
-          provider.authApi.errorMessage ?? "Connect unsuccessfully",
+          provider.authApi.errorMessage ?? tr("msg.connect.fail"),
           success: false,
           showAction: false,
         );
