@@ -127,6 +127,7 @@ class _FontManagerMobileState extends State<_FontManagerMobile> with ScaffoldTog
               context: context,
               title: tr("tile.font_weight.title"),
               initialSelectedActionKey: notifier.fontWeight,
+              cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
               actions: weights.map((e) {
                 return AlertDialogAction(
                   key: e,

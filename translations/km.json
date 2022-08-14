@@ -1,12 +1,41 @@
 {
   "alert": {
+    "acc_deletion_access_denied": {
+      "message": "",
+      "title": ""
+    },
     "action_required": {
       "set_security_question": "កំណត់សំណួរសុវត្ថិភាពដើម្បីសង្គ្រោះនៅពេលគ្មានសិទ្ធិដោះសោ",
       "title": "ទាមទារសកម្មភាព"
     },
+    "add_image_url": {
+      "title": ""
+    },
     "already_used_dynamic_color": {
       "message": "សូមផ្លាស់ប្តូររបៀបស្បែកដើម្បីកំណត់ពណ៌ផ្ទាល់ខ្លួន។",
       "title": "អ្នកកំពុងប្រើពណ៌ថាមវន្ត!"
+    },
+    "answer_to_unlock": {
+      "title": ""
+    },
+    "are_you_sure_to_archive": {
+      "title": ""
+    },
+    "are_you_sure_to_delete_account": {
+      "message": "",
+      "title": ""
+    },
+    "are_you_sure_to_delete_backup": {
+      "subtitle": "",
+      "title": ""
+    },
+    "are_you_sure_to_delete_changes": {
+      "message": "",
+      "title": ""
+    },
+    "backup_override": {
+      "message": "",
+      "title": ""
     },
     "create_tag": {
       "title": ""
@@ -21,6 +50,20 @@
     },
     "disconnect_provider": {
       "title": "តើអ្នកប្រាកដជាផ្តាច់មុខទេ?"
+    },
+    "document_saved": {
+      "subtitle": "",
+      "title": ""
+    },
+    "image_source": {
+      "title": ""
+    },
+    "image": {
+      "title": ""
+    },
+    "login_required": {
+      "message": "",
+      "title": ""
     },
     "logout": {
       "subtitle": "អ្នកអាចចូលវិញបានគ្រប់ពេល។",
@@ -40,7 +83,25 @@
       "message": "",
       "title": ""
     },
+    "save_document_first": {
+      "title": ""
+    },
     "save_draft": "",
+    "security": {
+      "enter_confirm_passcode": "",
+      "enter_new_password": {
+        "title": ""
+      },
+      "enter_passcode": "",
+      "no_enrolled_biometric": {
+        "message": "",
+        "title": ""
+      },
+      "unsupport_biometric": {
+        "message": "",
+        "title": ""
+      }
+    },
     "sound_pause_scheduled": {
       "title": "បន្លឺសំឡេងជាកាលវិភាគ"
     },
@@ -60,57 +121,7 @@
     "year": {
       "title": "ឈ្នាម"
     },
-    "save_document_first": {
-      "title": ""
-    },
-    "are_you_sure_to_archive": {
-      "title": ""
-    },
-    "image_source": {
-      "title": ""
-    },
-    "image": {
-      "title": ""
-    },
-    "add_image_url": {
-      "title": ""
-    },
-    "are_you_sure_to_delete_changes": {
-      "title": "",
-      "message": ""
-    },
-    "are_you_sure_to_delete_backup": {
-      "title": "",
-      "subtitle": ""
-    },
-    "login_required": {
-      "title": "",
-      "message": ""
-    },
-    "are_you_sure_to_delete_account": {
-      "title": "",
-      "message": ""
-    },
-    "acc_deletion_access_denied": {
-      "title": "",
-      "message": ""
-    },
-    "security": {
-      "enter_new_password": {
-        "title": ""
-      },
-      "unsupport_biometric": {
-        "title": "",
-        "message": ""
-      },
-      "no_enrolled_biometric": {
-        "title": "",
-        "message": ""
-      },
-      "enter_passcode": "",
-      "enter_confirm_passcode": ""
-    },
-    "answer_to_unlock": {
+    "theme": {
       "title": ""
     }
   },
@@ -125,40 +136,49 @@
     "agree": "យល់របម",
     "archive": "ក្សីបិប",
     "backup_now": "បម្រុងទុកឥឡូវនេះ",
+    "buy": "",
+    "cancel": "បោះបង់",
     "continue": "កាង",
+    "copy_link": "",
     "create_new": "បង្កើត​ថ្មី",
     "delete": "",
     "discard": "",
     "disconnect": "ផ្ដាច់",
     "done": "រ្យេឱដេនោ",
+    "go_home": "",
+    "insert_page_break": "",
     "listen_with_mini_player": "ស្តាប់ជាមួយអ្នកលេងតូច",
     "login": "",
+    "manage_versions": "",
     "next": "បន្ទាប់បិនេហ",
     "no_longer_access": "លែងចូលទៀតទេ?",
+    "open": "",
+    "open_setting": "",
     "perminently_delete": "លុប",
     "play": "ការលេង",
     "restore": "ចយសចុល",
     "restore_purchase": "ស្តារការទិញ",
+    "restore_version": "",
     "retry": "ាប់រេគ្រប់យ៉ាងបី",
     "review": "សរសេររិហកន់",
     "save": "សរេង្គាហ",
     "save_exit": "",
     "search_fonts": "ស្វែងរកពុម្ពអក្សរ",
+    "select": "",
+    "select_version": "",
     "sound_library": "បណ្ណាល័យស្តាប់ទៅបណ្ណាល័យ",
-    "stop": "ការឈប់",
+    "stop": "",
+    "try": "",
     "update": "ធេវីអាេយយរមយរ",
     "validate": "ធ្វើ​ឱ្យ​មាន​សុពលភាព",
     "verify": "ផ្ទៀង​ផ្ទាត់",
     "view": "",
-    "insert_page_break": "",
     "view_on_web": "",
-    "copy_link": "",
     "view_story": "",
-    "select": "",
-    "restore_version": "",
-    "buy": "",
-    "try": "",
-    "open_setting": ""
+    "go_to_setting": ""
+  },
+  "date": {
+    "created_at": ""
   },
   "field": {
     "answer": {
@@ -167,6 +187,10 @@
     },
     "backup_url": {
       "hint_text": "URL បម្រុងទុក ..."
+    },
+    "image_url": {
+      "hint_text": "",
+      "validation": ""
     },
     "nickname": {
       "hint_text": "សម្មតិនាម",
@@ -189,22 +213,23 @@
     "title": {
       "hint_text": ""
     },
-    "image_url": {
-      "hint_text": "",
-      "validation": ""
-    },
     "verify_name": {
       "hint_text": ""
     }
   },
   "msg": {
+    "account_deletion": "",
+    "add_on_unavailable": "",
+    "archived": "",
     "break_time": {
       "mn": "ពេលវេលាសម្រាក: {} Mn"
     },
+    "coming_soon": "",
     "connect": {
       "fail": "",
       "success": "ភ្ជាប់ដោយជោគជ័យ"
     },
+    "copied": "",
     "copyright": "© {មួយឆ្នាំ} ជិន",
     "disconnect": {
       "fail": "ធ្លាក់",
@@ -212,47 +237,54 @@
     },
     "downloaded": "ដេលបានទាញយក",
     "downloading": "ការទាញយក",
+    "draft": "",
     "enter_password": "បញ្ចូលពាក្យសម្ងាត់របស់អ្នក",
     "file_too_big": "ឯកសារធំពេក",
     "hello_user": "សួស្តី {}",
+    "invalid_image_source": "",
     "keep_at_least_one_provider": "រក្សាយ៉ាងហោចណាស់អ្នកផ្តល់ផ្គត់ផ្គង់ដែលបានភ្ជាប់។",
+    "last_synced": "",
+    "latest": "",
     "lock_life_circle": "ចាក់សោកម្មវិធីនៅពេលអសកម្មសម្រាប់ {} វិនាទី",
     "lock_life_circle_minimum": "អប្បបរមា 10 វិនាទី",
+    "logged_in": "",
+    "login_to_sync_data": "",
     "lorem": "ដោយយល់ឃើញថា ការមិនទទួលស្គាល់ និងការប្រមាថមើលងាយសិទ្ធិមនុស្ស នាំឱ្យមានអំពើ ព្រៃផ្សៃសាហាវយង់ឃ្នង ធ្វើឱ្យក្ដៅក្រហាយដល់សតិសម្បជញ្ញៈមនុស្សជាតិ",
+    "must_bigger_than_5_items": "",
     "no_answer_provided": "គ្មានចម្លើយដែលបានផ្តល់",
     "no_document_found": "រកមិនឃើញឯកសារ",
+    "no_security_questions": "",
+    "no_title": "",
+    "purchased": "",
+    "response_null": "",
     "restore": {
       "success": "បានស្តារឡើងវិញ"
     },
+    "restored_backup": "",
     "saving_draft": "",
-    "synced": "សញ្ញុង",
-    "archived": "",
-    "invalid_image_source": "",
-    "copied": "",
-    "no_title": "",
-    "unknown": "",
-    "last_synced": "",
-    "logged_in": "",
-    "login_to_sync_data": "",
-    "coming_soon": "",
-    "latest": "",
-    "draft": "",
-    "should_not_delete_latest_one": "",
-    "must_bigger_than_5_items": "",
-    "unsupported_file": "",
-    "sign_up": {
-      "try_somthing_": "",
-      "_different": "",
-      "subtitle": ""
-    },
-    "add_on_unavailable": "",
-    "purchased": "",
-    "account_deletion": "",
-    "no_security_questions": "",
     "security": {
-      "match_cleared": "",
       "incorrect_answer": "",
+      "match_cleared": "",
       "unlock_to_open_app": ""
+    },
+    "should_not_delete_latest_one": "",
+    "sign_up": {
+      "_different": "",
+      "subtitle": "",
+      "try_somthing_": ""
+    },
+    "synced": "សញ្ញុង",
+    "unknown": "",
+    "unsupported_file": ""
+  },
+  "notification_channel": {
+    "auto_save": {
+      "description": "",
+      "name": ""
+    },
+    "play_sound": {
+      "description": "",
+      "name": ""
     }
   },
   "page": {
@@ -375,6 +407,14 @@
     }
   },
   "plural": {
+    "documents": {
+      "few": "",
+      "many": "",
+      "one": "",
+      "other": "",
+      "two": "",
+      "zero": ""
+    },
     "file_size_mb": {
       "few": "{} MB",
       "many": "{} MB",
@@ -408,6 +448,7 @@
     "new_story": "រឿងថ្មី"
   },
   "section": {
+    "actions": "",
     "advance": "ចមរើន",
     "features": "លក្ខណៈពិសេស",
     "font": "ពុម្ពអក្សរ",
@@ -419,10 +460,9 @@
     "settings": "ការកំណត់",
     "story": "រ្យេង",
     "tags": "ស្លាក",
-    "types": "ប្រភេទ",
-    "user": "អ្នក​ប្រើ",
     "title": "",
-    "actions": ""
+    "types": "ប្រភេទ",
+    "user": "អ្នក​ប្រើ"
   },
   "sections": {
     "options": "ជម្រើស"
@@ -440,6 +480,19 @@
     }
   },
   "step": {
+    "delete_account": {
+      "step1": {
+        "message": "",
+        "title": ""
+      },
+      "step2": {
+        "message": "",
+        "title": ""
+      },
+      "step3": {
+        "title": ""
+      }
+    },
     "migrate_storypad": {
       "step1": {
         "message": "នៅក្នុងថាស Google ។ ថត \"រឿង\" រកឃើញឯកសារហ្ស៊ីប & បិទភ្ជាប់ URL របស់វានៅទីនេះ។",
@@ -457,19 +510,6 @@
         "subtitle": "សរសេរពួកវាទៅ spooky",
         "title": "ចយសចុល"
       }
-    },
-    "delete_account": {
-      "step3": {
-        "title": ""
-      },
-      "step2": {
-        "title": "",
-        "message": ""
-      },
-      "step1": {
-        "title": "",
-        "message": ""
-      }
     }
   },
   "tag": {
@@ -484,6 +524,9 @@
       "subtitle": "ដោះសោមូលដ្ឋានកម្មវិធីនៅលើជីវមាត្រ",
       "title": "ជីវមាត្រ"
     },
+    "changes": {
+      "title": ""
+    },
     "check_for_update": {
       "title": "ពិនិត្យមើលបច្ចុប្បន្នភាព"
     },
@@ -491,14 +534,15 @@
       "title": "ប៍ន"
     },
     "connect_with": {
-      "title": "ភ្ជាប់ជាមួយ {អ្នកផ្តល់សេវា}",
-      "google": "",
+      "apple": "",
       "facebook": "",
-      "apple": ""
+      "google": "",
+      "title": "ភ្ជាប់ជាមួយ {អ្នកផ្តល់សេវា}"
     },
     "created_at": {
       "title": "បានបង្កើតនៅ"
     },
+    "crop_image": "",
     "date": {
       "title": ""
     },
@@ -530,6 +574,9 @@
     },
     "none": {
       "title": "ឥតមានអវីសោហ"
+    },
+    "pages": {
+      "title": ""
     },
     "pin_code": {
       "subtitle": "4 ខ្ទង់",
@@ -569,6 +616,10 @@
       "subtitle": "ចែករំលែកបទពិសោធន៍របាយការណ៍និងការស្នើសុំ",
       "title": "សហគមន៍ spooky"
     },
+    "spooky_restore": {
+      "subtitle": "",
+      "title": ""
+    },
     "starred": {
       "title": "សម្តែង"
     },
@@ -582,18 +633,7 @@
     "use_this_fonts": {
       "title": ""
     },
-    "version": "កមបុរក្នា",
-    "changes": {
-      "title": ""
-    },
-    "pages": {
-      "title": ""
-    },
-    "crop_image": "",
-    "spooky_restore": {
-      "subtitle": "",
-      "title": ""
-    }
+    "version": "កមបុរក្នា"
   },
   "time": {
     "mn": "{} MN",
@@ -623,7 +663,9 @@
       "title": ""
     }
   },
-  "date": {
-    "created_at": ""
+  "theme_mode": {
+    "system": "",
+    "dark": "",
+    "light": ""
   }
 }

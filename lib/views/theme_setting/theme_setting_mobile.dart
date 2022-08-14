@@ -192,6 +192,7 @@ class _ThemeSettingMobile extends StatelessWidget {
             context: context,
             title: tr("tile.sort.title"),
             initialSelectedActionKey: sortType,
+            cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
             actions: [
               AlertDialogAction(
                 key: SortType.newToOld,
@@ -241,6 +242,8 @@ class _ThemeSettingMobile extends StatelessWidget {
           context: context,
           title: tr("tile.layout.title"),
           initialSelectedActionKey: layoutType,
+          // ignore: use_build_context_synchronously
+          cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
           actions: SpListLayoutType.values.map((e) {
             return AlertDialogAction(
               key: e,

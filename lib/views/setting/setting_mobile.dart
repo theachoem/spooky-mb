@@ -215,6 +215,7 @@ class _SettingMobile extends StatelessWidget {
       final uri = await showConfirmationDialog(
         context: context,
         title: "Open via",
+        cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
         actions: [
           const AlertDialogAction(
             label: "IOS (fb://group?id=id)",

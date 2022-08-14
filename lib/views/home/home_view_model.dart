@@ -80,6 +80,8 @@ class HomeViewModel extends BaseViewModel {
       title: tr("alert.year.title"),
       actions: actions,
       initialSelectedActionKey: "$year",
+      // ignore: use_build_context_synchronously
+      cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
     ).then((selectedOption) async {
       if (selectedOption == null) return;
       if (selectedOption == "create") {

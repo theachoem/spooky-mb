@@ -1,12 +1,41 @@
 {
   "alert": {
+    "acc_deletion_access_denied": {
+      "message": "Verify that you still have access to one of these before you can delete.",
+      "title": "Access Denied"
+    },
     "action_required": {
       "set_security_question": "Set security questions to recover when no access to unlock",
       "title": "Action required"
     },
+    "add_image_url": {
+      "title": "Add an image"
+    },
     "already_used_dynamic_color": {
       "message": "Please change theme mode, to set custom color.",
       "title": "You are using system dynamic color!"
+    },
+    "answer_to_unlock": {
+      "title": "Answer one of these questions to unlock"
+    },
+    "are_you_sure_to_archive": {
+      "title": "Are you sure to archive document?"
+    },
+    "are_you_sure_to_delete_account": {
+      "message": "You can't undo this action.",
+      "title": "Are you to delete?"
+    },
+    "are_you_sure_to_delete_backup": {
+      "subtitle": "{} selected",
+      "title": "Are you sure to delete?"
+    },
+    "are_you_sure_to_delete_changes": {
+      "message": "{} selected",
+      "title": "Are you sure to delete?"
+    },
+    "backup_override": {
+      "message": "Exist stories will be overrided by cloud stories. Are you sure to restore?",
+      "title": "Notice"
     },
     "create_tag": {
       "title": "Enter tag"
@@ -21,6 +50,20 @@
     },
     "disconnect_provider": {
       "title": "Are you sure to disconnect?"
+    },
+    "document_saved": {
+      "subtitle": "Document is saved in",
+      "title": "Your document is saved"
+    },
+    "image_source": {
+      "title": "Image source"
+    },
+    "image": {
+      "title": "Image"
+    },
+    "login_required": {
+      "message": "Please login to purchase the add-on",
+      "title": "Login required"
     },
     "logout": {
       "subtitle": "You can log in back anytime.",
@@ -40,7 +83,25 @@
       "message": "This tags will be deleted globally, you can't undo this action",
       "title": "Are you sure to delete tag?"
     },
+    "save_document_first": {
+      "title": "Please save document first"
+    },
     "save_draft": "Save draft?",
+    "security": {
+      "enter_confirm_passcode": "Please enter confirm passcode",
+      "enter_new_password": {
+        "title": "Please enter new passcode"
+      },
+      "enter_passcode": "Please enter passcode",
+      "no_enrolled_biometric": {
+        "message": "No biometrics set on device",
+        "title": "Error"
+      },
+      "unsupport_biometric": {
+        "message": "Device does not support for biometrics",
+        "title": "Error"
+      }
+    },
     "sound_pause_scheduled": {
       "title": "Sound paused as schedule"
     },
@@ -60,58 +121,8 @@
     "year": {
       "title": "Year"
     },
-    "save_document_first": {
-      "title": "Please save document first"
-    },
-    "are_you_sure_to_archive": {
-      "title": "Are you sure to archive document?"
-    },
-    "image_source": {
-      "title": "Image source"
-    },
-    "image": {
-      "title": "Image"
-    },
-    "add_image_url": {
-      "title": "Add an image"
-    },
-    "are_you_sure_to_delete_changes": {
-      "title": "Are you sure to delete?",
-      "message": "{} selected"
-    },
-    "are_you_sure_to_delete_backup": {
-      "title": "Are you sure to delete?",
-      "subtitle": "{} selected"
-    },
-    "login_required": {
-      "title": "Login required",
-      "message": "Please login to purchase the add-on"
-    },
-    "are_you_sure_to_delete_account": {
-      "title": "Are you to delete?",
-      "message": "You can't undo this action."
-    },
-    "acc_deletion_access_denied": {
-      "title": "Access Denied",
-      "message": "Verify that you still have access to one of these before you can delete."
-    },
-    "security": {
-      "enter_new_password": {
-        "title": "Please enter new passcode"
-      },
-      "unsupport_biometric": {
-        "title": "Error",
-        "message": "Device does not support for biometrics"
-      },
-      "no_enrolled_biometric": {
-        "title": "Error",
-        "message": "No biometrics set on device"
-      },
-      "enter_passcode": "Please enter passcode",
-      "enter_confirm_passcode": "Please enter confirm passcode"
-    },
-    "answer_to_unlock": {
-      "title": "Answer one of these questions to unlock"
+    "theme": {
+      "title": "Theme"
     }
   },
   "app": {
@@ -125,40 +136,49 @@
     "agree": "Agree",
     "archive": "Archive",
     "backup_now": "Backup now",
+    "buy": "Buy",
+    "cancel": "Cancel",
     "continue": "Contnue",
+    "copy_link": "Copy link",
     "create_new": "Create new",
     "delete": "Delete",
     "discard": "Discard",
     "disconnect": "Disconnect",
     "done": "Done",
+    "go_home": "Go home",
+    "insert_page_break": "Insert page break",
     "listen_with_mini_player": "Listen with mini player",
     "login": "Login",
+    "manage_versions": "Manage versions",
     "next": "Next",
     "no_longer_access": "No longer access?",
+    "open": "Open",
+    "open_setting": "Open Setting",
     "perminently_delete": "Perminently delete",
     "play": "Play",
     "restore": "Restore",
     "restore_purchase": "Restore Purchases",
+    "restore_version": "Restore this version",
     "retry": "Retry",
     "review": "Review",
     "save": "Save",
     "save_exit": "Save and exit",
     "search_fonts": "Search fonts",
+    "select": "Select",
+    "select_version": "Select a version",
     "sound_library": "Sounds Library",
     "stop": "Stop",
+    "try": "Try",
     "update": "Update",
     "validate": "Validate",
     "verify": "Verify",
     "view": "View",
-    "insert_page_break": "Insert page break",
     "view_on_web": "View on web",
-    "copy_link": "Copy link",
     "view_story": "View Story",
-    "select": "Select",
-    "restore_version": "Restore this version",
-    "buy": "Buy",
-    "try": "Try",
-    "open_setting": "Open Setting"
+    "go_to_setting": "Go to Setting"
+  },
+  "date": {
+    "created_at": "Created at {DATE}"
   },
   "field": {
     "answer": {
@@ -167,6 +187,10 @@
     },
     "backup_url": {
       "hint_text": "Backup url..."
+    },
+    "image_url": {
+      "hint_text": "Image url",
+      "validation": "Invalid image url"
     },
     "nickname": {
       "hint_text": "Nickname",
@@ -189,22 +213,23 @@
     "title": {
       "hint_text": "Title..."
     },
-    "image_url": {
-      "hint_text": "Image url",
-      "validation": "Invalid image url"
-    },
     "verify_name": {
       "hint_text": "Verify label..."
     }
   },
   "msg": {
+    "account_deletion": "Account deletion",
+    "add_on_unavailable": "Add-on unavailable",
+    "archived": "Archived",
     "break_time": {
       "mn": "Break time: {} mn"
     },
+    "coming_soon": "Coming soon",
     "connect": {
       "fail": "Connect unsuccessfully",
       "success": "Connect successfully"
     },
+    "copied": "Copied",
     "copyright": "© {YEAR} Juniorise",
     "disconnect": {
       "fail": "Fail",
@@ -212,47 +237,54 @@
     },
     "downloaded": "Downloaded",
     "downloading": "Downloading",
+    "draft": "Draft",
     "enter_password": "Enter your password",
     "file_too_big": "File too big",
     "hello_user": "Hello {}",
+    "invalid_image_source": "Invalid image source",
     "keep_at_least_one_provider": "Keep at least one connected provider.",
+    "last_synced": "Last synced - {DATE}",
+    "latest": "Latest",
     "lock_life_circle": "Lock application when inactive for {} seconds",
     "lock_life_circle_minimum": "10 seconds minimum",
+    "logged_in": "Logged in",
+    "login_to_sync_data": "Login to sync data",
     "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "must_bigger_than_5_items": "Must not bigger than 5 items",
     "no_answer_provided": "No answer provided",
     "no_document_found": "No documents found",
+    "no_security_questions": "No security question!",
+    "no_title": "No title",
+    "purchased": "Purchased",
+    "response_null": "Response null",
     "restore": {
       "success": "Restored"
     },
+    "restored_backup": "Restored",
     "saving_draft": "Saving draft...",
-    "synced": "Synced",
-    "archived": "Archived",
-    "invalid_image_source": "Invalid image source",
-    "copied": "Copied",
-    "no_title": "No title",
-    "unknown": "Unknown",
-    "last_synced": "Last synced - {DATE}",
-    "logged_in": "Logged in",
-    "login_to_sync_data": "Login to sync data",
-    "coming_soon": "Coming soon",
-    "latest": "Latest",
-    "draft": "Draft",
-    "should_not_delete_latest_one": "Should not delete the latest one!",
-    "must_bigger_than_5_items": "Must not bigger than 5 items",
-    "unsupported_file": "Unsupported file",
-    "sign_up": {
-      "try_somthing_": "Try something...",
-      "_different": "Different",
-      "subtitle": "Register to purchase or restore your add-ons."
-    },
-    "add_on_unavailable": "Add-on unavailable",
-    "purchased": "Purchased",
-    "account_deletion": "Account deletion",
-    "no_security_questions": "No security question!",
     "security": {
-      "match_cleared": "Matched {}%. Lock cleared!",
       "incorrect_answer": "Incorrect answer",
+      "match_cleared": "Matched {}%. Lock cleared!",
       "unlock_to_open_app": "Unlock to open the app"
+    },
+    "should_not_delete_latest_one": "Should not delete the latest one!",
+    "sign_up": {
+      "_different": "Different",
+      "subtitle": "Register to purchase or restore your add-ons.",
+      "try_somthing_": "Try something..."
+    },
+    "synced": "Synced",
+    "unknown": "Unknown",
+    "unsupported_file": "Unsupported file"
+  },
+  "notification_channel": {
+    "auto_save": {
+      "description": "Show notification when stories is auto saved on app inactive.",
+      "name": "Auto Save Notification"
+    },
+    "play_sound": {
+      "description": "Show sound player in notification",
+      "name": "Play Sounds"
     }
   },
   "page": {
@@ -375,6 +407,14 @@
     }
   },
   "plural": {
+    "documents": {
+      "few": "{} documents",
+      "many": "{} documents",
+      "one": "1 document",
+      "other": "{} documents",
+      "two": "2 documents",
+      "zero": "0 document"
+    },
     "file_size_mb": {
       "few": "{} mb",
       "many": "{} mb",
@@ -408,6 +448,7 @@
     "new_story": "New Story"
   },
   "section": {
+    "actions": "Actions",
     "advance": "Advance",
     "features": "Features",
     "font": "Font",
@@ -419,10 +460,9 @@
     "settings": "Settings",
     "story": "Story",
     "tags": "Tags",
-    "types": "Types",
-    "user": "User",
     "title": "Title",
-    "actions": "Actions"
+    "types": "Types",
+    "user": "User"
   },
   "sections": {
     "options": "Options"
@@ -440,6 +480,19 @@
     }
   },
   "step": {
+    "delete_account": {
+      "step1": {
+        "message": "Deleting this account will permanently delete your purchased add-ons that are associated.",
+        "title": "Agree with condition"
+      },
+      "step2": {
+        "message": "Please type **{NAME}** to verify.",
+        "title": "Verify deletion"
+      },
+      "step3": {
+        "title": "Confirmation"
+      }
+    },
     "migrate_storypad": {
       "step1": {
         "message": "In Google Drive. \"Story\" folder, find a zip file & paste its url here.",
@@ -457,19 +510,6 @@
         "subtitle": "Write them to Spooky",
         "title": "Restore"
       }
-    },
-    "delete_account": {
-      "step3": {
-        "title": "Confirmation"
-      },
-      "step2": {
-        "title": "Verify deletion",
-        "message": "Please type **{NAME}** to verify."
-      },
-      "step1": {
-        "title": "Agree with condition",
-        "message": "Deleting this account will permanently delete your purchased add-ons that are associated."
-      }
     }
   },
   "tag": {
@@ -484,6 +524,9 @@
       "subtitle": "Unlock app base on biometric",
       "title": "Biometrics"
     },
+    "changes": {
+      "title": "Changes"
+    },
     "check_for_update": {
       "title": "Check for update"
     },
@@ -491,14 +534,15 @@
       "title": "Color"
     },
     "connect_with": {
-      "title": "Connect with {PROVIDER}",
-      "google": "Continue with Google",
+      "apple": "Continue with Apple",
       "facebook": "Continue with Facebook",
-      "apple": "Continue with Apple"
+      "google": "Continue with Google",
+      "title": "Connect with {PROVIDER}"
     },
     "created_at": {
       "title": "Created at"
     },
+    "crop_image": "Crop Image",
     "date": {
       "title": "Date"
     },
@@ -530,6 +574,9 @@
     },
     "none": {
       "title": "None"
+    },
+    "pages": {
+      "title": "Pages"
     },
     "pin_code": {
       "subtitle": "4 digit",
@@ -569,6 +616,10 @@
       "subtitle": "Share experience, report & request",
       "title": "Spooky Community"
     },
+    "spooky_restore": {
+      "subtitle": "Migrate from StoryPad to Spooky",
+      "title": "StoryPad"
+    },
     "starred": {
       "title": "Starred"
     },
@@ -582,18 +633,7 @@
     "use_this_fonts": {
       "title": "Use this font"
     },
-    "version": "Version",
-    "changes": {
-      "title": "Changes"
-    },
-    "pages": {
-      "title": "Pages"
-    },
-    "crop_image": "Crop Image",
-    "spooky_restore": {
-      "subtitle": "Migrate from StoryPad to Spooky",
-      "title": "StoryPad"
-    }
+    "version": "Version"
   },
   "time": {
     "mn": "{} mn",
@@ -623,7 +663,9 @@
       "title": "Words"
     }
   },
-  "date": {
-    "created_at": "Created at {DATE}"
+  "theme_mode": {
+    "system": "System",
+    "dark": "Dark",
+    "light": "Light"
   }
 }

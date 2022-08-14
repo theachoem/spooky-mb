@@ -91,6 +91,7 @@ class _BackupsDetailsMobile extends StatelessWidget {
       context: context,
       title: tr("button.select_version"),
       initialSelectedActionKey: viewModel.selectCloudFileId,
+      cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
       actions: result.map((e) {
         String cloudFileId = e.cloudFile.id;
         return AlertDialogAction(
