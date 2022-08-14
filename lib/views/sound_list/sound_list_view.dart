@@ -6,6 +6,7 @@ import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
+import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/models/sound_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';

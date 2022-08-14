@@ -275,7 +275,11 @@
     },
     "synced": "សញ្ញុង",
     "unknown": "",
-    "unsupported_file": ""
+    "unsupported_file": "",
+    "empty": {
+      "what_did_you_have_in_mind": "",
+      "empty": ""
+    }
   },
   "notification_channel": {
     "auto_save": {
@@ -667,5 +671,14 @@
     "system": "",
     "dark": "",
     "light": ""
+  },
+  "path_type": {
+    "docs": "",
+    "bins": "",
+    "archives": ""
+  },
+  "sound_type": {
+    "sound": "",
+    "music": ""
   }
 }

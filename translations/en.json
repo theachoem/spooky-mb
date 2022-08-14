@@ -275,7 +275,11 @@
     },
     "synced": "Synced",
     "unknown": "Unknown",
-    "unsupported_file": "Unsupported file"
+    "unsupported_file": "Unsupported file",
+    "empty": {
+      "what_did_you_have_in_mind": "What did you have in mind?",
+      "empty": "Empty"
+    }
   },
   "notification_channel": {
     "auto_save": {
@@ -667,5 +671,14 @@
     "system": "System",
     "dark": "Dark",
     "light": "Light"
+  },
+  "path_type": {
+    "docs": "Docs",
+    "bins": "Bins",
+    "archives": "Archives"
+  },
+  "sound_type": {
+    "sound": "Sounds",
+    "music": "Music"
   }
 }

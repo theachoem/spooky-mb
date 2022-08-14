@@ -1,11 +1,11 @@
 library archive_view;
 
 import 'package:spooky/core/base/view_model_provider.dart';
+import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/home/local_widgets/story_query_list.dart';
-import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 import 'package:flutter/material.dart';

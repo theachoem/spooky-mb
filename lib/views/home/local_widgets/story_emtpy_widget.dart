@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/types/path_type.dart';
@@ -27,15 +28,15 @@ class StoryEmptyWidget extends StatelessWidget {
     switch (pathType) {
       case PathType.docs:
       case null:
-        title = "What did you have in mind?";
+        title = tr("msg.empty.what_did_you_have_in_mind");
         iconData = Icons.color_lens;
         break;
       case PathType.bins:
-        title = "Empty";
+        title = tr("msg.empty.empty");
         iconData = Icons.delete;
         break;
       case PathType.archives:
-        title = "Empty";
+        title = tr("msg.empty.empty");
         iconData = Icons.archive;
         break;
     }

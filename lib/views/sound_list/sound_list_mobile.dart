@@ -108,7 +108,13 @@ class _SoundListMobile extends StatelessWidget {
   ) {
     List<SoundModel>? sounds = viewModel.soundsMap[type];
     return SliverStickyHeader(
-      header: SpFadeIn(child: _SoundTypeHeader(context: context, text: type.name.capitalize, type: type)),
+      header: SpFadeIn(
+        child: _SoundTypeHeader(
+          context: context,
+          text: TypeLocalization.soundType(type),
+          type: type,
+        ),
+      ),
       sliver: SliverList(
         delegate: SliverChildBuilderDelegate(
           (context, index) {

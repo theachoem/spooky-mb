@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
@@ -69,22 +70,11 @@ class SpThemeSwitcher extends StatefulWidget {
     });
   }
 
-  static String themeModeLocale(ThemeMode mode) {
-    switch (mode) {
-      case ThemeMode.system:
-        return tr("theme_mode.system");
-      case ThemeMode.light:
-        return tr("theme_mode.light");
-      case ThemeMode.dark:
-        return tr("theme_mode.dark");
-    }
-  }
-
   static List<AlertDialogAction<String>> get themeModeActions {
     return ThemeMode.values.map((e) {
       return AlertDialogAction(
         key: e.name,
-        label: themeModeLocale(e),
+        label: TypeLocalization.themeMode(e),
       );
     }).toList();
   }

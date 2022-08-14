@@ -3,9 +3,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
+import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/types/path_type.dart';
-import 'package:spooky/utils/extensions/string_extension.dart';
 import 'package:spooky/utils/mixins/scaffold_end_drawerable_mixin.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
@@ -145,7 +145,7 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
           return RadioListTile<PathType>(
             groupValue: queryOption.type,
             value: path,
-            title: Text(path.name.capitalize),
+            title: Text(TypeLocalization.pathType(path)),
             onChanged: (value) {
               setState(() {
                 queryOption = queryOption.copyWith(type: path);

@@ -159,8 +159,8 @@ class _ThemeSettingMobile extends StatelessWidget {
     ThemeMode mode = context.read<ThemeProvider>().themeMode;
     return ListTile(
       title: SpCrossFade(
-        firstChild: Text(mode.name.capitalize),
-        secondChild: Text(mode.name.capitalize),
+        firstChild: Text(TypeLocalization.themeMode(mode)),
+        secondChild: Text(TypeLocalization.themeMode(mode)),
         showFirst: M3Color.of(context).brightness == Brightness.dark,
       ),
       trailing: SpThemeSwitcher(backgroundColor: Colors.transparent),
