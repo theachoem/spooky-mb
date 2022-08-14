@@ -96,8 +96,8 @@ class _MainViewAdpative extends StatelessWidget {
   Widget buildObservationFab(bool showSoundLibraryButton) {
     return FloatingActionButton.extended(
       label: SpCrossFade(
-        firstChild: const Text("Add"),
-        secondChild: const Text("Sound Library"),
+        firstChild: Text(tr("button.add")),
+        secondChild: Text(tr("button.sound_library")),
         showFirst: !showSoundLibraryButton,
       ),
       onPressed: null,
