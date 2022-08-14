@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/gen/assets.gen.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -65,7 +66,7 @@ class StoryEmptyWidget extends StatelessWidget {
                   Transform.scale(
                     scale: 1.5,
                     child: ImageIcon(
-                      const AssetImage("assets/illustrations/two_people.png"),
+                      AssetImage(Assets.illustrations.twoPeople.path),
                       size: 200,
                       color: M3Color.of(context).primary,
                     ),

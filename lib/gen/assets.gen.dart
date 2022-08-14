@@ -31,6 +31,24 @@ class $GoogleFontsGen {
   String get quicksandSemiBold => 'google_fonts/Quicksand-SemiBold.ttf';
 }
 
+class $TranslationsGen {
+  const $TranslationsGen();
+
+  /// File path: translations/en.json
+  String get en => 'translations/en.json';
+
+  /// File path: translations/km.json
+  String get km => 'translations/km.json';
+}
+
+class $AssetsIllustrationsGen {
+  const $AssetsIllustrationsGen();
+
+  /// File path: assets/illustrations/two_people.png
+  AssetGenImage get twoPeople =>
+      const AssetGenImage('assets/illustrations/two_people.png');
+}
+
 class $AssetsSoundsGen {
   const $AssetsSoundsGen();
 
@@ -38,22 +56,14 @@ class $AssetsSoundsGen {
   String get sounds => 'assets/sounds/sounds.json';
 }
 
-class $AssetsTranslationsGen {
-  const $AssetsTranslationsGen();
-
-  /// File path: assets/translations/en.json
-  String get en => 'assets/translations/en.json';
-
-  /// File path: assets/translations/km.json
-  String get km => 'assets/translations/km.json';
-}
-
 class Assets {
   Assets._();
 
+  static const $AssetsIllustrationsGen illustrations =
+      $AssetsIllustrationsGen();
   static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
-  static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
   static const $GoogleFontsGen googleFonts = $GoogleFontsGen();
+  static const $TranslationsGen translations = $TranslationsGen();
 }
 
 class AssetGenImage {
