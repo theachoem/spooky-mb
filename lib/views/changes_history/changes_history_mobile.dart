@@ -83,10 +83,13 @@ class _ChangesHistoryMobile extends StatelessWidget {
             onPressed: () async {
               OkCancelResult result = await showOkCancelAlertDialog(
                 context: context,
-                title: "Are you sure to delete?",
-                message: "${viewModel.selectedNotifier.value.length} selected",
-                okLabel: "Delete",
+                title: tr("alert.are_you_sure_to_delete_changes.title"),
+                okLabel: tr("button.delete"),
                 isDestructiveAction: true,
+                message: tr(
+                  "alert.are_you_sure_to_delete_changes.message",
+                  args: [viewModel.selectedNotifier.value.length.toString()],
+                ),
               );
               switch (result) {
                 case OkCancelResult.ok:
@@ -119,7 +122,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
           dx: MediaQuery.of(context).size.width,
           items: (context) => [
             SpPopMenuItem(
-              title: "View Story",
+              title: tr("button.view_story"),
               onPressed: () {
                 Navigator.of(context).pushNamed(
                   SpRouter.contentReader.path,
@@ -129,7 +132,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
             ),
             if (!viewModel.editing && !latest)
               SpPopMenuItem(
-                title: "Select",
+                title: tr("button.select"),
                 onPressed: () {
                   addItem(id, latest);
                   viewModel.toggleEditing();
@@ -137,7 +140,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
               ),
             if (!latest)
               SpPopMenuItem(
-                title: "Restore this version",
+                title: tr("button.restore_version"),
                 onPressed: () {
                   viewModel.restore(content);
                   Navigator.of(context).maybePop();
@@ -166,19 +169,19 @@ class _ChangesHistoryMobile extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.only(right: 4.0),
                           child: SpSmallChip(
-                            label: "Latest",
+                            label: tr("msg.latest"),
                             color: M3Color.of(context).tertiary,
                           ),
                         ),
                         alignment: PlaceholderAlignment.middle,
                       ),
                     if (draft)
-                      const WidgetSpan(
-                        child: SpSmallChip(label: "Draft"),
+                      WidgetSpan(
+                        child: SpSmallChip(label: tr("msg.draft")),
                         alignment: PlaceholderAlignment.middle,
                       ),
                     TextSpan(
-                      text: " ${content.title ?? "No title"}" * 2,
+                      text: " ${content.title ?? tr("msg.no_title")}",
                     )
                   ],
                 ),
@@ -235,7 +238,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
   }
 
   void showPreventEditLatestSnackbar() {
-    MessengerService.instance.showSnackBar("Should not delete the latest one!");
+    MessengerService.instance.showSnackBar(tr("msg.should_not_delete_latest_one"));
   }
 
   void toggleItem(int id, bool latest) {
@@ -255,7 +258,7 @@ class _ChangesHistoryMobile extends StatelessWidget {
   Widget? buildSubtitle(StoryContentDbModel content, BuildContext context) {
     String date = DateFormatHelper.dateTimeFormat().format(content.createdAt);
     return Text(
-      "Created at $date",
+      tr("date.created_at", namedArgs: {"DATE": date}),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(fontWeight: FontWeight.w500),

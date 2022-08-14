@@ -2,6 +2,7 @@ library changes_history_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
