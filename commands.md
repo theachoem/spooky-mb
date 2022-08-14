@@ -65,3 +65,12 @@ ndk {
   abiFilters 'x86', 'x86_64', 'armeabi', 'armeabi-v7a', 'mips', 'mips64', 'arm64-v8a'
 }
 ```
+
+Update gradle version:
+```
+cd android
+./gradlew wrapper --gradle-version=7.3
+```
+
+References:
+https://developer.android.com/about/versions/13/features/app-languages#known-issues
