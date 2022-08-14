@@ -38,6 +38,12 @@
     },
     "sound_pause_scheduled": {
       "title": "Sound paused as schedule"
+    },
+    "year": {
+      "title": "Year"
+    },
+    "what_should_I_call_you": {
+      "title": "What should I call you?"
     }
   },
   "app": {
@@ -70,7 +76,9 @@
     "view": "View",
     "add": "Add",
     "sound_library": "Sounds Library",
-    "play": "Play"
+    "play": "Play",
+    "create_new": "Create new",
+    "search_fonts": "Search fonts"
   },
   "field": {
     "answer": {
@@ -119,7 +127,8 @@
       "mn": "Break time: {} mn"
     },
     "enter_password": "Enter your password",
-    "hello_user": "Hello {}"
+    "hello_user": "Hello {}",
+    "lorem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   },
   "page": {
     "account_deletion": {
@@ -274,7 +283,7 @@
     "advance": "Advance",
     "features": "Features",
     "font": "Font",
-    "info": "Info",
+    "info": "Fonts",
     "lock_method": "Lock Methods",
     "personalize": "Personalize",
     "questions": "Questions",
@@ -282,7 +291,8 @@
     "story": "Story",
     "tags": "Tags",
     "types": "Types",
-    "user": "User"
+    "user": "User",
+    "setting": "Setting"
   },
   "sections": {
     "options": "Options"
@@ -398,7 +408,26 @@
     "update_available": {
       "title": "Update available"
     },
-    "version": "Version"
+    "version": "Version",
+    "selected_font": {
+      "title": "Selected Font"
+    },
+    "font_total": {
+      "title": "Total",
+      "subtitle": "{} fonts"
+    },
+    "provider": {
+      "title": "Provider"
+    },
+    "font_weight": {
+      "title": "Font Weight"
+    },
+    "restore_default_font": {
+      "title": "Restore Default Style"
+    },
+    "use_this_fonts": {
+      "title": "Use this font"
+    }
   },
   "title": {
     "advance_search": {
@@ -420,6 +449,9 @@
     "sec": "{} s"
   },
   "tag": {
-    "all": "All"
+    "all": "All",
+    "recommend": "Recommended",
+    "others": "Others",
+    "fonts": "Fonts"
   }
 }

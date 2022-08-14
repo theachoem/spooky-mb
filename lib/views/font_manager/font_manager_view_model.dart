@@ -1,4 +1,5 @@
 import 'package:azlistview/azlistview.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:spooky/core/base/base_view_model.dart';
@@ -32,11 +33,11 @@ class FontBean extends ISuspensionBean {
     String tag = getSuspensionTag();
     switch (tag) {
       case "★":
-        return FontBeanDisplay("Recommended", Icons.star);
+        return FontBeanDisplay(tr("tag.recommend"), Icons.star);
       case "#":
-        return FontBeanDisplay("Others", null);
+        return FontBeanDisplay(tr("tag.others"), null);
       default:
-        return FontBeanDisplay("Fonts", null);
+        return FontBeanDisplay(tr("tag.fonts"), null);
     }
   }
 }
