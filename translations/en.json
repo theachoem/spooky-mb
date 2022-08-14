@@ -132,6 +132,14 @@
     "are_you_sure_to_delete": {
       "title": "Are you sure to delete?",
       "message": "You can't undo this action"
+    },
+    "link": {
+      "add": {
+        "title": "Add link"
+      },
+      "edit": {
+        "title": "Edit link"
+      }
     }
   },
   "app": {
@@ -192,7 +200,12 @@
     "view_story": "View Story",
     "move_to_bin": "Move to Bin",
     "perminent_delete": "Delete Forever",
-    "undo": "Undo"
+    "undo": "Undo",
+    "connect": "Connect",
+    "upload": "Upload",
+    "image_via_gallery": "Gallery",
+    "image_via_camera": "Camera",
+    "image_via_link": "Link"
   },
   "date": {
     "created_at": "Created at {DATE}"
@@ -232,6 +245,14 @@
     },
     "verify_name": {
       "hint_text": "Verify label..."
+    },
+    "text": {
+      "hint_text": "Text...",
+      "validation": "Text must not empty"
+    },
+    "link": {
+      "hint_text": "Link...",
+      "validation": "Invalid link"
     }
   },
   "msg": {
@@ -702,7 +723,10 @@
     "use_this_fonts": {
       "title": "Use this font"
     },
-    "version": "Version"
+    "version": "Version",
+    "connect_with_drive": {
+      "title": "Connect with Google Drive"
+    }
   },
   "time": {
     "mn": "{} mn",

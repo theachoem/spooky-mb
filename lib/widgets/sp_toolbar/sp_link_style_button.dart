@@ -1,6 +1,7 @@
 // ignore_for_file: implementation_imports
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/src/widgets/link.dart';
@@ -103,28 +104,28 @@ class SpLinkStyleButtonState extends State<SpLinkStyleButton> {
             text ??= len == 0 ? '' : widget.controller.document.getPlainText(index, len);
 
             List<String>? values = await showTextInputDialog(
-              title: link != null ? "Edit link" : "Add link",
+              title: link != null ? tr("alert.link.edit.title") : tr("alert.link.add.title"),
               context: context,
               textFields: [
                 DialogTextField(
                   initialText: text,
-                  hintText: "Text",
+                  hintText: tr("field.text.hint_text"),
                   validator: (String? text) {
                     if (text?.trim().isNotEmpty == true) {
                       return null;
                     } else {
-                      return "Text must not empty";
+                      return tr("field.text.validation");
                     }
                   },
                 ),
                 DialogTextField(
                   initialText: link,
-                  hintText: "Link",
+                  hintText: tr("field.link.hint_text"),
                   validator: (String? link) {
                     if (link != null && AutoFormatMultipleLinksRule.linkRegExp.hasMatch(link)) {
                       return null;
                     } else {
-                      return "Invalid link";
+                      return tr("field.link.validation");
                     }
                   },
                 ),

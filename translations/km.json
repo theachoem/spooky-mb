@@ -132,6 +132,14 @@
     "are_you_sure_to_delete": {
       "title": "",
       "message": ""
+    },
+    "link": {
+      "add": {
+        "title": ""
+      },
+      "edit": {
+        "title": ""
+      }
     }
   },
   "app": {
@@ -192,7 +200,12 @@
     "view_story": "",
     "move_to_bin": "",
     "perminent_delete": "",
-    "undo": ""
+    "undo": "",
+    "connect": "",
+    "upload": "",
+    "image_via_gallery": "",
+    "image_via_camera": "",
+    "image_via_link": ""
   },
   "date": {
     "created_at": ""
@@ -232,6 +245,14 @@
     },
     "verify_name": {
       "hint_text": ""
+    },
+    "text": {
+      "hint_text": "",
+      "validation": ""
+    },
+    "link": {
+      "hint_text": "",
+      "validation": ""
     }
   },
   "msg": {
@@ -702,7 +723,10 @@
     "use_this_fonts": {
       "title": ""
     },
-    "version": "កមបុរក្នា"
+    "version": "កមបុរក្នា",
+    "connect_with_drive": {
+      "title": ""
+    }
   },
   "time": {
     "mn": "{} MN",
