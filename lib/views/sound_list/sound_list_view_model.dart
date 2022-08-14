@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -83,9 +84,9 @@ class SoundListViewModel extends BaseViewModel {
   }
 
   Future<String?> download(SoundModel sound) async {
-    if (fileManager.downloaded(sound)) return "Downloaded";
-    if (sound.fileSize > 10000000) return "File too big";
-    if (loading(sound)) return "Downloading";
+    if (fileManager.downloaded(sound)) return tr("msg.downloaded");
+    if (sound.fileSize > 10000000) return tr("msg.file_too_big");
+    if (loading(sound)) return tr("msg.downloading");
 
     String file = fileManager.constructFile(sound.fileName);
     String ref;

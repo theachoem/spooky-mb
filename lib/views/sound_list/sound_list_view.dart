@@ -1,5 +1,6 @@
 library sound_list_view;
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:just_audio/just_audio.dart';
