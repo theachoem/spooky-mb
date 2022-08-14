@@ -33,7 +33,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     tags = [
       TagDbModel.fromIDTitle(0, "*"),
       ...Global.instance.tags,
-      TagDbModel.fromIDTitle(0, "All"),
+      TagDbModel.fromIDTitle(0, tr("tag.all")),
     ];
 
     layoutType = Global.instance.layoutType;
@@ -148,7 +148,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     return HomeAppBar(
       docsCountNotifier: widget.viewModel.docsCountNotifier,
       subtitle: (int docsCount) {
-        storyCounter = docsCount > 1 ? "$docsCount Stories" : "$docsCount Story";
+        storyCounter = plural("plural.story", docsCount);
         return "${widget.viewModel.year} - $storyCounter";
       },
       tabController: controller,

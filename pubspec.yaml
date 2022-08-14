@@ -143,4 +143,5 @@ flutter:
     - assets/
     - google_fonts/
     - translations/
+    - assets/illustrations/
     - assets/sounds/sounds.json

@@ -1,5 +1,13 @@
 {
   "alert": {
+    "action_required": {
+      "set_security_question": "កំណត់សំណួរសុវត្ថិភាពដើម្បីសង្គ្រោះនៅពេលគ្មានសិទ្ធិដោះសោ",
+      "title": "ទាមទារសកម្មភាព"
+    },
+    "already_used_dynamic_color": {
+      "message": "សូមផ្លាស់ប្តូររបៀបស្បែកដើម្បីកំណត់ពណ៌ផ្ទាល់ខ្លួន។",
+      "title": "អ្នកកំពុងប្រើពណ៌ថាមវន្ត!"
+    },
     "disconnect_provider": {
       "title": "តើអ្នកប្រាកដជាផ្តាច់មុខទេ?"
     },
@@ -7,12 +15,29 @@
       "subtitle": "អ្នកអាចចូលវិញបានគ្រប់ពេល។",
       "title": "តើ​អ្នក​ប្រាកដ​ឬ​អត់?"
     },
-    "already_used_dynamic_color": {
-      "title": "អ្នកកំពុងប្រើពណ៌ថាមវន្ត!",
-      "message": "សូមផ្លាស់ប្តូររបៀបស្បែកដើម្បីកំណត់ពណ៌ផ្ទាល់ខ្លួន។"
+    "new_question_answer": {
+      "title": "សំណួរនិងចម្លើយថ្មី"
+    },
+    "no_update_available": "មិនមានបច្ចុប្បន្នភាពទេ",
+    "purchase_to_download_more": {
+      "title": "ទិញដើម្បីទាញយកបន្ថែមទៀត"
     },
     "storypad_list": {
       "title": "ចាន់"
+    },
+    "discard_changes": {
+      "title": "បោះបង់ការផ្លាស់ប្តូរ?",
+      "message": "ការផ្លាស់ប្តូរទាំងអស់នឹងត្រូវបាត់បង់"
+    },
+    "sure_to_save_changes": {
+      "title": "តើអ្នកប្រាកដជារក្សាទុកការផ្លាស់ប្តូរឬ?",
+      "message": "អ្នកមិនអាចធ្វើសកម្មភាពនេះបានទេ"
+    },
+    "page_at_least_1": {
+      "title": "ទំព័រមិនអាចតិចជាង 1"
+    },
+    "sound_pause_scheduled": {
+      "title": "បន្លឺសំឡេងជាកាលវិភាគ"
     }
   },
   "app": {
@@ -21,12 +46,14 @@
   },
   "button": {
     "accept": "តតយល",
+    "add_ons": "កម្មវិធីបន្ថែម",
     "agree": "យល់របម",
     "archive": "ក្សីបិប",
     "backup_now": "បម្រុងទុកឥឡូវនេះ",
     "continue": "កាង",
     "disconnect": "ផ្ដាច់",
     "done": "រ្យេឱដេនោ",
+    "listen_with_mini_player": "ស្តាប់ជាមួយអ្នកលេងតូច",
     "login": "ចូល",
     "next": "បន្ទាប់បិនេហ",
     "no_longer_access": "លែងចូលទៀតទេ?",
@@ -35,19 +62,36 @@
     "restore_purchase": "ស្តារការទិញ",
     "retry": "ាប់រេគ្រប់យ៉ាងបី",
     "review": "សរសេររិហកន់",
+    "save": "សរេង្គាហ",
+    "stop": "ការឈប់",
+    "update": "ធេវីអាេយយរមយរ",
     "validate": "ធ្វើ​ឱ្យ​មាន​សុពលភាព",
     "verify": "ផ្ទៀង​ផ្ទាត់",
-    "view": "កមហើញ"
+    "view": "កមហើញ",
+    "add": "បុក / ករ",
+    "sound_library": "បណ្ណាល័យស្តាប់ទៅបណ្ណាល័យ",
+    "play": "ការលេង"
   },
   "field": {
+    "answer": {
+      "hint_text": "",
+      "validation": ""
+    },
+    "backup_url": {
+      "hint_text": "URL បម្រុងទុក ..."
+    },
     "nickname": {
       "hint_text": "សម្មតិនាម",
       "validation": {
         "empty": "សម្មតិនាមត្រូវតែមិនទទេ!"
       }
     },
-    "backup_url": {
-      "hint_text": "URL បម្រុងទុក ..."
+    "question": {
+      "hint_text": "សយរសមនយរ",
+      "validation": ""
+    },
+    "search": {
+      "hint_text": "ស្វែងរក ..."
     }
   },
   "msg": {
@@ -55,15 +99,27 @@
       "fail": "ភ្ជាប់បរាជ័យ",
       "success": "ភ្ជាប់ដោយជោគជ័យ"
     },
+    "copyright": "© {មួយឆ្នាំ} ជិន",
     "disconnect": {
       "fail": "ធ្លាក់",
       "success": "ផ្តាច់ដោយជោគជ័យ"
     },
+    "downloaded": "ដេលបានទាញយក",
+    "downloading": "ការទាញយក",
+    "file_too_big": "ឯកសារធំពេក",
     "keep_at_least_one_provider": "រក្សាយ៉ាងហោចណាស់អ្នកផ្តល់ផ្គត់ផ្គង់ដែលបានភ្ជាប់។",
-    "synced": "សញ្ញុង",
+    "lock_life_circle": "ចាក់សោកម្មវិធីនៅពេលអសកម្មសម្រាប់ {} វិនាទី",
+    "lock_life_circle_minimum": "អប្បបរមា 10 វិនាទី",
+    "no_answer_provided": "គ្មានចម្លើយដែលបានផ្តល់",
     "restore": {
       "success": "បានស្តារឡើងវិញ"
-    }
+    },
+    "synced": "សញ្ញុង",
+    "break_time": {
+      "mn": "ពេលវេលាសម្រាក: {} Mn"
+    },
+    "enter_password": "បញ្ចូលពាក្យសម្ងាត់របស់អ្នក",
+    "hello_user": "សួស្តី {}"
   },
   "page": {
     "account_deletion": {
@@ -184,13 +240,94 @@
       "title": "អ្នក​ប្រើ"
     }
   },
+  "plural": {
+    "file_size_mb": {
+      "few": "{} MB",
+      "many": "{} MB",
+      "one": "{} MB",
+      "other": "{} MB",
+      "two": "2 មេកាបៃ",
+      "zero": "0 មេកាបៃ"
+    },
+    "question_added": {
+      "few": "{} សំណួរបានបន្ថែម",
+      "many": "{} សំណួរបានបន្ថែម",
+      "one": "1 សំណួរបានបន្ថែម",
+      "other": "{} សំណួរបានបន្ថែម",
+      "two": "2 សំណួរបន្ថែម",
+      "zero": "បានបន្ថែមសំណួរ"
+    },
+    "story": {
+      "few": "{} រឿង",
+      "many": "{} រឿង",
+      "one": "1 រឿង",
+      "other": "{} រឿង",
+      "two": "2 រឿង",
+      "zero": "0 រឿង"
+    }
+  },
+  "question": {
+    "favorite_movie": "តើខ្សែភាពយន្តដែលអ្នកចូលចិត្តជាងគេគឺជាអ្វី?",
+    "name_of_primary_best_friend": "តើអ្វីទៅជាឈ្មោះដំបូងរបស់មិត្តល្អបំផុតរបស់អ្នកនៅសាលាបឋមសិក្សា?"
+  },
   "section": {
     "advance": "ចមរើន",
+    "features": "លក្ខណៈពិសេស",
     "font": "ពុម្ពអក្សរ",
+    "info": "ព័ត៌មាន",
+    "lock_method": "វិធីសាស្ត្រចាក់សោ",
     "personalize": "ធេវីអាេយវាយបុតនីយន្ដផ្ទាល់ខ្លួន",
-    "story": "រ្យេង"
+    "questions": "សរុ",
+    "settings": "ការកំណត់",
+    "story": "រ្យេង",
+    "tags": "ស្លាក",
+    "types": "ប្រភេទ",
+    "user": "អ្នក​ប្រើ"
+  },
+  "sections": {
+    "options": "ជម្រើស"
+  },
+  "security": {
+    "biometrics": {
+      "add": "បន្ថែមជីវមាត្រ",
+      "remove": "យកជីវមាត្រចេញ",
+      "update": "ធ្វើឱ្យទាន់សម័យជីវមាត្រ"
+    },
+    "pin_code": {
+      "add": "បន្ថែមកូដ PIN",
+      "remove": "យកលេខកូដ PIN ចេញ",
+      "update": "លេខកូដ PIN ធ្វើបច្ចុប្បន្នភាព"
+    }
+  },
+  "step": {
+    "migrate_storypad": {
+      "step1": {
+        "message": "នៅក្នុងថាស Google ។ ថត \"រឿង\" រកឃើញឯកសារហ្ស៊ីប & បិទភ្ជាប់ URL របស់វានៅទីនេះ។",
+        "title": "បញ្ចូល URL បម្រុងទុក"
+      },
+      "step2": {
+        "subtitle": "ពិនិត្យមើលថាតើ URL បញ្ចូលមានសុពលភាពទេ",
+        "title": "ទាញយកឯកសារនិងអាវន័យ"
+      },
+      "step3": {
+        "subtitle": "ធ្វើឱ្យប្រាកដថារឿងគឺត្រឹមត្រូវ",
+        "title": "សរសេររិហកន់"
+      },
+      "step4": {
+        "subtitle": "សរសេរពួកវាទៅ spooky",
+        "title": "ចយសចុល"
+      }
+    }
   },
   "tile": {
+    "add_your_own_questions": "បន្ថែមសំណួរផ្ទាល់ខ្លួនរបស់អ្នក",
+    "biometric": {
+      "subtitle": "ដោះសោមូលដ្ឋានកម្មវិធីនៅលើជីវមាត្រ",
+      "title": "ជីវមាត្រ"
+    },
+    "check_for_update": {
+      "title": "ពិនិត្យមើលបច្ចុប្បន្នភាព"
+    },
     "color": {
       "title": "ប៍ន"
     },
@@ -200,6 +337,7 @@
     "created_at": {
       "title": "បានបង្កើតនៅ"
     },
+    "display_on_navigation_bar": "បង្ហាញនៅលើរបាររុករក",
     "dynamic_color": {
       "subtitle": "ប្រើមូលដ្ឋានពណ៌លើប្រព័ន្ធរបស់អ្នក។",
       "title": "ពណ៌ថាមវន្ត"
@@ -210,8 +348,31 @@
     "last_sign_in": {
       "title": "ចូលចុងក្រោយ"
     },
+    "layout": {
+      "title": "តមរបថតឹម"
+    },
+    "licenses": "អាជ្ញាប័ណ្ណ",
+    "lock_life_circle": {
+      "subtitle": "{} វិនាទី",
+      "title": "រង្វង់ជីវិតចាក់សោ"
+    },
+    "none": {
+      "title": "ឥតមានអវីសោហ"
+    },
+    "pin_code": {
+      "subtitle": "4 ខ្ទង់",
+      "title": "លេខកូដ PIN"
+    },
+    "play_in_background": {
+      "title": "លេងក្នុងផ្ទៃខាងក្រោយ"
+    },
     "prioritize_starred": {
       "title": "សម្តែងទៅកំពូល"
+    },
+    "privary_policy": "គោលការណ៍​ភាព​ឯកជន",
+    "rate_us": "វាយតម្លៃអាមេរិក",
+    "security_question": {
+      "title": "សំណួរ​សុវត្ថិភាព"
     },
     "show_story_chip": {
       "title": "បង្ហាញឈីបលើរឿង"
@@ -219,41 +380,46 @@
     "sort": {
       "title": "ញេក",
       "types": {
-        "old_to_new": "ចាស់ទៅថ្មី",
-        "new_to_old": "ថ្មីទៅចាស់"
+        "new_to_old": "ថ្មីទៅចាស់",
+        "old_to_new": "ចាស់ទៅថ្មី"
       }
     },
-    "layout": {
-      "title": "តមរបថតឹម"
-    }
+    "spooky_communtiy": {
+      "subtitle": "ចែករំលែកបទពិសោធន៍របាយការណ៍និងការស្នើសុំ",
+      "title": "សហគមន៍ spooky"
+    },
+    "starred": {
+      "title": "សម្តែង"
+    },
+    "telegram": {
+      "subtitle": "ប៍តមាន",
+      "title": "ឆានែលតេឡេក្រាម"
+    },
+    "update_available": {
+      "title": "មានបច្ចុប្បន្នភាព"
+    },
+    "version": "កមបុរក្នា"
   },
   "title": {
+    "advance_search": {
+      "title": "ស្វែងរកជាមុន"
+    },
     "layout": {
       "types": {
-        "library": "បន្ណាល័យ",
         "diary": "ការកមនត់របចាមថៃ",
+        "library": "បន្ណាល័យ",
         "timeline": "ការចាប់យក"
       }
     }
   },
-  "step": {
-    "migrate_storypad": {
-      "step1": {
-        "title": "បញ្ចូល URL បម្រុងទុក",
-        "message": "នៅក្នុងថាស Google ។ ថត \"រឿង\" រកឃើញឯកសារហ្ស៊ីប & បិទភ្ជាប់ URL របស់វានៅទីនេះ។"
-      },
-      "step2": {
-        "title": "ទាញយកឯកសារនិងអាវន័យ",
-        "subtitle": "ពិនិត្យមើលថាតើ URL បញ្ចូលមានសុពលភាពទេ"
-      },
-      "step3": {
-        "title": "សរសេររិហកន់",
-        "subtitle": "ធ្វើឱ្យប្រាកដថារឿងគឺត្រឹមត្រូវ"
-      },
-      "step4": {
-        "title": "ចយសចុល",
-        "subtitle": "សរសេរពួកវាទៅ spooky"
-      }
-    }
+  "quick_action": {
+    "new_story": "រឿងថ្មី"
+  },
+  "time": {
+    "mn": "{} MN",
+    "sec": "{} s"
+  },
+  "tag": {
+    "all": "តាមងអស់"
   }
 }

@@ -12,6 +12,7 @@ class SpButton extends StatelessWidget {
     this.iconData,
     this.backgroundColor,
     this.foregroundColor,
+    this.borderColor,
     this.loading = false,
   }) : super(key: key);
 
@@ -20,6 +21,7 @@ class SpButton extends StatelessWidget {
   final IconData? iconData;
   final Color? backgroundColor;
   final Color? foregroundColor;
+  final Color? borderColor;
   final bool loading;
 
   @override
@@ -71,6 +73,7 @@ class SpButton extends StatelessWidget {
       backgroundColor: background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(48),
+        side: borderColor != null ? BorderSide(color: borderColor!) : BorderSide.none,
       ),
     );
   }

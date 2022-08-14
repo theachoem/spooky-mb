@@ -1,5 +1,13 @@
 {
   "alert": {
+    "action_required": {
+      "set_security_question": "Set security questions to recover when no access to unlock",
+      "title": "Action required"
+    },
+    "already_used_dynamic_color": {
+      "message": "Please change theme mode, to set custom color.",
+      "title": "You are using system dynamic color!"
+    },
     "disconnect_provider": {
       "title": "Are you sure to disconnect?"
     },
@@ -7,12 +15,29 @@
       "subtitle": "You can log in back anytime.",
       "title": "Are you sure?"
     },
-    "already_used_dynamic_color": {
-      "title": "You are using system dynamic color!",
-      "message": "Please change theme mode, to set custom color."
+    "new_question_answer": {
+      "title": "New Question & Answer"
+    },
+    "no_update_available": "No update available",
+    "purchase_to_download_more": {
+      "title": "Purchase to download more"
     },
     "storypad_list": {
       "title": "StoryPad"
+    },
+    "discard_changes": {
+      "title": "Discard changes?",
+      "message": "All changes will be lost"
+    },
+    "sure_to_save_changes": {
+      "title": "Are you sure to save changes?",
+      "message": "You can't undo this action"
+    },
+    "page_at_least_1": {
+      "title": "Pages can't be less than 1"
+    },
+    "sound_pause_scheduled": {
+      "title": "Sound paused as schedule"
     }
   },
   "app": {
@@ -21,12 +46,14 @@
   },
   "button": {
     "accept": "Accept",
+    "add_ons": "Add-ons",
     "agree": "Agree",
     "archive": "Archive",
     "backup_now": "Backup now",
     "continue": "Contnue",
     "disconnect": "Disconnect",
     "done": "Done",
+    "listen_with_mini_player": "Listen with mini player",
     "login": "Login",
     "next": "Next",
     "no_longer_access": "No longer access?",
@@ -35,19 +62,36 @@
     "restore_purchase": "Restore Purchases",
     "retry": "Retry",
     "review": "Review",
+    "save": "Save",
+    "stop": "Stop",
+    "update": "Update",
     "validate": "Validate",
     "verify": "Verify",
-    "view": "View"
+    "view": "View",
+    "add": "Add",
+    "sound_library": "Sounds Library",
+    "play": "Play"
   },
   "field": {
+    "answer": {
+      "hint_text": "Answer",
+      "validation": "Answer must not empty"
+    },
+    "backup_url": {
+      "hint_text": "Backup url..."
+    },
     "nickname": {
       "hint_text": "Nickname",
       "validation": {
         "empty": "Nickname must not empty!"
       }
     },
-    "backup_url": {
-      "hint_text": "Backup url..."
+    "question": {
+      "hint_text": "Question",
+      "validation": "Question must not empty"
+    },
+    "search": {
+      "hint_text": "Search..."
     }
   },
   "msg": {
@@ -55,15 +99,27 @@
       "fail": "Connect fail",
       "success": "Connect successfully"
     },
+    "copyright": "© {YEAR} Juniorise",
     "disconnect": {
       "fail": "Fail",
       "success": "Disconnect successfully"
     },
+    "downloaded": "Downloaded",
+    "downloading": "Downloading",
+    "file_too_big": "File too big",
     "keep_at_least_one_provider": "Keep at least one connected provider.",
-    "synced": "Synced",
+    "lock_life_circle": "Lock application when inactive for {} seconds",
+    "lock_life_circle_minimum": "10 seconds minimum",
+    "no_answer_provided": "No answer provided",
     "restore": {
       "success": "Restored"
-    }
+    },
+    "synced": "Synced",
+    "break_time": {
+      "mn": "Break time: {} mn"
+    },
+    "enter_password": "Enter your password",
+    "hello_user": "Hello {}"
   },
   "page": {
     "account_deletion": {
@@ -184,13 +240,94 @@
       "title": "User"
     }
   },
+  "plural": {
+    "file_size_mb": {
+      "few": "{} mb",
+      "many": "{} mb",
+      "one": "1 mb",
+      "other": "{} mb",
+      "two": "2 mb",
+      "zero": "0 mb"
+    },
+    "question_added": {
+      "few": "{} questions added",
+      "many": "{} questions added",
+      "one": "1 questions added",
+      "other": "{} questions added",
+      "two": "2 questions added",
+      "zero": "0 question added"
+    },
+    "story": {
+      "few": "{} stories",
+      "many": "{} stories",
+      "one": "1 story",
+      "other": "{} stories",
+      "two": "2 stories",
+      "zero": "0 story"
+    }
+  },
+  "question": {
+    "favorite_movie": "What is your favorite movie?",
+    "name_of_primary_best_friend": "What is the first name of your best friend in primary school?"
+  },
   "section": {
     "advance": "Advance",
+    "features": "Features",
     "font": "Font",
+    "info": "Info",
+    "lock_method": "Lock Methods",
     "personalize": "Personalize",
-    "story": "Story"
+    "questions": "Questions",
+    "settings": "Settings",
+    "story": "Story",
+    "tags": "Tags",
+    "types": "Types",
+    "user": "User"
+  },
+  "sections": {
+    "options": "Options"
+  },
+  "security": {
+    "biometrics": {
+      "add": "Add Biometrics",
+      "remove": "Remove Biometrics",
+      "update": "Update Biometrics"
+    },
+    "pin_code": {
+      "add": "Add PIN code",
+      "remove": "Remove PIN code",
+      "update": "Update PIN code"
+    }
+  },
+  "step": {
+    "migrate_storypad": {
+      "step1": {
+        "message": "In Google Drive. \"Story\" folder, find a zip file & paste its url here.",
+        "title": "Enter backup url"
+      },
+      "step2": {
+        "subtitle": "Check if input url is valid",
+        "title": "Download & Validate"
+      },
+      "step3": {
+        "subtitle": "Make sure stories are correct",
+        "title": "Review"
+      },
+      "step4": {
+        "subtitle": "Write them to Spooky",
+        "title": "Restore"
+      }
+    }
   },
   "tile": {
+    "add_your_own_questions": "Add your own question",
+    "biometric": {
+      "subtitle": "Unlock app base on biometric",
+      "title": "Biometrics"
+    },
+    "check_for_update": {
+      "title": "Check for update"
+    },
     "color": {
       "title": "Color"
     },
@@ -200,6 +337,7 @@
     "created_at": {
       "title": "Created at"
     },
+    "display_on_navigation_bar": "Display on navigation bar",
     "dynamic_color": {
       "subtitle": "Use colors base on your system.",
       "title": "Dynamic color"
@@ -210,8 +348,31 @@
     "last_sign_in": {
       "title": "Last sign in"
     },
+    "layout": {
+      "title": "Layout"
+    },
+    "licenses": "Licenses",
+    "lock_life_circle": {
+      "subtitle": "{} seconds",
+      "title": "Lock life circle"
+    },
+    "none": {
+      "title": "None"
+    },
+    "pin_code": {
+      "subtitle": "4 digit",
+      "title": "PIN code"
+    },
+    "play_in_background": {
+      "title": "Play in Background"
+    },
     "prioritize_starred": {
       "title": "Starred to top"
+    },
+    "privary_policy": "Privacy Policy",
+    "rate_us": "Rate us",
+    "security_question": {
+      "title": "Security questions"
     },
     "show_story_chip": {
       "title": "Show chips on story"
@@ -219,41 +380,46 @@
     "sort": {
       "title": "Sort",
       "types": {
-        "old_to_new": "Old to New",
-        "new_to_old": "New to Old"
+        "new_to_old": "New to Old",
+        "old_to_new": "Old to New"
       }
     },
-    "layout": {
-      "title": "Layout"
-    }
+    "spooky_communtiy": {
+      "subtitle": "Share experience, report & request",
+      "title": "Spooky Community"
+    },
+    "starred": {
+      "title": "Starred"
+    },
+    "telegram": {
+      "subtitle": "News",
+      "title": "Telegram Channel"
+    },
+    "update_available": {
+      "title": "Update available"
+    },
+    "version": "Version"
   },
   "title": {
+    "advance_search": {
+      "title": "Advance search"
+    },
     "layout": {
       "types": {
-        "library": "Library",
         "diary": "Diary",
+        "library": "Library",
         "timeline": "Timeline"
       }
     }
   },
-  "step": {
-    "migrate_storypad": {
-      "step1": {
-        "title": "Enter backup url",
-        "message": "In Google Drive. \"Story\" folder, find a zip file & paste its url here."
-      },
-      "step2": {
-        "title": "Download & Validate",
-        "subtitle": "Check if input url is valid"
-      },
-      "step3": {
-        "title": "Review",
-        "subtitle": "Make sure stories are correct"
-      },
-      "step4": {
-        "title": "Restore",
-        "subtitle": "Write them to Spooky"
-      }
-    }
+  "quick_action": {
+    "new_story": "New Story"
+  },
+  "time": {
+    "mn": "{} mn",
+    "sec": "{} s"
+  },
+  "tag": {
+    "all": "All"
   }
 }

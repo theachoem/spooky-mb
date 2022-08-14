@@ -1,10 +1,14 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
+import 'package:spooky/views/main/main_view_model.dart';
+import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class StoryEmptyWidget extends StatelessWidget {
@@ -27,7 +31,7 @@ class StoryEmptyWidget extends StatelessWidget {
     switch (pathType) {
       case PathType.docs:
       case null:
-        title = "New here?";
+        title = "What did you have in mind?";
         iconData = Icons.color_lens;
         break;
       case PathType.bins:
@@ -63,39 +67,22 @@ class StoryEmptyWidget extends StatelessWidget {
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  buildIcon(value, context),
-                  ConfigConstant.sizedBoxH2,
+                  Transform.scale(
+                    scale: 1.5,
+                    child: ImageIcon(
+                      AssetImage("assets/illustrations/two_people.png"),
+                      size: 200,
+                      color: M3Color.of(context).primary,
+                    ),
+                  ),
+                  // buildIcon(value, context),
+                  // ConfigConstant.sizedBoxH2,
                   buildContent(value, context),
                 ],
               );
             },
           ),
         ),
-      ),
-    );
-  }
-
-  Widget buildDocsSubtitle(BuildContext context) {
-    return RichText(
-      text: TextSpan(
-        style: M3TextTheme.of(context).bodyMedium,
-        children: const [
-          TextSpan(
-            text: "Click",
-          ),
-          WidgetSpan(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 4.0),
-              child: Icon(
-                CommunityMaterialIcons.pencil,
-                size: ConfigConstant.iconSize1,
-              ),
-            ),
-          ),
-          TextSpan(
-            text: "to add a story",
-          ),
-        ],
       ),
     );
   }
@@ -114,6 +101,7 @@ class StoryEmptyWidget extends StatelessWidget {
               style: M3TextTheme.of(context).bodyLarge,
               textAlign: TextAlign.center,
             ),
+            ConfigConstant.sizedBoxH1,
             buildSubtitle(context) ?? const SizedBox.shrink(),
           ],
         ),
@@ -125,7 +113,15 @@ class StoryEmptyWidget extends StatelessWidget {
     switch (pathType) {
       case PathType.docs:
       case null:
-        return buildDocsSubtitle(context);
+      // int docsCount = StoryDatabase.instance.getDocsCount(context.read<MainViewModel>().year);
+      // if (docsCount > 0) return null;
+      // return SpButton(
+      //   label: "Add",
+      //   backgroundColor: Colors.transparent,
+      //   foregroundColor: M3Color.of(context).primary,
+      //   borderColor: M3Color.of(context).primary,
+      //   onTap: () {},
+      // );
       case PathType.bins:
       case PathType.archives:
         return null;

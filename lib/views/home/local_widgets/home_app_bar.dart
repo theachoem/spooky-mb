@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/main.dart';
@@ -206,7 +207,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
       child: Consumer<NicknameProvider>(
         builder: (context, provider, child) {
           return Text(
-            "Hello ${provider.name}",
+            tr("msg.hello_user", args: ["${provider.name}"]),
             style: textTheme.headline6?.copyWith(color: colorScheme.primary),
           );
         },
