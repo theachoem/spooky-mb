@@ -140,7 +140,7 @@ class _BottomNavSettingMobile extends StatelessWidget {
 
     Iterable<BottomNavItemModel> result = copied.where((e) => e.selected == true);
     if (result.length > 5) {
-      MessengerService.instance.showSnackBar("Must not bigger than 5 items");
+      MessengerService.instance.showSnackBar(tr("msg.must_bigger_than_5_items"));
     } else {
       provider.set(
         tabsList: BottomNavItemListModel(copied),
