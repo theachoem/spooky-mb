@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
@@ -36,7 +37,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }) async {
     return beforeExec<BaseDbListModel<T>>(() async {
       BaseDbListModel<T>? map = await adapter.fetchAll(params: params);
-      if (map == null) throw ErrorMessage(errorMessage: "Response null");
+      if (map == null) throw ErrorMessage(errorMessage: tr("msg.response_null"));
       return map;
     });
   }
@@ -47,7 +48,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }) {
     return beforeExec<T>(() async {
       T? map = await adapter.fetchOne(id: id, params: params);
-      if (map == null) throw ErrorMessage(errorMessage: "Response null");
+      if (map == null) throw ErrorMessage(errorMessage: tr("msg.response_null"));
       return map;
     });
   }
@@ -58,7 +59,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }) async {
     return beforeExec<T>(() async {
       T? map = await adapter.set(body: body, params: params);
-      if (map == null) throw ErrorMessage(errorMessage: "Response null");
+      if (map == null) throw ErrorMessage(errorMessage: tr("msg.response_null"));
       onCRUD(map);
       return map;
     });
@@ -70,7 +71,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }) async {
     return beforeExec<T>(() async {
       T? map = await adapter.create(body: body, params: params);
-      if (map == null) throw ErrorMessage(errorMessage: "Response null");
+      if (map == null) throw ErrorMessage(errorMessage: tr("msg.response_null"));
       onCRUD(map);
       return map;
     });
@@ -83,7 +84,7 @@ abstract class BaseDatabase<T extends BaseDbModel> {
   }) async {
     return beforeExec<T>(() async {
       T? map = await adapter.update(id: id, body: body, params: params);
-      if (map == null) throw ErrorMessage(errorMessage: "Response null");
+      if (map == null) throw ErrorMessage(errorMessage: tr("msg.response_null"));
       onCRUD(map);
       return map;
     });
