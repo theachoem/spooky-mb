@@ -116,6 +116,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
       overridedLayout: widget.overridedLayout,
       stories: stories,
       hasDifferentYear: widget.hasDifferentYear,
+      uiQueryOptions: widget.queryOptions,
     );
   }
 

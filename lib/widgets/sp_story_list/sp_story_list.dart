@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
+import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/providers/has_tags_changes_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -32,6 +33,7 @@ class SpStoryList extends StatelessWidget {
     this.controller,
     this.viewOnly = false,
     this.hasDifferentYear = true,
+    this.uiQueryOptions,
   }) : super(key: key);
 
   final bool viewOnly;
@@ -40,6 +42,9 @@ class SpStoryList extends StatelessWidget {
   final List<StoryDbModel>? stories;
   final Future<void> Function() onRefresh;
   final bool hasDifferentYear;
+
+  /// Use in UI purpose.
+  final StoryQueryOptionsModel? uiQueryOptions;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +70,8 @@ class SpStoryList extends StatelessWidget {
               StoryEmptyWidget(
                 isEmpty: !loading && configuredStories.isEmpty,
                 pathType: null,
+                imageKey: uiQueryOptions?.month.toString() ??
+                    (configuredStories.isNotEmpty ? configuredStories.first.month.toString() : null),
               ),
               if (layoutType == SpListLayoutType.library)
                 const Positioned(

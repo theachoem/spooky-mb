@@ -13,9 +13,11 @@ class StoryEmptyWidget extends StatelessWidget {
   StoryEmptyWidget({
     Key? key,
     this.isEmpty = true,
+    required String? imageKey,
     required this.pathType,
   }) : super(key: key) {
-    load();
+    loadContent();
+    imagePath = getImagePath(imageKey);
   }
 
   final bool isEmpty;
@@ -23,8 +25,33 @@ class StoryEmptyWidget extends StatelessWidget {
 
   late final String title;
   late final IconData iconData;
+  late final String imagePath;
 
-  void load() {
+  String getImagePath(String? imageKey) {
+    int? month = int.tryParse(imageKey ?? "");
+
+    if (month != null) {
+      Map<int, String> dateMap = {
+        DateTime.january: Assets.illustrations.absurdDesignChapter133.path,
+        DateTime.february: Assets.illustrations.absurdDesignChapter102.path,
+        DateTime.march: Assets.illustrations.absurdDesignChapter134.path,
+        DateTime.april: Assets.illustrations.absurdDesignChapter104.path,
+        DateTime.may: Assets.illustrations.absurdDesignChapter105.path,
+        DateTime.june: Assets.illustrations.absurdDesignChapter106.path,
+        DateTime.july: Assets.illustrations.absurdDesignChapter107.path,
+        DateTime.august: Assets.illustrations.absurdDesignChapter108.path,
+        DateTime.september: Assets.illustrations.absurdDesignChapter109.path,
+        DateTime.october: Assets.illustrations.absurdDesignChapter110.path,
+        DateTime.november: Assets.illustrations.absurdDesignChapter111.path,
+        DateTime.december: Assets.illustrations.absurdDesignChapter131.path,
+      };
+      return dateMap[month] ?? Assets.illustrations.absurdDesignChapter132.path;
+    }
+
+    return Assets.illustrations.absurdDesignChapter133.path;
+  }
+
+  void loadContent() {
     switch (pathType) {
       case PathType.docs:
       case null:
@@ -46,39 +73,37 @@ class StoryEmptyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return IgnorePointer(
       ignoring: !isEmpty,
-      child: buildBody(),
+      child: Visibility(
+        visible: isEmpty == true,
+        child: buildBodyWrapped(),
+      ),
     );
   }
 
-  Widget buildBody() {
-    return Visibility(
-      visible: isEmpty == true,
+  Widget buildBodyWrapped() {
+    return Center(
       child: Container(
-        alignment: Alignment.center,
-        child: Container(
-          constraints: const BoxConstraints(maxWidth: 200),
-          child: TweenAnimationBuilder<int>(
-            duration: ConfigConstant.duration,
-            tween: IntTween(begin: 0, end: 1),
-            builder: (context, value, child) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Transform.scale(
-                    scale: 1.5,
-                    child: ImageIcon(
-                      AssetImage(Assets.illustrations.twoPeople.path),
-                      size: 200,
-                      color: M3Color.of(context).primary,
-                    ),
+        constraints: const BoxConstraints(maxWidth: 200),
+        child: TweenAnimationBuilder<int>(
+          duration: ConfigConstant.duration,
+          tween: IntTween(begin: 0, end: 1),
+          builder: (context, value, child) {
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SpTapEffect(
+                  onTap: () => iconPressedCallback(context),
+                  child: ImageIcon(
+                    AssetImage(imagePath),
+                    size: 200,
+                    color: M3Color.of(context).primary,
                   ),
-                  // buildIcon(value, context),
-                  // ConfigConstant.sizedBoxH2,
-                  buildContent(value, context),
-                ],
-              );
-            },
-          ),
+                ),
+                ConfigConstant.sizedBoxH2,
+                buildContent(value, context),
+              ],
+            );
+          },
         ),
       ),
     );
@@ -88,20 +113,16 @@ class StoryEmptyWidget extends StatelessWidget {
     return AnimatedContainer(
       duration: ConfigConstant.duration,
       transform: Matrix4.identity()..translate(0.0, value == 1 ? 0 : -ConfigConstant.margin0),
-      child: AnimatedOpacity(
-        opacity: value == 1 ? 1 : 0,
-        duration: ConfigConstant.duration,
-        child: Column(
-          children: [
-            Text(
-              title,
-              style: M3TextTheme.of(context).bodyLarge,
-              textAlign: TextAlign.center,
-            ),
-            ConfigConstant.sizedBoxH1,
-            buildSubtitle(context) ?? const SizedBox.shrink(),
-          ],
-        ),
+      child: Column(
+        children: [
+          Text(
+            title,
+            style: M3TextTheme.of(context).bodyLarge,
+            textAlign: TextAlign.center,
+          ),
+          ConfigConstant.sizedBoxH1,
+          buildSubtitle(context) ?? const SizedBox.shrink(),
+        ],
       ),
     );
   }
@@ -136,7 +157,7 @@ class StoryEmptyWidget extends StatelessWidget {
     }
   }
 
-  Widget buildIcon(int value, BuildContext context) {
+  Widget buildImageWrapper(int value, BuildContext context, Widget child) {
     return SpTapEffect(
       onTap: iconPressedCallback(context),
       child: AnimatedContainer(
@@ -145,14 +166,7 @@ class StoryEmptyWidget extends StatelessWidget {
         child: AnimatedOpacity(
           opacity: value == 1 ? 1 : 0,
           duration: ConfigConstant.duration,
-          child: CircleAvatar(
-            backgroundColor: fetchIconBgColor(context),
-            child: Icon(
-              iconData,
-              color: M3Color.of(context).surface,
-              size: ConfigConstant.iconSize3,
-            ),
-          ),
+          child: child,
         ),
       ),
     );

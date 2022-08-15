@@ -141,6 +141,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+    - assets/licenses/
     - google_fonts/
     - translations/
     - assets/illustrations/
