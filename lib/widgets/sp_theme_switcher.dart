@@ -114,6 +114,14 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
     });
   }
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    scheduleAction(() {
+      setDarkMode(isDarkModeFromTheme);
+    });
+  }
+
   void setDarkMode(bool value) {
     if (value != isDarkModeNotifier.value) {
       isDarkModeNotifier.value = value;
@@ -131,7 +139,7 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
           await SpThemeSwitcher.onLongPress(context);
         },
         onPressed: () {
-          isDarkModeNotifier.value = SpThemeSwitcher.onPress(context);
+          SpThemeSwitcher.onPress(context);
         },
       ),
     );
