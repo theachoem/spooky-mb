@@ -44,9 +44,65 @@ class $TranslationsGen {
 class $AssetsIllustrationsGen {
   const $AssetsIllustrationsGen();
 
-  /// File path: assets/illustrations/two_people.png
-  AssetGenImage get twoPeople =>
-      const AssetGenImage('assets/illustrations/two_people.png');
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 01.png
+  AssetGenImage get absurdDesignChapter101 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 01.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 02.png
+  AssetGenImage get absurdDesignChapter102 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 02.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 03.png
+  AssetGenImage get absurdDesignChapter103 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 03.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 04.png
+  AssetGenImage get absurdDesignChapter104 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 04.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 05.png
+  AssetGenImage get absurdDesignChapter105 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 05.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 06.png
+  AssetGenImage get absurdDesignChapter106 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 06.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 07.png
+  AssetGenImage get absurdDesignChapter107 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 07.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 08.png
+  AssetGenImage get absurdDesignChapter108 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 08.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 09.png
+  AssetGenImage get absurdDesignChapter109 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 09.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 10.png
+  AssetGenImage get absurdDesignChapter110 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 10.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 11.png
+  AssetGenImage get absurdDesignChapter111 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 11.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 31.png
+  AssetGenImage get absurdDesignChapter131 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 31.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 32.png
+  AssetGenImage get absurdDesignChapter132 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 32.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 33.png
+  AssetGenImage get absurdDesignChapter133 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 33.png');
+
+  /// File path: assets/illustrations/absurd.design - Chapter 1 - 34.png
+  AssetGenImage get absurdDesignChapter134 => const AssetGenImage(
+      'assets/illustrations/absurd.design - Chapter 1 - 34.png');
 }
 
 class $AssetsSoundsGen {
