@@ -105,6 +105,13 @@ class $AssetsIllustrationsGen {
       'assets/illustrations/absurd.design - Chapter 1 - 34.png');
 }
 
+class $AssetsLicensesGen {
+  const $AssetsLicensesGen();
+
+  /// File path: assets/licenses/absurd.txt
+  String get absurd => 'assets/licenses/absurd.txt';
+}
+
 class $AssetsSoundsGen {
   const $AssetsSoundsGen();
 
@@ -117,6 +124,7 @@ class Assets {
 
   static const $AssetsIllustrationsGen illustrations =
       $AssetsIllustrationsGen();
+  static const $AssetsLicensesGen licenses = $AssetsLicensesGen();
   static const $AssetsSoundsGen sounds = $AssetsSoundsGen();
   static const $GoogleFontsGen googleFonts = $GoogleFontsGen();
   static const $TranslationsGen translations = $TranslationsGen();
