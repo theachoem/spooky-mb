@@ -78,6 +78,8 @@ List<StoryDbModel> _constructStories(List dbStories) {
     String? paragraph = json['paragraph'];
     bool starred = json['is_favorite'] != "0";
     String? title = json['title'];
+    String? feeling = json['feeling'];
+
     if (paragraph == null) return [];
 
     q.Document? document;
@@ -107,6 +109,7 @@ List<StoryDbModel> _constructStories(List dbStories) {
         starred: starred,
         createdAt: createdAt,
         updatedAt: updatedAt,
+        feeling: feeling,
         changes: [
           content,
         ],

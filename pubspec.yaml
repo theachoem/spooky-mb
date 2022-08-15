@@ -145,4 +145,5 @@ flutter:
     - google_fonts/
     - translations/
     - assets/illustrations/
+    - assets/emoji-64/
     - assets/sounds/sounds.json
