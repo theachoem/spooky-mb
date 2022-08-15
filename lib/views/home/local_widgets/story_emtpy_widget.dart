@@ -92,7 +92,7 @@ class StoryEmptyWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SpTapEffect(
-                  onTap: () => iconPressedCallback(context),
+                  onTap: iconPressedCallback(context),
                   child: ImageIcon(
                     AssetImage(imagePath),
                     size: 200,
