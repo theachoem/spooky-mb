@@ -9,6 +9,7 @@ import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/views/detail/local_widgets/detail_insert_page_button.dart';
 import 'package:spooky/views/detail/local_widgets/detail_sheet.dart';
+import 'package:spooky/views/detail/local_widgets/feeling_button.dart';
 import 'package:spooky/views/detail/local_widgets/page_indicator_button.dart';
 import 'package:spooky/views/detail/local_widgets/story_tags.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
@@ -112,6 +113,18 @@ class _DetailScaffoldState extends State<DetailScaffold>
         DetailInsertPageButton(widget: widget, buildSheetVisibilityBuilder: buildSheetVisibilityBuilder),
         ConfigConstant.sizedBoxW0,
         buildEndDrawerButton(CommunityMaterialIcons.tag),
+        ConfigConstant.sizedBoxW0,
+        ValueListenableBuilder<String?>(
+          valueListenable: widget.viewModel.feelingNotifer,
+          builder: (context, feeling, child) {
+            return FeelingButton(
+              feeling: feeling,
+              onPicked: (String feeling) {
+                widget.viewModel.setFeeling(feeling);
+              },
+            );
+          },
+        ),
         ConfigConstant.sizedBoxW0,
         PageIndicatorButton(
           controller: widget.viewModel.pageController,
