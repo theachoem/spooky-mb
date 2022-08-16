@@ -10,9 +10,9 @@ import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/core/services/is_changed_story_service.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/providers/cache_story_models_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
@@ -56,10 +56,11 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   late final ValueNotifier<ChipsExpandLevelType> expandedLevelNotifier;
   late final StoryDatabase database;
   late final SpStoryTileUtils utils;
-  late StoryDbModel story;
+
+  late StoryDbModel _story;
+  StoryDbModel get story => _story;
 
   Completer<bool>? completer;
-
   StoryDbModel? get previousStory => widget.previousStory;
   bool get starred => story.starred == true;
   Color? get starredColor => starred ? M3Color.of(context).error : null;
@@ -68,7 +69,13 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   void initState() {
     expandedLevelNotifier = ValueNotifier<ChipsExpandLevelType>(ChipsExpandLevelType.level1);
     database = StoryDatabase.instance;
-    story = widget.story;
+
+    setStory(
+      widget.story,
+      reloadState: false,
+      saveToCache: true,
+      debugSource: "initState",
+    );
 
     utils = SpStoryTileUtils(
       context: context,
@@ -83,6 +90,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     super.initState();
   }
 
+  // confirm before update story
   Future<bool?> confirmStory(BuildContext context) async {
     bool hasIncompleteFuture = completer != null && !completer!.isCompleted;
 
@@ -115,10 +123,15 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   // reload current story only
   Future<void> reloadStory() async {
     setCompleter();
-    StoryDbModel? storyResult = await database.fetchOne(id: story.id);
+    StoryDbModel? storyResult = await context.read<CacheStoryModelsProvider>().get(story.id);
 
     if (storyResult != null) {
-      setState(() => story = storyResult);
+      setStory(
+        storyResult,
+        saveToCache: false,
+        reloadState: true,
+        debugSource: "reloadStory",
+      );
     } else {
       await widget.onRefresh();
     }
@@ -130,7 +143,12 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return utils.refreshSuccess(
       () async {
         StoryDbModel copiedStory = story.copyWith(starred: !starred);
-        setState(() => story = copiedStory);
+        setStory(
+          copiedStory,
+          saveToCache: true,
+          reloadState: true,
+          debugSource: "toggleStarred",
+        );
         await database.update(id: copiedStory.id, body: copiedStory);
         return true;
       },
@@ -142,8 +160,13 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   Future<bool> replaceContent(StoryContentDbModel content) async {
     return utils.refreshSuccess(
       () async {
-        StoryDbModel copiedStory = story.copyWith();
-        copiedStory.addChange(content);
+        StoryDbModel copiedStory = story.copyWith()..addChange(content);
+        setStory(
+          copiedStory,
+          saveToCache: true,
+          reloadState: true,
+          debugSource: "replaceContent",
+        );
         await database.update(id: copiedStory.id, body: copiedStory);
         return true;
       },
@@ -179,22 +202,48 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
           intialFlow: DetailViewFlowType.update,
         ),
       );
-
-      bool changed = IsChangedStoryService.instance.hasChanged(story);
-      if (changed) await reloadStory();
+      reloadStory();
     }
   }
 
   @override
-  void didUpdateWidget(covariant SpStoryTile oldWidget) {
-    story = widget.story;
-    super.didUpdateWidget(oldWidget);
+  void didChangeDependencies() {
+    setStory(
+      widget.story,
+      saveToCache: true,
+      reloadState: false,
+      debugSource: "didChangeDependencies",
+    );
+    super.didChangeDependencies();
   }
 
   @override
   void dispose() {
     expandedLevelNotifier.dispose();
     super.dispose();
+  }
+
+  void setStory(
+    StoryDbModel story, {
+    required bool reloadState,
+    required bool saveToCache,
+    required String debugSource,
+  }) {
+    if (saveToCache) {
+      CacheStoryModelsProvider provider = context.read<CacheStoryModelsProvider>();
+      provider.update(
+        story,
+        debugSource: "$runtimeType#$debugSource",
+      );
+    }
+
+    if (reloadState) {
+      setState(() {
+        _story = story;
+      });
+    } else {
+      _story = story;
+    }
   }
 
   @override

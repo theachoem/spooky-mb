@@ -74,21 +74,21 @@ class _StoryTimeTileState extends State<StoryTimeTile> {
         );
 
         if (dateTime != null) {
-          DateTime date = currentStory.displayPathDate;
-          StoryDbModel story = await widget.viewModel.setPathDate(DateTime(
-            date.year,
-            date.month,
-            date.day,
-            dateTime?.hour ?? date.hour,
-            dateTime?.minute ?? date.minute,
-            date.second,
-            date.millisecond,
-            date.microsecond,
-          ));
+          // DateTime date = currentStory.displayPathDate;
+          // StoryDbModel story = await widget.viewModel.setPathDate(DateTime(
+          //   date.year,
+          //   date.month,
+          //   date.day,
+          //   dateTime?.hour ?? date.hour,
+          //   dateTime?.minute ?? date.minute,
+          //   date.second,
+          //   date.millisecond,
+          //   date.microsecond,
+          // ));
 
-          setState(() {
-            currentStory = story;
-          });
+          // setState(() {
+          //   currentStory = story;
+          // });
         }
       },
     );

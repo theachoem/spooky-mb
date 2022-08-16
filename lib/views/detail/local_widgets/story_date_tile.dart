@@ -29,17 +29,17 @@ class StoryDateTile extends StatelessWidget {
         );
 
         if (pathDate != null) {
-          DateTime date = viewModel.currentStory.displayPathDate;
-          viewModel.setPathDate(DateTime(
-            pathDate.year,
-            pathDate.month,
-            pathDate.day,
-            date.hour,
-            date.minute,
-            date.second,
-            date.millisecond,
-            date.microsecond,
-          ));
+          // DateTime date = viewModel.currentStory.displayPathDate;
+          // viewModel.setPathDate(DateTime(
+          //   pathDate.year,
+          //   pathDate.month,
+          //   pathDate.day,
+          //   date.hour,
+          //   date.minute,
+          //   date.second,
+          //   date.millisecond,
+          //   date.microsecond,
+          // ));
         }
       },
     );

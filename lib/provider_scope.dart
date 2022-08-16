@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:spooky/core/backups/providers/dropbox_cloud_provider.dart';
 import 'package:spooky/core/backups/providers/google_cloud_provider.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
+import 'package:spooky/providers/cache_story_models_provider.dart';
 import 'package:spooky/providers/has_tags_changes_provider.dart';
 import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/in_app_update_provider.dart';
@@ -68,6 +69,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<HasTagsChangesProvider>(
           create: (context) => HasTagsChangesProvider(),
+        ),
+        ListenableProvider<CacheStoryModelsProvider>(
+          create: (context) => CacheStoryModelsProvider(),
         ),
       ],
       child: child,

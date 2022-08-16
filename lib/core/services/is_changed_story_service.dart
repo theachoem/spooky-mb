@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 
+@Deprecated("Use CacheStoryModelsProvider")
 // Write at BaseStoryWriter
 // Read at SpStoryTile
 class IsChangedStoryService {

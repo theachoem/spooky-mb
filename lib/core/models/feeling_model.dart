@@ -226,7 +226,7 @@ class FeelingModel {
     "something_cool": FeelingModel(
       value: "something_cool",
       translation: tr("feeling.something_cool"),
-      image64: Assets.emoji64.smilingFaceWithSmilingEyes64x641395594,
+      image64: Assets.emoji64.smilingFaceWithSunglasses64x641395549,
     ),
     "suggestive_smile": FeelingModel(
       value: "suggestive_smile",

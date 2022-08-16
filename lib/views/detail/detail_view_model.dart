@@ -5,6 +5,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
@@ -21,6 +22,7 @@ import 'package:spooky/core/story_writers/objects/draft_story_object.dart';
 import 'package:spooky/core/story_writers/objects/restore_story_object.dart';
 import 'package:spooky/core/story_writers/objects/update_page_object.dart';
 import 'package:spooky/core/story_writers/restore_story_writer.dart';
+import 'package:spooky/providers/cache_story_models_provider.dart';
 import 'package:spooky/views/detail/detail_view_model_getter.dart';
 import 'package:spooky/utils/helpers/story_writer_helper.dart';
 import 'package:spooky/core/story_writers/update_page_writer.dart';
@@ -109,6 +111,12 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     currentContent = story.changes.last;
     loadHasChange();
     notifyListeners();
+    saveToCacheProvider(story);
+  }
+
+  void saveToCacheProvider(StoryDbModel story) {
+    final context = App.navigatorKey.currentContext;
+    context?.read<CacheStoryModelsProvider>().update(story, debugSource: runtimeType.toString());
   }
 
   Future<T> beforeAction<T>(Future<T> Function() callback) async {
@@ -118,9 +126,15 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
 
   Future<void> reload(StoryDbModel? savedStory) async {
     setCompleter();
-    await StoryDatabase.instance.fetchOne(id: currentStory.id).then((story) {
-      if (story != null) saveStates(story);
-    });
+
+    if (savedStory == null) {
+      await StoryDatabase.instance.fetchOne(id: currentStory.id).then((story) {
+        if (story != null) saveStates(story);
+      });
+    } else {
+      saveStates(savedStory);
+    }
+
     complete();
   }
 
@@ -252,38 +266,34 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       currentStory = currentStory.copyWith(tags: ids.map((e) => e.toString()).toList());
       notifyListeners();
 
-      await StoryDatabase.instance.set(body: currentStory);
+      saveToCacheProvider(currentStory);
+      StoryDbModel? story = await StoryDatabase.instance.set(body: currentStory);
+
+      if (story != null) {
+        currentStory = story;
+        saveToCacheProvider(currentStory);
+      }
+
       return currentStory;
     });
   }
 
   Future<StoryDbModel> setFeeling(String? feeling) async {
     return beforeAction(() async {
+      currentStory = currentStory.copyWith(feeling: feeling);
       updateFeelingUi(feeling);
-      StoryDbModel? story = await StoryDatabase.instance.set(body: currentStory.copyWith(feeling: feeling));
-      if (story != null) currentStory = story;
-      updateFeelingUi(currentStory.feeling);
+
+      saveToCacheProvider(currentStory);
+      StoryDbModel? story = await StoryDatabase.instance.set(body: currentStory);
+
+      if (story != null) {
+        currentStory = story;
+        saveToCacheProvider(currentStory);
+        updateFeelingUi(currentStory.feeling);
+      }
+
       return currentStory;
     });
-  }
-
-  Future<StoryDbModel> setPathDate(DateTime pathDate) async {
-    StoryDbModel? story = await StoryDatabase.instance.set(
-      body: currentStory.copyWith(
-        year: pathDate.year,
-        month: pathDate.month,
-        day: pathDate.day,
-        hour: pathDate.hour,
-        minute: pathDate.minute,
-      ),
-    );
-
-    if (story != null) {
-      currentStory = story;
-      notifyListeners();
-    }
-
-    return currentStory;
   }
 
   /// for avoid push without load new changes

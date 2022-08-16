@@ -115,7 +115,7 @@
     },
     "save_draft": "Save draft?",
     "security": {
-      "enter_confirm_passcode": "Please enter to confirm the passcode",
+      "enter_confirm_passcode": "Please enter confirm the passcode",
       "enter_new_password": {
         "title": "Please enter a new passcode"
       },
