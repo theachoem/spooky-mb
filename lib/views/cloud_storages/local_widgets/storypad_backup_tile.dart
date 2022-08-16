@@ -9,20 +9,20 @@ class StoryPadBackupTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      borderRadius: ConfigConstant.circlarRadius2,
-      clipBehavior: Clip.hardEdge,
-      color: Colors.transparent,
-      child: ListTile(
-        leading: CircleAvatar(
-          backgroundImage: buildStoryPadLogo(),
-        ),
-        title: Text(tr("tile.spooky_restore.title")),
-        subtitle: Text(tr("tile.spooky_restore.subtitle")),
-        onTap: () {
-          Navigator.of(context).pushNamed(SpRouter.storyPadRestore.path);
-        },
+    return ListTile(
+      tileColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Theme.of(context).dividerColor),
+        borderRadius: ConfigConstant.circlarRadius2,
       ),
+      leading: CircleAvatar(
+        backgroundImage: buildStoryPadLogo(),
+      ),
+      title: Text(tr("tile.spooky_restore.title")),
+      subtitle: Text(tr("tile.spooky_restore.subtitle")),
+      onTap: () {
+        Navigator.of(context).pushNamed(SpRouter.storyPadRestore.path);
+      },
     );
   }
 
