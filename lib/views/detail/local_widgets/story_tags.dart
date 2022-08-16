@@ -6,6 +6,7 @@ import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
+import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
 class StoryTags extends StatefulWidget {
   // ignore: prefer_const_constructors_in_immutables
@@ -22,7 +23,7 @@ class StoryTags extends StatefulWidget {
   State<StoryTags> createState() => _StoryTagsState();
 }
 
-class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixin {
+class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixin, ScheduleMixin {
   final TagDatabase tagDatabase = TagDatabase.instance;
   late final ValueNotifier<List<int>> selectedTagsIdNotifiers;
   List<TagDbModel>? tags;
@@ -55,7 +56,9 @@ class _StoryTagsState extends State<StoryTags> with AutomaticKeepAliveClientMixi
       selectedTagsIds.remove(id);
     }
     selectedTagsIdNotifiers.value = selectedTagsIds.toList();
-    widget.onUpdated(selectedTagsIdNotifiers.value);
+    scheduleAction(() {
+      widget.onUpdated(selectedTagsIdNotifiers.value);
+    });
   }
 
   Future<void> load() async {
