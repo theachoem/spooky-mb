@@ -54,7 +54,7 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     required this.flowType,
   }) {
     currentContent = initialContent(currentStory);
-    initMixinState(flowType, currentContent);
+    initMixinState(flowType, currentContent, currentStory);
     WidgetsBinding.instance.addObserver(this);
     setListener();
   }
@@ -248,15 +248,23 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   // ==============================
 
   Future<StoryDbModel> setTagIds(List<int> ids) async {
-    StoryDbModel? story =
-        await StoryDatabase.instance.set(body: currentStory.copyWith(tags: ids.map((e) => e.toString()).toList()));
-
-    if (story != null) {
-      currentStory = story;
+    return beforeAction(() async {
+      currentStory = currentStory.copyWith(tags: ids.map((e) => e.toString()).toList());
       notifyListeners();
-    }
 
-    return currentStory;
+      await StoryDatabase.instance.set(body: currentStory);
+      return currentStory;
+    });
+  }
+
+  Future<StoryDbModel> setFeeling(String? feeling) async {
+    return beforeAction(() async {
+      updateFeelingUi(feeling);
+      StoryDbModel? story = await StoryDatabase.instance.set(body: currentStory.copyWith(feeling: feeling));
+      if (story != null) currentStory = story;
+      updateFeelingUi(currentStory.feeling);
+      return currentStory;
+    });
   }
 
   Future<StoryDbModel> setPathDate(DateTime pathDate) async {

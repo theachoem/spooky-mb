@@ -15,8 +15,10 @@ class SpFloatingPopUpButton extends StatefulWidget {
     required this.builder,
     required this.floatBuilder,
     this.bottomToTop = true,
+    this.pathBuilder = PathBuilders.circleOut,
   }) : super(key: key);
 
+  final PathBuilder pathBuilder;
   final double cacheFloatingSize;
   final double Function(double dy)? dyGetter;
   final Widget Function(void Function() callback) floatBuilder;
@@ -111,7 +113,7 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton>
                       revealFirstChild: true,
                       duration: ConfigConstant.fadeDuration,
                       curve: Curves.linear,
-                      pathBuilder: PathBuilders.circleOut,
+                      pathBuilder: widget.pathBuilder,
                       child: widget.floatBuilder(toggle),
                     ),
                   ),

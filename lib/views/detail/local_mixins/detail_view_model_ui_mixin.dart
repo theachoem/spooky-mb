@@ -15,6 +15,7 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
   late final ValueNotifier<double> pageOffsetNotifier;
   late final TextEditingController titleController;
   late final FocusNode titleFocusNode;
+  late final ValueNotifier<String?> feelingNotifer;
 
   final Map<int, FocusNode> _focusNodes = {};
   final Map<int, QuillController> quillControllers = {};
@@ -49,7 +50,7 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
     }
   }
 
-  void initMixinState(DetailViewFlowType flowType, StoryContentDbModel content) {
+  void initMixinState(DetailViewFlowType flowType, StoryContentDbModel content, StoryDbModel story) {
     readOnlyNotifier = ValueNotifier(flowType == DetailViewFlowType.update);
     hasChangeNotifer = ValueNotifier(flowType == DetailViewFlowType.create);
     toolbarVisibleNotifier = ValueNotifier(false);
@@ -58,6 +59,7 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
     titleController = TextEditingController(text: content.title);
     titleFocusNode = FocusNode();
     pageOffsetNotifier = ValueNotifier(0.0);
+    feelingNotifer = ValueNotifier(story.feeling);
     pageController.addListener(() {
       pageOffsetNotifier.value = pageController.offset;
     });
@@ -73,5 +75,10 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
     pageController.dispose();
     titleController.dispose();
     titleFocusNode.dispose();
+    feelingNotifer.dispose();
+  }
+
+  void updateFeelingUi(String? feeling) {
+    feelingNotifer.value = feeling;
   }
 }

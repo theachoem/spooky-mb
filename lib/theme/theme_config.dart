@@ -40,7 +40,7 @@ class ThemeConfig {
     TextTheme textTheme = buildTextTheme();
 
     ThemeData themeData = ThemeData(
-      // platform: TargetPlatform.android,
+      platform: TargetPlatform.android,
       useMaterial3: true,
       applyElevationOverlayColor: true,
       primaryColor: colorScheme.primary,

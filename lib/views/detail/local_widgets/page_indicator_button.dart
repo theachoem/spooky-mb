@@ -104,6 +104,7 @@ class _PageIndicatorButtonState extends State<PageIndicatorButton> {
         firstChild: Container(
           height: ConfigConstant.iconSize3,
           alignment: Alignment.center,
+          padding: const EdgeInsets.only(left: 12.0, right: 4.0),
           child: buildPageNumber(context),
         ),
       ),
