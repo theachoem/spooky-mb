@@ -40,16 +40,15 @@ class _FeelingPickerState extends State<FeelingPicker> {
   }
 
   void animateToInitialFeeling() {
-    double offset = findInitialScrollOffset(feeling) - 8;
-    if (offset > 0) {
-      Future.delayed(ConfigConstant.fadeDuration).then((value) {
-        controller.animateTo(
-          offset,
-          duration: Duration(milliseconds: 100 * offset ~/ 100),
-          curve: Curves.fastOutSlowIn,
-        );
-      });
-    }
+    double offset = findInitialScrollOffset(feeling);
+    if (offset < 100) return;
+    Future.delayed(ConfigConstant.fadeDuration).then((value) {
+      controller.animateTo(
+        min(offset, controller.position.maxScrollExtent),
+        duration: Duration(milliseconds: max(100 * offset ~/ 100, 350)),
+        curve: Curves.fastOutSlowIn,
+      );
+    });
   }
 
   void onPicked(String feeling) {
@@ -100,33 +99,40 @@ class _FeelingPickerState extends State<FeelingPicker> {
         cacheExtent: 100,
         itemBuilder: (context, index) {
           final feeling = feelingsMap[index];
-          return Material(
-            color: this.feeling == feeling.key ? M3Color.of(context).readOnly.surface1 : Colors.transparent,
-            child: InkWell(
-              onTap: () => onPicked(feeling.key),
-              child: Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    feeling.value.image64.image(
-                      width: ConfigConstant.iconSize3 + 8,
-                      height: ConfigConstant.iconSize3 + 8,
-                    ),
-                    ConfigConstant.sizedBoxH1,
-                    Text(
-                      feeling.value.value.replaceAll("_", " ").capitalize,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.labelMedium,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
+          return buildFeelingCard(feeling, context);
         },
+      ),
+    );
+  }
+
+  Widget buildFeelingCard(
+    MapEntry<String, FeelingModel> feeling,
+    BuildContext context,
+  ) {
+    return Material(
+      color: this.feeling == feeling.key ? M3Color.of(context).readOnly.surface1 : Colors.transparent,
+      child: InkWell(
+        onTap: () => onPicked(feeling.key),
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              feeling.value.image64.image(
+                width: ConfigConstant.iconSize3,
+                height: ConfigConstant.iconSize3,
+              ),
+              ConfigConstant.sizedBoxH1,
+              Text(
+                feeling.value.value.replaceAll("_", "\n").capitalize,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
