@@ -28,7 +28,7 @@ class _NicknameCreatorAdaptive extends StatelessWidget {
           onChanged: (String value) => viewModel.nickname = value,
           initialValue: viewModel.nickname,
           decoration: InputDecoration(
-            hintText: tr("hint_text.nickname"),
+            hintText: tr("field.nickname.hint_text"),
             border: InputBorder.none,
             errorText: "",
           ),

@@ -371,7 +371,7 @@
       "title": "Add-ons"
     },
     "app_starter": {
-      "policy_alert": "By tapping on “Sign up & Accept”, you agree to the [Privacy Policy]()",
+      "policy_alert": "By tapping on “Accept”, you agree to the [Privacy Policy]()",
       "subtitle": "App Starter",
       "title": "App Starter"
     },

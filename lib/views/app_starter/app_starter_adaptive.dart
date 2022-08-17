@@ -47,7 +47,10 @@ class _AppStarterAdaptive extends StatelessWidget {
         alignment: WrapAlignment.center,
         children: [
           const SizedBox(width: double.infinity, height: ConfigConstant.margin2 * 2),
-          buildPolicyAlert(context),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: buildPolicyAlert(context),
+          ),
           const SizedBox(height: 16.0, width: double.infinity),
           buildSignUpButton(context),
           SizedBox(
