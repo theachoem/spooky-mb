@@ -423,6 +423,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.4.1"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.6"
   dismissible_page:
     dependency: "direct main"
     description:
@@ -1163,6 +1170,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.3"
+  japx:
+    dependency: "direct main"
+    description:
+      name: japx
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.4"
   js:
     dependency: transitive
     description:

@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
-import 'package:spooky/core/db/models/base/links_model.dart';
-import 'package:spooky/core/db/models/base/meta_model.dart';
+import 'package:spooky/core/db/models/base/links_db_model.dart';
+import 'package:spooky/core/db/models/base/meta_db_model.dart';
 import 'package:spooky/objectbox.g.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
@@ -52,8 +52,8 @@ abstract class BaseObjectBoxAdapter<T, P extends BaseDbModel> extends BaseDbAdap
     List<P> docs = await itemsTransformer(objects);
     return BaseDbListModel(
       items: docs,
-      meta: MetaModel(),
-      links: LinksModel(),
+      meta: MetaDbModel(),
+      links: LinksDbModel(),
     );
   }
 

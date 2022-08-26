@@ -4,8 +4,8 @@ import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
-import 'package:spooky/core/db/models/base/links_model.dart';
-import 'package:spooky/core/db/models/base/meta_model.dart';
+import 'package:spooky/core/db/models/base/links_db_model.dart';
+import 'package:spooky/core/db/models/base/meta_db_model.dart';
 
 abstract class BaseDatabase<T extends BaseDbModel> {
   String get tableName;
@@ -124,18 +124,18 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     return [];
   }
 
-  Future<MetaModel?> buildMeta(Map<String, dynamic> json) async {
+  Future<MetaDbModel?> buildMeta(Map<String, dynamic> json) async {
     dynamic meta = json['meta'];
     if (meta != null && meta is Map<String, dynamic>) {
-      return MetaModel.fromJson(meta);
+      return MetaDbModel.fromJson(meta);
     }
     return null;
   }
 
-  Future<LinksModel?> buildLinks(Map<String, dynamic> json) async {
+  Future<LinksDbModel?> buildLinks(Map<String, dynamic> json) async {
     dynamic links = json['links'];
     if (links != null && links is Map<String, dynamic>) {
-      return LinksModel.fromJson(links);
+      return LinksDbModel.fromJson(links);
     }
     return null;
   }

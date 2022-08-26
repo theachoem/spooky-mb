@@ -168,4 +168,11 @@ class AppHelper {
 
     return [device ?? tr("msg.unknown"), id ?? "unknown_id"];
   }
+
+  static String? queryParameters({
+    required String url,
+    required String param,
+  }) {
+    return Uri.parse(url).queryParameters[param];
+  }
 }
