@@ -5,8 +5,8 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 import 'dart:async';
 // ignore: depend_on_referenced_packages
 import 'package:in_app_purchase_android/in_app_purchase_android.dart';
-import 'package:spooky/core/api/cloud_firestore/purchased_histories_database.dart';
-import 'package:spooky/core/api/cloud_firestore/users_firestore_database.dart';
+import 'package:spooky/core/external_apis/cloud_firestore/purchased_histories_database.dart';
+import 'package:spooky/core/external_apis/cloud_firestore/users_firestore_database.dart';
 import 'package:spooky/core/models/product_list_model.dart';
 import 'package:spooky/core/models/purchased_info_model.dart';
 import 'package:spooky/core/storages/local_storages/purchased_add_on_storage.dart';

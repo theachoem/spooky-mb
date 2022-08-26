@@ -1,5 +1,5 @@
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:spooky/core/api/authentication/google_auth_service.dart';
+import 'package:spooky/core/external_apis/authentication/google_auth_service.dart';
 import 'package:spooky/core/backups/destinations/base_backup_destination.dart';
 import 'package:spooky/core/backups/destinations/gdrive_backup_destination.dart';
 import 'package:spooky/core/backups/providers/base_cloud_provider.dart';

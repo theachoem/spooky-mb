@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:spooky/core/api/cloud_firestore/models/user_cf_model.dart';
-import 'package:spooky/core/api/cloud_firestore/users_firestore_database.dart';
+import 'package:spooky/core/external_apis/cloud_firestore/models/user_cf_model.dart';
+import 'package:spooky/core/external_apis/cloud_firestore/users_firestore_database.dart';
 
 abstract class BaseSocialAuthApi {
   String? errorMessage;

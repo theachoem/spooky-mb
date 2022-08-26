@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/api/cloud_storages/gdrive_backups_storage.dart';
-import 'package:spooky/core/api/cloud_storages/gdrive_spooky_folder_storage.dart';
+import 'package:spooky/core/external_apis/cloud_storages/gdrive_backups_storage.dart';
+import 'package:spooky/core/external_apis/cloud_storages/gdrive_spooky_folder_storage.dart';
 import 'package:spooky/core/backups/destinations/base_backup_destination.dart';
 import 'package:spooky/core/backups/providers/google_cloud_provider.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';

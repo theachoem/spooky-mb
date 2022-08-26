@@ -1,7 +1,7 @@
 import 'dart:io' as io;
 import 'package:flutter/foundation.dart';
 import 'package:path/path.dart';
-import 'package:spooky/core/api/cloud_storages/gdrive_storage.dart';
+import 'package:spooky/core/external_apis/cloud_storages/gdrive_storage.dart';
 import 'package:spooky/core/storages/local_storages/spooky_drive_folder_id_storage.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
 import 'package:spooky/utils/constants/app_constant.dart';

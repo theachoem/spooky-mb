@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:spooky/core/api/social_auths/base_social_auth_api.dart';
+import 'package:spooky/core/external_apis/social_auths/base_social_auth_api.dart';
 
 class GoogleAuthApi extends BaseSocialAuthApi {
   final GoogleSignIn googleSignIn = GoogleSignIn();

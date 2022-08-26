@@ -1,6 +1,6 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:googleapis/drive/v3.dart' as drive;
-import 'package:spooky/core/api/authentication/google_auth_client.dart';
+import 'package:spooky/core/external_apis/authentication/google_auth_client.dart';
 import 'package:spooky/core/storages/local_storages/google_auth_headers_storage.dart';
 
 class GoogleAuthService {

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-import 'package:spooky/core/api/social_auths/base_social_auth_api.dart';
+import 'package:spooky/core/external_apis/social_auths/base_social_auth_api.dart';
 
 class AppleAuthApi extends BaseSocialAuthApi {
   final OAuthProvider _oAuthProvider = OAuthProvider("apple.com");

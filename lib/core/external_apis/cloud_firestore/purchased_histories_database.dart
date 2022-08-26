@@ -1,4 +1,4 @@
-import 'package:spooky/core/api/cloud_firestore/base_cloud_firestore.dart';
+import 'package:spooky/core/external_apis/cloud_firestore/base_cloud_firestore.dart';
 import 'package:spooky/core/models/purchased_info_model.dart';
 
 class PurchaseHistoriesDatabase extends BaseCloudFirestore<PurchasedInfoModel> {

@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/api/social_auths/apple_auth_api.dart';
-import 'package:spooky/core/api/social_auths/base_social_auth_api.dart';
-import 'package:spooky/core/api/social_auths/facebook_auth_api.dart';
-import 'package:spooky/core/api/social_auths/google_auth_api.dart';
+import 'package:spooky/core/external_apis/social_auths/apple_auth_api.dart';
+import 'package:spooky/core/external_apis/social_auths/base_social_auth_api.dart';
+import 'package:spooky/core/external_apis/social_auths/facebook_auth_api.dart';
+import 'package:spooky/core/external_apis/social_auths/google_auth_api.dart';
 
 enum AuthProviderType {
   google,

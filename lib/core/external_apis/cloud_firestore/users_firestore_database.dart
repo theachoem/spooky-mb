@@ -1,5 +1,5 @@
-import 'package:spooky/core/api/cloud_firestore/base_cloud_firestore.dart';
-import 'package:spooky/core/api/cloud_firestore/models/user_cf_model.dart';
+import 'package:spooky/core/external_apis/cloud_firestore/base_cloud_firestore.dart';
+import 'package:spooky/core/external_apis/cloud_firestore/models/user_cf_model.dart';
 import 'package:spooky/core/models/purchased_info_model.dart';
 
 class UsersFirestoreDatabase extends BaseCloudFirestore<UserCfModel> {
