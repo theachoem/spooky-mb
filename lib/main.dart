@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
 import 'package:spooky/core/db/databases/tag_database.dart';

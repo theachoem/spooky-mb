@@ -32,8 +32,8 @@ class _StoryTestDbAdapter extends BaseDbAdapter<StoryDbModel> with BaseStoryDbEx
       items: List.generate(10, (index) {
         return StoryDbModel.fromNow();
       }).toList(),
-      meta: MetaModel(),
-      links: LinksModel(),
+      meta: MetaDbModel(),
+      links: LinksDbModel(),
     );
   }
 

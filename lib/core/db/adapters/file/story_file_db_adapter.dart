@@ -143,8 +143,8 @@ class _StoryFileDbAdapter extends BaseFileDbAdapter<StoryDbModel> implements Bas
 
       return BaseDbListModel(
         items: docs,
-        meta: MetaModel(),
-        links: LinksModel(),
+        meta: MetaDbModel(),
+        links: LinksDbModel(),
       );
     }
 

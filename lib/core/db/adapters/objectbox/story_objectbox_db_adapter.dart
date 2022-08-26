@@ -107,8 +107,8 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
 
     return BaseDbListModel(
       items: docs,
-      meta: MetaModel(),
-      links: LinksModel(),
+      meta: MetaDbModel(),
+      links: LinksDbModel(),
     );
   }
 

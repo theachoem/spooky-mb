@@ -9,9 +9,9 @@ part of 'base_db_list_model.dart';
 abstract class _$BaseDbListModelCWProxy<T extends BaseDbModel> {
   BaseDbListModel<T> items(List<T> items);
 
-  BaseDbListModel<T> links(LinksModel? links);
+  BaseDbListModel<T> links(LinksDbModel? links);
 
-  BaseDbListModel<T> meta(MetaModel? meta);
+  BaseDbListModel<T> meta(MetaDbModel? meta);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `BaseDbListModel<T>(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -21,8 +21,8 @@ abstract class _$BaseDbListModelCWProxy<T extends BaseDbModel> {
   /// ````
   BaseDbListModel<T> call({
     List<T>? items,
-    LinksModel? links,
-    MetaModel? meta,
+    LinksDbModel? links,
+    MetaDbModel? meta,
   });
 }
 
@@ -37,10 +37,10 @@ class _$BaseDbListModelCWProxyImpl<T extends BaseDbModel>
   BaseDbListModel<T> items(List<T> items) => this(items: items);
 
   @override
-  BaseDbListModel<T> links(LinksModel? links) => this(links: links);
+  BaseDbListModel<T> links(LinksDbModel? links) => this(links: links);
 
   @override
-  BaseDbListModel<T> meta(MetaModel? meta) => this(meta: meta);
+  BaseDbListModel<T> meta(MetaDbModel? meta) => this(meta: meta);
 
   @override
 
@@ -63,11 +63,11 @@ class _$BaseDbListModelCWProxyImpl<T extends BaseDbModel>
       links: links == const $CopyWithPlaceholder()
           ? _value.links
           // ignore: cast_nullable_to_non_nullable
-          : links as LinksModel?,
+          : links as LinksDbModel?,
       meta: meta == const $CopyWithPlaceholder()
           ? _value.meta
           // ignore: cast_nullable_to_non_nullable
-          : meta as MetaModel?,
+          : meta as MetaDbModel?,
     );
   }
 }

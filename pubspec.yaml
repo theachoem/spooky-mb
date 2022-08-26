@@ -3,7 +3,7 @@ description: Minimalist application to write stories, notes, diary!
 publish_to: none
 version: 1.3.3+83
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 # flutter pub upgrade --major-versions
 dependencies:
@@ -105,6 +105,8 @@ dependencies:
   string_similarity: ^2.0.0
   scroll_to_index: ^3.0.1
   confetti: ^0.7.0
+  dio: ^4.0.6
+  japx: ^2.0.4
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 
