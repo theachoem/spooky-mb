@@ -122,7 +122,7 @@ class _DetailScaffoldState extends State<DetailScaffold>
             builder: (context, feeling, child) {
               return FeelingButton(
                 feeling: feeling,
-                onPicked: (String feeling) {
+                onPicked: (String? feeling) {
                   widget.viewModel.setFeeling(feeling);
                 },
               );

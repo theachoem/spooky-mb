@@ -13,7 +13,7 @@ class FeelingPicker extends StatefulWidget {
   }) : super(key: key);
 
   final String? feeling;
-  final void Function(String feeling) onPicked;
+  final void Function(String? feeling) onPicked;
 
   @override
   State<FeelingPicker> createState() => _FeelingPickerState();
@@ -52,7 +52,9 @@ class _FeelingPickerState extends State<FeelingPicker> {
   }
 
   void onPicked(String feeling) {
-    widget.onPicked(feeling);
+    widget.onPicked(
+      feeling == this.feeling ? null : feeling,
+    );
   }
 
   double findInitialScrollOffset(String? selectedFeeling) {

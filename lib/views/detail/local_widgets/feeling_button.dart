@@ -17,7 +17,7 @@ class FeelingButton extends StatefulWidget {
   }) : super(key: key);
 
   final String? feeling;
-  final void Function(String feeling) onPicked;
+  final void Function(String? feeling) onPicked;
 
   @override
   State<FeelingButton> createState() => _FeelingButtonState();
