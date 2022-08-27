@@ -75,7 +75,7 @@ class DetailSheet extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListTile(
-          title: const Text("Blackout"),
+          title: Text(tr("tile.blackout.title")),
           leading: const Icon(Icons.dark_mode),
           trailing: Switch.adaptive(
             value: context.read<BlackOutNotifier>().blackout,

@@ -546,8 +546,8 @@
     "actions": "Actions",
     "advance": "Advance",
     "features": "Features",
-    "font": "Font",
-    "info": "Fonts",
+    "font": "Fonts",
+    "info": "Info",
     "lock_method": "Lock Methods",
     "personalize": "Personalize",
     "questions": "Questions",
@@ -627,6 +627,9 @@
     "biometric": {
       "subtitle": "Unlock app base on biometric",
       "title": "Biometrics"
+    },
+    "blackout": {
+      "title": "Blackout"
     },
     "changes": {
       "title": "Changes"
