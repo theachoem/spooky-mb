@@ -2,12 +2,14 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/views/detail/black_out_notifier.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -63,8 +65,34 @@ class DetailSheet extends StatelessWidget {
           // buildActionsSection(context),
           buildSettingSection(context),
         ],
-      ),
+      )..addAll(buildExtraSections(context)),
     );
+  }
+
+  List<Widget> buildExtraSections(BuildContext context) {
+    return [
+      ConfigConstant.sizedBoxH1,
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: ListTile(
+          title: const Text("Blackout"),
+          leading: const Icon(Icons.dark_mode),
+          trailing: Switch.adaptive(
+            value: context.read<BlackOutNotifier>().blackout,
+            onChanged: (value) => context.read<BlackOutNotifier>().toggle(),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: ConfigConstant.circlarRadius2,
+            side: BorderSide(
+              color: Theme.of(context).dividerColor,
+            ),
+          ),
+          onTap: () {
+            context.read<BlackOutNotifier>().toggle();
+          },
+        ),
+      ),
+    ];
   }
 
   // SpSectionContents buildDateTilesSection(BuildContext context) {

@@ -76,6 +76,7 @@ mixin ScaffoldToggleSheetableMixin<T extends StatefulWidget> on State<T> {
         return BottomSheet(
           onClosing: () {},
           enableDrag: false,
+          backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
           builder: (context) {
             return buildSheet(context);
           },

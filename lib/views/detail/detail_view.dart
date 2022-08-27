@@ -2,11 +2,14 @@ library detail_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
+import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/views/detail/black_out_notifier.dart';
 import 'package:spooky/views/detail/local_widgets/detail_editor.dart';
 import 'package:spooky/views/detail/local_widgets/detail_scaffold.dart';
 import 'package:spooky/views/detail/local_widgets/detail_toolbar.dart';
@@ -31,6 +34,35 @@ class DetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return ViewModelProvider<BlackOutNotifier>(
+      create: (BuildContext context) => BlackOutNotifier(),
+      builder: (context, notifier, child) {
+        final bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+        final ThemeProvider data = context.read<ThemeProvider>();
+
+        final blackoutTheme = data.darkTheme.copyWith(
+          backgroundColor: Colors.black,
+          scaffoldBackgroundColor: Colors.black,
+          appBarTheme: data.darkTheme.appBarTheme.copyWith(backgroundColor: Colors.black),
+          colorScheme: data.darkTheme.colorScheme.copyWith(
+            background: Colors.black,
+            surface: Colors.black,
+          ),
+        );
+
+        return Theme(
+          data: notifier.blackout
+              ? blackoutTheme
+              : isDarkMode
+                  ? data.darkTheme
+                  : data.lightTheme,
+          child: buildView(),
+        );
+      },
+    );
+  }
+
+  Widget buildView() {
     return ViewModelProvider<DetailViewModel>(
       create: (BuildContext context) => DetailViewModel(currentStory: initialStory, flowType: intialFlow),
       builder: (context, viewModel, child) {
