@@ -22,7 +22,7 @@ Check android signing report
 
 Generate facebook hash:
 ```s
-keytool -exportcert -alias androiddebugkey -keystore ~/.android/debug.keystore | openssl sha1 -binary | openssl base64
+keytool -exportcert -alias androiddebugkey -keystore keystore.jks | openssl sha1 -binary | openssl base64
 ```
 
 Set var in info plish. eg. facebook client token. Not work yet, TODO..
