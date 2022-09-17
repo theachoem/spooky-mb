@@ -15,7 +15,10 @@ class AppBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemUiOverlayStyle overlay = const SystemUiOverlayStyle(systemNavigationBarColor: Colors.transparent);
+    SystemUiOverlayStyle overlay = const SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.transparent,
+      statusBarColor: Colors.transparent,
+    );
     if (FlavorConfig.isProduction()) {
       return buildWrapper(overlay);
     } else {
