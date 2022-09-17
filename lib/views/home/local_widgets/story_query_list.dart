@@ -18,7 +18,7 @@ class StoryQueryList extends StatefulWidget {
     this.hasDifferentYear = true,
   }) : super(key: key);
 
-  final StoryQueryOptionsModel queryOptions;
+  final StoryQueryOptionsModel? queryOptions;
   final SpListLayoutType? overridedLayout;
   final bool showLoadingAfterInit;
   final bool hasDifferentYear;
@@ -65,10 +65,14 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   }
 
   Future<List<StoryDbModel>> _fetchStory() async {
-    final list = await database.fetchAll(params: widget.queryOptions.toJson());
-    List<StoryDbModel> result = list?.items ?? [];
-    await loadHash();
-    return result;
+    if (widget.queryOptions != null) {
+      final list = await database.fetchAll(params: widget.queryOptions?.toJson());
+      List<StoryDbModel> result = list?.items ?? [];
+      await loadHash();
+      return result;
+    } else {
+      return [];
+    }
   }
 
   Future<void> load(String source, [bool showLoading = true]) async {
@@ -98,7 +102,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   }
 
   void _checkUpdatation(StoryQueryList? oldWidget, String source) {
-    bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions.join() != widget.queryOptions.join();
+    bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions?.join() != widget.queryOptions?.join();
     hashStorage.read().then((hash) {
       if (this.hash != hash || didUpdateQueries) load(source, false);
     });

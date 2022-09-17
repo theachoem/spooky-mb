@@ -22,7 +22,7 @@ class SearchScaffold extends StatefulWidget {
 
   final StoryQueryOptionsModel? initialQuery;
   final Widget Function(void Function(String) setQuery) titleBuilder;
-  final Widget Function(StoryQueryOptionsModel) resultBuilder;
+  final Widget Function(StoryQueryOptionsModel?) resultBuilder;
 
   @override
   State<SearchScaffold> createState() => _SearchScaffoldState();
@@ -30,7 +30,7 @@ class SearchScaffold extends StatefulWidget {
 
 class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawableMixin {
   List<TagDbModel>? tags;
-  late StoryQueryOptionsModel queryOption;
+  StoryQueryOptionsModel? queryOption;
   bool advanceSearch = false;
 
   Future<void> load() async {
@@ -41,7 +41,7 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
   @override
   void initState() {
     load();
-    queryOption = widget.initialQuery ?? StoryQueryOptionsModel(type: PathType.docs);
+    queryOption = widget.initialQuery;
     super.initState();
   }
 
@@ -75,7 +75,8 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
             }
 
             setState(() {
-              queryOption = queryOption.copyWith(
+              queryOption ??= StoryQueryOptionsModel();
+              queryOption = queryOption!.copyWith(
                 query: yearsRange != null || selectedYears != null || text.trim().isEmpty ? null : text.trim(),
                 selectedYears: selectedYears,
                 yearsRange: yearsRange,
@@ -83,7 +84,8 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
             });
           } else {
             setState(() {
-              queryOption = queryOption.copyWith(
+              queryOption ??= StoryQueryOptionsModel();
+              queryOption = queryOption!.copyWith(
                 query: text.trim().isEmpty ? null : text.trim(),
               );
             });
@@ -111,11 +113,12 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
               headline: tr("sections.options"),
               tiles: [
                 CheckboxListTile(
-                  value: queryOption.starred,
+                  value: queryOption?.starred == true,
                   title: Text(tr("tile.starred.title")),
                   onChanged: (value) {
                     setState(() {
-                      queryOption = queryOption.copyWith(starred: value);
+                      queryOption ??= StoryQueryOptionsModel();
+                      queryOption = queryOption!.copyWith(starred: value);
                     });
                   },
                 ),
@@ -143,12 +146,13 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
       tiles: PathType.values.map(
         (path) {
           return RadioListTile<PathType>(
-            groupValue: queryOption.type,
+            groupValue: queryOption?.type,
             value: path,
             title: Text(TypeLocalization.pathType(path)),
             onChanged: (value) {
               setState(() {
-                queryOption = queryOption.copyWith(type: path);
+                queryOption ??= StoryQueryOptionsModel();
+                queryOption = queryOption!.copyWith(type: path);
               });
             },
           );
@@ -166,24 +170,26 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
       ].map(
         (tag) {
           return RadioListTile<String>(
-            groupValue: queryOption.tag,
+            groupValue: queryOption?.tag,
             value: tag.id.toString(),
             title: Text(tag.title),
             onChanged: (value) {
               setState(() {
-                queryOption = queryOption.copyWith(tag: tag.id.toString());
+                queryOption ??= StoryQueryOptionsModel();
+                queryOption = queryOption!.copyWith(tag: tag.id.toString());
               });
             },
           );
         },
       ).toList()
         ..add(RadioListTile<String>(
-          groupValue: queryOption.tag ?? "0",
+          groupValue: queryOption?.tag ?? "0",
           value: "0",
           title: Text(tr("tile.none.title")),
           onChanged: (value) {
             setState(() {
-              queryOption = queryOption.copyWith(tag: null);
+              queryOption ??= StoryQueryOptionsModel();
+              queryOption = queryOption!.copyWith(tag: null);
             });
           },
         )),

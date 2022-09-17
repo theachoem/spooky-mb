@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
@@ -122,8 +121,8 @@ class _SearchButton extends StatelessWidget {
       onPressed: () {
         Navigator.of(context).pushNamed(
           SpRouter.search.path,
-          arguments: SearchArgs(
-            initialQuery: StoryQueryOptionsModel(),
+          arguments: const SearchArgs(
+            initialQuery: null,
           ),
         );
       },
