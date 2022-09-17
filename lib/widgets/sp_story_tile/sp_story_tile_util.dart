@@ -13,11 +13,12 @@ import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 
 class SpStoryTileUtils {
-  final StoryDbModel story;
+  final StoryDbModel Function() story;
   final BuildContext context;
   final Future<void> Function() reloadList;
   final Future<void> Function() reloadStory;
   final Future<void> Function() beforeAction;
+  final void Function(StoryDbModel story, bool reloadState, bool saveToCache) setStory;
   late final StoryDatabase database;
 
   SpStoryTileUtils({
@@ -26,6 +27,7 @@ class SpStoryTileUtils {
     required this.reloadList,
     required this.reloadStory,
     required this.beforeAction,
+    required this.setStory,
   }) {
     database = StoryDatabase.instance;
   }
@@ -45,11 +47,23 @@ class SpStoryTileUtils {
   Future<bool> changeStoryDate() async {
     DateTime? pathDate = await SpDatePicker.showDatePicker(
       context,
-      story.displayPathDate,
+      story().displayPathDate,
     );
 
     if (pathDate != null) {
-      await database.updatePathDate(story, pathDate);
+      StoryDbModel updatedStory = story().copyWith(
+        year: pathDate.year,
+        month: pathDate.month,
+        day: pathDate.day,
+        hour: story().displayPathDate.hour,
+        minute: story().displayPathDate.minute,
+      );
+
+      setStory(updatedStory, true, true);
+
+      StoryDbModel? result = await database.update(id: updatedStory.id, body: updatedStory);
+      if (result != null) setStory(result, true, true);
+
       return database.error == null;
     }
 
@@ -62,7 +76,7 @@ class SpStoryTileUtils {
     await Navigator.of(context).push(
       dn.showPicker(
         context: context,
-        value: TimeOfDay.fromDateTime(story.displayPathDate),
+        value: TimeOfDay.fromDateTime(story().displayPathDate),
         cancelText: MaterialLocalizations.of(context).cancelButtonLabel,
         okText: MaterialLocalizations.of(context).okButtonLabel,
         // iosStylePicker: ThemeConfig.isApple(Theme.of(context).platform),
@@ -80,7 +94,12 @@ class SpStoryTileUtils {
     );
 
     if (time != null) {
-      StoryDbModel? result = await database.updatePathTime(story, time!);
+      StoryDbModel updatedStory = story().copyWith(hour: time?.hour, minute: time?.minute);
+      setStory(updatedStory, true, true);
+
+      StoryDbModel? result = await database.update(id: updatedStory.id, body: updatedStory);
+      if (result != null) setStory(result, true, true);
+
       return result != null;
     }
 
@@ -104,7 +123,7 @@ class SpStoryTileUtils {
 
     switch (result) {
       case OkCancelResult.ok:
-        await database.archiveDocument(story);
+        await database.archiveDocument(story());
         bool success = database.error == null;
         String message = success ? tr("msg.archive.success") : tr("msg.archive.fail");
         MessengerService.instance.showSnackBar(message, success: success);
@@ -115,7 +134,7 @@ class SpStoryTileUtils {
   }
 
   Future<bool> putBackStory() async {
-    String? date = DateFormatHelper.yM().format(story.displayPathDate);
+    String? date = DateFormatHelper.yM().format(story().displayPathDate);
     String title, message, label;
 
     title = tr("alert.are_you_sure_to_put_back.title");
@@ -132,7 +151,7 @@ class SpStoryTileUtils {
 
     switch (result) {
       case OkCancelResult.ok:
-        await database.putBackToDocs(story);
+        await database.putBackToDocs(story());
         bool success = database.error == null;
         String message = success ? tr("msg.put_back.success") : tr("msg.put_back.fail");
         MessengerService.instance.showSnackBar(message, success: success);
@@ -145,7 +164,7 @@ class SpStoryTileUtils {
   Future<bool> deleteStory() async {
     OkCancelResult result;
 
-    switch (story.type) {
+    switch (story().type) {
       case PathType.docs:
       case PathType.archives:
         result = await showOkCancelAlertDialog(
@@ -159,7 +178,7 @@ class SpStoryTileUtils {
 
         switch (result) {
           case OkCancelResult.ok:
-            await database.moveToTrash(story);
+            await database.moveToTrash(story());
             bool success = database.error == null;
             String message = success ? tr("msg.move_to_bin.success") : tr("msg.move_to_bin.fail");
             MessengerService.instance.showSnackBar(message, success: success);
@@ -178,7 +197,7 @@ class SpStoryTileUtils {
         );
         switch (result) {
           case OkCancelResult.ok:
-            await database.deleteDocument(story);
+            await database.deleteDocument(story());
             bool success = database.error == null;
             String message = success ? tr("msg.perminent_delete.success") : tr("msg.perminent_delete.fail");
             MessengerService.instance.showSnackBar(message, success: success, action: (foreground) {
@@ -187,7 +206,7 @@ class SpStoryTileUtils {
                 label: tr("button.undo"),
                 textColor: foreground,
                 onPressed: () async {
-                  await database.create(body: story);
+                  await database.create(body: story());
                   reloadList();
                 },
               );

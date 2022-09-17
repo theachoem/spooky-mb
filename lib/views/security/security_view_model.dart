@@ -44,7 +44,7 @@ class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
   SecurityQuestionListModel initialQuestions() {
     return SecurityQuestionListModel([
       SecurityQuestionModel(
-        question: tr("question.what_is_name_of_primary_best_friend"),
+        question: tr("question.name_of_primary_best_friend"),
         key: 'best_friend',
         answer: null,
       ),

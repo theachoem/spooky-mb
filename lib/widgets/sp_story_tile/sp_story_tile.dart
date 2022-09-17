@@ -66,6 +66,17 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   Color? get starredColor => starred ? M3Color.of(context).error : null;
 
   @override
+  void didUpdateWidget(covariant SpStoryTile oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setStory(
+      widget.story,
+      reloadState: false,
+      saveToCache: false,
+      debugSource: "initState",
+    );
+  }
+
+  @override
   void initState() {
     expandedLevelNotifier = ValueNotifier<ChipsExpandLevelType>(ChipsExpandLevelType.level1);
     database = StoryDatabase.instance;
@@ -79,11 +90,17 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
     utils = SpStoryTileUtils(
       context: context,
-      story: story,
+      story: () => story,
       reloadList: widget.onRefresh,
       reloadStory: reloadStory,
-      beforeAction: () async {
-        await confirmStory(context);
+      beforeAction: () => confirmStory(context),
+      setStory: (StoryDbModel story, bool reloadState, bool saveToCache) {
+        setStory(
+          story,
+          reloadState: reloadState,
+          saveToCache: saveToCache,
+          debugSource: "SpStoryTileUtils",
+        );
       },
     );
 
@@ -341,7 +358,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: tr("button.change_time"),
       leadingIconData: CommunityMaterialIcons.clock,
-      onPressed: () => utils.refreshSuccess(utils.changeStoryTime, refreshList: true, refreshStory: false),
+      onPressed: () => utils.refreshSuccess(utils.changeStoryTime, refreshList: true, refreshStory: true),
     );
   }
 
@@ -349,7 +366,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: tr("button.change_date"),
       leadingIconData: CommunityMaterialIcons.calendar,
-      onPressed: () => utils.refreshSuccess(utils.changeStoryDate, refreshList: true, refreshStory: false),
+      onPressed: () => utils.refreshSuccess(utils.changeStoryDate, refreshList: true, refreshStory: true),
     );
   }
 }
