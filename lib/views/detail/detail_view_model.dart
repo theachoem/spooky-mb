@@ -1,11 +1,9 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
@@ -115,8 +113,10 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
   }
 
   void saveToCacheProvider(StoryDbModel story) {
-    final context = App.navigatorKey.currentContext;
-    context?.read<CacheStoryModelsProvider>().update(story, debugSource: runtimeType.toString());
+    CacheStoryModelsProvider.instance.update(
+      story,
+      debugSource: runtimeType.toString(),
+    );
   }
 
   Future<T> beforeAction<T>(Future<T> Function() callback) async {

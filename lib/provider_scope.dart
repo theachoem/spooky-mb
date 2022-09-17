@@ -71,7 +71,7 @@ class ProviderScope extends StatelessWidget {
           create: (context) => HasTagsChangesProvider(),
         ),
         ListenableProvider<CacheStoryModelsProvider>(
-          create: (context) => CacheStoryModelsProvider(),
+          create: (context) => CacheStoryModelsProvider.instance,
         ),
       ],
       child: child,

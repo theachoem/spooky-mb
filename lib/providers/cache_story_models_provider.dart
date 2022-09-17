@@ -7,12 +7,25 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 class CacheStoryModelsProvider extends ChangeNotifier {
   Map<int, StoryDbModel?> stories = {};
 
+  CacheStoryModelsProvider._();
+  static final CacheStoryModelsProvider instance = CacheStoryModelsProvider._();
+
   void update(
     StoryDbModel story, {
     required String debugSource,
   }) {
     if (kDebugMode) print("SET story: ${story.id} from: $debugSource");
     stories[story.id] = story;
+  }
+
+  void updateAll(
+    List<StoryDbModel> stories, {
+    required String debugSource,
+  }) {
+    if (kDebugMode) print("SET stories: ${stories.length} from: $debugSource");
+    for (StoryDbModel story in stories) {
+      this.stories[story.id] = story;
+    }
   }
 
   Future<StoryDbModel?> get(int id) async {

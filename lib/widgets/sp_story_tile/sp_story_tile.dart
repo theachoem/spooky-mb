@@ -123,7 +123,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   // reload current story only
   Future<void> reloadStory() async {
     setCompleter();
-    StoryDbModel? storyResult = await context.read<CacheStoryModelsProvider>().get(story.id);
+    StoryDbModel? storyResult = await CacheStoryModelsProvider.instance.get(story.id);
 
     if (storyResult != null) {
       setStory(
@@ -195,26 +195,19 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       );
     } else {
       // ignore: use_build_context_synchronously
+      StoryDbModel? storyResult = await CacheStoryModelsProvider.instance.get(story.id);
+
+      // ignore: use_build_context_synchronously
       await Navigator.of(context).pushNamed(
         SpRouter.detail.path,
         arguments: DetailArgs(
-          initialStory: story,
+          initialStory: storyResult ?? story,
           intialFlow: DetailViewFlowType.update,
         ),
       );
+
       reloadStory();
     }
-  }
-
-  @override
-  void didChangeDependencies() {
-    setStory(
-      widget.story,
-      saveToCache: true,
-      reloadState: false,
-      debugSource: "didChangeDependencies",
-    );
-    super.didChangeDependencies();
   }
 
   @override
@@ -230,8 +223,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     required String debugSource,
   }) {
     if (saveToCache) {
-      CacheStoryModelsProvider provider = context.read<CacheStoryModelsProvider>();
-      provider.update(
+      CacheStoryModelsProvider.instance.update(
         story,
         debugSource: "$runtimeType#$debugSource",
       );

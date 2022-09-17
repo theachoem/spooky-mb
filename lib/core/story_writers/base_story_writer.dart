@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
@@ -30,8 +29,10 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
   }
 
   void saveToCacheProvider(StoryDbModel story) {
-    final context = App.navigatorKey.currentContext;
-    context!.read<CacheStoryModelsProvider>().update(story, debugSource: runtimeType.toString());
+    CacheStoryModelsProvider.instance.update(
+      story,
+      debugSource: runtimeType.toString(),
+    );
   }
 
   Future<StoryDbModel?> save(T object) async {
