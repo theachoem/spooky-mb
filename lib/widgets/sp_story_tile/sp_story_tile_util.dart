@@ -18,7 +18,7 @@ class SpStoryTileUtils {
   final Future<void> Function() reloadList;
   final Future<void> Function() reloadStory;
   final Future<void> Function() beforeAction;
-  final void Function(StoryDbModel story, bool reloadState, bool saveToCache) setStory;
+  final void Function(StoryDbModel story, bool reloadState) setStory;
   late final StoryDatabase database;
 
   SpStoryTileUtils({
@@ -45,6 +45,14 @@ class SpStoryTileUtils {
   }
 
   Future<bool> changeStoryDate() async {
+    return refreshSuccess(
+      _changeStoryDate,
+      refreshList: true,
+      refreshStory: true,
+    );
+  }
+
+  Future<bool> _changeStoryDate() async {
     DateTime? pathDate = await SpDatePicker.showDatePicker(
       context,
       story().displayPathDate,
@@ -59,10 +67,8 @@ class SpStoryTileUtils {
         minute: story().displayPathDate.minute,
       );
 
-      setStory(updatedStory, true, true);
-
-      StoryDbModel? result = await database.update(id: updatedStory.id, body: updatedStory);
-      if (result != null) setStory(result, true, true);
+      setStory(updatedStory, true);
+      await database.update(id: updatedStory.id, body: updatedStory);
 
       return database.error == null;
     }
@@ -71,6 +77,14 @@ class SpStoryTileUtils {
   }
 
   Future<bool> changeStoryTime() async {
+    return refreshSuccess(
+      _changeStoryTime,
+      refreshList: true,
+      refreshStory: true,
+    );
+  }
+
+  Future<bool> _changeStoryTime() async {
     TimeOfDay? time;
 
     await Navigator.of(context).push(
@@ -95,18 +109,24 @@ class SpStoryTileUtils {
 
     if (time != null) {
       StoryDbModel updatedStory = story().copyWith(hour: time?.hour, minute: time?.minute);
-      setStory(updatedStory, true, true);
+      setStory(updatedStory, true);
 
-      StoryDbModel? result = await database.update(id: updatedStory.id, body: updatedStory);
-      if (result != null) setStory(result, true, true);
-
-      return result != null;
+      await database.update(id: updatedStory.id, body: updatedStory);
+      return database.error == null;
     }
 
     return false;
   }
 
   Future<bool> archiveStory() async {
+    return refreshSuccess(
+      _archiveStory,
+      refreshList: true,
+      refreshStory: false,
+    );
+  }
+
+  Future<bool> _archiveStory() async {
     String title, message, label;
 
     title = tr("alert.are_you_sure_to_archive.title");
@@ -134,6 +154,14 @@ class SpStoryTileUtils {
   }
 
   Future<bool> putBackStory() async {
+    return refreshSuccess(
+      _putBackStory,
+      refreshList: true,
+      refreshStory: false,
+    );
+  }
+
+  Future<bool> _putBackStory() async {
     String? date = DateFormatHelper.yM().format(story().displayPathDate);
     String title, message, label;
 
@@ -162,6 +190,14 @@ class SpStoryTileUtils {
   }
 
   Future<bool> deleteStory() async {
+    return refreshSuccess(
+      _deleteStory,
+      refreshList: true,
+      refreshStory: false,
+    );
+  }
+
+  Future<bool> _deleteStory() async {
     OkCancelResult result;
 
     switch (story().type) {

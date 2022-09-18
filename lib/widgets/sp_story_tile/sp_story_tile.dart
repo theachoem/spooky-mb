@@ -68,37 +68,24 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   @override
   void didUpdateWidget(covariant SpStoryTile oldWidget) {
     super.didUpdateWidget(oldWidget);
-    setStory(
-      widget.story,
-      reloadState: false,
-      saveToCache: false,
-      debugSource: "initState",
-    );
+    setStory(widget.story, reloadState: false, debugSource: "initState");
   }
 
   @override
   void initState() {
     expandedLevelNotifier = ValueNotifier<ChipsExpandLevelType>(ChipsExpandLevelType.level1);
     database = StoryDatabase.instance;
-
-    setStory(
-      widget.story,
-      reloadState: false,
-      saveToCache: true,
-      debugSource: "initState",
-    );
-
+    setStory(widget.story, reloadState: false, debugSource: "initState");
     utils = SpStoryTileUtils(
       context: context,
       story: () => story,
       reloadList: widget.onRefresh,
       reloadStory: reloadStory,
       beforeAction: () => confirmStory(context),
-      setStory: (StoryDbModel story, bool reloadState, bool saveToCache) {
+      setStory: (StoryDbModel story, bool reloadState) {
         setStory(
           story,
           reloadState: reloadState,
-          saveToCache: saveToCache,
           debugSource: "SpStoryTileUtils",
         );
       },
@@ -128,7 +115,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     }
   }
 
-  // complete with 5 seconds timeout
+  // complete with 10 seconds timeout
   void setCompleter() {
     completer = Completer();
     scheduleAction(
@@ -140,15 +127,10 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   // reload current story only
   Future<void> reloadStory() async {
     setCompleter();
-    StoryDbModel? storyResult = await CacheStoryModelsProvider.instance.get(story.id);
+    StoryDbModel? storyResult = await StoryDatabase.instance.fetchOneCache(story.id);
 
     if (storyResult != null) {
-      setStory(
-        storyResult,
-        saveToCache: false,
-        reloadState: true,
-        debugSource: "reloadStory",
-      );
+      setStory(storyResult, reloadState: true, debugSource: "reloadStory");
     } else {
       await widget.onRefresh();
     }
@@ -160,12 +142,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return utils.refreshSuccess(
       () async {
         StoryDbModel copiedStory = story.copyWith(starred: !starred);
-        setStory(
-          copiedStory,
-          saveToCache: true,
-          reloadState: true,
-          debugSource: "toggleStarred",
-        );
+        setStory(copiedStory, reloadState: true, debugSource: "toggleStarred");
         await database.update(id: copiedStory.id, body: copiedStory);
         return true;
       },
@@ -178,12 +155,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return utils.refreshSuccess(
       () async {
         StoryDbModel copiedStory = story.copyWith()..addChange(content);
-        setStory(
-          copiedStory,
-          saveToCache: true,
-          reloadState: true,
-          debugSource: "replaceContent",
-        );
+        setStory(copiedStory, reloadState: true, debugSource: "replaceContent");
         await database.update(id: copiedStory.id, body: copiedStory);
         return true;
       },
@@ -194,15 +166,6 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   Future<void> view(BuildContext context) async {
     await confirmStory(context);
-    bool hasIncompleteFuture = completer != null && !completer!.isCompleted;
-
-    if (hasIncompleteFuture) {
-      await MessengerService.instance.showLoading(
-        context: context,
-        debugSource: "_SpStoryTileState#view",
-        future: () => completer!.future,
-      );
-    }
 
     if (story.viewOnly) {
       // ignore: use_build_context_synchronously
@@ -212,13 +175,10 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       );
     } else {
       // ignore: use_build_context_synchronously
-      StoryDbModel? storyResult = await CacheStoryModelsProvider.instance.get(story.id);
-
-      // ignore: use_build_context_synchronously
       await Navigator.of(context).pushNamed(
         SpRouter.detail.path,
         arguments: DetailArgs(
-          initialStory: storyResult ?? story,
+          initialStory: story,
           intialFlow: DetailViewFlowType.update,
         ),
       );
@@ -236,16 +196,8 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   void setStory(
     StoryDbModel story, {
     required bool reloadState,
-    required bool saveToCache,
     required String debugSource,
   }) {
-    if (saveToCache) {
-      CacheStoryModelsProvider.instance.update(
-        story,
-        debugSource: "$runtimeType#$debugSource",
-      );
-    }
-
     if (reloadState) {
       setState(() {
         _story = story;
@@ -334,7 +286,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       title: tr("button.delete"),
       leadingIconData: Icons.delete,
       titleStyle: TextStyle(color: M3Color.of(context).error),
-      onPressed: () => utils.refreshSuccess(utils.deleteStory, refreshList: true, refreshStory: false),
+      onPressed: () => utils.deleteStory(),
     );
   }
 
@@ -342,7 +294,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: tr("button.put_back"),
       leadingIconData: Icons.restore_from_trash,
-      onPressed: () => utils.refreshSuccess(utils.putBackStory, refreshList: true, refreshStory: false),
+      onPressed: () => utils.putBackStory(),
     );
   }
 
@@ -350,7 +302,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: tr("button.archive"),
       leadingIconData: Icons.archive,
-      onPressed: () => utils.refreshSuccess(utils.archiveStory, refreshList: true, refreshStory: false),
+      onPressed: () => utils.archiveStory(),
     );
   }
 
@@ -358,7 +310,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: tr("button.change_time"),
       leadingIconData: CommunityMaterialIcons.clock,
-      onPressed: () => utils.refreshSuccess(utils.changeStoryTime, refreshList: true, refreshStory: true),
+      onPressed: () => utils.changeStoryTime(),
     );
   }
 
@@ -366,7 +318,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: tr("button.change_date"),
       leadingIconData: CommunityMaterialIcons.calendar,
-      onPressed: () => utils.refreshSuccess(utils.changeStoryDate, refreshList: true, refreshStory: true),
+      onPressed: () => utils.changeStoryDate(),
     );
   }
 }

@@ -1,11 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:spooky/core/backups/backups_file_manager.dart';
 import 'package:spooky/core/db/adapters/base/base_story_db_external_actions.dart';
-import 'package:spooky/core/db/databases/base_database.dart';
+import 'package:spooky/core/db/databases/base_cache_story_database.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/storages/local_storages/last_update_story_list_hash_storage.dart';
-import 'package:spooky/providers/cache_story_models_provider.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/views/home/home_view.dart';
 
@@ -13,7 +12,7 @@ StoryDbModel _constructStoryIsolate(Map<String, dynamic> json) {
   return StoryDbModel.fromJson(json);
 }
 
-abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
+abstract class BaseStoryDatabase extends BaseCacheStoryDatabase {
   @override
   String get tableName => "stories";
 
@@ -63,13 +62,6 @@ abstract class BaseStoryDatabase extends BaseDatabase<StoryDbModel> {
       if (shouldDelete) deleteDocument(story);
       return !shouldDelete;
     });
-
-    if (items != null) {
-      CacheStoryModelsProvider.instance.updateAll(
-        items.toList(),
-        debugSource: "$runtimeType#fetchAll",
-      );
-    }
 
     return result?.copyWith(items: items?.toList());
   }

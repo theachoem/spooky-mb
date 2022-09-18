@@ -20,7 +20,6 @@ import 'package:spooky/core/story_writers/objects/draft_story_object.dart';
 import 'package:spooky/core/story_writers/objects/restore_story_object.dart';
 import 'package:spooky/core/story_writers/objects/update_page_object.dart';
 import 'package:spooky/core/story_writers/restore_story_writer.dart';
-import 'package:spooky/providers/cache_story_models_provider.dart';
 import 'package:spooky/views/detail/detail_view_model_getter.dart';
 import 'package:spooky/utils/helpers/story_writer_helper.dart';
 import 'package:spooky/core/story_writers/update_page_writer.dart';
@@ -109,14 +108,6 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
     currentContent = story.changes.last;
     loadHasChange();
     notifyListeners();
-    saveToCacheProvider(story);
-  }
-
-  void saveToCacheProvider(StoryDbModel story) {
-    CacheStoryModelsProvider.instance.update(
-      story,
-      debugSource: runtimeType.toString(),
-    );
   }
 
   Future<T> beforeAction<T>(Future<T> Function() callback) async {
@@ -266,14 +257,9 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       currentStory = currentStory.copyWith(tags: ids.map((e) => e.toString()).toList());
       notifyListeners();
 
-      saveToCacheProvider(currentStory);
       StoryDbModel? story = await StoryDatabase.instance.set(body: currentStory);
 
-      if (story != null) {
-        currentStory = story;
-        saveToCacheProvider(currentStory);
-      }
-
+      if (story != null) currentStory = story;
       return currentStory;
     });
   }
@@ -283,12 +269,10 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       currentStory = currentStory.copyWith(feeling: feeling);
       updateFeelingUi(feeling);
 
-      saveToCacheProvider(currentStory);
       StoryDbModel? story = await StoryDatabase.instance.set(body: currentStory);
 
       if (story != null) {
         currentStory = story;
-        saveToCacheProvider(currentStory);
         updateFeelingUi(currentStory.feeling);
       }
 
