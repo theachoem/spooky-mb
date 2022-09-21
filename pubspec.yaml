@@ -107,6 +107,7 @@ dependencies:
   confetti: ^0.7.0
   dio: ^4.0.6
   japx: ^2.0.4
+  firebase_crashlytics: ^2.8.10
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 
