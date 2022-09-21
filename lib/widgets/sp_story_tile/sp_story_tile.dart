@@ -12,7 +12,6 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
-import 'package:spooky/providers/cache_story_models_provider.dart';
 import 'package:spooky/providers/tile_max_line_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';

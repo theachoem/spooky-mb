@@ -45,6 +45,9 @@ class _Initializer {
         );
         break;
     }
+    FlutterError.onError = (FlutterErrorDetails details) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    };
   }
 
   static Future<void> initialAnalytic() async {
