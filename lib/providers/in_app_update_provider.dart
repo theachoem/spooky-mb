@@ -7,10 +7,10 @@ import 'package:url_launcher/url_launcher_string.dart';
 class InAppUpdateProvider extends ChangeNotifier {
   bool get isUpdateAvailable => immediateUpdateAllowed || flexibleUpdateAllowed;
   AppUpdateInfo? androidUpdateInfo;
-  VersionStatus? updateInfo;
+  VersionStatus? iosUpdateInfo;
   bool updating = false;
 
-  String? get storeVersion => updateInfo?.storeVersion ?? androidUpdateInfo?.availableVersionCode.toString();
+  String? get storeVersion => iosUpdateInfo?.storeVersion ?? androidUpdateInfo?.availableVersionCode.toString();
 
   bool immediateUpdateAllowed = false;
   bool flexibleUpdateAllowed = false;
@@ -20,7 +20,6 @@ class InAppUpdateProvider extends ChangeNotifier {
   }
 
   Future<void> load() async {
-    updateInfo = await NewVersion().getVersionStatus();
     if (Platform.isAndroid) {
       try {
         androidUpdateInfo = await InAppUpdate.checkForUpdate();
@@ -32,7 +31,8 @@ class InAppUpdateProvider extends ChangeNotifier {
       }
       notifyListeners();
     } else if (Platform.isIOS) {
-      if (updateInfo?.canUpdate == true) {
+      iosUpdateInfo = await NewVersion().getVersionStatus();
+      if (iosUpdateInfo?.canUpdate == true) {
         flexibleUpdateAllowed = true;
         notifyListeners();
       }
@@ -48,7 +48,7 @@ class InAppUpdateProvider extends ChangeNotifier {
   }
 
   Future<void> _updateIos() async {
-    final url = updateInfo?.appStoreLink;
+    final url = iosUpdateInfo?.appStoreLink;
     if (url != null) {
       if (await canLaunchUrlString(url)) {
         await launchUrlString(url);
