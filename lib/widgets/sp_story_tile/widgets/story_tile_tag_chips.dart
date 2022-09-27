@@ -12,7 +12,7 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 
-class StoryTileTagChips extends StatelessWidget {
+class StoryTileTagChips extends StatefulWidget {
   const StoryTileTagChips({
     Key? key,
     required this.tags,
@@ -23,34 +23,44 @@ class StoryTileTagChips extends StatelessWidget {
   final bool showZero;
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<BaseDbListModel<TagDbModel>?>(
-      future: TagDatabase.instance.fetchAll(),
-      builder: (context, snapshot) {
-        BaseDbListModel<TagDbModel>? items = snapshot.data;
-        List<TagDbModel> dbTags = items?.items ?? [];
+  State<StoryTileTagChips> createState() => _StoryTileTagChipsState();
+}
 
+class _StoryTileTagChipsState extends State<StoryTileTagChips> {
+  BaseDbListModel<TagDbModel>? items;
+  List<TagDbModel> dbTags = [];
+
+  @override
+  void initState() {
+    super.initState();
+    TagDatabase.instance.fetchAllCache().then((value) {
+      setState(() {
+        items = value;
+        dbTags = items?.items ?? [];
         dbTags = dbTags.where((e) {
-          return tags.contains(e.id.toString());
+          return widget.tags.contains(e.id.toString());
         }).toList();
+      });
+    });
+  }
 
-        if (!showZero) {
-          return SpCrossFade(
-            showFirst: items == null,
-            alignment: Alignment.center,
-            firstChild: buildChip(dbTags, context),
-            secondChild: buildChip(dbTags, context),
-          );
-        } else {
-          return buildChip(dbTags, context);
-        }
-      },
-    );
+  @override
+  Widget build(BuildContext context) {
+    if (!widget.showZero) {
+      return SpCrossFade(
+        showFirst: items == null,
+        alignment: Alignment.center,
+        firstChild: buildChip(dbTags, context),
+        secondChild: buildChip(dbTags, context),
+      );
+    } else {
+      return buildChip(dbTags, context);
+    }
   }
 
   Widget buildChip(List<TagDbModel> dbTags, BuildContext context) {
     return SpChip(
-      labelText: dbTags.length == 1 ? dbTags.first.title : tags.length.toString(),
+      labelText: dbTags.length == 1 ? dbTags.first.title : widget.tags.length.toString(),
       avatar: const Icon(CommunityMaterialIcons.tag, size: ConfigConstant.iconSize1),
       onTap: () async {
         int? id;

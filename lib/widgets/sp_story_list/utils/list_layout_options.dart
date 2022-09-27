@@ -14,4 +14,7 @@ class _ListLayoutOptions {
   final ScrollController? controller;
   final bool viewOnly;
   final Future<void> Function() onRefresh;
+
+  // just an assumption
+  bool get fromDatabase => !viewOnly;
 }

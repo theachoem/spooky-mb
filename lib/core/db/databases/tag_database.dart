@@ -42,6 +42,11 @@ class TagDatabase extends BaseDatabase<TagDbModel> {
     return result;
   }
 
+  BaseDbListModel<TagDbModel>? cache;
+  Future<BaseDbListModel<TagDbModel>?> fetchAllCache({Map<String, dynamic>? params}) async {
+    return cache ??= await fetchAll(params: params);
+  }
+
   @override
   Future<TagDbModel?> objectTransformer(Map<String, dynamic> json) {
     return compute(_constructTagIsolate, json);
@@ -50,6 +55,7 @@ class TagDatabase extends BaseDatabase<TagDbModel> {
   @override
   Future<void> onCRUD(TagDbModel? object) async {
     BackupsFileManager().clear();
+    cache = null;
     App.navigatorKey.currentContext?.read<HasTagsChangesProvider>().changed();
   }
 }

@@ -106,6 +106,7 @@ abstract class _BaseSpListLayout extends StatelessWidget {
           story: story,
           previousStory: previousStory,
           onRefresh: () => options.onRefresh(),
+          fromDatabase: options.fromDatabase,
         ),
       ),
     );

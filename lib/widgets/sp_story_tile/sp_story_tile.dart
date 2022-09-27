@@ -38,6 +38,7 @@ class SpStoryTile extends StatefulWidget {
     required this.story,
     required this.gridLayout,
     required this.onRefresh,
+    required this.fromDatabase,
     this.itemPadding = const EdgeInsets.all(ConfigConstant.margin2),
   }) : super(key: key);
 
@@ -46,12 +47,13 @@ class SpStoryTile extends StatefulWidget {
   final StoryDbModel story;
   final StoryDbModel? previousStory;
   final Future<void> Function() onRefresh;
+  final bool fromDatabase;
 
   @override
   State<SpStoryTile> createState() => _SpStoryTileState();
 }
 
-class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
+class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin, AutomaticKeepAliveClientMixin {
   late final ValueNotifier<ChipsExpandLevelType> expandedLevelNotifier;
   late final StoryDatabase database;
   late final SpStoryTileUtils utils;
@@ -208,6 +210,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return SpPopupMenuButton(
       dxGetter: (double dx) => MediaQuery.of(context).size.width,
       dyGetter: (double dy) => dy + ConfigConstant.margin2,
@@ -243,6 +246,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       replaceContent: replaceContent,
       toggleStarred: toggleStarred,
       expandedLevelNotifier: expandedLevelNotifier,
+      fromDatabase: widget.fromDatabase,
       toggleExpand: () {
         switch (expandedLevelNotifier.value) {
           case ChipsExpandLevelType.level1:
@@ -320,4 +324,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       onPressed: () => utils.changeStoryDate(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.fromDatabase;
 }

@@ -125,16 +125,11 @@ class StoryTileChips extends StatelessWidget {
 
       if (tags.isNotEmpty || showZeroInTags) StoryTileTagChips(tags: tags, showZero: showZeroInTags),
       if (images.isNotEmpty) buildImageChip(images),
-      SpCrossFade(
-        alignment: Alignment.topLeft,
-        showFirst: fileImages.isEmpty,
-        firstChild: const SizedBox(width: double.infinity),
-        secondChild: AddToDriveButton(
-          content: content,
-          story: story,
-          fileImages: fileImages,
-          onUploaded: onImageUploaded,
-        ),
+      AddToDriveButton(
+        content: content,
+        story: story,
+        fileImages: fileImages,
+        onUploaded: onImageUploaded,
       ),
 
       // SpDeveloperVisibility(

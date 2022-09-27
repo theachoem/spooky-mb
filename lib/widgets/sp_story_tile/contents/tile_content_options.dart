@@ -8,6 +8,7 @@ class _TileContentOptions {
   final Future<void> Function(StoryContentDbModel) replaceContent;
   final Future<void> Function() toggleStarred;
   final void Function() toggleExpand;
+  final bool fromDatabase;
 
   bool get starred => story.starred == true;
   Color? get starredColor => starred ? M3Color.of(context).error : null;
@@ -20,5 +21,6 @@ class _TileContentOptions {
     required this.replaceContent,
     required this.toggleStarred,
     required this.toggleExpand,
+    required this.fromDatabase,
   });
 }
