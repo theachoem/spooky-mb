@@ -53,7 +53,7 @@ class SpStoryTile extends StatefulWidget {
   State<SpStoryTile> createState() => _SpStoryTileState();
 }
 
-class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin, AutomaticKeepAliveClientMixin {
+class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
   late final ValueNotifier<ChipsExpandLevelType> expandedLevelNotifier;
   late final StoryDatabase database;
   late final SpStoryTileUtils utils;
@@ -210,7 +210,6 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin, Automatic
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return SpPopupMenuButton(
       dxGetter: (double dx) => MediaQuery.of(context).size.width,
       dyGetter: (double dy) => dy + ConfigConstant.margin2,
@@ -324,7 +323,4 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin, Automatic
       onPressed: () => utils.changeStoryDate(),
     );
   }
-
-  @override
-  bool get wantKeepAlive => widget.fromDatabase;
 }

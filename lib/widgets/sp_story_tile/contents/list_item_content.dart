@@ -46,6 +46,7 @@ class _ListStoryTileContent extends _BaseTileContent {
                   content: content,
                   story: story,
                   onImageUploaded: (content) => options.replaceContent(content),
+                  keepChipAlive: options.fromDatabase,
                 ),
               ],
             ),

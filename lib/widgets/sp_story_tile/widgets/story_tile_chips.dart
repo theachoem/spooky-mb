@@ -32,6 +32,7 @@ class StoryTileChips extends StatelessWidget {
     this.expandedLevel,
     this.showDate = false,
     this.showZeroInTags = false,
+    this.keepChipAlive = false,
   }) : super(key: key) {
     images = {};
     content.pages?.forEach((page) {
@@ -46,6 +47,7 @@ class StoryTileChips extends StatelessWidget {
   final StoryDbModel story;
   final bool showDate;
   final bool showZeroInTags;
+  final bool keepChipAlive;
 
   bool get level1 => expandedLevel == ChipsExpandLevelType.level1;
   bool get level2 => expandedLevel == ChipsExpandLevelType.level2;
@@ -123,7 +125,12 @@ class StoryTileChips extends StatelessWidget {
                 ]),
         ),
 
-      if (tags.isNotEmpty || showZeroInTags) StoryTileTagChips(tags: tags, showZero: showZeroInTags),
+      if (tags.isNotEmpty || showZeroInTags)
+        StoryTileTagChips(
+          tags: tags,
+          showZero: showZeroInTags,
+          keepAlive: keepChipAlive,
+        ),
       if (images.isNotEmpty) buildImageChip(images),
       AddToDriveButton(
         content: content,

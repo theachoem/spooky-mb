@@ -32,6 +32,7 @@ class _GridItemContent extends _BaseTileContent {
                     story: options.story,
                     showZeroInTags: true,
                     onImageUploaded: (content) => options.replaceContent(content),
+                    keepChipAlive: false,
                   );
                 },
               ),

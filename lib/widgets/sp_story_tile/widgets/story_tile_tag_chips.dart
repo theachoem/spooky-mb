@@ -17,16 +17,18 @@ class StoryTileTagChips extends StatefulWidget {
     Key? key,
     required this.tags,
     this.showZero = false,
+    this.keepAlive = false,
   }) : super(key: key);
 
   final List<String> tags;
   final bool showZero;
+  final bool keepAlive;
 
   @override
   State<StoryTileTagChips> createState() => _StoryTileTagChipsState();
 }
 
-class _StoryTileTagChipsState extends State<StoryTileTagChips> {
+class _StoryTileTagChipsState extends State<StoryTileTagChips> with AutomaticKeepAliveClientMixin {
   BaseDbListModel<TagDbModel>? items;
   List<TagDbModel> dbTags = [];
 
@@ -36,16 +38,28 @@ class _StoryTileTagChipsState extends State<StoryTileTagChips> {
     TagDatabase.instance.fetchAllCache().then((value) {
       setState(() {
         items = value;
-        dbTags = items?.items ?? [];
-        dbTags = dbTags.where((e) {
-          return widget.tags.contains(e.id.toString());
-        }).toList();
+        setDbTags();
       });
     });
   }
 
+  void setDbTags() {
+    dbTags = items?.items ?? [];
+    dbTags = dbTags.where((e) {
+      return widget.tags.contains(e.id.toString());
+    }).toList();
+  }
+
+  @override
+  void didUpdateWidget(covariant StoryTileTagChips oldWidget) {
+    setDbTags();
+    super.didUpdateWidget(oldWidget);
+  }
+
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     if (!widget.showZero) {
       return SpCrossFade(
         showFirst: items == null,
@@ -96,4 +110,7 @@ class _StoryTileTagChipsState extends State<StoryTileTagChips> {
       },
     );
   }
+
+  @override
+  bool get wantKeepAlive => widget.keepAlive;
 }
