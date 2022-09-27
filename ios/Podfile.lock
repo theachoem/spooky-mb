@@ -15,6 +15,9 @@ PODS:
     - Firebase/Firestore (= 9.3.0)
     - firebase_core
     - Flutter
+  - connectivity_plus (0.0.1):
+    - Flutter
+    - ReachabilitySwift
   - device_info_plus (0.0.1):
     - Flutter
   - facebook_app_events (0.0.1):
@@ -242,11 +245,14 @@ PODS:
   - OrderedSet (5.0.0)
   - package_info_plus (0.4.5):
     - Flutter
+  - pasteboard (0.0.1):
+    - Flutter
   - path_provider_ios (0.0.1):
     - Flutter
   - PromisesObjC (2.1.1)
   - quick_actions_ios (0.0.1):
     - Flutter
+  - ReachabilitySwift (5.0.0)
   - shared_preferences_ios (0.0.1):
     - Flutter
   - sign_in_with_apple (0.0.1):
@@ -266,6 +272,7 @@ DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - awesome_notifications (from `.symlinks/plugins/awesome_notifications/ios`)
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - facebook_app_events (from `.symlinks/plugins/facebook_app_events/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -292,6 +299,7 @@ DEPENDENCIES:
   - local_auth_ios (from `.symlinks/plugins/local_auth_ios/ios`)
   - objectbox_flutter_libs (from `.symlinks/plugins/objectbox_flutter_libs/ios`)
   - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
+  - pasteboard (from `.symlinks/plugins/pasteboard/ios`)
   - path_provider_ios (from `.symlinks/plugins/path_provider_ios/ios`)
   - quick_actions_ios (from `.symlinks/plugins/quick_actions_ios/ios`)
   - shared_preferences_ios (from `.symlinks/plugins/shared_preferences_ios/ios`)
@@ -332,6 +340,7 @@ SPEC REPOS:
     - ObjectBox
     - OrderedSet
     - PromisesObjC
+    - ReachabilitySwift
     - Toast
     - TOCropViewController
 
@@ -344,6 +353,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/awesome_notifications/ios"
   cloud_firestore:
     :path: ".symlinks/plugins/cloud_firestore/ios"
+  connectivity_plus:
+    :path: ".symlinks/plugins/connectivity_plus/ios"
   device_info_plus:
     :path: ".symlinks/plugins/device_info_plus/ios"
   facebook_app_events:
@@ -397,6 +408,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/objectbox_flutter_libs/ios"
   package_info_plus:
     :path: ".symlinks/plugins/package_info_plus/ios"
+  pasteboard:
+    :path: ".symlinks/plugins/pasteboard/ios"
   path_provider_ios:
     :path: ".symlinks/plugins/path_provider_ios/ios"
   quick_actions_ios:
@@ -423,6 +436,7 @@ SPEC CHECKSUMS:
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   awesome_notifications: 04530aafec8dac4635244ed4b4072f4aea6cc938
   cloud_firestore: 08093e207dfb2e6c82a6b272def699e022548786
+  connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   device_info_plus: e5c5da33f982a436e103237c0c85f9031142abed
   facebook_app_events: 62752eb33a4b0c6d3a6b62c724a83c6489b57aea
   FBAEMKit: d00064597439e75885c70d9adbcb5f3e9ad84f5d
@@ -477,9 +491,11 @@ SPEC CHECKSUMS:
   objectbox_flutter_libs: e414a78ffda0a6418a7b41359dda7b7cfc6cd8fe
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
+  pasteboard: 982969ebaa7c78af3e6cc7761e8f5e77565d9ce0
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   quick_actions_ios: 622e9076602c57f1f937f1c13e5c59c3379347e9
+  ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
   shared_preferences_ios: 548a61f8053b9b8a49ac19c1ffbc8b92c50d68ad
   sign_in_with_apple: f3bf75217ea4c2c8b91823f225d70230119b8440
   sqflite: 6d358c025f5b867b29ed92fc697fd34924e11904

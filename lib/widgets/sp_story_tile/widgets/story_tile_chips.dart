@@ -13,7 +13,7 @@ import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/add_to_drive_button.dart';
-import 'package:flutter_quill/src/widgets/embeds/image.dart';
+import 'package:flutter_quill_extensions/embeds/widgets/image.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_tag_chips.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 

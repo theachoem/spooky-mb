@@ -4,11 +4,11 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
-import 'package:spooky/views/detail/local_widgets/quill_renderer/date_block_embed.dart';
+import 'package:spooky/views/detail/quill_renderer_helper/date_block_embed.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 
-class DateBlockEmbedBuilder extends StatelessWidget {
-  const DateBlockEmbedBuilder({
+class CustomDateBlockRenderer extends StatelessWidget {
+  const CustomDateBlockRenderer({
     Key? key,
     required this.block,
     required this.readOnly,

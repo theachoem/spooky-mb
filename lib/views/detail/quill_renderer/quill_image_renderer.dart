@@ -10,20 +10,34 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:flutter_quill/src/widgets/embeds/image.dart';
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
 import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/utils/helpers/quill_image_size_helper.dart';
-import 'package:spooky/views/detail/local_widgets/quill_renderer/image_resize_button.dart';
-import 'package:spooky/views/detail/local_widgets/quill_renderer/image_zoom_view.dart';
-import 'package:spooky/views/detail/local_widgets/quill_renderer/quill_unsupported_embed.dart';
+import 'package:spooky/views/detail/quill_renderer_helper/image_resize_button.dart';
+import 'package:spooky/views/detail/quill_renderer_helper/image_zoom_view.dart';
+import 'package:spooky/views/detail/quill_renderer/quill_unsupported_renderer.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 
-class QuillImageRenderer extends StatelessWidget {
-  const QuillImageRenderer({
+class QuillImageRenderer extends quill.EmbedBuilder {
+  @override
+  String get key => quill.BlockEmbed.imageType;
+
+  @override
+  Widget build(BuildContext context, quill.QuillController controller, quill.Embed node, bool readOnly) {
+    return _QuillImageRenderer(
+      node: node,
+      controller: controller,
+      readOnly: readOnly,
+    );
+  }
+}
+
+class _QuillImageRenderer extends StatelessWidget {
+  const _QuillImageRenderer({
     Key? key,
     required this.node,
     required this.controller,
@@ -72,7 +86,7 @@ class QuillImageRenderer extends StatelessWidget {
           okLabel: tr("button.ok"),
         );
       },
-      child: QuillUnsupportedEmbed(
+      child: QuillUnsupportedRenderer(
         message: tr("msg.invalid_image_source"),
       ),
     );
