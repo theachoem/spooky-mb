@@ -2,7 +2,7 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:spooky/views/detail/local_widgets/quill_renderer/date_block_embed.dart';
+import 'package:spooky/views/detail/quill_renderer_helper/date_block_embed.dart';
 
 class SpDateButton extends StatelessWidget {
   const SpDateButton({

@@ -9,7 +9,7 @@ import 'package:flutter_quill/src/models/documents/nodes/block.dart' as block;
 import 'package:flutter_quill/src/models/documents/nodes/line.dart' as line;
 import 'package:flutter_quill/src/models/documents/nodes/node.dart' as node;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_quill/src/widgets/embeds/image.dart';
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'dart:convert';
 
 class QuillHelper {

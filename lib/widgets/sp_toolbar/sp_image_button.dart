@@ -9,6 +9,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 
 class SpImageButton extends StatelessWidget {
   const SpImageButton({

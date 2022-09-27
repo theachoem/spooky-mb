@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 
-class QuillUnsupportedEmbed extends StatelessWidget {
-  const QuillUnsupportedEmbed({
+class QuillUnsupportedRenderer extends StatelessWidget {
+  const QuillUnsupportedRenderer({
     Key? key,
     this.message,
   }) : super(key: key);

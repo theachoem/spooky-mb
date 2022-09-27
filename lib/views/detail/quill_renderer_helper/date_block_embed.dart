@@ -1,28 +1,28 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/flutter_quill.dart';
+import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'dart:convert';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:spooky/widgets/sp_toolbar/sp_move_cursor_button.dart';
 
-class DateBlockEmbed extends CustomBlockEmbed {
+class DateBlockEmbed extends quill.CustomBlockEmbed {
   static const String blockType = 'date';
 
   const DateBlockEmbed(String value) : super(blockType, value);
-  static DateBlockEmbed fromDocument(Document document) {
+  static DateBlockEmbed fromDocument(quill.Document document) {
     return DateBlockEmbed(
       jsonEncode(document.toDelta().toJson()),
     );
   }
 
-  Document get document {
-    return Document.fromJson(jsonDecode(data));
+  quill.Document get document {
+    return quill.Document.fromJson(jsonDecode(data));
   }
 
   static void update({
-    required QuillController controller,
+    required quill.QuillController controller,
     required DateTime initDate,
     required BuildContext context,
-    required Document document,
+    required quill.Document document,
   }) async {
     DateTime? pathDate = await SpDatePicker.showDatePicker(
       context,
@@ -30,26 +30,26 @@ class DateBlockEmbed extends CustomBlockEmbed {
     );
 
     if (pathDate != null) {
-      final block = BlockEmbed.custom(
+      final block = quill.BlockEmbed.custom(
         DateBlockEmbed.fromDocument(
-          Document.fromDelta(
-            Delta()..insert("${pathDate.toIso8601String()}\n"),
+          quill.Document.fromDelta(
+            quill.Delta()..insert("${pathDate.toIso8601String()}\n"),
           ),
         ),
       );
-      final offset = getEmbedNode(controller, controller.selection.start).item1;
+      final offset = quill.getEmbedNode(controller, controller.selection.start).item1;
       controller.replaceText(offset, 1, block, TextSelection.collapsed(offset: offset));
     }
   }
 
   static void add({
-    required QuillController controller,
+    required quill.QuillController controller,
     required DateTime initDate,
   }) {
-    final block = BlockEmbed.custom(
+    final block = quill.BlockEmbed.custom(
       DateBlockEmbed.fromDocument(
-        Document.fromDelta(
-          Delta()..insert("${initDate.toIso8601String()}\n"),
+        quill.Document.fromDelta(
+          quill.Delta()..insert("${initDate.toIso8601String()}\n"),
         ),
       ),
     );

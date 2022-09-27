@@ -42,7 +42,7 @@ dependencies:
       ref: 1.0.3
   flutter_markdown: ^0.6.10+1
   flutter_phoenix: ^1.0.0
-  flutter_quill: ^5.2.11
+  flutter_quill: ^6.0.5
   flutter_screen_lock: ^7.0.4
   flutter_secure_storage: ^6.0.0
   flutter_sticky_header: ^0.6.3
@@ -109,6 +109,7 @@ dependencies:
   japx: ^2.0.4
   firebase_crashlytics: ^2.8.10
   easy_localization_loader: ^1.0.0
+  flutter_quill_extensions: ^0.1.0
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 
@@ -133,15 +134,11 @@ dev_dependencies:
   change_app_package_name: ^1.1.0
   copy_with_extension_gen: ^4.0.2
   dependency_validator: ^3.2.0 # pub run dependency_validator
-  flutter_app_name: ^0.1.1
   flutter_lints: ^2.0.1
   injectable_generator: ^1.5.3
   json_serializable: ^6.2.0
   objectbox_generator: any
   flutter_native_splash: ^2.2.0+1
-
-flutter_app_name:
-  name: "Spooky"
 
 flutter:
   uses-material-design: true
