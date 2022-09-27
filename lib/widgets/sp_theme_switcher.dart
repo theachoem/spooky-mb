@@ -20,10 +20,12 @@ class SpThemeSwitcher extends StatefulWidget {
     Key? key,
     this.backgroundColor,
     this.color,
+    this.onToggled,
   }) : super(key: key);
 
   final Color? backgroundColor;
   final Color? color;
+  final void Function()? onToggled;
 
   @override
   State<SpThemeSwitcher> createState() => _SpThemeSwitcherState();
@@ -136,10 +138,12 @@ class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
         icon: getThemeModeIcon(context),
         backgroundColor: widget.backgroundColor ?? M3Color.of(context).readOnly.surface5,
         onLongPress: () async {
-          await SpThemeSwitcher.onLongPress(context);
+          SpThemeSwitcher.onLongPress(context);
+          if (widget.onToggled != null) widget.onToggled!();
         },
         onPressed: () {
           SpThemeSwitcher.onPress(context);
+          if (widget.onToggled != null) widget.onToggled!();
         },
       ),
     );

@@ -71,7 +71,7 @@ class _SearchThemeSwicherState extends State<SearchThemeSwicher> {
           return ValueListenableBuilder<double>(
             valueListenable: offsetNotifier,
             child: Center(
-              child: index.isEven ? SpThemeSwitcher() : const _SearchButton(),
+              child: index.isEven ? SpThemeSwitcher(onToggled: setTimer) : const _SearchButton(),
             ),
             builder: (context, offset, child) {
               return buildItem(index, height, child);
