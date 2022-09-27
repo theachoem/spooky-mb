@@ -143,7 +143,7 @@ class _SoundPlayerTimerState extends State<SoundPlayerTimer> {
                   if (countdown?.min != null) tr("time.mn", args: [countdown?.min.toString() ?? ""]),
                   tr("time.sec", args: [countdown?.sec.toString() ?? ""])
                 ].join(" "),
-          style: M3TextTheme.of(context).overline?.copyWith(color: M3Color.of(context).secondary),
+          style: M3TextTheme.of(context).labelSmall?.copyWith(color: M3Color.of(context).secondary),
         );
       },
     );

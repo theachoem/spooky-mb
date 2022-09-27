@@ -183,7 +183,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
                             builder: (context, docsCount, child) {
                               return Text(
                                 widget.subtitle(docsCount),
-                                style: textTheme.bodyText2?.copyWith(color: colorScheme.onSurface),
+                                style: textTheme.bodyMedium?.copyWith(color: colorScheme.onSurface),
                               );
                             },
                           ),
@@ -208,7 +208,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
         builder: (context, provider, child) {
           return Text(
             tr("msg.hello_user", args: ["${provider.name}"]),
-            style: textTheme.headline6?.copyWith(color: colorScheme.primary),
+            style: textTheme.titleLarge?.copyWith(color: colorScheme.primary),
           );
         },
       ),

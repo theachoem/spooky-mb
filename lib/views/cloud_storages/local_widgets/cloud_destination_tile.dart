@@ -200,9 +200,10 @@ class _CloudDestinationTileState extends State<CloudDestinationTile> {
   ) {
     return ValueListenableBuilder<bool>(
       valueListenable: loadingBackupNotifier,
-      child: LoopAnimation<int>(
+      child: LoopAnimationBuilder<int>(
         tween: IntTween(begin: 0, end: 180),
-        builder: (context, child, value) {
+        duration: const Duration(seconds: 1),
+        builder: (context, value, child) {
           return Transform.rotate(
             angle: value * pi / 180,
             child: Icon(

@@ -46,7 +46,7 @@ class AppBuilder extends StatelessWidget {
         painter: BannerPainter(
           message: FlavorConfig.instance.flavor.name.capitalize,
           color: FlavorConfig.instance.color(context) ?? const Color(0xA0B71C1C),
-          textStyle: M3TextTheme.of(context).caption!.copyWith(color: M3Color.of(context).onPrimary),
+          textStyle: M3TextTheme.of(context).bodySmall!.copyWith(color: M3Color.of(context).onPrimary),
           location: BannerLocation.bottomEnd,
           textDirection: Directionality.of(context),
           layoutDirection: Directionality.of(context),

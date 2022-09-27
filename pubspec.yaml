@@ -44,7 +44,7 @@ dependencies:
   flutter_phoenix: ^1.0.0
   flutter_quill: ^5.2.11
   flutter_screen_lock: ^7.0.4
-  flutter_secure_storage: ^5.0.2
+  flutter_secure_storage: ^6.0.0
   flutter_sticky_header: ^0.6.3
   flutter_weather_bg_null_safety:
     git:
@@ -62,13 +62,13 @@ dependencies:
   just_audio: ^0.9.24
   local_auth: ^2.1.0
   logger: ^1.1.0
-  material_color_utilities: ^0.1.4
+  material_color_utilities: ^0.1.5
   miniplayer: ^1.0.1
   package_info_plus: ^1.3.0
   path: ^1.8.1
   path_provider: ^2.0.10
   provider: ^6.0.3
-  quick_actions: ^0.6.0+11
+  quick_actions: ^1.0.0
   rect_getter: ^1.1.0
   responsive_builder: ^0.4.2
   restart_app: ^1.1.0+1
@@ -76,13 +76,13 @@ dependencies:
   sign_in_with_apple: ^4.0.0
   smooth_page_indicator: ^1.0.0+2
   swipeable_page_route: ^0.2.6
-  timezone: ^0.8.0
+  timezone: ^0.9.0
   tuple: ^2.0.0
   url_launcher: ^6.1.2
   wave: ^0.2.0
   encrypt: ^5.0.1
   html_character_entities: ^1.0.0+1
-  simple_animations: ^4.0.2
+  simple_animations: ^5.0.0+2
   launch_review: ^3.0.1
   in_app_update: ^3.0.0
   flutter_custom_tabs: ^1.0.4
@@ -100,7 +100,7 @@ dependencies:
   flutter_staggered_grid_view: ^0.6.2
   flutter_slidable: ^2.0.0
   dismissible_page: ^0.7.3
-  image_cropper: ^2.0.3
+  image_cropper: ^3.0.0
   new_version: ^0.3.1
   string_similarity: ^2.0.0
   scroll_to_index: ^3.0.1

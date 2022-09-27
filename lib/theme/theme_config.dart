@@ -48,7 +48,6 @@ class ThemeConfig {
       scaffoldBackgroundColor: colorScheme.background,
       colorScheme: colorScheme,
       canvasColor: colorScheme.readOnly.surface2,
-      toggleableActiveColor: colorScheme.primary,
       appBarTheme: AppBarTheme(
         backgroundColor: colorScheme.readOnly.surface2,
         centerTitle: false,
@@ -89,6 +88,9 @@ class ThemeConfig {
           borderRadius: ConfigConstant.circlarRadius1,
         ),
       ),
+      switchTheme: buildSwitchTheme(colorScheme),
+      radioTheme: buildRadioTheme(colorScheme),
+      checkboxTheme: buildCheckBoxTheme(colorScheme),
       // splashColor: ThemeConstant.splashColor,
       indicatorColor: colorScheme.onPrimary,
       textTheme: textTheme,
@@ -114,6 +116,27 @@ class ThemeConfig {
     );
 
     return withDefault(themeData);
+  }
+
+  static RadioThemeData buildRadioTheme(ColorScheme colorScheme) {
+    return RadioThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) return null;
+
+        if (states.contains(MaterialState.selected)) return colorScheme.primary;
+        return null;
+      }),
+    );
+  }
+
+  static CheckboxThemeData buildCheckBoxTheme(ColorScheme colorScheme) {
+    return CheckboxThemeData(
+      fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) return null;
+        if (states.contains(MaterialState.selected)) return colorScheme.primary;
+        return null;
+      }),
+    );
   }
 
   static ThemeData withDefault(ThemeData themeData) {
@@ -152,6 +175,21 @@ class ThemeConfig {
       case TargetPlatform.macOS:
         return true;
     }
+  }
+
+  static SwitchThemeData buildSwitchTheme(ColorScheme colorScheme) {
+    return SwitchThemeData(
+      thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) return null;
+        if (states.contains(MaterialState.selected)) return colorScheme.primary;
+        return null;
+      }),
+      trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) return null;
+        if (states.contains(MaterialState.selected)) return colorScheme.primary;
+        return null;
+      }),
+    );
   }
 
   TextButtonThemeData buildTextButtonStyle(ColorScheme colorScheme) {

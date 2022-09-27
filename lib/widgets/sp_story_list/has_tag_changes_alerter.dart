@@ -30,7 +30,7 @@ class HasTagChangesAlerter extends StatelessWidget {
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   text: "Tags changed! Tap to refresh",
-                  style: Theme.of(context).textTheme.overline?.copyWith(color: M3Color.of(context).tertiary),
+                  style: Theme.of(context).textTheme.labelSmall?.copyWith(color: M3Color.of(context).tertiary),
                   children: [
                     WidgetSpan(
                       alignment: PlaceholderAlignment.middle,

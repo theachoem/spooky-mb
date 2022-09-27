@@ -62,7 +62,7 @@ class _GridItemContent extends _BaseTileContent {
               firstChild: Icon(
                 Icons.add,
                 size: ConfigConstant.iconSize1,
-                color: M3TextTheme.of(context).caption?.color,
+                color: M3TextTheme.of(context).bodySmall?.color,
               ),
             );
           },

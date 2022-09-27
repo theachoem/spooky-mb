@@ -39,9 +39,11 @@ class InitialTheme extends StatelessWidget {
       backgroundColor: colors.background,
       primaryColor: colors.primary,
       colorScheme: colors,
-      toggleableActiveColor: colors.primary,
       textTheme: maxThemeConfig.buildTextTheme(),
       cupertinoOverrideTheme: const CupertinoThemeData(textTheme: CupertinoTextThemeData()),
+      switchTheme: ThemeConfig.buildSwitchTheme(colors),
+      radioTheme: ThemeConfig.buildRadioTheme(colors),
+      checkboxTheme: ThemeConfig.buildCheckBoxTheme(colors),
     ));
   }
 }

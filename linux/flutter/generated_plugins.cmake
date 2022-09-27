@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   desktop_window
+  dynamic_color
   flutter_secure_storage_linux
   objectbox_flutter_libs
   url_launcher_linux

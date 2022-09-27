@@ -45,8 +45,8 @@ class ScreenLockHelper {
           ).copyWith(overlayColor: MaterialStateProperty.all(Colors.transparent)),
         ),
         textTheme: TextTheme(
-          headline1: textTheme.titleLarge?.copyWith(color: colorScheme.onBackground),
-          bodyText2: textTheme.headlineSmall?.copyWith(color: colorScheme.onBackground),
+          displayLarge: textTheme.titleLarge?.copyWith(color: colorScheme.onBackground),
+          bodyMedium: textTheme.headlineSmall?.copyWith(color: colorScheme.onBackground),
         ),
       ),
     );

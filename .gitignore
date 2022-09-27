@@ -51,3 +51,6 @@ internal
 
 # scripts
 node_modules/
+
+# FVM
+.fvm/flutter_sdk
