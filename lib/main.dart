@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:desktop_window/desktop_window.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:easy_localization_loader/easy_localization_loader.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -33,6 +34,7 @@ import 'package:spooky/firebase_options.dart';
 
 part 'global.dart';
 part 'initializer.dart';
+part 'app_localization.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,11 +43,8 @@ void main() async {
 
   runApp(
     Phoenix(
-      child: EasyLocalization(
-        supportedLocales: AppConstant.supportedLocales,
-        fallbackLocale: AppConstant.fallbackLocale,
-        path: 'translations',
-        child: const ProviderScope(
+      child: const AppLocalization(
+        child: ProviderScope(
           child: InitialTheme(
             child: App(),
           ),

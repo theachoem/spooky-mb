@@ -108,6 +108,7 @@ dependencies:
   dio: ^4.0.6
   japx: ^2.0.4
   firebase_crashlytics: ^2.8.10
+  easy_localization_loader: ^1.0.0
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 
