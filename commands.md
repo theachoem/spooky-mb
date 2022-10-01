@@ -53,6 +53,14 @@ fastlane match appstore
 fastlane release
 ```
 
+In case you got `invalid binary`, you have to invoke key & reinit:
+```s
+fastlane match nuke development
+fastlane match nuke distribution
+
+fastlane certificates
+fastlane release
+```
 
 Log when app crash android:
 ```s
