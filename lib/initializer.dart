@@ -20,7 +20,7 @@ class _Initializer {
 
     // license
     LicenseRegistry.addLicense(() async* {
-      final quicksandLicense = await rootBundle.loadString('google_fonts/OFL.txt');
+      final quicksandLicense = await rootBundle.loadString('assets/fonts/Quicksand/OFL.txt');
       final absurdLicense = await rootBundle.loadString('assets/licenses/absurd.txt');
       yield LicenseEntryWithLineBreaks(['Quicksand'], quicksandLicense);
       yield LicenseEntryWithLineBreaks(['Absurd Design'], absurdLicense);
