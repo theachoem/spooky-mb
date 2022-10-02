@@ -8,7 +8,9 @@ class LastUpdateStoryListHashStorage extends IntegerStorage {
     return write(date.millisecondsSinceEpoch);
   }
 
-  Future<bool> shouldReloadList(int currentHash) async {
+  Future<bool> shouldReloadList(int? currentHash) async {
+    if (currentHash == null) return true;
+
     int? value = await read();
     return value != null && currentHash != value;
   }

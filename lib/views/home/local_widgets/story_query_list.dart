@@ -101,11 +101,11 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     _checkUpdatation(oldWidget, "didUpdateWidget");
   }
 
-  void _checkUpdatation(StoryQueryList? oldWidget, String source) {
+  void _checkUpdatation(StoryQueryList? oldWidget, String source) async {
     bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions?.join() != widget.queryOptions?.join();
-    hashStorage.read().then((hash) {
-      if (this.hash != hash || didUpdateQueries) load(source, false);
-    });
+    bool hasChanged = await hashStorage.shouldReloadList(hash);
+    bool shouldReload = hasChanged || didUpdateQueries;
+    if (shouldReload) load(source, false);
   }
 
   @override
@@ -135,6 +135,18 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     super.didPushNext();
     _checkUpdatation(null, "didPushNext");
   }
+
+  // @override
+  // void didPop() {
+  //   super.didPop();
+  //   _checkUpdatation(null, "didPop");
+  // }
+
+  // @override
+  // void didPush() {
+  //   super.didPush();
+  //   _checkUpdatation(null, "didPush");
+  // }
 
   @override
   bool get wantKeepAlive => true;
