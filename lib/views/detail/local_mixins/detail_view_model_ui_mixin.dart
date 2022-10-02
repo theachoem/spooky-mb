@@ -52,7 +52,7 @@ mixin DetailViewModelUiMixin on ChangeNotifier {
 
   void initMixinState(DetailViewFlowType flowType, StoryContentDbModel content, StoryDbModel story) {
     readOnlyNotifier = ValueNotifier(flowType == DetailViewFlowType.update);
-    hasChangeNotifer = ValueNotifier(flowType == DetailViewFlowType.create);
+    hasChangeNotifer = ValueNotifier(false);
     toolbarVisibleNotifier = ValueNotifier(false);
     quillControllerInitedNotifier = ValueNotifier(false);
     pageController = PageController();

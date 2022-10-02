@@ -145,13 +145,6 @@ PODS:
   - flutter_facebook_auth (4.4.0):
     - FBSDKLoginKit (~> 14.0.0)
     - Flutter
-  - flutter_inappwebview_quill (0.0.1):
-    - Flutter
-    - flutter_inappwebview_quill/Core (= 0.0.1)
-    - OrderedSet (~> 5.0)
-  - flutter_inappwebview_quill/Core (0.0.1):
-    - Flutter
-    - OrderedSet (~> 5.0)
   - flutter_keyboard_visibility (0.0.1):
     - Flutter
   - flutter_native_splash (0.0.1):
@@ -164,8 +157,6 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
-  - gallery_saver (0.0.1):
-    - Flutter
   - google_sign_in_ios (0.0.1):
     - Flutter
     - GoogleSignIn (~> 6.2)
@@ -242,7 +233,6 @@ PODS:
   - objectbox_flutter_libs (0.0.1):
     - Flutter
     - ObjectBox (= 1.7.0)
-  - OrderedSet (5.0.0)
   - package_info_plus (0.4.5):
     - Flutter
   - pasteboard (0.0.1):
@@ -264,8 +254,6 @@ PODS:
   - TOCropViewController (2.6.1)
   - url_launcher_ios (0.0.1):
     - Flutter
-  - video_player_avfoundation (0.0.1):
-    - Flutter
 
 DEPENDENCIES:
   - app_settings (from `.symlinks/plugins/app_settings/ios`)
@@ -284,12 +272,10 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_custom_tabs (from `.symlinks/plugins/flutter_custom_tabs/ios`)
   - flutter_facebook_auth (from `.symlinks/plugins/flutter_facebook_auth/ios`)
-  - flutter_inappwebview_quill (from `.symlinks/plugins/flutter_inappwebview_quill/ios`)
   - flutter_keyboard_visibility (from `.symlinks/plugins/flutter_keyboard_visibility/ios`)
   - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
-  - gallery_saver (from `.symlinks/plugins/gallery_saver/ios`)
   - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
   - image_cropper (from `.symlinks/plugins/image_cropper/ios`)
   - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
@@ -306,7 +292,6 @@ DEPENDENCIES:
   - sign_in_with_apple (from `.symlinks/plugins/sign_in_with_apple/ios`)
   - sqflite (from `.symlinks/plugins/sqflite/ios`)
   - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
-  - video_player_avfoundation (from `.symlinks/plugins/video_player_avfoundation/ios`)
 
 SPEC REPOS:
   trunk:
@@ -338,7 +323,6 @@ SPEC REPOS:
     - GTMSessionFetcher
     - nanopb
     - ObjectBox
-    - OrderedSet
     - PromisesObjC
     - ReachabilitySwift
     - Toast
@@ -378,8 +362,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_custom_tabs/ios"
   flutter_facebook_auth:
     :path: ".symlinks/plugins/flutter_facebook_auth/ios"
-  flutter_inappwebview_quill:
-    :path: ".symlinks/plugins/flutter_inappwebview_quill/ios"
   flutter_keyboard_visibility:
     :path: ".symlinks/plugins/flutter_keyboard_visibility/ios"
   flutter_native_splash:
@@ -388,8 +370,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_secure_storage/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
-  gallery_saver:
-    :path: ".symlinks/plugins/gallery_saver/ios"
   google_sign_in_ios:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
   image_cropper:
@@ -422,8 +402,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite/ios"
   url_launcher_ios:
     :path: ".symlinks/plugins/url_launcher_ios/ios"
-  video_player_avfoundation:
-    :path: ".symlinks/plugins/video_player_avfoundation/ios"
 
 CHECKOUT OPTIONS:
   FirebaseFirestore:
@@ -466,13 +444,11 @@ SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_custom_tabs: 7a10a08686955cb748e5d26e0ae586d30689bf89
   flutter_facebook_auth: 8992ef870d441b8403a3b6b9859e7932605407cf
-  flutter_inappwebview_quill: eb69bfa35fdde431e273476cf359a3686427b8da
   flutter_keyboard_visibility: 0339d06371254c3eb25eeb90ba8d17dca8f9c069
   flutter_native_splash: 52501b97d1c0a5f898d687f1646226c1f93c56ef
   flutter_secure_storage: 7953c38a04c3fdbb00571bcd87d8e3b5ceb9daec
   fluttertoast: 16fbe6039d06a763f3533670197d01fc73459037
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
-  gallery_saver: 9fc173c9f4fcc48af53b2a9ebea1b643255be542
   google_sign_in_ios: 4f85eb9f937450765c8573bb85fd8cd6a5af675c
   GoogleAppMeasurement: b907bdad775b6975a8108762345b2cfbf1a93c37
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
@@ -489,7 +465,6 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   ObjectBox: 6410cda891ee71682ea1b0330a9544c52b2ba988
   objectbox_flutter_libs: e414a78ffda0a6418a7b41359dda7b7cfc6cd8fe
-  OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   package_info_plus: 6c92f08e1f853dc01228d6f553146438dafcd14e
   pasteboard: 982969ebaa7c78af3e6cc7761e8f5e77565d9ce0
   path_provider_ios: 14f3d2fd28c4fdb42f44e0f751d12861c43cee02
@@ -502,7 +477,6 @@ SPEC CHECKSUMS:
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
-  video_player_avfoundation: e489aac24ef5cf7af82702979ed16f2a5ef84cff
 
 PODFILE CHECKSUM: 3a92b8e3e43c7772c56484dd5e80616a3ed01034
 
