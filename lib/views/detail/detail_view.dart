@@ -71,7 +71,7 @@ class DetailView extends StatelessWidget {
           child: _DetailMobile(viewModel),
           builder: (context, hasChange, child) {
             return WillPopScope(
-              onWillPop: () => onWillPop(viewModel, context),
+              onWillPop: hasChange ? () => onWillPop(viewModel, context) : null,
               child: child!,
             );
           },
@@ -81,46 +81,42 @@ class DetailView extends StatelessWidget {
   }
 
   Future<bool> onWillPop(DetailViewModel model, BuildContext context) async {
-    if (model.hasChangeNotifer.value) {
-      final action = await showModalActionSheet(
-        context: context,
-        title: tr("alert.save_draft"),
-        cancelLabel: tr("button.cancel"),
-        actions: [
-          SheetAction(
-            label: tr("button.save_exit"),
-            icon: Icons.save,
-            key: 'save',
-          ),
-          SheetAction(
-            label: tr("button.discard"),
-            isDestructiveAction: true,
-            icon: Icons.cancel_rounded,
-            key: 'discard',
-          ),
-        ],
-      );
-
-      if (action == "save") {
-        // ignore: use_build_context_synchronously
-        await model.save(context);
-        return true;
-      } else if (action == "discard") {
-        return showOkCancelAlertDialog(
-          context: context,
-          title: tr("alert.discard_draft.title"),
-          message: tr("alert.discard_draft.message"),
+    final action = await showModalActionSheet(
+      context: context,
+      title: tr("alert.save_draft"),
+      cancelLabel: tr("button.cancel"),
+      actions: [
+        SheetAction(
+          label: tr("button.save_exit"),
+          icon: Icons.save,
+          key: 'save',
+        ),
+        SheetAction(
+          label: tr("button.discard"),
           isDestructiveAction: true,
-          okLabel: tr("button.discard"),
-          cancelLabel: tr("button.cancel"),
-        ).then((value) {
-          return value == OkCancelResult.ok;
-        });
-      }
+          icon: Icons.cancel_rounded,
+          key: 'discard',
+        ),
+      ],
+    );
 
-      return false;
-    } else {
+    if (action == "save") {
+      // ignore: use_build_context_synchronously
+      await model.save(context);
       return true;
+    } else if (action == "discard") {
+      return showOkCancelAlertDialog(
+        context: context,
+        title: tr("alert.discard_draft.title"),
+        message: tr("alert.discard_draft.message"),
+        isDestructiveAction: true,
+        okLabel: tr("button.discard"),
+        cancelLabel: tr("button.cancel"),
+      ).then((value) {
+        return value == OkCancelResult.ok;
+      });
     }
+
+    return false;
   }
 }
