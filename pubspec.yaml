@@ -147,8 +147,8 @@ flutter:
   assets:
     - assets/
     - assets/licenses/
-    - google_fonts/
     - translations/
     - assets/illustrations/
     - assets/emoji-64/
     - assets/sounds/sounds.json
+    - assets/fonts/Quicksand/
