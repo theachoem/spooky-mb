@@ -12,6 +12,7 @@ class _Initializer {
     // ui
     await Global.instance._initiailize();
     await ThemeProvider.initialize();
+    GoogleFontCacheClearer.call();
     NotificationService.initialize();
     await InitialStoryTabService.initialize();
     if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
