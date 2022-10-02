@@ -4,9 +4,10 @@ import 'package:spooky/views/detail/quill_renderer/custom_date_block_renderer.da
 import 'package:spooky/views/detail/quill_renderer/quill_unsupported_renderer.dart';
 import 'package:spooky/views/detail/quill_renderer_helper/date_block_embed.dart';
 
+// TODO: seperate this renderer
 class QuillCustomRenderer extends quill.EmbedBuilder {
   @override
-  String get key => quill.BlockEmbed.customType;
+  String get key => DateBlockEmbed.blockType;
 
   @override
   Widget build(BuildContext context, quill.QuillController controller, quill.Embed node, bool readOnly) {

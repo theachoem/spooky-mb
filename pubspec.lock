@@ -564,7 +564,7 @@ packages:
       name: file
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.1.2"
+    version: "6.1.4"
   firebase_analytics:
     dependency: "direct main"
     description:
@@ -839,16 +839,16 @@ packages:
   flutter_quill:
     dependency: "direct main"
     description:
-      name: flutter_quill
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.0.6"
+      path: "libraries/flutter-quill"
+      relative: true
+    source: path
+    version: "6.0.6+1"
   flutter_quill_extensions:
     dependency: "direct main"
     description:
-      name: flutter_quill_extensions
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "libraries/flutter-quill/flutter_quill_extensions"
+      relative: true
+    source: path
     version: "0.1.0"
   flutter_screen_lock:
     dependency: "direct main"
@@ -1400,7 +1400,7 @@ packages:
       name: material_color_utilities
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.5"
+    version: "0.2.0"
   math_expressions:
     dependency: transitive
     description:
@@ -1895,7 +1895,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.9.0"
+    version: "1.9.1"
   sprintf:
     dependency: transitive
     description:
@@ -1986,7 +1986,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.12"
+    version: "0.4.13"
   timezone:
     dependency: "direct main"
     description:
@@ -2105,7 +2105,7 @@ packages:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.2"
+    version: "2.1.3"
   video_player:
     dependency: transitive
     description:

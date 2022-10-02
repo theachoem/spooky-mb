@@ -116,7 +116,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.home:
         return SpRouterDatas(
           title: tr("page.home.title"),
-          subtitle: tr("page.home.sutitle"),
+          subtitle: tr("page.home.title"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.home,

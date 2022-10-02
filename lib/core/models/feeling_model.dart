@@ -1,5 +1,9 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:spooky/gen/assets.gen.dart';
+
+// No translation for now
+String tr(String text) {
+  return text;
+}
 
 class FeelingModel {
   final String value;

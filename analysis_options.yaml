@@ -33,3 +33,4 @@ linter:
 analyzer:
   exclude:
     - "**.g.dart"
+    - "libraries/*"

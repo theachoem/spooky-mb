@@ -1,0 +1,3 @@
+[submodule "libraries/flutter-quill"]
+	path = libraries/flutter-quill
+	url = git@github.com:juniorise/flutter-quill.git
