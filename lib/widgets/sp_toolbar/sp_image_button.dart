@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:spooky/utils/helpers/file_helper.dart';
 
 class SpImageButton extends StatelessWidget {
   const SpImageButton({
@@ -109,9 +111,13 @@ class SpImageButton extends StatelessWidget {
 
     if (croppedFile != null) {
       await file.delete();
-      await file.create(recursive: true);
-      await file.writeAsBytes(await croppedFile.readAsBytes());
-      return file.path;
+
+      File localFile = File(FileHelper.addDirectory("images/${basename(file.path)}"));
+
+      await localFile.create(recursive: true);
+      await localFile.writeAsBytes(await croppedFile.readAsBytes());
+
+      return localFile.path;
     }
 
     return null;
@@ -134,9 +140,29 @@ class SpImageButton extends StatelessWidget {
         ),
       ],
     );
+
     if (result?.isNotEmpty == true) {
       String imageUrl = result!.first;
       File? file;
+
+      // DRIVE file
+      // IN: https://drive.google.com/file/d/1WKDgvlrOkmkjFZ35otkQpR_4sCOwcntl/view?usp=sharing
+      // OUT: https://drive.google.com/uc?export=download&id=1WKDgvlrOkmkjFZ35otkQpR_4sCOwcntl
+      if (imageUrl.contains('drive.google.com/file/d')) {
+        Uri? imageUri = Uri.tryParse(imageUrl);
+        if (imageUri == null) return;
+
+        List<String> pathSegments = [...imageUri.pathSegments];
+        pathSegments.remove("file");
+        pathSegments.remove("d");
+        pathSegments.remove("view");
+
+        Iterable<String> founds = pathSegments.where((element) => element.length > 25);
+        if (founds.isNotEmpty) {
+          String driveId = founds.first;
+          imageUrl = "https://drive.google.com/uc?export=download&id=$driveId";
+        }
+      }
 
       try {
         file = await DefaultCacheManager().getSingleFile(imageUrl);
