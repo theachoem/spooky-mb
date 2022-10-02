@@ -10,10 +10,10 @@ import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
+import 'package:spooky/utils/helpers/quill_extensions.dart' as ext;
 import 'package:spooky/utils/helpers/quill_helper.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/add_to_drive_button.dart';
-import 'package:flutter_quill_extensions/embeds/widgets/image.dart';
 import 'package:spooky/widgets/sp_story_tile/widgets/story_tile_tag_chips.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 
@@ -162,7 +162,7 @@ class StoryTileChips extends StatelessWidget {
 
     // loop to get validated one
     for (String src in images) {
-      String imageUrl = standardizeImageUrl(src);
+      String imageUrl = ext.standardizeImageUrl(src);
       imageProvider = QuillHelper.imageByUrl(imageUrl);
       if (imageProvider != null) break;
     }

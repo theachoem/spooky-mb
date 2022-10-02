@@ -144,9 +144,6 @@ class SpToolbarState extends State<SpToolbar> with StatefulMixin {
               icon: Icons.image,
               iconSize: toolbarIconSize,
               controller: controller,
-              onImagePickCallback: (file) async {
-                return file.path;
-              },
               // filePickImpl: filePickImpl,
               // webImagePickImpl: webImagePickImpl,
               // mediaPickSettingSelector: mediaPickSettingSelector,

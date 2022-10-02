@@ -9,7 +9,7 @@ import 'package:flutter_quill/src/models/documents/nodes/block.dart' as block;
 import 'package:flutter_quill/src/models/documents/nodes/line.dart' as line;
 import 'package:flutter_quill/src/models/documents/nodes/node.dart' as node;
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:spooky/utils/helpers/quill_extensions.dart' as ext;
 import 'dart:convert';
 
 class QuillHelper {
@@ -38,7 +38,7 @@ class QuillHelper {
   }
 
   static bool imageExist(String imageUrl) =>
-      isImageBase64(imageUrl) || imageUrl.startsWith('http') || File(imageUrl).existsSync();
+      ext.isImageBase64(imageUrl) || imageUrl.startsWith('http') || File(imageUrl).existsSync();
 
   static String toPlainText(node.Root root) {
     String plainText = root.children.map((node.Node e) {
@@ -93,7 +93,7 @@ class QuillHelper {
   }
 
   static ImageProvider? imageByUrl(String imageUrl) {
-    if (isImageBase64(imageUrl)) return MemoryImage(base64.decode(imageUrl));
+    if (ext.isImageBase64(imageUrl)) return MemoryImage(base64.decode(imageUrl));
     if (imageUrl.startsWith('http')) return CachedNetworkImageProvider(imageUrl);
     if (File(imageUrl).existsSync()) return FileImage(File(imageUrl));
     return null;

@@ -2,7 +2,7 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:flutter_quill_extensions/embeds/widgets/image.dart';
+import 'package:spooky/utils/helpers/quill_extensions.dart' as ext;
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/util_widgets/quill_image_resizer.dart';
 import 'package:spooky/widgets/sp_floating_popup_button.dart';
@@ -31,7 +31,7 @@ class ImageResizeButton extends StatelessWidget {
         return QuillImageResizer(
           onImageResize: (w, h) {
             final res = quill.getEmbedNode(controller, controller.selection.start);
-            final attr = replaceStyleString(getImageStyleString(controller), w, h);
+            final attr = replaceStyleString(ext.getImageStyleString(controller), w, h);
             controller.formatText(res.item1, 1, quill.StyleAttribute(attr));
           },
           imageWidth: size?.item1,

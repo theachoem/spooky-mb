@@ -44,8 +44,6 @@ dependencies:
   flutter_phoenix: ^1.0.0
   flutter_quill:
     path: ./libraries/flutter-quill
-  flutter_quill_extensions:
-    path: ./libraries/flutter-quill/flutter_quill_extensions
   flutter_screen_lock: ^7.0.4
   flutter_secure_storage: ^5.0.2
   flutter_sticky_header: ^0.6.3
@@ -112,6 +110,7 @@ dependencies:
   japx: ^2.0.4
   firebase_crashlytics: ^2.8.10
   easy_localization_loader: ^1.0.0
+  string_validator: ^0.3.0
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 

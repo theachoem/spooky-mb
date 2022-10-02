@@ -10,7 +10,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:image_cropper/image_cropper.dart';
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
 class SpImageButton extends StatelessWidget {
@@ -18,11 +17,7 @@ class SpImageButton extends StatelessWidget {
     required this.icon,
     required this.controller,
     this.iconSize = kDefaultIconSize,
-    required this.onImagePickCallback,
     this.fillColor,
-    this.filePickImpl,
-    this.webImagePickImpl,
-    this.mediaPickSettingSelector,
     this.iconTheme,
     this.dialogTheme,
     Key? key,
@@ -32,10 +27,6 @@ class SpImageButton extends StatelessWidget {
   final double iconSize;
   final Color? fillColor;
   final QuillController controller;
-  final OnImagePickCallback onImagePickCallback;
-  final WebImagePickImpl? webImagePickImpl;
-  final FilePickImpl? filePickImpl;
-  final MediaPickSettingSelector? mediaPickSettingSelector;
   final QuillIconTheme? iconTheme;
   final QuillDialogTheme? dialogTheme;
 
@@ -81,14 +72,12 @@ class SpImageButton extends StatelessWidget {
   }
 
   void _pickImage(BuildContext context, ImageSource source) async {
-    ImageVideoUtils.handleImageButtonTap(
-      context,
-      controller,
-      source,
-      (file) => _onPickedImage(context, file),
-      filePickImpl: filePickImpl,
-      webImagePickImpl: webImagePickImpl,
-    );
+    final pickedFile = await ImagePicker().pickImage(source: source);
+
+    if (pickedFile != null) {
+      // ignore: use_build_context_synchronously
+      _onPickedImage(context, File(pickedFile.path));
+    }
   }
 
   Future<String?> _onPickedImage(BuildContext context, File file) async {

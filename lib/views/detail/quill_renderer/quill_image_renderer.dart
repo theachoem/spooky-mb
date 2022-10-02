@@ -10,7 +10,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
-import 'package:flutter_quill_extensions/flutter_quill_extensions.dart';
+import 'package:spooky/utils/helpers/quill_extensions.dart' as ext;
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
@@ -53,7 +53,7 @@ class _QuillImageRenderer extends StatelessWidget {
     required double? width,
     required BuildContext context,
   }) {
-    if (isImageBase64(imageUrl)) {
+    if (ext.isImageBase64(imageUrl)) {
       return Image.memory(
         base64.decode(imageUrl),
         width: width,
