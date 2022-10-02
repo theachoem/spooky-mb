@@ -1,3 +1,6 @@
 {
-  "dart.flutterSdkPath": "../fvm/flutter_sdk"
+  "dart.flutterSdkPath": "../fvm/flutter_sdk",
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
+  },
 }

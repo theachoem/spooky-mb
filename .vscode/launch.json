@@ -6,8 +6,13 @@
   "configurations": [
     {
       "name": "spooky-mb",
+      "program": "lib/main_dev.dart",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
+      "args": [
+        "--flavor",
+        "dev"
+      ],
     },
     {
       "name": "spooky-mb (profile mode)",
