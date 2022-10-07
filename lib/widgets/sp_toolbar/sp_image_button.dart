@@ -10,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:image_cropper/image_cropper.dart';
+import 'package:spooky/core/story_writers/auto_save_story_writer.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 
 class SpImageButton extends StatelessWidget {
@@ -72,6 +73,8 @@ class SpImageButton extends StatelessWidget {
   }
 
   void _pickImage(BuildContext context, ImageSource source) async {
+    AutoSaveStoryWriter.instance.skipNotification();
+
     final pickedFile = await ImagePicker().pickImage(source: source);
 
     if (pickedFile != null) {
@@ -81,6 +84,8 @@ class SpImageButton extends StatelessWidget {
 
       _linkSubmitted(image);
     }
+
+    AutoSaveStoryWriter.instance.allowNotification();
   }
 
   Future<String?> _onPickedImage(BuildContext context, File file) async {

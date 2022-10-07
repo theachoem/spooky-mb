@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/security/security_service.dart';
 import 'package:spooky/core/storages/local_storages/security/lock_life_circle_duration_storage.dart';
+import 'package:spooky/core/story_writers/auto_save_story_writer.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 
@@ -37,7 +38,15 @@ class AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver,
     WidgetsBinding.instance.addObserver(this);
   }
 
+  bool get shouldLock {
+    // DURING IMAGE PICKING
+    bool skipAlert = AutoSaveStoryWriter.instance.skipAlert;
+    return !skipAlert;
+  }
+
   Future<void> showLock() async {
+    if (!shouldLock) return;
+
     if (hasPinLockScreenOnState) return;
     hasPinLockScreenOnState = true;
     await service.showLockIfHas(context);

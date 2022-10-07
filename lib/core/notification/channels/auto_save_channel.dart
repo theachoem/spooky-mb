@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/notification/channels/base_notification_channel.dart';
+import 'package:spooky/core/story_writers/auto_save_story_writer.dart';
 import 'package:spooky/core/types/notification_channel_types.dart';
 import 'package:spooky/core/notification/payloads/auto_save_payload.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
@@ -67,6 +68,36 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
       title: tr("alert.document_saved.title"),
       okLabel: tr("button.ok"),
       message: message != null ? "${tr("alert.document_saved.subtitle")}\n$message" : null,
+    );
+  }
+
+  @override
+  Future<bool> show({
+    required int id,
+    required String title,
+    required String? body,
+    required AutoSavePayload? payload,
+    String? groupKey,
+    String? ticker,
+    bool criticalAlert = false,
+    String? bigPicture,
+    bool? autoDismissible,
+    NotificationSchedule? schedule,
+    NotificationLayout? notificationLayout,
+  }) async {
+    if (AutoSaveStoryWriter.instance.skipAlert) return false;
+    return super.show(
+      id: id,
+      title: title,
+      body: body,
+      payload: payload,
+      groupKey: groupKey,
+      ticker: ticker,
+      bigPicture: bigPicture,
+      autoDismissible: autoDismissible,
+      schedule: schedule,
+      notificationLayout: notificationLayout,
+      criticalAlert: criticalAlert,
     );
   }
 }

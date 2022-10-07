@@ -140,18 +140,22 @@ class DetailViewModel extends BaseViewModel with ScheduleMixin, WidgetsBindingOb
       StoryDbModel story = information.currentStory;
       DateTime createdAt = story.changes.isNotEmpty == true ? story.changes.last.createdAt : story.createdAt;
 
-      AutoSaveChannel().show(
-        id: createdAt.hashCode,
-        groupKey: story.createdAt.hashCode.toString(),
-        title: tr("msg.saving_draft"),
-        body: null,
-        ticker: tr("msg.saving_draft"),
-        notificationLayout: Platform.isAndroid ? NotificationLayout.ProgressBar : null,
-        payload: AutoSavePayload(story.id.toString()),
-      );
+      // Android seem to be slower than IOS
+      // which needed a loading
+      if (Platform.isAndroid) {
+        AutoSaveChannel().show(
+          id: createdAt.hashCode,
+          groupKey: story.createdAt.hashCode.toString(),
+          title: tr("msg.saving_draft"),
+          body: null,
+          ticker: tr("msg.saving_draft"),
+          notificationLayout: Platform.isAndroid ? NotificationLayout.ProgressBar : null,
+          payload: AutoSavePayload(story.id.toString()),
+        );
+      }
 
       InitialStoryTabService.setInitialTab(currentStory.year, currentStory.month);
-      AutoSaveStoryWriter writer = AutoSaveStoryWriter();
+      AutoSaveStoryWriter writer = AutoSaveStoryWriter.instance;
       StoryDbModel? result = await writer.save(DraftStoryObject(information));
       await reload(result);
     });
