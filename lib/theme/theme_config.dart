@@ -44,7 +44,6 @@ class ThemeConfig {
       useMaterial3: true,
       applyElevationOverlayColor: true,
       primaryColor: colorScheme.primary,
-      backgroundColor: colorScheme.background,
       scaffoldBackgroundColor: colorScheme.background,
       colorScheme: colorScheme,
       canvasColor: colorScheme.readOnly.surface2,

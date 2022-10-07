@@ -36,7 +36,6 @@ class InitialTheme extends StatelessWidget {
     return ThemeConfig.withDefault(ThemeData(
       useMaterial3: true,
       dialogBackgroundColor: colors.background,
-      backgroundColor: colors.background,
       primaryColor: colors.primary,
       colorScheme: colors,
       textTheme: maxThemeConfig.buildTextTheme(),

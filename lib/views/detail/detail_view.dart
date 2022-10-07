@@ -41,7 +41,6 @@ class DetailView extends StatelessWidget {
         final ThemeProvider data = context.read<ThemeProvider>();
 
         final blackoutTheme = data.darkTheme.copyWith(
-          backgroundColor: Colors.black,
           scaffoldBackgroundColor: Colors.black,
           appBarTheme: data.darkTheme.appBarTheme.copyWith(backgroundColor: Colors.black),
           colorScheme: data.darkTheme.colorScheme.copyWith(
