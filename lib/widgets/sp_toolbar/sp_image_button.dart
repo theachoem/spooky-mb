@@ -76,7 +76,10 @@ class SpImageButton extends StatelessWidget {
 
     if (pickedFile != null) {
       // ignore: use_build_context_synchronously
-      _onPickedImage(context, File(pickedFile.path));
+      String? image = await _onPickedImage(context, File(pickedFile.path));
+      if (image == null) return;
+
+      _linkSubmitted(image);
     }
   }
 
