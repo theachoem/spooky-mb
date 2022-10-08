@@ -106,8 +106,9 @@ class SpRouteConfig {
           },
         );
       case SpRouter.security:
-        return DefaultRouteSetting(
+        return AnimatedRouteSetting(
           fullscreenDialog: false,
+          fillColor: M3Color.of(context).background,
           route: (context) => const SecurityView(),
         );
       case SpRouter.themeSetting:

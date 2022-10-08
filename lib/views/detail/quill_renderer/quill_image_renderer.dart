@@ -10,6 +10,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:popover/popover.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/helpers/quill_extensions.dart' as ext;
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -19,8 +21,10 @@ import 'package:spooky/utils/helpers/quill_image_size_helper.dart';
 import 'package:spooky/views/detail/quill_renderer_helper/image_resize_button.dart';
 import 'package:spooky/views/detail/quill_renderer_helper/image_zoom_view.dart';
 import 'package:spooky/views/detail/quill_renderer/quill_unsupported_renderer.dart';
-import 'package:spooky/widgets/sp_cross_fade.dart';
+import 'package:spooky/widgets/sp_fade_in.dart';
+import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
+import 'package:tuple/tuple.dart';
 
 class QuillImageRenderer extends quill.EmbedBuilder {
   @override
@@ -106,14 +110,13 @@ class _QuillImageRenderer extends StatelessWidget {
     final sizeHelper = QuillImageResizeHelper(node: node);
     final size = sizeHelper.fetchSize();
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onDoubleTap: () => viewImage(context, imageUrl),
-      onTap: readOnly ? () => onImageTap(context, imageUrl) : null,
-      child: Stack(
-        fit: StackFit.loose,
-        children: [
-          ClipRRect(
+    return Wrap(
+      children: [
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onDoubleTap: () => viewImage(context, imageUrl),
+          onTap: () => readOnly ? onImageTap(context, imageUrl) : popOver(context, imageUrl, size),
+          child: ClipRRect(
             borderRadius: ConfigConstant.circlarRadius1,
             child: Hero(
               tag: imageUrl,
@@ -124,21 +127,8 @@ class _QuillImageRenderer extends StatelessWidget {
               ),
             ),
           ),
-          if (QuillHelper.imageExist(imageUrl))
-            Positioned(
-              right: 0,
-              bottom: 0,
-              child: SpCrossFade(
-                showFirst: !readOnly,
-                secondChild: const SizedBox(width: 48),
-                firstChild: ImageResizeButton(
-                  controller: controller,
-                  size: size,
-                ),
-              ),
-            )
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -163,10 +153,10 @@ class _QuillImageRenderer extends StatelessWidget {
       ),
     ];
 
-    if (actions.length == 1 && actions.first.key == 'view') {
-      viewImage(context, imageUrl);
-      return;
-    }
+    // if (actions.length == 1 && actions.first.key == 'view') {
+    //   viewImage(context, imageUrl);
+    //   return;
+    // }
 
     String? result = await showModalActionSheet<String>(
       context: context,
@@ -194,6 +184,75 @@ class _QuillImageRenderer extends StatelessWidget {
   Future<void> viewImage(BuildContext context, String imageUrl) async {
     context.pushTransparentRoute(
       ImageZoomView(imageUrl: imageUrl),
+    );
+  }
+
+  Future<void> popOver(
+    BuildContext context,
+    String imageUrl,
+    Tuple2<double?, double?>? size,
+  ) async {
+    if (!QuillHelper.imageExist(imageUrl)) return;
+
+    List<Widget> childrens = [
+      ImageResizeButton(
+        controller: controller,
+        size: size,
+      ),
+      Builder(builder: (context) {
+        return SpIconButton(
+          icon: Icon(
+            Icons.delete,
+            color: M3Color.of(context).error,
+          ),
+          onPressed: () {
+            final offset = quill.getEmbedNode(controller, controller.selection.start).item1;
+            final collapsed = TextSelection.collapsed(offset: offset);
+            controller.replaceText(offset, 1, '', collapsed);
+            Navigator.of(context).pop();
+          },
+        );
+      }),
+      Builder(builder: (context) {
+        return SpIconButton(
+          icon: const Icon(Icons.more_vert),
+          onPressed: () {
+            onImageTap(context, imageUrl);
+          },
+        );
+      }),
+    ];
+
+    showPopover(
+      context: context,
+      backgroundColor: Colors.transparent,
+      shadow: [],
+      radius: 0,
+      contentDyOffset: 2.0,
+      transitionDuration: const Duration(milliseconds: 0),
+      bodyBuilder: (context) => Container(
+        margin: const EdgeInsets.only(left: 12.0),
+        decoration: BoxDecoration(
+          borderRadius: ConfigConstant.circlarRadius1,
+          color: M3Color.of(context).background,
+        ),
+        child: SpFadeIn(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: childrens,
+          ),
+        ),
+      ),
+      direction: PopoverDirection.bottom,
+      width: childrens.length <= 2
+          ? 48.0 * childrens.length + 8.0 * (childrens.length - 1) + 8
+          : 48.0 * childrens.length + 8.0 * (childrens.length - 1),
+      height: 48,
+      arrowHeight: 4,
+      arrowWidth: 8,
+      onPop: () {},
     );
   }
 }

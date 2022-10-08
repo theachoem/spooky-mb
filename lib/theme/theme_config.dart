@@ -89,7 +89,6 @@ class ThemeConfig {
       switchTheme: buildSwitchTheme(colorScheme),
       radioTheme: buildRadioTheme(colorScheme),
       checkboxTheme: buildCheckBoxTheme(colorScheme),
-      dividerColor: colorScheme.outline.withOpacity(0.2),
       // splashColor: ThemeConstant.splashColor,
       indicatorColor: colorScheme.onPrimary,
       textTheme: textTheme,
@@ -103,7 +102,6 @@ class ThemeConfig {
     );
 
     themeData = themeData.copyWith(
-      dividerTheme: DividerThemeData(color: themeData.dividerColor, thickness: 0.5),
       cardTheme: CardTheme(
         clipBehavior: Clip.hardEdge,
         elevation: 0.0,
@@ -142,8 +140,11 @@ class ThemeConfig {
   }
 
   static ThemeData withDefault(ThemeData themeData) {
+    Color dividerColor = themeData.colorScheme.outline.withOpacity(0.2);
     return themeData.copyWith(
-      // platform: TargetPlatform.android,
+      platform: TargetPlatform.android,
+      dividerColor: dividerColor,
+      dividerTheme: DividerThemeData(color: dividerColor, thickness: 0.5),
 
       // selection toolbars
       cardColor: themeData.colorScheme.readOnly.surface5,

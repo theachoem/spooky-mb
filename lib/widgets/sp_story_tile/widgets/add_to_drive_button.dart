@@ -13,6 +13,27 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 
+class AddImageToDriveService {
+  static Future<String?> uploadToDrive(BuildContext context, String src) async {
+    bool signedIn = await GoogleAuthService.instance.isSignedIn;
+
+    if (!signedIn) {
+      OkCancelResult result = await showOkAlertDialog(
+        context: context,
+        title: tr("tile.connect_with_drive.title"),
+        okLabel: tr("button.connect"),
+      );
+      if (result == OkCancelResult.ok) {
+        await GoogleAuthService.instance.signIn();
+      } else {
+        return null;
+      }
+    }
+
+    return GDriveSpookyFolderStorage().uploadImage(File(src));
+  }
+}
+
 class AddToDriveButton extends StatefulWidget {
   const AddToDriveButton({
     Key? key,
@@ -35,25 +56,6 @@ class _AddToDriveButtonState extends State<AddToDriveButton> {
   late ValueNotifier<bool> visibleNotifier;
   bool uploading = false;
 
-  Future<String?> uploadToDrive(String src) async {
-    bool signedIn = await GoogleAuthService.instance.isSignedIn;
-
-    if (!signedIn) {
-      OkCancelResult result = await showOkAlertDialog(
-        context: context,
-        title: tr("tile.connect_with_drive.title"),
-        okLabel: tr("button.connect"),
-      );
-      if (result == OkCancelResult.ok) {
-        await GoogleAuthService.instance.signIn();
-      } else {
-        return null;
-      }
-    }
-
-    return GDriveSpookyFolderStorage().uploadImage(File(src));
-  }
-
   Future<void> upload() async {
     if (uploading) return;
     setState(() {
@@ -66,7 +68,7 @@ class _AddToDriveButtonState extends State<AddToDriveButton> {
         String? imageDriveUrl;
 
         try {
-          imageDriveUrl = await uploadToDrive(src);
+          imageDriveUrl = await AddImageToDriveService.uploadToDrive(context, src);
         } catch (e) {
           if (kDebugMode) rethrow;
         }

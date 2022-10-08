@@ -3,7 +3,6 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
 import 'package:spooky/utils/helpers/quill_extensions.dart' as ext;
-import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/util_widgets/quill_image_resizer.dart';
 import 'package:spooky/widgets/sp_floating_popup_button.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
@@ -25,7 +24,7 @@ class ImageResizeButton extends StatelessWidget {
     return SpFloatingPopUpButton(
       cacheFloatingSize: 216.0,
       bottomToTop: false,
-      dyGetter: (double dy) => kToolbarHeight + 16.0,
+      dyGetter: (double dy) => dy - 48.0 * 2 - 8,
       floatBuilder: (callback) {
         final screenSize = MediaQuery.of(context).size;
         return QuillImageResizer(
@@ -43,7 +42,6 @@ class ImageResizeButton extends StatelessWidget {
       builder: (callback) {
         return SpIconButton(
           key: key,
-          backgroundColor: M3Color.of(context).readOnly.surface5,
           icon: const Icon(CommunityMaterialIcons.resize),
           onPressed: () {
             callback();

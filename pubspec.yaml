@@ -111,6 +111,7 @@ dependencies:
   firebase_crashlytics: ^2.8.10
   easy_localization_loader: ^1.0.0
   string_validator: ^0.3.0
+  popover: ^0.2.6+3
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 
