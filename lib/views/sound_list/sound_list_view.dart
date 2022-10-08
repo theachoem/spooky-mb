@@ -27,7 +27,6 @@ import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'sound_list_view_model.dart';
 
 part 'sound_list_mobile.dart';

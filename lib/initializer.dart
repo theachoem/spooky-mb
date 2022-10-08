@@ -13,11 +13,16 @@ class _Initializer {
     await Global.instance._initiailize();
     await ThemeProvider.initialize();
     GoogleFontCacheClearer.call();
-    NotificationService.initialize();
     await InitialStoryTabService.initialize();
     if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
       await DesktopWindow.setMinWindowSize(const Size(320, 510));
     }
+
+    // notification:
+    // wait to make sure localization completed
+    Future.delayed(const Duration(seconds: 3)).then((value) {
+      NotificationService.initialize();
+    });
 
     // license
     LicenseRegistry.addLicense(() async* {

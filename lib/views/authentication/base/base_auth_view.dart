@@ -12,7 +12,6 @@ import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/views/authentication/base/auth_provider_datas.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_theme_switcher.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'package:spooky/views/authentication/base/base_auth_view_model.dart';
 import 'package:spooky/views/authentication/base/auth_flow_type.dart';
 export 'package:spooky/views/authentication/base/auth_flow_type.dart';
@@ -47,7 +46,7 @@ abstract class BaseAuthView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor,
-      appBar: MorphingAppBar(
+      appBar: AppBar(
         leading: SpPopButton(color: foregroundColor),
         backgroundColor: Colors.transparent,
         systemOverlayStyle: systemUiOverlayStyle,

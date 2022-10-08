@@ -20,10 +20,14 @@ class _SoundListMobile extends StatelessWidget {
     );
   }
 
-  MorphingAppBar buildAppBar(BuildContext context) {
-    return MorphingAppBar(
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      surfaceTintColor: Theme.of(context).appBarTheme.backgroundColor,
       leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
-      title: const SpAppBarTitle(fallbackRouter: SpRouter.soundList),
+      title: const SpAppBarTitle(
+        fallbackRouter: SpRouter.soundList,
+        icon: Icons.music_note,
+      ),
       flexibleSpace: const FlexibleSpaceBar(
         background: MiniplayerAppBarBackground(),
       ),

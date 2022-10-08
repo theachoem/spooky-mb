@@ -81,7 +81,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.archive:
         return SpRouterDatas(
           title: tr("page.archive.title"),
-          subtitle: tr("page.archive.sutitle"),
+          subtitle: tr("page.archive.subtitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.archive,
@@ -110,13 +110,13 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.main:
         return SpRouterDatas(
           title: tr("page.main.title"),
-          subtitle: tr("page.main.sutitle"),
+          subtitle: tr("page.main.subtitle"),
           tab: null,
         );
       case SpRouter.home:
         return SpRouterDatas(
           title: tr("page.home.title"),
-          subtitle: tr("page.home.title"),
+          subtitle: tr("page.home.subtitle"),
           tab: MainTabBarItem(
             navigatorKey: GlobalKey<NavigatorState>(),
             router: SpRouter.home,

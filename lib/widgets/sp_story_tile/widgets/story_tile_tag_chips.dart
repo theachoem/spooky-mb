@@ -8,6 +8,7 @@ import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/widgets/sp_chip.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
@@ -75,7 +76,11 @@ class _StoryTileTagChipsState extends State<StoryTileTagChips> with AutomaticKee
   Widget buildChip(List<TagDbModel> dbTags, BuildContext context) {
     return SpChip(
       labelText: dbTags.length == 1 ? dbTags.first.title : widget.tags.length.toString(),
-      avatar: const Icon(CommunityMaterialIcons.tag, size: ConfigConstant.iconSize1),
+      avatar: Icon(
+        CommunityMaterialIcons.tag,
+        size: ConfigConstant.iconSize1,
+        color: M3Color.of(context).onSurface,
+      ),
       onTap: () async {
         int? id;
         if (dbTags.length == 1) {

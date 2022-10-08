@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/core/routes/page_routes/animated_page_route.dart';
 import 'package:spooky/core/routes/setting/base_route_setting.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
@@ -18,16 +20,17 @@ class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
       case TargetPlatform.fuchsia:
       case TargetPlatform.linux:
       case TargetPlatform.windows:
-        return MaterialPageRoute<T>(
+        return AnimatedPageRoute.sharedAxis<T>(
           builder: route,
           settings: settings?.copyWith(arguments: this),
           fullscreenDialog: fullscreenDialog,
+          fillColor: M3Color.of(context).background,
+          type: SharedAxisTransitionType.horizontal,
         );
-      // return AnimatedPageRoute.sharedAxis<T>(
+      // return MaterialPageRoute<T>(
       //   builder: route,
       //   settings: settings?.copyWith(arguments: this),
       //   fullscreenDialog: fullscreenDialog,
-      //   type: SharedAxisTransitionType.horizontal,
       // );
       case TargetPlatform.iOS:
       case TargetPlatform.macOS:

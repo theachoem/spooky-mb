@@ -40,7 +40,6 @@ class ThemeConfig {
     TextTheme textTheme = buildTextTheme();
 
     ThemeData themeData = ThemeData(
-      // platform: TargetPlatform.android,
       useMaterial3: true,
       applyElevationOverlayColor: true,
       primaryColor: colorScheme.primary,
@@ -90,6 +89,7 @@ class ThemeConfig {
       switchTheme: buildSwitchTheme(colorScheme),
       radioTheme: buildRadioTheme(colorScheme),
       checkboxTheme: buildCheckBoxTheme(colorScheme),
+      dividerColor: colorScheme.outline.withOpacity(0.2),
       // splashColor: ThemeConstant.splashColor,
       indicatorColor: colorScheme.onPrimary,
       textTheme: textTheme,
@@ -97,9 +97,13 @@ class ThemeConfig {
       cupertinoOverrideTheme: const CupertinoThemeData(
         textTheme: CupertinoTextThemeData(),
       ),
+      listTileTheme: ListTileThemeData(
+        iconColor: colorScheme.onBackground.withOpacity(0.5),
+      ),
     );
 
     themeData = themeData.copyWith(
+      dividerTheme: DividerThemeData(color: themeData.dividerColor, thickness: 0.5),
       cardTheme: CardTheme(
         clipBehavior: Clip.hardEdge,
         elevation: 0.0,
@@ -121,7 +125,6 @@ class ThemeConfig {
     return RadioThemeData(
       fillColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
         if (states.contains(MaterialState.disabled)) return null;
-
         if (states.contains(MaterialState.selected)) return colorScheme.primary;
         return null;
       }),
@@ -140,6 +143,8 @@ class ThemeConfig {
 
   static ThemeData withDefault(ThemeData themeData) {
     return themeData.copyWith(
+      // platform: TargetPlatform.android,
+
       // selection toolbars
       cardColor: themeData.colorScheme.readOnly.surface5,
       splashFactory: buildSplash(themeData.platform),
@@ -180,12 +185,12 @@ class ThemeConfig {
     return SwitchThemeData(
       thumbColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
         if (states.contains(MaterialState.disabled)) return null;
-        if (states.contains(MaterialState.selected)) return colorScheme.primary;
+        if (states.contains(MaterialState.selected)) return null;
         return null;
       }),
       trackColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
         if (states.contains(MaterialState.disabled)) return null;
-        if (states.contains(MaterialState.selected)) return colorScheme.primary;
+        if (states.contains(MaterialState.selected)) return null;
         return null;
       }),
     );

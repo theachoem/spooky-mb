@@ -17,7 +17,7 @@ class _SoundTypeHeader extends StatelessWidget {
     MiniSoundPlayerProvider provider = context.read<MiniSoundPlayerProvider>();
     AudioPlayer? player = provider.audioPlayers[type]?.player;
     return Material(
-      elevation: 1.0,
+      elevation: 0.5,
       child: SpPopupMenuButton(
         smartDx: true,
         dxGetter: (dx) => MediaQuery.of(context).size.width,

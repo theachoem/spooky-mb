@@ -325,6 +325,7 @@ page:
     title: Content Reader
   detail:
     title: Detail
+    subtitle: Detail
   developer_mode:
     subtitle: Developer Mode
     title: Developer Mode
@@ -358,6 +359,7 @@ page:
     title: Not Found
   search:
     title: Search
+    subtitle: Search
   security:
     subtitle: Security
     title: Security

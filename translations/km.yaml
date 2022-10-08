@@ -327,6 +327,7 @@ page:
     title: អ្នកអានមាតិកា
   detail:
     title: លម្អិត
+    subtitle: លម្អិត
   developer_mode:
     subtitle: របៀបអ្នកអភិវឌ្ឍន៍
     title: របៀបអ្នកអភិវឌ្ឍន៍
@@ -360,6 +361,7 @@ page:
     title: រក​មិន​ឃើញ
   search:
     title: ស្វែងរក
+    subtitle: ស្វែងរក
   security:
     subtitle: សន្តិសុខ
     title: សន្តិសុខ
