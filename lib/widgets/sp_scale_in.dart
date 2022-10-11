@@ -5,11 +5,15 @@ class SpScaleIn extends StatelessWidget {
   const SpScaleIn({
     Key? key,
     required this.child,
+    this.curve,
     this.duration = ConfigConstant.fadeDuration,
+    this.transformAlignment = Alignment.bottomCenter,
   }) : super(key: key);
 
   final Widget child;
   final Duration duration;
+  final Curve? curve;
+  final Alignment transformAlignment;
 
   @override
   Widget build(BuildContext context) {
@@ -19,9 +23,10 @@ class SpScaleIn extends StatelessWidget {
       child: child,
       builder: (context, value, child) {
         return AnimatedContainer(
-          transformAlignment: Alignment.bottomCenter,
+          transformAlignment: transformAlignment,
           transform: Matrix4.identity()..scale(value == 1 ? 1.0 : 0.5),
           duration: ConfigConstant.fadeDuration,
+          curve: curve ?? Curves.linear,
           child: child,
         );
       },

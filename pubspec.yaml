@@ -112,6 +112,7 @@ dependencies:
   easy_localization_loader: ^1.0.0
   string_validator: ^0.3.0
   popover: ^0.2.6+3
+  navigation_history_observer: ^1.1.0
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 

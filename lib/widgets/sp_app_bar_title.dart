@@ -14,11 +14,7 @@ class SpAppBarTitle extends StatelessWidget {
   final String? overridedTitle;
   final IconData? icon;
 
-  static SpRouter? router(
-    BuildContext context, [
-    SpRouter? fallbackRouter,
-  ]) {
-    String? name = ModalRoute.of(context)?.settings.name;
+  static SpRouter? fromName(String? name) {
     SpRouter? router;
     for (SpRouter e in SpRouter.values) {
       if (e.path == name) {
@@ -26,7 +22,15 @@ class SpAppBarTitle extends StatelessWidget {
         break;
       }
     }
-    return router ?? fallbackRouter;
+    return router;
+  }
+
+  static SpRouter? router(
+    BuildContext context, [
+    SpRouter? fallbackRouter,
+  ]) {
+    String? name = ModalRoute.of(context)?.settings.name;
+    return fromName(name) ?? fallbackRouter;
   }
 
   @override

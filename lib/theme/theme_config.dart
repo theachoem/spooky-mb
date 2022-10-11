@@ -142,7 +142,7 @@ class ThemeConfig {
   static ThemeData withDefault(ThemeData themeData) {
     Color dividerColor = themeData.colorScheme.outline.withOpacity(0.2);
     return themeData.copyWith(
-      platform: TargetPlatform.android,
+      // platform: TargetPlatform.android,
       dividerColor: dividerColor,
       dividerTheme: DividerThemeData(color: dividerColor, thickness: 0.5),
 

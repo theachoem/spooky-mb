@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:navigation_history_observer/navigation_history_observer.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/utils/util_widgets/app_builder.dart';
@@ -38,6 +39,7 @@ class App extends StatelessWidget {
       navigatorObservers: [
         storyQueryListObserver,
         _analyticsObserver,
+        NavigationHistoryObserver(),
       ],
     );
   }
