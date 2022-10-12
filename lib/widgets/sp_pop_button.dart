@@ -43,9 +43,12 @@ class SpPopButton extends StatelessWidget {
     ModalRoute<Object?>? parentRoute = ModalRoute.of(context);
     bool useCloseButton = parentRoute is PageRoute<dynamic> && parentRoute.fullscreenDialog || forceCloseButton;
     final routeHistory = NavigationHistoryObserver().history;
+    // final popHistory = NavigationHistoryObserver().poppedRoutes.map((p0) => p0.hashCode);
 
     List<Route<dynamic>> history = [...routeHistory.toList()].where((element) {
-      return ModalRoute.of(context)?.settings.name != element.settings.name;
+      bool notCurrentRoute = ModalRoute.of(context)?.hashCode != element.hashCode;
+      bool hasRouteName = element.settings.name != null;
+      return notCurrentRoute && hasRouteName;
     }).toList();
 
     return Center(
@@ -58,7 +61,7 @@ class SpPopButton extends StatelessWidget {
         tooltip: useCloseButton
             ? MaterialLocalizations.of(context).closeButtonLabel
             : MaterialLocalizations.of(context).backButtonTooltip,
-        onLongPress: history.length > 1 ? () => onLongPress(history, context) : null,
+        onLongPress: history.isNotEmpty ? () => onLongPress(history, context) : null,
         onPressed: () {
           if (onPressed != null) {
             onPressed!();
@@ -134,7 +137,11 @@ class SpPopButton extends StatelessWidget {
   }
 
   Widget buildRouteTile(
-      List<Route<dynamic>> history, int index, BuildContext context, void Function(Route<dynamic> til) pop) {
+    List<Route<dynamic>> history,
+    int index,
+    BuildContext context,
+    void Function(Route<dynamic> til) pop,
+  ) {
     Route<dynamic> route = history[index];
     SpRouter? router = route.settings.name == "/"
         ? SpRouter.home
@@ -146,8 +153,12 @@ class SpPopButton extends StatelessWidget {
     MainTabBarItem? tab = datas?.tab;
 
     return ListTile(
-      leading: tab != null ? Icon(tab.activeIcon) : null,
-      title: Text(datas?.title ?? ""),
+      leading: Icon(tab?.activeIcon ?? Icons.account_tree),
+      title: Text(
+        datas?.shortTitle?.trim().isNotEmpty == true ? datas!.shortTitle! : (datas?.title ?? ""),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      ),
       onTap: () {
         Navigator.maybePop(context);
         pop(route);
