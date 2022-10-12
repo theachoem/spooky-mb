@@ -69,9 +69,15 @@ class DetailView extends StatelessWidget {
           valueListenable: viewModel.hasChangeNotifer,
           child: _DetailMobile(viewModel),
           builder: (context, hasChange, child) {
-            return WillPopScope(
-              onWillPop: hasChange ? () => onWillPop(viewModel, context) : null,
-              child: child!,
+            return ValueListenableBuilder<bool>(
+              valueListenable: viewModel.readOnlyNotifier,
+              child: child,
+              builder: (context, readOnly, child) {
+                return WillPopScope(
+                  onWillPop: hasChange && !readOnly ? () => onWillPop(viewModel, context) : null,
+                  child: child!,
+                );
+              },
             );
           },
         );
