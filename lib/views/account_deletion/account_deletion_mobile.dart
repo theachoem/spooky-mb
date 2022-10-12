@@ -10,6 +10,7 @@ class _AccountDeletionMobile extends StatelessWidget {
     String? name = FirebaseAuth.instance.currentUser?.displayName;
     return Scaffold(
       appBar: MorphingAppBar(
+        leading: const SpPopButton(forceCloseButton: true),
         title: const SpAppBarTitle(fallbackRouter: SpRouter.accountDeletion),
       ),
       body: Consumer<NicknameProvider>(
