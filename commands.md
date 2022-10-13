@@ -1,3 +1,6 @@
+> Deprecated!
+> See [./docs.md](./docs.md) for orgainized version.
+
 # Quick documentations
 
 Execute all bulid runners
