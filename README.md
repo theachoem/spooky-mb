@@ -14,6 +14,8 @@ fvm flutter pub get
 fvm flutter run
 ```
 
+See [./docs.md](./docs.md) for details.
+
 ## Support
 You can support us by downloading the application & leave us feedback. Optionally, you can purchase add-ons in Spooky to try different features as well as support us.
 
