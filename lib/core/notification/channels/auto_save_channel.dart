@@ -20,10 +20,12 @@ class AutoSaveChannel extends BaseNotificationChannel<AutoSavePayload> {
   bool get enableVibration => true;
 
   @override
-  String get channelName => tr("notification_channel.auto_save.name");
+  String get channelName => "Auto Save Notification";
+  // String get channelName => tr("notification_channel.auto_save.name");
 
   @override
-  String get channelDescription => tr("notification_channel.auto_save.description");
+  String get channelDescription => "Show notification when stories are auto-saved on app inactive.";
+  // String get channelDescription => tr("notification_channel.auto_save.description");
 
   @override
   String? get icon => "ni_auto_save";
