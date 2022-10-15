@@ -16,12 +16,14 @@ class StoryQueryList extends StatefulWidget {
     this.overridedLayout,
     this.showLoadingAfterInit = false,
     this.hasDifferentYear = true,
+    this.ignoreOnParentChanged = false,
   }) : super(key: key);
 
   final StoryQueryOptionsModel? queryOptions;
   final SpListLayoutType? overridedLayout;
   final bool showLoadingAfterInit;
   final bool hasDifferentYear;
+  final bool ignoreOnParentChanged;
 
   @override
   State<StoryQueryList> createState() => _StoryListState();
@@ -98,7 +100,9 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   @override
   void didUpdateWidget(covariant StoryQueryList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _checkUpdatation(oldWidget, "didUpdateWidget");
+    if (!widget.ignoreOnParentChanged) {
+      _checkUpdatation(oldWidget, "didUpdateWidget");
+    }
   }
 
   void _checkUpdatation(StoryQueryList? oldWidget, String source) async {

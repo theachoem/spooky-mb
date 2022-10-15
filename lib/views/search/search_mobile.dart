@@ -31,6 +31,7 @@ class _SearchMobile extends StatelessWidget {
           queryOptions: query,
           showLoadingAfterInit: true,
           overridedLayout: SpListLayoutType.timeline,
+          ignoreOnParentChanged: true,
         );
       },
     );
