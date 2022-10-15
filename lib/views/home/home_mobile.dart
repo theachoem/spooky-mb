@@ -62,11 +62,14 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: NestedScrollView(
-        controller: widget.viewModel.scrollController,
-        headerSliverBuilder: headerSliverBuilder,
-        body: buildLayouts(),
+    return PrimaryScrollController(
+      controller: widget.viewModel.scrollController,
+      child: Scaffold(
+        body: NestedScrollView(
+          controller: widget.viewModel.scrollController,
+          headerSliverBuilder: headerSliverBuilder,
+          body: buildLayouts(),
+        ),
       ),
     );
   }
@@ -139,6 +142,9 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   List<Widget> headerSliverBuilder(context, scroll) {
     return [
       buildAppBar(),
+      CupertinoSliverRefreshControl(
+        onRefresh: () async {},
+      ),
     ];
   }
 
