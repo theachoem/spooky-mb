@@ -14,7 +14,7 @@ class _SecurityMobileState extends State<_SecurityMobile> with ScaffoldEndDrawab
     return Scaffold(
       key: endDrawerScaffoldKey,
       endDrawer: buildEndDrawer(context),
-      appBar: MorphingAppBar(
+      appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: const [SizedBox.shrink()],
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,

@@ -17,7 +17,6 @@ import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'security_view_model.dart';
 
 part 'security_mobile.dart';
