@@ -12,7 +12,6 @@ import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/quick_actions_type.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
-import 'package:spooky/utils/util_widgets/app_local_auth.dart';
 import 'package:spooky/views/home/home_view.dart';
 import 'package:spooky/views/main/local_widgets/home_bottom_navigation.dart';
 import 'package:spooky/views/main/local_widgets/mini_player_scaffold.dart';
@@ -30,32 +29,24 @@ part 'main_view_adaptive.dart';
 class MainView extends StatelessWidget {
   const MainView({Key? key}) : super(key: key);
 
-  static final GlobalKey globalKey = GlobalKey(debugLabel: "MainView");
-  static MainViewModel? provider() {
-    return globalKey.currentContext?.read<MainViewModel>();
-  }
-
   @override
   Widget build(BuildContext context) {
-    return AppLocalAuth(
-      child: ViewModelProvider<MainViewModel>(
-        key: globalKey,
-        create: (BuildContext context) => MainViewModel(context),
-        onModelReady: (context, viewModel) => onModelReady(context, viewModel),
-        builder: (context, viewModel, child) {
-          return WillPopScope(
-            onWillPop: () async {
-              if (viewModel.activeRouter != SpRouter.home) {
-                viewModel.setActiveRouter(SpRouter.home);
-                return false;
-              } else {
-                return true;
-              }
-            },
-            child: _MainViewAdpative(viewModel),
-          );
-        },
-      ),
+    return ViewModelProvider<MainViewModel>(
+      create: (BuildContext context) => MainViewModel(context),
+      onModelReady: (context, viewModel) => onModelReady(context, viewModel),
+      builder: (context, viewModel, child) {
+        return WillPopScope(
+          onWillPop: () async {
+            if (viewModel.activeRouter != SpRouter.home) {
+              viewModel.setActiveRouter(SpRouter.home);
+              return false;
+            } else {
+              return true;
+            }
+          },
+          child: _MainViewAdpative(viewModel),
+        );
+      },
     );
   }
 

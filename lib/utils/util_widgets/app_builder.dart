@@ -4,6 +4,7 @@ import 'package:spooky/flavor_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
 import 'package:spooky/utils/extensions/string_extension.dart';
+import 'package:spooky/utils/util_widgets/app_local_auth.dart';
 
 class AppBuilder extends StatelessWidget {
   const AppBuilder({
@@ -56,11 +57,13 @@ class AppBuilder extends StatelessWidget {
   }
 
   Widget buildWrapper(SystemUiOverlayStyle overlay) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: AnnotatedRegion<SystemUiOverlayStyle>(
-        value: overlay,
-        child: child ?? const SizedBox.shrink(),
+    return AppLocalAuth(
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: AnnotatedRegion<SystemUiOverlayStyle>(
+          value: overlay,
+          child: child ?? const SizedBox.shrink(),
+        ),
       ),
     );
   }

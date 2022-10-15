@@ -11,6 +11,7 @@ class _AppStarterAdaptive extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).primary),
         backgroundColor: Colors.transparent,
         elevation: 0.0,

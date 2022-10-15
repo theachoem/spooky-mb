@@ -32,7 +32,10 @@ class AppStarterView extends StatelessWidget {
     return ViewModelProvider<AppStarterViewModel>(
       create: (BuildContext context) => AppStarterViewModel(),
       builder: (context, viewModel, child) {
-        return _AppStarterAdaptive(viewModel);
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: _AppStarterAdaptive(viewModel),
+        );
       },
     );
   }

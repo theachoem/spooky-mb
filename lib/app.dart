@@ -2,12 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:navigation_history_observer/navigation_history_observer.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/utils/util_widgets/app_builder.dart';
 import 'package:spooky/core/routes/sp_route_config.dart';
 import 'package:spooky/main.dart';
-import 'package:spooky/views/app_starter/app_starter_view.dart';
-import 'package:spooky/views/main/main_view.dart';
 import 'package:flutter/material.dart';
 
 class App extends StatelessWidget {
@@ -29,7 +28,7 @@ class App extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: Global.instance.appInitiailized ? const MainView() : const AppStarterView(),
+      initialRoute: Global.instance.appInitiailized ? SpRouter.main.path : SpRouter.appStarter.path,
       theme: provider.lightTheme,
       darkTheme: provider.darkTheme,
       debugShowCheckedModeBanner: false,

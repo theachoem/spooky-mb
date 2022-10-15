@@ -265,7 +265,7 @@ extension SpRouterExtension on SpRouter {
       case SpRouter.detail:
         return '/detail';
       case SpRouter.main:
-        return '/main';
+        return '/';
       case SpRouter.home:
         return '/home';
       case SpRouter.explore:

@@ -33,9 +33,9 @@ class HomeView extends StatelessWidget {
   final void Function(ScrollController controller) onScrollControllerReady;
 
   // On CRUD
-  static final GlobalKey homeKey = GlobalKey();
+  static BuildContext? _context;
   static void reloadDocsCount() {
-    homeKey.currentContext?.read<HomeViewModel>().reloadDocsCount();
+    _context?.read<HomeViewModel>().reloadDocsCount();
   }
 
   @override
@@ -48,10 +48,8 @@ class HomeView extends StatelessWidget {
         onTagChange,
       ),
       builder: (context, viewModel, child) {
-        return _HomeMobile(
-          viewModel,
-          key: homeKey,
-        );
+        _context = context;
+        return _HomeMobile(viewModel);
       },
     );
   }
