@@ -212,9 +212,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       case SpListLayoutType.library:
         return tags.map((e) => e.title).toList();
       case SpListLayoutType.timeline:
-        return [
-          "Exception",
-        ];
+        throw Exception("Timeline shouldn't has tab");
     }
   }
 }
