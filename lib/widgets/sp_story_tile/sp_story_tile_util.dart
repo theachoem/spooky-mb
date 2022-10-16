@@ -87,7 +87,7 @@ class SpStoryTileUtils {
   Future<bool> _changeStoryTime() async {
     TimeOfDay? time;
 
-    await Navigator.of(context).push(
+    await Navigator.of(context, rootNavigator: true).push(
       dn.showPicker(
         context: context,
         value: TimeOfDay.fromDateTime(story().displayPathDate),
