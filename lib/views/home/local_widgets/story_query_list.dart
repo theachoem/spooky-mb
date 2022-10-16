@@ -14,16 +14,12 @@ class StoryQueryList extends StatefulWidget {
     Key? key,
     required this.queryOptions,
     this.overridedLayout,
-    this.showLoadingAfterInit = false,
     this.hasDifferentYear = true,
-    this.ignoreOnParentChanged = false,
   }) : super(key: key);
 
   final StoryQueryOptionsModel? queryOptions;
   final SpListLayoutType? overridedLayout;
-  final bool showLoadingAfterInit;
   final bool hasDifferentYear;
-  final bool ignoreOnParentChanged;
 
   @override
   State<StoryQueryList> createState() => _StoryListState();
@@ -81,12 +77,12 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     if (loadingFlag == true) return;
 
     final completer = Completer();
-    if (stories != null && (showLoading || widget.showLoadingAfterInit)) {
+    if (stories != null && showLoading) {
       loadingFlag = true;
       MessengerService.instance
           .showLoading(
             future: () => completer.future,
-            context: context,
+            context: App.navigatorKey.currentContext!,
             debugSource: "StoryQueryList#load #$source",
           )
           .then((value) => loadingFlag = false);
@@ -100,9 +96,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   @override
   void didUpdateWidget(covariant StoryQueryList oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (!widget.ignoreOnParentChanged) {
-      _checkUpdatation(oldWidget, "didUpdateWidget");
-    }
+    _checkUpdatation(oldWidget, "didUpdateWidget");
   }
 
   void _checkUpdatation(StoryQueryList? oldWidget, String source) async {

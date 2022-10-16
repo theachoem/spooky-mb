@@ -29,9 +29,7 @@ class _SearchMobile extends StatelessWidget {
       resultBuilder: (query) {
         return StoryQueryList(
           queryOptions: query,
-          showLoadingAfterInit: true,
           overridedLayout: SpListLayoutType.timeline,
-          ignoreOnParentChanged: true,
         );
       },
     );
