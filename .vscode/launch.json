@@ -9,10 +9,7 @@
       "program": "lib/main_dev.dart",
       "request": "launch",
       "type": "dart",
-      "args": [
-        "--flavor",
-        "dev"
-      ],
+      "args": ["--flavor", "dev"]
     },
     {
       "name": "spooky-mb (profile mode)",
