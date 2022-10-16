@@ -142,9 +142,6 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
   List<Widget> headerSliverBuilder(context, scroll) {
     return [
       buildAppBar(),
-      CupertinoSliverRefreshControl(
-        onRefresh: () async {},
-      ),
     ];
   }
 
