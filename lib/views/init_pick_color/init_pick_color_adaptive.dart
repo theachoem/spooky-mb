@@ -8,19 +8,27 @@ class _InitPickColorAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      bottomNavigationBar: SpSingleButtonBottomNavigation(
-        buttonLabel: tr("button.next"),
-        show: viewModel.showNextButton,
-        onTap: () {
-          // Navigator.of(context).pushNamed(
-          //   SpRouter.restore.path,
-          //   arguments: const RestoreArgs(
-          //     showSkipButton: true,
-          //   ),
-          // );
-          Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
-        },
+      bottomNavigationBar: const SizedBox(height: kToolbarHeight),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: Visibility(
+        visible: viewModel.showNextButton,
+        child: FutureBuilder<int>(
+          future: viewModel.completer.future,
+          builder: (context, snapshot) {
+            return Visibility(
+              visible: snapshot.data == 1,
+              child: SpFadeIn(
+                duration: ConfigConstant.duration * 2,
+                child: SpButton(
+                  label: tr("button.done"),
+                  onTap: () {
+                    Navigator.of(context).pushNamedAndRemoveUntil(SpRouter.main.path, (_) => false);
+                  },
+                ),
+              ),
+            );
+          },
+        ),
       ),
       body: CustomScrollView(
         physics: const NeverScrollableScrollPhysics(),
@@ -35,75 +43,79 @@ class _InitPickColorAdaptive extends StatelessWidget {
               SpThemeSwitcher(backgroundColor: Colors.transparent),
             ],
           ),
-          SliverFillRemaining(child: LayoutBuilder(builder: (context, constraint) {
-            return Stack(
-              children: [
-                const Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: Divider(height: 1),
-                ),
-                Container(
-                  height: constraint.maxHeight,
-                  constraints: constraint,
-                  alignment: Alignment.center,
-                  padding:
-                      ThemeProvider.hasDynamicColor ? const EdgeInsets.only(top: kToolbarHeight + 16) : EdgeInsets.zero,
-                  child: Wrap(
-                    children: [
-                      buildPickerWrapper(width),
-                    ],
-                  ),
-                ),
-                if (ThemeProvider.hasDynamicColor)
-                  Positioned(
-                    top: ConfigConstant.margin2,
-                    left: 0,
-                    right: 0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: SwitchListTile.adaptive(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: ConfigConstant.circlarRadius2,
-                          side: BorderSide(
-                            color: Theme.of(context).dividerColor,
-                          ),
-                        ),
-                        title: Text(tr("tile.dynamic_color.title")),
-                        subtitle: Text(tr("tile.dynamic_color.subtitle")),
-                        value: Provider.of<ThemeProvider>(context, listen: false).themeMode == ThemeMode.system,
-                        onChanged: (bool value) {
-                          final provider = Provider.of<ThemeProvider>(context, listen: false);
-                          provider.setThemeMode(value
-                              ? ThemeMode.system
-                              : provider.isDarkMode()
-                                  ? ThemeMode.dark
-                                  : ThemeMode.light);
-                        },
-                      ),
-                    ),
-                  ),
-              ],
-            );
-          })),
+          buildBody(width),
         ],
       ),
     );
   }
 
+  Widget buildBody(double width) {
+    return SliverFillRemaining(child: LayoutBuilder(builder: (context, constraint) {
+      return Stack(
+        children: [
+          const Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Divider(height: 1),
+          ),
+          Container(
+            height: constraint.maxHeight,
+            constraints: constraint,
+            alignment: Alignment.center,
+            padding: ThemeProvider.hasDynamicColor
+                ? const EdgeInsets.only(top: kToolbarHeight)
+                : const EdgeInsets.only(bottom: 16),
+            child: Wrap(
+              children: [
+                buildPickerWrapper(width),
+              ],
+            ),
+          ),
+          if (ThemeProvider.hasDynamicColor)
+            Positioned(
+              top: ConfigConstant.margin2,
+              left: 0,
+              right: 0,
+              child: SpFadeIn(
+                duration: ConfigConstant.duration,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SwitchListTile.adaptive(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: ConfigConstant.circlarRadius2,
+                      side: BorderSide(
+                        color: Theme.of(context).dividerColor,
+                      ),
+                    ),
+                    title: Text(tr("tile.dynamic_color.title")),
+                    subtitle: Text(tr("tile.dynamic_color.subtitle")),
+                    value: Provider.of<ThemeProvider>(context, listen: false).themeMode == ThemeMode.system,
+                    onChanged: (bool value) {
+                      final provider = Provider.of<ThemeProvider>(context, listen: false);
+                      provider.setThemeMode(value
+                          ? ThemeMode.system
+                          : provider.isDarkMode()
+                              ? ThemeMode.dark
+                              : ThemeMode.light);
+                    },
+                  ),
+                ),
+              ),
+            ),
+        ],
+      );
+    }));
+  }
+
   Widget buildPickerWrapper(double width) {
     return FutureBuilder<int>(
-      future: Future.delayed(ConfigConstant.fadeDuration).then((value) => 1),
+      future: viewModel.completer.future,
       builder: (context, snapshot) {
-        var selected = snapshot.data == 1;
-        return AnimatedOpacity(
-          duration: ConfigConstant.duration,
-          opacity: selected ? 1.0 : 0.0,
-          child: AnimatedContainer(
-            curve: Curves.ease,
+        return Visibility(
+          visible: snapshot.data == 1,
+          child: SpFadeIn(
             duration: ConfigConstant.fadeDuration,
-            transform: Matrix4.identity()..translate(0.0, selected ? 0.0 : 4.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,

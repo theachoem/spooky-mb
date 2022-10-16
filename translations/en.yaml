@@ -194,7 +194,7 @@ field:
     hint_text: Link...
     validation: Invalid link
   nickname:
-    hint_text: Nickname
+    hint_text: Nickname...
     validation:
       empty: Nickname must not empty!
   question:

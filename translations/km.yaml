@@ -193,7 +193,7 @@ field:
     hint_text: តំណភ្ជាប់...
     validation: តំណមិនត្រឹមត្រូវ
   nickname:
-    hint_text: ឈ្មោះហៅក្រៅ
+    hint_text: ឈ្មោះហៅក្រៅ...
     validation:
       empty: ឈ្មោះហៅក្រៅមិនត្រូវទទេ!
   question:
@@ -353,7 +353,7 @@ page:
     subtitle: គ្រប់គ្រងទំព័រ
     title: គ្រប់គ្រងទំព័រ
   nickname_creator:
-    ask_for_name: ដូច្នេះ តើ​អ្នក​ឈ្មោះ​អ្វី?
+    ask_for_name: ដូច្នេះតើ​អ្នកមាន​ឈ្មោះ​អ្វី?
     subtitle: ឈ្មោះហៅក្រៅអ្នកបង្កើត
     title: ឈ្មោះហៅក្រៅអ្នកបង្កើត
   not_found:

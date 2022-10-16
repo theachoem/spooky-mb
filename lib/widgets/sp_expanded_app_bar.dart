@@ -40,6 +40,7 @@ class SpExpandedAppBar extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         collapseMode: CollapseMode.none,
         background: SpFadeIn(
+          duration: ConfigConstant.duration,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(top: 72.0),
             child: Column(

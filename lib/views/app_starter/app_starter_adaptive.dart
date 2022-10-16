@@ -10,10 +10,10 @@ class _AppStarterAdaptive extends StatelessWidget {
     Color foregroundColor = Theme.of(context).colorScheme.onPrimary;
     return Scaffold(
       backgroundColor: backgroundColor,
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        systemOverlayStyle: M3Color.systemOverlayStyleFromBg(M3Color.of(context).primary),
-        backgroundColor: Colors.transparent,
+        backgroundColor: backgroundColor,
         elevation: 0.0,
         actions: [
           SpThemeSwitcher(

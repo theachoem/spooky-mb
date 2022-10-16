@@ -45,6 +45,7 @@ class M3Color {
     return compute(isDarkMode ? darkSchemeFromSeed : lightSchemeFromSeed, color);
   }
 
+  @Deprecated("Shouldn't be used")
   static SystemUiOverlayStyle systemOverlayStyleFromBg(Color color) {
     Brightness brightness = ThemeData.estimateBrightnessForColor(color);
     return brightness == Brightness.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark;
