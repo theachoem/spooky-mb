@@ -5,8 +5,8 @@ import 'package:spooky/app.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
-import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/storages/local_storages/last_update_story_list_hash_storage.dart';
+import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 
 class StoryQueryList extends StatefulWidget {
@@ -25,7 +25,7 @@ class StoryQueryList extends StatefulWidget {
   State<StoryQueryList> createState() => _StoryListState();
 }
 
-class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClientMixin, RouteAware {
+class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClientMixin, RouteAware, ScheduleMixin {
   final StoryDatabase database = StoryDatabase.instance;
   final LastUpdateStoryListHashStorage hashStorage = LastUpdateStoryListHashStorage();
   List<StoryDbModel>? stories;
@@ -38,7 +38,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   @override
   void initState() {
     super.initState();
-    load("initState", false);
+    load("initState");
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       ModalRoute? modalRoute = ModalRoute.of(context);
       if (modalRoute != null) App.storyQueryListObserver.subscribe(this, modalRoute);
@@ -69,28 +69,15 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
       await loadHash();
       return result;
     } else {
+      await loadHash();
       return [];
     }
   }
 
-  Future<void> load(String source, [bool showLoading = true]) async {
-    if (loadingFlag == true) return;
-
-    final completer = Completer();
-    if (stories != null && showLoading) {
-      loadingFlag = true;
-      MessengerService.instance
-          .showLoading(
-            future: () => completer.future,
-            context: App.navigatorKey.currentContext!,
-            debugSource: "StoryQueryList#load #$source",
-          )
-          .then((value) => loadingFlag = false);
-    }
-
+  Future<void> load(String source, [bool showLoading = false]) async {
+    if (showLoading) setState(() => stories = null);
     final result = await _fetchStory();
     setState(() => stories = result);
-    completer.complete(1);
   }
 
   @override
@@ -102,8 +89,11 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   void _checkUpdatation(StoryQueryList? oldWidget, String source) async {
     bool didUpdateQueries = oldWidget != null && oldWidget.queryOptions?.join() != widget.queryOptions?.join();
     bool hasChanged = await hashStorage.shouldReloadList(hash);
-    bool shouldReload = hasChanged || didUpdateQueries;
-    if (shouldReload) load(source, false);
+    if (hasChanged) {
+      load(source, false);
+    } else if (didUpdateQueries) {
+      load(source, true);
+    }
   }
 
   @override
@@ -114,7 +104,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     }
 
     return SpStoryList(
-      onRefresh: () => load("build", false),
+      onRefresh: () => load("build"),
       overridedLayout: widget.overridedLayout,
       stories: stories,
       hasDifferentYear: widget.hasDifferentYear,

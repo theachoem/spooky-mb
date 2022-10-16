@@ -65,6 +65,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     return PrimaryScrollController(
       controller: widget.viewModel.scrollController,
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: NestedScrollView(
           controller: widget.viewModel.scrollController,
           headerSliverBuilder: headerSliverBuilder,

@@ -31,6 +31,7 @@ class MiniPlayerScaffold extends StatelessWidget {
       appBar: appBar,
       extendBody: extendBody,
       floatingActionButton: floatingActionButton,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           body,

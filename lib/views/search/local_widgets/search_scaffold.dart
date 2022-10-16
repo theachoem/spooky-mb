@@ -48,6 +48,7 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       key: endDrawerScaffoldKey,
       endDrawer: buildEndDrawer(context),
       appBar: MorphingAppBar(
