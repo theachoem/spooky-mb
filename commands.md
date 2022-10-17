@@ -83,5 +83,19 @@ cd android
 ./gradlew wrapper --gradle-version=7.3
 ```
 
+[!] An error occurred while processing the post-install hook of the Podfile.
+bin/cache/artifacts/engine/ios/Flutter.xcframework must exist. 
+If you're running pod install manually, make sure "flutter precache --ios" is executed first
+```s
+fvm flutter precache --ios
+```
+
+Fastlane android:
+run `fastlane supply init` to set up metadata management at a later point.
+
+```
+
+```
+
 References:
 https://developer.android.com/about/versions/13/features/app-languages#known-issues

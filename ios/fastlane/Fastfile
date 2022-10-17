@@ -13,8 +13,8 @@
 default_platform(:ios)
 
 platform :ios do
-  version_number = "1.3.8"
-  build_number = "106"
+  version_number = "1.3.9"
+  build_number = "107"
 
   # execute only once
   lane :certificates do

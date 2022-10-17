@@ -14,3 +14,7 @@ key.properties
 
 google-services.json
 app/src/main/res/values/strings.xml
+
+# Fastlane
+vendor
+fastlane/play-store-credentials.json
