@@ -22,6 +22,7 @@ enum SpRouter {
   developerMode,
   addOn,
   soundList,
+  budgets,
   bottomNavSetting,
   notFound,
   setting,

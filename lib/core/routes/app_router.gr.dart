@@ -138,6 +138,10 @@ class _$AppRouter extends RootStackRouter {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const SoundListView());
     },
+    Budgets.name: (routeData) {
+      return AdaptivePage<dynamic>(
+          routeData: routeData, child: const BudgetsView());
+    },
     StoryPadRestore.name: (routeData) {
       return AdaptivePage<dynamic>(
           routeData: routeData, child: const StoryPadRestoreView());
@@ -205,6 +209,7 @@ class _$AppRouter extends RootStackRouter {
           RouteConfig(Security.name, path: 'security', parent: Main.name),
           RouteConfig(Setting.name, path: 'setting', parent: Main.name),
           RouteConfig(SoundList.name, path: 'sounds', parent: Main.name),
+          RouteConfig(Budgets.name, path: 'budgets', parent: Main.name),
           RouteConfig(StoryPadRestore.name,
               path: 'storypad-restore', parent: Main.name),
           RouteConfig(ThemeSetting.name,
@@ -584,6 +589,14 @@ class SoundList extends PageRouteInfo<void> {
   const SoundList() : super(SoundList.name, path: 'sounds');
 
   static const String name = 'SoundList';
+}
+
+/// generated route for
+/// [BudgetsView]
+class Budgets extends PageRouteInfo<void> {
+  const Budgets() : super(Budgets.name, path: 'budgets');
+
+  static const String name = 'Budgets';
 }
 
 /// generated route for

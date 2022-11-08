@@ -296,6 +296,9 @@ page:
   account_deletion:
     subtitle: ការលុបគណនី
     title: ការលុបគណនី
+  budgets:
+    title: ''
+    subtitle: ''
   add_on:
     subtitle: បន្ថែមមុខងារចូលប្រើប្រាស់ពេញមួយជីវិត
     title: កម្មវិធីបន្ថែម

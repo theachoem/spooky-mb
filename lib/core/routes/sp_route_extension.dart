@@ -237,6 +237,17 @@ extension SpRouterExtension on SpRouter {
           subtitle: tr("page.account_deletion.title"),
           tab: null,
         );
+      case SpRouter.budgets:
+        return SpRouterDatas(
+          title: tr("page.budgets.title"),
+          subtitle: tr("page.budgets.subtitle"),
+          tab: MainTabBarItem(
+            navigatorKey: GlobalKey<NavigatorState>(),
+            router: SpRouter.budgets,
+            inactiveIcon: Icons.wallet_outlined,
+            activeIcon: Icons.wallet,
+          ),
+        );
     }
   }
 
@@ -300,6 +311,8 @@ extension SpRouterExtension on SpRouter {
         return '/backup-histories-manager';
       case SpRouter.accountDeletion:
         return '/account-deletion';
+      case SpRouter.budgets:
+        return '/budgets';
     }
   }
 }

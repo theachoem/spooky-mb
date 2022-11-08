@@ -39,6 +39,7 @@ const _$SpRouterEnumMap = {
   SpRouter.developerMode: 'developerMode',
   SpRouter.addOn: 'addOn',
   SpRouter.soundList: 'soundList',
+  SpRouter.budgets: 'budgets',
   SpRouter.bottomNavSetting: 'bottomNavSetting',
   SpRouter.notFound: 'notFound',
   SpRouter.setting: 'setting',

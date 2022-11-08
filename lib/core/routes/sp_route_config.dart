@@ -13,6 +13,7 @@ import 'package:spooky/views/authentication/sign_up_view.dart';
 import 'package:spooky/views/backup_histories_manager/backup_histories_manager_view.dart';
 import 'package:spooky/views/backups_details/backups_details_view.dart';
 import 'package:spooky/views/bottom_nav_setting/bottom_nav_setting_view.dart';
+import 'package:spooky/views/budgets/budgets_view.dart';
 import 'package:spooky/views/changes_history/changes_history_view.dart';
 import 'package:spooky/views/cloud_storages/cloud_storages_view.dart';
 import 'package:spooky/views/content_reader/content_reader_view.dart';
@@ -298,6 +299,11 @@ class SpRouteConfig {
               return const SearchView(initialQuery: null);
             }
           },
+        );
+      case SpRouter.budgets:
+        return DefaultRouteSetting(
+          fullscreenDialog: false,
+          route: (context) => const BudgetsView(),
         );
     }
   }

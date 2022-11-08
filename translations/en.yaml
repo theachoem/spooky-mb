@@ -294,6 +294,9 @@ page:
   account_deletion:
     subtitle: Account Deletion
     title: Account Deletion
+  budgets:
+    title: Budgets
+    subtitle: Budgets
   add_on:
     subtitle: Add more lifetime access functionalities
     title: Add-ons
