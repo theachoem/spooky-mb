@@ -80,25 +80,25 @@ android {
         checkReleaseBuilds false
     }
 
-    // flavorDimensions "flavors"
-    // productFlavors {
-    //     dev {
-    //         dimension "flavors"
-    //         applicationIdSuffix ".dev"
-    //         versionNameSuffix "-dev"
-    //         resValue "string", "app_name", "SpookyDEV"
-    //     }
-    //     qa {
-    //         dimension "flavors"
-    //         applicationIdSuffix ".qa"
-    //         versionNameSuffix "-qa"
-    //         resValue "string", "app_name", "SpookyQA"
-    //     }
-    //     production {
-    //         dimension "flavors"
-    //         resValue "string", "app_name", "Spooky"
-    //     }
-    // }
+    flavorDimensions "flavors"
+    productFlavors {
+        dev {
+            dimension "flavors"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            resValue "string", "app_name", "SpookyDEV"
+        }
+        qa {
+            dimension "flavors"
+            applicationIdSuffix ".qa"
+            versionNameSuffix "-qa"
+            resValue "string", "app_name", "SpookyQA"
+        }
+        production {
+            dimension "flavors"
+            resValue "string", "app_name", "Spooky"
+        }
+    }
 }
 
 flutter {

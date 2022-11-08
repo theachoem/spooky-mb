@@ -113,6 +113,8 @@ dependencies:
   string_validator: ^0.3.0
   popover: ^0.2.6+3
   navigation_history_observer: ^1.1.0
+  sticky_headers: ^0.3.0+2
+  fl_chart: ^0.55.2
   # for ObjectBox Sync
   # objectbox_sync_flutter_libs
 

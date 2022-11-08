@@ -1,7 +1,15 @@
+import 'package:flutter/material.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 
 class BudgetsViewModel extends BaseViewModel {
-  BudgetsViewModel();
+  late final ValueNotifier<double> offsetNotifier;
+  BudgetsViewModel() {
+    offsetNotifier = ValueNotifier(0.0);
+  }
 
-  // Add ViewModel specific code here
+  @override
+  void dispose() {
+    offsetNotifier.dispose();
+    super.dispose();
+  }
 }
