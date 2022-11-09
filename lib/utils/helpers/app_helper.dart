@@ -175,4 +175,18 @@ class AppHelper {
   }) {
     return Uri.parse(url).queryParameters[param];
   }
+
+  static String kMBGenerator(num num) {
+    if (num > 999 && num < 99999) {
+      return "${(num ~/ 1000)}k";
+    } else if (num > 99999 && num < 999999) {
+      return "${(num ~/ 1000)}k";
+    } else if (num > 999999 && num < 999999999) {
+      return "${(num ~/ 1000000)}m";
+    } else if (num > 999999999) {
+      return "${num ~/ 1000000000}b";
+    } else {
+      return num.toString();
+    }
+  }
 }

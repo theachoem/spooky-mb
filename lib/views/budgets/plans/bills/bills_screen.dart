@@ -23,10 +23,10 @@ class _BillsScreenState extends State<BillsScreen> {
       "Transportation",
     ];
 
-    List<String> states = [
-      "Running",
-      "Finished",
-    ];
+    // List<String> states = [
+    //   "Running",
+    //   "Finished",
+    // ];
 
     List<String> lies = [
       "Yearly",
