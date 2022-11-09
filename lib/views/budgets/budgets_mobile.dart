@@ -46,29 +46,11 @@ class _BudgetsMobile extends StatelessWidget {
     return AppBar(
       actions: [
         SpIconButton(
-          icon: const Icon(Icons.settings),
+          icon: const Icon(Icons.tune),
           onPressed: () {},
         ),
       ],
-      title: SpTapEffect(
-        onTap: () {
-          SpDatePicker.showPicker(
-            context: context,
-            dateFormat: 'yyyy-MMMM',
-          );
-        },
-        child: RichText(
-          text: TextSpan(
-            style: Theme.of(context).appBarTheme.titleTextStyle,
-            text: "November",
-            children: const [
-              WidgetSpan(
-                child: Icon(Icons.arrow_drop_down),
-              ),
-            ],
-          ),
-        ),
-      ),
+      title: buildTitle(context),
       bottom: const TabBar(
         tabs: [
           Tab(
@@ -79,6 +61,63 @@ class _BudgetsMobile extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildTitle(BuildContext context) {
+    return ValueListenableBuilder<double>(
+      valueListenable: viewModel.offsetNotifier,
+      child: Column(
+        children: [
+          RichText(
+            text: TextSpan(
+              style: Theme.of(context).appBarTheme.titleTextStyle,
+              text: "Budgets",
+              children: const [
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.middle,
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Icon(
+                      Icons.wallet,
+                      size: ConfigConstant.iconSize1,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SpTapEffect(
+            onTap: () {
+              SpDatePicker.showPicker(
+                context: context,
+                dateFormat: 'yyyy-MMMM',
+              );
+            },
+            child: RichText(
+              text: TextSpan(
+                style: Theme.of(context).appBarTheme.titleTextStyle,
+                text: "November",
+                children: const [
+                  WidgetSpan(
+                    child: Icon(Icons.arrow_drop_down),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+      builder: (context, offset, child) {
+        child as Column;
+        return SpCrossFade(
+          alignment: Alignment.centerLeft,
+          showFirst: offset <= 0.5,
+          duration: ConfigConstant.fadeDuration,
+          secondChild: child.children[0],
+          firstChild: child.children[1],
+        );
+      },
     );
   }
 }

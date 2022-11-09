@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
-import 'package:spooky/views/budgets/plans/bills_screen.dart';
-import 'package:spooky/views/budgets/plans/events_screen.dart';
-import 'package:spooky/views/budgets/plans/ftt_rule_screen.dart';
+import 'package:spooky/views/budgets/plans/bills/bills_screen.dart';
+import 'package:spooky/views/budgets/plans/events/events_screen.dart';
+import 'package:spooky/views/budgets/plans/ftt_rule/ftt_rule_screen.dart';
 
 class BudgetsPlanObject {
   final String name;
@@ -28,7 +28,6 @@ class BudgetsPlanObject {
       onPressed: (context) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            fullscreenDialog: true,
             builder: (context) {
               return const BillsScreen();
             },
@@ -44,7 +43,6 @@ class BudgetsPlanObject {
       onPressed: (context) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            fullscreenDialog: true,
             builder: (context) {
               return const EventsScreen();
             },
@@ -60,7 +58,6 @@ class BudgetsPlanObject {
       onPressed: (context) {
         Navigator.of(context).push(
           MaterialPageRoute(
-            fullscreenDialog: true,
             builder: (context) {
               return const FttRuleScreen();
             },

@@ -84,7 +84,7 @@ class BudgetsTransactions extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Expense",
+                    "Expenses",
                     style: M3TextTheme.of(context).bodyMedium,
                   ),
                   Text(

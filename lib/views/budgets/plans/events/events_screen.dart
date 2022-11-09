@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class EventsScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class _EventsScreenState extends State<EventsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
+        leading: const SpPopButton(),
         title: const Text("Events"),
       ),
     );
