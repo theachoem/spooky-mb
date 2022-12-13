@@ -5,6 +5,7 @@
 // See also https://docs.objectbox.io/getting-started#generate-objectbox-code
 
 // ignore_for_file: camel_case_types
+// coverage:ignore-file
 
 import 'dart:typed_data';
 
@@ -21,7 +22,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(1, 2962579780537594759),
       name: 'StoryObjectBox',
-      lastPropertyId: const IdUid(20, 4113637293536721721),
+      lastPropertyId: const IdUid(21, 6081378790606469805),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -108,6 +109,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(20, 4113637293536721721),
             name: 'second',
             type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(21, 6081378790606469805),
+            name: 'eventId',
+            type: 6,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -160,6 +166,242 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(3, 7784026225862968531),
+      name: 'BillObjectBox',
+      lastPropertyId: const IdUid(11, 1434716298184015286),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 956764906956837876),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        ModelProperty(
+            id: const IdUid(2, 7375005341533654210),
+            name: 'cron',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 1337908483484588296),
+            name: 'startAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 17014616491649458),
+            name: 'finishAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 4426198622606660140),
+            name: 'autoAddTranaction',
+            type: 1,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 4305009608006582592),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 8681612733231367783),
+            name: 'lastTransactionId',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 4414249516851914898),
+            name: 'categoryId',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 4966331165212849038),
+            name: 'totalExpense',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(10, 77162046115749576),
+            name: 'createdAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(11, 1434716298184015286),
+            name: 'updatedAt',
+            type: 10,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(4, 2953241555041593336),
+      name: 'CategoryObjectBox',
+      lastPropertyId: const IdUid(8, 8971508214344772101),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 8868668911093053791),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        ModelProperty(
+            id: const IdUid(2, 125727249550394177),
+            name: 'position',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 2846579511325640653),
+            name: 'type',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 8043019117276864107),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 8463453999159253624),
+            name: 'budget',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 3400851437634499917),
+            name: 'icon',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 3446333338051793518),
+            name: 'createdAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 8971508214344772101),
+            name: 'updatedAt',
+            type: 10,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(5, 7021691333431812479),
+      name: 'EventObjectBox',
+      lastPropertyId: const IdUid(9, 8834355814560460780),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 7361693891203772524),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        ModelProperty(
+            id: const IdUid(2, 3078319378603449212),
+            name: 'budget',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 4584677910986817528),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 5363225695652137547),
+            name: 'lastTransactionId',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 1083679379321935328),
+            name: 'totalExpense',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 891733534855794301),
+            name: 'startAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 6928052177992944908),
+            name: 'finishAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 909105375476251101),
+            name: 'createdAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 8834355814560460780),
+            name: 'updatedAt',
+            type: 10,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(6, 5496074627803699260),
+      name: 'TransactionObjectBox',
+      lastPropertyId: const IdUid(12, 8847951268108366504),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 5763894320816163879),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        ModelProperty(
+            id: const IdUid(2, 3224646401081665370),
+            name: 'day',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 1720788060924728733),
+            name: 'month',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 801966267329516674),
+            name: 'year',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 5740644305755208922),
+            name: 'time',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 3871464658495830825),
+            name: 'specificDate',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 5238698912599251806),
+            name: 'note',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 4700632976833316289),
+            name: 'eventId',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 1596431308705642786),
+            name: 'billingId',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(10, 1147025731906201268),
+            name: 'categoryId',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(11, 7897652244629837943),
+            name: 'createdAt',
+            type: 10,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(12, 8847951268108366504),
+            name: 'updatedAt',
+            type: 10,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -183,7 +425,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(2, 5548558812249966101),
+      lastEntityId: const IdUid(6, 5496074627803699260),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -221,7 +463,7 @@ ModelDefinition getObjectBoxModel() {
           final metadataOffset = object.metadata == null
               ? null
               : fbb.writeString(object.metadata!);
-          fbb.startTable(21);
+          fbb.startTable(22);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.version);
           fbb.addOffset(2, typeOffset);
@@ -239,6 +481,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addInt64(17, object.hour);
           fbb.addInt64(18, object.minute);
           fbb.addInt64(19, object.second);
+          fbb.addInt64(20, object.eventId);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -274,7 +517,8 @@ ModelDefinition getObjectBoxModel() {
               movedToBinAt: movedToBinAtValue == null ? null : DateTime.fromMillisecondsSinceEpoch(movedToBinAtValue),
               changes: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGet(buffer, rootOffset, 26, []),
               tags: const fb.ListReader<String>(fb.StringReader(asciiOptimization: true), lazy: false).vTableGetNullable(buffer, rootOffset, 28),
-              metadata: const fb.StringReader(asciiOptimization: true).vTableGetNullable(buffer, rootOffset, 36));
+              metadata: const fb.StringReader(asciiOptimization: true).vTableGetNullable(buffer, rootOffset, 36),
+              eventId: const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 44));
 
           return object;
         }),
@@ -322,6 +566,237 @@ ModelDefinition getObjectBoxModel() {
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0)),
               updatedAt: DateTime.fromMillisecondsSinceEpoch(
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0)));
+
+          return object;
+        }),
+    BillObjectBox: EntityDefinition<BillObjectBox>(
+        model: _entities[2],
+        toOneRelations: (BillObjectBox object) => [],
+        toManyRelations: (BillObjectBox object) => {},
+        getId: (BillObjectBox object) => object.id,
+        setId: (BillObjectBox object, int id) {
+          object.id = id;
+        },
+        objectToFB: (BillObjectBox object, fb.Builder fbb) {
+          final cronOffset =
+              object.cron == null ? null : fbb.writeString(object.cron!);
+          final titleOffset =
+              object.title == null ? null : fbb.writeString(object.title!);
+          fbb.startTable(12);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, cronOffset);
+          fbb.addInt64(2, object.startAt?.millisecondsSinceEpoch);
+          fbb.addInt64(3, object.finishAt?.millisecondsSinceEpoch);
+          fbb.addBool(4, object.autoAddTranaction);
+          fbb.addOffset(5, titleOffset);
+          fbb.addInt64(6, object.lastTransactionId);
+          fbb.addInt64(7, object.categoryId);
+          fbb.addFloat64(8, object.totalExpense);
+          fbb.addInt64(9, object.createdAt.millisecondsSinceEpoch);
+          fbb.addInt64(10, object.updatedAt?.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final startAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 8);
+          final finishAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 10);
+          final updatedAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 24);
+          final object = BillObjectBox(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              cron: const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 6),
+              startAt: startAtValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(startAtValue),
+              finishAt: finishAtValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(finishAtValue),
+              title: const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 14),
+              categoryId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0),
+              lastTransactionId: const fb.Int64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 16),
+              autoAddTranaction: const fb.BoolReader()
+                  .vTableGet(buffer, rootOffset, 12, false),
+              totalExpense: const fb.Float64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 20),
+              createdAt: DateTime.fromMillisecondsSinceEpoch(
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0)),
+              updatedAt:
+                  updatedAtValue == null ? null : DateTime.fromMillisecondsSinceEpoch(updatedAtValue));
+
+          return object;
+        }),
+    CategoryObjectBox: EntityDefinition<CategoryObjectBox>(
+        model: _entities[3],
+        toOneRelations: (CategoryObjectBox object) => [],
+        toManyRelations: (CategoryObjectBox object) => {},
+        getId: (CategoryObjectBox object) => object.id,
+        setId: (CategoryObjectBox object, int id) {
+          object.id = id;
+        },
+        objectToFB: (CategoryObjectBox object, fb.Builder fbb) {
+          final typeOffset = fbb.writeString(object.type);
+          final nameOffset = fbb.writeString(object.name);
+          final iconOffset =
+              object.icon == null ? null : fbb.writeString(object.icon!);
+          fbb.startTable(9);
+          fbb.addInt64(0, object.id);
+          fbb.addInt64(1, object.position);
+          fbb.addOffset(2, typeOffset);
+          fbb.addOffset(3, nameOffset);
+          fbb.addFloat64(4, object.budget);
+          fbb.addOffset(5, iconOffset);
+          fbb.addInt64(6, object.createdAt.millisecondsSinceEpoch);
+          fbb.addInt64(7, object.updatedAt?.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final updatedAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 18);
+          final object = CategoryObjectBox(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              position:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0),
+              type: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''),
+              name: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, ''),
+              budget: const fb.Float64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 12),
+              icon: const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 14),
+              createdAt: DateTime.fromMillisecondsSinceEpoch(
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0)),
+              updatedAt: updatedAtValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(updatedAtValue));
+
+          return object;
+        }),
+    EventObjectBox: EntityDefinition<EventObjectBox>(
+        model: _entities[4],
+        toOneRelations: (EventObjectBox object) => [],
+        toManyRelations: (EventObjectBox object) => {},
+        getId: (EventObjectBox object) => object.id,
+        setId: (EventObjectBox object, int id) {
+          object.id = id;
+        },
+        objectToFB: (EventObjectBox object, fb.Builder fbb) {
+          final titleOffset =
+              object.title == null ? null : fbb.writeString(object.title!);
+          fbb.startTable(10);
+          fbb.addInt64(0, object.id);
+          fbb.addFloat64(1, object.budget);
+          fbb.addOffset(2, titleOffset);
+          fbb.addInt64(3, object.lastTransactionId);
+          fbb.addFloat64(4, object.totalExpense);
+          fbb.addInt64(5, object.startAt?.millisecondsSinceEpoch);
+          fbb.addInt64(6, object.finishAt?.millisecondsSinceEpoch);
+          fbb.addInt64(7, object.createdAt.millisecondsSinceEpoch);
+          fbb.addInt64(8, object.updatedAt?.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final startAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
+          final finishAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
+          final updatedAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 20);
+          final object = EventObjectBox(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              budget: const fb.Float64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 6),
+              title: const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 8),
+              lastTransactionId: const fb.Int64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 10),
+              totalExpense:
+                  const fb.Float64Reader().vTableGet(buffer, rootOffset, 12, 0),
+              startAt: startAtValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(startAtValue),
+              finishAt: finishAtValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(finishAtValue),
+              createdAt: DateTime.fromMillisecondsSinceEpoch(
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0)),
+              updatedAt: updatedAtValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(updatedAtValue));
+
+          return object;
+        }),
+    TransactionObjectBox: EntityDefinition<TransactionObjectBox>(
+        model: _entities[5],
+        toOneRelations: (TransactionObjectBox object) => [],
+        toManyRelations: (TransactionObjectBox object) => {},
+        getId: (TransactionObjectBox object) => object.id,
+        setId: (TransactionObjectBox object, int id) {
+          object.id = id;
+        },
+        objectToFB: (TransactionObjectBox object, fb.Builder fbb) {
+          final noteOffset =
+              object.note == null ? null : fbb.writeString(object.note!);
+          fbb.startTable(13);
+          fbb.addInt64(0, object.id);
+          fbb.addInt64(1, object.day);
+          fbb.addInt64(2, object.month);
+          fbb.addInt64(3, object.year);
+          fbb.addInt64(4, object.time);
+          fbb.addInt64(5, object.specificDate?.millisecondsSinceEpoch);
+          fbb.addOffset(6, noteOffset);
+          fbb.addInt64(7, object.eventId);
+          fbb.addInt64(8, object.billingId);
+          fbb.addInt64(9, object.categoryId);
+          fbb.addInt64(10, object.createdAt.millisecondsSinceEpoch);
+          fbb.addInt64(11, object.updatedAt?.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final specificDateValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
+          final updatedAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 26);
+          final object = TransactionObjectBox(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              day: const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0),
+              month: const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0),
+              year: const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+              time: const fb.Int64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 12),
+              specificDate: specificDateValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(specificDateValue),
+              note: const fb.StringReader(asciiOptimization: true)
+                  .vTableGetNullable(buffer, rootOffset, 16),
+              eventId: const fb.Int64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 18),
+              billingId: const fb.Int64Reader()
+                  .vTableGetNullable(buffer, rootOffset, 20),
+              categoryId:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0),
+              createdAt: DateTime.fromMillisecondsSinceEpoch(
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 24, 0)),
+              updatedAt: updatedAtValue == null
+                  ? null
+                  : DateTime.fromMillisecondsSinceEpoch(updatedAtValue));
 
           return object;
         })
@@ -399,6 +874,10 @@ class StoryObjectBox_ {
   /// see [StoryObjectBox.second]
   static final second =
       QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[16]);
+
+  /// see [StoryObjectBox.eventId]
+  static final eventId =
+      QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[17]);
 }
 
 /// [TagObjectBox] entity fields to define ObjectBox queries.
@@ -434,4 +913,176 @@ class TagObjectBox_ {
   /// see [TagObjectBox.index]
   static final index =
       QueryIntegerProperty<TagObjectBox>(_entities[1].properties[7]);
+}
+
+/// [BillObjectBox] entity fields to define ObjectBox queries.
+class BillObjectBox_ {
+  /// see [BillObjectBox.id]
+  static final id =
+      QueryIntegerProperty<BillObjectBox>(_entities[2].properties[0]);
+
+  /// see [BillObjectBox.cron]
+  static final cron =
+      QueryStringProperty<BillObjectBox>(_entities[2].properties[1]);
+
+  /// see [BillObjectBox.startAt]
+  static final startAt =
+      QueryIntegerProperty<BillObjectBox>(_entities[2].properties[2]);
+
+  /// see [BillObjectBox.finishAt]
+  static final finishAt =
+      QueryIntegerProperty<BillObjectBox>(_entities[2].properties[3]);
+
+  /// see [BillObjectBox.autoAddTranaction]
+  static final autoAddTranaction =
+      QueryBooleanProperty<BillObjectBox>(_entities[2].properties[4]);
+
+  /// see [BillObjectBox.title]
+  static final title =
+      QueryStringProperty<BillObjectBox>(_entities[2].properties[5]);
+
+  /// see [BillObjectBox.lastTransactionId]
+  static final lastTransactionId =
+      QueryIntegerProperty<BillObjectBox>(_entities[2].properties[6]);
+
+  /// see [BillObjectBox.categoryId]
+  static final categoryId =
+      QueryIntegerProperty<BillObjectBox>(_entities[2].properties[7]);
+
+  /// see [BillObjectBox.totalExpense]
+  static final totalExpense =
+      QueryDoubleProperty<BillObjectBox>(_entities[2].properties[8]);
+
+  /// see [BillObjectBox.createdAt]
+  static final createdAt =
+      QueryIntegerProperty<BillObjectBox>(_entities[2].properties[9]);
+
+  /// see [BillObjectBox.updatedAt]
+  static final updatedAt =
+      QueryIntegerProperty<BillObjectBox>(_entities[2].properties[10]);
+}
+
+/// [CategoryObjectBox] entity fields to define ObjectBox queries.
+class CategoryObjectBox_ {
+  /// see [CategoryObjectBox.id]
+  static final id =
+      QueryIntegerProperty<CategoryObjectBox>(_entities[3].properties[0]);
+
+  /// see [CategoryObjectBox.position]
+  static final position =
+      QueryIntegerProperty<CategoryObjectBox>(_entities[3].properties[1]);
+
+  /// see [CategoryObjectBox.type]
+  static final type =
+      QueryStringProperty<CategoryObjectBox>(_entities[3].properties[2]);
+
+  /// see [CategoryObjectBox.name]
+  static final name =
+      QueryStringProperty<CategoryObjectBox>(_entities[3].properties[3]);
+
+  /// see [CategoryObjectBox.budget]
+  static final budget =
+      QueryDoubleProperty<CategoryObjectBox>(_entities[3].properties[4]);
+
+  /// see [CategoryObjectBox.icon]
+  static final icon =
+      QueryStringProperty<CategoryObjectBox>(_entities[3].properties[5]);
+
+  /// see [CategoryObjectBox.createdAt]
+  static final createdAt =
+      QueryIntegerProperty<CategoryObjectBox>(_entities[3].properties[6]);
+
+  /// see [CategoryObjectBox.updatedAt]
+  static final updatedAt =
+      QueryIntegerProperty<CategoryObjectBox>(_entities[3].properties[7]);
+}
+
+/// [EventObjectBox] entity fields to define ObjectBox queries.
+class EventObjectBox_ {
+  /// see [EventObjectBox.id]
+  static final id =
+      QueryIntegerProperty<EventObjectBox>(_entities[4].properties[0]);
+
+  /// see [EventObjectBox.budget]
+  static final budget =
+      QueryDoubleProperty<EventObjectBox>(_entities[4].properties[1]);
+
+  /// see [EventObjectBox.title]
+  static final title =
+      QueryStringProperty<EventObjectBox>(_entities[4].properties[2]);
+
+  /// see [EventObjectBox.lastTransactionId]
+  static final lastTransactionId =
+      QueryIntegerProperty<EventObjectBox>(_entities[4].properties[3]);
+
+  /// see [EventObjectBox.totalExpense]
+  static final totalExpense =
+      QueryDoubleProperty<EventObjectBox>(_entities[4].properties[4]);
+
+  /// see [EventObjectBox.startAt]
+  static final startAt =
+      QueryIntegerProperty<EventObjectBox>(_entities[4].properties[5]);
+
+  /// see [EventObjectBox.finishAt]
+  static final finishAt =
+      QueryIntegerProperty<EventObjectBox>(_entities[4].properties[6]);
+
+  /// see [EventObjectBox.createdAt]
+  static final createdAt =
+      QueryIntegerProperty<EventObjectBox>(_entities[4].properties[7]);
+
+  /// see [EventObjectBox.updatedAt]
+  static final updatedAt =
+      QueryIntegerProperty<EventObjectBox>(_entities[4].properties[8]);
+}
+
+/// [TransactionObjectBox] entity fields to define ObjectBox queries.
+class TransactionObjectBox_ {
+  /// see [TransactionObjectBox.id]
+  static final id =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[0]);
+
+  /// see [TransactionObjectBox.day]
+  static final day =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[1]);
+
+  /// see [TransactionObjectBox.month]
+  static final month =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[2]);
+
+  /// see [TransactionObjectBox.year]
+  static final year =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[3]);
+
+  /// see [TransactionObjectBox.time]
+  static final time =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[4]);
+
+  /// see [TransactionObjectBox.specificDate]
+  static final specificDate =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[5]);
+
+  /// see [TransactionObjectBox.note]
+  static final note =
+      QueryStringProperty<TransactionObjectBox>(_entities[5].properties[6]);
+
+  /// see [TransactionObjectBox.eventId]
+  static final eventId =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[7]);
+
+  /// see [TransactionObjectBox.billingId]
+  static final billingId =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[8]);
+
+  /// see [TransactionObjectBox.categoryId]
+  static final categoryId =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[9]);
+
+  /// see [TransactionObjectBox.createdAt]
+  static final createdAt =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[10]);
+
+  /// see [TransactionObjectBox.updatedAt]
+  static final updatedAt =
+      QueryIntegerProperty<TransactionObjectBox>(_entities[5].properties[11]);
 }
