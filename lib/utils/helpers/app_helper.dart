@@ -144,8 +144,8 @@ class AppHelper {
 
     if (Platform.isAndroid) {
       AndroidDeviceInfo info = await deviceInfo.androidInfo;
-      device = info.model ?? info.device;
-      id = info.androidId;
+      device = info.model;
+      id = info.id;
     }
 
     if (Platform.isMacOS) {

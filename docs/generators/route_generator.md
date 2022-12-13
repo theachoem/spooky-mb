@@ -1,3 +1,5 @@
+> Deprecated
+
 # Route Generator
 We use [auto_route](https://pub.dev/packages/auto_route) as our routing system as it allow us to:
 - Have strongly-typed arguments passing
