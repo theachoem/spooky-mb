@@ -218,6 +218,7 @@ StoryObjectBox _objectConstructor(StoryDbModel story) {
     movedToBinAt: story.movedToBinAt,
     metadata: story.changes.isNotEmpty ? story.changes.last.safeMetadata : "",
     changes: StoryDbConstructorHelper.storyToRawChanges(story),
+    eventId: null,
   );
   return object;
 }
