@@ -25,15 +25,6 @@ class TagDatabase extends BaseDatabase<TagDbModel> {
   String get tableName => "tags";
 
   @override
-  Future<BaseDbListModel<TagDbModel>?> itemsTransformer(Map<String, dynamic> json) async {
-    return BaseDbListModel(
-      items: await buildItemsList(json),
-      meta: await buildMeta(json),
-      links: await buildLinks(json),
-    );
-  }
-
-  @override
   Future<BaseDbListModel<TagDbModel>?> fetchAll({Map<String, dynamic>? params}) async {
     BaseDbListModel<TagDbModel>? result = await super.fetchAll(params: params);
     List<TagDbModel> items = [...result?.items ?? []]..sort((a, b) => a.index.compareTo(b.index));

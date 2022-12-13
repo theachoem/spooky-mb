@@ -4,8 +4,6 @@ import 'package:googleapis/cloudsearch/v1.dart';
 import 'package:spooky/core/db/adapters/base/base_db_adapter.dart';
 import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
-import 'package:spooky/core/db/models/base/links_db_model.dart';
-import 'package:spooky/core/db/models/base/meta_db_model.dart';
 
 abstract class BaseDatabase<T extends BaseDbModel> {
   String get tableName;
@@ -104,39 +102,6 @@ abstract class BaseDatabase<T extends BaseDbModel> {
     });
   }
 
-  Future<BaseDbListModel<T>?> itemsTransformer(Map<String, dynamic> json);
+  // For restore from backups
   Future<T?> objectTransformer(Map<String, dynamic> json);
-
-  Future<List<T>> buildItemsList(Map<String, dynamic> json) async {
-    dynamic data = json['data'];
-
-    if (data != null && data is List) {
-      List<T> items = [];
-      for (dynamic element in data) {
-        T? item = await objectTransformer(element);
-        if (item != null) {
-          items.add(item);
-        }
-      }
-      return items;
-    }
-
-    return [];
-  }
-
-  Future<MetaDbModel?> buildMeta(Map<String, dynamic> json) async {
-    dynamic meta = json['meta'];
-    if (meta != null && meta is Map<String, dynamic>) {
-      return MetaDbModel.fromJson(meta);
-    }
-    return null;
-  }
-
-  Future<LinksDbModel?> buildLinks(Map<String, dynamic> json) async {
-    dynamic links = json['links'];
-    if (links != null && links is Map<String, dynamic>) {
-      return LinksDbModel.fromJson(links);
-    }
-    return null;
-  }
 }

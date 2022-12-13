@@ -21,15 +21,6 @@ abstract class BaseStoryDatabase extends BaseCacheStoryDatabase {
   }
 
   @override
-  Future<BaseDbListModel<StoryDbModel>?> itemsTransformer(Map<String, dynamic> json) async {
-    return BaseDbListModel(
-      items: await buildItemsList(json),
-      meta: await buildMeta(json),
-      links: await buildLinks(json),
-    );
-  }
-
-  @override
   Future<StoryDbModel?> objectTransformer(Map<String, dynamic> json) async {
     return compute(_constructStoryIsolate, json);
   }
