@@ -17,7 +17,7 @@ mixin OverlayRenderBoxMixin<T extends StatefulWidget> on State<T> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      RenderObject? renderObject = Overlay.of(context).context.findRenderObject();
+      RenderObject? renderObject = Overlay.of(context)?.context.findRenderObject();
       if (renderObject == null) {
         if (kDebugMode) {
           throw ErrorSummary("Please insert key");

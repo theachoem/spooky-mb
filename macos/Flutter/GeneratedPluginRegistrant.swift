@@ -9,7 +9,7 @@ import audio_session
 import cloud_firestore
 import connectivity_plus_macos
 import desktop_window
-import device_info_plus_macos
+import device_info_plus
 import dynamic_color
 import firebase_analytics
 import firebase_auth
