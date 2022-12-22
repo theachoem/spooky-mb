@@ -6,7 +6,10 @@ import 'package:spooky/core/backups/destinations/cloud_file_tuple.dart';
 import 'package:spooky/core/backups/models/backups_metadata.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/storages/local_storages/bottom_nav_items_storage.dart';
+import 'package:spooky/providers/tab_notice_provider.dart';
 
 abstract class BaseCloudProvider extends BaseViewModel {
   final BackupsFileManager fileManager = BackupsFileManager();
@@ -93,6 +96,18 @@ abstract class BaseCloudProvider extends BaseViewModel {
     }
 
     await _load();
+    alertToUI();
+  }
+
+  void alertToUI() {
+    BottomNavItemStorage().getItems().then((value) {
+      final results = value.items?.where((element) => element.selected == true).map((e) => e.router);
+      TabNoticeProvider.instance.set(
+        results?.contains(SpRouter.cloudStorages) == true ? SpRouter.cloudStorages : SpRouter.setting,
+        TabNoticeSetterSourceType.backupAlerter,
+        add: !synced,
+      );
+    });
   }
 
   Future<void> _load() async {

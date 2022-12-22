@@ -6,6 +6,9 @@ import 'package:spooky/core/backups/providers/base_cloud_provider.dart';
 import 'package:spooky/core/storages/local_storages/spooky_drive_folder_id_storage.dart';
 
 class GoogleCloudProvider extends BaseCloudProvider {
+  GoogleCloudProvider._();
+  static final GoogleCloudProvider instance = GoogleCloudProvider._();
+
   @override
   BaseBackupDestination<BaseCloudProvider> get destination => GDriveBackupDestination();
 

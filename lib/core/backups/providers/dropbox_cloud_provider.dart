@@ -5,6 +5,9 @@ import 'package:spooky/core/backups/destinations/dropbox_backup_destination.dart
 import 'package:spooky/core/backups/providers/base_cloud_provider.dart';
 
 class DropboxCloudProvider extends BaseCloudProvider {
+  DropboxCloudProvider._();
+  static final DropboxCloudProvider instance = DropboxCloudProvider._();
+
   @override
   BaseBackupDestination<BaseCloudProvider> get destination => DropBoxBackupDestination();
 

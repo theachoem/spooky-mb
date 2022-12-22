@@ -8,6 +8,8 @@ class _Initializer {
     tz.initializeTimeZones();
     await FileHelper.initialFile();
     await BaseObjectBoxAdapter.initilize();
+    InAppUpdateProvider.instance.load();
+    initializeCloudStorages();
 
     // ui
     await Global.instance._initiailize();
@@ -40,6 +42,11 @@ class _Initializer {
 
     // remote config
     RemoteConfigService.instance.initialize();
+  }
+
+  // Add other storage to be pre-load here
+  static Future<void> initializeCloudStorages() async {
+    await GoogleCloudProvider.instance.load();
   }
 
   static Future<void> initialFirebase() async {

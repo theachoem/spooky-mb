@@ -10,6 +10,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:spooky/app.dart';
+import 'package:spooky/core/backups/providers/google_cloud_provider.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
 import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
@@ -23,6 +24,7 @@ import 'package:spooky/core/storages/local_storages/sp_list_layout_type_storage.
 import 'package:spooky/flavor_config.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/provider_scope.dart';
+import 'package:spooky/providers/in_app_update_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/utils/constants/app_constant.dart';
 import 'package:flutter/material.dart';

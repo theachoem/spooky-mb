@@ -2,9 +2,14 @@ import 'dart:io';
 import 'package:new_version/new_version.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_update/in_app_update.dart';
+import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/providers/tab_notice_provider.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 class InAppUpdateProvider extends ChangeNotifier {
+  static final InAppUpdateProvider instance = InAppUpdateProvider._();
+  InAppUpdateProvider._();
+
   bool get isUpdateAvailable => immediateUpdateAllowed || flexibleUpdateAllowed;
   AppUpdateInfo? androidUpdateInfo;
   VersionStatus? iosUpdateInfo;
@@ -14,10 +19,6 @@ class InAppUpdateProvider extends ChangeNotifier {
 
   bool immediateUpdateAllowed = false;
   bool flexibleUpdateAllowed = false;
-
-  InAppUpdateProvider() {
-    load();
-  }
 
   Future<void> load() async {
     if (Platform.isAndroid) {
@@ -76,5 +77,15 @@ class InAppUpdateProvider extends ChangeNotifier {
       await InAppUpdate.performImmediateUpdate();
       updating = false;
     }
+  }
+
+  @override
+  void notifyListeners() {
+    TabNoticeProvider.instance.set(
+      SpRouter.setting,
+      TabNoticeSetterSourceType.updater,
+      add: isUpdateAvailable,
+    );
+    super.notifyListeners();
   }
 }
