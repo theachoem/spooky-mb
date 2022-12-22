@@ -313,6 +313,9 @@ page:
   bottom_nav_setting:
     subtitle: Manage bottom navigation
     title: Bottom Navigation
+  budgets:
+    subtitle: Budgets
+    title: Budgets
   changes_history:
     subtitle: Changes History
     title: Changes History
@@ -324,8 +327,8 @@ page:
     subtitle: Content Reader
     title: Content Reader
   detail:
-    title: Detail
     subtitle: Detail
+    title: Detail
   developer_mode:
     subtitle: Developer Mode
     title: Developer Mode
@@ -358,8 +361,8 @@ page:
     subtitle: Not Found
     title: Not Found
   search:
-    title: Search
     subtitle: Search
+    title: Search
   security:
     subtitle: Security
     title: Security
@@ -556,6 +559,9 @@ tile:
   provider:
     title: Provider
   rate_us: Rate us
+  report:
+    subtitle: Raise issues or request features
+    title: GitHub
   restore_default_font:
     title: Restore Default Style
   security_question:
@@ -570,7 +576,7 @@ tile:
       new_to_old: New to Old
       old_to_new: Old to New
   spooky_communtiy:
-    subtitle: Share experience, report & request
+    subtitle: Share experience, new, etc!
     title: Spooky Community
   spooky_restore:
     subtitle: Migrate data from StoryPad to Spooky

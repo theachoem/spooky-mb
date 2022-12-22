@@ -111,6 +111,7 @@ dependencies:
   string_validator: ^0.3.0
   popover: ^0.2.6+3
   navigation_history_observer: ^1.1.0
+  firebase_remote_config: ^3.0.8
 
   # unused:
   # objectbox_sync_flutter_libs: for ObjectBox Sync
