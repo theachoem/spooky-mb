@@ -83,7 +83,7 @@ class _AppStarterAdaptive extends StatelessWidget {
             .bodyMedium
             ?.copyWith(color: M3Color.of(context).onBackground, decoration: TextDecoration.underline),
       ),
-      onTapLink: (_, __, ___) => AppHelper.openLinkDialog(AppConstant.privacyPolicy),
+      onTapLink: (_, __, ___) => AppHelper.openLinkDialog(RemoteConfigStringKeys.linkToPrivacyPolicy.get()),
       data: tr("page.app_starter.policy_alert"),
     );
   }

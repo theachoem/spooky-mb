@@ -4,13 +4,6 @@ class AppConstant {
   AppConstant._internal();
   static const String appName = 'Spooky';
   static const String driveFolderName = appName;
-  static const String privacyPolicy = 'https://github.com/juniorise/spooky/wiki/Privacy-Policy';
-  static const String telegramChannel = 'https://t.me/spookyjuniorise';
-  static const String facebookGroupWeb1 = 'https://www.facebook.com/groups/593901148915391';
-  static const String facebookGroupWeb2 = 'https://m.facebook.com/groups/593901148915391';
-  static const String facebookGroupDeeplinkIos = 'fb://group?id=593901148915391';
-  static const String facebookGroupDeeplinkAndroid = 'fb://group/593901148915391';
-  static const String customerSupport = 'https://t.me/spookymb';
   static const Duration deleteInDuration = Duration(days: 30);
 
   static const supportedLocales = [

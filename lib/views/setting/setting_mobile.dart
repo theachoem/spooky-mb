@@ -97,7 +97,7 @@ class _SettingMobile extends StatelessWidget {
                   leading: const SizedBox(height: 40, child: Icon(Icons.privacy_tip_rounded)),
                   title: Text(tr("tile.privary_policy")),
                   onTap: () {
-                    AppHelper.openLinkDialog(AppConstant.privacyPolicy);
+                    AppHelper.openLinkDialog(RemoteConfigStringKeys.linkToPrivacyPolicy.get());
                   },
                 ),
                 ListTile(
@@ -170,12 +170,25 @@ class _SettingMobile extends StatelessWidget {
           ListTile(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(top: ConfigConstant.margin0),
-            leading: const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.facebook)),
-            title: Text(tr("tile.spooky_communtiy.title")),
-            subtitle: Text(tr("tile.spooky_communtiy.subtitle")),
+            leading: const Padding(padding: EdgeInsets.all(8.0), child: Icon(CommunityMaterialIcons.github)),
+            title: Text(tr("tile.report.title")),
+            subtitle: Text(tr("tile.report.subtitle")),
             onTap: () {
-              openFacebookGroup(context);
+              AppHelper.openLinkDialog(RemoteConfigStringKeys.linkToGithub.get());
             },
+          ),
+          SpRemoteConfigEnabler(
+            remoteKey: RemoteConfigBooleanKeys.enableFacebookCommunityTile,
+            child: ListTile(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2).copyWith(top: ConfigConstant.margin0),
+              leading: const Padding(padding: EdgeInsets.all(8.0), child: Icon(Icons.facebook)),
+              title: Text(tr("tile.spooky_communtiy.title")),
+              subtitle: Text(tr("tile.spooky_communtiy.subtitle")),
+              onTap: () {
+                openFacebookGroup(context);
+              },
+            ),
           ),
           ListTile(
             contentPadding:
@@ -184,7 +197,7 @@ class _SettingMobile extends StatelessWidget {
             title: Text(tr("tile.telegram.title")),
             subtitle: Text(tr("tile.telegram.subtitle")),
             onTap: () {
-              AppHelper.openLinkDialog(AppConstant.telegramChannel);
+              AppHelper.openLinkDialog(RemoteConfigStringKeys.linkToTelegramChannel.get());
             },
           ),
         ],
@@ -193,9 +206,10 @@ class _SettingMobile extends StatelessWidget {
   }
 
   Future<void> openFacebookGroup(BuildContext context) async {
-    String fallbackUrl = AppConstant.facebookGroupWeb1;
-    String fbProtocolUrl =
-        Platform.isIOS ? AppConstant.facebookGroupDeeplinkIos : AppConstant.facebookGroupDeeplinkAndroid;
+    String fallbackUrl = RemoteConfigStringKeys.linkToFacebookGroupWeb1.get();
+    String fbProtocolUrl = Platform.isIOS
+        ? RemoteConfigStringKeys.linkToFacebookGroupDeeplinkIos.get()
+        : RemoteConfigStringKeys.linkToFacebookGroupDeeplinkAndroid.get();
 
     Uri? fbBundleUri = await uriBaseOnDevTool(context, Uri.parse(fbProtocolUrl));
     if (fbBundleUri == null) return;
@@ -219,21 +233,21 @@ class _SettingMobile extends StatelessWidget {
         title: "Open via",
         cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
         actions: [
-          const AlertDialogAction(
+          AlertDialogAction(
             label: "IOS (fb://group?id=id)",
-            key: AppConstant.facebookGroupDeeplinkIos,
+            key: RemoteConfigStringKeys.linkToFacebookGroupDeeplinkIos.get(),
           ),
-          const AlertDialogAction(
+          AlertDialogAction(
             label: "Android (fb://group/:id)",
-            key: AppConstant.facebookGroupDeeplinkAndroid,
+            key: RemoteConfigStringKeys.linkToFacebookGroupDeeplinkAndroid.get(),
           ),
-          const AlertDialogAction(
+          AlertDialogAction(
             label: "Web (https://www.fb.com)",
-            key: AppConstant.facebookGroupWeb1,
+            key: RemoteConfigStringKeys.linkToFacebookGroupWeb1.get(),
           ),
-          const AlertDialogAction(
+          AlertDialogAction(
             label: "Web (https://m.fb.com)",
-            key: AppConstant.facebookGroupWeb2,
+            key: RemoteConfigStringKeys.linkToFacebookGroupWeb2.get(),
           ),
         ],
       );

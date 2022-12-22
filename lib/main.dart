@@ -13,6 +13,7 @@ import 'package:spooky/app.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
 import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
+import 'package:spooky/core/external_apis/remote_configs/remote_config_service.dart';
 import 'package:spooky/core/notification/notification_service.dart';
 import 'package:spooky/core/services/google_font_cache_clearer.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';

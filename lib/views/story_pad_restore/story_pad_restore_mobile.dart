@@ -14,7 +14,7 @@ class _StoryPadRestoreMobile extends StatelessWidget {
           SpIconButton(
             icon: const Icon(CommunityMaterialIcons.chat_question),
             onPressed: () {
-              AppHelper.openLinkDialog(AppConstant.customerSupport);
+              AppHelper.openLinkDialog(RemoteConfigStringKeys.linkToCustomerSupport.get());
             },
           ),
         ],

@@ -315,6 +315,9 @@ page:
   bottom_nav_setting:
     subtitle: គ្រប់គ្រងការរុករកបាត
     title: ការរុករកបាត
+  budgets:
+    subtitle: ''
+    title: ''
   changes_history:
     subtitle: ការផ្លាស់ប្តូរប្រវត្តិ
     title: ការផ្លាស់ប្តូរប្រវត្តិ
@@ -326,8 +329,8 @@ page:
     subtitle: អ្នកអានមាតិកា
     title: អ្នកអានមាតិកា
   detail:
-    title: លម្អិត
     subtitle: លម្អិត
+    title: លម្អិត
   developer_mode:
     subtitle: របៀបអ្នកអភិវឌ្ឍន៍
     title: របៀបអ្នកអភិវឌ្ឍន៍
@@ -360,8 +363,8 @@ page:
     subtitle: រក​មិន​ឃើញ
     title: រក​មិន​ឃើញ
   search:
-    title: ស្វែងរក
     subtitle: ស្វែងរក
+    title: ស្វែងរក
   security:
     subtitle: សន្តិសុខ
     title: សន្តិសុខ
@@ -559,6 +562,9 @@ tile:
   provider:
     title: អ្នកផ្តល់សេវា
   rate_us: វាយតម្លៃពួកយើង
+  report:
+    subtitle: លើកបញ្ហាឬស្នើសុំមុខងារផ្សេងៗ
+    title: GitHub
   restore_default_font:
     title: ស្តាររចនាប័ទ្មលំនាំដើម
   security_question:

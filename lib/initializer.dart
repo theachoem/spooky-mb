@@ -37,6 +37,9 @@ class _Initializer {
 
     // analytic
     initialAnalytic();
+
+    // remote config
+    RemoteConfigService.instance.initialize();
   }
 
   static Future<void> initialFirebase() async {
