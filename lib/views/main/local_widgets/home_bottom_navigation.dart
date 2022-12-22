@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
-import 'package:spooky/providers/in_app_update_provider.dart';
+import 'package:spooky/providers/tab_notice_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/util_widgets/measure_size.dart';
@@ -72,35 +72,22 @@ class HomeBottomNavigation extends StatelessWidget {
               selectedIndex: viewModel.selectedIndex(provider),
               destinations: (provider.tabs ?? []).map((tab) {
                 MainTabBarItem e = tab.datas.tab!;
-
-                if (e.router == SpRouter.setting) {
-                  return Consumer<InAppUpdateProvider>(
-                    builder: (context, provider, _) {
-                      return SpTapEffect(
-                        onTap: () => viewModel.setActiveRouter(e.router),
-                        child: NavigationDestination(
-                          tooltip: e.router.datas.title,
-                          selectedIcon: Icon(e.activeIcon),
-                          label: e.label,
-                          icon: Icon(
-                            e.inactiveIcon,
-                            color: provider.isUpdateAvailable ? M3Color.of(context).error : null,
-                          ),
+                return Consumer<TabNoticeProvider>(
+                  builder: (context, provider, _) {
+                    return SpTapEffect(
+                      onTap: () => viewModel.setActiveRouter(e.router),
+                      child: NavigationDestination(
+                        tooltip: e.router.datas.title,
+                        selectedIcon: Icon(e.activeIcon),
+                        label: e.label,
+                        icon: Icon(
+                          e.inactiveIcon,
+                          color: provider.noticedTabs.values.contains(e.router) ? M3Color.of(context).error : null,
                         ),
-                      );
-                    },
-                  );
-                } else {
-                  return SpTapEffect(
-                    onTap: () => viewModel.setActiveRouter(e.router),
-                    child: NavigationDestination(
-                      tooltip: e.router.datas.title,
-                      selectedIcon: Icon(e.activeIcon),
-                      icon: Icon(e.inactiveIcon),
-                      label: e.label,
-                    ),
-                  );
-                }
+                      ),
+                    );
+                  },
+                );
               }).toList(),
             )
           : const SizedBox.shrink(),

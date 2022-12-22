@@ -28,13 +28,7 @@ class _SettingMobile extends StatelessWidget {
               SpSectionContents(
                 headline: tr("section.user"),
                 tiles: [
-                  ListTile(
-                    leading: const Icon(Icons.cloud),
-                    title: Text(SpRouter.cloudStorages.datas.title),
-                    onTap: () {
-                      Navigator.of(context).pushNamed(SpRouter.cloudStorages.path);
-                    },
-                  ),
+                  const CloudStorageTile(),
                   // ListTile(
                   //   leading: const Icon(Icons.person),
                   //   title: Text(SpRouter.user.title),
@@ -298,5 +292,39 @@ class _SettingMobile extends StatelessWidget {
       case OkCancelResult.cancel:
         break;
     }
+  }
+}
+
+class CloudStorageTile extends StatelessWidget {
+  const CloudStorageTile({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final destination = GDriveBackupDestination();
+
+    return destination.buildWithConsumer(
+      builder: (context, provider, child) {
+        return ListTile(
+          leading: const SizedBox(
+            height: 44,
+            child: Icon(Icons.cloud),
+          ),
+          title: Text(
+            SpRouter.cloudStorages.datas.title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: !provider.synced
+              ? Text(tr("button.backup_now"), style: TextStyle(color: M3Color.of(context).error))
+              : null,
+          trailing: !provider.synced ? Icon(Icons.warning_rounded, color: M3Color.of(context).error) : null,
+          onTap: () {
+            Navigator.of(context).pushNamed(SpRouter.cloudStorages.path);
+          },
+        );
+      },
+    );
   }
 }

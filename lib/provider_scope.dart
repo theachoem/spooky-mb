@@ -9,6 +9,7 @@ import 'package:spooky/providers/in_app_update_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/providers/notification_provider.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
+import 'package:spooky/providers/tab_notice_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
@@ -43,10 +44,10 @@ class ProviderScope extends StatelessWidget {
           create: (context) => ThemeProvider(),
         ),
         ListenableProvider<GoogleCloudProvider>(
-          create: (context) => GoogleCloudProvider(),
+          create: (context) => GoogleCloudProvider.instance,
         ),
         ListenableProvider<DropboxCloudProvider>(
-          create: (context) => DropboxCloudProvider(),
+          create: (context) => DropboxCloudProvider.instance,
         ),
         ListenableProvider<TileMaxLineProvider>(
           create: (context) => TileMaxLineProvider(),
@@ -61,13 +62,16 @@ class ProviderScope extends StatelessWidget {
           create: (context) => BottomNavItemsProvider(),
         ),
         ListenableProvider<InAppUpdateProvider>(
-          create: (context) => InAppUpdateProvider(),
+          create: (context) => InAppUpdateProvider.instance,
         ),
         ListenableProvider<NotificationProvider>(
           create: (context) => NotificationProvider(),
         ),
         ListenableProvider<HasTagsChangesProvider>(
           create: (context) => HasTagsChangesProvider(),
+        ),
+        ListenableProvider<TabNoticeProvider>(
+          create: (context) => TabNoticeProvider.instance,
         ),
       ],
       child: child,
