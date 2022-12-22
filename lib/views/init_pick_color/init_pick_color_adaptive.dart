@@ -8,7 +8,7 @@ class _InitPickColorAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      bottomNavigationBar: const SizedBox(height: kToolbarHeight),
+      bottomNavigationBar: SizedBox(height: MediaQuery.of(context).padding.bottom),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Visibility(
         visible: viewModel.showNextButton,
@@ -65,7 +65,7 @@ class _InitPickColorAdaptive extends StatelessWidget {
             alignment: Alignment.center,
             padding: ThemeProvider.hasDynamicColor
                 ? const EdgeInsets.only(top: kToolbarHeight)
-                : const EdgeInsets.only(bottom: 16),
+                : const EdgeInsets.only(bottom: kToolbarHeight),
             child: Wrap(
               children: [
                 buildPickerWrapper(width),

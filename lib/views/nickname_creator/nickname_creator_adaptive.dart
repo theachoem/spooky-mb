@@ -22,7 +22,7 @@ class _NicknameCreatorAdaptive extends StatelessWidget {
           SpPopButton(forceCloseButton: true),
         ],
       ),
-      bottomNavigationBar: const SizedBox(height: kToolbarHeight),
+      bottomNavigationBar: SizedBox(height: MediaQuery.of(context).padding.bottom),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: buildFab(),
       body: buildBody(),
