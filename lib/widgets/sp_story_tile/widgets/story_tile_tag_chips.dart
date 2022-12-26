@@ -36,24 +36,28 @@ class _StoryTileTagChipsState extends State<StoryTileTagChips> with AutomaticKee
   @override
   void initState() {
     super.initState();
-    TagDatabase.instance.fetchAllCache().then((value) {
-      setState(() {
-        items = value;
-        setDbTags();
-      });
-    });
+    loadDbTags();
   }
 
-  void setDbTags() {
-    dbTags = items?.items ?? [];
-    dbTags = dbTags.where((e) {
-      return widget.tags.contains(e.id.toString());
-    }).toList();
+  void loadDbTags() async {
+    BaseDbListModel<TagDbModel>? value = TagDatabase.instance.cache;
+    bool shouldSetState = value == null;
+    value ??= await TagDatabase.instance.fetchAllCache();
+
+    setItems() {
+      items = value;
+      dbTags = items?.items ?? [];
+      dbTags = dbTags.where((e) {
+        return widget.tags.contains(e.id.toString());
+      }).toList();
+    }
+
+    shouldSetState ? setState(setItems) : setItems();
   }
 
   @override
   void didUpdateWidget(covariant StoryTileTagChips oldWidget) {
-    setDbTags();
+    loadDbTags();
     super.didUpdateWidget(oldWidget);
   }
 
