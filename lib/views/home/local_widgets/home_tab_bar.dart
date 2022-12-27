@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
+import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/views/home/local_widgets/home_tab_indicator.dart';
+import 'package:spooky/widgets/sp_reorderable_tab_bar.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 
 class HomeTabBarWrapper extends StatelessWidget implements PreferredSizeWidget {
@@ -32,6 +34,7 @@ class HomeTabBar extends StatelessWidget {
     Key? key,
     required this.height,
     required this.tabs,
+    required this.viewModel,
     this.controller,
     this.onTap,
     this.padding = const EdgeInsets.symmetric(vertical: 8.0, horizontal: 0),
@@ -42,6 +45,7 @@ class HomeTabBar extends StatelessWidget {
   final TabController? controller;
   final EdgeInsets padding;
   final ValueChanged<int>? onTap;
+  final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +61,9 @@ class HomeTabBar extends StatelessWidget {
     TabController? tabController,
     BuildContext context,
   ) {
-    return TabBar(
+    return SpReorderableTabBar(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       controller: tabController,
-      isScrollable: true,
       onTap: onTap,
       splashBorderRadius: BorderRadius.circular(48),
       unselectedLabelColor: M3Color.of(context).primary,
@@ -71,6 +74,17 @@ class HomeTabBar extends StatelessWidget {
           color: M3Color.of(context).primary,
         ),
       ),
+      onReorder: (int oldIndex, int newIndex) {},
+      onLongPress: (context, index) {
+        if (tabController?.index == index) {
+          viewModel.showTabPopover(
+            context: context,
+            index: index,
+            contentDyOffset: 12,
+            controller: tabController,
+          );
+        }
+      },
       tabs: List.generate(
         tabs.length,
         (index) {

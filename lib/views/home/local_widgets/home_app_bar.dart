@@ -121,6 +121,7 @@ class HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicker
         height: 40,
         onTap: widget.onTap,
         controller: widget.tabController,
+        viewModel: widget.viewModel,
         tabs: List.generate(
           widget.tabs.length,
           (index) => widget.tabs[index].label,
