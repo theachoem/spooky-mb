@@ -36,7 +36,15 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
   String get fontFamily => theme?.fontFamily ?? ThemeConstant.defaultFontFamily;
   FontWeight get fontWeight => theme?.fontWeight ?? ThemeConstant.defaultFontWeight;
   ThemeMode get themeMode => theme?.themeMode ?? ThemeMode.system;
-  Color get colorSeed => theme?.colorSeed ?? ThemeConstant.fallbackColor;
+
+  Color get colorSeed {
+    Color color = theme?.colorSeed ?? ThemeConstant.fallbackColor;
+    if (color == Colors.black || color == Colors.white) {
+      return isDarkMode() ? Colors.white : Colors.black;
+    } else {
+      return color;
+    }
+  }
 
   ThemeData get lightTheme {
     if (themeMode == ThemeMode.system) {

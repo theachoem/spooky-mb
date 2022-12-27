@@ -20,8 +20,42 @@ class M3Color {
 
   // call on read & write from theme storage
   static Future<void> setSchemes(Color seedColor) async {
-    darkScheme = await M3Color.getScheme(true, seedColor);
-    lightScheme = await M3Color.getScheme(false, seedColor);
+    if (seedColor == Colors.black || seedColor == Colors.white) {
+      darkScheme = ColorScheme.dark(
+        primary: Colors.white,
+        onPrimary: Colors.black,
+        secondary: Colors.white,
+        onSecondary: Colors.black,
+        error: Colors.red[200]!,
+        onError: Colors.white,
+        background: Colors.black,
+        onBackground: Colors.white,
+        surface: Colors.black,
+        onSurface: Colors.white,
+        surfaceVariant: Colors.white,
+        secondaryContainer: Color.alphaBlend(Colors.white.withOpacity(0.14), Colors.black),
+        onSecondaryContainer: Colors.white,
+      );
+
+      lightScheme = ColorScheme.light(
+        primary: Colors.black87,
+        onPrimary: Colors.white,
+        secondary: Colors.black,
+        onSecondary: Colors.white,
+        error: Colors.red[600]!,
+        onError: Colors.black,
+        background: Colors.white,
+        onBackground: Colors.black,
+        surface: Colors.white,
+        onSurface: Colors.black,
+        surfaceVariant: Colors.white,
+        secondaryContainer: Color.alphaBlend(Colors.white.withOpacity(0.14), Colors.white),
+        onSecondaryContainer: Colors.black,
+      );
+    } else {
+      darkScheme = await M3Color.getScheme(true, seedColor);
+      lightScheme = await M3Color.getScheme(false, seedColor);
+    }
   }
 
   static Map<int, Color> dayColorsOf(BuildContext context) {
