@@ -5,6 +5,7 @@ import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/theme_constant.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/app_helper.dart';
+import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class ThemeConfig {
   final bool isDarkMode;
@@ -71,12 +72,7 @@ class ThemeConfig {
         unselectedLabelColor: colorScheme.onSurface.withOpacity(0.75),
         labelStyle: textTheme.labelLarge,
         unselectedLabelStyle: textTheme.labelLarge,
-        indicator: UnderlineTabIndicator(
-          borderSide: BorderSide(
-            color: colorScheme.primary,
-            width: 2,
-          ),
-        ),
+        indicator: MaterialIndicator(color: colorScheme.primary, height: 3, strokeWidth: 2),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: const Color(0xFF323232),

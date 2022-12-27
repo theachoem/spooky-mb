@@ -112,6 +112,7 @@ dependencies:
   popover: ^0.2.6+3
   navigation_history_observer: ^1.1.0
   firebase_remote_config: ^3.0.8
+  tab_indicator_styler: ^2.0.0
 
   # unused:
   # objectbox_sync_flutter_libs: for ObjectBox Sync
