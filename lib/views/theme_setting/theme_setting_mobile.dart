@@ -107,6 +107,7 @@ class _ThemeSettingMobile extends StatelessWidget {
       return SpColorPicker(
         blackWhite: SpColorPicker.getBlackWhite(context),
         currentColor: context.read<ThemeProvider>().colorSeed,
+        level: SpColorPickerLevel.one,
         onPickedColor: (color) async {
           callback();
           await Future.delayed(ConfigConstant.duration).then((value) async {

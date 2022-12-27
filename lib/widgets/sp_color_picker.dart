@@ -116,11 +116,7 @@ class SpColorPickerState extends State<SpColorPicker> {
   void onPickedColor(Color color) {
     switch (widget.level) {
       case SpColorPickerLevel.one:
-        if (color == widget.blackWhite) {
-          extendChildren(color);
-        } else {
-          widget.onPickedColor(color);
-        }
+        widget.onPickedColor(color);
         break;
       case SpColorPickerLevel.two:
         if (isColorChildPicking == false) {
