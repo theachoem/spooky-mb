@@ -15,11 +15,13 @@ class StoryQueryList extends StatefulWidget {
     required this.queryOptions,
     this.overridedLayout,
     this.hasDifferentYear = true,
+    this.shouldReload,
   }) : super(key: key);
 
   final StoryQueryOptionsModel? queryOptions;
   final SpListLayoutType? overridedLayout;
   final bool hasDifferentYear;
+  final Future<bool> Function()? shouldReload;
 
   @override
   State<StoryQueryList> createState() => _StoryListState();
@@ -78,6 +80,7 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     if (showLoading) setState(() => stories = null);
     final result = await _fetchStory();
     setState(() => stories = result);
+    if (kDebugMode) print("LOADED FROM: $source");
   }
 
   @override
@@ -104,7 +107,14 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     }
 
     return SpStoryList(
-      onRefresh: () => load("build"),
+      onRefresh: () async {
+        if (widget.shouldReload != null) {
+          bool should = await widget.shouldReload!.call();
+          if (should) load("onRefresh:shouldReload");
+        } else {
+          load("onRefresh");
+        }
+      },
       overridedLayout: widget.overridedLayout,
       stories: stories,
       hasDifferentYear: widget.hasDifferentYear,

@@ -1,3 +1,4 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
@@ -8,11 +9,13 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
+import 'package:spooky/core/services/popover_service.dart';
 import 'package:spooky/core/services/story_tags_service.dart';
 import 'package:spooky/main.dart';
 import 'package:spooky/providers/nickname_provider.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
+import 'package:spooky/views/home/local_widgets/home_app_bar.dart';
 import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 
 part 'utils/home_view_model_tab_barable.dart';
@@ -146,5 +149,60 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
         context.read<NicknameProvider>().setNickname(nickname![0]);
       }
     });
+  }
+
+  void updateLayout(int index, SpListLayoutType layoutType) {
+    _tabs[index] = _tabs[index].copyWith(overridedLayout: layoutType);
+    notifyListeners();
+  }
+
+  void showTabPopover({
+    required BuildContext? context,
+    required int index,
+    required TabController? controller,
+    double contentDyOffset = 6.0,
+    HomeAppBarState? parentState,
+    bool Function(int)? reorderable,
+  }) {
+    if (context == null) return;
+
+    HomeTabItem tab = tabs[index];
+    SpListLayoutType overridedLayout = tab.overridedLayout ?? layoutType;
+
+    PopoverService.instance.show(
+      context: context,
+      contentDyOffset: contentDyOffset,
+      items: [
+        if (controller?.index == index)
+          PopoverItem(
+            title: tr("tile.layout.title"),
+            iconData: overridedLayout.next.icon,
+            onPressed: () {
+              updateLayout(index, overridedLayout.next);
+            },
+          ),
+        if (layoutType == SpListLayoutType.library && parentState != null)
+          PopoverItem(
+            title: tr("button.reorder"),
+            iconData: CommunityMaterialIcons.order_alphabetical_ascending,
+            onPressed: () {
+              parentState.toggleTabEditing();
+            },
+          ),
+        if (layoutType == SpListLayoutType.library && tab.tag != null && reorderable != null && reorderable(index))
+          PopoverItem(
+            title: tr("button.update"),
+            iconData: CommunityMaterialIcons.table_edit,
+            onPressed: () => update(tab, context),
+          ),
+        if (layoutType == SpListLayoutType.library && tab.tag != null && reorderable != null && reorderable(index))
+          PopoverItem(
+            title: tr("button.delete"),
+            iconData: Icons.delete,
+            foregroundColor: Theme.of(context).colorScheme.error,
+            onPressed: () => removeTab(tab, context),
+          ),
+      ],
+    );
   }
 }

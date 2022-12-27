@@ -39,6 +39,7 @@ class _HomeMobile extends StatelessWidget {
   Widget buildSingleLayout() {
     return StoryQueryList(
       hasDifferentYear: false,
+      overridedLayout: SpListLayoutType.diary,
       queryOptions: StoryQueryOptionsModel(
         type: PathType.docs,
         year: viewModel.year,
@@ -67,6 +68,7 @@ class _HomeMobile extends StatelessWidget {
 
               return StoryQueryList(
                 hasDifferentYear: false,
+                overridedLayout: viewModel.tabs[index].overridedLayout,
                 queryOptions: StoryQueryOptionsModel(
                   type: PathType.docs,
                   year: viewModel.year,
@@ -77,6 +79,16 @@ class _HomeMobile extends StatelessWidget {
             case SpListLayoutType.diary:
               return StoryQueryList(
                 hasDifferentYear: false,
+                overridedLayout: viewModel.tabs[index].overridedLayout,
+                shouldReload: () async {
+                  if (viewModel.tabs[index].overridedLayout != viewModel.layoutType) {
+                    // let [notifyListeners] do the reload
+                    viewModel.updateLayout(index, viewModel.layoutType);
+                    return false;
+                  } else {
+                    return true;
+                  }
+                },
                 queryOptions: StoryQueryOptionsModel(
                   type: PathType.docs,
                   year: viewModel.year,

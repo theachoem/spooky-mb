@@ -10,3 +10,27 @@ enum SpListLayoutType {
   /// single list display, no tab
   timeline,
 }
+
+extension SpListLayoutTypeExtension on SpListLayoutType {
+  IconData get icon {
+    switch (this) {
+      case SpListLayoutType.library:
+        return Icons.grid_view_rounded;
+      case SpListLayoutType.diary:
+        return Icons.view_day;
+      case SpListLayoutType.timeline:
+        return Icons.view_list_sharp;
+    }
+  }
+
+  SpListLayoutType get next {
+    switch (this) {
+      case SpListLayoutType.library:
+        return SpListLayoutType.diary;
+      case SpListLayoutType.diary:
+        return SpListLayoutType.library;
+      case SpListLayoutType.timeline:
+        return SpListLayoutType.diary;
+    }
+  }
+}
