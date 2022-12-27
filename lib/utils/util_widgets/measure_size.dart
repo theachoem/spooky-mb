@@ -6,8 +6,12 @@ typedef OnWidgetSizeChange = void Function(Size size);
 class MeasureSizeRenderObject extends RenderProxyBox {
   Size? oldSize;
   final OnWidgetSizeChange onChange;
+  final void Function(Size)? onPerformLayout;
 
-  MeasureSizeRenderObject(this.onChange);
+  MeasureSizeRenderObject(
+    this.onChange,
+    this.onPerformLayout,
+  );
 
   @override
   void performLayout() {
@@ -17,6 +21,7 @@ class MeasureSizeRenderObject extends RenderProxyBox {
     if (oldSize == newSize) return;
 
     oldSize = newSize;
+    if (onPerformLayout != null) onPerformLayout?.call(newSize);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       onChange(newSize);
     });
@@ -25,15 +30,17 @@ class MeasureSizeRenderObject extends RenderProxyBox {
 
 class MeasureSize extends SingleChildRenderObjectWidget {
   final OnWidgetSizeChange onChange;
+  final void Function(Size)? onPerformLayout;
 
   const MeasureSize({
     Key? key,
     required this.onChange,
+    this.onPerformLayout,
     required Widget child,
   }) : super(key: key, child: child);
 
   @override
   RenderObject createRenderObject(BuildContext context) {
-    return MeasureSizeRenderObject(onChange);
+    return MeasureSizeRenderObject(onChange, onPerformLayout);
   }
 }
