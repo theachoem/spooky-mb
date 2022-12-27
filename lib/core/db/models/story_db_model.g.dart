@@ -7,39 +7,39 @@ part of 'story_db_model.dart';
 // **************************************************************************
 
 abstract class _$StoryDbModelCWProxy {
-  StoryDbModel changes(List<StoryContentDbModel> changes);
+  StoryDbModel version(int version);
 
-  StoryDbModel createdAt(DateTime createdAt);
-
-  StoryDbModel day(int day);
-
-  StoryDbModel feeling(String? feeling);
-
-  StoryDbModel hour(int? hour);
+  StoryDbModel type(PathType type);
 
   StoryDbModel id(int id);
 
-  StoryDbModel minute(int? minute);
+  StoryDbModel starred(bool? starred);
+
+  StoryDbModel feeling(String? feeling);
+
+  StoryDbModel year(int year);
 
   StoryDbModel month(int month);
+
+  StoryDbModel day(int day);
+
+  StoryDbModel hour(int? hour);
+
+  StoryDbModel minute(int? minute);
+
+  StoryDbModel second(int? second);
+
+  StoryDbModel changes(List<StoryContentDbModel> changes);
+
+  StoryDbModel updatedAt(DateTime updatedAt);
+
+  StoryDbModel createdAt(DateTime createdAt);
+
+  StoryDbModel tags(List<String>? tags);
 
   StoryDbModel movedToBinAt(DateTime? movedToBinAt);
 
   StoryDbModel rawChanges(List<String>? rawChanges);
-
-  StoryDbModel second(int? second);
-
-  StoryDbModel starred(bool? starred);
-
-  StoryDbModel tags(List<String>? tags);
-
-  StoryDbModel type(PathType type);
-
-  StoryDbModel updatedAt(DateTime updatedAt);
-
-  StoryDbModel version(int version);
-
-  StoryDbModel year(int year);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `StoryDbModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -48,56 +48,77 @@ abstract class _$StoryDbModelCWProxy {
   /// StoryDbModel(...).copyWith(id: 12, name: "My name")
   /// ````
   StoryDbModel call({
-    List<StoryContentDbModel>? changes,
-    DateTime? createdAt,
-    int? day,
-    String? feeling,
-    int? hour,
+    int? version,
+    PathType? type,
     int? id,
-    int? minute,
+    bool? starred,
+    String? feeling,
+    int? year,
     int? month,
+    int? day,
+    int? hour,
+    int? minute,
+    int? second,
+    List<StoryContentDbModel>? changes,
+    DateTime? updatedAt,
+    DateTime? createdAt,
+    List<String>? tags,
     DateTime? movedToBinAt,
     List<String>? rawChanges,
-    int? second,
-    bool? starred,
-    List<String>? tags,
-    PathType? type,
-    DateTime? updatedAt,
-    int? version,
-    int? year,
   });
 }
 
 /// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfStoryDbModel.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfStoryDbModel.copyWith.fieldName(...)`
 class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
+  const _$StoryDbModelCWProxyImpl(this._value);
+
   final StoryDbModel _value;
 
-  const _$StoryDbModelCWProxyImpl(this._value);
+  @override
+  StoryDbModel version(int version) => this(version: version);
+
+  @override
+  StoryDbModel type(PathType type) => this(type: type);
+
+  @override
+  StoryDbModel id(int id) => this(id: id);
+
+  @override
+  StoryDbModel starred(bool? starred) => this(starred: starred);
+
+  @override
+  StoryDbModel feeling(String? feeling) => this(feeling: feeling);
+
+  @override
+  StoryDbModel year(int year) => this(year: year);
+
+  @override
+  StoryDbModel month(int month) => this(month: month);
+
+  @override
+  StoryDbModel day(int day) => this(day: day);
+
+  @override
+  StoryDbModel hour(int? hour) => this(hour: hour);
+
+  @override
+  StoryDbModel minute(int? minute) => this(minute: minute);
+
+  @override
+  StoryDbModel second(int? second) => this(second: second);
 
   @override
   StoryDbModel changes(List<StoryContentDbModel> changes) =>
       this(changes: changes);
 
   @override
+  StoryDbModel updatedAt(DateTime updatedAt) => this(updatedAt: updatedAt);
+
+  @override
   StoryDbModel createdAt(DateTime createdAt) => this(createdAt: createdAt);
 
   @override
-  StoryDbModel day(int day) => this(day: day);
-
-  @override
-  StoryDbModel feeling(String? feeling) => this(feeling: feeling);
-
-  @override
-  StoryDbModel hour(int? hour) => this(hour: hour);
-
-  @override
-  StoryDbModel id(int id) => this(id: id);
-
-  @override
-  StoryDbModel minute(int? minute) => this(minute: minute);
-
-  @override
-  StoryDbModel month(int month) => this(month: month);
+  StoryDbModel tags(List<String>? tags) => this(tags: tags);
 
   @override
   StoryDbModel movedToBinAt(DateTime? movedToBinAt) =>
@@ -108,27 +129,6 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
       this(rawChanges: rawChanges);
 
   @override
-  StoryDbModel second(int? second) => this(second: second);
-
-  @override
-  StoryDbModel starred(bool? starred) => this(starred: starred);
-
-  @override
-  StoryDbModel tags(List<String>? tags) => this(tags: tags);
-
-  @override
-  StoryDbModel type(PathType type) => this(type: type);
-
-  @override
-  StoryDbModel updatedAt(DateTime updatedAt) => this(updatedAt: updatedAt);
-
-  @override
-  StoryDbModel version(int version) => this(version: version);
-
-  @override
-  StoryDbModel year(int year) => this(year: year);
-
-  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `StoryDbModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -137,57 +137,94 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
   /// StoryDbModel(...).copyWith(id: 12, name: "My name")
   /// ````
   StoryDbModel call({
-    Object? changes = const $CopyWithPlaceholder(),
-    Object? createdAt = const $CopyWithPlaceholder(),
-    Object? day = const $CopyWithPlaceholder(),
-    Object? feeling = const $CopyWithPlaceholder(),
-    Object? hour = const $CopyWithPlaceholder(),
+    Object? version = const $CopyWithPlaceholder(),
+    Object? type = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
-    Object? minute = const $CopyWithPlaceholder(),
+    Object? starred = const $CopyWithPlaceholder(),
+    Object? feeling = const $CopyWithPlaceholder(),
+    Object? year = const $CopyWithPlaceholder(),
     Object? month = const $CopyWithPlaceholder(),
+    Object? day = const $CopyWithPlaceholder(),
+    Object? hour = const $CopyWithPlaceholder(),
+    Object? minute = const $CopyWithPlaceholder(),
+    Object? second = const $CopyWithPlaceholder(),
+    Object? changes = const $CopyWithPlaceholder(),
+    Object? updatedAt = const $CopyWithPlaceholder(),
+    Object? createdAt = const $CopyWithPlaceholder(),
+    Object? tags = const $CopyWithPlaceholder(),
     Object? movedToBinAt = const $CopyWithPlaceholder(),
     Object? rawChanges = const $CopyWithPlaceholder(),
-    Object? second = const $CopyWithPlaceholder(),
-    Object? starred = const $CopyWithPlaceholder(),
-    Object? tags = const $CopyWithPlaceholder(),
-    Object? type = const $CopyWithPlaceholder(),
-    Object? updatedAt = const $CopyWithPlaceholder(),
-    Object? version = const $CopyWithPlaceholder(),
-    Object? year = const $CopyWithPlaceholder(),
   }) {
     return StoryDbModel(
-      changes: changes == const $CopyWithPlaceholder() || changes == null
-          ? _value.changes
+      version: version == const $CopyWithPlaceholder() || version == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.version!
           // ignore: cast_nullable_to_non_nullable
-          : changes as List<StoryContentDbModel>,
-      createdAt: createdAt == const $CopyWithPlaceholder() || createdAt == null
-          ? _value.createdAt
+          : version as int,
+      type: type == const $CopyWithPlaceholder() || type == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.type!
           // ignore: cast_nullable_to_non_nullable
-          : createdAt as DateTime,
-      day: day == const $CopyWithPlaceholder() || day == null
-          ? _value.day
+          : type as PathType,
+      id: id == const $CopyWithPlaceholder() || id == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.id!
           // ignore: cast_nullable_to_non_nullable
-          : day as int,
+          : id as int,
+      starred: starred == const $CopyWithPlaceholder()
+          ? _value.starred
+          // ignore: cast_nullable_to_non_nullable
+          : starred as bool?,
       feeling: feeling == const $CopyWithPlaceholder()
           ? _value.feeling
           // ignore: cast_nullable_to_non_nullable
           : feeling as String?,
+      year: year == const $CopyWithPlaceholder() || year == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.year!
+          // ignore: cast_nullable_to_non_nullable
+          : year as int,
+      month: month == const $CopyWithPlaceholder() || month == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.month!
+          // ignore: cast_nullable_to_non_nullable
+          : month as int,
+      day: day == const $CopyWithPlaceholder() || day == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.day!
+          // ignore: cast_nullable_to_non_nullable
+          : day as int,
       hour: hour == const $CopyWithPlaceholder()
           ? _value.hour
           // ignore: cast_nullable_to_non_nullable
           : hour as int?,
-      id: id == const $CopyWithPlaceholder() || id == null
-          ? _value.id
-          // ignore: cast_nullable_to_non_nullable
-          : id as int,
       minute: minute == const $CopyWithPlaceholder()
           ? _value.minute
           // ignore: cast_nullable_to_non_nullable
           : minute as int?,
-      month: month == const $CopyWithPlaceholder() || month == null
-          ? _value.month
+      second: second == const $CopyWithPlaceholder()
+          ? _value.second
           // ignore: cast_nullable_to_non_nullable
-          : month as int,
+          : second as int?,
+      changes: changes == const $CopyWithPlaceholder() || changes == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.changes!
+          // ignore: cast_nullable_to_non_nullable
+          : changes as List<StoryContentDbModel>,
+      updatedAt: updatedAt == const $CopyWithPlaceholder() || updatedAt == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.updatedAt!
+          // ignore: cast_nullable_to_non_nullable
+          : updatedAt as DateTime,
+      createdAt: createdAt == const $CopyWithPlaceholder() || createdAt == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.createdAt!
+          // ignore: cast_nullable_to_non_nullable
+          : createdAt as DateTime,
+      tags: tags == const $CopyWithPlaceholder()
+          ? _value.tags
+          // ignore: cast_nullable_to_non_nullable
+          : tags as List<String>?,
       movedToBinAt: movedToBinAt == const $CopyWithPlaceholder()
           ? _value.movedToBinAt
           // ignore: cast_nullable_to_non_nullable
@@ -196,40 +233,13 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.rawChanges
           // ignore: cast_nullable_to_non_nullable
           : rawChanges as List<String>?,
-      second: second == const $CopyWithPlaceholder()
-          ? _value.second
-          // ignore: cast_nullable_to_non_nullable
-          : second as int?,
-      starred: starred == const $CopyWithPlaceholder()
-          ? _value.starred
-          // ignore: cast_nullable_to_non_nullable
-          : starred as bool?,
-      tags: tags == const $CopyWithPlaceholder()
-          ? _value.tags
-          // ignore: cast_nullable_to_non_nullable
-          : tags as List<String>?,
-      type: type == const $CopyWithPlaceholder() || type == null
-          ? _value.type
-          // ignore: cast_nullable_to_non_nullable
-          : type as PathType,
-      updatedAt: updatedAt == const $CopyWithPlaceholder() || updatedAt == null
-          ? _value.updatedAt
-          // ignore: cast_nullable_to_non_nullable
-          : updatedAt as DateTime,
-      version: version == const $CopyWithPlaceholder() || version == null
-          ? _value.version
-          // ignore: cast_nullable_to_non_nullable
-          : version as int,
-      year: year == const $CopyWithPlaceholder() || year == null
-          ? _value.year
-          // ignore: cast_nullable_to_non_nullable
-          : year as int,
     );
   }
 }
 
 extension $StoryDbModelCopyWith on StoryDbModel {
   /// Returns a callable class that can be used as follows: `instanceOfStoryDbModel.copyWith(...)` or like so:`instanceOfStoryDbModel.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
   _$StoryDbModelCWProxy get copyWith => _$StoryDbModelCWProxyImpl(this);
 }
 
@@ -273,11 +283,11 @@ Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
       'second': instance.second,
       'starred': instance.starred,
       'feeling': instance.feeling,
-      'tags': instance.tags,
       'changes': instance.changes.map((e) => e.toJson()).toList(),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'moved_to_bin_at': instance.movedToBinAt?.toIso8601String(),
+      'tags': instance.tags,
     };
 
 const _$PathTypeEnumMap = {

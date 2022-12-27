@@ -22,9 +22,9 @@ abstract class _$UserCfModelCWProxy {
 
 /// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfUserCfModel.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfUserCfModel.copyWith.fieldName(...)`
 class _$UserCfModelCWProxyImpl implements _$UserCfModelCWProxy {
-  final UserCfModel _value;
-
   const _$UserCfModelCWProxyImpl(this._value);
+
+  final UserCfModel _value;
 
   @override
   UserCfModel uid(String? uid) => this(uid: uid);
@@ -51,6 +51,7 @@ class _$UserCfModelCWProxyImpl implements _$UserCfModelCWProxy {
 
 extension $UserCfModelCopyWith on UserCfModel {
   /// Returns a callable class that can be used as follows: `instanceOfUserCfModel.copyWith(...)` or like so:`instanceOfUserCfModel.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
   _$UserCfModelCWProxy get copyWith => _$UserCfModelCWProxyImpl(this);
 }
 

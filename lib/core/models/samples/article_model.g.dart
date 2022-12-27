@@ -7,19 +7,19 @@ part of 'article_model.dart';
 // **************************************************************************
 
 abstract class _$ArticleModelCWProxy {
-  ArticleModel author(AuthorModel? author);
-
-  ArticleModel body(String? body);
-
-  ArticleModel created(DateTime? created);
+  ArticleModel type(String? type);
 
   ArticleModel id(String? id);
 
   ArticleModel title(String? title);
 
-  ArticleModel type(String? type);
+  ArticleModel body(String? body);
+
+  ArticleModel created(DateTime? created);
 
   ArticleModel updated(DateTime? updated);
+
+  ArticleModel author(AuthorModel? author);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `ArticleModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -28,30 +28,24 @@ abstract class _$ArticleModelCWProxy {
   /// ArticleModel(...).copyWith(id: 12, name: "My name")
   /// ````
   ArticleModel call({
-    AuthorModel? author,
-    String? body,
-    DateTime? created,
+    String? type,
     String? id,
     String? title,
-    String? type,
+    String? body,
+    DateTime? created,
     DateTime? updated,
+    AuthorModel? author,
   });
 }
 
 /// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfArticleModel.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfArticleModel.copyWith.fieldName(...)`
 class _$ArticleModelCWProxyImpl implements _$ArticleModelCWProxy {
-  final ArticleModel _value;
-
   const _$ArticleModelCWProxyImpl(this._value);
 
-  @override
-  ArticleModel author(AuthorModel? author) => this(author: author);
+  final ArticleModel _value;
 
   @override
-  ArticleModel body(String? body) => this(body: body);
-
-  @override
-  ArticleModel created(DateTime? created) => this(created: created);
+  ArticleModel type(String? type) => this(type: type);
 
   @override
   ArticleModel id(String? id) => this(id: id);
@@ -60,10 +54,16 @@ class _$ArticleModelCWProxyImpl implements _$ArticleModelCWProxy {
   ArticleModel title(String? title) => this(title: title);
 
   @override
-  ArticleModel type(String? type) => this(type: type);
+  ArticleModel body(String? body) => this(body: body);
+
+  @override
+  ArticleModel created(DateTime? created) => this(created: created);
 
   @override
   ArticleModel updated(DateTime? updated) => this(updated: updated);
+
+  @override
+  ArticleModel author(AuthorModel? author) => this(author: author);
 
   @override
 
@@ -74,27 +74,19 @@ class _$ArticleModelCWProxyImpl implements _$ArticleModelCWProxy {
   /// ArticleModel(...).copyWith(id: 12, name: "My name")
   /// ````
   ArticleModel call({
-    Object? author = const $CopyWithPlaceholder(),
-    Object? body = const $CopyWithPlaceholder(),
-    Object? created = const $CopyWithPlaceholder(),
+    Object? type = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
-    Object? type = const $CopyWithPlaceholder(),
+    Object? body = const $CopyWithPlaceholder(),
+    Object? created = const $CopyWithPlaceholder(),
     Object? updated = const $CopyWithPlaceholder(),
+    Object? author = const $CopyWithPlaceholder(),
   }) {
     return ArticleModel(
-      author: author == const $CopyWithPlaceholder()
-          ? _value.author
+      type: type == const $CopyWithPlaceholder()
+          ? _value.type
           // ignore: cast_nullable_to_non_nullable
-          : author as AuthorModel?,
-      body: body == const $CopyWithPlaceholder()
-          ? _value.body
-          // ignore: cast_nullable_to_non_nullable
-          : body as String?,
-      created: created == const $CopyWithPlaceholder()
-          ? _value.created
-          // ignore: cast_nullable_to_non_nullable
-          : created as DateTime?,
+          : type as String?,
       id: id == const $CopyWithPlaceholder()
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
@@ -103,20 +95,29 @@ class _$ArticleModelCWProxyImpl implements _$ArticleModelCWProxy {
           ? _value.title
           // ignore: cast_nullable_to_non_nullable
           : title as String?,
-      type: type == const $CopyWithPlaceholder()
-          ? _value.type
+      body: body == const $CopyWithPlaceholder()
+          ? _value.body
           // ignore: cast_nullable_to_non_nullable
-          : type as String?,
+          : body as String?,
+      created: created == const $CopyWithPlaceholder()
+          ? _value.created
+          // ignore: cast_nullable_to_non_nullable
+          : created as DateTime?,
       updated: updated == const $CopyWithPlaceholder()
           ? _value.updated
           // ignore: cast_nullable_to_non_nullable
           : updated as DateTime?,
+      author: author == const $CopyWithPlaceholder()
+          ? _value.author
+          // ignore: cast_nullable_to_non_nullable
+          : author as AuthorModel?,
     );
   }
 }
 
 extension $ArticleModelCopyWith on ArticleModel {
   /// Returns a callable class that can be used as follows: `instanceOfArticleModel.copyWith(...)` or like so:`instanceOfArticleModel.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
   _$ArticleModelCWProxy get copyWith => _$ArticleModelCWProxyImpl(this);
 }
 

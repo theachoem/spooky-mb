@@ -7,15 +7,15 @@ part of 'author_model.dart';
 // **************************************************************************
 
 abstract class _$AuthorModelCWProxy {
-  AuthorModel age(int? age);
-
-  AuthorModel gender(String? gender);
+  AuthorModel type(String? type);
 
   AuthorModel id(String? id);
 
   AuthorModel name(String? name);
 
-  AuthorModel type(String? type);
+  AuthorModel age(int? age);
+
+  AuthorModel gender(String? gender);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `AuthorModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -24,25 +24,22 @@ abstract class _$AuthorModelCWProxy {
   /// AuthorModel(...).copyWith(id: 12, name: "My name")
   /// ````
   AuthorModel call({
-    int? age,
-    String? gender,
+    String? type,
     String? id,
     String? name,
-    String? type,
+    int? age,
+    String? gender,
   });
 }
 
 /// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfAuthorModel.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfAuthorModel.copyWith.fieldName(...)`
 class _$AuthorModelCWProxyImpl implements _$AuthorModelCWProxy {
-  final AuthorModel _value;
-
   const _$AuthorModelCWProxyImpl(this._value);
 
-  @override
-  AuthorModel age(int? age) => this(age: age);
+  final AuthorModel _value;
 
   @override
-  AuthorModel gender(String? gender) => this(gender: gender);
+  AuthorModel type(String? type) => this(type: type);
 
   @override
   AuthorModel id(String? id) => this(id: id);
@@ -51,7 +48,10 @@ class _$AuthorModelCWProxyImpl implements _$AuthorModelCWProxy {
   AuthorModel name(String? name) => this(name: name);
 
   @override
-  AuthorModel type(String? type) => this(type: type);
+  AuthorModel age(int? age) => this(age: age);
+
+  @override
+  AuthorModel gender(String? gender) => this(gender: gender);
 
   @override
 
@@ -62,21 +62,17 @@ class _$AuthorModelCWProxyImpl implements _$AuthorModelCWProxy {
   /// AuthorModel(...).copyWith(id: 12, name: "My name")
   /// ````
   AuthorModel call({
-    Object? age = const $CopyWithPlaceholder(),
-    Object? gender = const $CopyWithPlaceholder(),
+    Object? type = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
     Object? name = const $CopyWithPlaceholder(),
-    Object? type = const $CopyWithPlaceholder(),
+    Object? age = const $CopyWithPlaceholder(),
+    Object? gender = const $CopyWithPlaceholder(),
   }) {
     return AuthorModel(
-      age: age == const $CopyWithPlaceholder()
-          ? _value.age
+      type: type == const $CopyWithPlaceholder()
+          ? _value.type
           // ignore: cast_nullable_to_non_nullable
-          : age as int?,
-      gender: gender == const $CopyWithPlaceholder()
-          ? _value.gender
-          // ignore: cast_nullable_to_non_nullable
-          : gender as String?,
+          : type as String?,
       id: id == const $CopyWithPlaceholder()
           ? _value.id
           // ignore: cast_nullable_to_non_nullable
@@ -85,16 +81,21 @@ class _$AuthorModelCWProxyImpl implements _$AuthorModelCWProxy {
           ? _value.name
           // ignore: cast_nullable_to_non_nullable
           : name as String?,
-      type: type == const $CopyWithPlaceholder()
-          ? _value.type
+      age: age == const $CopyWithPlaceholder()
+          ? _value.age
           // ignore: cast_nullable_to_non_nullable
-          : type as String?,
+          : age as int?,
+      gender: gender == const $CopyWithPlaceholder()
+          ? _value.gender
+          // ignore: cast_nullable_to_non_nullable
+          : gender as String?,
     );
   }
 }
 
 extension $AuthorModelCopyWith on AuthorModel {
   /// Returns a callable class that can be used as follows: `instanceOfAuthorModel.copyWith(...)` or like so:`instanceOfAuthorModel.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
   _$AuthorModelCWProxy get copyWith => _$AuthorModelCWProxyImpl(this);
 }
 

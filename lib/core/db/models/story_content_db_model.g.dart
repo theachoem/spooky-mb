@@ -7,19 +7,19 @@ part of 'story_content_db_model.dart';
 // **************************************************************************
 
 abstract class _$StoryContentDbModelCWProxy {
-  StoryContentDbModel createdAt(DateTime createdAt);
-
-  StoryContentDbModel draft(bool? draft);
-
   StoryContentDbModel id(int id);
 
-  StoryContentDbModel metadata(String? metadata);
-
-  StoryContentDbModel pages(List<List<dynamic>>? pages);
+  StoryContentDbModel title(String? title);
 
   StoryContentDbModel plainText(String? plainText);
 
-  StoryContentDbModel title(String? title);
+  StoryContentDbModel createdAt(DateTime createdAt);
+
+  StoryContentDbModel pages(List<List<dynamic>>? pages);
+
+  StoryContentDbModel metadata(String? metadata);
+
+  StoryContentDbModel draft(bool? draft);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `StoryContentDbModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -28,44 +28,44 @@ abstract class _$StoryContentDbModelCWProxy {
   /// StoryContentDbModel(...).copyWith(id: 12, name: "My name")
   /// ````
   StoryContentDbModel call({
-    DateTime? createdAt,
-    bool? draft,
     int? id,
-    String? metadata,
-    List<List<dynamic>>? pages,
-    String? plainText,
     String? title,
+    String? plainText,
+    DateTime? createdAt,
+    List<List<dynamic>>? pages,
+    String? metadata,
+    bool? draft,
   });
 }
 
 /// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfStoryContentDbModel.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfStoryContentDbModel.copyWith.fieldName(...)`
 class _$StoryContentDbModelCWProxyImpl implements _$StoryContentDbModelCWProxy {
-  final StoryContentDbModel _value;
-
   const _$StoryContentDbModelCWProxyImpl(this._value);
 
-  @override
-  StoryContentDbModel createdAt(DateTime createdAt) =>
-      this(createdAt: createdAt);
-
-  @override
-  StoryContentDbModel draft(bool? draft) => this(draft: draft);
+  final StoryContentDbModel _value;
 
   @override
   StoryContentDbModel id(int id) => this(id: id);
 
   @override
-  StoryContentDbModel metadata(String? metadata) => this(metadata: metadata);
-
-  @override
-  StoryContentDbModel pages(List<List<dynamic>>? pages) => this(pages: pages);
+  StoryContentDbModel title(String? title) => this(title: title);
 
   @override
   StoryContentDbModel plainText(String? plainText) =>
       this(plainText: plainText);
 
   @override
-  StoryContentDbModel title(String? title) => this(title: title);
+  StoryContentDbModel createdAt(DateTime createdAt) =>
+      this(createdAt: createdAt);
+
+  @override
+  StoryContentDbModel pages(List<List<dynamic>>? pages) => this(pages: pages);
+
+  @override
+  StoryContentDbModel metadata(String? metadata) => this(metadata: metadata);
+
+  @override
+  StoryContentDbModel draft(bool? draft) => this(draft: draft);
 
   @override
 
@@ -76,49 +76,52 @@ class _$StoryContentDbModelCWProxyImpl implements _$StoryContentDbModelCWProxy {
   /// StoryContentDbModel(...).copyWith(id: 12, name: "My name")
   /// ````
   StoryContentDbModel call({
-    Object? createdAt = const $CopyWithPlaceholder(),
-    Object? draft = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
-    Object? metadata = const $CopyWithPlaceholder(),
-    Object? pages = const $CopyWithPlaceholder(),
-    Object? plainText = const $CopyWithPlaceholder(),
     Object? title = const $CopyWithPlaceholder(),
+    Object? plainText = const $CopyWithPlaceholder(),
+    Object? createdAt = const $CopyWithPlaceholder(),
+    Object? pages = const $CopyWithPlaceholder(),
+    Object? metadata = const $CopyWithPlaceholder(),
+    Object? draft = const $CopyWithPlaceholder(),
   }) {
     return StoryContentDbModel(
-      createdAt: createdAt == const $CopyWithPlaceholder() || createdAt == null
-          ? _value.createdAt
-          // ignore: cast_nullable_to_non_nullable
-          : createdAt as DateTime,
-      draft: draft == const $CopyWithPlaceholder()
-          ? _value.draft
-          // ignore: cast_nullable_to_non_nullable
-          : draft as bool?,
       id: id == const $CopyWithPlaceholder() || id == null
-          ? _value.id
+          // ignore: unnecessary_non_null_assertion
+          ? _value.id!
           // ignore: cast_nullable_to_non_nullable
           : id as int,
-      metadata: metadata == const $CopyWithPlaceholder()
-          ? _value.metadata
-          // ignore: cast_nullable_to_non_nullable
-          : metadata as String?,
-      pages: pages == const $CopyWithPlaceholder()
-          ? _value.pages
-          // ignore: cast_nullable_to_non_nullable
-          : pages as List<List<dynamic>>?,
-      plainText: plainText == const $CopyWithPlaceholder()
-          ? _value.plainText
-          // ignore: cast_nullable_to_non_nullable
-          : plainText as String?,
       title: title == const $CopyWithPlaceholder()
           ? _value.title
           // ignore: cast_nullable_to_non_nullable
           : title as String?,
+      plainText: plainText == const $CopyWithPlaceholder()
+          ? _value.plainText
+          // ignore: cast_nullable_to_non_nullable
+          : plainText as String?,
+      createdAt: createdAt == const $CopyWithPlaceholder() || createdAt == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.createdAt!
+          // ignore: cast_nullable_to_non_nullable
+          : createdAt as DateTime,
+      pages: pages == const $CopyWithPlaceholder()
+          ? _value.pages
+          // ignore: cast_nullable_to_non_nullable
+          : pages as List<List<dynamic>>?,
+      metadata: metadata == const $CopyWithPlaceholder()
+          ? _value.metadata
+          // ignore: cast_nullable_to_non_nullable
+          : metadata as String?,
+      draft: draft == const $CopyWithPlaceholder()
+          ? _value.draft
+          // ignore: cast_nullable_to_non_nullable
+          : draft as bool?,
     );
   }
 }
 
 extension $StoryContentDbModelCopyWith on StoryContentDbModel {
   /// Returns a callable class that can be used as follows: `instanceOfStoryContentDbModel.copyWith(...)` or like so:`instanceOfStoryContentDbModel.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
   _$StoryContentDbModelCWProxy get copyWith =>
       _$StoryContentDbModelCWProxyImpl(this);
 }

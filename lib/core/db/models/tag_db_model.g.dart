@@ -7,21 +7,21 @@ part of 'tag_db_model.dart';
 // **************************************************************************
 
 abstract class _$TagDbModelCWProxy {
-  TagDbModel createdAt(DateTime createdAt);
-
-  TagDbModel emoji(String? emoji);
-
   TagDbModel id(int id);
 
-  TagDbModel index(int? index);
-
-  TagDbModel starred(bool? starred);
+  TagDbModel version(int version);
 
   TagDbModel title(String title);
 
+  TagDbModel starred(bool? starred);
+
+  TagDbModel emoji(String? emoji);
+
+  TagDbModel createdAt(DateTime createdAt);
+
   TagDbModel updatedAt(DateTime updatedAt);
 
-  TagDbModel version(int version);
+  TagDbModel index(int? index);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `TagDbModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -30,46 +30,46 @@ abstract class _$TagDbModelCWProxy {
   /// TagDbModel(...).copyWith(id: 12, name: "My name")
   /// ````
   TagDbModel call({
-    DateTime? createdAt,
-    String? emoji,
     int? id,
-    int? index,
-    bool? starred,
-    String? title,
-    DateTime? updatedAt,
     int? version,
+    String? title,
+    bool? starred,
+    String? emoji,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    int? index,
   });
 }
 
 /// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfTagDbModel.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfTagDbModel.copyWith.fieldName(...)`
 class _$TagDbModelCWProxyImpl implements _$TagDbModelCWProxy {
-  final TagDbModel _value;
-
   const _$TagDbModelCWProxyImpl(this._value);
 
-  @override
-  TagDbModel createdAt(DateTime createdAt) => this(createdAt: createdAt);
-
-  @override
-  TagDbModel emoji(String? emoji) => this(emoji: emoji);
+  final TagDbModel _value;
 
   @override
   TagDbModel id(int id) => this(id: id);
 
   @override
-  TagDbModel index(int? index) => this(index: index);
-
-  @override
-  TagDbModel starred(bool? starred) => this(starred: starred);
+  TagDbModel version(int version) => this(version: version);
 
   @override
   TagDbModel title(String title) => this(title: title);
 
   @override
+  TagDbModel starred(bool? starred) => this(starred: starred);
+
+  @override
+  TagDbModel emoji(String? emoji) => this(emoji: emoji);
+
+  @override
+  TagDbModel createdAt(DateTime createdAt) => this(createdAt: createdAt);
+
+  @override
   TagDbModel updatedAt(DateTime updatedAt) => this(updatedAt: updatedAt);
 
   @override
-  TagDbModel version(int version) => this(version: version);
+  TagDbModel index(int? index) => this(index: index);
 
   @override
 
@@ -80,54 +80,60 @@ class _$TagDbModelCWProxyImpl implements _$TagDbModelCWProxy {
   /// TagDbModel(...).copyWith(id: 12, name: "My name")
   /// ````
   TagDbModel call({
-    Object? createdAt = const $CopyWithPlaceholder(),
-    Object? emoji = const $CopyWithPlaceholder(),
     Object? id = const $CopyWithPlaceholder(),
-    Object? index = const $CopyWithPlaceholder(),
-    Object? starred = const $CopyWithPlaceholder(),
-    Object? title = const $CopyWithPlaceholder(),
-    Object? updatedAt = const $CopyWithPlaceholder(),
     Object? version = const $CopyWithPlaceholder(),
+    Object? title = const $CopyWithPlaceholder(),
+    Object? starred = const $CopyWithPlaceholder(),
+    Object? emoji = const $CopyWithPlaceholder(),
+    Object? createdAt = const $CopyWithPlaceholder(),
+    Object? updatedAt = const $CopyWithPlaceholder(),
+    Object? index = const $CopyWithPlaceholder(),
   }) {
     return TagDbModel(
-      createdAt: createdAt == const $CopyWithPlaceholder() || createdAt == null
-          ? _value.createdAt
-          // ignore: cast_nullable_to_non_nullable
-          : createdAt as DateTime,
-      emoji: emoji == const $CopyWithPlaceholder()
-          ? _value.emoji
-          // ignore: cast_nullable_to_non_nullable
-          : emoji as String?,
       id: id == const $CopyWithPlaceholder() || id == null
-          ? _value.id
+          // ignore: unnecessary_non_null_assertion
+          ? _value.id!
           // ignore: cast_nullable_to_non_nullable
           : id as int,
-      index: index == const $CopyWithPlaceholder()
-          ? _value.index
+      version: version == const $CopyWithPlaceholder() || version == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.version!
           // ignore: cast_nullable_to_non_nullable
-          : index as int?,
+          : version as int,
+      title: title == const $CopyWithPlaceholder() || title == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.title!
+          // ignore: cast_nullable_to_non_nullable
+          : title as String,
       starred: starred == const $CopyWithPlaceholder()
           ? _value.starred
           // ignore: cast_nullable_to_non_nullable
           : starred as bool?,
-      title: title == const $CopyWithPlaceholder() || title == null
-          ? _value.title
+      emoji: emoji == const $CopyWithPlaceholder()
+          ? _value.emoji
           // ignore: cast_nullable_to_non_nullable
-          : title as String,
+          : emoji as String?,
+      createdAt: createdAt == const $CopyWithPlaceholder() || createdAt == null
+          // ignore: unnecessary_non_null_assertion
+          ? _value.createdAt!
+          // ignore: cast_nullable_to_non_nullable
+          : createdAt as DateTime,
       updatedAt: updatedAt == const $CopyWithPlaceholder() || updatedAt == null
-          ? _value.updatedAt
+          // ignore: unnecessary_non_null_assertion
+          ? _value.updatedAt!
           // ignore: cast_nullable_to_non_nullable
           : updatedAt as DateTime,
-      version: version == const $CopyWithPlaceholder() || version == null
-          ? _value.version
+      index: index == const $CopyWithPlaceholder()
+          ? _value.index
           // ignore: cast_nullable_to_non_nullable
-          : version as int,
+          : index as int?,
     );
   }
 }
 
 extension $TagDbModelCopyWith on TagDbModel {
   /// Returns a callable class that can be used as follows: `instanceOfTagDbModel.copyWith(...)` or like so:`instanceOfTagDbModel.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
   _$TagDbModelCWProxy get copyWith => _$TagDbModelCWProxyImpl(this);
 }
 

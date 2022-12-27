@@ -7,21 +7,21 @@ part of 'story_query_options_model.dart';
 // **************************************************************************
 
 abstract class _$StoryQueryOptionsModelCWProxy {
-  StoryQueryOptionsModel day(int? day);
+  StoryQueryOptionsModel year(int? year);
 
   StoryQueryOptionsModel month(int? month);
 
-  StoryQueryOptionsModel query(String? query);
-
-  StoryQueryOptionsModel selectedYears(List<int>? selectedYears);
-
-  StoryQueryOptionsModel starred(bool? starred);
+  StoryQueryOptionsModel day(int? day);
 
   StoryQueryOptionsModel tag(String? tag);
 
+  StoryQueryOptionsModel starred(bool? starred);
+
+  StoryQueryOptionsModel query(String? query);
+
   StoryQueryOptionsModel type(PathType? type);
 
-  StoryQueryOptionsModel year(int? year);
+  StoryQueryOptionsModel selectedYears(List<int>? selectedYears);
 
   StoryQueryOptionsModel yearsRange(List<int>? yearsRange);
 
@@ -32,14 +32,14 @@ abstract class _$StoryQueryOptionsModelCWProxy {
   /// StoryQueryOptionsModel(...).copyWith(id: 12, name: "My name")
   /// ````
   StoryQueryOptionsModel call({
-    int? day,
-    int? month,
-    String? query,
-    List<int>? selectedYears,
-    bool? starred,
-    String? tag,
-    PathType? type,
     int? year,
+    int? month,
+    int? day,
+    String? tag,
+    bool? starred,
+    String? query,
+    PathType? type,
+    List<int>? selectedYears,
     List<int>? yearsRange,
   });
 }
@@ -47,34 +47,34 @@ abstract class _$StoryQueryOptionsModelCWProxy {
 /// Proxy class for `copyWith` functionality. This is a callable class and can be used as follows: `instanceOfStoryQueryOptionsModel.copyWith(...)`. Additionally contains functions for specific fields e.g. `instanceOfStoryQueryOptionsModel.copyWith.fieldName(...)`
 class _$StoryQueryOptionsModelCWProxyImpl
     implements _$StoryQueryOptionsModelCWProxy {
-  final StoryQueryOptionsModel _value;
-
   const _$StoryQueryOptionsModelCWProxyImpl(this._value);
 
+  final StoryQueryOptionsModel _value;
+
   @override
-  StoryQueryOptionsModel day(int? day) => this(day: day);
+  StoryQueryOptionsModel year(int? year) => this(year: year);
 
   @override
   StoryQueryOptionsModel month(int? month) => this(month: month);
 
   @override
-  StoryQueryOptionsModel query(String? query) => this(query: query);
-
-  @override
-  StoryQueryOptionsModel selectedYears(List<int>? selectedYears) =>
-      this(selectedYears: selectedYears);
-
-  @override
-  StoryQueryOptionsModel starred(bool? starred) => this(starred: starred);
+  StoryQueryOptionsModel day(int? day) => this(day: day);
 
   @override
   StoryQueryOptionsModel tag(String? tag) => this(tag: tag);
 
   @override
+  StoryQueryOptionsModel starred(bool? starred) => this(starred: starred);
+
+  @override
+  StoryQueryOptionsModel query(String? query) => this(query: query);
+
+  @override
   StoryQueryOptionsModel type(PathType? type) => this(type: type);
 
   @override
-  StoryQueryOptionsModel year(int? year) => this(year: year);
+  StoryQueryOptionsModel selectedYears(List<int>? selectedYears) =>
+      this(selectedYears: selectedYears);
 
   @override
   StoryQueryOptionsModel yearsRange(List<int>? yearsRange) =>
@@ -89,49 +89,49 @@ class _$StoryQueryOptionsModelCWProxyImpl
   /// StoryQueryOptionsModel(...).copyWith(id: 12, name: "My name")
   /// ````
   StoryQueryOptionsModel call({
-    Object? day = const $CopyWithPlaceholder(),
-    Object? month = const $CopyWithPlaceholder(),
-    Object? query = const $CopyWithPlaceholder(),
-    Object? selectedYears = const $CopyWithPlaceholder(),
-    Object? starred = const $CopyWithPlaceholder(),
-    Object? tag = const $CopyWithPlaceholder(),
-    Object? type = const $CopyWithPlaceholder(),
     Object? year = const $CopyWithPlaceholder(),
+    Object? month = const $CopyWithPlaceholder(),
+    Object? day = const $CopyWithPlaceholder(),
+    Object? tag = const $CopyWithPlaceholder(),
+    Object? starred = const $CopyWithPlaceholder(),
+    Object? query = const $CopyWithPlaceholder(),
+    Object? type = const $CopyWithPlaceholder(),
+    Object? selectedYears = const $CopyWithPlaceholder(),
     Object? yearsRange = const $CopyWithPlaceholder(),
   }) {
     return StoryQueryOptionsModel(
-      day: day == const $CopyWithPlaceholder()
-          ? _value.day
-          // ignore: cast_nullable_to_non_nullable
-          : day as int?,
-      month: month == const $CopyWithPlaceholder()
-          ? _value.month
-          // ignore: cast_nullable_to_non_nullable
-          : month as int?,
-      query: query == const $CopyWithPlaceholder()
-          ? _value.query
-          // ignore: cast_nullable_to_non_nullable
-          : query as String?,
-      selectedYears: selectedYears == const $CopyWithPlaceholder()
-          ? _value.selectedYears
-          // ignore: cast_nullable_to_non_nullable
-          : selectedYears as List<int>?,
-      starred: starred == const $CopyWithPlaceholder()
-          ? _value.starred
-          // ignore: cast_nullable_to_non_nullable
-          : starred as bool?,
-      tag: tag == const $CopyWithPlaceholder()
-          ? _value.tag
-          // ignore: cast_nullable_to_non_nullable
-          : tag as String?,
-      type: type == const $CopyWithPlaceholder()
-          ? _value.type
-          // ignore: cast_nullable_to_non_nullable
-          : type as PathType?,
       year: year == const $CopyWithPlaceholder()
           ? _value.year
           // ignore: cast_nullable_to_non_nullable
           : year as int?,
+      month: month == const $CopyWithPlaceholder()
+          ? _value.month
+          // ignore: cast_nullable_to_non_nullable
+          : month as int?,
+      day: day == const $CopyWithPlaceholder()
+          ? _value.day
+          // ignore: cast_nullable_to_non_nullable
+          : day as int?,
+      tag: tag == const $CopyWithPlaceholder()
+          ? _value.tag
+          // ignore: cast_nullable_to_non_nullable
+          : tag as String?,
+      starred: starred == const $CopyWithPlaceholder()
+          ? _value.starred
+          // ignore: cast_nullable_to_non_nullable
+          : starred as bool?,
+      query: query == const $CopyWithPlaceholder()
+          ? _value.query
+          // ignore: cast_nullable_to_non_nullable
+          : query as String?,
+      type: type == const $CopyWithPlaceholder()
+          ? _value.type
+          // ignore: cast_nullable_to_non_nullable
+          : type as PathType?,
+      selectedYears: selectedYears == const $CopyWithPlaceholder()
+          ? _value.selectedYears
+          // ignore: cast_nullable_to_non_nullable
+          : selectedYears as List<int>?,
       yearsRange: yearsRange == const $CopyWithPlaceholder()
           ? _value.yearsRange
           // ignore: cast_nullable_to_non_nullable
@@ -142,6 +142,7 @@ class _$StoryQueryOptionsModelCWProxyImpl
 
 extension $StoryQueryOptionsModelCopyWith on StoryQueryOptionsModel {
   /// Returns a callable class that can be used as follows: `instanceOfStoryQueryOptionsModel.copyWith(...)` or like so:`instanceOfStoryQueryOptionsModel.copyWith.fieldName(...)`.
+  // ignore: library_private_types_in_public_api
   _$StoryQueryOptionsModelCWProxy get copyWith =>
       _$StoryQueryOptionsModelCWProxyImpl(this);
 }
