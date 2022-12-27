@@ -1,5 +1,4 @@
 import 'package:community_material_icon/community_material_icon.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/types/path_type.dart';
@@ -21,7 +20,6 @@ import 'package:spooky/widgets/sp_icon_button.dart';
 import 'package:spooky/widgets/sp_pop_button.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/mixins/stateful_mixin.dart';
-import 'package:spooky/widgets/sp_sections_tiles.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
 class DetailScaffold extends StatefulWidget {
@@ -236,26 +234,11 @@ class _DetailScaffoldState extends State<DetailScaffold>
   @override
   Widget buildEndDrawer(BuildContext context) {
     return Drawer(
-      child: ListView(
-        children: [
-          ...SpSectionsTiles.divide(
-            context: context,
-            sections: [
-              SpSectionContents(
-                headline: tr("section.tags"),
-                leadingIcon: CommunityMaterialIcons.tag,
-                tiles: [
-                  StoryTags(
-                    selectedTagsIds: widget.viewModel.currentStory.tags ?? [],
-                    onUpdated: (List<int> ids) {
-                      widget.viewModel.setTagIds(ids);
-                    },
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ],
+      child: StoryTags(
+        selectedTagsIds: widget.viewModel.currentStory.tags ?? [],
+        onUpdated: (List<int> ids) {
+          widget.viewModel.setTagIds(ids);
+        },
       ),
     );
   }

@@ -47,7 +47,7 @@ class BackupsDetailsViewModel extends BaseViewModel {
 
     // avoid set on disposed
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      if (disposed) loadingNotifier.value = false;
+      if (!disposed) loadingNotifier.value = false;
     });
 
     notifyListeners();

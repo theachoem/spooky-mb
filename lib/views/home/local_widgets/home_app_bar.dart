@@ -4,13 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/main.dart';
 import 'package:spooky/providers/nickname_provider.dart';
+import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/views/home/local_widgets/home_tab_bar.dart';
+import 'package:spooky/views/home/local_widgets/home_tags_tab_bar.dart';
 import 'package:spooky/views/home/local_widgets/search_theme_switcher.dart';
 import 'package:spooky/views/sound_list/local_widgets/miniplayer_app_bar_background.dart';
+import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_list_layout_builder.dart';
+import 'package:spooky/widgets/sp_reorderable_tab_bar.dart';
 import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -20,25 +24,29 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 class HomeAppBar extends StatefulWidget {
   const HomeAppBar({
     Key? key,
+    required this.tabs,
     required this.subtitle,
-    required this.tabLabels,
     required this.tabController,
     required this.viewModel,
     required this.useDefaultTabStyle,
     required this.docsCountNotifier,
+    required this.onReorder,
+    this.reorderable,
     this.onTap,
   }) : super(key: key);
 
-  final List<String> tabLabels;
-  final TabController tabController;
+  final bool Function(int index)? reorderable;
+  final List<HomeTabItem> tabs;
+  final TabController? tabController;
   final HomeViewModel viewModel;
   final ValueChanged<int>? onTap;
   final ValueNotifier<int> docsCountNotifier;
   final String Function(int docsCount) subtitle;
   final bool useDefaultTabStyle;
+  final void Function(int oldIndex, int newIndex) onReorder;
 
   @override
-  State<HomeAppBar> createState() => _HomeAppBarState();
+  State<HomeAppBar> createState() => HomeAppBarState();
 }
 
 class _FakeChild extends Widget {
@@ -56,13 +64,26 @@ class _FakeChild extends Widget {
   }
 }
 
-class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTickerProviderStateMixin {
+class HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTickerProviderStateMixin {
   late final AnimationController controller;
   double get animationValue => controller.drive(CurveTween(curve: Curves.ease)).value;
+
+  late final ValueNotifier<bool> tabEditingNotifier;
+  BuildContext? tabContext;
+
+  void toggleTabEditing() {
+    if (tabContext == null) return;
+    final tabState = SpReorderableTabBar.of(tabContext!);
+    if (tabState == null) return;
+
+    tabState.setEditing(!tabState.editing);
+    tabEditingNotifier.value = tabState.editing;
+  }
 
   @override
   void initState() {
     controller = AnimationController(vsync: this, duration: ConfigConstant.fadeDuration);
+    tabEditingNotifier = ValueNotifier(false);
     super.initState();
     handle();
   }
@@ -70,6 +91,7 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
   @override
   void dispose() {
     controller.dispose();
+    tabEditingNotifier.dispose();
     super.dispose();
   }
 
@@ -89,23 +111,10 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
 
   StatelessWidget buildTab() {
     if (widget.useDefaultTabStyle) {
-      return PreferredSize(
-        preferredSize: const Size.fromHeight(40),
-        child: Container(
-          alignment: Alignment.centerLeft,
-          child: TabBar(
-            padding: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
-            isScrollable: true,
-            controller: widget.tabController,
-            tabs: widget.tabLabels.map((e) {
-              bool starred = e == "*";
-              return Tab(
-                text: starred ? null : e,
-                child: starred ? const Icon(Icons.star) : null,
-              );
-            }).toList(),
-          ),
-        ),
+      return HomeTagsTabBar(
+        widget: widget,
+        parentState: this,
+        reorderable: widget.reorderable,
       );
     } else {
       return HomeTabBar(
@@ -113,8 +122,8 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
         onTap: widget.onTap,
         controller: widget.tabController,
         tabs: List.generate(
-          widget.tabLabels.length,
-          (index) => widget.tabLabels[index],
+          widget.tabs.length,
+          (index) => widget.tabs[index].label,
         ),
       );
     }
@@ -191,7 +200,10 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
                       ),
                     ],
                   ),
-                  buildThemeSwitcherButton()
+                  Positioned(
+                    right: 0,
+                    child: buildActionButtons(),
+                  ),
                 ],
               ),
             ),
@@ -215,17 +227,37 @@ class _HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicke
     );
   }
 
-  Widget buildThemeSwitcherButton() {
-    return Positioned(
-      right: 0,
-      child: SpFadeIn(
-        duration: ConfigConstant.fadeDuration * 2,
-        child: const SizedBox(
-          width: kToolbarHeight,
-          height: kToolbarHeight - 8,
-          child: SearchThemeSwicher(),
-        ),
-      ),
+  Widget buildActionButtons() {
+    return ValueListenableBuilder<bool>(
+      valueListenable: tabEditingNotifier,
+      builder: (context, editing, child) {
+        return Stack(
+          alignment: Alignment.centerRight,
+          children: [
+            Visibility(
+              visible: editing,
+              child: SpButton(
+                backgroundColor: Colors.transparent,
+                foregroundColor: M3Color.of(context).primary,
+                borderColor: M3Color.of(context).primary,
+                label: tr('button.done'),
+                onTap: () => toggleTabEditing(),
+              ),
+            ),
+            Visibility(
+              visible: !editing,
+              child: SpFadeIn(
+                duration: ConfigConstant.fadeDuration * 2,
+                child: const SizedBox(
+                  width: kToolbarHeight,
+                  height: kToolbarHeight - 8,
+                  child: SearchThemeSwicher(),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 }

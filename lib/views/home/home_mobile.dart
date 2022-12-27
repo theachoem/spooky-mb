@@ -1,6 +1,6 @@
 part of home_view;
 
-class _HomeMobile extends StatefulWidget {
+class _HomeMobile extends StatelessWidget {
   final HomeViewModel viewModel;
 
   const _HomeMobile(
@@ -9,74 +9,25 @@ class _HomeMobile extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<_HomeMobile> createState() => _HomeMobileState();
-}
-
-class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderStateMixin {
-  late TabController controller;
-  late SpListLayoutType layoutType;
-  late List<TagDbModel> tags;
-
-  // doesn't needed in single list
-  // {
-  //   1: reloaderPage1(),
-  //   .
-  //   .
-  //   12: reloaderPage12(),
-  // }
-  Map<int, void Function()> listReloaderMap = {};
-
-  @override
-  void initState() {
-    super.initState();
-
-    tags = [
-      TagDbModel.fromIDTitle(0, "*"),
-      ...Global.instance.tags,
-      TagDbModel.fromIDTitle(0, tr("tag.all")),
-    ];
-
-    layoutType = Global.instance.layoutType;
-    switch (layoutType) {
-      case SpListLayoutType.library:
-        controller = TabController(
-          length: tags.length,
-          vsync: this,
-          initialIndex: 0,
-        );
-        break;
-      case SpListLayoutType.diary:
-        controller = TabController(length: 12, vsync: this, initialIndex: widget.viewModel.month - 1);
-        break;
-      case SpListLayoutType.timeline:
-        controller = TabController(length: 1, vsync: this, initialIndex: 0);
-        break;
-    }
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return PrimaryScrollController(
-      controller: widget.viewModel.scrollController,
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: NestedScrollView(
-          controller: widget.viewModel.scrollController,
-          headerSliverBuilder: headerSliverBuilder,
-          body: buildLayouts(),
+      controller: viewModel.scrollController,
+      child: DefaultTabController(
+        length: viewModel.tabs.length,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          body: NestedScrollView(
+            controller: viewModel.scrollController,
+            headerSliverBuilder: headerSliverBuilder,
+            body: buildLayouts(),
+          ),
         ),
       ),
     );
   }
 
   Widget buildLayouts() {
-    switch (layoutType) {
+    switch (viewModel.layoutType) {
       case SpListLayoutType.timeline:
         return buildSingleLayout();
       case SpListLayoutType.library:
@@ -90,36 +41,36 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
       hasDifferentYear: false,
       queryOptions: StoryQueryOptionsModel(
         type: PathType.docs,
-        year: widget.viewModel.year,
+        year: viewModel.year,
       ),
     );
   }
 
   Widget buildTabLayout() {
     return SpTabView(
-      controller: controller,
       listener: (controller) {
         listener(
           (controller.animation?.value.round() ?? controller.index),
         );
       },
       children: List.generate(
-        controller.length,
+        viewModel.tabs.length,
         (index) {
-          switch (layoutType) {
+          switch (viewModel.layoutType) {
             case SpListLayoutType.library:
-              bool starredList = tags[index].title == "*";
-              bool allList = tags[index].id == 0 && !starredList;
+              final tag = viewModel.tabs[index].tag!;
+              bool starredList = tag.title == "*";
+              bool allList = tag.id == 0 && !starredList;
 
-              String? tag;
-              if (!starredList && !allList) tag = tags[index].id.toString();
+              String? tagId;
+              if (!starredList && !allList) tagId = tag.id.toString();
 
               return StoryQueryList(
                 hasDifferentYear: false,
                 queryOptions: StoryQueryOptionsModel(
                   type: PathType.docs,
-                  year: widget.viewModel.year,
-                  tag: tag,
+                  year: viewModel.year,
+                  tag: tagId,
                   starred: starredList ? true : null,
                 ),
               );
@@ -128,7 +79,7 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
                 hasDifferentYear: false,
                 queryOptions: StoryQueryOptionsModel(
                   type: PathType.docs,
-                  year: widget.viewModel.year,
+                  year: viewModel.year,
                   month: index + 1,
                 ),
               );
@@ -140,23 +91,36 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
     );
   }
 
-  List<Widget> headerSliverBuilder(context, scroll) {
+  List<Widget> headerSliverBuilder(
+    BuildContext context,
+    bool innerBoxIsScrolled,
+  ) {
     return [
-      buildAppBar(),
+      buildAppBar(context),
     ];
   }
 
-  Widget buildAppBar() {
+  Widget buildAppBar(BuildContext context) {
     String storyCounter;
 
     return HomeAppBar(
-      docsCountNotifier: widget.viewModel.docsCountNotifier,
+      docsCountNotifier: viewModel.docsCountNotifier,
       subtitle: (int docsCount) {
         storyCounter = plural("plural.story", docsCount);
-        return "${widget.viewModel.year} - $storyCounter";
+        return "${viewModel.year} - $storyCounter";
       },
-      tabController: controller,
-      viewModel: widget.viewModel,
+      tabController: DefaultTabController.of(context),
+      viewModel: viewModel,
+      onReorder: (int oldIndex, int newIndex) {
+        viewModel.reorder(
+          oldIndex,
+          newIndex,
+          context,
+        );
+      },
+      reorderable: (int index) {
+        return index != 0 && index != viewModel.tabs.length - 1;
+      },
       onTap: (index) {
         listener(index);
         // if (index == controller.index) {
@@ -167,18 +131,18 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
         //   );
         // }
       },
-      useDefaultTabStyle: layoutType == SpListLayoutType.library,
-      tabLabels: tabLabels,
+      useDefaultTabStyle: viewModel.layoutType == SpListLayoutType.library,
+      tabs: viewModel.tabs,
     );
   }
 
   void listener(int index) {
-    switch (layoutType) {
+    switch (viewModel.layoutType) {
       case SpListLayoutType.diary:
-        widget.viewModel.onMonthChange(index + 1);
+        viewModel.onMonthChange(index + 1);
         break;
       case SpListLayoutType.library:
-        TagDbModel tag = tags[index];
+        TagDbModel tag = viewModel.tabs[index].tag!;
         String? tagId;
 
         if (tag.id == 0 && tag.title == "*") {
@@ -189,30 +153,10 @@ class _HomeMobileState extends State<_HomeMobile> with SingleTickerProviderState
           tagId = tag.id.toString();
         }
 
-        widget.viewModel.onTagChange(tagId);
+        viewModel.onTagChange(tagId);
         break;
       case SpListLayoutType.timeline:
         break;
-    }
-  }
-
-  List<String> get tabLabels {
-    switch (layoutType) {
-      case SpListLayoutType.diary:
-        return List.generate(
-          12,
-          (index) {
-            return DateFormatHelper.toNameOfMonth().format(
-              DateTime(2020, index + 1),
-            );
-          },
-        );
-      case SpListLayoutType.library:
-        return tags.map((e) => e.title).toList();
-      case SpListLayoutType.timeline:
-        return [
-          "Exception",
-        ];
     }
   }
 }

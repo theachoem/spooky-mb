@@ -16,6 +16,7 @@ class _Initializer {
     await ThemeProvider.initialize();
     GoogleFontCacheClearer.call();
     await InitialStoryTabService.initialize();
+    await StoryTagsService.instance.load();
     if (Platform.isFuchsia || Platform.isLinux || Platform.isMacOS || Platform.isWindows) {
       await DesktopWindow.setMinWindowSize(const Size(320, 510));
     }

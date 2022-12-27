@@ -1,10 +1,10 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/db/databases/tag_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
+import 'package:spooky/core/services/story_tags_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/utils/mixins/scaffold_end_drawerable_mixin.dart';
 import 'package:spooky/views/detail/detail_view.dart';
@@ -34,7 +34,8 @@ class _SearchScaffoldState extends State<SearchScaffold> with ScaffoldEndDrawabl
   bool advanceSearch = false;
 
   Future<void> load() async {
-    tags = await TagDatabase.instance.fetchAll().then((value) => value?.items);
+    await StoryTagsService.instance.load();
+    tags = StoryTagsService.instance.tags;
     setState(() {});
   }
 
