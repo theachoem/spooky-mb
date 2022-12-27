@@ -15,6 +15,7 @@ class App extends StatelessWidget {
   }) : super(key: key);
 
   static final RouteObserver<ModalRoute> storyQueryListObserver = RouteObserver<ModalRoute>();
+  static final RouteObserver<ModalRoute> homeViewModelObserver = RouteObserver<ModalRoute>();
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>(debugLabel: "App");
   static final FirebaseAnalyticsObserver _analyticsObserver =
       FirebaseAnalyticsObserver(analytics: FirebaseAnalytics.instance);
@@ -37,6 +38,7 @@ class App extends StatelessWidget {
       onGenerateRoute: (settings) => SpRouteConfig(context: context, settings: settings).generate(),
       navigatorObservers: [
         storyQueryListObserver,
+        homeViewModelObserver,
         _analyticsObserver,
         NavigationHistoryObserver(),
       ],

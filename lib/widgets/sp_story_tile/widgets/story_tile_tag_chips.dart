@@ -2,11 +2,10 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky/core/db/databases/tag_database.dart';
-import 'package:spooky/core/db/models/base/base_db_list_model.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/core/models/story_query_options_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
+import 'package:spooky/core/services/story_tags_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
@@ -30,8 +29,7 @@ class StoryTileTagChips extends StatefulWidget {
 }
 
 class _StoryTileTagChipsState extends State<StoryTileTagChips> with AutomaticKeepAliveClientMixin {
-  BaseDbListModel<TagDbModel>? items;
-  List<TagDbModel> dbTags = [];
+  List<TagDbModel>? dbTags;
 
   @override
   void initState() {
@@ -40,19 +38,16 @@ class _StoryTileTagChipsState extends State<StoryTileTagChips> with AutomaticKee
   }
 
   void loadDbTags() async {
-    BaseDbListModel<TagDbModel>? value = TagDatabase.instance.cache;
-    bool shouldSetState = value == null;
-    value ??= await TagDatabase.instance.fetchAllCache();
+    List<TagDbModel> tags = StoryTagsService.instance.tags;
 
     setItems() {
-      items = value;
-      dbTags = items?.items ?? [];
-      dbTags = dbTags.where((e) {
+      dbTags = tags;
+      dbTags = dbTags!.where((e) {
         return widget.tags.contains(e.id.toString());
       }).toList();
     }
 
-    shouldSetState ? setState(setItems) : setItems();
+    dbTags == null ? setState(setItems) : setItems();
   }
 
   @override
@@ -67,13 +62,13 @@ class _StoryTileTagChipsState extends State<StoryTileTagChips> with AutomaticKee
 
     if (!widget.showZero) {
       return SpCrossFade(
-        showFirst: items == null,
+        showFirst: dbTags == null,
         alignment: Alignment.center,
-        firstChild: buildChip(dbTags, context),
-        secondChild: buildChip(dbTags, context),
+        firstChild: buildChip(dbTags ?? [], context),
+        secondChild: buildChip(dbTags ?? [], context),
       );
     } else {
-      return buildChip(dbTags, context);
+      return buildChip(dbTags ?? [], context);
     }
   }
 

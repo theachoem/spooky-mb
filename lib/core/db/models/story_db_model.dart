@@ -3,6 +3,7 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/db/models/base/base_db_model.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
+import 'package:spooky/core/services/story_tags_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 part 'story_db_model.g.dart';
@@ -23,8 +24,9 @@ class StoryDbModel extends BaseDbModel {
 
   final bool? starred;
   final String? feeling;
-  final List<String>? tags;
 
+  @JsonKey(name: 'tags')
+  final List<String>? _tags;
   final List<StoryContentDbModel> changes;
 
   @JsonKey(ignore: true)
@@ -60,10 +62,10 @@ class StoryDbModel extends BaseDbModel {
     required this.changes,
     required this.updatedAt,
     required this.createdAt,
-    required this.tags,
+    List<String>? tags,
     this.movedToBinAt,
     this.rawChanges,
-  });
+  }) : _tags = tags;
 
   factory StoryDbModel.fromJson(Map<String, dynamic> json) => _$StoryDbModelFromJson(json);
 
@@ -73,6 +75,14 @@ class StoryDbModel extends BaseDbModel {
     Map<int, StoryContentDbModel> changes = {};
     for (final e in this.changes) changes[e.id] ??= e;
     return _$StoryDbModelToJson(copyWith(changes: changes.values.toList()));
+  }
+
+  List<String>? get tags {
+    if (StoryTagsService.instance.tags.isNotEmpty) {
+      final List<String> dbTags = StoryTagsService.instance.tags.map((e) => e.id.toString()).toList();
+      return _tags?.where((element) => dbTags.contains(element)).toList();
+    }
+    return _tags;
   }
 
   bool get viewOnly => unarchivable || inBins;

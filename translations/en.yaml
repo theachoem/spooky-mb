@@ -156,6 +156,7 @@ button:
   photo: Photos
   play: Play
   put_back: Put back
+  reorder: Reorder
   restore: Restore
   restore_purchase: Restore Purchases
   restore_version: Restore this version

@@ -9,11 +9,13 @@ class PopoverItem {
   final String title;
   final IconData iconData;
   final void Function() onPressed;
+  final Color? foregroundColor;
 
   PopoverItem({
     required this.title,
     required this.iconData,
     required this.onPressed,
+    this.foregroundColor,
   });
 }
 
@@ -24,13 +26,14 @@ class PopoverService {
   void show({
     required BuildContext context,
     required List<PopoverItem> items,
+    double contentDyOffset = 4.0,
   }) {
     showPopover(
       context: context,
       backgroundColor: Colors.transparent,
       shadow: [],
       radius: 0,
-      contentDyOffset: 2.0,
+      contentDyOffset: contentDyOffset,
       transitionDuration: const Duration(milliseconds: 0),
       bodyBuilder: (context) => _buildPopup(context, items),
       direction: PopoverDirection.bottom,
@@ -75,11 +78,12 @@ class PopoverService {
 
   Widget buildItem(PopoverItem item, BuildContext context) {
     return ListTile(
-      leading: Icon(item.iconData),
+      leading: Icon(item.iconData, color: item.foregroundColor),
       title: Text(
         item.title,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: item.foregroundColor),
       ),
       onTap: () {
         Navigator.of(context).pop();

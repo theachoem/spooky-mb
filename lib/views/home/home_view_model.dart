@@ -1,14 +1,24 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/app.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
+import 'package:spooky/core/services/story_tags_service.dart';
+import 'package:spooky/main.dart';
 import 'package:spooky/providers/nickname_provider.dart';
+import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
+import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 
-class HomeViewModel extends BaseViewModel {
+part 'utils/home_view_model_tab_barable.dart';
+part 'utils/home_tab_item.dart';
+
+class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBarable {
   late int year;
   late int month;
 
@@ -25,16 +35,37 @@ class HomeViewModel extends BaseViewModel {
     this.onYearChange,
     this.onScrollControllerReady,
     this.onTagChange,
+    BuildContext context,
   ) {
     year = InitialStoryTabService.initial.year;
     month = InitialStoryTabService.initial.month;
     scrollController = ScrollController();
     docsCountNotifier = ValueNotifier<int>(0);
 
+    switch (layoutType) {
+      case SpListLayoutType.library:
+        _tabs = toTabs(StoryTagsService.instance.tags);
+        break;
+      case SpListLayoutType.diary:
+        _tabs = List.generate(12, HomeTabItem.fromIndexToMonth);
+        break;
+      case SpListLayoutType.timeline:
+        _tabs = [HomeTabItem.fromIndexToMonth(0)];
+        break;
+    }
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       reloadDocsCount();
       onScrollControllerReady(scrollController);
+      ModalRoute? modalRoute = ModalRoute.of(context);
+      if (modalRoute != null) App.storyQueryListObserver.subscribe(this, modalRoute);
     });
+  }
+
+  @override
+  void didPopNext() {
+    super.didPopNext();
+    reloadTabs();
   }
 
   @override
@@ -47,6 +78,7 @@ class HomeViewModel extends BaseViewModel {
   void dispose() {
     scrollController.dispose();
     docsCountNotifier.dispose();
+    App.storyQueryListObserver.unsubscribe(this);
     super.dispose();
   }
 
