@@ -5,6 +5,8 @@ import 'package:spooky/core/backups/destinations/base_backup_destination.dart';
 import 'package:spooky/core/backups/destinations/cloud_file_tuple.dart';
 import 'package:spooky/core/backups/models/backups_metadata.dart';
 import 'package:spooky/core/base/base_view_model.dart';
+import 'package:spooky/core/db/databases/story_database.dart';
+import 'package:spooky/core/models/bottom_nav_item_list_model.dart';
 import 'package:spooky/core/models/cloud_file_list_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
@@ -39,8 +41,8 @@ abstract class BaseCloudProvider extends BaseViewModel {
   }
 
   // base on last changes
-  bool get synced => lastLocalMetaData != null;
   bool get released => true;
+  bool get synced => lastLocalMetaData != null;
 
   // level 0: normal loading
   // level 1: syning
@@ -79,6 +81,7 @@ abstract class BaseCloudProvider extends BaseViewModel {
   }
 
   Future<void> signOut();
+  Future<void> loadAuthentication();
 
   @mustCallSuper
   Future<void> load([bool reload = true]) async {
@@ -96,18 +99,6 @@ abstract class BaseCloudProvider extends BaseViewModel {
     }
 
     await _load();
-    alertToUI();
-  }
-
-  void alertToUI() {
-    BottomNavItemStorage().getItems().then((value) {
-      final results = value.items?.where((element) => element.selected == true).map((e) => e.router);
-      TabNoticeProvider.instance.set(
-        results?.contains(SpRouter.cloudStorages) == true ? SpRouter.cloudStorages : SpRouter.setting,
-        TabNoticeSetterSourceType.backupAlerter,
-        add: !synced,
-      );
-    });
   }
 
   Future<void> _load() async {
@@ -125,5 +116,29 @@ abstract class BaseCloudProvider extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> loadAuthentication();
+  @override
+  void notifyListeners() {
+    _alertToView();
+    super.notifyListeners();
+  }
+
+  Future<SpRouter> getTabToBeAlerted() async {
+    final BottomNavItemListModel value = await BottomNavItemStorage().getItems();
+    final results = value.items?.where((element) => element.selected == true).map((e) => e.router);
+    final tab = results?.contains(SpRouter.cloudStorages) == true ? SpRouter.cloudStorages : SpRouter.setting;
+    return tab;
+  }
+
+  bool get shouldAlert {
+    bool empty = StoryDatabase.instance.getDocsCount(null) == 0;
+    return !empty && !synced;
+  }
+
+  Future<void> _alertToView() async {
+    TabNoticeProvider.instance.set(
+      await getTabToBeAlerted(),
+      TabNoticeSetterSourceType.backupAlerter,
+      add: shouldAlert,
+    );
+  }
 }

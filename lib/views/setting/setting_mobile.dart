@@ -316,10 +316,10 @@ class CloudStorageTile extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
           ),
-          subtitle: !provider.synced
+          subtitle: provider.shouldAlert
               ? Text(tr("button.backup_now"), style: TextStyle(color: M3Color.of(context).error))
               : null,
-          trailing: !provider.synced ? Icon(Icons.warning_rounded, color: M3Color.of(context).error) : null,
+          trailing: provider.shouldAlert ? Icon(Icons.warning_rounded, color: M3Color.of(context).error) : null,
           onTap: () {
             Navigator.of(context).pushNamed(SpRouter.cloudStorages.path);
           },
