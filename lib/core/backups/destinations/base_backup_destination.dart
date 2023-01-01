@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/backups/backups_file_manager.dart';
 import 'package:spooky/core/backups/backups_service.dart';
 import 'package:spooky/core/backups/destinations/cloud_file_tuple.dart';
 import 'package:spooky/core/backups/models/backups_metadata.dart';
@@ -24,7 +25,19 @@ abstract class BaseBackupDestination<T extends BaseCloudProvider> {
   bool canLaunchSource() => false;
   Future<void>? viewSource(BuildContext context) => null;
 
+  Future<void> _setCacheToAvoidAlertToBackup(BackupsModel backups) async {
+    final docsCount = StoryDatabase.instance.getDocsCount(null);
+    if (docsCount == 0) {
+      BackupsFileManager().syncBackups(
+        backups: backups,
+        cloudStorageId: cloudId,
+      );
+    }
+  }
+
   Future<void> _restore(BackupsModel backups, BuildContext context) async {
+    _setCacheToAvoidAlertToBackup(backups);
+
     await MessengerService.instance.showLoading<int>(
       context: context,
       future: () => BackupsService.instance.restore(backups: backups).then((value) => 1),
