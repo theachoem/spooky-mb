@@ -11,8 +11,10 @@ import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/services/popover_service.dart';
 import 'package:spooky/core/services/story_tags_service.dart';
+import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/main.dart';
 import 'package:spooky/providers/nickname_provider.dart';
+import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:spooky/views/home/local_widgets/home_app_bar.dart';
@@ -156,6 +158,11 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
     notifyListeners();
   }
 
+  void updateSort(int index, SortType sortType) {
+    _tabs[index] = _tabs[index].copyWith(overridedSortType: sortType);
+    notifyListeners();
+  }
+
   void showTabPopover({
     required BuildContext? context,
     required int index,
@@ -168,27 +175,35 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
 
     HomeTabItem tab = tabs[index];
     SpListLayoutType overridedLayout = tab.overridedLayout ?? layoutType;
+    SortType sortType =
+        _tabs[index].overridedSortType ?? context.read<StoryListConfigurationProvider>().sortType ?? SortType.newToOld;
 
     PopoverService.instance.show(
       context: context,
       contentDyOffset: contentDyOffset,
       items: [
-        if (controller?.index == index)
-          PopoverItem(
-            title: tr("tile.layout.title"),
-            iconData: overridedLayout.next.icon,
-            onPressed: () {
-              updateLayout(index, overridedLayout.next);
-            },
-          ),
         if (layoutType == SpListLayoutType.library && parentState != null)
           PopoverItem(
             title: tr("button.reorder"),
-            iconData: CommunityMaterialIcons.order_alphabetical_ascending,
+            iconData: CommunityMaterialIcons.sort,
             onPressed: () {
               parentState.toggleTabEditing();
             },
           ),
+        PopoverItem(
+          title: sortType.next.title,
+          iconData: sortType.next.icon,
+          onPressed: () {
+            updateSort(index, sortType.next);
+          },
+        ),
+        PopoverItem(
+          title: tr("tile.layout.title"),
+          iconData: overridedLayout.next.icon,
+          onPressed: () {
+            updateLayout(index, overridedLayout.next);
+          },
+        ),
         if (layoutType == SpListLayoutType.library && tab.tag != null && reorderable != null && reorderable(index))
           PopoverItem(
             title: tr("button.update"),

@@ -9,7 +9,6 @@ import 'package:spooky/core/analytic/list_layout_type_event.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/routes/sp_router.dart';
-import 'package:spooky/core/types/sort_type.dart';
 import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';

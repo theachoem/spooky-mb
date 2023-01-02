@@ -25,6 +25,8 @@ abstract class _$StoryQueryOptionsModelCWProxy {
 
   StoryQueryOptionsModel yearsRange(List<int>? yearsRange);
 
+  StoryQueryOptionsModel sortBy(SortType? sortBy);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `StoryQueryOptionsModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -41,6 +43,7 @@ abstract class _$StoryQueryOptionsModelCWProxy {
     PathType? type,
     List<int>? selectedYears,
     List<int>? yearsRange,
+    SortType? sortBy,
   });
 }
 
@@ -81,6 +84,9 @@ class _$StoryQueryOptionsModelCWProxyImpl
       this(yearsRange: yearsRange);
 
   @override
+  StoryQueryOptionsModel sortBy(SortType? sortBy) => this(sortBy: sortBy);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `StoryQueryOptionsModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -98,6 +104,7 @@ class _$StoryQueryOptionsModelCWProxyImpl
     Object? type = const $CopyWithPlaceholder(),
     Object? selectedYears = const $CopyWithPlaceholder(),
     Object? yearsRange = const $CopyWithPlaceholder(),
+    Object? sortBy = const $CopyWithPlaceholder(),
   }) {
     return StoryQueryOptionsModel(
       year: year == const $CopyWithPlaceholder()
@@ -136,6 +143,10 @@ class _$StoryQueryOptionsModelCWProxyImpl
           ? _value.yearsRange
           // ignore: cast_nullable_to_non_nullable
           : yearsRange as List<int>?,
+      sortBy: sortBy == const $CopyWithPlaceholder()
+          ? _value.sortBy
+          // ignore: cast_nullable_to_non_nullable
+          : sortBy as SortType?,
     );
   }
 }
@@ -167,6 +178,7 @@ StoryQueryOptionsModel _$StoryQueryOptionsModelFromJson(
       yearsRange: (json['years_range'] as List<dynamic>?)
           ?.map((e) => e as int)
           .toList(),
+      sortBy: $enumDecodeNullable(_$SortTypeEnumMap, json['sort_by']),
     );
 
 Map<String, dynamic> _$StoryQueryOptionsModelToJson(
@@ -179,6 +191,7 @@ Map<String, dynamic> _$StoryQueryOptionsModelToJson(
       'type': _$PathTypeEnumMap[instance.type],
       'starred': instance.starred,
       'query': instance.query,
+      'sort_by': _$SortTypeEnumMap[instance.sortBy],
       'selected_years': instance.selectedYears,
       'years_range': instance.yearsRange,
     };
@@ -187,4 +200,9 @@ const _$PathTypeEnumMap = {
   PathType.docs: 'docs',
   PathType.bins: 'bins',
   PathType.archives: 'archives',
+};
+
+const _$SortTypeEnumMap = {
+  SortType.oldToNew: 'oldToNew',
+  SortType.newToOld: 'newToOld',
 };

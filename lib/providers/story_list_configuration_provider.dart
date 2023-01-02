@@ -1,3 +1,5 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/storages/local_storages/priority_starred_storage.dart';
 import 'package:spooky/core/storages/local_storages/show_chips_storage.dart';
@@ -46,5 +48,30 @@ class StoryListConfigurationProvider extends ChangeNotifier {
     if (value == sortType) return;
     await sortTypeStorage.writeEnum(value);
     load();
+  }
+
+  Future<SortType?> showSortSelectorDialog(BuildContext context, [SortType? initialSortType]) async {
+    return showConfirmationDialog(
+      context: context,
+      title: tr("tile.sort.title"),
+      initialSelectedActionKey: initialSortType ?? sortType,
+      cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
+      actions: [
+        AlertDialogAction(
+          key: SortType.newToOld,
+          label: SortType.newToOld.title,
+        ),
+        AlertDialogAction(
+          key: SortType.oldToNew,
+          label: SortType.newToOld.title,
+        ),
+      ].map((e) {
+        return AlertDialogAction<SortType>(
+          key: e.key,
+          isDefaultAction: e.key == sortType,
+          label: e.label,
+        );
+      }).toList(),
+    );
   }
 }

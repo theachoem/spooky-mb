@@ -82,7 +82,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     return queryBuilder;
   }
 
-  // :all_changes
+  // :all_changes?
   @override
   Future<BaseDbListModel<StoryDbModel>> fetchAll({
     Map<String, dynamic>? params,
@@ -92,7 +92,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     bool priority = (await PriorityStarredStorage().read() ?? true) == true;
     params['priority'] = priority;
 
-    SortType? sort = await SortTypeStorage().readEnum();
+    SortType? sort = SortTypeStorage().fromString(params['sort_by']) ?? await SortTypeStorage().readEnum();
     if (sort == SortType.newToOld) params['order'] = Order.descending;
     if (sort == SortType.oldToNew) params['order'] = 0;
 
@@ -134,6 +134,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     }
   }
 
+  @Deprecated("Most user already migrate, should be removed")
   Future<List<StoryObjectBox>> migrate(List<StoryObjectBox> objects) async {
     for (int i = 0; i < objects.length; i++) {
       StoryObjectBox? object = objects[i];

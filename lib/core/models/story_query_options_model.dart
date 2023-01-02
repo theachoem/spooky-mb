@@ -1,6 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/core/types/sort_type.dart';
 
 part 'story_query_options_model.g.dart';
 
@@ -14,6 +15,7 @@ class StoryQueryOptionsModel {
   final PathType? type;
   final bool? starred;
   final String? query;
+  final SortType? sortBy;
   final List<int>? selectedYears;
   final List<int>? yearsRange;
 
@@ -27,6 +29,7 @@ class StoryQueryOptionsModel {
     this.type,
     this.selectedYears,
     this.yearsRange,
+    this.sortBy,
   });
 
   String join() {

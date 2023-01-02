@@ -43,6 +43,7 @@ class _HomeMobile extends StatelessWidget {
       queryOptions: StoryQueryOptionsModel(
         type: PathType.docs,
         year: viewModel.year,
+        sortBy: viewModel.tabs.isNotEmpty ? viewModel.tabs.first.overridedSortType : null,
       ),
     );
   }
@@ -74,6 +75,7 @@ class _HomeMobile extends StatelessWidget {
                   year: viewModel.year,
                   tag: tagId,
                   starred: starredList ? true : null,
+                  sortBy: viewModel.tabs[index].overridedSortType,
                 ),
               );
             case SpListLayoutType.diary:
@@ -93,6 +95,7 @@ class _HomeMobile extends StatelessWidget {
                   type: PathType.docs,
                   year: viewModel.year,
                   month: index + 1,
+                  sortBy: viewModel.tabs[index].overridedSortType,
                 ),
               );
             case SpListLayoutType.timeline:

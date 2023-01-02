@@ -14,4 +14,16 @@ abstract class EnumStorage<T> extends DefaultStorage<String> {
     }
     return null;
   }
+
+  T? fromString(String? element) {
+    if (element == null) return null;
+
+    for (T value in values) {
+      // SortType.oldToNew, oldToNew
+      if (value.toString().endsWith(element)) {
+        return value;
+      }
+    }
+    return null;
+  }
 }

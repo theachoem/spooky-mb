@@ -177,45 +177,9 @@ class _ThemeSettingMobile extends StatelessWidget {
         leading: const Icon(Icons.sort),
         title: Text(tr("tile.sort.title")),
         onTap: () async {
-          SortType? sortType = provider.sortType;
-
-          String sortTitle(SortType? type) {
-            switch (type) {
-              case SortType.oldToNew:
-                return tr("tile.sort.types.old_to_new");
-              case SortType.newToOld:
-                return tr("tile.sort.types.new_to_old");
-              case null:
-                return "null";
-            }
-          }
-
-          SortType? sortTypeResult = await showConfirmationDialog(
-            context: context,
-            title: tr("tile.sort.title"),
-            initialSelectedActionKey: sortType,
-            cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
-            actions: [
-              AlertDialogAction(
-                key: SortType.newToOld,
-                label: sortTitle(SortType.newToOld),
-              ),
-              AlertDialogAction(
-                key: SortType.oldToNew,
-                label: sortTitle(SortType.oldToNew),
-              ),
-            ].map((e) {
-              return AlertDialogAction<SortType>(
-                key: e.key,
-                isDefaultAction: e.key == sortType,
-                label: e.label,
-              );
-            }).toList(),
-          );
-
+          final sortTypeResult = await provider.showSortSelectorDialog(context);
           if (sortTypeResult != null) {
-            sortType = sortTypeResult;
-            provider.setSortType(sortType);
+            provider.setSortType(sortTypeResult);
           }
         },
       );

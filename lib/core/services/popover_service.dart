@@ -38,7 +38,7 @@ class PopoverService {
       bodyBuilder: (context) => _buildPopup(context, items),
       direction: PopoverDirection.bottom,
       width: 200,
-      height: kToolbarHeight * items.length,
+      height: kToolbarHeight * items.length + 2,
       arrowHeight: 4,
       arrowWidth: 8,
       onPop: () {},
@@ -55,6 +55,7 @@ class PopoverService {
           margin: const EdgeInsets.only(left: 12.0),
           clipBehavior: Clip.hardEdge,
           decoration: BoxDecoration(
+            border: Border.all(color: Theme.of(context).dividerColor, width: 1),
             borderRadius: ConfigConstant.circlarRadius1,
             color: M3Color.of(context).background,
           ),
@@ -66,7 +67,12 @@ class PopoverService {
                 items.length,
                 (index) {
                   final item = items[index];
-                  return buildItem(item, context);
+                  return buildItem(
+                    item,
+                    context,
+                    first: index == 0,
+                    last: index == items.length - 1,
+                  );
                 },
               ),
             ),
@@ -76,9 +82,20 @@ class PopoverService {
     );
   }
 
-  Widget buildItem(PopoverItem item, BuildContext context) {
+  Widget buildItem(
+    PopoverItem item,
+    BuildContext context, {
+    bool first = false,
+    bool last = false,
+  }) {
     return ListTile(
       leading: Icon(item.iconData, color: item.foregroundColor),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: first ? const Radius.circular(ConfigConstant.radius1 - 1) : Radius.zero,
+          bottom: last ? const Radius.circular(ConfigConstant.radius1 - 1) : Radius.zero,
+        ),
+      ),
       title: Text(
         item.title,
         maxLines: 1,
