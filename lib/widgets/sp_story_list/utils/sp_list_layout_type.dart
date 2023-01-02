@@ -26,11 +26,11 @@ extension SpListLayoutTypeExtension on SpListLayoutType {
   SpListLayoutType get next {
     switch (this) {
       case SpListLayoutType.library:
-        return SpListLayoutType.diary;
+        return SpListLayoutType.timeline;
       case SpListLayoutType.diary:
         return SpListLayoutType.library;
       case SpListLayoutType.timeline:
-        return SpListLayoutType.diary;
+        return SpListLayoutType.library;
     }
   }
 }
