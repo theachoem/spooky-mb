@@ -91,12 +91,12 @@ class DetailArgs {
 }
 
 class HomeArgs {
-  const HomeArgs(
-      {this.key,
-      required this.onMonthChange,
-      required this.onYearChange,
-      required this.onScrollControllerReady,
-      required this.onTagChange});
+  const HomeArgs({
+    this.key,
+    required this.onMonthChange,
+    required this.onYearChange,
+    required this.onTagChange,
+  });
 
   final Key? key;
 
@@ -104,13 +104,11 @@ class HomeArgs {
 
   final void Function(int) onYearChange;
 
-  final void Function(ScrollController) onScrollControllerReady;
-
   final void Function(String?) onTagChange;
 
   @override
   String toString() {
-    return 'HomeArgs{key: $key, onMonthChange: $onMonthChange, onYearChange: $onYearChange, onScrollControllerReady: $onScrollControllerReady, onTagChange: $onTagChange}';
+    return 'HomeArgs{key: $key, onMonthChange: $onMonthChange, onYearChange: $onYearChange, onTagChange: $onTagChange}';
   }
 }
 

@@ -19,21 +19,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   final BuildContext context;
   final SecurityService service = SecurityService();
 
-  Map<SpRouter, ScrollController> scrollControllers = {};
-  ScrollController? get currentScrollController {
-    if (scrollControllers.containsKey(activeRouter)) {
-      return scrollControllers[activeRouter];
-    }
-    return null;
-  }
-
-  void setScrollController({
-    required int index,
-    required ScrollController controller,
-  }) {
-    scrollControllers[activeRouter] = controller;
-  }
-
   MainViewModel(this.context) {
     shouldShowBottomNavNotifier = ValueNotifier(true);
     bottomNavigationHeight = ValueNotifier(null);

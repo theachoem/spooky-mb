@@ -20,14 +20,12 @@ class HomeView extends StatelessWidget {
     Key? key,
     required this.onMonthChange,
     required this.onYearChange,
-    required this.onScrollControllerReady,
     required this.onTagChange,
   }) : super(key: key);
 
   final void Function(int index) onMonthChange;
   final void Function(int year) onYearChange;
   final void Function(String? tag) onTagChange;
-  final void Function(ScrollController controller) onScrollControllerReady;
 
   // On CRUD
   static BuildContext? _context;
@@ -41,7 +39,6 @@ class HomeView extends StatelessWidget {
       create: (BuildContext context) => HomeViewModel(
         onMonthChange,
         onYearChange,
-        onScrollControllerReady,
         onTagChange,
         context,
       ),

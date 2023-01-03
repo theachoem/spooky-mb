@@ -10,17 +10,13 @@ class _HomeMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PrimaryScrollController(
-      controller: viewModel.scrollController,
-      child: DefaultTabController(
-        length: viewModel.tabs.length,
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: NestedScrollView(
-            controller: viewModel.scrollController,
-            headerSliverBuilder: headerSliverBuilder,
-            body: buildLayouts(),
-          ),
+    return DefaultTabController(
+      length: viewModel.tabs.length,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: NestedScrollView(
+          headerSliverBuilder: headerSliverBuilder,
+          body: buildLayouts(),
         ),
       ),
     );

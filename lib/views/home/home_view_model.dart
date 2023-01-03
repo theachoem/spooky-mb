@@ -30,21 +30,17 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
   final void Function(int index) onMonthChange;
   final void Function(int year) onYearChange;
   final void Function(String? tag) onTagChange;
-  final void Function(ScrollController controller) onScrollControllerReady;
 
-  late final ScrollController scrollController;
   late final ValueNotifier<int> docsCountNotifier;
 
   HomeViewModel(
     this.onMonthChange,
     this.onYearChange,
-    this.onScrollControllerReady,
     this.onTagChange,
     BuildContext context,
   ) {
     year = InitialStoryTabService.initial.year;
     month = InitialStoryTabService.initial.month;
-    scrollController = ScrollController();
     docsCountNotifier = ValueNotifier<int>(0);
 
     switch (layoutType) {
@@ -61,7 +57,6 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       reloadDocsCount();
-      onScrollControllerReady(scrollController);
       ModalRoute? modalRoute = ModalRoute.of(context);
       if (modalRoute != null) App.storyQueryListObserver.subscribe(this, modalRoute);
     });
@@ -81,7 +76,6 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
 
   @override
   void dispose() {
-    scrollController.dispose();
     docsCountNotifier.dispose();
     App.storyQueryListObserver.unsubscribe(this);
     super.dispose();

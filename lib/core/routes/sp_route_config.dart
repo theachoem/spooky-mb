@@ -185,7 +185,6 @@ class SpRouteConfig {
               return HomeView(
                 onMonthChange: arguments.onMonthChange,
                 onYearChange: arguments.onYearChange,
-                onScrollControllerReady: arguments.onScrollControllerReady,
                 onTagChange: arguments.onTagChange,
               );
             }
