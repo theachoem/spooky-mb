@@ -225,12 +225,6 @@ class _ThemeSettingMobile extends StatelessWidget {
         );
 
         if (layoutTypeResult != layoutType && layoutTypeResult != null) {
-          ListLayoutTypeEvent().log(
-            itemListId: layoutTypeResult.name,
-            items: SpListLayoutType.values.map((e) {
-              return AnalyticsEventItem(itemId: e.name, itemName: e.name);
-            }).toList(),
-          );
           await SpListLayoutBuilder.set(layoutTypeResult).then((value) {
             Phoenix.rebirth(context);
           });

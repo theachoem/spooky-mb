@@ -39,7 +39,7 @@ class _Initializer {
     // FlutterError.onError = (details) => DebugErrorException.run(details);
 
     // analytic
-    initialAnalytic();
+    AnalyticInitializer.initialize();
 
     // remote config
     RemoteConfigService.instance.initialize();
@@ -65,18 +65,5 @@ class _Initializer {
     FlutterError.onError = (FlutterErrorDetails details) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(details);
     };
-  }
-
-  static Future<void> initialAnalytic() async {
-    bool supported = await FirebaseAnalytics.instance.isSupported();
-    if (supported) {
-      await FirebaseAnalytics.instance.setAnalyticsCollectionEnabled(true);
-      if (!FirebaseAnalytics.instance.app.isAutomaticDataCollectionEnabled) {
-        await FirebaseAnalytics.instance.app.setAutomaticDataCollectionEnabled(true);
-      }
-
-      String? uid = FirebaseAuth.instance.currentUser?.uid;
-      if (uid != null) await FirebaseAnalytics.instance.setUserId(id: uid);
-    }
   }
 }
