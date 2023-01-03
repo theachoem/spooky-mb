@@ -41,11 +41,11 @@ class SpDatePicker {
       maxDateTime: maxDateTime,
       locale: locale,
       pickerTheme: DateTimePickerTheme(
-        backgroundColor: color.primary,
+        backgroundColor: color.onBackground,
         itemTextStyle:
             TextStyle(fontFamily: M3TextTheme.of(context).bodyLarge?.fontFamily).copyWith(color: color.onPrimary),
-        cancelTextStyle: TextStyle(color: color.onPrimary),
-        confirmTextStyle: TextStyle(color: color.onPrimary),
+        cancelTextStyle: TextStyle(color: color.background),
+        confirmTextStyle: TextStyle(color: color.background),
         buttonStyle: TextButton.styleFrom(
           splashFactory: null,
           shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
