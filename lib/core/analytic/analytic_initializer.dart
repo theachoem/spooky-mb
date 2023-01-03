@@ -1,13 +1,10 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spooky/core/models/story_config_model.dart';
 import 'package:spooky/core/models/theme_model.dart';
 import 'package:spooky/core/storages/local_storages/bottom_nav_items_storage.dart';
-import 'package:spooky/core/storages/local_storages/priority_starred_storage.dart';
-import 'package:spooky/core/storages/local_storages/sort_type_storage.dart';
-import 'package:spooky/core/storages/local_storages/sp_list_layout_type_storage.dart';
+import 'package:spooky/core/storages/local_storages/story_config_storage.dart';
 import 'package:spooky/core/storages/local_storages/theme_storage.dart';
-import 'package:spooky/core/types/sort_type.dart';
-import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 
 class AnalyticInitializer {
   static Future<void> initialize() async {
@@ -33,9 +30,7 @@ class AnalyticInitializer {
 
   static Future<void> setTheme() async {
     ThemeModel? object = await ThemeStorage().readObject();
-    SpListLayoutType? layoutType = await SpListLayoutTypeStorage().readEnum();
-    SortType? sortType = await SortTypeStorage().readEnum();
-    bool? priorityStarred = await PriorityStarredStorage().read();
+    StoryConfigModel? story = await StoryConfigStorage.instance.readObject();
     List<String?>? tabs = await BottomNavItemStorage().readObject().then(
         (value) => value?.items?.where((element) => element.selected == true).map((e) => e.router?.name).toList());
 
@@ -43,9 +38,10 @@ class AnalyticInitializer {
     FirebaseAnalytics.instance.setUserProperty(name: 'font_weight', value: object?.fontWeight.index.toString());
     FirebaseAnalytics.instance.setUserProperty(name: 'color_seed', value: object?.colorSeedValue?.toString());
     FirebaseAnalytics.instance.setUserProperty(name: 'theme_mode', value: object?.themeMode?.name);
-    FirebaseAnalytics.instance.setUserProperty(name: 'layout_type', value: layoutType?.name);
-    FirebaseAnalytics.instance.setUserProperty(name: 'sort_type', value: sortType?.name);
-    FirebaseAnalytics.instance.setUserProperty(name: 'priority_starred', value: priorityStarred?.toString());
+    FirebaseAnalytics.instance.setUserProperty(name: 'layout_type', value: story?.layoutType?.name);
+    FirebaseAnalytics.instance.setUserProperty(name: 'sort_type', value: story?.sortType?.name);
+    FirebaseAnalytics.instance.setUserProperty(name: 'priority_starred', value: story?.prioritied?.toString());
+    FirebaseAnalytics.instance.setUserProperty(name: 'disable_datepicker', value: story?.disableDatePicker?.toString());
     FirebaseAnalytics.instance.setUserProperty(name: 'tabs', value: tabs?.join("|"));
   }
 }

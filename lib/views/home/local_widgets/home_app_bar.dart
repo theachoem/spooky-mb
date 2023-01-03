@@ -2,8 +2,8 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/main.dart';
 import 'package:spooky/providers/nickname_provider.dart';
+import 'package:spooky/providers/story_config_provider.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/views/detail/detail_view.dart';
 import 'package:spooky/views/home/home_view_model.dart';
@@ -13,7 +13,6 @@ import 'package:spooky/views/home/local_widgets/search_theme_switcher.dart';
 import 'package:spooky/views/sound_list/local_widgets/miniplayer_app_bar_background.dart';
 import 'package:spooky/widgets/sp_button.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
-import 'package:spooky/widgets/sp_list_layout_builder.dart';
 import 'package:spooky/widgets/sp_reorderable_tab_bar.dart';
 import 'package:spooky/widgets/sp_story_list/sp_story_list.dart';
 import 'package:spooky/widgets/sp_tap_effect.dart';
@@ -97,7 +96,7 @@ class HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicker
 
   SpListLayoutType? layoutType;
   void handle() async {
-    SpListLayoutType layoutType = this.layoutType = await SpListLayoutBuilder.get();
+    SpListLayoutType layoutType = this.layoutType = context.read<StoryConfigProvider>().storage.layoutType;
     switch (layoutType) {
       case SpListLayoutType.timeline:
         if (controller.isCompleted) controller.reverse();
@@ -135,7 +134,7 @@ class HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicker
     return AnimatedBuilder(
       animation: controller,
       child: _FakeChild(
-        flexibleSpace: buildBackground(),
+        flexibleSpace: buildBackground(context),
         tabBar: buildTab(),
       ),
       builder: (context, child) {
@@ -165,14 +164,14 @@ class HomeAppBarState extends State<HomeAppBar> with StatefulMixin, SingleTicker
     );
   }
 
-  Widget buildBackground() {
+  Widget buildBackground(BuildContext context) {
     return FlexibleSpaceBar(
       collapseMode: CollapseMode.pin,
       stretchModes: const [StretchMode.zoomBackground],
       background: Stack(
         children: [
           MiniplayerAppBarBackground(
-            wave: Global.instance.layoutType == SpListLayoutType.timeline ? 0.75 : 0.55,
+            wave: context.read<StoryConfigProvider>().storage.layoutType == SpListLayoutType.timeline ? 0.75 : 0.55,
           ),
           Positioned.fill(
             child: Container(

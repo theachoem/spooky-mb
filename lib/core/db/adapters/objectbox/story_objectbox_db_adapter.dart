@@ -89,10 +89,10 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
   }) async {
     params ??= {};
 
-    bool priority = (await PriorityStarredStorage().read() ?? true) == true;
-    params['priority'] = priority;
+    StoryConfigStorage instance = StoryConfigStorage.instance;
+    params['priority'] = instance.prioritied;
 
-    SortType? sort = SortTypeStorage().fromString(params['sort_by']) ?? await SortTypeStorage().readEnum();
+    SortType? sort = instance.sortTypeFromString(params['sort_by']) ?? instance.sortType;
     if (sort == SortType.newToOld) params['order'] = Order.descending;
     if (sort == SortType.oldToNew) params['order'] = 0;
 

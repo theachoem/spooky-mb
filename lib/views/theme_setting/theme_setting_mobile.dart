@@ -6,6 +6,7 @@ class _ThemeSettingMobile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final StoryConfigProvider storyConfigProvider = context.read<StoryConfigProvider>();
     return Scaffold(
       appBar: MorphingAppBar(
         leading: ModalRoute.of(context)?.canPop == true ? const SpPopButton() : null,
@@ -37,10 +38,11 @@ class _ThemeSettingMobile extends StatelessWidget {
             SpSectionContents(
               headline: tr("section.story"),
               tiles: [
-                buildLayoutTile(context),
-                buildSortTile(context),
+                buildLayoutTile(context, storyConfigProvider),
+                buildSortTile(storyConfigProvider),
                 // buildMaxLineTile(),
-                buildPriorityStarredTile(),
+                buildDisableDatePicker(storyConfigProvider),
+                buildPriorityStarredTile(storyConfigProvider),
                 // buildShowChipTile(),
               ],
             ),
@@ -65,17 +67,19 @@ class _ThemeSettingMobile extends StatelessWidget {
     );
   }
 
-  Consumer<StoryListConfigurationProvider> buildPriorityStarredTile() {
-    return Consumer<StoryListConfigurationProvider>(
-      builder: (context, provider, child) {
+  Widget buildPriorityStarredTile(StoryConfigProvider storyConfigProvider) {
+    return ValueListenableBuilder<bool?>(
+      valueListenable: storyConfigProvider.prioritiedNotifier,
+      builder: (context, value, child) {
+        bool prioritied = value ?? storyConfigProvider.storage.prioritied;
         return ListTile(
           leading: const Icon(Icons.favorite),
           title: Text(tr("tile.prioritize_starred.title")),
-          onTap: () => provider.setPriorityStarred(!provider.prioritied),
+          onTap: () => storyConfigProvider.setPriorityStarred(!prioritied),
           trailing: Switch.adaptive(
-            value: provider.prioritied,
+            value: prioritied,
             onChanged: (value) {
-              provider.setPriorityStarred(value);
+              storyConfigProvider.setPriorityStarred(value);
             },
           ),
         );
@@ -83,18 +87,19 @@ class _ThemeSettingMobile extends StatelessWidget {
     );
   }
 
-  @Deprecated("Doesn't use anymore")
-  Consumer<StoryListConfigurationProvider> buildShowChipTile() {
-    return Consumer<StoryListConfigurationProvider>(
-      builder: (context, provider, child) {
+  Widget buildDisableDatePicker(StoryConfigProvider storyConfigProvider) {
+    return ValueListenableBuilder<bool?>(
+      valueListenable: storyConfigProvider.disableDatePickerNotifier,
+      builder: (context, value, child) {
+        bool disableDatePicker = value ?? storyConfigProvider.storage.disableDatePicker;
         return ListTile(
-          leading: const Icon(Icons.memory),
-          title: Text(tr("tile.show_story_chip.title")),
-          onTap: () => provider.setShouldShowChip(!provider.shouldShowChip),
+          leading: const Icon(Icons.date_range_outlined),
+          title: Text(tr("tile.disable_date_picker.title")),
+          onTap: () => storyConfigProvider.setDisableDatePicker(!disableDatePicker),
           trailing: Switch.adaptive(
-            value: provider.shouldShowChip,
+            value: disableDatePicker,
             onChanged: (value) {
-              provider.setShouldShowChip(value);
+              storyConfigProvider.setDisableDatePicker(value);
             },
           ),
         );
@@ -171,43 +176,50 @@ class _ThemeSettingMobile extends StatelessWidget {
     );
   }
 
-  Widget buildSortTile(BuildContext context) {
-    return Consumer<StoryListConfigurationProvider>(builder: (context, provider, child) {
-      return ListTile(
-        leading: const Icon(Icons.sort),
-        title: Text(tr("tile.sort.title")),
-        onTap: () async {
-          final sortTypeResult = await provider.showSortSelectorDialog(context);
-          if (sortTypeResult != null) {
-            provider.setSortType(sortTypeResult);
-          }
-        },
-      );
-    });
+  Widget buildSortTile(StoryConfigProvider storyConfigProvider) {
+    return ValueListenableBuilder<SortType?>(
+      valueListenable: storyConfigProvider.sortTypeNotifier,
+      builder: (context, value, child) {
+        final sortType = value ?? storyConfigProvider.storage.sortType;
+        return ListTile(
+          leading: const SizedBox(height: 44, child: Icon(Icons.sort)),
+          title: Text(tr("tile.sort.title")),
+          subtitle: Text(sortType.title),
+          onTap: () async {
+            final sortTypeResult = await storyConfigProvider.showSortSelectorDialog(context);
+            if (sortTypeResult != null) {
+              storyConfigProvider.setSortType(sortTypeResult);
+            }
+          },
+        );
+      },
+    );
   }
 
-  Widget buildLayoutTile(BuildContext context) {
+  Widget buildLayoutTile(
+    BuildContext context,
+    StoryConfigProvider storyConfigProvider,
+  ) {
+    String layoutTitle(SpListLayoutType type) {
+      switch (type) {
+        case SpListLayoutType.library:
+          return tr("title.layout.types.library");
+        case SpListLayoutType.diary:
+          return tr("title.layout.types.diary");
+        case SpListLayoutType.timeline:
+          return tr("title.layout.types.timeline");
+      }
+    }
+
     return ListTile(
-      leading: const Icon(Icons.list_alt),
+      leading: const SizedBox(height: 44, child: Icon(Icons.list_alt)),
       title: Text(tr("tile.layout.title")),
+      subtitle: Text(layoutTitle(storyConfigProvider.storage.layoutType)),
       onTap: () async {
-        SpListLayoutType layoutType = await SpListLayoutBuilder.get();
-
-        String layoutTitle(SpListLayoutType type) {
-          switch (type) {
-            case SpListLayoutType.library:
-              return tr("title.layout.types.library");
-            case SpListLayoutType.diary:
-              return tr("title.layout.types.diary");
-            case SpListLayoutType.timeline:
-              return tr("title.layout.types.timeline");
-          }
-        }
-
         SpListLayoutType? layoutTypeResult = await showConfirmationDialog(
           context: context,
           title: tr("tile.layout.title"),
-          initialSelectedActionKey: layoutType,
+          initialSelectedActionKey: storyConfigProvider.storage.layoutType,
           // ignore: use_build_context_synchronously
           cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
           actions: SpListLayoutType.values.map((e) {
@@ -218,14 +230,14 @@ class _ThemeSettingMobile extends StatelessWidget {
           }).map((e) {
             return AlertDialogAction<SpListLayoutType>(
               key: e.key,
-              isDefaultAction: e.key == layoutType,
+              isDefaultAction: e.key == storyConfigProvider.storage.layoutType,
               label: e.label,
             );
           }).toList(),
         );
 
-        if (layoutTypeResult != layoutType && layoutTypeResult != null) {
-          await SpListLayoutBuilder.set(layoutTypeResult).then((value) {
+        if (layoutTypeResult != storyConfigProvider.storage.layoutType && layoutTypeResult != null) {
+          await storyConfigProvider.setLayoutType(layoutTypeResult).then((value) {
             Phoenix.rebirth(context);
           });
         }

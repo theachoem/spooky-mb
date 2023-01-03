@@ -572,8 +572,8 @@ tile:
     title: សំណួរ​សុវត្ថិភាព
   selected_font:
     title: ពុម្ពអក្សរដែលបានជ្រើសរើស
-  show_story_chip:
-    title: បង្ហាញបន្ទះសៀគ្វីលើរឿង
+  disable_date_picker:
+    title: បិទការជ្រើសរើសកាលបរិច្ឆេទ
   sort:
     title: តម្រៀប
     types:

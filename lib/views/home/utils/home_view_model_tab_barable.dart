@@ -4,7 +4,7 @@ mixin _HomeViewModelTabBarable on BaseViewModel {
   late List<HomeTabItem> _tabs;
 
   List<HomeTabItem> get tabs => _tabs;
-  SpListLayoutType get layoutType => Global.instance.layoutType;
+  SpListLayoutType get layoutType => StoryConfigStorage.instance.layoutType;
 
   /// Reload tab base on database tags
   void reloadTabs() async {

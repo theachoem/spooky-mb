@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/security/security_service.dart';
+import 'package:spooky/core/storages/local_storages/story_config_storage.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
 import 'package:spooky/providers/bottom_nav_items_provider.dart';
-import 'package:spooky/widgets/sp_list_layout_builder.dart';
+import 'package:spooky/providers/story_config_provider.dart';
 import 'package:spooky/utils/mixins/schedule_mixin.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:spooky/core/base/base_view_model.dart';
@@ -102,26 +104,40 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
   }
 
   Future<void> createStory(BuildContext context, {bool useTodayDate = false}) async {
-    await SpListLayoutBuilder.get().then((layout) async {
-      DateTime? date;
+    final StoryConfigStorage storage = context.read<StoryConfigProvider>().storage;
 
-      if (useTodayDate) {
-        date = DateTime.now();
-      } else {
-        switch (layout) {
-          case SpListLayoutType.timeline:
-          case SpListLayoutType.library:
-            date = await SpDatePicker.showMonthDayPicker(context, this.date);
-            break;
-          case SpListLayoutType.diary:
-            date = await SpDatePicker.showDayPicker(context, this.date);
-            break;
-        }
+    final bool disableDatePicker = storage.disableDatePicker;
+    final SpListLayoutType layout = storage.layoutType;
+
+    DateTime? date;
+
+    if (useTodayDate) {
+      date = DateTime.now();
+    } else if (disableDatePicker) {
+      date = DateTime.now();
+      switch (layout) {
+        case SpListLayoutType.timeline:
+        case SpListLayoutType.library:
+          date = DateTime(year, date.month, date.day, date.hour, date.minute, date.second);
+          break;
+        case SpListLayoutType.diary:
+          date = this.date;
+          break;
       }
+    } else {
+      switch (layout) {
+        case SpListLayoutType.timeline:
+        case SpListLayoutType.library:
+          date = await SpDatePicker.showMonthDayPicker(context, this.date);
+          break;
+        case SpListLayoutType.diary:
+          date = await SpDatePicker.showDayPicker(context, this.date);
+          break;
+      }
+    }
 
-      // ignore: use_build_context_synchronously
-      if (date != null) onConfirm(date, context);
-    });
+    // ignore: use_build_context_synchronously
+    if (date != null) onConfirm(date, context);
   }
 
   void onConfirm(DateTime date, BuildContext context) {

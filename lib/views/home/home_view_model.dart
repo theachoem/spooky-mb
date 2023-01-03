@@ -11,10 +11,10 @@ import 'package:spooky/core/db/models/tag_db_model.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/services/popover_service.dart';
 import 'package:spooky/core/services/story_tags_service.dart';
+import 'package:spooky/core/storages/local_storages/story_config_storage.dart';
 import 'package:spooky/core/types/sort_type.dart';
-import 'package:spooky/main.dart';
 import 'package:spooky/providers/nickname_provider.dart';
-import 'package:spooky/providers/story_list_configuration_provider.dart';
+import 'package:spooky/providers/story_config_provider.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 import 'package:spooky/views/home/local_widgets/home_app_bar.dart';
@@ -175,8 +175,7 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
 
     HomeTabItem tab = tabs[index];
     SpListLayoutType overridedLayout = tab.overridedLayout ?? layoutType;
-    SortType sortType =
-        _tabs[index].overridedSortType ?? context.read<StoryListConfigurationProvider>().sortType ?? SortType.newToOld;
+    SortType sortType = _tabs[index].overridedSortType ?? context.read<StoryConfigProvider>().storage.sortType;
 
     PopoverService.instance.show(
       context: context,

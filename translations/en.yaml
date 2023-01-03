@@ -569,8 +569,8 @@ tile:
     title: Security Questions
   selected_font:
     title: Selected Font
-  show_story_chip:
-    title: Show chips on the story
+  disable_date_picker:
+    title: Disable date picker
   sort:
     title: Sort
     types:

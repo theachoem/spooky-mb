@@ -203,6 +203,6 @@ const _$PathTypeEnumMap = {
 };
 
 const _$SortTypeEnumMap = {
-  SortType.oldToNew: 'oldToNew',
   SortType.newToOld: 'newToOld',
+  SortType.oldToNew: 'oldToNew',
 };
