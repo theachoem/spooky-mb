@@ -9,6 +9,7 @@ import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/types/detail_view_flow_type.dart';
+import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/views/detail/black_out_notifier.dart';
 import 'package:spooky/views/detail/detail_view_model.dart';
 import 'package:spooky/widgets/sp_button.dart';
@@ -64,8 +65,22 @@ class DetailSheet extends StatelessWidget {
 
           // buildActionsSection(context),
           buildSettingSection(context),
+          buildDateSection()
         ],
       )..addAll(buildExtraSections(context)),
+    );
+  }
+
+  SpSectionContents buildDateSection() {
+    return SpSectionContents(
+      headline: tr("tile.date.title"),
+      tiles: [
+        ListTile(
+          leading: const SizedBox(height: 44, child: Icon(Icons.date_range)),
+          title: Text(tr('tile.created_at.title')),
+          subtitle: Text(DateFormatHelper.dateTimeFormat().format(viewModel.currentStory.createdAt)),
+        ),
+      ],
     );
   }
 

@@ -4,10 +4,8 @@ import 'dart:io';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:spooky/core/db/models/story_content_db_model.dart';
 import 'package:spooky/core/db/models/story_db_model.dart';
-import 'package:spooky/providers/story_list_configuration_provider.dart';
 import 'package:spooky/utils/constants/config_constant.dart';
 import 'package:spooky/utils/helpers/date_format_helper.dart';
 import 'package:spooky/utils/helpers/quill_extensions.dart' as ext;
@@ -55,9 +53,6 @@ class StoryTileChips extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StoryListConfigurationProvider provider = Provider.of<StoryListConfigurationProvider>(context, listen: true);
-
-    if (!provider.shouldShowChip) return const SizedBox.shrink();
     List<Widget> chips = getChipList(images, content, story, context);
     if (chips.isEmpty) return const SizedBox.shrink();
 

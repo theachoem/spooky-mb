@@ -7,12 +7,11 @@ import 'package:spooky/providers/in_app_purchase_provider.dart';
 import 'package:spooky/providers/in_app_update_provider.dart';
 import 'package:spooky/providers/mini_sound_player_provider.dart';
 import 'package:spooky/providers/notification_provider.dart';
-import 'package:spooky/providers/story_list_configuration_provider.dart';
+import 'package:spooky/providers/story_config_provider.dart';
 import 'package:spooky/providers/tab_notice_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/providers/developer_mode_provider.dart';
 import 'package:spooky/providers/nickname_provider.dart';
-import 'package:spooky/providers/tile_max_line_provider.dart';
 
 // global providers
 class ProviderScope extends StatelessWidget {
@@ -27,8 +26,8 @@ class ProviderScope extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ListenableProvider<StoryListConfigurationProvider>(
-          create: (context) => StoryListConfigurationProvider(),
+        ListenableProvider<StoryConfigProvider>(
+          create: (context) => StoryConfigProvider(),
         ),
         ListenableProvider<ThemeProvider>(
           create: (context) => ThemeProvider(),
@@ -47,9 +46,6 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<DropboxCloudProvider>(
           create: (context) => DropboxCloudProvider.instance,
-        ),
-        ListenableProvider<TileMaxLineProvider>(
-          create: (context) => TileMaxLineProvider(),
         ),
         ListenableProvider<InAppPurchaseProvider>(
           create: (context) => InAppPurchaseProvider(),

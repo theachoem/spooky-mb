@@ -10,13 +10,11 @@ class Global {
   // GLOBAL VAR
   String? _nickname;
   List<String>? _purchases;
-  SpListLayoutType? _layoutType;
   PackageInfo? _platform;
 
   Future<void> _initiailize() async {
     _nickname = await NicknameStorage().read();
     _purchases = await _purchasedAddOnStorage.readList() ?? [];
-    _layoutType = await SpListLayoutTypeStorage().readEnum();
     _platform = await PackageInfo.fromPlatform();
     return;
   }
@@ -31,11 +29,9 @@ class Global {
   }
 
   List<String> get purchases => _purchases!;
-  SpListLayoutType get layoutType => _layoutType ?? SpListLayoutBuilder.defaultLayout;
   PackageInfo get _testingPlatform =>
       PackageInfo(appName: "unit-test", packageName: "test.unit.com", version: "1.0.0", buildNumber: "1");
 
   // SETTER
   set nickname(String? value) => _nickname = value;
-  void setLayoutType(SpListLayoutType value) => _layoutType = value;
 }

@@ -39,7 +39,6 @@ class _HomeMobile extends StatelessWidget {
   Widget buildSingleLayout() {
     return StoryQueryList(
       hasDifferentYear: false,
-      overridedLayout: SpListLayoutType.diary,
       queryOptions: StoryQueryOptionsModel(
         type: PathType.docs,
         year: viewModel.year,
