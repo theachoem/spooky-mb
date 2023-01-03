@@ -2,10 +2,8 @@ library theme_setting_view;
 
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/analytic/list_layout_type_event.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/locale/type_localization.dart';
 import 'package:spooky/core/routes/sp_router.dart';
