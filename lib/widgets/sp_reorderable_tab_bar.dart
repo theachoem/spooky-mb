@@ -354,6 +354,61 @@ class _DragAnimation extends Animation<double> with AnimationWithParentMixin<dou
   }
 }
 
+// This class, and TabBarScrollController, only exist to handle the case
+// where a scrollable TabBar has a non-zero initialIndex. In that case we can
+// only compute the scroll position's initial scroll offset (the "correct"
+// pixels value) after the TabBar viewport width and scroll limits are known.
+class _TabBarScrollPosition extends ScrollPositionWithSingleContext {
+  _TabBarScrollPosition({
+    required super.physics,
+    required super.context,
+    required super.oldPosition,
+    required this.tabBar,
+  }) : super(
+          initialPixels: null,
+        );
+
+  final SpReorderableTabBarState tabBar;
+
+  bool? _initialViewportDimensionWasZero;
+
+  @override
+  bool applyContentDimensions(double minScrollExtent, double maxScrollExtent) {
+    bool result = true;
+    if (_initialViewportDimensionWasZero != true) {
+      // If the viewport never had a non-zero dimension, we just want to jump
+      // to the initial scroll position to avoid strange scrolling effects in
+      // release mode: In release mode, the viewport temporarily may have a
+      // dimension of zero before the actual dimension is calculated. In that
+      // scenario, setting the actual dimension would cause a strange scroll
+      // effect without this guard because the super call below would starts a
+      // ballistic scroll activity.
+      _initialViewportDimensionWasZero = viewportDimension != 0.0;
+      correctPixels(tabBar._initialScrollOffset(viewportDimension, minScrollExtent, maxScrollExtent));
+      result = false;
+    }
+    return super.applyContentDimensions(minScrollExtent, maxScrollExtent) && result;
+  }
+}
+
+// This class, and TabBarScrollPosition, only exist to handle the case
+// where a scrollable TabBar has a non-zero initialIndex.
+class _TabBarScrollController extends ScrollController {
+  _TabBarScrollController(this.tabBar);
+
+  final SpReorderableTabBarState tabBar;
+
+  @override
+  ScrollPosition createScrollPosition(ScrollPhysics physics, ScrollContext context, ScrollPosition? oldPosition) {
+    return _TabBarScrollPosition(
+      physics: physics,
+      context: context,
+      oldPosition: oldPosition,
+      tabBar: tabBar,
+    );
+  }
+}
+
 class _ShakeAnimation extends StatelessWidget {
   const _ShakeAnimation({
     Key? key,
@@ -498,7 +553,9 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
     // If indicatorSize is TabIndicatorSize.label, _tabKeys[i] is used to find
     // the width of tab widget i. See _IndicatorPainter.indicatorRect().
     _tabKeys = widget.tabs.map((Widget tab) => GlobalKey()).toList();
-    _scrollController = ScrollController();
+
+    // handle some case and get init tab state position
+    _scrollController = _TabBarScrollController(this);
   }
 
   Decoration get _indicator {
@@ -650,6 +707,10 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
     return _tabScrollOffset(index, position.viewportDimension, position.minScrollExtent, position.maxScrollExtent);
   }
 
+  double _initialScrollOffset(double viewportWidth, double minExtent, double maxExtent) {
+    return _tabScrollOffset(_currentIndex!, viewportWidth, minExtent, maxExtent);
+  }
+
   void _scrollToCurrentIndex() {
     final double offset = _tabCenteredScrollOffset(_currentIndex!);
     _scrollController.animateTo(offset, duration: kTabScrollDuration, curve: Curves.ease);
@@ -749,6 +810,7 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
     return true;
   }
 
+  // find current visible & valid context of tab
   void _onContext() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final visibleKeys = _tabKeys.where((element) => element.currentContext != null);
@@ -767,8 +829,6 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
   Widget build(BuildContext context) {
     assert(debugCheckHasMaterialLocalizations(context));
     assert(_debugScheduleCheckHasValidTabsCount());
-
-    _onContext();
 
     final MaterialLocalizations localizations = MaterialLocalizations.of(context);
     if (_controller!.length == 0) {
@@ -876,8 +936,9 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
       );
     }
 
+    Widget tabBar;
     if (_editing) {
-      return SizedBox(
+      tabBar = SizedBox(
         height: widget.preferredSize.height,
         child: ReorderableListView(
           dragStartBehavior: widget.dragStartBehavior,
@@ -907,7 +968,7 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
         ),
       );
     } else {
-      Widget tabBar = CustomPaint(
+      tabBar = CustomPaint(
         painter: _indicatorPainter,
         child: _TabStyle(
           animation: kAlwaysDismissedAnimation,
@@ -936,8 +997,14 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
         alignment: Alignment.centerLeft,
         child: tabBar,
       );
-
-      return tabBar;
     }
+
+    return NotificationListener<ScrollUpdateNotification>(
+      onNotification: (notification) {
+        _onContext();
+        return false;
+      },
+      child: tabBar,
+    );
   }
 }
