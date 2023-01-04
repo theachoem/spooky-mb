@@ -14,6 +14,7 @@ class _Initializer {
     // ui
     await Global.instance._initiailize();
     await ThemeProvider.initialize();
+    await StoryConfigStorage.instance.readObject();
     GoogleFontCacheClearer.call();
     await InitialStoryTabService.initialize();
     await StoryTagsService.instance.load();

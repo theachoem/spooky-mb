@@ -932,6 +932,11 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
         child: tabBar,
       );
 
+      tabBar = Container(
+        alignment: Alignment.centerLeft,
+        child: tabBar,
+      );
+
       return tabBar;
     }
   }

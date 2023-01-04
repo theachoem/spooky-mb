@@ -107,7 +107,7 @@ class HomeTabBar extends StatelessWidget {
         return SpTapEffect(
           onTap: () {
             if (tabController.index == index) return;
-            if (onTap != null) onTap!(index);
+            if (onTap != null) onTap?.call(index);
             tabController.animateTo(index);
           },
           behavior: HitTestBehavior.opaque,

@@ -1,6 +1,5 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
@@ -64,8 +63,6 @@ class _StoryTagsState extends State<StoryTags> with ScheduleMixin {
   }
 
   void load([bool updateState = true]) {
-    bool equal = listEquals(StoryTagsService.instance.tags.map((e) => e.id).toList(), tags?.map((e) => e.id).toList());
-    if (equal) return;
     tags = StoryTagsService.instance.tags;
     if (updateState) setState(() {});
   }
@@ -117,7 +114,6 @@ class _StoryTagsState extends State<StoryTags> with ScheduleMixin {
         await StoryTagsService.instance.reorder(
           oldIndex: oldIndex,
           newIndex: newIndex,
-          context: context,
           beforeSave: (List<TagDbModel> tags) {
             setState(() => this.tags = tags);
             return tags;
@@ -134,23 +130,19 @@ class _StoryTagsState extends State<StoryTags> with ScheduleMixin {
   }
 
   Widget buildTagTile(BuildContext context, TagDbModel object) {
-    return ClipRRect(
+    return Slidable(
       key: ValueKey(object.id),
-      clipBehavior: Clip.hardEdge,
-      child: Slidable(
-        key: ValueKey(object.id),
-        endActionPane: buildActionsPane(context, object),
-        child: ValueListenableBuilder<List<int>>(
-          valueListenable: selectedTagsIdNotifiers,
-          builder: (context, selectedIds, child) {
-            return CheckboxListTile(
-              value: selectedIds.contains(object.id),
-              title: Text(object.title),
-              subtitle: Text(DateFormatHelper.dateTimeFormat().format(object.createdAt)),
-              onChanged: (value) => setSelected(object.id, value == true),
-            );
-          },
-        ),
+      endActionPane: buildActionsPane(context, object),
+      child: ValueListenableBuilder<List<int>>(
+        valueListenable: selectedTagsIdNotifiers,
+        builder: (context, selectedIds, child) {
+          return CheckboxListTile(
+            value: selectedIds.contains(object.id),
+            title: Text(object.title),
+            subtitle: Text(DateFormatHelper.dateTimeFormat().format(object.createdAt)),
+            onChanged: (value) => setSelected(object.id, value == true),
+          );
+        },
       ),
     );
   }

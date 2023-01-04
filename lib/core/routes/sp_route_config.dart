@@ -32,6 +32,7 @@ import 'package:spooky/views/security/security_view.dart';
 import 'package:spooky/views/setting/setting_view.dart';
 import 'package:spooky/views/sound_list/sound_list_view.dart';
 import 'package:spooky/views/story_pad_restore/story_pad_restore_view.dart';
+import 'package:spooky/views/tags/tags_view.dart';
 import 'package:spooky/views/theme_setting/theme_setting_view.dart';
 import 'package:spooky/views/user/user_view.dart';
 
@@ -297,6 +298,11 @@ class SpRouteConfig {
               return const SearchView(initialQuery: null);
             }
           },
+        );
+      case SpRouter.tags:
+        return DefaultRouteSetting(
+          fullscreenDialog: false,
+          route: (context) => const TagsView(),
         );
     }
   }

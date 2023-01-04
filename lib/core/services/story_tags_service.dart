@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:math';
+
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -13,9 +15,26 @@ class StoryTagsService {
   final TagDatabase tagDatabase = TagDatabase.instance;
   List<TagDbModel>? _tags;
   List<TagDbModel> get tags => _tags ?? [];
+  List<TagDbModel> get displayTags => (_tags ?? []).where((element) => element.starred == true).toList();
 
   Future<void> load() async {
     _tags = await tagDatabase.fetchAll().then((value) => value?.items ?? []);
+  }
+
+  Future<void> dbUpdate(
+    TagDbModel object, {
+    List<TagDbModel> Function(List<TagDbModel> tags)? beforeSave,
+  }) async {
+    int index = tags.lastIndexWhere((element) => element.id == object.id);
+
+    if (beforeSave != null) {
+      _tags ??= [];
+      _tags![min(index, _tags!.length)] = object;
+      beforeSave(_tags!);
+    }
+
+    await tagDatabase.update(id: object.id, body: object.copyWith(updatedAt: DateTime.now()));
+    await load();
   }
 
   Future<void> delete(BuildContext context, TagDbModel object) async {
@@ -49,11 +68,7 @@ class StoryTagsService {
 
     if (result != null) {
       String title = result[0];
-      await tagDatabase.update(
-        id: object.id,
-        body: object.copyWith(title: title, updatedAt: DateTime.now()),
-      );
-      await load();
+      await dbUpdate(object.copyWith(title: title));
     }
   }
 
@@ -89,22 +104,40 @@ class StoryTagsService {
     required int oldIndex,
     required int newIndex,
     required List<TagDbModel> Function(List<TagDbModel> tags) beforeSave,
-    required BuildContext context,
+    bool displayTag = false,
   }) async {
     if (oldIndex < newIndex) newIndex -= 1;
+    List<TagDbModel>? newTags;
 
-    if (newIndex > tags.length - 1) return;
-    if (oldIndex > tags.length - 1) return;
+    // if display tags, caculate new value index for [oldIndex & newIndex]
+    if (displayTag) {
+      if (newIndex > displayTags.length - 1) return;
+      if (oldIndex > displayTags.length - 1) return;
 
-    List<TagDbModel> tagsQueue = [...tags];
-    TagDbModel item = tagsQueue.removeAt(oldIndex);
-    tagsQueue.insert(newIndex, item);
+      oldIndex = tags.lastIndexWhere((e) => e.id == displayTags[oldIndex].id);
+      newIndex = tags.lastIndexWhere((e) => e.id == displayTags[newIndex].id);
 
-    _tags = beforeSave(List.generate(tagsQueue.length, (index) {
-      return tagsQueue[index].copyWith(index: index);
-    }));
+      List<TagDbModel> tagsQueue = [...tags];
+      TagDbModel item = tagsQueue.removeAt(oldIndex);
+      tagsQueue.insert(newIndex, item);
 
-    for (TagDbModel tag in tags) {
+      newTags = beforeSave(List.generate(tagsQueue.length, (index) {
+        return tagsQueue[index].copyWith(index: index);
+      }).where((element) => element.starred == true).toList());
+    } else {
+      if (newIndex > tags.length - 1) return;
+      if (oldIndex > tags.length - 1) return;
+
+      List<TagDbModel> tagsQueue = [...tags];
+      TagDbModel item = tagsQueue.removeAt(oldIndex);
+      tagsQueue.insert(newIndex, item);
+
+      newTags = beforeSave(List.generate(tagsQueue.length, (index) {
+        return tagsQueue[index].copyWith(index: index);
+      }));
+    }
+
+    for (TagDbModel tag in newTags) {
       await StoryTagsService.instance.tagDatabase.update(
         id: tag.id,
         body: tag,
