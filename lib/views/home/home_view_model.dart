@@ -8,6 +8,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/db/databases/story_database.dart';
 import 'package:spooky/core/db/models/tag_db_model.dart';
+import 'package:spooky/core/routes/sp_router.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/services/popover_service.dart';
 import 'package:spooky/core/services/story_tags_service.dart';
@@ -45,7 +46,7 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
 
     switch (layoutType) {
       case SpListLayoutType.library:
-        _tabs = toTabs(StoryTagsService.instance.tags);
+        _tabs = toTabs(StoryTagsService.instance.displayTags);
         break;
       case SpListLayoutType.diary:
         _tabs = List.generate(12, HomeTabItem.fromIndexToMonth);
@@ -197,18 +198,13 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
             updateLayout(index, overridedLayout.next);
           },
         ),
-        if (layoutType == SpListLayoutType.library && tab.tag != null && reorderable != null && reorderable(index))
+        if (layoutType == SpListLayoutType.library)
           PopoverItem(
-            title: tr("button.update"),
-            iconData: CommunityMaterialIcons.table_edit,
-            onPressed: () => update(tab, context),
-          ),
-        if (layoutType == SpListLayoutType.library && tab.tag != null && reorderable != null && reorderable(index))
-          PopoverItem(
-            title: tr("button.delete"),
-            iconData: Icons.delete,
-            foregroundColor: Theme.of(context).colorScheme.error,
-            onPressed: () => removeTab(tab, context),
+            title: tr("section.tags"),
+            iconData: CommunityMaterialIcons.tag,
+            onPressed: () {
+              Navigator.of(context).pushNamed(SpRouter.tags.path);
+            },
           ),
       ],
     );

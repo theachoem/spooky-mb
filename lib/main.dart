@@ -18,6 +18,7 @@ import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/services/story_tags_service.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/core/storages/local_storages/purchased_add_on_storage.dart';
+import 'package:spooky/core/storages/local_storages/story_config_storage.dart';
 import 'package:spooky/flavor_config.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/provider_scope.dart';

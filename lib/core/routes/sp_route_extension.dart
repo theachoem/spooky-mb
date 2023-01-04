@@ -237,6 +237,12 @@ extension SpRouterExtension on SpRouter {
           subtitle: tr("page.account_deletion.title"),
           tab: null,
         );
+      case SpRouter.tags:
+        return SpRouterDatas(
+          title: tr("section.tags"),
+          subtitle: tr("section.tags"),
+          tab: null,
+        );
     }
   }
 
@@ -300,6 +306,8 @@ extension SpRouterExtension on SpRouter {
         return '/backup-histories-manager';
       case SpRouter.accountDeletion:
         return '/account-deletion';
+      case SpRouter.tags:
+        return '/tags';
     }
   }
 }

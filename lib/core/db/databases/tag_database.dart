@@ -33,6 +33,14 @@ class TagDatabase extends BaseDatabase<TagDbModel> {
   Future<BaseDbListModel<TagDbModel>?> fetchAll({Map<String, dynamic>? params}) async {
     BaseDbListModel<TagDbModel>? result = await super.fetchAll(params: params);
     List<TagDbModel> items = [...result?.items ?? []]..sort((a, b) => a.index.compareTo(b.index));
+
+    for (int i = 0; i < items.length; i++) {
+      if (items[i].starred == null) {
+        items[i] = items[i].copyWith(starred: true);
+        set(body: items[i]);
+      }
+    }
+
     result = result?.copyWith(items: items);
     return result;
   }

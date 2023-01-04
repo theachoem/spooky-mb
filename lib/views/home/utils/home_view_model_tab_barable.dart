@@ -14,7 +14,7 @@ mixin _HomeViewModelTabBarable on BaseViewModel {
     final newTagIndexes = StoryTagsService.instance.tags.map((e) => "${e.id}${e.title}").toList();
 
     if (!listEquals(currentTagIndexes, newTagIndexes)) {
-      final newTabs = toTabs(StoryTagsService.instance.tags);
+      final newTabs = toTabs(StoryTagsService.instance.displayTags);
       final tabChanged = _tabs.length != newTabs.length;
       _tabs = newTabs;
 
@@ -67,10 +67,11 @@ mixin _HomeViewModelTabBarable on BaseViewModel {
     if (newIndex == 0 || oldIndex == 0) return;
     if (newIndex == tabs.length - 1 || oldIndex == tabs.length - 1) return;
 
+    // -1 because we have default starred tab
     StoryTagsService.instance.reorder(
-      context: context,
       oldIndex: oldIndex - 1,
       newIndex: newIndex - 1,
+      displayTag: true,
       beforeSave: (tags) {
         _tabs = toTabs(tags);
         notifyListeners();

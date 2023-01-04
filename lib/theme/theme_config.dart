@@ -132,6 +132,11 @@ class ThemeConfig {
         if (states.contains(MaterialState.selected)) return colorScheme.primary;
         return null;
       }),
+      checkColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+        if (states.contains(MaterialState.disabled)) return null;
+        if (states.contains(MaterialState.selected)) return colorScheme.onPrimary;
+        return null;
+      }),
     );
   }
 

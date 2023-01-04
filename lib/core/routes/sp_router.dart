@@ -42,4 +42,5 @@ enum SpRouter {
   search,
   backupHistoriesManager,
   accountDeletion,
+  tags,
 }
