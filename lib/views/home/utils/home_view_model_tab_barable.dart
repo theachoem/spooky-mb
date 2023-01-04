@@ -65,7 +65,7 @@ mixin _HomeViewModelTabBarable on BaseViewModel {
     if (layoutType != SpListLayoutType.library) return;
 
     if (newIndex == 0 || oldIndex == 0) return;
-    if (newIndex == tabs.length - 1 || oldIndex == tabs.length - 1) return;
+    if (newIndex == tabs.length || oldIndex == tabs.length) return;
 
     // -1 because we have default starred tab
     StoryTagsService.instance.reorder(
