@@ -7,6 +7,10 @@ class _UserMobile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final currentUser = FirebaseAuth.instance.currentUser;
+
+    final Size screenSize = MediaQuery.of(context).size;
+    final bool tablet = screenSize.width > screenSize.height;
+
     return Scaffold(
       appBar: MorphingAppBar(
         leading: const SpPopButton(),
@@ -59,7 +63,7 @@ class _UserMobile extends StatelessWidget {
                 buildProviders(context),
               ],
             ),
-            const SizedBox(height: 400)
+            SizedBox(height: tablet ? kToolbarHeight : 200)
           ],
         ),
       ),

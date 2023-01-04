@@ -32,19 +32,22 @@ class UserImageProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    bool tablet = screenSize.width > screenSize.height;
+
     return LayoutBuilder(builder: (context, constraint) {
       final width = constraint.maxWidth;
       return ValueListenableBuilder(
         valueListenable: scrollOffsetNotifier,
         builder: (context, double offset, child) {
-          final bool isCollapse = offset < 200;
-          final avatarSize = isCollapse ? width : this.avatarSize;
-          final padding = isCollapse ? EdgeInsets.zero : const EdgeInsets.all(16);
+          final bool isCollapsed = tablet || offset > 200;
+          final avatarSize = !isCollapsed ? width : this.avatarSize;
+          final padding = !isCollapsed ? EdgeInsets.zero : const EdgeInsets.all(16);
           return AnimatedContainer(
             duration: ConfigConstant.duration,
             curve: Curves.easeOutQuart,
             width: width,
-            height: width,
+            height: tablet ? kToolbarHeight + 24 * 2 : width,
             padding: padding,
             alignment: Alignment.bottomLeft,
             color: M3Color.of(context).background,
@@ -55,8 +58,8 @@ class UserImageProfile extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.bottomLeft,
                 children: [
-                  buildPhoto(avatarSize, isCollapse),
-                  buildProfileInfoTile(isCollapse, context),
+                  buildPhoto(avatarSize, isCollapsed),
+                  buildProfileInfoTile(isCollapsed, context),
                 ],
               ),
             ),
@@ -66,16 +69,16 @@ class UserImageProfile extends StatelessWidget {
     });
   }
 
-  Widget buildProfileInfoTile(bool isCollapse, BuildContext context) {
+  Widget buildProfileInfoTile(bool isCollapsed, BuildContext context) {
     return AnimatedContainer(
       duration: ConfigConstant.duration,
       width: double.infinity,
       curve: Curves.easeOutQuart,
       height: 72,
-      margin: EdgeInsets.only(left: isCollapse ? 0 : avatarSize + 16),
+      margin: EdgeInsets.only(left: !isCollapsed ? 0 : avatarSize + 16),
       decoration: BoxDecoration(
-        borderRadius: isCollapse ? BorderRadius.zero : ConfigConstant.circlarRadius2,
-        color: M3Color.of(context).primaryContainer.withOpacity(isCollapse ? 1 : 1),
+        borderRadius: !isCollapsed ? BorderRadius.zero : ConfigConstant.circlarRadius2,
+        color: M3Color.of(context).primary,
       ),
       child: SpPopupMenuButton(
         dxGetter: (dx) => MediaQuery.of(context).size.width,
@@ -107,15 +110,15 @@ class UserImageProfile extends StatelessWidget {
             onTap: callback,
             title: Text(
               currentUser.displayName ?? "",
-              style: TextStyle(color: M3Color.of(context).primary),
+              style: TextStyle(color: M3Color.of(context).onPrimary),
             ),
             subtitle: Text(
               currentUser.email ?? currentUser.uid,
-              style: TextStyle(color: M3Color.of(context).primary),
+              style: TextStyle(color: M3Color.of(context).onPrimary),
             ),
             trailing: Icon(
               Icons.info,
-              color: M3Color.of(context).primary,
+              color: M3Color.of(context).onPrimary,
             ),
           );
         },
@@ -123,7 +126,7 @@ class UserImageProfile extends StatelessWidget {
     );
   }
 
-  Widget buildPhoto(double avatarSize, bool isCollapse) {
+  Widget buildPhoto(double avatarSize, bool isCollapsed) {
     bool hasPhoto = profileUrl != null;
     return AnimatedContainer(
       duration: ConfigConstant.duration,
@@ -132,11 +135,11 @@ class UserImageProfile extends StatelessWidget {
       height: avatarSize,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(
-          isCollapse ? 0 : avatarSize,
+          !isCollapsed ? 0 : avatarSize,
         ),
         image: hasPhoto
             ? DecorationImage(
-                image: CachedNetworkImageProvider(profileUrl!),
+                image: CachedNetworkImageProvider(isCollapsed ? currentUser.photoURL! : profileUrl!),
                 fit: BoxFit.cover,
               )
             : null,
