@@ -74,7 +74,7 @@ class HomeTabBar extends StatelessWidget {
           color: M3Color.of(context).primary,
         ),
       ),
-      onReorder: (int oldIndex, int newIndex) {},
+      onReorder: (int oldIndex, int newIndex) => viewModel.reorder(oldIndex, newIndex, context),
       onLongPress: (context, index) {
         if (tabController?.index == index) {
           viewModel.showTabPopover(
