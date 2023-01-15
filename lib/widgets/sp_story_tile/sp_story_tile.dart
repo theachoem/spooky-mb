@@ -75,8 +75,8 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     expandedLevelNotifier = ValueNotifier<ChipsExpandLevelType>(ChipsExpandLevelType.level1);
     database = StoryDatabase.instance;
     setStory(widget.story, reloadState: false, debugSource: "initState");
+
     utils = SpStoryTileUtils(
-      context: context,
       story: () => story,
       reloadList: widget.onRefresh,
       reloadStory: reloadStory,
@@ -216,9 +216,9 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
           if (story.viewOnly) _buildViewItem(context),
           if (story.editable) _buildChangeDateItem(context),
           if (story.editable) _buildChangeTimeItem(context),
-          if (story.archivable) _buildArchiveItem(),
-          if (story.editable) _buildStarredItem(),
-          if (story.putBackAble) _buildPutBackItem(),
+          if (story.archivable) _buildArchiveItem(context),
+          if (story.editable) _buildStarredItem(context),
+          if (story.putBackAble) _buildPutBackItem(context),
           _buildDeleteItem(context),
         ];
       },
@@ -273,7 +273,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     );
   }
 
-  SpPopMenuItem _buildStarredItem() {
+  SpPopMenuItem _buildStarredItem(BuildContext context) {
     return SpPopMenuItem(
       title: starred ? tr("button.unstarred") : tr("button.starred"),
       leadingIconData: starred ? Icons.favorite : Icons.favorite_border,
@@ -286,23 +286,23 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
       title: tr("button.delete"),
       leadingIconData: Icons.delete,
       titleStyle: TextStyle(color: M3Color.of(context).error),
-      onPressed: () => utils.deleteStory(),
+      onPressed: () => utils.deleteStory(context),
     );
   }
 
-  SpPopMenuItem _buildPutBackItem() {
+  SpPopMenuItem _buildPutBackItem(BuildContext context) {
     return SpPopMenuItem(
       title: tr("button.put_back"),
       leadingIconData: Icons.restore_from_trash,
-      onPressed: () => utils.putBackStory(),
+      onPressed: () => utils.putBackStory(context),
     );
   }
 
-  SpPopMenuItem _buildArchiveItem() {
+  SpPopMenuItem _buildArchiveItem(BuildContext context) {
     return SpPopMenuItem(
       title: tr("button.archive"),
       leadingIconData: Icons.archive,
-      onPressed: () => utils.archiveStory(),
+      onPressed: () => utils.archiveStory(context),
     );
   }
 
@@ -310,7 +310,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: tr("button.change_time"),
       leadingIconData: CommunityMaterialIcons.clock,
-      onPressed: () => utils.changeStoryTime(),
+      onPressed: () => utils.changeStoryTime(context),
     );
   }
 
@@ -318,7 +318,7 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     return SpPopMenuItem(
       title: tr("button.change_date"),
       leadingIconData: CommunityMaterialIcons.calendar,
-      onPressed: () => utils.changeStoryDate(),
+      onPressed: () => utils.changeStoryDate(context),
     );
   }
 }

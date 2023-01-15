@@ -14,7 +14,6 @@ import 'package:spooky/utils/util_widgets/sp_date_picker.dart';
 
 class SpStoryTileUtils {
   final StoryDbModel Function() story;
-  final BuildContext context;
   final Future<void> Function() reloadList;
   final Future<void> Function() reloadStory;
   final Future<void> Function() beforeAction;
@@ -23,7 +22,6 @@ class SpStoryTileUtils {
 
   SpStoryTileUtils({
     required this.story,
-    required this.context,
     required this.reloadList,
     required this.reloadStory,
     required this.beforeAction,
@@ -38,21 +36,22 @@ class SpStoryTileUtils {
     required bool refreshStory,
   }) async {
     await beforeAction();
+    // ignore: use_build_context_synchronously
     bool success = await callback();
     if (success && refreshList) await reloadList();
     if (success && refreshStory) await reloadStory();
     return success;
   }
 
-  Future<bool> changeStoryDate() async {
+  Future<bool> changeStoryDate(BuildContext context) async {
     return refreshSuccess(
-      _changeStoryDate,
+      () => _changeStoryDate(context),
       refreshList: true,
       refreshStory: true,
     );
   }
 
-  Future<bool> _changeStoryDate() async {
+  Future<bool> _changeStoryDate(BuildContext context) async {
     DateTime? pathDate = await SpDatePicker.showDatePicker(
       context,
       story().displayPathDate,
@@ -76,15 +75,15 @@ class SpStoryTileUtils {
     return false;
   }
 
-  Future<bool> changeStoryTime() async {
+  Future<bool> changeStoryTime(BuildContext context) async {
     return refreshSuccess(
-      _changeStoryTime,
+      () => _changeStoryTime(context),
       refreshList: true,
       refreshStory: true,
     );
   }
 
-  Future<bool> _changeStoryTime() async {
+  Future<bool> _changeStoryTime(BuildContext context) async {
     TimeOfDay? time;
 
     await Navigator.of(context).push(
@@ -118,15 +117,15 @@ class SpStoryTileUtils {
     return false;
   }
 
-  Future<bool> archiveStory() async {
+  Future<bool> archiveStory(BuildContext context) async {
     return refreshSuccess(
-      _archiveStory,
+      () => _archiveStory(context),
       refreshList: true,
       refreshStory: false,
     );
   }
 
-  Future<bool> _archiveStory() async {
+  Future<bool> _archiveStory(BuildContext context) async {
     String title, message, label;
 
     title = tr("alert.are_you_sure_to_archive.title");
@@ -153,15 +152,15 @@ class SpStoryTileUtils {
     }
   }
 
-  Future<bool> putBackStory() async {
+  Future<bool> putBackStory(BuildContext context) async {
     return refreshSuccess(
-      _putBackStory,
+      () => _putBackStory(context),
       refreshList: true,
       refreshStory: false,
     );
   }
 
-  Future<bool> _putBackStory() async {
+  Future<bool> _putBackStory(BuildContext context) async {
     String? date = DateFormatHelper.yM().format(story().displayPathDate);
     String title, message, label;
 
@@ -189,15 +188,15 @@ class SpStoryTileUtils {
     }
   }
 
-  Future<bool> deleteStory() async {
+  Future<bool> deleteStory(BuildContext context) async {
     return refreshSuccess(
-      _deleteStory,
+      () => _deleteStory(context),
       refreshList: true,
       refreshStory: false,
     );
   }
 
-  Future<bool> _deleteStory() async {
+  Future<bool> _deleteStory(BuildContext context) async {
     OkCancelResult result;
 
     switch (story().type) {
