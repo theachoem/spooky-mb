@@ -100,7 +100,7 @@ class SpStoryTileUtils {
             ? ButtonStyle(overlayColor: MaterialStateProperty.all(Colors.transparent))
             : null,
         onCancel: () {
-          Navigator.of(context).pop();
+          Navigator.maybeOf(context)?.pop();
         },
         onChangeDateTime: (date) => time = TimeOfDay.fromDateTime(date),
         onChange: (t) => time = t,
