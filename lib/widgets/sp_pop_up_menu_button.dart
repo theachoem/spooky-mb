@@ -169,9 +169,6 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
   PopupMenuItem<SpPopMenuItem> buildItem(SpPopMenuItem e) {
     return PopupMenuItem<SpPopMenuItem>(
       padding: EdgeInsets.zero,
-      onTap: () {
-        Navigator.maybeOf(context)?.pop();
-      },
       value: e,
       child: ListTile(
         leading: e.leadingIconData != null
