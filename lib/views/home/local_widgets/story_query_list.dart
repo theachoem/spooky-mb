@@ -41,10 +41,6 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
   void initState() {
     super.initState();
     load("initState");
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      ModalRoute? modalRoute = ModalRoute.of(context);
-      if (modalRoute != null) App.storyQueryListObserver.subscribe(this, modalRoute);
-    });
   }
 
   @override
@@ -81,6 +77,13 @@ class _StoryListState extends State<StoryQueryList> with AutomaticKeepAliveClien
     final result = await _fetchStory();
     setState(() => stories = result);
     if (kDebugMode) print("LOADED FROM: $source");
+  }
+
+  @override
+  void didChangeDependencies() {
+    ModalRoute? modalRoute = ModalRoute.of(context);
+    if (modalRoute != null) App.storyQueryListObserver.subscribe(this, modalRoute);
+    super.didChangeDependencies();
   }
 
   @override
