@@ -47,6 +47,8 @@ alert:
   document_saved:
     subtitle: ឯកសារត្រូវបានរក្សាទុកក្នុង
     title: ឯកសាររបស់អ្នកត្រូវបានរក្សាទុក
+  image_drive_404:
+    message: 404៖ រូបភាពមិនអាចចូលប្រើជាសាធារណៈ ឬត្រូវបានលុបចេញពី Google Drive
   image_source:
     title: ប្រភពរូបភាព
   image:
@@ -166,6 +168,7 @@ button:
   search_fonts: ស្វែងរកពុម្ពអក្សរ
   select: ជ្រើសរើស
   select_version: ជ្រើសរើសកំណែមួយ។
+  show_image_url: បង្ហាញ url រូបភាព
   sound_library: បណ្ណាល័យសំឡេង
   starred: បានដាក់ផ្កាយ
   stop: ឈប់
@@ -529,6 +532,8 @@ tile:
   crop_image: ច្រឹបរូបភាព
   date:
     title: កាលបរិច្ឆេទ
+  disable_date_picker:
+    title: បិទការជ្រើសរើសកាលបរិច្ឆេទ
   display_on_navigation_bar: បង្ហាញនៅលើរបាររុករក
   dynamic_color:
     subtitle: ប្រើពណ៌ដោយផ្អែកលើប្រព័ន្ធរបស់អ្នក។
@@ -572,8 +577,6 @@ tile:
     title: សំណួរ​សុវត្ថិភាព
   selected_font:
     title: ពុម្ពអក្សរដែលបានជ្រើសរើស
-  disable_date_picker:
-    title: បិទការជ្រើសរើសកាលបរិច្ឆេទ
   sort:
     title: តម្រៀប
     types:

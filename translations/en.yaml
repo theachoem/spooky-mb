@@ -50,6 +50,10 @@ alert:
   document_saved:
     subtitle: The document is saved in
     title: Your document is saved
+  image_drive_404:
+    message: >-
+      404: Image is not publicly accessible or has been deleted from Google
+      Drive
   image_source:
     title: Image source
   image:
@@ -167,6 +171,7 @@ button:
   search_fonts: Search fonts
   select: Select
   select_version: Select a version
+  show_image_url: Show image url
   sound_library: Sounds Library
   starred: Starred
   stop: Stop
@@ -526,6 +531,8 @@ tile:
   crop_image: Crop Image
   date:
     title: Date
+  disable_date_picker:
+    title: Disable date picker
   display_on_navigation_bar: Display on the navigation bar
   dynamic_color:
     subtitle: Use colors base on your system.
@@ -569,8 +576,6 @@ tile:
     title: Security Questions
   selected_font:
     title: Selected Font
-  disable_date_picker:
-    title: Disable date picker
   sort:
     title: Sort
     types:

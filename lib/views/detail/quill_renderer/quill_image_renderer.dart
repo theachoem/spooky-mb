@@ -70,6 +70,25 @@ class _QuillImageRenderer extends StatelessWidget {
         imageUrl: imageUrl,
         width: width,
         height: null,
+        errorWidget: (context, url, error) {
+          bool driveImage = url.startsWith('https://drive.google.com/uc?export=download&id=');
+          return QuillUnsupportedRenderer(
+            message: driveImage ? tr('alert.image_drive_404.message') : "$error\n:$imageUrl",
+            buttonLabel: tr('button.show_image_url'),
+            onPressed: () async {
+              final result = await showOkCancelAlertDialog(
+                context: context,
+                title: tr('alert.image_source.title'),
+                message: url,
+                okLabel: tr('button.copy_link'),
+              );
+
+              if (result == OkCancelResult.ok) {
+                Clipboard.setData(ClipboardData(text: url));
+              }
+            },
+          );
+        },
       );
     }
 
