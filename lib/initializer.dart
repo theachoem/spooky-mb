@@ -63,8 +63,21 @@ class _Initializer {
         );
         break;
     }
+
+    _listenToErrors();
+    _listenToNonFlutterErrors();
+  }
+
+  static void _listenToErrors() {
     FlutterError.onError = (FlutterErrorDetails details) {
       FirebaseCrashlytics.instance.recordFlutterFatalError(details);
+    };
+  }
+
+  static void _listenToNonFlutterErrors() {
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
     };
   }
 }
