@@ -556,6 +556,7 @@ class SpReorderableTabBarState extends State<SpReorderableTabBar> {
 
     // handle some case and get init tab state position
     _scrollController = _TabBarScrollController(this);
+    _onContext();
   }
 
   Decoration get _indicator {
