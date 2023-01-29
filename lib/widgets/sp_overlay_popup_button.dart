@@ -73,7 +73,7 @@ class _SpOverlayEntryButtonState extends State<SpOverlayEntryButton>
   void open() {
     floating = createFloating(context: context);
     if (floating == null) return;
-    Overlay.of(context)?.insert(floating!);
+    Overlay.maybeOf(context)?.insert(floating!);
     controller.forward();
     isFloatingOpen = true;
   }

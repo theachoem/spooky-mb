@@ -28,7 +28,7 @@ class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
 
         return MaterialPageRoute<T>(
           builder: route,
-          settings: settings?.copyWith(arguments: this),
+          settings: RouteSettings(arguments: this, name: settings?.name),
           fullscreenDialog: fullscreenDialog,
         );
 
@@ -37,7 +37,7 @@ class DefaultRouteSetting<T> extends BaseRouteSetting<T> {
         return SwipeablePageRoute<T>(
           canSwipe: true,
           builder: route,
-          settings: settings?.copyWith(arguments: this),
+          settings: RouteSettings(arguments: this, name: settings?.name),
           fullscreenDialog: fullscreenDialog,
         );
     }

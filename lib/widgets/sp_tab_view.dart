@@ -23,7 +23,7 @@ class SpTabView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TabController? tabController = controller ?? DefaultTabController.of(context);
+    final TabController? tabController = controller ?? DefaultTabController.maybeOf(context);
     final List<Widget> children = buildChildren(context: context, controller: tabController);
 
     return TabBarView(

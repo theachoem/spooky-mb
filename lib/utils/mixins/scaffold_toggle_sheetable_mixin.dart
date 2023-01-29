@@ -77,6 +77,8 @@ mixin ScaffoldToggleSheetableMixin<T extends StatefulWidget> on State<T> {
           onClosing: () {},
           enableDrag: false,
           backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
+          elevation: 0.0,
+          shape: const RoundedRectangleBorder(),
           builder: (context) {
             return buildSheet(context);
           },

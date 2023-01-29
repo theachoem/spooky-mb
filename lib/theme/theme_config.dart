@@ -55,6 +55,12 @@ class ThemeConfig {
         iconTheme: IconThemeData(color: colorScheme.onSurface),
         titleTextStyle: textTheme.titleLarge?.copyWith(color: colorScheme.onSurface),
       ),
+      cardTheme: CardTheme(
+        clipBehavior: Clip.hardEdge,
+        elevation: 0.0,
+        margin: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
+        color: colorScheme.readOnly.surface1,
+      ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         enableFeedback: true,
         elevation: 2.0,
@@ -97,21 +103,6 @@ class ThemeConfig {
       ),
     );
 
-    themeData = themeData.copyWith(
-      cardTheme: CardTheme(
-        clipBehavior: Clip.hardEdge,
-        elevation: 0.0,
-        margin: const EdgeInsets.symmetric(horizontal: ConfigConstant.margin2),
-        color: colorScheme.readOnly.surface1,
-        shape: RoundedRectangleBorder(
-          borderRadius: ConfigConstant.circlarRadius2,
-          side: BorderSide(
-            color: themeData.dividerColor,
-          ),
-        ),
-      ),
-    );
-
     return withDefault(themeData);
   }
 
@@ -146,7 +137,12 @@ class ThemeConfig {
       // platform: TargetPlatform.android,
       dividerColor: dividerColor,
       dividerTheme: DividerThemeData(color: dividerColor, thickness: 0.5),
-
+      cardTheme: themeData.cardTheme.copyWith(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(color: dividerColor, width: 0.5),
+          borderRadius: ConfigConstant.circlarRadius2,
+        ),
+      ),
       // selection toolbars
       cardColor: themeData.colorScheme.readOnly.surface5,
       splashFactory: buildSplash(themeData.platform),

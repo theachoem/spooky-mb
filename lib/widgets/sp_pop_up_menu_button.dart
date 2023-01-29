@@ -68,7 +68,8 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> with StatefulMixi
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      RenderObject? renderObject = Overlay.of(App.navigatorKey.currentContext ?? context)?.context.findRenderObject();
+      RenderObject? renderObject =
+          Overlay.maybeOf(App.navigatorKey.currentContext ?? context)?.context.findRenderObject();
       if (renderObject is RenderBox) overlay = renderObject;
     });
   }

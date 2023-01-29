@@ -15,7 +15,7 @@ class AnimatedRouteSetting<T> extends BaseRouteSetting<T> {
   Route<T> toRoute(BuildContext context, RouteSettings? settings) {
     return AnimatedPageRoute.sharedAxis<T>(
       builder: route,
-      settings: settings?.copyWith(arguments: this),
+      settings: RouteSettings(arguments: this, name: settings?.name),
       fillColor: fillColor,
       fullscreenDialog: fullscreenDialog,
       type: SharedAxisTransitionType.vertical,

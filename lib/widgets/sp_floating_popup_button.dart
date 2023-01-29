@@ -59,7 +59,7 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton>
         floating?.remove();
       } else {
         floating = createFloating();
-        Overlay.of(context)?.insert(floating!);
+        Overlay.maybeOf(context)?.insert(floating!);
         await animationController.forward();
       }
       isFloatingOpen = !isFloatingOpen;

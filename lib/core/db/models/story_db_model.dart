@@ -29,7 +29,7 @@ class StoryDbModel extends BaseDbModel {
   final List<String>? _tags;
   final List<StoryContentDbModel> changes;
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: true, includeToJson: true)
   final List<String>? rawChanges;
   bool get useRawChanges => rawChanges?.isNotEmpty == true;
 
