@@ -8,7 +8,7 @@ environment:
 
 dependencies:
   csv: ^5.0.1
-  dio: ^4.0.6
+  dio: ">=4.0.6 <6.0.0"
 
 dev_dependencies:
   lints: ^2.0.0
