@@ -13,9 +13,4 @@ class PurchaseHistoriesDatabase extends BaseCloudFirestore<PurchasedInfoModel> {
   Future<void> addProduct(PurchasedInfoModel info) async {
     return set(info.purchaseId!, info);
   }
-
-  @override
-  Future<void> set(String id, PurchasedInfoModel object) {
-    return super.set(id, object);
-  }
 }

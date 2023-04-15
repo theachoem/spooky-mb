@@ -41,7 +41,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
 
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
 
-    if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.contains(tag));
+    if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.containsElement(tag));
     if (starred == true) conditions = conditions.and(StoryObjectBox_.starred.equals(true));
     if (type != null) conditions = conditions.and(StoryObjectBox_.type.equals(type));
     if (year != null) conditions = conditions.and(StoryObjectBox_.year.equals(year));
@@ -134,7 +134,7 @@ class _StoryObjectBoxDbAdapter extends BaseObjectBoxAdapter<StoryObjectBox, Stor
     }
   }
 
-  @Deprecated("Most user already migrate, should be removed")
+  // @Deprecated("Most user already migrate, should be removed")
   Future<List<StoryObjectBox>> migrate(List<StoryObjectBox> objects) async {
     for (int i = 0; i < objects.length; i++) {
       StoryObjectBox? object = objects[i];

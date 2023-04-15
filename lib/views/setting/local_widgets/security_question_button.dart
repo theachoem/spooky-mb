@@ -70,7 +70,6 @@ class _SecurityQuestionButtonState extends State<SecurityQuestionButton> {
       flowType: LockFlowType.middleware,
     );
     if (authenticated) {
-      // ignore: use_build_context_synchronously
       await Navigator.of(context).pushNamed(SpRouter.security.path);
       initialize();
     }

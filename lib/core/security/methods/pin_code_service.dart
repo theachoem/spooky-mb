@@ -19,7 +19,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
 
   @override
   Future<bool> set(_PinCodeOptions option) async {
-    String? matchedSecret = await enhancedScreenLock<String>(
+    String? matchedSecret = await showEnhancedScreenLock<String>(
       digits: 4,
       context: option.context,
       correctString: '',
@@ -54,7 +54,7 @@ class _PinCodeService extends _BaseLockService<_PinCodeOptions> {
     required String secret,
     bool canCancel = false,
   }) async {
-    bool? authenticated = await enhancedScreenLock<bool>(
+    bool? authenticated = await showEnhancedScreenLock<bool>(
       context: context,
       correctString: secret,
       canCancel: canCancel,

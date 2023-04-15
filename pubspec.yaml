@@ -17,7 +17,7 @@ dependencies:
   bubble_lens:
     git:
       url: git@github.com:juniorise/bubble_lens.git
-      ref: main
+      ref: master
   cached_network_image: ^3.2.1
   community_material_icon: ^5.9.55
   copy_with_extension: ^5.0.0
@@ -41,9 +41,9 @@ dependencies:
       ref: 1.0.4
   flutter_markdown: ^0.6.10+1
   flutter_phoenix: ^1.0.0
-  flutter_quill: ^6.3.1
+  flutter_quill: ^7.1.2
   flutter_screen_lock: ^7.0.4
-  flutter_secure_storage: ^7.0.1
+  flutter_secure_storage: ^8.0.0
   flutter_sticky_header: ^0.6.3
   flutter_weather_bg_null_safety:
     git:
@@ -52,7 +52,7 @@ dependencies:
   fluttertoast: ^8.0.9
   fuzzy: ^0.4.0-nullsafety.0
   google_fonts: ^4.0.1
-  google_sign_in: ^5.3.2
+  google_sign_in: ^6.1.0
   googleapis: ^10.0.0
   http: ^0.13.4
   image_picker: ^0.8.5+3
@@ -69,7 +69,7 @@ dependencies:
   provider: ^6.0.3
   quick_actions: ^1.0.0
   rect_getter: ^1.1.0
-  responsive_builder: ^0.5.0+1
+  responsive_builder: ^0.6.4
   restart_app: ^1.1.0+1
   shared_preferences: ^2.0.15
   sign_in_with_apple: ^4.0.0
@@ -87,13 +87,13 @@ dependencies:
   flutter_custom_tabs: ^1.0.4
   flutter_cache_manager: ^3.3.0
   photo_view: ^0.14.0
-  objectbox: ^1.5.0
+  objectbox: ^2.0.0
   objectbox_flutter_libs: any
   flat_buffers: ^2.0.5
   device_info_plus: ^8.0.0
   app_settings: ^4.1.6
   flutter_signin_button: ^2.0.0
-  visibility_detector: ^0.3.3
+  visibility_detector: ^0.4.0+2
   flutter_countdown_timer: ^4.1.0
   day_night_time_picker: ^1.1.2
   flutter_staggered_grid_view: ^0.6.2
@@ -104,14 +104,14 @@ dependencies:
   string_similarity: ^2.0.0
   scroll_to_index: ^3.0.1
   confetti: ^0.7.0
-  dio: ^4.0.6
+  dio: ^5.1.1
   japx: ^2.0.4
   firebase_crashlytics: ^3.0.7
   easy_localization_loader: ^1.0.0
-  string_validator: ^0.3.0
+  string_validator: ^1.0.0
   popover: ^0.2.6+3
   navigation_history_observer: ^1.1.0
-  firebase_remote_config: ^3.0.8
+  firebase_remote_config: ^4.0.0
   tab_indicator_styler: ^2.0.0
 
   # unused:
@@ -135,11 +135,7 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   json_serializable: ^6.2.0
   copy_with_extension_gen: ^5.0.0
-  objectbox_generator:
-    git:
-      url: "https://github.com/juniorise/objectbox-dart.git"
-      path: generator
-      ref: 1.6.2
+  objectbox_generator: any
 
   # unused:
   # injectable_generator: ^1.5.3

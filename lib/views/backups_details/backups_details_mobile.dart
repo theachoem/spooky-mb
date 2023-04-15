@@ -69,7 +69,6 @@ class _BackupsDetailsMobile extends StatelessWidget {
                 SpRouter.backupHistoriesManager.path,
                 arguments: BackupHistoriesManagerArgs(destination: viewModel.destination),
               );
-              // ignore: use_build_context_synchronously
               Navigator.maybePop(context, true);
             },
           ),

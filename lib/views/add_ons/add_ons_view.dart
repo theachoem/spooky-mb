@@ -6,7 +6,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:spooky/core/models/product_model.dart';
 import 'package:spooky/core/routes/sp_router.dart';
@@ -43,11 +42,7 @@ class AddOnsView extends StatelessWidget {
         context.read<InAppPurchaseProvider>().loadPurchasedProducts();
       },
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _AddOnsMobile(viewModel),
-          // desktop: _AddOnsDesktop(viewModel),
-          // tablet: _AddOnsTablet(viewModel),
-        );
+        return _AddOnsMobile(viewModel);
       },
     );
   }

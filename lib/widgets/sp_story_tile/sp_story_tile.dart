@@ -167,13 +167,11 @@ class _SpStoryTileState extends State<SpStoryTile> with ScheduleMixin {
     await confirmStory(context);
 
     if (story.viewOnly) {
-      // ignore: use_build_context_synchronously
       await Navigator.of(context).pushNamed(
         SpRouter.contentReader.path,
         arguments: ContentReaderArgs(content: story.changes.last),
       );
     } else {
-      // ignore: use_build_context_synchronously
       await Navigator.of(context).pushNamed(
         SpRouter.detail.path,
         arguments: DetailArgs(

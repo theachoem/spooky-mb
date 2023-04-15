@@ -120,8 +120,6 @@ class MainViewModel extends BaseViewModel with ScheduleMixin {
           break;
       }
     }
-
-    // ignore: use_build_context_synchronously
     if (date != null) onConfirm(date, context);
   }
 

@@ -10,7 +10,7 @@ class QuillCustomRenderer extends quill.EmbedBuilder {
   String get key => DateBlockEmbed.blockType;
 
   @override
-  Widget build(BuildContext context, quill.QuillController controller, quill.Embed node, bool readOnly) {
+  Widget build(BuildContext context, quill.QuillController controller, quill.Embed node, bool readOnly, bool inline) {
     quill.Embeddable block = node.value;
 
     switch (block.type) {

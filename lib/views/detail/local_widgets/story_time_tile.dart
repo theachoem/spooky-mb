@@ -57,7 +57,7 @@ class _StoryTimeTileState extends State<StoryTimeTile> {
         await Navigator.of(context).push(
           dn.showPicker(
             context: context,
-            value: TimeOfDay.fromDateTime(currentStory.displayPathDate),
+            value: dn.Time.fromTimeOfDay(TimeOfDay.fromDateTime(currentStory.displayPathDate), null),
             okStyle: TextStyle(fontFamily: M3TextTheme.of(context).labelLarge?.fontFamily),
             cancelStyle: TextStyle(fontFamily: M3TextTheme.of(context).labelLarge?.fontFamily),
             buttonStyle: ThemeConfig.isApple(Theme.of(context).platform)
