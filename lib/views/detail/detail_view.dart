@@ -106,7 +106,6 @@ class DetailView extends StatelessWidget {
     );
 
     if (action == "save") {
-      // ignore: use_build_context_synchronously
       await model.save(context);
       return true;
     } else if (action == "discard") {

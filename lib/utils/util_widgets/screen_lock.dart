@@ -8,7 +8,7 @@ import 'package:spooky/utils/helpers/screen_lock_helper.dart';
 
 /// originally [screenLock],
 /// copied to update some API.
-Future<T?> enhancedScreenLock<T>({
+Future<T?> showEnhancedScreenLock<T>({
   required BuildContext context,
   required String correctString,
   VoidCallback? didUnlocked,

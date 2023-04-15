@@ -148,7 +148,6 @@ class _AddOnsMobile extends StatelessWidget {
       cancelLabel: tr("button.cancel"),
     );
     if (result == OkCancelResult.ok) {
-      // ignore: use_build_context_synchronously
       Navigator.of(context).pushNamed(SpRouter.signUp.path);
     }
   }

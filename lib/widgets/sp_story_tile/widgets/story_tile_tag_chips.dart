@@ -100,7 +100,6 @@ class _StoryTileTagChipsState extends State<StoryTileTagChips> with AutomaticKee
         }
 
         if (id == null) return;
-        // ignore: use_build_context_synchronously
         Navigator.of(context).pushNamed(
           SpRouter.search.path,
           arguments: SearchArgs(

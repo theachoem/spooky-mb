@@ -69,7 +69,6 @@ abstract class BaseBackupDestination<T extends BaseCloudProvider> {
       );
       switch (result) {
         case OkCancelResult.ok:
-          // ignore: use_build_context_synchronously
           return _restore(backups, context);
         case OkCancelResult.cancel:
           break;

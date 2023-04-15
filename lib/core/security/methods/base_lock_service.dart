@@ -68,7 +68,6 @@ abstract class _BaseLockService<T extends _BaseLockOptions> {
         tr("msg.security.match_cleared", args: [(similarity * 100).toStringAsFixed(2)]),
         success: true,
       );
-      // ignore: use_build_context_synchronously
       Navigator.of(context).pop(true);
     } else {
       MessengerService.instance.showSnackBar(

@@ -34,7 +34,6 @@ class _UserMobile extends StatelessWidget {
                 switch (result) {
                   case OkCancelResult.ok:
                     viewModel.logout();
-                    // ignore: use_build_context_synchronously
                     Navigator.of(context).pop();
                     break;
                   case OkCancelResult.cancel:

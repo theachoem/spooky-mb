@@ -220,7 +220,6 @@ class _ThemeSettingMobile extends StatelessWidget {
           context: context,
           title: tr("tile.layout.title"),
           initialSelectedActionKey: storyConfigProvider.storage.layoutType,
-          // ignore: use_build_context_synchronously
           cancelLabel: MaterialLocalizations.of(context).cancelButtonLabel,
           actions: SpListLayoutType.values.map((e) {
             return AlertDialogAction(

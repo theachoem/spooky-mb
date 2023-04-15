@@ -37,7 +37,7 @@ class DateBlockEmbed extends quill.CustomBlockEmbed {
           ),
         ),
       );
-      final offset = quill.getEmbedNode(controller, controller.selection.start).item1;
+      final offset = quill.getEmbedNode(controller, controller.selection.start).offset;
       controller.replaceText(offset, 1, block, TextSelection.collapsed(offset: offset));
     }
   }

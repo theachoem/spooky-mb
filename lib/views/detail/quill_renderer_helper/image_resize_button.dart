@@ -31,7 +31,7 @@ class ImageResizeButton extends StatelessWidget {
           onImageResize: (w, h) {
             final res = quill.getEmbedNode(controller, controller.selection.start);
             final attr = replaceStyleString(ext.getImageStyleString(controller), w, h);
-            controller.formatText(res.item1, 1, quill.StyleAttribute(attr));
+            controller.formatText(res.offset, 1, quill.StyleAttribute(attr));
           },
           imageWidth: size?.item1,
           imageHeight: size?.item2,

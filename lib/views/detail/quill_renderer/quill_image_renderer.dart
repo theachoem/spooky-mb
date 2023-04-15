@@ -31,7 +31,13 @@ class QuillImageRenderer extends quill.EmbedBuilder {
   String get key => quill.BlockEmbed.imageType;
 
   @override
-  Widget build(BuildContext context, quill.QuillController controller, quill.Embed node, bool readOnly) {
+  Widget build(
+    BuildContext context,
+    quill.QuillController controller,
+    quill.Embed node,
+    bool readOnly,
+    bool inline,
+  ) {
     return _QuillImageRenderer(
       node: node,
       controller: controller,
@@ -193,7 +199,6 @@ class _QuillImageRenderer extends StatelessWidget {
         AppHelper.openLinkDialog(imageUrl);
         break;
       case "view":
-        // ignore: use_build_context_synchronously
         viewImage(context, imageUrl);
         break;
       default:
@@ -225,7 +230,7 @@ class _QuillImageRenderer extends StatelessWidget {
             color: M3Color.of(context).error,
           ),
           onPressed: () {
-            final offset = quill.getEmbedNode(controller, controller.selection.start).item1;
+            final offset = quill.getEmbedNode(controller, controller.selection.start).offset;
             final collapsed = TextSelection.collapsed(offset: offset);
             controller.replaceText(offset, 1, '', collapsed);
             Navigator.of(context).pop();

@@ -78,7 +78,6 @@ class SpImageButton extends StatelessWidget {
     final pickedFile = await ImagePicker().pickImage(source: source);
 
     if (pickedFile != null) {
-      // ignore: use_build_context_synchronously
       String? image = await _onPickedImage(context, File(pickedFile.path));
       if (image == null) return;
 

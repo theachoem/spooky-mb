@@ -36,7 +36,6 @@ class SpStoryTileUtils {
     required bool refreshStory,
   }) async {
     await beforeAction();
-    // ignore: use_build_context_synchronously
     bool success = await callback();
     if (success && refreshList) await reloadList();
     if (success && refreshStory) await reloadStory();
@@ -89,7 +88,7 @@ class SpStoryTileUtils {
     await Navigator.of(context).push(
       dn.showPicker(
         context: context,
-        value: TimeOfDay.fromDateTime(story().displayPathDate),
+        value: dn.Time.fromTimeOfDay(TimeOfDay.fromDateTime(story().displayPathDate), null),
         cancelText: MaterialLocalizations.of(context).cancelButtonLabel,
         okText: MaterialLocalizations.of(context).okButtonLabel,
         // iosStylePicker: ThemeConfig.isApple(Theme.of(context).platform),
@@ -237,7 +236,6 @@ class SpStoryTileUtils {
             String message = success ? tr("msg.perminent_delete.success") : tr("msg.perminent_delete.fail");
             MessengerService.instance.showSnackBar(message, success: success, action: (foreground) {
               return SnackBarAction(
-                // ignore: use_build_context_synchronously
                 label: tr("button.undo"),
                 textColor: foreground,
                 onPressed: () async {

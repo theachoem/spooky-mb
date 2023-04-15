@@ -9,7 +9,7 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
     assert(option.object != null);
     if (!info.hasLocalAuth) return true;
 
-    bool authenticate = await enhancedScreenLock(
+    bool authenticate = await showEnhancedScreenLock(
       context: option.context,
       correctString: option.object!.secret,
       customizedButtonChild: const Icon(Icons.fingerprint),

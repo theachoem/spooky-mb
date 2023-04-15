@@ -4,7 +4,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/backups/destinations/base_backup_destination.dart';
@@ -47,11 +46,7 @@ class BackupsDetailsView extends StatelessWidget {
       create: (context) => BackupsDetailsViewModel(destination, cloudFiles, initialCloudFile),
       onModelReady: (context, viewModel) {},
       builder: (context, viewModel, child) {
-        return ScreenTypeLayout(
-          mobile: _BackupsDetailsMobile(viewModel),
-          // desktop: _BackupsDetailsDesktop(viewModel),
-          // tablet: _BackupsDetailsTablet(viewModel),
-        );
+        return _BackupsDetailsMobile(viewModel);
       },
     );
   }

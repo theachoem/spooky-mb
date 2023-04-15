@@ -68,9 +68,4 @@ class SortTypeStorage extends EnumStorage<SortType> {
 class SpListLayoutTypeStorage extends EnumStorage<SpListLayoutType> {
   @override
   List<SpListLayoutType> get values => SpListLayoutType.values;
-
-  @override
-  Future<void> writeEnum(SpListLayoutType value) {
-    return super.writeEnum(value);
-  }
 }
