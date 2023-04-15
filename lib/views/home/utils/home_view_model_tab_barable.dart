@@ -2,8 +2,10 @@ part of '../home_view_model.dart';
 
 mixin _HomeViewModelTabBarable on BaseViewModel {
   late List<HomeTabItem> _tabs;
+  late int _initialTabIndex;
 
   List<HomeTabItem> get tabs => _tabs;
+  int get initialTabIndex => _initialTabIndex;
   SpListLayoutType get layoutType => StoryConfigStorage.instance.layoutType;
 
   /// Reload tab base on database tags
