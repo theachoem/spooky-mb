@@ -12,6 +12,7 @@ class _HomeMobile extends StatelessWidget {
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: viewModel.tabs.length,
+      initialIndex: viewModel.initialTabIndex,
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: NestedScrollView(

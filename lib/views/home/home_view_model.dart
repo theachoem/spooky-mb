@@ -46,12 +46,15 @@ class HomeViewModel extends BaseViewModel with RouteAware, _HomeViewModelTabBara
 
     switch (layoutType) {
       case SpListLayoutType.library:
+        _initialTabIndex = 0;
         _tabs = toTabs(StoryTagsService.instance.displayTags);
         break;
       case SpListLayoutType.diary:
+        _initialTabIndex = month - 1;
         _tabs = List.generate(12, HomeTabItem.fromIndexToMonth);
         break;
       case SpListLayoutType.timeline:
+        _initialTabIndex = 0;
         _tabs = [HomeTabItem.fromIndexToMonth(0)];
         break;
     }
