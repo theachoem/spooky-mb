@@ -1,0 +1,617 @@
+alert:
+  acc_deletion_access_denied:
+    message: >-
+      Please verify that you still have access to one of these before you can
+      delete it.
+    title: Access Denied
+  action_required:
+    set_security_question: 请设置密保问题，在无法解锁时恢复
+    title: Action required
+  add_image_url:
+    title: 添加图像
+  already_used_dynamic_color:
+    message: 请更改主题模式，以设置自定义颜色。
+    title: 您正在使用MD3系统配色主题！
+  answer_to_unlock:
+    title: 回答以下任意一个问题即可解锁
+  are_you_sure_to_archive:
+    message: 您可以稍后取消存档。
+    title: 您确定要归档文档吗？
+  are_you_sure_to_delete_account:
+    message: 您将无法撤消此操作。
+    title: 你确定要删除它吗？
+  are_you_sure_to_delete_backup:
+    subtitle: '{} 已选择'
+    title: 你确定要删除它吗？
+  are_you_sure_to_delete_changes:
+    message: '{} 已选择'
+    title: 你确定要删除它吗？
+  are_you_sure_to_delete:
+    message: 您无法撤消此操作
+    title: 确定删除吗？
+  are_you_sure_to_put_back:
+    message_: '该文档将移至：'
+    title: 确定移至原位吗？
+  backup_override:
+    message: >-
+      Exist stories will be overridden by cloud stories. Are you sure to
+      restore?
+    title: 注意
+  create_tag:
+    title: 输入标签
+  discard_changes:
+    message: 所有更改都将丢失
+    title: 放弃更改？
+  discard_draft:
+    message: 您无法撤消此操作
+    title: 丢弃草稿？
+  disconnect_provider:
+    title: 确定断开连接吗？
+  document_saved:
+    subtitle: 文档保存
+    title: 您的文档已保存
+  image_drive_404:
+    message: >-
+      404: 图片未被公开访问或已从谷歌云盘删除
+  image_source:
+    title: 图像源URL
+  image:
+    title: 图片
+  link:
+    add:
+      title: 添加链接
+    edit:
+      title: 编辑链接
+    title: 链接
+  login_required:
+    message: 请登录以购买附加插件
+    title: 需要登录
+  logout:
+    message: 您可以随时登录！
+    subtitle: 您可以随时重新登录。
+    title: 你确定要注销吗？
+  new_question_answer:
+    title: 新问题和答案
+  no_story_found:
+    message: Required at least one story!
+    title: No stories were found in device
+  no_update_available: 没有可用的更新
+  notification_permission:
+    message: Required to alert you about such as auto-save, background sound, etc.
+    title: 通知权限
+  page_at_least_1:
+    title: 页数不能少于1
+  purchase_to_download_more:
+    title: 购买以下载更多
+  remove_tag:
+    message: 这些标记将被全局删除，您无法撤消此操作
+    title: 您确定要删除标记吗？
+  save_document_first:
+    title: 请先保存文件
+  save_draft: 保存草稿？
+  security:
+    enter_confirm_passcode: 请输入密码并确认
+    enter_new_password:
+      title:请输入新的密码
+    enter_passcode: 请输入密码
+    no_enrolled_biometric:
+      message:设备上未设置生物特征识别
+      title: 错误
+    unsupport_biometric:
+      message: 设备不支持生物识别
+      title: 错误
+  sound_pause_scheduled:
+    title: Sound paused as scheduled
+  storypad_list:
+    title: StoryPad
+  sure_to_save_changes:
+    message: 无法撤消此操作
+    title: 您确定要保存更改吗？
+  theme:
+    title: 主题
+  update_tag:
+    title: 更新标记
+  what_should_I_call_you:
+    title: 我该怎么称呼你？
+  year:
+    title: 年
+app:
+  description: Express yourself freely and safely
+  name: Spooky
+button:
+  accept: 接受
+  add: 添加
+  add_ons: 附加插件
+  agree: 同意
+  archive: 档案文件
+  backup_now: 立即备份
+  buy: 购买
+  cancel: 取消
+  change_date: 更改日期
+  change_time: 更改时间
+  connect: 连接
+  continue: 目录
+  copy_link: 复制链接
+  create_new: Create new
+  delete: Delete
+  discard: Discard
+  disconnect: Disconnect
+  done: Done
+  enable_notification: Enable notification
+  go_home: Go home
+  go_to_setting: Go to Setting
+  image_via_camera: Camera
+  image_via_gallery: Gallery
+  image_via_link: Link
+  insert_page_break: Insert page break
+  listen_with_mini_player: Listen with a mini player
+  login: Login
+  logout: Logout
+  manage_versions: Manage versions
+  move_to_bin: Move to Bin
+  next: Next
+  no_longer_access: No longer access?
+  ok: Ok
+  open: Open
+  open_setting: Open Setting
+  perminent_delete: Delete Forever
+  perminently_delete: Permanently delete
+  photo: Photos
+  play: Play
+  put_back: Put back
+  reorder: Reorder
+  restore: Restore
+  restore_purchase: Restore Purchases
+  restore_version: Restore this version
+  retry: Retry
+  review: Review
+  save: Save
+  save_exit: Save and exit
+  search_fonts: Search fonts
+  select: Select
+  select_version: Select a version
+  show_image_url: Show image url
+  sound_library: Sounds Library
+  starred: Starred
+  stop: Stop
+  try: Try
+  undo: Undo
+  unstarred: Unstarred
+  update: Update
+  upload: Upload
+  validate: Validate
+  verify: Verify
+  view: View
+  view_on_web: View on web
+  view_story: View Story
+date:
+  created_at: Created at {DATE}
+field:
+  answer:
+    hint_text: Answer
+    validation: The answer must not empty
+  backup_url:
+    hint_text: Backup URL...
+  image_url:
+    hint_text: Image URL
+    validation: Invalid image URL
+  link:
+    hint_text: Link...
+    validation: Invalid link
+  nickname:
+    hint_text: Nickname...
+    validation:
+      empty: Nickname must not empty!
+  question:
+    hint_text: Question
+    validation: The question must not empty
+  search:
+    hint_text: Search...
+  tags:
+    already_exist: '{} already exist'
+    hint_text: Tags
+    must_not_empty: Must not empty
+  text:
+    hint_text: Text...
+    validation: The text must not empty
+  title:
+    hint_text: Title...
+  verify_name:
+    hint_text: Verify label...
+msg:
+  account_deletion: Account deletion
+  add_on_unavailable: Add-on unavailable
+  archive:
+    fail: Archived unsuccessfully!
+    success: Archived successfully
+  archived: Archived
+  break_time:
+    mn: 'Break time: {} mn'
+  coming_soon: Coming soon
+  connect:
+    fail: Connect unsuccessfully
+    success: Connect successfully
+  copied: Copied
+  copyright: © {YEAR} Juniorise
+  disconnect:
+    fail: Fail
+    success: Disconnect successfully
+  downloaded: Downloaded
+  downloading: Downloading
+  draft: Draft
+  empty:
+    empty: Empty
+    what_did_you_have_in_mind: What did you have in mind?
+  enter_password: Enter your password
+  file_too_big: File too big
+  hello_user: Hello {}
+  invalid_image_source: Invalid image source
+  keep_at_least_one_provider: Keep at least one connected provider.
+  last_synced: Last synced - {DATE}
+  latest: Latest
+  lock_life_circle: Lock application when inactive for {} seconds
+  lock_life_circle_minimum: 10 seconds minimum
+  logged_in: Logged in
+  login_to_sync_data: Log in to sync data
+  lorem: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  move_to_bin:
+    fail: Move unsuccessfully!
+    message: Your story will be deleted in {} days.
+    success: Moved to bin
+    title: Move to Bin
+  must_bigger_than_5_items: Must not be bigger than 5 items
+  no_answer_provided: No answer provided
+  no_document_found: No documents found
+  no_security_questions: No security question!
+  no_title: No title
+  perminent_delete:
+    fail: Delete unsuccessfully!
+    success: Delete successfully!
+  purchased: Purchased
+  put_back:
+    fail: Put back unsuccessfully!
+    success: Put back successfully!
+  response_null: Response null
+  restore:
+    success: Restored
+  restored_backup: Restored
+  saving_draft: Saving draft...
+  security:
+    incorrect_answer: Incorrect answer
+    match_cleared: Matched {}%. Lock cleared!
+    unlock_to_open_app: Unlock to open the app
+  should_not_delete_latest_one: Should not delete the latest one!
+  sign_up:
+    _different: Different
+    subtitle: Register to purchase or restore your add-ons.
+    try_somthing_: Try something...
+  synced: Synced
+  unknown: Unknown
+  unsupported_file: Unsupported file
+notification_channel:
+  auto_save:
+    description: Show notification when stories are autu-saved on app inactive.
+    name: Auto Save Notification
+  play_sound:
+    description: Show sound player in notification
+    name: Play Sounds
+page:
+  account_deletion:
+    subtitle: Account Deletion
+    title: Account Deletion
+  add_on:
+    subtitle: Add more lifetime access functionalities
+    title: Add-ons
+  app_starter:
+    policy_alert: By tapping on “Accept”, you agree to the [Privacy Policy]()
+    subtitle: App Starter
+    title: App Starter
+  archive:
+    subtitle: Archive
+    title: Archive
+  backup_histories_manager:
+    subtitle: Backup Histories
+    title: Backup Histories
+  backups_details:
+    subtitle: Backups
+    title: Backups
+  bottom_nav_setting:
+    subtitle: Manage bottom navigation
+    title: Bottom Navigation
+  budgets:
+    subtitle: Budgets
+    title: Budgets
+  changes_history:
+    subtitle: Changes History
+    title: Changes History
+  cloud_storages:
+    subtitle: Backup & Restore with cloud storages
+    title: Cloud Storages
+    title_short: Cloud
+  content_reader:
+    subtitle: Content Reader
+    title: Content Reader
+  detail:
+    subtitle: Detail
+    title: Detail
+  developer_mode:
+    subtitle: Developer Mode
+    title: Developer Mode
+  explore:
+    subtitle: Explore
+    title: Explore
+  font_manager:
+    subtitle: Font Book
+    title: Font Book
+  home:
+    subtitle: Home
+    title: Home
+  init_color_picker:
+    subtitle: Pick one of your favorite color
+    title: Favorite color
+  lock:
+    subtitle: Lock
+    title: Lock
+  main:
+    subtitle: Main
+    title: Main
+  manage_pages:
+    subtitle: Manage pages
+    title: Manage pages
+  nickname_creator:
+    ask_for_name: So, what's your nickname?
+    subtitle: Nickname Creator
+    title: Nickname Creator
+  not_found:
+    subtitle: Not Found
+    title: Not Found
+  search:
+    subtitle: Search
+    title: Search
+  security:
+    subtitle: Security
+    title: Security
+  setting:
+    subtitle: Setting
+    title: Setting
+  sign_up:
+    subtitle: Sign Up
+    title: Sign Up
+  sounds:
+    subtitle: Sounds
+    title: Sounds
+  storypad_restore:
+    subtitle: StoryPad
+    title: StoryPad
+  theme_setting:
+    subtitle: Theme
+    title: Theme
+  user:
+    subtitle: The account is mainly used to store purchased histories.
+    title: User
+path_type:
+  archives: Archives
+  bins: Bins
+  docs: Docs
+plural:
+  documents:
+    few: '{} documents'
+    many: '{} documents'
+    one: 1 document
+    other: '{} documents'
+    two: 2 documents
+    zero: 0 document
+  file_size_mb:
+    few: '{} MB'
+    many: '{} MB'
+    one: 1 MB
+    other: '{} MB'
+    two: 2 MB
+    zero: 0 MB
+  images:
+    few: '{} Images'
+    many: '{} Images'
+    one: 1 Image
+    other: '{} Images'
+    two: 2 Images
+    zero: 0 Image
+  pages:
+    few: '{} Pages'
+    many: '{} Pages'
+    one: 1 Page
+    other: '{} Pages'
+    two: 2 Pages
+    zero: 0 Page
+  question_added:
+    few: '{} questions added'
+    many: '{} questions added'
+    one: 1 questions added
+    other: '{} questions added'
+    two: 2 questions added
+    zero: 0 question added
+  story:
+    few: '{} stories'
+    many: '{} stories'
+    one: 1 story
+    other: '{} stories'
+    two: 2 stories
+    zero: 0 story
+question:
+  favorite_movie: What is your favorite movie?
+  name_of_primary_best_friend: What is the first name of your best friend in primary school?
+quick_action:
+  new_story: New Story
+section:
+  actions: Actions
+  advance: Advance
+  features: Features
+  font: Fonts
+  info: Info
+  lock_method: Lock Methods
+  personalize: Personalize
+  questions: Questions
+  setting: Setting
+  settings: Settings
+  story: Story
+  tags: Tags
+  title: Title
+  types: Types
+  user: User
+sections:
+  options: Options
+security:
+  biometrics:
+    add: Add Biometrics
+    remove: Remove Biometrics
+    update: Update Biometrics
+  pin_code:
+    add: Add PIN code
+    remove: Remove PIN code
+    update: Update PIN code
+sound_type:
+  music: Music
+  sound: Sounds
+step:
+  delete_account:
+    step1:
+      message: >-
+        Deleting this account will permanently delete your purchased add-ons
+        that are associated.
+      title: Agree with condition
+    step2:
+      message: Please type **{NAME}** to verify.
+      title: Verify deletion
+    step3:
+      title: Confirmation
+  migrate_storypad:
+    step1:
+      message: In Google Drive. "Story" folder, find a zip file & paste its URL here.
+      title: Enter backup URL
+    step2:
+      subtitle: Check if the input URL is valid
+      title: Download & Validate
+    step3:
+      subtitle: Make sure stories are correct
+      title: Review
+    step4:
+      subtitle: Write them to Spooky
+      title: Restore
+tag:
+  all: All
+  fonts: Fonts
+  others: Others
+  recommend: Recommended
+theme_mode:
+  dark: Dark
+  light: Light
+  system: System
+tile:
+  add_your_own_questions: Add your own question
+  biometric:
+    subtitle: Unlock app base on biometric
+    title: Biometrics
+  blackout:
+    title: Blackout
+  changes:
+    title: Changes
+  check_for_update:
+    title: Check for update
+  color:
+    title: Color
+  connect_with_drive:
+    title: Connect with Google Drive
+  connect_with:
+    apple: Continue with Apple
+    facebook: Continue with Facebook
+    google: Continue with Google
+    title: Connect with {PROVIDER}
+  created_at:
+    title: Created at
+  crop_image: Crop Image
+  date:
+    title: Date
+  disable_date_picker:
+    title: Disable date picker
+  display_on_navigation_bar: Display on the navigation bar
+  dynamic_color:
+    subtitle: Use colors base on your system.
+    title: Dynamic color
+  font_total:
+    subtitle: '{} fonts'
+    title: Total
+  font_weight:
+    title: Font Weight
+  identity:
+    title: Identity
+  last_sign_in:
+    title: Last sign in
+  layout:
+    title: Layout
+  licenses: Licenses
+  lock_life_circle:
+    subtitle: '{} seconds'
+    title: Lock life circle
+  none:
+    title: None
+  pages:
+    title: Pages
+  pin_code:
+    subtitle: 4 digit
+    title: PIN code
+  play_in_background:
+    title: Play in Background
+  prioritize_starred:
+    title: Starred to top
+  privary_policy: Privacy Policy
+  provider:
+    title: Provider
+  rate_us: Rate us
+  report:
+    subtitle: Raise issues or request features
+    title: GitHub
+  restore_default_font:
+    title: Restore Default Style
+  security_question:
+    title: Security Questions
+  selected_font:
+    title: Selected Font
+  sort:
+    title: Sort
+    types:
+      new_to_old: New to Old
+      old_to_new: Old to New
+  spooky_communtiy:
+    subtitle: Share experience, new, etc!
+    title: Spooky Community
+  spooky_restore:
+    subtitle: Migrate data from StoryPad to Spooky
+    title: StoryPad
+  starred:
+    title: Starred
+  telegram:
+    subtitle: News
+    title: Telegram Channel
+  update_available:
+    title: Update available
+  use_this_fonts:
+    title: Use this font
+  version: Version
+time:
+  mn: '{} mn'
+  sec: '{} s'
+title:
+  advance_search:
+    title: Advance search
+  characters:
+    title: Characters
+  layout:
+    types:
+      diary: Diary
+      library: Library
+      timeline: Timeline
+  page:
+    title: Page
+  time:
+    title: Time
+  words:
+    title: Words
