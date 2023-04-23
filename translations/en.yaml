@@ -230,7 +230,7 @@ msg:
     mn: 'Break time: {} mn'
   coming_soon: Coming soon
   connect:
-    fail: Connect unsuccessfully
+    fail: Connect fail
     success: Connect successfully
   copied: Copied
   copyright: © {YEAR} Juniorise

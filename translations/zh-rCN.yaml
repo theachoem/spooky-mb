@@ -30,7 +30,7 @@ alert:
     message: 您无法撤消此操作
     title: 确定删除吗？
   are_you_sure_to_put_back:
-    message_: '该文档将移至：'
+    message_: 该文档将移至：
     title: 确定移至原位吗？
   backup_override:
     message: >-
@@ -51,8 +51,7 @@ alert:
     subtitle: 文档保存
     title: 您的文档已保存
   image_drive_404:
-    message: >-
-      404: 图片未被公开访问或已从谷歌云盘删除
+    message: '404: 图片未被公开访问或已从谷歌云盘删除'
   image_source:
     title: 图像源URL
   image:
@@ -92,10 +91,10 @@ alert:
   security:
     enter_confirm_passcode: 请输入密码并确认
     enter_new_password:
-      title:请输入新的密码
+      title: 请输入新的密码
     enter_passcode: 请输入密码
     no_enrolled_biometric:
-      message:设备上未设置生物特征识别
+      message: 设备上未设置生物特征识别
       title: 错误
     unsupport_biometric:
       message: 设备不支持生物识别

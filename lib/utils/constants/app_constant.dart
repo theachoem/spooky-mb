@@ -9,6 +9,7 @@ class AppConstant {
   static const supportedLocales = [
     Locale('en'),
     Locale('km'),
+    Locale('zh', 'rCN'),
   ];
 
   static const fallbackLocale = Locale('en');

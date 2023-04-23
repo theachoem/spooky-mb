@@ -13,16 +13,18 @@ void main() async {
   Response<dynamic> response = await Dio().get(endpoint);
 
   List<List<dynamic>> translations = const CsvToListConverter().convert(response.toString());
-  Map<String, dynamic> en = {};
-  Map<String, dynamic> km = {};
+  Map translationsMap = {};
 
   for (List<dynamic> row in translations) {
-    en[row[0]] = row[1];
-    km[row[0]] = row[2];
+    for (int i = 1; i < translations[0].length; i++) {
+      translationsMap[translations[0][i]] ??= {};
+      translationsMap[translations[0][i]][row[0]] ??= row[i];
+    }
   }
 
-  await _writeToFile(_filePath("km"), km);
-  await _writeToFile(_filePath("en"), en);
+  translationsMap.forEach((key, value) async {
+    await _writeToFile(_filePath(key), value);
+  });
 }
 
 String _filePath(String lang) {
