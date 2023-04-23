@@ -227,7 +227,7 @@ msg:
     mn: ម៉ោងសម្រាក៖ {} នាទី
   coming_soon: មកដល់ឆាប់ៗនេះ
   connect:
-    fail: ភ្ជាប់មិនបានជោគជ័យ
+    fail: ការតភ្ជាប់បរាជ័យ
     success: ភ្ជាប់ដោយជោគជ័យ
   copied: ចម្លង
   copyright: © {YEAR} Juniorise

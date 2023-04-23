@@ -5,134 +5,132 @@ alert:
       delete it.
     title: Access Denied
   action_required:
-    set_security_question: Set security questions to recover when there is no access to unlock
+    set_security_question: 请设置密保问题，在无法解锁时恢复
     title: Action required
   add_image_url:
-    title: Add an image
+    title: 添加图像
   already_used_dynamic_color:
-    message: Please change theme mode, to set a custom color.
-    title: You are using dynamic system color!
+    message: 请更改主题模式，以设置自定义颜色。
+    title: 您正在使用MD3系统配色主题！
   answer_to_unlock:
-    title: Answer one of these questions to unlock
+    title: 回答以下任意一个问题即可解锁
   are_you_sure_to_archive:
-    message: You can unarchive later.
-    title: Are you sure to archive document?
+    message: 您可以稍后取消存档。
+    title: 您确定要归档文档吗？
   are_you_sure_to_delete_account:
-    message: You can't undo this action.
-    title: Are you sure to delete it?
+    message: 您将无法撤消此操作。
+    title: 你确定要删除它吗？
   are_you_sure_to_delete_backup:
-    subtitle: '{} selected'
-    title: Are you sure to delete it?
+    subtitle: '{} 已选择'
+    title: 你确定要删除它吗？
   are_you_sure_to_delete_changes:
-    message: '{} selected'
-    title: Are you sure to delete it?
+    message: '{} 已选择'
+    title: 你确定要删除它吗？
   are_you_sure_to_delete:
-    message: You can't undo this action
-    title: Are you sure to delete?
+    message: 您无法撤消此操作
+    title: 确定删除吗？
   are_you_sure_to_put_back:
-    message_: 'The document will be move to:'
-    title: Are you sure put it back?
+    message_: 该文档将移至：
+    title: 确定移至原位吗？
   backup_override:
     message: >-
       Exist stories will be overridden by cloud stories. Are you sure to
       restore?
-    title: Notice
+    title: 注意
   create_tag:
-    title: Enter tag
+    title: 输入标签
   discard_changes:
-    message: All changes will be lost
-    title: Discard changes?
+    message: 所有更改都将丢失
+    title: 放弃更改？
   discard_draft:
-    message: You can't undo this action
-    title: Discard draft?
+    message: 您无法撤消此操作
+    title: 丢弃草稿？
   disconnect_provider:
-    title: Are you sure to disconnect?
+    title: 确定断开连接吗？
   document_saved:
-    subtitle: The document is saved in
-    title: Your document is saved
+    subtitle: 文档保存
+    title: 您的文档已保存
   image_drive_404:
-    message: >-
-      404: Image is not publicly accessible or has been deleted from Google
-      Drive
+    message: '404: 图片未被公开访问或已从谷歌云盘删除'
   image_source:
-    title: Image source
+    title: 图像源URL
   image:
-    title: Image
+    title: 图片
   link:
     add:
-      title: Add link
+      title: 添加链接
     edit:
-      title: Edit link
-    title: Link
+      title: 编辑链接
+    title: 链接
   login_required:
-    message: Please login to purchase the add-on
-    title: Login required
+    message: 请登录以购买附加插件
+    title: 需要登录
   logout:
-    message: You can log back anytime!
-    subtitle: You can log in back anytime.
-    title: Are you sure to log out?
+    message: 您可以随时登录！
+    subtitle: 您可以随时重新登录。
+    title: 你确定要注销吗？
   new_question_answer:
-    title: New Question & Answer
+    title: 新问题和答案
   no_story_found:
     message: Required at least one story!
     title: No stories were found in device
-  no_update_available: No update available
+  no_update_available: 没有可用的更新
   notification_permission:
     message: Required to alert you about such as auto-save, background sound, etc.
-    title: Notification permission
+    title: 通知权限
   page_at_least_1:
-    title: Pages can't be less than 1
+    title: 页数不能少于1
   purchase_to_download_more:
-    title: Purchase to download more
+    title: 购买以下载更多
   remove_tag:
-    message: These tags will be deleted globally, you can't undo this action
-    title: Are you sure to delete the tag?
+    message: 这些标记将被全局删除，您无法撤消此操作
+    title: 您确定要删除标记吗？
   save_document_first:
-    title: Please save the document first
-  save_draft: Save draft?
+    title: 请先保存文件
+  save_draft: 保存草稿？
   security:
-    enter_confirm_passcode: Please enter confirm the passcode
+    enter_confirm_passcode: 请输入密码并确认
     enter_new_password:
-      title: Please enter a new passcode
-    enter_passcode: Please enter passcode
+      title: 请输入新的密码
+    enter_passcode: 请输入密码
     no_enrolled_biometric:
-      message: No biometrics are set on the device
-      title: Error
+      message: 设备上未设置生物特征识别
+      title: 错误
     unsupport_biometric:
-      message: The device does not support biometrics
-      title: Error
+      message: 设备不支持生物识别
+      title: 错误
   sound_pause_scheduled:
     title: Sound paused as scheduled
   storypad_list:
     title: StoryPad
   sure_to_save_changes:
-    message: You can't undo this action
-    title: Are you sure to save changes?
+    message: 无法撤消此操作
+    title: 您确定要保存更改吗？
   theme:
-    title: Theme
+    title: 主题
   update_tag:
-    title: Update tag
+    title: 更新标记
   what_should_I_call_you:
-    title: What should I call you?
+    title: 我该怎么称呼你？
   year:
-    title: Year
+    title: 年
 app:
   description: Express yourself freely and safely
   name: Spooky
 button:
-  accept: Accept
-  add: Add
-  add_ons: Add-ons
-  agree: Agree
-  archive: Archive
-  backup_now: Backup now
-  buy: Buy
-  cancel: Cancel
-  change_date: Change Date
-  change_time: Change Time
-  connect: Connect
-  continue: Contnue
-  copy_link: Copy link
+  accept: 接受
+  add: 添加
+  add_ons: 附加插件
+  agree: 同意
+  archive: 档案文件
+  backup_now: 立即备份
+  buy: 购买
+  cancel: 取消
+  change_date: 更改日期
+  change_time: 更改时间
+  connect: 连接
+  continue: 目录
+  copy_link: 复制链接
   create_new: Create new
   delete: Delete
   discard: Discard
@@ -230,7 +228,7 @@ msg:
     mn: 'Break time: {} mn'
   coming_soon: Coming soon
   connect:
-    fail: Connect fail
+    fail: Connect unsuccessfully
     success: Connect successfully
   copied: Copied
   copyright: © {YEAR} Juniorise
