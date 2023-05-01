@@ -32,14 +32,6 @@ class SpFontSizeButton extends StatelessWidget {
       attribute: quill.Attribute.size,
       controller: controller,
       rawItemsMap: fontSizes,
-      items: [
-        for (MapEntry<String, String> fontSize in fontSizes.entries)
-          PopupMenuItem<String>(
-            key: ValueKey(fontSize.key),
-            value: fontSize.value,
-            child: Text(fontSize.key.toString(), style: TextStyle(color: fontSize.value == '0' ? Colors.red : null)),
-          ),
-      ],
       onSelected: (newSize) {
         controller.formatSelection(
           quill.Attribute.fromKeyValue(

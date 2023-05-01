@@ -18,7 +18,7 @@
 	<array>
 		<string>en</string>
 		<string>km</string>
-		<string>zh-rCN</string>
+		<string>zh-CN</string>
 	</array>
 	<key>CFBundleName</key>
 	<string>Spooky</string>

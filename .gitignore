@@ -54,3 +54,7 @@ node_modules/
 
 # FVM
 .fvm/flutter_sdk
+
+# XCode related
+macos/DerivedData
+ios/DerivedData

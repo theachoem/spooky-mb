@@ -30,15 +30,6 @@ class SpFontFamilyButton extends StatelessWidget {
       iconSize: toolbarIconSize,
       attribute: quill.Attribute.font,
       controller: controller,
-      items: [
-        for (MapEntry<String, String> fontFamily in fontFamilies.entries)
-          PopupMenuItem<String>(
-            key: ValueKey(fontFamily.key),
-            value: fontFamily.value,
-            child: Text(fontFamily.key.toString(),
-                style: TextStyle(color: fontFamily.value == 'Clear' ? Colors.red : null)),
-          ),
-      ],
       onSelected: (newFont) {
         controller.formatSelection(quill.Attribute.fromKeyValue('font', newFont == 'Clear' ? null : newFont));
       },
