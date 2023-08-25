@@ -39,7 +39,7 @@ class StoryConfigProvider extends ChangeNotifier {
     prioritiedNotifier.value = object?.prioritied ?? true;
     disableDatePickerNotifier.value = object?.disableDatePicker;
     sortTypeNotifier.value = object?.sortType;
-    layoutTypeNotifier.value = object?.layoutType;
+    layoutTypeNotifier.value = object?.layoutType ?? storage.layoutType;
   }
 
   Future<void> setPriorityStarred(bool value) async {
