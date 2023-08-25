@@ -1,27 +1,50 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "spooky-mb",
+      "name": "DEVELOPMENT",
+      "request": "launch",
+      "type": "dart",
       "program": "lib/main_dev.dart",
-      "request": "launch",
-      "type": "dart",
-      "args": ["--flavor", "dev"]
+      "args": ["--flavor=dev", "--dart-define-from-file=configs/dev.json"]
     },
     {
-      "name": "spooky-mb (profile mode)",
+      "name": "STAGING",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "profile"
+      "program": "lib/main_staging.dart",
+      "args": [
+        "--flavor=staging",
+        "--dart-define-from-file=configs/staging.json"
+      ]
     },
     {
-      "name": "spooky-mb (release mode)",
+      "name": "PRODUCTION",
       "request": "launch",
       "type": "dart",
-      "flutterMode": "release"
+      "program": "lib/main_prod.dart",
+      "args": ["--flavor=prod", "--dart-define-from-file=configs/prod.json"]
+    },
+    {
+      "name": "DEVELOPMENT --no-flavor",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_dev.dart",
+      "args": ["--flavor=dev", "--dart-define-from-file=configs/dev.json"]
+    },
+    {
+      "name": "STAGING --no-flavor",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_staging.dart",
+      "args": ["--dart-define-from-file=configs/staging.json"]
+    },
+    {
+      "name": "PRODUCTION --no-flavor",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main_prod.dart",
+      "args": ["--dart-define-from-file=configs/prod.json"]
     }
   ]
 }

@@ -1,6 +1,24 @@
 {
-  "dart.flutterSdkPath": "../fvm/flutter_sdk",
+  "dart.flutterSdkPath": "../.fvm/flutter_sdk",
+  "dart.lineLength": 120,
+  "editor.formatOnSave": true,
+  "editor.rulers": [120],
+  "editor.tabSize": 2,
+  "editor.indentSize": 2,
+  "editor.detectIndentation": false,
+  "xml.format.splitAttributes": false,
+  "xml.format.maxLineWidth": 120,
   "[xml]": {
+    "editor.indentSize": 4,
     "editor.defaultFormatter": "redhat.vscode-xml"
   },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[yaml]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  }
 }
