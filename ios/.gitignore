@@ -33,14 +33,9 @@ Runner/GeneratedPluginRegistrant.*
 !default.pbxuser
 !default.perspectivev3
 
-GoogleService-Info.plist
+# fastlane related
+fastlane/AppStoreConnectApiKey.json
+fastlane/report.xml
+release.app.dSYM.zip
+release.ipa
 vendor
-appConnectApiKey.json
-
-# Ignore fastlane generated files
-*.cer
-*.certSigningRequest
-*.p12
-Development_com.juniorise.spooky.mobileprovision
-ReleaseApp.app.dSYM.zip
-ReleaseApp.ipa

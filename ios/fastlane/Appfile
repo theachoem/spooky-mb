@@ -1,6 +1,8 @@
-app_identifier("com.juniorise.spooky") # The bundle identifier of your app
-apple_id("info@juniorise.com") # Your Apple email address
-
-
 # For more information about the Appfile, see:
-#     https://docs.fastlane.tools/advanced/#appfile
+# https://docs.fastlane.tools/advanced/#appfile
+
+# Your Apple Developer Portal username
+apple_id "spooky@juniorise.com"
+
+# Developer Portal Team ID
+team_id "24KJ877SZ9"

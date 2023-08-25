@@ -1,2 +1,5 @@
-#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug-prod.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug-dev.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.debug-staging.xcconfig"
+
 #include "Generated.xcconfig"

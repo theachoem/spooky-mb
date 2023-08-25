@@ -1,3 +1,8 @@
-#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"
-#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release-prod.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release-dev.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.release-staging.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile-prod.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile-dev.xcconfig"
+#include? "Pods/Target Support Files/Pods-Runner/Pods-Runner.profile-staging.xcconfig"
+
 #include "Generated.xcconfig"

@@ -21,13 +21,15 @@
             <string>zh-CN</string>
         </array>
         <key>CFBundleName</key>
-        <string>Spooky</string>
+        <string>$(APP_DISPLAY_NAME)</string>
         <key>CFBundlePackageType</key>
         <string>APPL</string>
         <key>CFBundleShortVersionString</key>
-        <string>1.4.1</string>
+        <string>$(FLUTTER_BUILD_NAME)</string>
         <key>CFBundleSignature</key>
         <string>????</string>
+        <key>CFBundleVersion</key>
+        <string>$(FLUTTER_BUILD_NUMBER)</string>
         <key>CFBundleURLTypes</key>
         <array>
             <dict>
@@ -40,14 +42,12 @@
                 </array>
             </dict>
         </array>
-        <key>CFBundleVersion</key>
-        <string>115</string>
         <key>FacebookAppID</key>
-        <string>373633651102417</string>
+        <string>$(FB_APP_ID)</string>
         <key>FacebookClientToken</key>
-        <string>$(FACEBOOK_CLIENT_TOKEN)</string>
+        <string>$(FB_CLIENT_TOKEN)</string>
         <key>FacebookDisplayName</key>
-        <string>Spooky</string>
+        <string>$(APP_DISPLAY_NAME)</string>
         <key>ITSAppUsesNonExemptEncryption</key>
         <false />
         <key>LSApplicationQueriesSchemes</key>

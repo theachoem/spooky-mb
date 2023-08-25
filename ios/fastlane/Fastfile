@@ -1,68 +1,88 @@
-# You can find the documentation at:
-# https://docs.fastlane.tools
-
-# For a list of all available actions:
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
 # https://docs.fastlane.tools/actions
 #
-# For a list of all available plugins:
+# For a list of all available plugins, check out
 # https://docs.fastlane.tools/plugins/available-plugins
 
-# Article:
-# https://mobileappcircular.com/fastlane-in-flutter-app-c351358c64ba
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
 
 default_platform(:ios)
 
 platform :ios do
-  version_number = "1.4.1"
-  build_number = "115"
+  desc "Push Development to Test Flight"
+  lane :push_dev_to_testflight do
+    build_xcarchive scheme: "dev"
+    codesign_xcarchive scheme: "dev"
+    xcarchive_to_ipa scheme: "dev"
 
-  # execute only once
-  lane :certificates do
-    cert(
-      username: "info@juniorise.com",
-      team_name: "Thea Choem",
-      development: true
-    )
-    sigh(
-      username: "info@juniorise.com",
-      team_name: "Thea Choem",
-      app_identifier: "com.juniorise.spooky",
-      development: true
-    )
+    push_to_testflight
   end
 
-  desc "Release"
-  lane :release do
-    build(version_number: version_number, build_number: build_number)
-    upload_app
+  desc "Push Staging to Test Flight"
+  lane :push_staging_to_testflight do
+    build_xcarchive scheme: "staging"
+    codesign_xcarchive scheme: "staging"
+    xcarchive_to_ipa scheme: "staging"
+
+    push_to_testflight
   end
 
-  desc "Clean & Build App"
-  lane :build do |options|
-    match(type: "appstore")
+  desc "Push Production to Test Flight"
+  lane :push_production_to_testflight do
+    build_xcarchive scheme: "prod"
+    codesign_xcarchive scheme: "prod"
+    xcarchive_to_ipa scheme: "prod"
 
-    version_number = options[:version_number]
-    build_number = options[:build_number]
+    push_to_testflight
+  end
 
-    # version
-    increment_version_number(version_number: version_number)
-    increment_build_number(build_number: build_number)
+  desc "Build Flutter to .xcarchive"
+  lane :build_xcarchive do |options|
+    scheme = options[:scheme]
+    flavor = scheme
 
-    gym(
+    sh "flutter build ipa --release --flavor #{flavor} -t lib/main_#{flavor}.dart --dart-define-from-file=configs/#{flavor}.json --no-codesign"
+  end
+
+  # codesign xcarchive with xcargs -allowProvisioningUpdates
+  desc "Codesign xcarchive"
+  lane :codesign_xcarchive do |options|
+    scheme = options[:scheme]
+
+    sync_code_signing type: "appstore"
+    xcarchive(
       workspace: "Runner.xcworkspace",
-      scheme: "Runner",
+      scheme: scheme,
+      xcargs: "-allowProvisioningUpdates",
+      archive_path: '../build/ios/archive/Runner.xcarchive'
+    )
+  end
+
+  # build_app generate ExportOptions.plist, allow it to build an ipa file.
+  desc "Build xcarchive to .ipa"
+  lane :xcarchive_to_ipa do |options|
+    scheme = options[:scheme]
+
+    build_app(
+      workspace: "Runner.xcworkspace",
+      scheme: scheme,
       clean: true,
       export_method: "app-store",
-      xcargs: "-allowProvisioningUpdates",
-      output_name: "ReleaseApp.ipa"
+      output_name: "release.ipa",
+      archive_path: '../build/ios/archive/Runner.xcarchive',
+      skip_build_archive: true,
     )
   end
 
-  desc "Upload App To TestFlight"
-  lane :upload_app do
-    pilot(
+  desc "Upload .ipa To TestFlight"
+  lane :push_to_testflight do
+    upload_to_testflight(
       skip_waiting_for_build_processing: true,
-      api_key_path: "fastlane/appConnectApiKey.json"
+      api_key_path: "./fastlane/AppStoreConnectApiKey.json",
     )
   end
 end

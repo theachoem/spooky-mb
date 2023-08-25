@@ -15,37 +15,61 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## iOS
 
-### ios certificates
+### ios push_dev_to_testflight
 
 ```sh
-[bundle exec] fastlane ios certificates
+[bundle exec] fastlane ios push_dev_to_testflight
 ```
 
+Push Development to Test Flight
 
-
-### ios release
+### ios push_staging_to_testflight
 
 ```sh
-[bundle exec] fastlane ios release
+[bundle exec] fastlane ios push_staging_to_testflight
 ```
 
-Release
+Push Staging to Test Flight
 
-### ios build
+### ios push_production_to_testflight
 
 ```sh
-[bundle exec] fastlane ios build
+[bundle exec] fastlane ios push_production_to_testflight
 ```
 
-Clean & Build App
+Push Production to Test Flight
 
-### ios upload_app
+### ios build_xcarchive
 
 ```sh
-[bundle exec] fastlane ios upload_app
+[bundle exec] fastlane ios build_xcarchive
 ```
 
-Upload App To TestFlight
+Build Flutter to .xcarchive
+
+### ios codesign_xcarchive
+
+```sh
+[bundle exec] fastlane ios codesign_xcarchive
+```
+
+Codesign xcarchive
+
+### ios xcarchive_to_ipa
+
+```sh
+[bundle exec] fastlane ios xcarchive_to_ipa
+```
+
+Build xcarchive to .ipa
+
+### ios push_to_testflight
+
+```sh
+[bundle exec] fastlane ios push_to_testflight
+```
+
+Upload .ipa To TestFlight
 
 ----
 
