@@ -19,7 +19,7 @@ platform :android do
     build_apk(flavor: 'dev')
     push_apk_to_firebase(
       flavor: 'dev',
-      package_name: 'com.centralmarket.app.dev',
+      package_name: 'com.juniorise.spooky.dev',
       groups: 'dev-team',
       service_credentials_file: 'fastlane/FirebaseAppDistributorKey.json'
     )
@@ -30,7 +30,7 @@ platform :android do
     build_apk(flavor: 'staging')
     push_apk_to_firebase(
       flavor: 'staging',
-      package_name: 'com.centralmarket.app.staging',
+      package_name: 'com.juniorise.spooky.staging',
       groups: 'dev-team,internal-tester',
       service_credentials_file: 'fastlane/FirebaseAppDistributorKey.json'
     )
@@ -41,7 +41,7 @@ platform :android do
     build_apk(flavor: 'prod')
     push_apk_to_firebase(
       flavor: 'prod',
-      package_name: 'com.centralmarket.app',
+      package_name: 'com.juniorise.spooky',
       groups: 'dev-team,internal-tester',
       service_credentials_file: 'fastlane/FirebaseAppDistributorProductionKey.json'
     )
