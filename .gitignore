@@ -45,16 +45,27 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Firebase via dart-config
-lib/firebase_options.dart
-internal
-
-# scripts
-node_modules/
-
 # FVM
 .fvm/flutter_sdk
+
+# google-services
+android/app/src/**/google-services.json
+ios/Firebase/**/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+
+# firebase option generated files
+lib/firebase_options/*.dart
+lib/main_*.dart
+
+# check configs/flavor.json for example
+configs/dev.json
+configs/prod.json
+configs/staging.json
 
 # XCode related
 macos/DerivedData
 ios/DerivedData
+
+# scripts
+node_modules
+vendor/cache

@@ -15,29 +15,45 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
-### android test
+### android push_dev_to_firebase_distribution
 
 ```sh
-[bundle exec] fastlane android test
+[bundle exec] fastlane android push_dev_to_firebase_distribution
 ```
 
-Runs all the tests
+Push Development APK to Firebase App Distribution
 
-### android beta
+### android push_staging_to_firebase_distribution
 
 ```sh
-[bundle exec] fastlane android beta
+[bundle exec] fastlane android push_staging_to_firebase_distribution
 ```
 
-Submit a new Beta Build to Crashlytics Beta
+Push Staging APK to Firebase App Distribution
 
-### android deploy
+### android push_prod_to_firebase_distribution
 
 ```sh
-[bundle exec] fastlane android deploy
+[bundle exec] fastlane android push_prod_to_firebase_distribution
 ```
 
-Deploy a new version to the Google Play
+Push Production APK to Firebase App Distribution
+
+### android build_apk
+
+```sh
+[bundle exec] fastlane android build_apk
+```
+
+Build Release APK file
+
+### android push_apk_to_firebase
+
+```sh
+[bundle exec] fastlane android push_apk_to_firebase
+```
+
+Push APK to Firebase
 
 ----
 

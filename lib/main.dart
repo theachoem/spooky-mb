@@ -19,7 +19,6 @@ import 'package:spooky/core/services/story_tags_service.dart';
 import 'package:spooky/core/storages/local_storages/nickname_storage.dart';
 import 'package:spooky/core/storages/local_storages/purchased_add_on_storage.dart';
 import 'package:spooky/core/storages/local_storages/story_config_storage.dart';
-import 'package:spooky/flavor_config.dart';
 import 'package:spooky/initial_theme.dart';
 import 'package:spooky/provider_scope.dart';
 import 'package:spooky/providers/in_app_update_provider.dart';
@@ -29,17 +28,19 @@ import 'package:flutter/material.dart';
 import 'package:spooky/utils/helpers/file_helper.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:firebase_core/firebase_core.dart';
-import 'package:spooky/firebase_options.dart';
+
 // import 'package:spooky/utils/helpers/debug_error_exception.dart';
 
 part 'global.dart';
 part 'initializer.dart';
 part 'app_localization.dart';
 
-void main() async {
+void main({
+  FirebaseOptions? firebaseOptions,
+}) async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-  await _Initializer.load();
+  await _Initializer.load(firebaseOptions: firebaseOptions);
 
   runApp(
     Phoenix(

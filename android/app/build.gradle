@@ -56,6 +56,30 @@ android {
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         resConfigs "en", "km"
+
+        // --dart-define-from-file=config.json
+        resValue "string", "fb_app_id", FB_APP_ID
+        resValue "string", "fb_client_token", FB_CLIENT_TOKEN
+    }
+
+    flavorDimensions "app"
+    productFlavors {
+
+        dev {
+            dimension "app"
+            applicationId "com.juniorise.spooky.dev"
+        }
+ 
+        staging {
+            dimension "app"
+            applicationId "com.juniorise.spooky.staging"
+        }
+
+        prod {
+            dimension "app"
+            applicationId "com.juniorise.spooky"
+        }
+
     }
 
     signingConfigs {
@@ -70,35 +94,12 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
-
-            // x86
-            // ndk.abiFilters 'armeabi-v7a'
         }
     }
 
     lintOptions {
         checkReleaseBuilds false
     }
-
-    // flavorDimensions "flavors"
-    // productFlavors {
-    //     dev {
-    //         dimension "flavors"
-    //         applicationIdSuffix ".dev"
-    //         versionNameSuffix "-dev"
-    //         resValue "string", "app_name", "SpookyDEV"
-    //     }
-    //     qa {
-    //         dimension "flavors"
-    //         applicationIdSuffix ".qa"
-    //         versionNameSuffix "-qa"
-    //         resValue "string", "app_name", "SpookyQA"
-    //     }
-    //     production {
-    //         dimension "flavors"
-    //         resValue "string", "app_name", "Spooky"
-    //     }
-    // }
 }
 
 flutter {

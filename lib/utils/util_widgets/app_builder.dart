@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:spooky/flavor_config.dart';
 import 'package:spooky/theme/m3/m3_color.dart';
 import 'package:spooky/theme/m3/m3_text_theme.dart';
-import 'package:spooky/utils/extensions/string_extension.dart';
+import 'package:spooky/utils/constants/api_constant.dart';
 import 'package:spooky/utils/util_widgets/app_local_auth.dart';
 
 class AppBuilder extends StatelessWidget {
@@ -20,7 +19,7 @@ class AppBuilder extends StatelessWidget {
       systemNavigationBarColor: Colors.transparent,
       statusBarColor: Colors.transparent,
     );
-    if (FlavorConfig.isProduction()) {
+    if (ApiConstant.prod) {
       return buildWrapper(overlay);
     } else {
       return buildWrapperWithBanner(overlay, context);
@@ -45,8 +44,8 @@ class AppBuilder extends StatelessWidget {
       right: 0,
       child: CustomPaint(
         painter: BannerPainter(
-          message: FlavorConfig.instance.flavor.name.capitalize,
-          color: FlavorConfig.instance.color(context) ?? const Color(0xA0B71C1C),
+          message: ApiConstant.flavor,
+          color: const Color(0xA0B71C1C),
           textStyle: M3TextTheme.of(context).bodySmall!.copyWith(color: M3Color.of(context).onPrimary),
           location: BannerLocation.bottomEnd,
           textDirection: Directionality.of(context),

@@ -1,9 +1,11 @@
 part of 'main.dart';
 
 class _Initializer {
-  static Future<void> load() async {
+  static Future<void> load({
+    FirebaseOptions? firebaseOptions,
+  }) async {
     // core
-    await initialFirebase();
+    await initialFirebase(firebaseOptions);
     await EasyLocalization.ensureInitialized();
     tz.initializeTimeZones();
     await FileHelper.initialFile();
@@ -51,19 +53,8 @@ class _Initializer {
     await GoogleCloudProvider.instance.load();
   }
 
-  static Future<void> initialFirebase() async {
-    switch (FlavorConfig.instance.flavor) {
-      case Flavor.dev:
-      case Flavor.qa:
-        await Firebase.initializeApp();
-        break;
-      case Flavor.production:
-        await Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        );
-        break;
-    }
-
+  static Future<void> initialFirebase(FirebaseOptions? firebaseOptions) async {
+    await Firebase.initializeApp(options: firebaseOptions);
     _listenToErrors();
     _listenToNonFlutterErrors();
   }

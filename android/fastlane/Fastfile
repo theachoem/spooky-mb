@@ -1,38 +1,82 @@
 # This file contains the fastlane.tools configuration
 # You can find the documentation at https://docs.fastlane.tools
 #
-# For a list of all available actions, check out
+# For a list of all available actions, check out:
+# https://docs.fastlane.tools/actions
 #
-#     https://docs.fastlane.tools/actions
-#
-# For a list of all available plugins, check out
-#
-#     https://docs.fastlane.tools/plugins/available-plugins
-#
+# For a list of all available plugins, check out:
+# https://docs.fastlane.tools/plugins/available-plugins
 
 # Uncomment the line if you want fastlane to automatically update itself
 # update_fastlane
 
 default_platform(:android)
 
+# TODO: Add lane to deploy AAB to Firebase.
 platform :android do
-  desc "Runs all the tests"
-  lane :test do
-    gradle(task: "test")
+  desc "Push Development APK to Firebase App Distribution"
+  lane :push_dev_to_firebase_distribution do
+    build_apk(flavor: 'dev')
+    push_apk_to_firebase(
+      flavor: 'dev',
+      package_name: 'com.centralmarket.app.dev',
+      groups: 'dev-team',
+      service_credentials_file: 'fastlane/FirebaseAppDistributorKey.json'
+    )
   end
 
-  desc "Submit a new Beta Build to Crashlytics Beta"
-  lane :beta do
-    gradle(task: "clean assembleRelease")
-    crashlytics
+  desc "Push Staging APK to Firebase App Distribution"
+  lane :push_staging_to_firebase_distribution do
+    build_apk(flavor: 'staging')
+    push_apk_to_firebase(
+      flavor: 'staging',
+      package_name: 'com.centralmarket.app.staging',
+      groups: 'dev-team,internal-tester',
+      service_credentials_file: 'fastlane/FirebaseAppDistributorKey.json'
+    )
+  end
+
+  desc "Push Production APK to Firebase App Distribution"
+  lane :push_prod_to_firebase_distribution do
+    build_apk(flavor: 'prod')
+    push_apk_to_firebase(
+      flavor: 'prod',
+      package_name: 'com.centralmarket.app',
+      groups: 'dev-team,internal-tester',
+      service_credentials_file: 'fastlane/FirebaseAppDistributorProductionKey.json'
+    )
+  end
+
+  desc "Build Release APK file"
+  lane :build_apk do |options|
+    flavor = options[:flavor]
+    sh "flutter build apk --release --flavor #{flavor} -t lib/main_#{flavor}.dart --dart-define-from-file=configs/#{flavor}.json"
+  end
+
+  desc "Push APK to Firebase"
+  lane :push_apk_to_firebase do |options|
+    flavor = options[:flavor]
+    groups = options[:groups]
+    package_name = options[:package_name]
+    service_credentials_file = options[:service_credentials_file]
+    firebase_app_id = find_firebase_app_id_for("app/src/#{flavor}/google-services.json", package_name)
+
+    firebase_app_distribution(
+      app: firebase_app_id,
+      service_credentials_file: service_credentials_file,
+      android_artifact_type: 'APK',
+      apk_path: "../build/app/outputs/flutter-apk/app-#{flavor}-release.apk",
+      groups: groups,
+    )
+  end
+
+  def find_firebase_app_id_for(google_services_path, package_name)
+    json = read_json(json_path: google_services_path)
   
-    # sh "your_script.sh"
-    # You can also use other beta testing services here
-  end
-
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+    selected_client = json[:client].find do |client| 
+      client[:client_info][:android_client_info][:package_name] == package_name
+    end
+  
+    selected_client[:client_info][:mobilesdk_app_id]
   end
 end

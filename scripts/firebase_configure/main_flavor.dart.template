@@ -1,4 +1,4 @@
-import 'firebase_options/dev.dart';
+import 'firebase_options/#{FLAVOR}.dart';
 import 'main.dart' as source;
 
 void main() => source.main(firebaseOptions: DefaultFirebaseOptions.currentPlatform);

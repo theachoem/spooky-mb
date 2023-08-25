@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/storages/local_storages/developer_mode_storage.dart';
-import 'package:spooky/flavor_config.dart';
+import 'package:spooky/utils/constants/api_constant.dart';
 
 class DeveloperModeProvider extends ChangeNotifier {
   final DeveloperModeStorage storage = DeveloperModeStorage();
 
   bool _developerModeOn = false;
-  bool get developerModeOn => _developerModeOn || !FlavorConfig.isProduction();
+  bool get developerModeOn => _developerModeOn || ApiConstant.dev || ApiConstant.staging;
 
   DeveloperModeProvider() {
     load();
