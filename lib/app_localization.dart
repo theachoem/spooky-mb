@@ -14,7 +14,7 @@ class AppLocalization extends StatelessWidget {
       supportedLocales: AppConstant.supportedLocales,
       fallbackLocale: AppConstant.fallbackLocale,
       path: 'translations',
-      assetLoader: YamlAssetLoader(),
+      assetLoader: const YamlAssetLoader(),
       child: child,
     );
   }

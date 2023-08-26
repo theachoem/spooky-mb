@@ -77,7 +77,7 @@ class _BiometricsService extends _BaseLockService<_BiometricsOptions> {
             cancelLabel: tr("button.cancel"),
           ).then((value) {
             if (value == OkCancelResult.ok) {
-              AppSettings.openSecuritySettings();
+              AppSettings.openAppSettings(type: AppSettingsType.security);
             }
           });
         } else {

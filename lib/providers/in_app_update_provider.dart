@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:new_version/new_version.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_update/in_app_update.dart';
 import 'package:spooky/core/routes/sp_router.dart';
@@ -32,7 +32,7 @@ class InAppUpdateProvider extends ChangeNotifier {
       }
       notifyListeners();
     } else if (Platform.isIOS) {
-      iosUpdateInfo = await NewVersion().getVersionStatus();
+      iosUpdateInfo = await NewVersionPlus().getVersionStatus();
       if (iosUpdateInfo?.canUpdate == true) {
         flexibleUpdateAllowed = true;
         notifyListeners();

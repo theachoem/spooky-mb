@@ -12,6 +12,7 @@ class NotificationProvider extends ChangeNotifier {
 
   Future<void> load() async {
     bool isAllow = await NotificationService.isNotificationAllowed;
+    if (isAllow) NotificationService.setListeners();
     if (isAllow != this.isAllow) {
       this.isAllow = isAllow;
       notifyListeners();

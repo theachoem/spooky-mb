@@ -65,6 +65,7 @@ class AppLocalAuthState extends State<AppLocalAuth> with WidgetsBindingObserver,
     switch (state) {
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
         break;
       case AppLifecycleState.resumed:
         cancelTimer(const ValueKey("SecurityService"));

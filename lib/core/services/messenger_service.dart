@@ -106,11 +106,11 @@ class MessengerService {
         return value;
       }),
       builder: (context, snapshot) {
-        return AlertDialog(
+        return const AlertDialog(
           content: Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             alignment: WrapAlignment.center,
-            children: const [
+            children: [
               CircularProgressIndicator.adaptive(),
             ],
           ),

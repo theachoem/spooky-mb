@@ -24,12 +24,6 @@ class _Initializer {
       await DesktopWindow.setMinWindowSize(const Size(320, 510));
     }
 
-    // notification:
-    // wait to make sure localization completed
-    Future.delayed(const Duration(seconds: 3)).then((value) {
-      NotificationService.initialize();
-    });
-
     // license
     LicenseRegistry.addLicense(() async* {
       final quicksandLicense = await rootBundle.loadString('assets/fonts/Quicksand/OFL.txt');

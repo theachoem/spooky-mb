@@ -37,6 +37,7 @@ class QuillImageRenderer extends quill.EmbedBuilder {
     quill.Embed node,
     bool readOnly,
     bool inline,
+    TextStyle textStyle,
   ) {
     return _QuillImageRenderer(
       node: node,

@@ -6,6 +6,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   awesome_notifications
   desktop_window
   dynamic_color
+  file_selector_linux
   flutter_secure_storage_linux
   objectbox_flutter_libs
   pasteboard

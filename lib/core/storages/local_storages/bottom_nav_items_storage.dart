@@ -9,6 +9,7 @@ class BottomNavItemStorage extends ObjectStorage<BottomNavItemListModel> {
 
   final List<SpRouter> defaultTabs = [
     SpRouter.home,
+    SpRouter.cloudStorages,
     SpRouter.soundList,
     SpRouter.setting,
   ];

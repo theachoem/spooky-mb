@@ -138,7 +138,7 @@ class AppHelper {
 
     if (Platform.isIOS) {
       IosDeviceInfo info = await deviceInfo.iosInfo;
-      device = info.model ?? info.name;
+      device = info.model;
       id = info.identifierForVendor;
     }
 

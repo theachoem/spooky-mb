@@ -12,7 +12,6 @@ import 'package:spooky/core/analytic/analytic_initializer.dart';
 import 'package:spooky/core/backups/providers/google_cloud_provider.dart';
 import 'package:spooky/core/db/adapters/base/base_objectbox_adapter.dart';
 import 'package:spooky/core/external_apis/remote_configs/remote_config_service.dart';
-import 'package:spooky/core/notification/notification_service.dart';
 import 'package:spooky/core/services/google_font_cache_clearer.dart';
 import 'package:spooky/core/services/initial_tab_service.dart';
 import 'package:spooky/core/services/story_tags_service.dart';

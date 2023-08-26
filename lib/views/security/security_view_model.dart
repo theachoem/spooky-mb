@@ -111,6 +111,8 @@ class SecurityViewModel extends BaseViewModel with WidgetsBindingObserver {
         break;
       case AppLifecycleState.detached:
         break;
+      case AppLifecycleState.hidden:
+        break;
     }
   }
 }

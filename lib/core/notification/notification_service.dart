@@ -27,6 +27,11 @@ class NotificationService {
   static Future<bool> requestPermissionToSendNotifications() async {
     bool supportedPlatform = Platform.isAndroid || Platform.isIOS;
     if (!supportedPlatform) return false;
+
+    // reinitialize will alert notification permission request.
+    await initialize();
+    await setListeners();
+
     return notifications.requestPermissionToSendNotifications();
   }
 
@@ -39,8 +44,10 @@ class NotificationService {
       config.channels,
       debug: kDebugMode,
     );
+  }
 
-    notifications.setListeners(onActionReceivedMethod: (ReceivedAction event) async {
+  static Future<bool> setListeners() {
+    return notifications.setListeners(onActionReceivedMethod: (ReceivedAction event) async {
       NotificationChannelTypes? type;
 
       for (final typeFromValues in NotificationChannelTypes.values) {

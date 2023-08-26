@@ -281,6 +281,7 @@ class MiniSoundPlayerProvider extends ChangeNotifier with WidgetsBindingObserver
         break;
       case AppLifecycleState.inactive:
       case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
         break;
     }
   }

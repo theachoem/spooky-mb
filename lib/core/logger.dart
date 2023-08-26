@@ -21,8 +21,6 @@ class SimpleLogPrinter extends LogPrinter {
 
   int level(Level level) {
     switch (level) {
-      case Level.verbose:
-        return 0;
       case Level.debug:
         return 500;
       case Level.info:
@@ -30,8 +28,6 @@ class SimpleLogPrinter extends LogPrinter {
       case Level.warning:
         return 1500;
       case Level.error:
-        return 2000;
-      case Level.wtf:
         return 2000;
       default:
         return 2000;
