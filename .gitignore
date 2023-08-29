@@ -69,3 +69,11 @@ ios/DerivedData
 # scripts
 node_modules
 vendor/cache
+
+# community public credentials
+!android/app/src/dev/google-services.json
+!ios/Firebase/dev/GoogleService-Info.plist
+!macos/Runner/GoogleService-Info.plist
+
+!lib/firebase_options/dev.dart
+!lib/main_dev.dart
