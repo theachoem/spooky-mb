@@ -2,7 +2,6 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/app.dart';
 import 'package:spooky/core/locale/type_localization.dart';
@@ -31,7 +30,7 @@ class SpThemeSwitcher extends StatefulWidget {
   State<SpThemeSwitcher> createState() => _SpThemeSwitcherState();
 
   static bool onPress(BuildContext context) {
-    return context.read<ThemeProvider>().toggleThemeMode() == true;
+    return context.read<ThemeProvider>().toggleThemeMode(context) == true;
   }
 
   static Future<void> onLongPress(BuildContext context) async {
@@ -84,13 +83,14 @@ class SpThemeSwitcher extends StatefulWidget {
 
 class _SpThemeSwitcherState extends State<SpThemeSwitcher> with ScheduleMixin {
   late final ValueNotifier<bool> isDarkModeNotifier;
+
   bool get isDarkModeFromTheme {
     try {
       BuildContext context = App.navigatorKey.currentContext ?? this.context;
       return Theme.of(context).brightness == Brightness.dark;
     } catch (e) {
       if (kDebugMode) print("ERROR: _SpThemeSwitcherState $e");
-      Brightness? brightness = SchedulerBinding.instance.window.platformBrightness;
+      Brightness? brightness = View.of(context).platformDispatcher.platformBrightness;
       bool isDarkMode = brightness == Brightness.dark;
       return isDarkMode;
     }

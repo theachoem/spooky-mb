@@ -58,7 +58,7 @@ lib/firebase_options/*.dart
 lib/main_*.dart
 
 # check configs/flavor.json for example
-configs/dev.json
+# configs/dev.json
 configs/prod.json
 configs/staging.json
 

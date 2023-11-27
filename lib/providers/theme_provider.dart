@@ -1,6 +1,5 @@
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:spooky/core/models/theme_model.dart';
 import 'package:spooky/core/storages/local_storages/theme_storage.dart';
 import 'package:spooky/theme/theme_config.dart';
@@ -37,10 +36,10 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
   FontWeight get fontWeight => theme?.fontWeight ?? ThemeConstant.defaultFontWeight;
   ThemeMode get themeMode => theme?.themeMode ?? ThemeMode.system;
 
-  Color get colorSeed {
+  Color colorSeed(BuildContext context) {
     Color color = theme?.colorSeed ?? ThemeConstant.fallbackColor;
     if (color == Colors.black || color == Colors.white) {
-      return isDarkMode() ? Colors.white : Colors.black;
+      return isDarkMode(context) ? Colors.white : Colors.black;
     } else {
       return color;
     }
@@ -72,12 +71,12 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
     return load();
   }
 
-  Future<void> updateColor(Color? color) async {
+  Future<void> updateColor(Color? color, BuildContext context) async {
     if (useDynamicColor) {
       return updateTheme(
         theme!.copyWith(
           colorSeed: color,
-          themeMode: isDarkMode() ? ThemeMode.dark : ThemeMode.light,
+          themeMode: isDarkMode(context) ? ThemeMode.dark : ThemeMode.light,
         ),
       );
     } else {
@@ -117,9 +116,9 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
     }
   }
 
-  bool toggleThemeMode() {
+  bool toggleThemeMode(BuildContext context) {
     if (themeMode == ThemeMode.system) {
-      Brightness? brightness = SchedulerBinding.instance.window.platformBrightness;
+      Brightness? brightness = View.of(context).platformDispatcher.platformBrightness;
       bool isDarkMode = brightness == Brightness.dark;
       setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
       return !isDarkMode;
@@ -153,9 +152,9 @@ class ThemeProvider extends ChangeNotifier with WidgetsBindingObserver {
     setNavigationBarColor();
   }
 
-  bool isDarkMode() {
+  bool isDarkMode(BuildContext context) {
     if (themeMode == ThemeMode.system) {
-      Brightness? brightness = SchedulerBinding.instance.window.platformBrightness;
+      Brightness? brightness = View.of(context).platformDispatcher.platformBrightness;
       return brightness == Brightness.dark;
     } else {
       return themeMode == ThemeMode.dark;

@@ -24,27 +24,6 @@
       "type": "dart",
       "program": "lib/main_prod.dart",
       "args": ["--flavor=prod", "--dart-define-from-file=configs/prod.json"]
-    },
-    {
-      "name": "DEVELOPMENT --no-flavor",
-      "request": "launch",
-      "type": "dart",
-      "program": "lib/main_dev.dart",
-      "args": ["--flavor=dev", "--dart-define-from-file=configs/dev.json"]
-    },
-    {
-      "name": "STAGING --no-flavor",
-      "request": "launch",
-      "type": "dart",
-      "program": "lib/main_staging.dart",
-      "args": ["--dart-define-from-file=configs/staging.json"]
-    },
-    {
-      "name": "PRODUCTION --no-flavor",
-      "request": "launch",
-      "type": "dart",
-      "program": "lib/main_prod.dart",
-      "args": ["--dart-define-from-file=configs/prod.json"]
     }
   ]
 }

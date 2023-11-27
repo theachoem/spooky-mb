@@ -111,12 +111,12 @@ class _ThemeSettingMobile extends StatelessWidget {
     return SpOverlayEntryButton(floatingBuilder: (context, callback) {
       return SpColorPicker(
         blackWhite: SpColorPicker.getBlackWhite(context),
-        currentColor: context.read<ThemeProvider>().colorSeed,
+        currentColor: context.read<ThemeProvider>().colorSeed(context),
         level: SpColorPickerLevel.one,
         onPickedColor: (color) async {
           callback();
           await Future.delayed(ConfigConstant.duration).then((value) async {
-            await context.read<ThemeProvider>().updateColor(color);
+            await context.read<ThemeProvider>().updateColor(color, context);
           });
         },
       );
@@ -132,7 +132,9 @@ class _ThemeSettingMobile extends StatelessWidget {
             size: ConfigConstant.iconSize2,
             onPressed: null,
             selected: true,
-            color: isSystemTheme ? Theme.of(context).colorScheme.primary : context.read<ThemeProvider>().colorSeed,
+            color: isSystemTheme
+                ? Theme.of(context).colorScheme.primary
+                : context.read<ThemeProvider>().colorSeed(context),
           ),
         ),
         onLongPress: () {

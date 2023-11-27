@@ -95,7 +95,7 @@ class _InitPickColorAdaptive extends StatelessWidget {
                       final provider = Provider.of<ThemeProvider>(context, listen: false);
                       provider.setThemeMode(value
                           ? ThemeMode.system
-                          : provider.isDarkMode()
+                          : provider.isDarkMode(context)
                               ? ThemeMode.dark
                               : ThemeMode.light);
                     },
@@ -145,13 +145,14 @@ class _InitPickColorAdaptive extends StatelessWidget {
             width: size(width),
             height: size(width),
             widgets: materialColors.map((color) {
-              bool selected = themeProvider.useDynamicColor ? false : themeProvider.colorSeed.value == color.value;
+              bool selected =
+                  themeProvider.useDynamicColor ? false : themeProvider.colorSeed(context).value == color.value;
               return SpTapEffect(
                 effects: const [
                   SpTapEffectType.scaleDown,
                   SpTapEffectType.touchableOpacity,
                 ],
-                onTap: () => themeProvider.updateColor(color),
+                onTap: () => themeProvider.updateColor(color, context),
                 child: AnimatedContainer(
                   duration: ConfigConstant.fadeDuration,
                   decoration: BoxDecoration(

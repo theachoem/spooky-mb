@@ -92,11 +92,11 @@ class _AppStarterAdaptive extends StatelessWidget {
     return SpOverlayEntryButton(floatingBuilder: (context, callback) {
       return SpColorPicker(
         blackWhite: SpColorPicker.getBlackWhite(context),
-        currentColor: context.read<ThemeProvider>().colorSeed,
+        currentColor: context.read<ThemeProvider>().colorSeed(context),
         onPickedColor: (color) async {
           callback();
           Future.delayed(ConfigConstant.duration).then((value) async {
-            await context.read<ThemeProvider>().updateColor(color);
+            await context.read<ThemeProvider>().updateColor(color, context);
           });
         },
       );
