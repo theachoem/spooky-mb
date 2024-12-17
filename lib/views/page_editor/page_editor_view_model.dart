@@ -19,6 +19,15 @@ class PageEditorViewModel extends BaseViewModel {
   }
 
   QuillController? controller;
+  bool topToolbar = true;
+
+  bool get showToolbarOnTop => controller != null && topToolbar;
+  bool get showToolbarOnBottom => controller != null && !topToolbar;
+
+  void toggleToolbarPosition() {
+    topToolbar = !topToolbar;
+    notifyListeners();
+  }
 
   Future<void> load() async {
     Document document = await compute(_buildDocument, params.initialDocument);
