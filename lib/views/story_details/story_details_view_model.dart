@@ -89,7 +89,7 @@ class StoryDetailsViewModel extends BaseViewModel {
       );
 
       if (story?.id != null) {
-        StoryDbModel editedStory = story!.copyWithNewChange(newChange);
+        StoryDbModel editedStory = story!.copyWithNewChange(newChange).copyWith(month: 5);
         StoryDbModel? result = await StoryDbModel.db.update(editedStory.copyWith(updatedAt: DateTime.now()));
         storyId ??= result?.id;
 

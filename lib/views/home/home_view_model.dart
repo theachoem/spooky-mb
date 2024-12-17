@@ -5,12 +5,22 @@ import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_db_model.dart';
 import 'package:spooky_mb/views/story_details/story_details_view.dart';
 
+// ignore: depend_on_referenced_packages
+import 'package:intl/intl.dart';
+
 class HomeViewModel extends BaseViewModel {
   HomeViewModel() {
     load();
   }
 
+  int year = 2024;
   CollectionDbModel<StoryDbModel>? stories;
+  List<int> get months => stories?.items.map((e) => e.month).toSet().toList() ?? [];
+
+  String fromIndexToMonth(int index) {
+    final int monthIndex = index + 1;
+    return DateFormat.MMM().format(DateTime(1999, monthIndex));
+  }
 
   Future<void> load() async {
     stories = await StoryDbModel.db.where();
