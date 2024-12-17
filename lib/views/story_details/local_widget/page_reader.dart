@@ -11,9 +11,11 @@ class PageReader extends StatefulWidget {
   const PageReader({
     super.key,
     required this.pageDocuments,
+    required this.onSelectionChanged,
   });
 
   final List<dynamic> pageDocuments;
+  final void Function(TextSelection selection) onSelectionChanged;
 
   @override
   State<PageReader> createState() => _PageReaderState();
@@ -43,6 +45,7 @@ class _PageReaderState extends State<PageReader> {
       document: document,
       selection: const TextSelection.collapsed(offset: 0),
       readOnly: true,
+      onSelectionChanged: (textSelection) => widget.onSelectionChanged(textSelection),
     );
 
     if (mounted) setState(() {});

@@ -26,7 +26,6 @@ class _StoryDetailsAdaptive extends StatelessWidget {
             icon: const Icon(Icons.edit),
           ),
         ],
-        bottom: const PreferredSize(preferredSize: Size.fromHeight(1), child: Divider(height: 1)),
       ),
       body: PageView.builder(
         controller: viewModel.pageController,
@@ -35,6 +34,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
           final pageDocuments = viewModel.currentStoryContent!.pages![index];
           return PageReader(
             pageDocuments: pageDocuments,
+            onSelectionChanged: (TextSelection selection) => viewModel.currentTextSelection = selection,
           );
         },
       ),

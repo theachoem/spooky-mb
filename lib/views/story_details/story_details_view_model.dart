@@ -39,6 +39,7 @@ class StoryDetailsViewModel extends BaseViewModel {
   int? storyId;
   StoryDbModel? story;
   StoryContentDbModel? currentStoryContent;
+  TextSelection? currentTextSelection;
 
   Future<void> load() async {
     if (storyId != null) story = await StoryDbModel.db.find(storyId!);
@@ -75,7 +76,10 @@ class StoryDetailsViewModel extends BaseViewModel {
 
     var document = await Navigator.of(context).push(
       AnimatedPageRoute.sharedAxis(
-        builder: (context) => PageEditorView(initialDocument: currentPageDocuments),
+        builder: (context) => PageEditorView(
+          initialDocument: currentPageDocuments,
+          initialTextSelection: currentTextSelection,
+        ),
         type: SharedAxisTransitionType.vertical,
       ),
     );

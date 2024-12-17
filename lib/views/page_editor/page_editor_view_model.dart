@@ -22,7 +22,12 @@ class PageEditorViewModel extends BaseViewModel {
 
   Future<void> load() async {
     Document document = await compute(_buildDocument, params.initialDocument);
-    controller = QuillController(document: document, selection: const TextSelection.collapsed(offset: 0));
+
+    controller = QuillController(
+      document: document,
+      selection: params.initialTextSelection ?? const TextSelection.collapsed(offset: 0),
+    );
+
     notifyListeners();
   }
 

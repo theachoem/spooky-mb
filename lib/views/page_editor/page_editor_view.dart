@@ -10,9 +10,11 @@ class PageEditorView extends StatelessWidget {
   const PageEditorView({
     super.key,
     required this.initialDocument,
+    required this.initialTextSelection,
   });
 
   final List<dynamic>? initialDocument;
+  final TextSelection? initialTextSelection;
 
   @override
   Widget build(BuildContext context) {

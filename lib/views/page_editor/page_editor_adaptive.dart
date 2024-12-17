@@ -16,7 +16,6 @@ class _PageEditorAdaptive extends StatelessWidget {
             onPressed: () => viewModel.save(context),
           ),
         ],
-        bottom: const PreferredSize(preferredSize: Size.fromHeight(1), child: Divider(height: 1)),
       ),
       body: buildBody(context),
       bottomNavigationBar: viewModel.controller == null ? null : buildPagesEditorToolbar(context),
