@@ -1,4 +1,4 @@
-package com.example.spooky_mb
+package com.juniorise.spooky
 
 import io.flutter.embedding.android.FlutterActivity
 
