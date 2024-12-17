@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky_mb/core/base/base_view_model.dart';
@@ -18,6 +20,7 @@ class StoryDetailsViewModel extends BaseViewModel {
 
   StoryDetailsViewModel({
     required this.params,
+    required BuildContext context,
   }) {
     storyId = params.id;
     pageController = PageController();
@@ -26,7 +29,16 @@ class StoryDetailsViewModel extends BaseViewModel {
       currentPageNotifier.value = pageController.page!;
     });
 
-    load();
+    load().then((_) async {
+      await handleNewStory(context);
+    });
+  }
+
+  Future<void> handleNewStory(BuildContext context) async {
+    if (storyId == null) {
+      await goToEditPage(context);
+      if (storyId == null) Navigator.pop(context);
+    }
   }
 
   @override

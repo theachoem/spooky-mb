@@ -17,7 +17,7 @@ class StoryDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<StoryDetailsViewModel>(
-      create: (context) => StoryDetailsViewModel(params: this),
+      create: (context) => StoryDetailsViewModel(params: this, context: context),
       builder: (context, viewModel, child) {
         return _StoryDetailsAdaptive(viewModel);
       },

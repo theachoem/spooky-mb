@@ -17,13 +17,14 @@ class _StoryDetailsAdaptive extends StatelessWidget {
               return Text('${viewModel.currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
             },
           ),
+          const SizedBox(width: 12.0),
           IconButton(
             onPressed: () => viewModel.createNewPage(context),
-            icon: const Icon(Icons.add),
+            icon: const Icon(Icons.insert_page_break_outlined),
           ),
           IconButton(
             onPressed: () => viewModel.goToEditPage(context),
-            icon: const Icon(Icons.edit),
+            icon: const Icon(Icons.edit_outlined),
           ),
         ],
       ),
