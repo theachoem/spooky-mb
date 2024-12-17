@@ -1,6 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:spooky_mb/core/databases/adapters/base_db_adapter.dart';
+import 'package:spooky_mb/core/databases/adapters/objectbox/tag_box.dart';
 import 'package:spooky_mb/core/databases/models/base_db_model.dart';
 
 part 'tag_db_model.g.dart';
@@ -8,8 +8,7 @@ part 'tag_db_model.g.dart';
 @CopyWith()
 @JsonSerializable()
 class TagDbModel extends BaseDbModel {
-  @override
-  BaseDbAdapter<BaseDbModel> get dbAdapter => throw UnimplementedError();
+  static final TagBox db = TagBox();
 
   final int id;
   final int index;
@@ -39,6 +38,17 @@ class TagDbModel extends BaseDbModel {
         createdAt = DateTime.now(),
         updatedAt = DateTime.now();
 
+  factory TagDbModel.fromNow() {
+    return TagDbModel(
+      id: 0,
+      version: 0,
+      title: 'Favorite',
+      starred: true,
+      emoji: null,
+      createdAt: DateTime.now(),
+      updatedAt: DateTime.now(),
+    );
+  }
   @override
   Map<String, dynamic> toJson() => _$TagDbModelToJson(this);
   factory TagDbModel.fromJson(Map<String, dynamic> json) {

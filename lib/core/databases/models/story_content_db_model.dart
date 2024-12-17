@@ -1,6 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:spooky_mb/core/databases/adapters/base_db_adapter.dart';
 import 'package:spooky_mb/core/databases/models/base_db_model.dart';
 import 'package:spooky_mb/core/databases/models/concerns/comparable_concern.dart';
 
@@ -9,9 +8,6 @@ part 'story_content_db_model.g.dart';
 @CopyWith()
 @JsonSerializable()
 class StoryContentDbModel extends BaseDbModel with ComparableConcern {
-  @override
-  BaseDbAdapter<BaseDbModel> get dbAdapter => throw UnimplementedError();
-
   final int id;
   final String? title;
   final String? plainText;
@@ -68,8 +64,7 @@ class StoryContentDbModel extends BaseDbModel with ComparableConcern {
 
   @override
   Map<String, dynamic> toJson() => _$StoryContentDbModelToJson(this);
-  factory StoryContentDbModel.fromJson(Map<String, dynamic> json) =>
-      _$StoryContentDbModelFromJson(json);
+  factory StoryContentDbModel.fromJson(Map<String, dynamic> json) => _$StoryContentDbModelFromJson(json);
 
   // avoid save without add anythings
   bool hasDataWritten(StoryContentDbModel content) {

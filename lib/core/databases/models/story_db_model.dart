@@ -2,8 +2,7 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
-import 'package:spooky_mb/core/databases/adapters/base_db_adapter.dart';
-import 'package:spooky_mb/core/databases/adapters/objectbox/story_objectbox.dart';
+import 'package:spooky_mb/core/databases/adapters/objectbox/story_box.dart';
 import 'package:spooky_mb/core/databases/models/base_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
 
@@ -18,8 +17,7 @@ enum PathType {
 @CopyWith()
 @JsonSerializable()
 class StoryDbModel extends BaseDbModel {
-  @override
-  BaseDbAdapter<StoryDbModel> get dbAdapter => StoryObjectbox();
+  static final StoryBox db = StoryBox();
 
   final int version;
   final PathType type;
@@ -76,17 +74,6 @@ class StoryDbModel extends BaseDbModel {
     this.rawChanges,
   });
 
-  factory StoryDbModel.fromJson(Map<String, dynamic> json) =>
-      _$StoryDbModelFromJson(json);
-
-  @override
-  Map<String, dynamic> toJson() {
-    // remove dublicate
-    Map<int, StoryContentDbModel> changes = {};
-    for (final e in this.changes) changes[e.id] ??= e;
-    return _$StoryDbModelToJson(copyWith(changes: changes.values.toList()));
-  }
-
   bool get viewOnly => unarchivable || inBins;
 
   bool get inBins => type == PathType.bins;
@@ -120,12 +107,21 @@ class StoryDbModel extends BaseDbModel {
       starred: false,
       feeling: null,
       changes: [
-        StoryContentDbModel.create(
-            createdAt: now, id: now.millisecondsSinceEpoch),
+        StoryContentDbModel.create(createdAt: now, id: now.millisecondsSinceEpoch),
       ],
       updatedAt: now,
       createdAt: now,
       tags: [],
     );
+  }
+
+  factory StoryDbModel.fromJson(Map<String, dynamic> json) => _$StoryDbModelFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() {
+    // remove dublicate
+    Map<int, StoryContentDbModel> changes = {};
+    for (final e in this.changes) changes[e.id] ??= e;
+    return _$StoryDbModelToJson(copyWith(changes: changes.values.toList()));
   }
 }

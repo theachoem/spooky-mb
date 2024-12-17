@@ -1,0 +1,161 @@
+{
+  "_note1": "KEEP THIS FILE! Check it into a version control system (VCS) like git.",
+  "_note2": "ObjectBox manages crucial IDs for your object model. See docs for details.",
+  "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
+  "entities": [
+    {
+      "id": "1:1315674973270407540",
+      "lastPropertyId": "17:5915059271383518737",
+      "name": "StoryObjectBox",
+      "properties": [
+        {
+          "id": "1:6204756630438174140",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:2750498315094758991",
+          "name": "version",
+          "type": 6
+        },
+        {
+          "id": "3:7025945378308925607",
+          "name": "type",
+          "type": 9
+        },
+        {
+          "id": "4:1751720408046278054",
+          "name": "year",
+          "type": 6
+        },
+        {
+          "id": "5:615116047335897532",
+          "name": "month",
+          "type": 6
+        },
+        {
+          "id": "6:940723986012690883",
+          "name": "day",
+          "type": 6
+        },
+        {
+          "id": "7:8843642523309181931",
+          "name": "hour",
+          "type": 6
+        },
+        {
+          "id": "8:2131953642176057257",
+          "name": "minute",
+          "type": 6
+        },
+        {
+          "id": "9:5638597855483599562",
+          "name": "second",
+          "type": 6
+        },
+        {
+          "id": "10:5531891690385891245",
+          "name": "starred",
+          "type": 1
+        },
+        {
+          "id": "11:3082650409675229587",
+          "name": "feeling",
+          "type": 9
+        },
+        {
+          "id": "12:3684818254319588064",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "13:7254742374879835082",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "14:8089752820298150449",
+          "name": "movedToBinAt",
+          "type": 10
+        },
+        {
+          "id": "15:5385641444276770743",
+          "name": "changes",
+          "type": 30
+        },
+        {
+          "id": "16:7807583801066732157",
+          "name": "tags",
+          "type": 30
+        },
+        {
+          "id": "17:5915059271383518737",
+          "name": "metadata",
+          "type": 9
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "2:5971596053644243407",
+      "lastPropertyId": "8:5827189541962655845",
+      "name": "TagObjectBox",
+      "properties": [
+        {
+          "id": "1:6944916622958026852",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:4062181998971940528",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:1379748706441133316",
+          "name": "index",
+          "type": 6
+        },
+        {
+          "id": "4:5810516044808250575",
+          "name": "version",
+          "type": 6
+        },
+        {
+          "id": "5:8917565351877340122",
+          "name": "starred",
+          "type": 1
+        },
+        {
+          "id": "6:6470309032425962295",
+          "name": "emoji",
+          "type": 9
+        },
+        {
+          "id": "7:5242213206519628615",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "8:5827189541962655845",
+          "name": "updatedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    }
+  ],
+  "lastEntityId": "2:5971596053644243407",
+  "lastIndexId": "0:0",
+  "lastRelationId": "0:0",
+  "lastSequenceId": "0:0",
+  "modelVersion": 5,
+  "modelVersionParserMinimum": 5,
+  "retiredEntityUids": [],
+  "retiredIndexUids": [],
+  "retiredPropertyUids": [],
+  "retiredRelationUids": [],
+  "version": 1
+}

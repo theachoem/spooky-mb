@@ -10,12 +10,12 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }
 
   @override
-  Future<BaseDbModel?> delete(BaseDbModel record) {
+  Future<BaseDbModel?> delete(int id) {
     throw UnimplementedError();
   }
 
   @override
-  Future<CollectionDbModel<BaseDbModel>?> getAll() {
+  Future<BaseDbModel?> find(int id) {
     throw UnimplementedError();
   }
 
@@ -25,9 +25,12 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }
 
   @override
-  Future<CollectionDbModel<BaseDbModel>?> where({
-    required Map<String, dynamic> filters,
-  }) {
+  Future<BaseDbModel?> set(BaseDbModel record) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<CollectionDbModel<BaseDbModel>?> where({Map<String, dynamic>? filters}) {
     throw UnimplementedError();
   }
 }

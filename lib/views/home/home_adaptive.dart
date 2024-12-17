@@ -10,9 +10,18 @@ class _HomeAdaptive extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: ListView.builder(
-        itemCount: 20,
+        itemCount: viewModel.stories?.items.length ?? 0,
         itemBuilder: (context, index) {
-          return const ListTile();
+          final story = viewModel.stories!.items[index];
+          return ListTile(
+            title: Text(story.changes.lastOrNull?.title ?? 'N/A'),
+            subtitle: Text(story.changes.lastOrNull?.plainText ?? 'N/A'),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return StoryDetailsView(id: story.id);
+              }));
+            },
+          );
         },
       ),
     );
