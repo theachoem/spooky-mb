@@ -1,0 +1,55 @@
+{
+  "BookMe+ View Adaptive": {
+    "prefix": "view_adaptive",
+    "body": [
+      "part of '${TM_FILENAME_BASE/(.*)_adaptive/$1/}_view.dart';",
+      "",
+      "class _${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} extends StatelessWidget {",
+      "  const _${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}(this.viewModel);",
+      "",
+      "  final ${TM_FILENAME_BASE/(.*)_adaptive/${1:/pascalcase}/}ViewModel viewModel;",
+      "",
+      "  @override",
+      "  Widget build(BuildContext context) {",
+      "    return const Placeholder();",
+      "  }",
+      "}",
+      "",
+    ]
+  },
+  "BookMe+ View Model": {
+    "prefix": "view_model",
+    "body": ["",
+      "import 'package:spooky_mb/core/base/base_view_model.dart';",
+      "",
+      "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} extends BaseViewModel {}",
+      "",
+    ]
+  },
+  "BookMe+ View": {
+    "prefix": "view",
+    "body": [
+      "import 'package:spooky_mb/core/base/view_model_provider.dart';",
+      "import 'package:flutter/material.dart';",
+      "",
+      "import '${TM_FILENAME_BASE/_view/_view_model/}.dart';",
+      "",
+      "part '${TM_FILENAME_BASE/_view/_adaptive/}.dart';",
+      "",
+      "class ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/} extends StatelessWidget {",
+      "  const ${TM_FILENAME_BASE/(.*)/${1:/pascalcase}/}({super.key});",
+      "",
+      "  @override",
+      "  Widget build(BuildContext context) {",
+      "    return ViewModelProvider<${TM_FILENAME_BASE/(.*)_view/${1:/pascalcase}/}ViewModel>(",
+      "      create: (context) => ${TM_FILENAME_BASE/(.*)_view/${1:/pascalcase}/}ViewModel(),",
+      "      builder: (context, viewModel, child) {",
+      "        return _${TM_FILENAME_BASE/(.*)_view/${1:/pascalcase}/}Adaptive(viewModel);",
+      "      },",
+      "    );",
+      "  }",
+      "}",
+      "",
+    ]
+  },
+}
