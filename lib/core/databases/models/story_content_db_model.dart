@@ -1,7 +1,14 @@
+import 'package:json_annotation/json_annotation.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:spooky_mb/core/databases/adapters/base_db_adapter.dart';
 import 'package:spooky_mb/core/databases/models/base_db_model.dart';
+import 'package:spooky_mb/core/databases/models/concerns/comparable_concern.dart';
 
-class StoryContentDbModel extends BaseDbModel {
+part 'story_content_db_model.g.dart';
+
+@CopyWith()
+@JsonSerializable()
+class StoryContentDbModel extends BaseDbModel with ComparableConcern {
   @override
   BaseDbAdapter<BaseDbModel> get dbAdapter => throw UnimplementedError();
 
@@ -10,6 +17,9 @@ class StoryContentDbModel extends BaseDbModel {
   final String? plainText;
   final DateTime createdAt;
   final bool? draft;
+
+  @override
+  List<String>? get includeCompareKeys => ['title', 'pages'];
 
   // metadata should be title + plain text
   // better if with all pages.
@@ -39,6 +49,14 @@ class StoryContentDbModel extends BaseDbModel {
     }
   }
 
+  factory StoryContentDbModel.dublicate(StoryContentDbModel oldContent) {
+    DateTime now = DateTime.now();
+    return oldContent.copyWith(
+      id: now.millisecondsSinceEpoch,
+      createdAt: now,
+    );
+  }
+
   StoryContentDbModel.create({
     required this.createdAt,
     required this.id,
@@ -47,6 +65,11 @@ class StoryContentDbModel extends BaseDbModel {
         title = null,
         pages = [[]],
         draft = true;
+
+  @override
+  Map<String, dynamic> toJson() => _$StoryContentDbModelToJson(this);
+  factory StoryContentDbModel.fromJson(Map<String, dynamic> json) =>
+      _$StoryContentDbModelFromJson(json);
 
   // avoid save without add anythings
   bool hasDataWritten(StoryContentDbModel content) {
@@ -70,5 +93,16 @@ class StoryContentDbModel extends BaseDbModel {
 
     bool hasNoDataWritten = emptyPages && title.trim().isEmpty;
     return !hasNoDataWritten;
+  }
+
+  @override
+  List<String> get excludeCompareKeys {
+    return [
+      'id',
+      'plain_text',
+      'created_at',
+      'metadata',
+      'draft',
+    ];
   }
 }

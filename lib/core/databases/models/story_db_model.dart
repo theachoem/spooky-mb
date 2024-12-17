@@ -1,7 +1,13 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
+import 'package:json_annotation/json_annotation.dart';
+import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:spooky_mb/core/databases/adapters/base_db_adapter.dart';
 import 'package:spooky_mb/core/databases/adapters/objectbox/story_objectbox.dart';
 import 'package:spooky_mb/core/databases/models/base_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
+
+part 'story_db_model.g.dart';
 
 enum PathType {
   docs,
@@ -9,6 +15,8 @@ enum PathType {
   archives,
 }
 
+@CopyWith()
+@JsonSerializable()
 class StoryDbModel extends BaseDbModel {
   @override
   BaseDbAdapter<StoryDbModel> get dbAdapter => StoryObjectbox();
@@ -30,6 +38,7 @@ class StoryDbModel extends BaseDbModel {
   final List<String>? tags;
   final List<StoryContentDbModel> changes;
 
+  @JsonKey(includeFromJson: true, includeToJson: true)
   final List<String>? rawChanges;
   bool get useRawChanges => rawChanges?.isNotEmpty == true;
 
@@ -62,10 +71,21 @@ class StoryDbModel extends BaseDbModel {
     required this.changes,
     required this.updatedAt,
     required this.createdAt,
-    this.tags,
+    required this.tags,
     this.movedToBinAt,
     this.rawChanges,
   });
+
+  factory StoryDbModel.fromJson(Map<String, dynamic> json) =>
+      _$StoryDbModelFromJson(json);
+
+  @override
+  Map<String, dynamic> toJson() {
+    // remove dublicate
+    Map<int, StoryContentDbModel> changes = {};
+    for (final e in this.changes) changes[e.id] ??= e;
+    return _$StoryDbModelToJson(copyWith(changes: changes.values.toList()));
+  }
 
   bool get viewOnly => unarchivable || inBins;
 
@@ -101,9 +121,7 @@ class StoryDbModel extends BaseDbModel {
       feeling: null,
       changes: [
         StoryContentDbModel.create(
-          createdAt: now,
-          id: now.millisecondsSinceEpoch,
-        ),
+            createdAt: now, id: now.millisecondsSinceEpoch),
       ],
       updatedAt: now,
       createdAt: now,

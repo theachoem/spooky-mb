@@ -1,6 +1,12 @@
+import 'package:copy_with_extension/copy_with_extension.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:spooky_mb/core/databases/adapters/base_db_adapter.dart';
 import 'package:spooky_mb/core/databases/models/base_db_model.dart';
 
+part 'tag_db_model.g.dart';
+
+@CopyWith()
+@JsonSerializable()
 class TagDbModel extends BaseDbModel {
   @override
   BaseDbAdapter<BaseDbModel> get dbAdapter => throw UnimplementedError();
@@ -32,4 +38,11 @@ class TagDbModel extends BaseDbModel {
         index = 0,
         createdAt = DateTime.now(),
         updatedAt = DateTime.now();
+
+  @override
+  Map<String, dynamic> toJson() => _$TagDbModelToJson(this);
+  factory TagDbModel.fromJson(Map<String, dynamic> json) {
+    if (!json.containsKey('index')) json['index'] = 0;
+    return _$TagDbModelFromJson(json);
+  }
 }
