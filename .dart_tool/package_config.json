@@ -27,9 +27,9 @@
     },
     {
       "name": "collection",
-      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/collection-1.18.0",
+      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/collection-1.19.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "cupertino_icons",
@@ -45,7 +45,7 @@
     },
     {
       "name": "flutter",
-      "rootUri": "file:///Users/theachoem/fvm/versions/3.24.5/packages/flutter",
+      "rootUri": "file:///Users/theachoem/fvm/versions/stable/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -57,19 +57,19 @@
     },
     {
       "name": "flutter_test",
-      "rootUri": "file:///Users/theachoem/fvm/versions/3.24.5/packages/flutter_test",
+      "rootUri": "file:///Users/theachoem/fvm/versions/stable/packages/flutter_test",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
     {
       "name": "leak_tracker",
-      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/leak_tracker-10.0.5",
+      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/leak_tracker-10.0.7",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
     {
       "name": "leak_tracker_flutter_testing",
-      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.5",
+      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/leak_tracker_flutter_testing-3.0.8",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -111,7 +111,7 @@
     },
     {
       "name": "sky_engine",
-      "rootUri": "file:///Users/theachoem/fvm/versions/3.24.5/bin/cache/pkg/sky_engine",
+      "rootUri": "file:///Users/theachoem/fvm/versions/stable/bin/cache/pkg/sky_engine",
       "packageUri": "lib/",
       "languageVersion": "3.2"
     },
@@ -123,9 +123,9 @@
     },
     {
       "name": "stack_trace",
-      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/stack_trace-1.11.1",
+      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/stack_trace-1.12.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.4"
     },
     {
       "name": "stream_channel",
@@ -135,9 +135,9 @@
     },
     {
       "name": "string_scanner",
-      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/string_scanner-1.2.0",
+      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/string_scanner-1.3.0",
       "packageUri": "lib/",
-      "languageVersion": "2.18"
+      "languageVersion": "3.1"
     },
     {
       "name": "term_glyph",
@@ -147,9 +147,9 @@
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/test_api-0.7.2",
+      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/test_api-0.7.3",
       "packageUri": "lib/",
-      "languageVersion": "3.2"
+      "languageVersion": "3.4"
     },
     {
       "name": "vector_math",
@@ -159,7 +159,7 @@
     },
     {
       "name": "vm_service",
-      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/vm_service-14.2.5",
+      "rootUri": "file:///Users/theachoem/.pub-cache/hosted/pub.dev/vm_service-14.3.0",
       "packageUri": "lib/",
       "languageVersion": "3.3"
     },
@@ -170,10 +170,10 @@
       "languageVersion": "3.5"
     }
   ],
-  "generated": "2024-12-17T05:51:55.615774Z",
+  "generated": "2024-12-17T06:13:08.684957Z",
   "generator": "pub",
-  "generatorVersion": "3.5.4",
-  "flutterRoot": "file:///Users/theachoem/fvm/versions/3.24.5",
-  "flutterVersion": "3.24.5",
+  "generatorVersion": "3.6.0",
+  "flutterRoot": "file:///Users/theachoem/fvm/versions/stable",
+  "flutterVersion": "3.27.1",
   "pubCache": "file:///Users/theachoem/.pub-cache"
 }
