@@ -47,9 +47,8 @@ class _HomeAdaptive extends StatelessWidget {
       floating: false,
       surfaceTintColor: Theme.of(context).colorScheme.surface,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      toolbarHeight: 40,
-      collapsedHeight: 40 + MediaQuery.of(context).padding.top,
-      expandedHeight: kToolbarHeight + 64 + MediaQuery.of(context).padding.top,
+      collapsedHeight: kToolbarHeight + MediaQuery.of(context).padding.top,
+      expandedHeight: kToolbarHeight + 72 + MediaQuery.of(context).padding.top,
       flexibleSpace: HomeFlexibleSpaceBar(viewModel: viewModel, indicatorHeight: _indicatorHeight),
       bottom: TabBar(
         enableFeedback: true,

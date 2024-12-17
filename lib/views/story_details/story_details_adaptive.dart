@@ -9,12 +9,12 @@ class _StoryDetailsAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(viewModel.story?.createdAt.toString() ?? 'NA'),
+        title: Text(viewModel.currentStoryContent?.title ?? 'Click to add title...'),
         actions: [
           ValueListenableBuilder<double>(
             valueListenable: viewModel.currentPageNotifier,
             builder: (context, currentPage, child) {
-              return Text('${currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
+              return Text('${viewModel.currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
             },
           ),
           IconButton(
@@ -26,6 +26,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
             icon: const Icon(Icons.edit),
           ),
         ],
+        bottom: const PreferredSize(preferredSize: Size.fromHeight(1), child: Divider(height: 1)),
       ),
       body: PageView.builder(
         controller: viewModel.pageController,

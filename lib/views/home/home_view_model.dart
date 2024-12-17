@@ -3,6 +3,7 @@ import 'package:spooky_mb/core/base/base_view_model.dart';
 import 'package:spooky_mb/core/databases/models/collection_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_db_model.dart';
+import 'package:spooky_mb/routes/utils/animated_page_route.dart';
 import 'package:spooky_mb/views/story_details/story_details_view.dart';
 
 // ignore: depend_on_referenced_packages
@@ -28,16 +29,22 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> goToViewPage(BuildContext context, StoryDbModel story) async {
-    await Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => StoryDetailsView(id: story.id),
-    ));
+    await Navigator.of(context).push(
+      AnimatedPageRoute.sharedAxis(
+        builder: (context) => StoryDetailsView(id: story.id),
+        type: SharedAxisTransitionType.vertical,
+      ),
+    );
 
     await load();
   }
 
   Future<void> goToNewPage(BuildContext context) async {
     await Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => const StoryDetailsView(id: null)),
+      AnimatedPageRoute.sharedAxis(
+        builder: (context) => const StoryDetailsView(id: null),
+        type: SharedAxisTransitionType.vertical,
+      ),
     );
 
     await load();
