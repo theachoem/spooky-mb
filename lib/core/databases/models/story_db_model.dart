@@ -83,8 +83,13 @@ class StoryDbModel extends BaseDbModel {
   bool get archivable => type == PathType.docs;
   bool get unarchivable => type == PathType.archives;
 
-  void addChange(StoryContentDbModel content) {
-    changes.add(content);
+  StoryDbModel copyWithNewChange(StoryContentDbModel newChange) {
+    return copyWith(
+      changes: [
+        ...changes,
+        newChange,
+      ],
+    );
   }
 
   factory StoryDbModel.fromNow() {
@@ -107,7 +112,7 @@ class StoryDbModel extends BaseDbModel {
       starred: false,
       feeling: null,
       changes: [
-        StoryContentDbModel.create(createdAt: now, id: now.millisecondsSinceEpoch),
+        StoryContentDbModel.create(),
       ],
       updatedAt: now,
       createdAt: now,

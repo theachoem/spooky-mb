@@ -73,13 +73,6 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
   @override
   Future<T?> update(T record) async {
     B constructed = await objectConstructor(record);
-    await box.putAsync(constructed, mode: PutMode.update);
-    return record;
-  }
-
-  @override
-  Future<T?> set(T record) async {
-    B constructed = await objectConstructor(record);
     await box.putAsync(constructed, mode: PutMode.put);
     return record;
   }

@@ -49,6 +49,7 @@ class TagDbModel extends BaseDbModel {
       updatedAt: DateTime.now(),
     );
   }
+
   @override
   Map<String, dynamic> toJson() => _$TagDbModelToJson(this);
   factory TagDbModel.fromJson(Map<String, dynamic> json) {

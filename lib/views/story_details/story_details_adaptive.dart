@@ -10,23 +10,33 @@ class _StoryDetailsAdaptive extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(viewModel.story?.createdAt.toString() ?? 'NA'),
-      ),
-      body: ListView(
-        padding: const EdgeInsets.all(16.0),
-        children: [
-          Text(viewModel.story?.displayPathDate.toString() ?? 'N/A'),
-          Text(
-            viewModel.tags?.items
-                    .where((t) => viewModel.story?.tags?.contains(t.id.toString()) == true)
-                    .map((e) => e.title)
-                    .join(", ") ??
-                'N/A',
+        actions: [
+          ValueListenableBuilder<double>(
+            valueListenable: viewModel.currentPageNotifier,
+            builder: (context, currentPage, child) {
+              return Text('${currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
+            },
+          ),
+          IconButton(
+            onPressed: () => viewModel.createNewPage(context),
+            icon: const Icon(Icons.add),
+          ),
+          IconButton(
+            onPressed: () => viewModel.goToEditPage(context),
+            icon: const Icon(Icons.edit),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        viewModel.save();
-      }),
+      body: PageView.builder(
+        controller: viewModel.pageController,
+        itemCount: viewModel.currentStoryContent?.pages?.length ?? 0,
+        itemBuilder: (context, index) {
+          final pageDocuments = viewModel.currentStoryContent!.pages![index];
+          return PageReader(
+            pageDocuments: pageDocuments,
+          );
+        },
+      ),
     );
   }
 }

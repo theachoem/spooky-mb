@@ -25,11 +25,6 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }
 
   @override
-  Future<BaseDbModel?> set(BaseDbModel record) {
-    throw UnimplementedError();
-  }
-
-  @override
   Future<CollectionDbModel<BaseDbModel>?> where({Map<String, dynamic>? filters}) {
     throw UnimplementedError();
   }

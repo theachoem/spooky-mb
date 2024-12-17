@@ -34,7 +34,7 @@ class StoryContentDbModel extends BaseDbModel with ComparableConcern {
     required this.createdAt,
     required this.pages,
     required this.metadata,
-    this.draft = false,
+    required this.draft,
   });
 
   void addPage() {
@@ -53,14 +53,17 @@ class StoryContentDbModel extends BaseDbModel with ComparableConcern {
     );
   }
 
-  StoryContentDbModel.create({
-    required this.createdAt,
-    required this.id,
-  })  : plainText = null,
-        metadata = null,
-        title = null,
-        pages = [[]],
-        draft = true;
+  factory StoryContentDbModel.create() {
+    return StoryContentDbModel(
+      id: DateTime.now().millisecondsSinceEpoch,
+      title: null,
+      plainText: null,
+      createdAt: DateTime.now(),
+      pages: null,
+      metadata: null,
+      draft: true,
+    );
+  }
 
   @override
   Map<String, dynamic> toJson() => _$StoryContentDbModelToJson(this);

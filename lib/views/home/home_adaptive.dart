@@ -10,6 +10,10 @@ class _HomeAdaptive extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(),
       body: viewModel.stories?.items.isNotEmpty == true ? buildStories() : const Text("No data"),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => viewModel.goToNewPage(context),
+        child: const Icon(Icons.add),
+      ),
     );
   }
 
@@ -18,14 +22,13 @@ class _HomeAdaptive extends StatelessWidget {
       itemCount: viewModel.stories?.items.length ?? 0,
       itemBuilder: (context, index) {
         final story = viewModel.stories!.items[index];
+        final lastChange = story.changes.lastOrNull;
+        final displayBody = lastChange != null ? viewModel.getDisplayBodyFor(lastChange) : null;
+
         return ListTile(
-          title: Text(story.changes.lastOrNull?.title ?? 'N/A'),
-          subtitle: Text(story.changes.lastOrNull?.plainText ?? 'N/A'),
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-              return StoryDetailsView(id: story.id);
-            }));
-          },
+          title: Text(lastChange?.title ?? 'N/A'),
+          subtitle: displayBody != null ? Text(displayBody) : null,
+          onTap: () => viewModel.goToViewPage(context, story),
         );
       },
     );

@@ -17,7 +17,7 @@ class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
     for (int i = 0; i < items.length; i++) {
       if (items[i].starred == null) {
         items[i] = items[i].copyWith(starred: true);
-        set(items[i]);
+        update(items[i]);
       }
     }
 

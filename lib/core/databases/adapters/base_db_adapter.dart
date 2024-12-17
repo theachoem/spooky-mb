@@ -9,7 +9,6 @@ abstract class BaseDbAdapter<T extends BaseDbModel> {
   });
 
   Future<T?> update(T record);
-  Future<T?> set(T record);
   Future<T?> create(T record);
   Future<T?> delete(int id);
 }

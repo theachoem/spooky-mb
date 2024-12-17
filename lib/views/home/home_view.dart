@@ -1,6 +1,5 @@
 import 'package:spooky_mb/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:spooky_mb/views/story_details/story_details_view.dart';
 
 import 'home_view_model.dart';
 
