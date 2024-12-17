@@ -20,144 +20,144 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(1, 1315674973270407540),
+      id: const obx_int.IdUid(1, 2962579780537594759),
       name: 'StoryObjectBox',
-      lastPropertyId: const obx_int.IdUid(17, 5915059271383518737),
+      lastPropertyId: const obx_int.IdUid(20, 4113637293536721721),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 6204756630438174140),
+            id: const obx_int.IdUid(1, 97606503289813034),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 2750498315094758991),
+            id: const obx_int.IdUid(2, 6285480559740659261),
             name: 'version',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 7025945378308925607),
+            id: const obx_int.IdUid(3, 1455186831852939171),
             name: 'type',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 1751720408046278054),
+            id: const obx_int.IdUid(4, 4895366266528452927),
             name: 'year',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 615116047335897532),
+            id: const obx_int.IdUid(5, 3493347036869873160),
             name: 'month',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 940723986012690883),
+            id: const obx_int.IdUid(6, 3490487563053838054),
             name: 'day',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 8843642523309181931),
-            name: 'hour',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 2131953642176057257),
-            name: 'minute',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(9, 5638597855483599562),
-            name: 'second',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(10, 5531891690385891245),
+            id: const obx_int.IdUid(7, 6774169397346542505),
             name: 'starred',
             type: 1,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(11, 3082650409675229587),
+            id: const obx_int.IdUid(8, 7221060550241170408),
             name: 'feeling',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(12, 3684818254319588064),
+            id: const obx_int.IdUid(9, 4952094039664744075),
             name: 'createdAt',
             type: 10,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(13, 7254742374879835082),
+            id: const obx_int.IdUid(10, 4961981479060558999),
             name: 'updatedAt',
             type: 10,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(14, 8089752820298150449),
+            id: const obx_int.IdUid(11, 9125848120865526787),
             name: 'movedToBinAt',
             type: 10,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(15, 5385641444276770743),
+            id: const obx_int.IdUid(12, 5871534476772289101),
             name: 'changes',
             type: 30,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(16, 7807583801066732157),
+            id: const obx_int.IdUid(13, 6005849190320169908),
             name: 'tags',
             type: 30,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(17, 5915059271383518737),
+            id: const obx_int.IdUid(17, 8623820136669220816),
             name: 'metadata',
             type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(18, 1429297690659026930),
+            name: 'hour',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(19, 862060011000399226),
+            name: 'minute',
+            type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(20, 4113637293536721721),
+            name: 'second',
+            type: 6,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
       backlinks: <obx_int.ModelBacklink>[]),
   obx_int.ModelEntity(
-      id: const obx_int.IdUid(2, 5971596053644243407),
+      id: const obx_int.IdUid(2, 5548558812249966101),
       name: 'TagObjectBox',
-      lastPropertyId: const obx_int.IdUid(8, 5827189541962655845),
+      lastPropertyId: const obx_int.IdUid(8, 6011272584059291333),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(1, 6944916622958026852),
+            id: const obx_int.IdUid(1, 5046052891972916251),
             name: 'id',
             type: 6,
             flags: 129),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(2, 4062181998971940528),
+            id: const obx_int.IdUid(2, 8744880092533568590),
             name: 'title',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(3, 1379748706441133316),
-            name: 'index',
-            type: 6,
-            flags: 0),
-        obx_int.ModelProperty(
-            id: const obx_int.IdUid(4, 5810516044808250575),
+            id: const obx_int.IdUid(3, 7863427692914238443),
             name: 'version',
             type: 6,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(5, 8917565351877340122),
+            id: const obx_int.IdUid(4, 6417690656797806340),
             name: 'starred',
             type: 1,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(6, 6470309032425962295),
+            id: const obx_int.IdUid(5, 3138951263147849158),
             name: 'emoji',
             type: 9,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(7, 5242213206519628615),
+            id: const obx_int.IdUid(6, 3746821438504660808),
             name: 'createdAt',
             type: 10,
             flags: 0),
         obx_int.ModelProperty(
-            id: const obx_int.IdUid(8, 5827189541962655845),
+            id: const obx_int.IdUid(7, 4116584270770327746),
             name: 'updatedAt',
             type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(8, 6011272584059291333),
+            name: 'index',
+            type: 6,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -199,13 +199,17 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(2, 5971596053644243407),
+      lastEntityId: const obx_int.IdUid(2, 5548558812249966101),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
       retiredEntityUids: const [],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [
+        7351525936100002271,
+        3655265263412929559,
+        4968158570417504072
+      ],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -233,24 +237,24 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final metadataOffset = object.metadata == null
               ? null
               : fbb.writeString(object.metadata!);
-          fbb.startTable(18);
+          fbb.startTable(21);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.version);
           fbb.addOffset(2, typeOffset);
           fbb.addInt64(3, object.year);
           fbb.addInt64(4, object.month);
           fbb.addInt64(5, object.day);
-          fbb.addInt64(6, object.hour);
-          fbb.addInt64(7, object.minute);
-          fbb.addInt64(8, object.second);
-          fbb.addBool(9, object.starred);
-          fbb.addOffset(10, feelingOffset);
-          fbb.addInt64(11, object.createdAt.millisecondsSinceEpoch);
-          fbb.addInt64(12, object.updatedAt.millisecondsSinceEpoch);
-          fbb.addInt64(13, object.movedToBinAt?.millisecondsSinceEpoch);
-          fbb.addOffset(14, changesOffset);
-          fbb.addOffset(15, tagsOffset);
+          fbb.addBool(6, object.starred);
+          fbb.addOffset(7, feelingOffset);
+          fbb.addInt64(8, object.createdAt.millisecondsSinceEpoch);
+          fbb.addInt64(9, object.updatedAt.millisecondsSinceEpoch);
+          fbb.addInt64(10, object.movedToBinAt?.millisecondsSinceEpoch);
+          fbb.addOffset(11, changesOffset);
+          fbb.addOffset(12, tagsOffset);
           fbb.addOffset(16, metadataOffset);
+          fbb.addInt64(17, object.hour);
+          fbb.addInt64(18, object.minute);
+          fbb.addInt64(19, object.second);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -258,7 +262,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
           final movedToBinAtValue =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 30);
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 24);
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final versionParam =
@@ -272,30 +276,30 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final dayParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0);
           final hourParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 16);
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 38);
           final minuteParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 18);
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 40);
           final secondParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 20);
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 42);
           final starredParam =
-              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 22);
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 16);
           final feelingParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 24);
+              .vTableGetNullable(buffer, rootOffset, 18);
           final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 26, 0));
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0));
           final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 28, 0));
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0));
           final movedToBinAtParam = movedToBinAtValue == null
               ? null
               : DateTime.fromMillisecondsSinceEpoch(movedToBinAtValue);
           final changesParam = const fb.ListReader<String>(
                   fb.StringReader(asciiOptimization: true),
                   lazy: false)
-              .vTableGet(buffer, rootOffset, 32, []);
+              .vTableGet(buffer, rootOffset, 26, []);
           final tagsParam = const fb.ListReader<String>(
                   fb.StringReader(asciiOptimization: true),
                   lazy: false)
-              .vTableGetNullable(buffer, rootOffset, 34);
+              .vTableGetNullable(buffer, rootOffset, 28);
           final metadataParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 36);
           final object = StoryObjectBox(
@@ -334,12 +338,12 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.startTable(9);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
-          fbb.addInt64(2, object.index);
-          fbb.addInt64(3, object.version);
-          fbb.addBool(4, object.starred);
-          fbb.addOffset(5, emojiOffset);
-          fbb.addInt64(6, object.createdAt.millisecondsSinceEpoch);
-          fbb.addInt64(7, object.updatedAt.millisecondsSinceEpoch);
+          fbb.addInt64(2, object.version);
+          fbb.addBool(3, object.starred);
+          fbb.addOffset(4, emojiOffset);
+          fbb.addInt64(5, object.createdAt.millisecondsSinceEpoch);
+          fbb.addInt64(6, object.updatedAt.millisecondsSinceEpoch);
+          fbb.addInt64(7, object.index);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -351,17 +355,17 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final titleParam = const fb.StringReader(asciiOptimization: true)
               .vTableGet(buffer, rootOffset, 6, '');
           final indexParam =
-              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 8);
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 18);
           final versionParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0);
           final starredParam =
-              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 12);
+              const fb.BoolReader().vTableGetNullable(buffer, rootOffset, 10);
           final emojiParam = const fb.StringReader(asciiOptimization: true)
-              .vTableGetNullable(buffer, rootOffset, 14);
+              .vTableGetNullable(buffer, rootOffset, 12);
           final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0));
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0));
           final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 18, 0));
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0));
           final object = TagObjectBox(
               id: idParam,
               title: titleParam,
@@ -405,49 +409,49 @@ class StoryObjectBox_ {
   static final day =
       obx.QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[5]);
 
-  /// See [StoryObjectBox.hour].
-  static final hour =
-      obx.QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[6]);
-
-  /// See [StoryObjectBox.minute].
-  static final minute =
-      obx.QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[7]);
-
-  /// See [StoryObjectBox.second].
-  static final second =
-      obx.QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[8]);
-
   /// See [StoryObjectBox.starred].
   static final starred =
-      obx.QueryBooleanProperty<StoryObjectBox>(_entities[0].properties[9]);
+      obx.QueryBooleanProperty<StoryObjectBox>(_entities[0].properties[6]);
 
   /// See [StoryObjectBox.feeling].
   static final feeling =
-      obx.QueryStringProperty<StoryObjectBox>(_entities[0].properties[10]);
+      obx.QueryStringProperty<StoryObjectBox>(_entities[0].properties[7]);
 
   /// See [StoryObjectBox.createdAt].
   static final createdAt =
-      obx.QueryDateProperty<StoryObjectBox>(_entities[0].properties[11]);
+      obx.QueryDateProperty<StoryObjectBox>(_entities[0].properties[8]);
 
   /// See [StoryObjectBox.updatedAt].
   static final updatedAt =
-      obx.QueryDateProperty<StoryObjectBox>(_entities[0].properties[12]);
+      obx.QueryDateProperty<StoryObjectBox>(_entities[0].properties[9]);
 
   /// See [StoryObjectBox.movedToBinAt].
   static final movedToBinAt =
-      obx.QueryDateProperty<StoryObjectBox>(_entities[0].properties[13]);
+      obx.QueryDateProperty<StoryObjectBox>(_entities[0].properties[10]);
 
   /// See [StoryObjectBox.changes].
   static final changes = obx.QueryStringVectorProperty<StoryObjectBox>(
-      _entities[0].properties[14]);
+      _entities[0].properties[11]);
 
   /// See [StoryObjectBox.tags].
   static final tags = obx.QueryStringVectorProperty<StoryObjectBox>(
-      _entities[0].properties[15]);
+      _entities[0].properties[12]);
 
   /// See [StoryObjectBox.metadata].
   static final metadata =
-      obx.QueryStringProperty<StoryObjectBox>(_entities[0].properties[16]);
+      obx.QueryStringProperty<StoryObjectBox>(_entities[0].properties[13]);
+
+  /// See [StoryObjectBox.hour].
+  static final hour =
+      obx.QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[14]);
+
+  /// See [StoryObjectBox.minute].
+  static final minute =
+      obx.QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[15]);
+
+  /// See [StoryObjectBox.second].
+  static final second =
+      obx.QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[16]);
 }
 
 /// [TagObjectBox] entity fields to define ObjectBox queries.
@@ -460,27 +464,27 @@ class TagObjectBox_ {
   static final title =
       obx.QueryStringProperty<TagObjectBox>(_entities[1].properties[1]);
 
-  /// See [TagObjectBox.index].
-  static final index =
-      obx.QueryIntegerProperty<TagObjectBox>(_entities[1].properties[2]);
-
   /// See [TagObjectBox.version].
   static final version =
-      obx.QueryIntegerProperty<TagObjectBox>(_entities[1].properties[3]);
+      obx.QueryIntegerProperty<TagObjectBox>(_entities[1].properties[2]);
 
   /// See [TagObjectBox.starred].
   static final starred =
-      obx.QueryBooleanProperty<TagObjectBox>(_entities[1].properties[4]);
+      obx.QueryBooleanProperty<TagObjectBox>(_entities[1].properties[3]);
 
   /// See [TagObjectBox.emoji].
   static final emoji =
-      obx.QueryStringProperty<TagObjectBox>(_entities[1].properties[5]);
+      obx.QueryStringProperty<TagObjectBox>(_entities[1].properties[4]);
 
   /// See [TagObjectBox.createdAt].
   static final createdAt =
-      obx.QueryDateProperty<TagObjectBox>(_entities[1].properties[6]);
+      obx.QueryDateProperty<TagObjectBox>(_entities[1].properties[5]);
 
   /// See [TagObjectBox.updatedAt].
   static final updatedAt =
-      obx.QueryDateProperty<TagObjectBox>(_entities[1].properties[7]);
+      obx.QueryDateProperty<TagObjectBox>(_entities[1].properties[6]);
+
+  /// See [TagObjectBox.index].
+  static final index =
+      obx.QueryIntegerProperty<TagObjectBox>(_entities[1].properties[7]);
 }
