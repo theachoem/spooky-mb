@@ -21,6 +21,7 @@ dependencies:
   flutter_quill: ^10.8.5
   animations: ^2.0.11
   scrollview_observer: ^1.24.0
+  swipeable_page_route: ^0.4.6
 
 dev_dependencies:
   flutter_test:

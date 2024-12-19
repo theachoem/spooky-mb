@@ -21,9 +21,11 @@ class SpFadeIn extends StatelessWidget {
   factory SpFadeIn.fromLeft({
     required Widget child,
     Duration? delay,
+    Duration duration = Durations.medium1,
   }) {
     return SpFadeIn(
       delay: delay,
+      duration: duration,
       builder: (context, lerp, child) {
         return Transform(
           transform: Matrix4.identity()..translate(lerpDouble(-4.0, 0, lerp)!, 0.0),
@@ -37,9 +39,11 @@ class SpFadeIn extends StatelessWidget {
   factory SpFadeIn.fromRight({
     required Widget child,
     Duration? delay,
+    Duration duration = Durations.medium1,
   }) {
     return SpFadeIn(
       delay: delay,
+      duration: duration,
       builder: (context, lerp, child) {
         return Transform(
           transform: Matrix4.identity()..translate(lerpDouble(4.0, 0, lerp)!, 0.0),
@@ -53,9 +57,11 @@ class SpFadeIn extends StatelessWidget {
   factory SpFadeIn.fromTop({
     required Widget child,
     Duration? delay,
+    Duration duration = Durations.medium1,
   }) {
     return SpFadeIn(
       delay: delay,
+      duration: duration,
       builder: (context, lerp, child) {
         return Transform(
           transform: Matrix4.identity()..translate(0.0, lerpDouble(-4.0, 0, lerp)!),

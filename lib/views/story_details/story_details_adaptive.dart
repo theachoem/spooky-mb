@@ -8,14 +8,18 @@ class _StoryDetailsAdaptive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: MorphingAppBar(
         title: Text(viewModel.currentStoryContent?.title ?? 'Click to add title...'),
         actions: [
-          ValueListenableBuilder<double>(
-            valueListenable: viewModel.currentPageNotifier,
-            builder: (context, currentPage, child) {
-              return Text('${viewModel.currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
-            },
+          Container(
+            height: 48.0,
+            alignment: Alignment.center,
+            child: ValueListenableBuilder<double>(
+              valueListenable: viewModel.currentPageNotifier,
+              builder: (context, currentPage, child) {
+                return Text('${viewModel.currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
+              },
+            ),
           ),
           const SizedBox(width: 12.0),
           IconButton(
