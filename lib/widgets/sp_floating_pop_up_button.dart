@@ -27,7 +27,7 @@ class SpFloatingPopUpButton extends StatefulWidget {
 }
 
 class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton> with SingleTickerProviderStateMixin {
-  late final AnimationController animationController = AnimationController(vsync: this, duration: Durations.medium1);
+  late final AnimationController animationController;
 
   Size? actualFloatingSize;
   OverlayEntry? floating;
@@ -47,8 +47,9 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton> with Sing
   }
 
   @override
-  Widget build(BuildContext context) {
-    return widget.builder(() => toggle(context));
+  void initState() {
+    animationController = AnimationController(vsync: this, duration: Durations.medium1);
+    super.initState();
   }
 
   @override
@@ -56,7 +57,12 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton> with Sing
     super.dispose();
 
     animationController.dispose();
-    if (Overlay.maybeOf(context) != null) floating?.remove();
+    if (animationController.isCompleted) floating?.remove();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.builder(() => toggle(context));
   }
 
   OverlayEntry createFloating({
