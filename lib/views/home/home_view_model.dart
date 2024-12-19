@@ -5,6 +5,7 @@ import 'package:spooky_mb/core/databases/models/collection_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_db_model.dart';
 import 'package:spooky_mb/routes/utils/animated_page_route.dart';
+import 'package:spooky_mb/views/page_editor/page_editor_view.dart';
 import 'package:spooky_mb/views/story_details/story_details_view.dart';
 
 part './local_widgets/home_scroll_info.dart';
@@ -39,7 +40,7 @@ class HomeViewModel extends BaseViewModel {
   Future<void> goToNewPage(BuildContext context) async {
     await Navigator.of(context).push(
       AnimatedPageRoute.sharedAxis(
-        builder: (context) => const StoryDetailsView(id: null),
+        builder: (context) => const PageEditorView(),
         type: SharedAxisTransitionType.vertical,
       ),
     );

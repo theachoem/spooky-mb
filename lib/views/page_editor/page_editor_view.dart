@@ -8,16 +8,19 @@ import 'package:swipeable_page_route/swipeable_page_route.dart';
 import 'page_editor_view_model.dart';
 
 part 'page_editor_adaptive.dart';
+part './local_widgets/editor.dart';
 
 class PageEditorView extends StatelessWidget {
   const PageEditorView({
     super.key,
-    required this.initialDocument,
-    required this.initialTextSelection,
+    this.storyId,
+    this.initialPageIndex = 0,
+    this.quillControllers,
   });
 
-  final List<dynamic>? initialDocument;
-  final TextSelection? initialTextSelection;
+  final int? storyId;
+  final int initialPageIndex;
+  final Map<int, QuillController>? quillControllers;
 
   @override
   Widget build(BuildContext context) {

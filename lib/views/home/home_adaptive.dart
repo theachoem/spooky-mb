@@ -43,7 +43,7 @@ class _HomeAdaptive extends StatelessWidget {
         indicatorAnimation: TabIndicatorAnimation.linear,
         labelColor: Theme.of(context).colorScheme.onPrimary,
         unselectedLabelColor: Theme.of(context).colorScheme.primary,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(bottom: 8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0).copyWith(bottom: 12.0),
         indicator: RoundedIndicator.simple(
           height: _indicatorHeight,
           color: Theme.of(context).colorScheme.primary,

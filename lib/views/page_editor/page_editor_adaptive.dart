@@ -17,132 +17,28 @@ class _PageEditorAdaptive extends StatelessWidget {
           ),
         ],
       ),
-      body: buildBody(context),
-      bottomNavigationBar: buildBottomNavigationBar(context),
+      body: buildBody(),
     );
   }
 
-  Widget buildBody(BuildContext context) {
-    if (viewModel.controller == null) {
+  Widget buildBody() {
+    if (viewModel.quillControllers.isEmpty) {
       return const Center(
         child: CircularProgressIndicator.adaptive(),
       );
     } else {
-      return Column(
-        children: [
-          Visibility(
-            visible: viewModel.showToolbarOnTop,
-            child: SpFadeIn.fromBottom(
-              duration: Durations.medium3,
-              child: buildToolBar(),
-            ),
-          ),
-          buildPagesEditor(),
-        ],
+      return PageView.builder(
+        controller: viewModel.pageController,
+        itemCount: viewModel.quillControllers.length,
+        itemBuilder: (context, index) {
+          return _Editor(
+            controller: viewModel.quillControllers[index]!,
+            showToolbarOnTop: viewModel.showToolbarOnTop,
+            showToolbarOnBottom: viewModel.showToolbarOnBottom,
+            toggleToolbarPosition: viewModel.toggleToolbarPosition,
+          );
+        },
       );
     }
-  }
-
-  Widget? buildBottomNavigationBar(BuildContext context) {
-    if (!viewModel.showToolbarOnBottom) return null;
-    return SpFadeIn.fromTop(
-      duration: Durations.medium3,
-      child: AnimatedContainer(
-        duration: Durations.medium1,
-        curve: Curves.ease,
-        padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).padding.bottom + MediaQuery.of(context).viewInsets.bottom,
-        ),
-        child: buildToolBar(),
-      ),
-    );
-  }
-
-  Widget buildPagesEditor() {
-    return QuillEditor.basic(
-      controller: viewModel.controller,
-      configurations: const QuillEditorConfigurations(
-        padding: EdgeInsets.all(16.0),
-        autoFocus: true,
-        enableScribble: true,
-      ),
-    );
-  }
-
-  Widget buildToolBar() {
-    return Column(mainAxisSize: MainAxisSize.min, children: [
-      const Divider(height: 1),
-      IntrinsicHeight(
-        child: Row(children: [
-          Expanded(
-            child: QuillSimpleToolbar(
-              controller: viewModel.controller,
-              configurations: QuillSimpleToolbarConfigurations(
-                buttonOptions: QuillSimpleToolbarButtonOptions(
-                  color: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
-                    return SpQuillToolbarColorButton(
-                      controller: extraOptions.controller,
-                      isBackground: false,
-                      positionedOnUpper: viewModel.showToolbarOnTop,
-                    );
-                  }),
-                  backgroundColor: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
-                    return SpQuillToolbarColorButton(
-                      controller: extraOptions.controller,
-                      isBackground: true,
-                      positionedOnUpper: viewModel.showToolbarOnTop,
-                    );
-                  }),
-                ),
-                multiRowsDisplay: false,
-                showDividers: true,
-                showFontFamily: false,
-                showFontSize: false,
-                showBoldButton: true,
-                showItalicButton: true,
-                showSmallButton: true,
-                showUnderLineButton: true,
-                showLineHeightButton: false,
-                showStrikeThrough: true,
-                showInlineCode: true,
-                showColorButton: true,
-                showBackgroundColorButton: true,
-                showClearFormat: false,
-                showAlignmentButtons: true,
-                showLeftAlignment: true,
-                showCenterAlignment: true,
-                showRightAlignment: true,
-                showJustifyAlignment: true,
-                showHeaderStyle: false,
-                showListNumbers: true,
-                showListBullets: true,
-                showListCheck: true,
-                showCodeBlock: false,
-                showQuote: true,
-                showIndent: true,
-                showLink: true,
-                showUndo: true,
-                showRedo: true,
-                showDirection: false,
-                showSearchButton: true,
-                showSubscript: false,
-                showSuperscript: false,
-                showClipboardCut: false,
-                showClipboardCopy: false,
-                showClipboardPaste: false,
-              ),
-            ),
-          ),
-          const VerticalDivider(width: 1),
-          IconButton(
-            icon: viewModel.showToolbarOnTop
-                ? const Icon(Icons.keyboard_arrow_down)
-                : const Icon(Icons.keyboard_arrow_up),
-            onPressed: () => viewModel.toggleToolbarPosition(),
-          ),
-        ]),
-      ),
-      if (viewModel.showToolbarOnTop) const Divider(height: 1),
-    ]);
   }
 }

@@ -24,7 +24,7 @@ class HomeFlexibleSpaceBar extends StatelessWidget {
           left: 16.0,
           right: 8.0,
           top: MediaQuery.of(context).padding.top + 8.0,
-          bottom: indicatorHeight + 16,
+          bottom: indicatorHeight + 12,
         ),
         child: Stack(
           children: [

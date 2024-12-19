@@ -1,8 +1,8 @@
 import 'package:flutter_quill/flutter_quill.dart';
 
 class QuillService {
-  static String toPlainText(Document document) {
-    String plainText = document.root.children.map((Node e) {
+  static String toPlainText(Root root) {
+    String plainText = root.children.map((Node e) {
       final atts = e.style.attributes;
       Attribute? att = atts['list'] ?? atts['blockquote'] ?? atts['code-block'] ?? atts['header'];
 

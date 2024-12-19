@@ -8,6 +8,7 @@ abstract class BaseDbAdapter<T extends BaseDbModel> {
     Map<String, dynamic>? filters,
   });
 
+  Future<T?> set(T record);
   Future<T?> update(T record);
   Future<T?> create(T record);
   Future<T?> delete(int id);

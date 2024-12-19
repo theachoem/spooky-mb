@@ -5,14 +5,9 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:spooky_mb/core/databases/adapters/objectbox/story_box.dart';
 import 'package:spooky_mb/core/databases/models/base_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
+import 'package:spooky_mb/core/types/path_type.dart';
 
 part 'story_db_model.g.dart';
-
-enum PathType {
-  docs,
-  bins,
-  archives,
-}
 
 @CopyWith()
 @JsonSerializable()

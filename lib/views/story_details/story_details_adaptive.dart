@@ -9,9 +9,9 @@ class _StoryDetailsAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MorphingAppBar(
-        title: Text(viewModel.currentStoryContent?.title ?? 'Click to add title...'),
+        title: Text(viewModel.currentContent?.title ?? 'Click to add title...'),
         actions: [
-          if (viewModel.currentStoryContent?.pages?.length != null && viewModel.currentStoryContent!.pages!.length > 1)
+          if (viewModel.currentContent?.pages?.length != null && viewModel.currentContent!.pages!.length > 1)
             buildPageIndicator(),
           const SizedBox(width: 12.0),
           IconButton(
@@ -22,12 +22,16 @@ class _StoryDetailsAdaptive extends StatelessWidget {
       ),
       body: PageView.builder(
         controller: viewModel.pageController,
-        itemCount: viewModel.currentStoryContent?.pages?.length ?? 0,
+        itemCount: viewModel.currentContent?.pages?.length ?? 0,
         itemBuilder: (context, index) {
-          final pageDocuments = viewModel.currentStoryContent!.pages![index];
-          return PageReader(
-            pageDocuments: pageDocuments,
-            onSelectionChanged: (TextSelection selection) => viewModel.currentTextSelection = selection,
+          return QuillEditor.basic(
+            controller: viewModel.quillControllers[index],
+            configurations: const QuillEditorConfigurations(
+              padding: EdgeInsets.all(16.0),
+              checkBoxReadOnly: true,
+              autoFocus: false,
+              expands: true,
+            ),
           );
         },
       ),
@@ -41,7 +45,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
       child: ValueListenableBuilder<double>(
         valueListenable: viewModel.currentPageNotifier,
         builder: (context, currentPage, child) {
-          return Text('${viewModel.currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
+          return Text('${viewModel.currentPage + 1} / ${viewModel.currentContent?.pages?.length}');
         },
       ),
     );

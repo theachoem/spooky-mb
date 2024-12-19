@@ -1,0 +1,4 @@
+enum EditingFlowType {
+  create,
+  update,
+}
