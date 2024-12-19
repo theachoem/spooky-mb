@@ -11,21 +11,9 @@ class _StoryDetailsAdaptive extends StatelessWidget {
       appBar: MorphingAppBar(
         title: Text(viewModel.currentStoryContent?.title ?? 'Click to add title...'),
         actions: [
-          Container(
-            height: 48.0,
-            alignment: Alignment.center,
-            child: ValueListenableBuilder<double>(
-              valueListenable: viewModel.currentPageNotifier,
-              builder: (context, currentPage, child) {
-                return Text('${viewModel.currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
-              },
-            ),
-          ),
+          if (viewModel.currentStoryContent?.pages?.length != null && viewModel.currentStoryContent!.pages!.length > 1)
+            buildPageIndicator(),
           const SizedBox(width: 12.0),
-          IconButton(
-            onPressed: () => viewModel.createNewPage(context),
-            icon: const Icon(Icons.insert_page_break_outlined),
-          ),
           IconButton(
             onPressed: () => viewModel.goToEditPage(context),
             icon: const Icon(Icons.edit_outlined),
@@ -41,6 +29,19 @@ class _StoryDetailsAdaptive extends StatelessWidget {
             pageDocuments: pageDocuments,
             onSelectionChanged: (TextSelection selection) => viewModel.currentTextSelection = selection,
           );
+        },
+      ),
+    );
+  }
+
+  Container buildPageIndicator() {
+    return Container(
+      height: 48.0,
+      alignment: Alignment.center,
+      child: ValueListenableBuilder<double>(
+        valueListenable: viewModel.currentPageNotifier,
+        builder: (context, currentPage, child) {
+          return Text('${viewModel.currentPage + 1} / ${viewModel.currentStoryContent?.pages?.length}');
         },
       ),
     );

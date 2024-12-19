@@ -16,6 +16,7 @@ class App extends StatelessWidget {
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           themeMode: themeProvider.themeMode,
           scrollBehavior: const ScrollBehavior().copyWith(overscroll: false),
           theme: theme(ThemeData.light(), lightDynamic),
