@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:spooky_mb/core/base/base_view_model.dart';
 import 'package:spooky_mb/core/databases/models/collection_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
@@ -6,22 +7,18 @@ import 'package:spooky_mb/core/databases/models/story_db_model.dart';
 import 'package:spooky_mb/routes/utils/animated_page_route.dart';
 import 'package:spooky_mb/views/story_details/story_details_view.dart';
 
-// ignore: depend_on_referenced_packages
-import 'package:intl/intl.dart';
+part './local_widgets/home_scroll_info.dart';
 
 class HomeViewModel extends BaseViewModel {
   HomeViewModel() {
     load();
   }
 
+  late final scrollInfo = _HomeScrollInfo(viewModel: () => this);
+
   int year = 2024;
   CollectionDbModel<StoryDbModel>? stories;
   List<int> get months => stories?.items.map((e) => e.month).toSet().toList() ?? [];
-
-  String fromIndexToMonth(int index) {
-    final int monthIndex = index + 1;
-    return DateFormat.MMM().format(DateTime(1999, monthIndex));
-  }
 
   Future<void> load() async {
     stories = await StoryDbModel.db.where();
@@ -71,5 +68,11 @@ class HomeViewModel extends BaseViewModel {
     String body = content.plainText!.trim();
     String extract = body.length > 200 ? body.substring(0, 200) : body;
     return body.length > 200 ? "${trimBody(extract)}..." : extract;
+  }
+
+  @override
+  void dispose() {
+    scrollInfo.dispose();
+    super.dispose();
   }
 }

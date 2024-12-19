@@ -1,15 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:spooky_mb/views/archives/archives_view.dart';
-import 'package:spooky_mb/views/backups/backups_view.dart';
-import 'package:spooky_mb/views/setting/setting_view.dart';
-import 'package:spooky_mb/views/tags/tags_view.dart';
-import 'package:spooky_mb/views/theme/theme_view.dart';
-import 'package:spooky_mb/widgets/sp_nested_navigation.dart';
+part of '../home_view.dart';
 
-class HomeEndDrawer extends StatelessWidget {
-  const HomeEndDrawer({
-    super.key,
-  });
+class _HomeEndDrawer extends StatelessWidget {
+  const _HomeEndDrawer();
 
   @override
   Widget build(BuildContext context) {

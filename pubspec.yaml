@@ -1,6 +1,6 @@
 name: spooky_mb
 description: "A new Flutter project."
-publish_to: 'none' 
+publish_to: "none"
 version: 2.0.0+205
 
 environment:
@@ -20,6 +20,7 @@ dependencies:
   html_character_entities: ^1.0.0+1
   flutter_quill: ^10.8.5
   animations: ^2.0.11
+  scrollview_observer: ^1.24.0
 
 dev_dependencies:
   flutter_test:

@@ -9,14 +9,14 @@ class StoryTile extends StatelessWidget {
     super.key,
     required this.circleSize,
     required this.story,
-    required this.lastChange,
+    required this.lastChangedStory,
     required this.displayBody,
     required this.viewModel,
   });
 
   final double circleSize;
   final StoryDbModel story;
-  final StoryContentDbModel? lastChange;
+  final StoryContentDbModel? lastChangedStory;
   final String? displayBody;
   final HomeViewModel viewModel;
 
@@ -36,7 +36,7 @@ class StoryTile extends StatelessWidget {
           style: Theme.of(context).textTheme.labelMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
         ),
       ),
-      title: Text(lastChange?.title ?? 'N/A'),
+      title: Text(lastChangedStory?.title ?? 'N/A'),
       subtitle: displayBody != null ? Text(displayBody!) : null,
       onTap: () => viewModel.goToViewPage(context, story),
     );

@@ -818,6 +818,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.2"
+  scrollview_observer:
+    dependency: "direct main"
+    description:
+      name: scrollview_observer
+      sha256: d607bc97165113b4ce6aa860a3865cfa6b849445a48c216461d74bc96be6cb94
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.24.0"
   shelf:
     dependency: transitive
     description:
