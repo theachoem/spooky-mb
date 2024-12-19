@@ -23,6 +23,7 @@ dependencies:
   scrollview_observer: ^1.24.0
   swipeable_page_route: ^0.4.6
   dynamic_color: ^1.7.0
+  animated_clipper: ^0.2.0+2
 
 dev_dependencies:
   flutter_test:
