@@ -1,9 +1,12 @@
+import 'package:provider/provider.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:spooky_mb/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_db_model.dart';
+import 'package:spooky_mb/core/extensions/string_extension.dart';
 import 'package:spooky_mb/core/services/date_format_service.dart';
+import 'package:spooky_mb/providers/theme_provider.dart';
 import 'package:spooky_mb/views/home/local_widgets/home_flexible_space_bar.dart';
 import 'package:spooky_mb/views/home/local_widgets/rounded_indicator.dart';
 import 'package:spooky_mb/views/home/local_widgets/story_tile.dart';
@@ -12,6 +15,7 @@ import 'package:spooky_mb/views/backups/backups_view.dart';
 import 'package:spooky_mb/views/setting/setting_view.dart';
 import 'package:spooky_mb/views/tags/tags_view.dart';
 import 'package:spooky_mb/views/theme/theme_view.dart';
+import 'package:spooky_mb/widgets/sp_animated_icon.dart';
 import 'package:spooky_mb/widgets/sp_nested_navigation.dart';
 
 import 'home_view_model.dart';

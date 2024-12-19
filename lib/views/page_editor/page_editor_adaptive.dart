@@ -77,7 +77,17 @@ class _PageEditorAdaptive extends StatelessWidget {
           Expanded(
             child: QuillSimpleToolbar(
               controller: viewModel.controller,
-              configurations: const QuillSimpleToolbarConfigurations(
+              configurations: QuillSimpleToolbarConfigurations(
+                buttonOptions: QuillSimpleToolbarButtonOptions(
+                  color: QuillToolbarColorButtonOptions(
+                    childBuilder: (options, extraOptions) {
+                      return IconButton.filled(
+                        icon: const Icon(Icons.art_track),
+                        onPressed: () {},
+                      );
+                    },
+                  ),
+                ),
                 multiRowsDisplay: false,
                 showDividers: true,
                 showFontFamily: false,
