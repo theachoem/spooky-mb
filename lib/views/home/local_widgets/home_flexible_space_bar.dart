@@ -24,7 +24,7 @@ class HomeFlexibleSpaceBar extends StatelessWidget {
           left: 16.0,
           right: 8.0,
           top: MediaQuery.of(context).padding.top + 8.0,
-          bottom: indicatorHeight + 12,
+          bottom: indicatorHeight + 12 + 16.0,
         ),
         child: Stack(
           children: [
@@ -40,21 +40,28 @@ class HomeFlexibleSpaceBar extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
+      spacing: 6.0,
       children: [
-        Text(
-          'Hello Thea 🎸',
-          style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: lerpDouble(14, 12, lerp)),
+        Container(
+          // color: Colors.green,
+          child: Text(
+            'Hello Thea 🎸',
+            style: Theme.of(context).textTheme.titleSmall?.copyWith(fontSize: lerpDouble(14, 12, lerp)),
+          ),
         ),
         Expanded(
           child: LayoutBuilder(
             builder: (context, constraints) {
               return FittedBox(
-                child: Text(
-                  viewModel.year.toString(),
-                  style: TextStyle.lerp(
-                    Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.w200),
-                    Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.w400),
-                    lerp,
+                child: Container(
+                  // color: Colors.red,
+                  child: Text(
+                    viewModel.year.toString(),
+                    style: TextStyle.lerp(
+                      Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.w200),
+                      Theme.of(context).textTheme.headlineLarge?.copyWith(fontWeight: FontWeight.w400),
+                      lerp,
+                    )?.copyWith(height: 0.75),
                   ),
                 ),
               );

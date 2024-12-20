@@ -19,7 +19,11 @@ class HomeViewModel extends BaseViewModel {
 
   int year = 2024;
   CollectionDbModel<StoryDbModel>? stories;
-  List<int> get months => stories?.items.map((e) => e.month).toSet().toList() ?? [];
+  List<int> get months {
+    List<int> months = stories?.items.map((e) => e.month).toSet().toList() ?? [];
+    if (months.isEmpty) months.add(DateTime.now().month);
+    return months;
+  }
 
   Future<void> load() async {
     stories = await StoryDbModel.db.where();

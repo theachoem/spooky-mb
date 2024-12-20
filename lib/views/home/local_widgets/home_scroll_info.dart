@@ -48,5 +48,5 @@ class _HomeScrollInfo {
   }
 
   double getCollapsedHeight(BuildContext context) => kToolbarHeight + MediaQuery.of(context).padding.top;
-  double getExpandedHeight(BuildContext context) => kToolbarHeight + 72 + MediaQuery.of(context).padding.top;
+  double getExpandedHeight(BuildContext context) => kToolbarHeight + 56 + MediaQuery.of(context).padding.top;
 }
