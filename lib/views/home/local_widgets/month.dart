@@ -15,7 +15,10 @@ class _Month extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 48.0,
-      margin: EdgeInsets.only(left: 8.0, top: index == 0 ? 8.0 : 0),
+      margin: EdgeInsets.only(
+        left: 8.0,
+        top: index == 0 ? 8.0 : 0,
+      ),
       child: Container(
         color: Theme.of(context).colorScheme.surface,
         alignment: Alignment.center,

@@ -24,25 +24,11 @@ class _Drawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        buildTiles(context),
-        const Positioned(
-          left: 0,
-          right: 0,
-          bottom: 16,
-          child: Text(
-            "Spooky v2.0.0",
-            textAlign: TextAlign.center,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget buildTiles(BuildContext context) {
     return ListView(
       children: [
+        buildHeader(context),
+        const Divider(height: 1),
+        const SizedBox(height: 8.0),
         ListTile(
           leading: const Icon(Icons.search),
           title: const Text('Search'),
@@ -97,6 +83,31 @@ class _Drawer extends StatelessWidget {
           },
         ),
       ],
+    );
+  }
+
+  Widget buildHeader(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "2024",
+            style: TextTheme.of(context).displayMedium,
+          ),
+          SpTapEffect(
+            onTap: () {},
+            child: Padding(
+              padding: const EdgeInsets.only(top: 4.0, right: 8.0, bottom: 8.0),
+              child: Text(
+                "Switch",
+                style: TextTheme.of(context).labelLarge?.copyWith(color: ColorScheme.of(context).primary),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

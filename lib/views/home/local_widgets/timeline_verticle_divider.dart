@@ -5,11 +5,11 @@ class _TimelineVerticleDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Positioned(
+    return Positioned(
       top: 0,
       bottom: 0,
-      left: 16.0 + _circleSize / 2,
-      child: VerticalDivider(
+      left: MediaQuery.of(context).padding.left + 16.0 + _circleSize / 2,
+      child: const VerticalDivider(
         width: 1,
       ),
     );

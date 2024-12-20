@@ -11,8 +11,8 @@ class _HomeScaffold extends StatelessWidget {
 
   final HomeViewModel viewModel;
   final Widget? endDrawer;
-  final SliverAppBar appBar;
-  final SliverList body;
+  final Widget appBar;
+  final Widget body;
   final Widget floatingActionButton;
 
   @override
@@ -33,10 +33,7 @@ class _HomeScaffold extends StatelessWidget {
                 controller: viewModel.scrollInfo.scrollController,
                 slivers: [
                   appBar,
-                  SliverPadding(
-                    padding: const EdgeInsets.symmetric(vertical: 16.0),
-                    sliver: body,
-                  ),
+                  body,
                 ],
               ),
             ),

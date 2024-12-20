@@ -22,23 +22,28 @@ class StoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Container(
-        width: circleSize,
-        height: circleSize,
-        decoration: BoxDecoration(
-          color: ColorFromDayService(context: context).get(story.displayPathDate.weekday),
-          shape: BoxShape.circle,
+    return MediaQuery.removePadding(
+      removeLeft: true,
+      removeRight: true,
+      context: context,
+      child: ListTile(
+        leading: Container(
+          width: circleSize,
+          height: circleSize,
+          decoration: BoxDecoration(
+            color: ColorFromDayService(context: context).get(story.displayPathDate.weekday),
+            shape: BoxShape.circle,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            story.displayPathDate.day.toString(),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+          ),
         ),
-        alignment: Alignment.center,
-        child: Text(
-          story.displayPathDate.day.toString(),
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
-        ),
+        title: Text(lastChangedStory?.title ?? 'N/A'),
+        subtitle: displayBody != null ? Text(displayBody!) : null,
+        onTap: () => viewModel.goToViewPage(context, story),
       ),
-      title: Text(lastChangedStory?.title ?? 'N/A'),
-      subtitle: displayBody != null ? Text(displayBody!) : null,
-      onTap: () => viewModel.goToViewPage(context, story),
     );
   }
 }
