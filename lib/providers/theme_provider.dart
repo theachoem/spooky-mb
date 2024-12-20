@@ -23,6 +23,12 @@ class ThemeProvider extends ChangeNotifier {
     }
   }
 
+  void setFontWeight(FontWeight fontWeight) {
+    _theme = _theme.copyWith(fontWeight: fontWeight);
+    storage.writeObject(_theme);
+    notifyListeners();
+  }
+
   void toggleThemeMode(BuildContext context) {
     if (themeMode == ThemeMode.system) {
       Brightness? brightness = View.of(context).platformDispatcher.platformBrightness;

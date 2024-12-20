@@ -15,6 +15,9 @@ class _ThemeAdaptive extends StatelessWidget {
         children: const [
           ThemeModeTile(),
           ColorSeedTile(),
+          Divider(),
+          FontFamilyTile(),
+          FontWeightTile(),
         ],
       ),
     );
