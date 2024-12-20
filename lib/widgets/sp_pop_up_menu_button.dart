@@ -3,18 +3,22 @@ import 'package:flutter/material.dart';
 class SpPopMenuItem {
   final String title;
   final String? subtitle;
+  final TextStyle? titleStyle;
+  final TextStyle? subtitleStyle;
   final bool selected;
   final void Function()? onPressed;
-  IconData? leadingIconData;
-  IconData? trailingIconData;
+  final IconData? leadingIconData;
+  final IconData? trailingIconData;
 
-  SpPopMenuItem({
+  const SpPopMenuItem({
     required this.title,
+    this.subtitle,
+    this.subtitleStyle,
+    this.titleStyle,
     this.onPressed,
     this.selected = false,
     this.leadingIconData,
     this.trailingIconData,
-    this.subtitle,
   });
 }
 
@@ -136,12 +140,12 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> {
             ? Container(
                 width: 40,
                 alignment: Alignment.center,
-                child: Icon(e.leadingIconData),
+                child: Icon(e.leadingIconData, color: e.titleStyle?.color),
               )
             : null,
-        title: Text(e.title),
+        title: Text(e.title, style: e.titleStyle),
         trailing: e.trailingIconData != null ? Icon(e.trailingIconData) : null,
-        subtitle: e.subtitle != null ? Text(e.subtitle!) : null,
+        subtitle: e.subtitle != null ? Text(e.subtitle!, style: e.subtitleStyle) : null,
       ),
     );
   }

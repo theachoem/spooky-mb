@@ -29,6 +29,12 @@ class ThemeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void setFontFamily(String fontFamily) {
+    _theme = _theme.copyWith(fontFamily: fontFamily);
+    storage.writeObject(_theme);
+    notifyListeners();
+  }
+
   void toggleThemeMode(BuildContext context) {
     if (themeMode == ThemeMode.system) {
       Brightness? brightness = View.of(context).platformDispatcher.platformBrightness;
