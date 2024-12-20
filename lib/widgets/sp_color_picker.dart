@@ -236,7 +236,7 @@ class SpColorPickerState extends State<SpColorPicker> {
     color = isColorChildPicking ? _colorNormal[index] : _colorsSwatch[index];
     final bool isSelected = currentSelectedColor == color || currentSelectedColorsSwatch == color;
 
-    return _SpColorItem(
+    return SpColorItem(
       color: color,
       selected: isSelected,
       margin: EdgeInsets.only(right: right, bottom: 0, top: 0),
@@ -246,8 +246,9 @@ class SpColorPickerState extends State<SpColorPicker> {
   }
 }
 
-class _SpColorItem extends StatelessWidget {
-  const _SpColorItem({
+class SpColorItem extends StatelessWidget {
+  const SpColorItem({
+    super.key,
     this.margin,
     this.selected = false,
     this.onPressed,

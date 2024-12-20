@@ -138,7 +138,7 @@ StoryContentDbModel _$StoryContentDbModelFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as List<dynamic>)
           .toList(),
       metadata: json['metadata'] as String?,
-      draft: json['draft'] as bool? ?? false,
+      draft: json['draft'] as bool?,
     );
 
 Map<String, dynamic> _$StoryContentDbModelToJson(

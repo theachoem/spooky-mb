@@ -1,9 +1,6 @@
 import 'dart:io';
-
-import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:spooky/providers/theme_provider.dart';
+import 'package:spooky/app_theme.dart';
 import 'package:spooky/routes/router.dart';
 
 class App extends StatelessWidget {
@@ -13,35 +10,15 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-
-    return DynamicColorBuilder(
-      builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
-        return MaterialApp.router(
-          routerConfig: $router,
-          debugShowCheckedModeBanner: false,
-          themeMode: themeProvider.themeMode,
-          scrollBehavior: Platform.isIOS ? null : const ScrollBehavior().copyWith(overscroll: false),
-          theme: theme(ThemeData.light(), lightDynamic),
-          darkTheme: theme(ThemeData.dark(), darkDynamic),
-        );
-      },
-    );
-  }
-
-  ThemeData theme(ThemeData theme, ColorScheme? colorScheme) {
-    return theme.copyWith(
-      colorScheme: colorScheme,
-      appBarTheme: const AppBarTheme(centerTitle: false),
-      drawerTheme: const DrawerThemeData(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-        endShape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-      ),
-      iconButtonTheme: IconButtonThemeData(
-        style: ButtonStyle(
-          shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0))),
-        ),
-      ),
-    );
+    return AppTheme(builder: (theme, darkTheme, themeMode) {
+      return MaterialApp.router(
+        routerConfig: $router,
+        debugShowCheckedModeBanner: false,
+        themeMode: themeMode,
+        scrollBehavior: Platform.isIOS ? null : const ScrollBehavior().copyWith(overscroll: false),
+        theme: theme,
+        darkTheme: darkTheme,
+      );
+    });
   }
 }

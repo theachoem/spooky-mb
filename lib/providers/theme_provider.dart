@@ -1,26 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/core/objects/theme_object.dart';
+import 'package:spooky/core/storages/theme_storage.dart';
 
 class ThemeProvider extends ChangeNotifier {
-  ThemeMode _themeMode = ThemeMode.system;
-  ThemeMode get themeMode => _themeMode;
+  static ThemeStorage get storage => ThemeStorage.instance;
 
-  Future<void> setThemeMode(ThemeMode? value) async {
+  ThemeObject _theme = storage.theme;
+  ThemeObject get theme => _theme;
+  ThemeMode get themeMode => theme.themeMode;
+
+  void setColorSeed(Color color) {
+    _theme = _theme.copyWithNewColor(color, removeIfSame: true);
+    storage.writeObject(_theme);
+    notifyListeners();
+  }
+
+  void setThemeMode(ThemeMode? value) {
     if (value != null && value != themeMode) {
-      _themeMode = value;
+      _theme = _theme.copyWith(themeMode: value);
+      storage.writeObject(_theme);
       notifyListeners();
     }
   }
 
-  bool toggleThemeMode(BuildContext context) {
+  void toggleThemeMode(BuildContext context) {
     if (themeMode == ThemeMode.system) {
       Brightness? brightness = View.of(context).platformDispatcher.platformBrightness;
       bool isDarkMode = brightness == Brightness.dark;
       setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
-      return !isDarkMode;
     } else {
       bool isDarkMode = themeMode == ThemeMode.dark;
       setThemeMode(isDarkMode ? ThemeMode.light : ThemeMode.dark);
-      return !isDarkMode;
     }
   }
 

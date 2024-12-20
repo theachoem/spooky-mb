@@ -74,21 +74,6 @@ class _Drawer extends StatelessWidget {
           },
         ),
         const Divider(),
-        Consumer<ThemeProvider>(
-          builder: (context, provider, child) {
-            return ListTile(
-              leading: SpAnimatedIcons(
-                duration: Durations.medium4,
-                firstChild: const Icon(Icons.dark_mode),
-                secondChild: const Icon(Icons.light_mode),
-                showFirst: provider.isDarkMode(context),
-              ),
-              title: const Text('Theme Mode'),
-              subtitle: Text(provider.themeMode.name.capitalize),
-              onTap: () => provider.toggleThemeMode(context),
-            );
-          },
-        ),
         ListTile(
           leading: const Icon(Icons.color_lens_outlined),
           title: const Text('Theme'),

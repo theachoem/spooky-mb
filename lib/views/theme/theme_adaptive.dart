@@ -11,6 +11,12 @@ class _ThemeAdaptive extends StatelessWidget {
       appBar: AppBar(
         title: const Text("Theme"),
       ),
+      body: ListView(
+        children: const [
+          ThemeModeTile(),
+          ColorSeedTile(),
+        ],
+      ),
     );
   }
 }
