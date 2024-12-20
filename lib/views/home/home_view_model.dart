@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:spooky_mb/core/base/base_view_model.dart';
 import 'package:spooky_mb/core/databases/models/collection_db_model.dart';
@@ -6,7 +7,6 @@ import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
 import 'package:spooky_mb/core/databases/models/story_db_model.dart';
 import 'package:spooky_mb/routes/utils/animated_page_route.dart';
 import 'package:spooky_mb/views/page_editor/page_editor_view.dart';
-import 'package:spooky_mb/views/story_details/story_details_view.dart';
 
 part './local_widgets/home_scroll_info.dart';
 
@@ -27,13 +27,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> goToViewPage(BuildContext context, StoryDbModel story) async {
-    await Navigator.of(context).push(
-      AnimatedPageRoute.sharedAxis(
-        builder: (context) => StoryDetailsView(id: story.id),
-        type: SharedAxisTransitionType.vertical,
-      ),
-    );
-
+    await context.push('/stories/${story.id}');
     await load();
   }
 
