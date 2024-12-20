@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
-import 'package:spooky_mb/core/databases/adapters/objectbox/base_box.dart';
-import 'package:spooky_mb/core/databases/adapters/objectbox/entities.dart';
-import 'package:spooky_mb/core/databases/models/story_db_model.dart';
-import 'package:spooky_mb/core/services/story_db_constructor_service.dart';
-import 'package:spooky_mb/core/types/path_type.dart';
-import 'package:spooky_mb/objectbox.g.dart';
+import 'package:spooky/core/databases/adapters/objectbox/base_box.dart';
+import 'package:spooky/core/databases/adapters/objectbox/entities.dart';
+import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/services/story_db_constructor_service.dart';
+import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/objectbox.g.dart';
 
 class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   @override

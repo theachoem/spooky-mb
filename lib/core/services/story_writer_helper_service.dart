@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
-import 'package:spooky_mb/core/services/quill_service.dart';
+import 'package:spooky/core/databases/models/story_content_db_model.dart';
+import 'package:spooky/core/services/quill_service.dart';
 
 class StoryWriteHelper {
   static T? getElementAtIndex<T>(Iterable<T> list, int index) {

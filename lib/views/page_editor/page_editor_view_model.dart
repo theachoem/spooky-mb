@@ -1,14 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:spooky_mb/core/base/base_view_model.dart';
-import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
-import 'package:spooky_mb/core/databases/models/story_db_model.dart';
-import 'package:spooky_mb/core/services/story_writers/default_story_writer.dart';
-import 'package:spooky_mb/core/services/story_writers/objects/default_story_object.dart';
-import 'package:spooky_mb/core/services/story_writers/objects/shared_writer_object.dart';
-import 'package:spooky_mb/core/types/editing_flow_type.dart';
-import 'package:spooky_mb/views/page_editor/page_editor_view.dart';
+import 'package:spooky/core/base/base_view_model.dart';
+import 'package:spooky/core/databases/models/story_content_db_model.dart';
+import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/services/story_writers/default_story_writer.dart';
+import 'package:spooky/core/services/story_writers/objects/default_story_object.dart';
+import 'package:spooky/core/services/story_writers/objects/shared_writer_object.dart';
+import 'package:spooky/core/types/editing_flow_type.dart';
+import 'package:spooky/views/page_editor/page_editor_view.dart';
 
 Document _buildDocument(List<dynamic>? document) {
   if (document != null && document.isNotEmpty) return Document.fromJson(document);

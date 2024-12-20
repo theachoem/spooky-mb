@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:spooky_mb/views/home/home_view_model.dart';
+import 'package:spooky/views/home/home_view_model.dart';
 
 class HomeFlexibleSpaceBar extends StatelessWidget {
   const HomeFlexibleSpaceBar({

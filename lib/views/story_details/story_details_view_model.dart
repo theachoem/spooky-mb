@@ -3,12 +3,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:spooky_mb/core/base/base_view_model.dart';
-import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
-import 'package:spooky_mb/core/databases/models/story_db_model.dart';
-import 'package:spooky_mb/routes/utils/animated_page_route.dart';
-import 'package:spooky_mb/views/page_editor/page_editor_view.dart';
-import 'package:spooky_mb/views/story_details/story_details_view.dart';
+import 'package:spooky/core/base/base_view_model.dart';
+import 'package:spooky/core/databases/models/story_content_db_model.dart';
+import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/routes/utils/animated_page_route.dart';
+import 'package:spooky/views/page_editor/page_editor_view.dart';
+import 'package:spooky/views/story_details/story_details_view.dart';
 
 Document _buildDocument(List<dynamic>? document) {
   if (document != null && document.isNotEmpty) return Document.fromJson(document);

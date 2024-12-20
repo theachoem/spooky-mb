@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
-import 'package:spooky_mb/core/databases/models/story_db_model.dart';
-import 'package:spooky_mb/core/services/color_from_day_service.dart';
-import 'package:spooky_mb/views/home/home_view_model.dart';
+import 'package:spooky/core/databases/models/story_content_db_model.dart';
+import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/services/color_from_day_service.dart';
+import 'package:spooky/views/home/home_view_model.dart';
 
 class StoryTile extends StatelessWidget {
   const StoryTile({

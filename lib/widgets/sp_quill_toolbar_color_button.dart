@@ -5,8 +5,8 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:flutter_quill/src/toolbar/base_button/base_value_button.dart';
 import 'package:flutter_quill/src/common/utils/color.dart';
 import 'package:flutter_quill/translations.dart';
-import 'package:spooky_mb/widgets/sp_color_picker.dart';
-import 'package:spooky_mb/widgets/sp_floating_pop_up_button.dart';
+import 'package:spooky/widgets/sp_color_picker.dart';
+import 'package:spooky/widgets/sp_floating_pop_up_button.dart';
 
 typedef QuillToolbarColorBaseButton
     = QuillToolbarBaseButton<QuillToolbarColorButtonOptions, QuillToolbarColorButtonExtraOptions>;

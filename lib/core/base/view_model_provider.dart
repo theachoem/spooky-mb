@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky_mb/core/base/base_view_model.dart';
+import 'package:spooky/core/base/base_view_model.dart';
 
 class ViewModelProvider<T extends BaseViewModel> extends StatelessWidget {
   const ViewModelProvider({
@@ -14,8 +14,7 @@ class ViewModelProvider<T extends BaseViewModel> extends StatelessWidget {
   final Create<T> create;
   final Widget? child;
   final void Function(BuildContext context, T viewModel)? onModelReady;
-  final Widget Function(BuildContext context, T viewModel, Widget? child)
-      builder;
+  final Widget Function(BuildContext context, T viewModel, Widget? child) builder;
 
   @override
   Widget build(BuildContext context) {

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:go_router/go_router.dart';
-import 'package:spooky_mb/routes/utils/animated_page_route.dart';
-import 'package:spooky_mb/views/home/home_view.dart';
-import 'package:spooky_mb/views/page_editor/page_editor_view.dart';
-import 'package:spooky_mb/views/story_details/story_details_view.dart';
+import 'package:spooky/routes/utils/animated_page_route.dart';
+import 'package:spooky/views/home/home_view.dart';
+import 'package:spooky/views/page_editor/page_editor_view.dart';
+import 'package:spooky/views/story_details/story_details_view.dart';
 
 final GoRouter $router = GoRouter(
   initialLocation: '/',

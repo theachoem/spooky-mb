@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:spooky_mb/core/databases/models/story_db_model.dart';
-import 'package:spooky_mb/core/services/story_writers/objects/base_writer_object.dart';
-import 'package:spooky_mb/core/types/response_code_type.dart';
+import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/services/story_writers/objects/base_writer_object.dart';
+import 'package:spooky/core/types/response_code_type.dart';
 
 abstract class BaseStoryWriter<T extends BaseWriterObject> {
   final BuildContext context;

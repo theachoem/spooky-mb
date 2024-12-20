@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky_mb/providers/theme_provider.dart';
+import 'package:spooky/providers/theme_provider.dart';
 
 // global providers
 class ProviderScope extends StatelessWidget {

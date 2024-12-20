@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky_mb/providers/theme_provider.dart';
-import 'package:spooky_mb/routes/router.dart';
+import 'package:spooky/providers/theme_provider.dart';
+import 'package:spooky/routes/router.dart';
 
 class App extends StatelessWidget {
   const App({

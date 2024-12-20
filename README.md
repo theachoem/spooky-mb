@@ -1,4 +1,4 @@
-# spooky_mb
+# spooky
 
 A new Flutter project.
 

@@ -1,4 +1,4 @@
-import 'package:spooky_mb/core/base/view_model_provider.dart';
+import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
 
 import 'archives_view_model.dart';

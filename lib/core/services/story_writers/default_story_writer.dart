@@ -1,11 +1,11 @@
-import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
-import 'package:spooky_mb/core/databases/models/story_db_model.dart';
-import 'package:spooky_mb/core/services/messenger_service.dart';
-import 'package:spooky_mb/core/services/story_writer_helper_service.dart';
-import 'package:spooky_mb/core/services/story_writers/base_story_writer.dart';
-import 'package:spooky_mb/core/services/story_writers/objects/default_story_object.dart';
-import 'package:spooky_mb/core/types/editing_flow_type.dart';
-import 'package:spooky_mb/core/types/response_code_type.dart';
+import 'package:spooky/core/databases/models/story_content_db_model.dart';
+import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/services/story_writer_helper_service.dart';
+import 'package:spooky/core/services/story_writers/base_story_writer.dart';
+import 'package:spooky/core/services/story_writers/objects/default_story_object.dart';
+import 'package:spooky/core/types/editing_flow_type.dart';
+import 'package:spooky/core/types/response_code_type.dart';
 
 class DefaultStoryWriter<T extends DefaultStoryObject> extends BaseStoryWriter<T> {
   DefaultStoryWriter(super.context);

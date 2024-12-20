@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:html_character_entities/html_character_entities.dart';
-import 'package:spooky_mb/core/databases/models/story_content_db_model.dart';
-import 'package:spooky_mb/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/databases/models/story_content_db_model.dart';
+import 'package:spooky/core/databases/models/story_db_model.dart';
 
 List<StoryContentDbModel> _changesConstructor(List<String> rawChanges) {
   return StoryDbConstructorService.strsToChanges(rawChanges);

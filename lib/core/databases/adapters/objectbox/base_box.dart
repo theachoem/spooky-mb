@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:spooky_mb/core/databases/adapters/base_db_adapter.dart';
-import 'package:spooky_mb/core/databases/models/base_db_model.dart';
-import 'package:spooky_mb/core/databases/models/collection_db_model.dart';
-import 'package:spooky_mb/core/services/file_service.dart';
-import 'package:spooky_mb/objectbox.g.dart';
+import 'package:spooky/core/databases/adapters/base_db_adapter.dart';
+import 'package:spooky/core/databases/models/base_db_model.dart';
+import 'package:spooky/core/databases/models/collection_db_model.dart';
+import 'package:spooky/core/services/file_service.dart';
+import 'package:spooky/objectbox.g.dart';
 
 abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> {
   String get tableName;
