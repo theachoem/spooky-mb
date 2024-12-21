@@ -8,8 +8,13 @@ class _EditStoryAdaptive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MorphingAppBar(
-        title: const Text('Edit'),
+      appBar: AppBar(
+        title: viewModel.story == null
+            ? const SizedBox.shrink()
+            : SpTapEffect(
+                onTap: () => viewModel.changeTitle(context),
+                child: Text(viewModel.currentContent?.title ?? 'Title...'),
+              ),
         actions: [
           IconButton(
             icon: const Icon(Icons.save),

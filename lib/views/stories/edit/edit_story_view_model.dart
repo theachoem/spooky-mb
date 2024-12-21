@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
@@ -81,6 +82,29 @@ class EditStoryViewModel extends BaseViewModel {
 
     // ignore: use_build_context_synchronously
     Navigator.of(context).maybePop(story);
+  }
+
+  void changeTitle(BuildContext context) async {
+    List<String>? result = await showTextInputDialog(
+      title: "Rename",
+      context: context,
+      textFields: [
+        DialogTextField(
+          initialText: currentContent?.title,
+          maxLines: 2,
+          hintText: 'Title...',
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) return "Required";
+            return null;
+          },
+        )
+      ],
+    );
+
+    if (result != null && result.firstOrNull != null) {
+      currentContent = currentContent!.copyWith(title: result.firstOrNull);
+      notifyListeners();
+    }
   }
 
   @override

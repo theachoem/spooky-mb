@@ -8,8 +8,11 @@ class _StoryDetailsAdaptive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: MorphingAppBar(
-        title: Text(viewModel.currentContent?.title ?? 'Click to add title...'),
+      appBar: AppBar(
+        title: GestureDetector(
+          onDoubleTap: () => viewModel.goToEditPage(context),
+          child: Text(viewModel.currentContent?.title ?? 'Title...'),
+        ),
         actions: [
           if (viewModel.currentContent?.pages?.length != null && viewModel.currentContent!.pages!.length > 1)
             buildPageIndicator(),
