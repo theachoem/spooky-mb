@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/widgets/story_list/story_list_timeline_verticle_divider.dart';
 import 'package:spooky/widgets/story_list/story_tile_list_item.dart';
 
@@ -10,10 +11,12 @@ class StoryList extends StatefulWidget {
     super.key,
     this.year,
     this.tagId,
+    this.type,
   });
 
   final int? year;
   final int? tagId;
+  final PathType? type;
 
   @override
   State<StoryList> createState() => _StoryListState();
@@ -26,9 +29,17 @@ class _StoryListState extends State<StoryList> {
     stories = await StoryDbModel.db.where(filters: {
       'year': widget.year,
       'tag': widget.tagId,
+      'type': widget.type?.name,
     });
 
     setState(() {});
+  }
+
+  @override
+  void didUpdateWidget(covariant StoryList oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    load();
   }
 
   @override
@@ -44,7 +55,8 @@ class _StoryListState extends State<StoryList> {
       children: [
         const StoryListTimelineVerticleDivider(),
         ListView.builder(
-          padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: MediaQuery.of(context).padding.horizontal),
+          padding: const EdgeInsets.symmetric(vertical: 16.0)
+              .copyWith(left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right),
           itemCount: stories?.items.length ?? 0,
           itemBuilder: (context, index) {
             return StoryTileListItem(

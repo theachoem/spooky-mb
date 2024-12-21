@@ -9,7 +9,38 @@ class _ArchivesAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Archives"),
+        title: SpPopupMenuButton(
+          dyGetter: (dy) => dy + 48,
+          dxGetter: (dx) => dx - 48.0,
+          items: (context) {
+            return [PathType.archives, PathType.bins].map((type) {
+              return SpPopMenuItem(
+                selected: type == viewModel.type,
+                title: type.localized,
+                onPressed: () {
+                  viewModel.setType(type);
+                },
+              );
+            }).toList();
+          },
+          builder: (open) {
+            return SpTapEffect(
+              onTap: open,
+              child: RichText(
+                text: TextSpan(
+                  style: TextTheme.of(context).titleLarge,
+                  text: viewModel.type.localized,
+                  children: const [
+                    WidgetSpan(child: Icon(Icons.arrow_drop_down)),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
+      body: StoryList(
+        type: viewModel.type,
       ),
     );
   }

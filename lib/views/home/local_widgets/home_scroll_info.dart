@@ -47,5 +47,5 @@ class _HomeScrollInfo {
     _scrolling = false;
   }
 
-  double getExpandedHeight(BuildContext context) => kToolbarHeight + 48 + MediaQuery.of(context).padding.top;
+  double getExpandedHeight(BuildContext context) => kToolbarHeight + 56 + MediaQuery.of(context).padding.top;
 }

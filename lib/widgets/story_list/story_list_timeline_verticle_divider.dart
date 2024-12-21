@@ -11,7 +11,7 @@ class StoryListTimelineVerticleDivider extends StatelessWidget {
     return Positioned(
       top: 0,
       bottom: 0,
-      left: MediaQuery.of(context).padding.left + 16.0 + StoryTile.circleSize / 2,
+      left: MediaQuery.of(context).padding.left + 16.0 + StoryTile.monogramSize / 2,
       child: const VerticalDivider(
         width: 1,
       ),

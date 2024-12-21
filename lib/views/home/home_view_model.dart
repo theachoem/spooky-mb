@@ -4,6 +4,7 @@ import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/routes/utils/animated_page_route.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 
@@ -26,7 +27,10 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> load() async {
-    stories = await StoryDbModel.db.where(filters: {'year': year});
+    stories = await StoryDbModel.db.where(filters: {
+      'year': year,
+      'type': PathType.docs.name,
+    });
     notifyListeners();
   }
 

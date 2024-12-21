@@ -68,8 +68,8 @@ class StoryDbModel extends BaseDbModel {
     required this.updatedAt,
     required this.createdAt,
     required this.tags,
-    this.movedToBinAt,
-    this.rawChanges,
+    required this.movedToBinAt,
+    required this.rawChanges,
   });
 
   bool get viewOnly => unarchivable || inBins;
@@ -80,6 +80,14 @@ class StoryDbModel extends BaseDbModel {
 
   bool get archivable => type == PathType.docs;
   bool get unarchivable => type == PathType.archives;
+
+  int? get willBeRemovedInDays {
+    if (movedToBinAt != null) {
+      DateTime willBeRemovedAt = movedToBinAt!.add(const Duration(days: 30));
+      return willBeRemovedAt.difference(DateTime.now()).inDays;
+    }
+    return null;
+  }
 
   StoryDbModel copyWithNewChange(StoryContentDbModel newChange) {
     return copyWith(
@@ -115,7 +123,16 @@ class StoryDbModel extends BaseDbModel {
       updatedAt: now,
       createdAt: now,
       tags: [],
+      movedToBinAt: null,
+      rawChanges: null,
     );
+  }
+
+  Future<void> moveToBin() async {
+    await db.set(copyWith(
+      type: PathType.bins,
+      movedToBinAt: DateTime.now(),
+    ));
   }
 
   factory StoryDbModel.fromJson(Map<String, dynamic> json) => _$StoryDbModelFromJson(json);

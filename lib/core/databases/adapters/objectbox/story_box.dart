@@ -129,6 +129,7 @@ StoryDbModel _objectTransformer(Map<String, dynamic> map) {
     createdAt: object.createdAt,
     tags: object.tags?.map((e) => int.tryParse(e)).whereType<int>().toList(),
     rawChanges: object.changes,
+    movedToBinAt: object.movedToBinAt,
     changes: StoryDbConstructorService.strsToChanges(
       // set only last & load everything on story tile instead.
       !allChanges && object.changes.isNotEmpty ? [object.changes.last] : object.changes,

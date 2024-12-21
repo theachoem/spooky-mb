@@ -26,7 +26,8 @@ class _HomeAdaptive extends StatelessWidget {
 
   Widget buildBody(BuildContext context) {
     return SliverPadding(
-      padding: EdgeInsets.symmetric(vertical: 16.0, horizontal: MediaQuery.of(context).padding.horizontal),
+      padding: const EdgeInsets.symmetric(vertical: 16.0)
+          .copyWith(left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right),
       sliver: SliverList.builder(
         itemCount: viewModel.stories?.items.length ?? 0,
         itemBuilder: (context, index) {
