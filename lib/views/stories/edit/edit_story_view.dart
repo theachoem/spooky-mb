@@ -5,13 +5,13 @@ import 'package:spooky/widgets/sp_quill_toolbar_color_button.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:swipeable_page_route/swipeable_page_route.dart';
 
-import 'page_editor_view_model.dart';
+import 'edit_story_view_model.dart';
 
-part 'page_editor_adaptive.dart';
-part './local_widgets/editor.dart';
+part 'edit_story_adaptive.dart';
+part 'local_widgets/editor.dart';
 
-class PageEditorView extends StatelessWidget {
-  const PageEditorView({
+class EditStoryView extends StatelessWidget {
+  const EditStoryView({
     super.key,
     this.storyId,
     this.initialPageIndex = 0,
@@ -24,10 +24,10 @@ class PageEditorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<PageEditorViewModel>(
-      create: (context) => PageEditorViewModel(params: this),
+    return ViewModelProvider<EditStoryViewModel>(
+      create: (context) => EditStoryViewModel(params: this),
       builder: (context, viewModel, child) {
-        return _PageEditorAdaptive(viewModel);
+        return _EditStoryAdaptive(viewModel);
       },
     );
   }

@@ -73,7 +73,7 @@ class _EndDrawer extends StatelessWidget {
           leading: const Icon(Icons.settings_outlined),
           title: const Text('Settings'),
           onTap: () {
-            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const SettingView());
+            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const SettingsView());
           },
         ),
         const Divider(),

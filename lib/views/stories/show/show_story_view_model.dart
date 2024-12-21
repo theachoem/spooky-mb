@@ -7,8 +7,8 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/routes/utils/animated_page_route.dart';
-import 'package:spooky/views/page_editor/page_editor_view.dart';
-import 'package:spooky/views/story_details/story_details_view.dart';
+import 'package:spooky/views/stories/edit/edit_story_view.dart';
+import 'package:spooky/views/stories/show/show_story_view.dart';
 
 Document _buildDocument(List<dynamic>? document) {
   if (document != null && document.isNotEmpty) return Document.fromJson(document);
@@ -20,13 +20,13 @@ List<Document> _buildDocuments(List<List<dynamic>>? pages) {
   return pages.map((page) => _buildDocument(page)).toList();
 }
 
-class StoryDetailsViewModel extends BaseViewModel {
-  final StoryDetailsView params;
+class ShowStoryViewModel extends BaseViewModel {
+  final ShowStoryView params;
 
   late final PageController pageController;
   final ValueNotifier<double> currentPageNotifier = ValueNotifier(0);
 
-  StoryDetailsViewModel({
+  ShowStoryViewModel({
     required this.params,
     required BuildContext context,
   }) {
@@ -78,7 +78,7 @@ class StoryDetailsViewModel extends BaseViewModel {
     var result = await Navigator.of(context).push(
       AnimatedPageRoute.sharedAxis(
         type: SharedAxisTransitionType.vertical,
-        builder: (context) => PageEditorView(
+        builder: (context) => EditStoryView(
           storyId: story!.id,
           initialPageIndex: currentPage,
           quillControllers: quillControllers,

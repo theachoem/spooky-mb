@@ -5,7 +5,7 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/routes/utils/animated_page_route.dart';
-import 'package:spooky/views/page_editor/page_editor_view.dart';
+import 'package:spooky/views/stories/edit/edit_story_view.dart';
 
 part './local_widgets/home_scroll_info.dart';
 
@@ -43,7 +43,7 @@ class HomeViewModel extends BaseViewModel {
   Future<void> goToNewPage(BuildContext context) async {
     await Navigator.of(context).push(
       AnimatedPageRoute.sharedAxis(
-        builder: (context) => const PageEditorView(),
+        builder: (context) => const EditStoryView(),
         type: SharedAxisTransitionType.vertical,
       ),
     );

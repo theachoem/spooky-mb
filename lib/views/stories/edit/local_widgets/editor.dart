@@ -1,4 +1,4 @@
-part of '../page_editor_view.dart';
+part of '../edit_story_view.dart';
 
 class _Editor extends StatelessWidget {
   final QuillController controller;

@@ -1,9 +1,9 @@
-part of 'page_editor_view.dart';
+part of 'edit_story_view.dart';
 
-class _PageEditorAdaptive extends StatelessWidget {
-  const _PageEditorAdaptive(this.viewModel);
+class _EditStoryAdaptive extends StatelessWidget {
+  const _EditStoryAdaptive(this.viewModel);
 
-  final PageEditorViewModel viewModel;
+  final EditStoryViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {

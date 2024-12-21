@@ -1,9 +1,9 @@
-part of 'story_details_view.dart';
+part of 'show_story_view.dart';
 
 class _StoryDetailsAdaptive extends StatelessWidget {
   const _StoryDetailsAdaptive(this.viewModel);
 
-  final StoryDetailsViewModel viewModel;
+  final ShowStoryViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {

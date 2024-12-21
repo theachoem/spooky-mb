@@ -8,7 +8,7 @@ import 'package:spooky/core/services/story_writers/default_story_writer.dart';
 import 'package:spooky/core/services/story_writers/objects/default_story_object.dart';
 import 'package:spooky/core/services/story_writers/objects/shared_writer_object.dart';
 import 'package:spooky/core/types/editing_flow_type.dart';
-import 'package:spooky/views/page_editor/page_editor_view.dart';
+import 'package:spooky/views/stories/edit/edit_story_view.dart';
 
 Document _buildDocument(List<dynamic>? document) {
   if (document != null && document.isNotEmpty) return Document.fromJson(document);
@@ -20,13 +20,13 @@ List<Document> _buildDocuments(List<List<dynamic>>? pages) {
   return pages.map((page) => _buildDocument(page)).toList();
 }
 
-class PageEditorViewModel extends BaseViewModel {
-  final PageEditorView params;
+class EditStoryViewModel extends BaseViewModel {
+  final EditStoryView params;
 
   late final PageController pageController = PageController(initialPage: params.initialPageIndex);
   final Map<int, QuillController> quillControllers = {};
 
-  PageEditorViewModel({
+  EditStoryViewModel({
     required this.params,
   }) {
     load();

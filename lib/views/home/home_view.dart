@@ -6,7 +6,7 @@ import 'package:spooky/views/home/local_widgets/home_years_view.dart';
 import 'package:spooky/views/home/local_widgets/rounded_indicator.dart';
 import 'package:spooky/views/archives/archives_view.dart';
 import 'package:spooky/views/backups/backups_view.dart';
-import 'package:spooky/views/setting/setting_view.dart';
+import 'package:spooky/views/settings/settings_view.dart';
 import 'package:spooky/views/tags/tags_view.dart';
 import 'package:spooky/views/theme/theme_view.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
