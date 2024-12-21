@@ -35,7 +35,7 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel createdAt(DateTime createdAt);
 
-  StoryDbModel tags(List<String>? tags);
+  StoryDbModel tags(List<int>? tags);
 
   StoryDbModel movedToBinAt(DateTime? movedToBinAt);
 
@@ -62,7 +62,7 @@ abstract class _$StoryDbModelCWProxy {
     List<StoryContentDbModel> changes,
     DateTime updatedAt,
     DateTime createdAt,
-    List<String>? tags,
+    List<int>? tags,
     DateTime? movedToBinAt,
     List<String>? rawChanges,
   });
@@ -118,7 +118,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
   StoryDbModel createdAt(DateTime createdAt) => this(createdAt: createdAt);
 
   @override
-  StoryDbModel tags(List<String>? tags) => this(tags: tags);
+  StoryDbModel tags(List<int>? tags) => this(tags: tags);
 
   @override
   StoryDbModel movedToBinAt(DateTime? movedToBinAt) =>
@@ -215,7 +215,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
       tags: tags == const $CopyWithPlaceholder()
           ? _value.tags
           // ignore: cast_nullable_to_non_nullable
-          : tags as List<String>?,
+          : tags as List<int>?,
       movedToBinAt: movedToBinAt == const $CopyWithPlaceholder()
           ? _value.movedToBinAt
           // ignore: cast_nullable_to_non_nullable
@@ -255,7 +255,9 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
           .toList(),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
-      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      tags: (json['tags'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       movedToBinAt: json['moved_to_bin_at'] == null
           ? null
           : DateTime.parse(json['moved_to_bin_at'] as String),

@@ -28,7 +28,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     int? year = filters?["year"];
     int? month = filters?["month"];
     int? day = filters?["day"];
-    String? tag = filters?["tag"];
+    int? tag = filters?["tag"];
     bool? starred = filters?["starred"];
     int? order = filters?["order"];
     bool priority = filters?["priority"] == true;
@@ -37,7 +37,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
 
     Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
 
-    if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.containsElement(tag));
+    if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.containsElement(tag.toString()));
     if (starred == true) conditions = conditions.and(StoryObjectBox_.starred.equals(true));
     if (type != null) conditions = conditions.and(StoryObjectBox_.type.equals(type));
     if (year != null) conditions = conditions.and(StoryObjectBox_.year.equals(year));
@@ -127,7 +127,7 @@ StoryDbModel _objectTransformer(Map<String, dynamic> map) {
     second: object.second ?? object.createdAt.second,
     updatedAt: object.updatedAt,
     createdAt: object.createdAt,
-    tags: object.tags,
+    tags: object.tags?.map((e) => int.tryParse(e)).whereType<int>().toList(),
     rawChanges: object.changes,
     changes: StoryDbConstructorService.strsToChanges(
       // set only last & load everything on story tile instead.
@@ -163,7 +163,7 @@ StoryObjectBox _objectConstructor(StoryDbModel story) {
     hour: story.hour ?? story.createdAt.hour,
     minute: story.minute ?? story.createdAt.minute,
     second: story.second ?? story.createdAt.second,
-    tags: story.tags,
+    tags: story.tags?.map((e) => e.toString()).toList(),
     starred: story.starred,
     feeling: story.feeling,
     createdAt: story.createdAt,

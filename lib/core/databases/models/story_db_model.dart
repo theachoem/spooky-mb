@@ -28,7 +28,10 @@ class StoryDbModel extends BaseDbModel {
   final bool? starred;
   final String? feeling;
 
-  final List<String>? tags;
+  // tags are mistaken stores in DB in string.
+  // we use integer here, buts its actuals value is still in <string>.
+  final List<int>? tags;
+
   final List<StoryContentDbModel> changes;
 
   @JsonKey(includeFromJson: true, includeToJson: true)

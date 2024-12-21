@@ -1,7 +1,7 @@
-part of '../home_view.dart';
+part of 'story_tile_list_item.dart';
 
-class _Month extends StatelessWidget {
-  const _Month({
+class _StoryMonthHeader extends StatelessWidget {
+  const _StoryMonthHeader({
     required this.index,
     required this.context,
     required this.story,

@@ -38,13 +38,6 @@ class HomeYearsViewState extends State<HomeYearsView> {
     return ListView(
       children: [
         ...buildYearsTiles(viewModel),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: FilledButton.icon(
-            onPressed: () {},
-            label: const Text("Add"),
-          ),
-        ),
       ],
     );
   }

@@ -22,7 +22,7 @@ class _HomeScaffold extends StatelessWidget {
       floatingActionButton: floatingActionButton,
       body: Stack(
         children: [
-          const _TimelineVerticleDivider(),
+          const StoryListTimelineVerticleDivider(),
           ListViewObserver(
             controller: viewModel.scrollInfo.observerScrollController,
             onObserve: (result) => viewModel.scrollInfo.onObserve(result, context),

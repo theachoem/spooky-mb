@@ -53,6 +53,20 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
   });
 
   @override
+  Future<int> count({
+    Map<String, dynamic>? filters,
+  }) async {
+    QueryBuilder<B>? queryBuilder = buildQuery(filters: filters);
+
+    if (queryBuilder != null) {
+      Query<B>? query = queryBuilder.build();
+      return query.count();
+    } else {
+      return box.count();
+    }
+  }
+
+  @override
   Future<CollectionDbModel<T>?> where({
     Map<String, dynamic>? filters,
   }) async {
@@ -61,9 +75,9 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
 
     if (queryBuilder != null) {
       Query<B>? query = queryBuilder.build();
-      objects = query.find();
+      objects = await query.findAsync();
     } else {
-      objects = box.getAll();
+      objects = await box.getAllAsync();
     }
 
     List<T> docs = await itemsTransformer(objects);

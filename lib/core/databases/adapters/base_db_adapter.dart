@@ -4,6 +4,7 @@ import 'package:spooky/core/databases/models/collection_db_model.dart';
 abstract class BaseDbAdapter<T extends BaseDbModel> {
   Future<T?> find(int id);
 
+  Future<int> count({Map<String, dynamic>? filters});
   Future<CollectionDbModel<T>?> where({
     Map<String, dynamic>? filters,
   });

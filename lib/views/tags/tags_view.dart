@@ -1,3 +1,4 @@
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
 

@@ -35,7 +35,7 @@ abstract class BaseStoryWriter<T extends BaseWriterObject> {
       StoryDbModel story = await buildStory(object);
       story = story.copyWith(updatedAt: DateTime.now());
 
-      result = await database.set(story.copyWith(year: 2015));
+      result = await database.set(story);
       result ??= story;
 
       if (reloadOnSave) result = await database.find(result.id);
