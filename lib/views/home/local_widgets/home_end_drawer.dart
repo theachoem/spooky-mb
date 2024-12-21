@@ -70,10 +70,22 @@ class _EndDrawer extends StatelessWidget {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.settings_outlined),
-          title: const Text('Settings'),
-          onTap: () {
-            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const SettingsView());
+          leading: const Icon(Icons.language),
+          title: const Text("Language"),
+          subtitle: const Text("Khmer"),
+          onTap: () {},
+        ),
+        Consumer<LocalAuthProvider>(
+          builder: (context, provider, child) {
+            return Visibility(
+              visible: provider.canCheckBiometrics,
+              child: SwitchListTile.adaptive(
+                secondary: const Icon(Icons.lock),
+                title: const Text('Biometrics Lock'),
+                value: provider.localAuthEnabled,
+                onChanged: (value) => provider.setEnable(value),
+              ),
+            );
           },
         ),
         const Divider(),

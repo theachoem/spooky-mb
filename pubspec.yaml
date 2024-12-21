@@ -30,6 +30,7 @@ dependencies:
   fuzzy: ^0.5.1
   adaptive_dialog: ^2.4.0
   flutter_slidable: ^3.1.2
+  local_auth: ^2.3.0
 
 dev_dependencies:
   flutter_test:

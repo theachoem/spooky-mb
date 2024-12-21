@@ -52,6 +52,7 @@ class _StoryListState extends State<StoryList> {
               index: index,
               onTap: () async {
                 await context.push('/stories/${stories?.items[index].id}');
+                await load();
               },
             );
           },

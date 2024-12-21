@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:spooky/app_theme.dart';
 import 'package:spooky/routes/router.dart';
+import 'package:spooky/widgets/sp_local_auth_wrapper.dart';
 
 class App extends StatelessWidget {
   const App({
@@ -18,6 +19,9 @@ class App extends StatelessWidget {
         scrollBehavior: Platform.isIOS ? null : const ScrollBehavior().copyWith(overscroll: false),
         theme: theme,
         darkTheme: darkTheme,
+        builder: (context, child) {
+          return SpLocalAuthWrapper(child: child!);
+        },
       );
     });
   }
