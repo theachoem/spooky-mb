@@ -13,7 +13,7 @@ class ShowStoryView extends StatelessWidget {
     required this.id,
   });
 
-  final int? id;
+  final int id;
 
   @override
   Widget build(BuildContext context) {

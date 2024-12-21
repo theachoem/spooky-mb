@@ -10,28 +10,14 @@ import 'package:spooky/routes/utils/animated_page_route.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
 
-Document _buildDocument(List<dynamic>? document) {
-  if (document != null && document.isNotEmpty) return Document.fromJson(document);
-  return Document();
-}
-
-List<Document> _buildDocuments(List<List<dynamic>>? pages) {
-  if (pages == null || pages.isEmpty == true) return [];
-  return pages.map((page) => _buildDocument(page)).toList();
-}
-
 class ShowStoryViewModel extends BaseViewModel {
   final ShowStoryView params;
-
-  late final PageController pageController;
-  final ValueNotifier<double> currentPageNotifier = ValueNotifier(0);
 
   ShowStoryViewModel({
     required this.params,
     required BuildContext context,
   }) {
     pageController = PageController();
-
     pageController.addListener(() {
       currentPageNotifier.value = pageController.page!;
     });
@@ -39,19 +25,15 @@ class ShowStoryViewModel extends BaseViewModel {
     load(params.id);
   }
 
-  int get currentPage => currentPageNotifier.value.round();
+  late final PageController pageController;
+  final ValueNotifier<double> currentPageNotifier = ValueNotifier(0);
   final Map<int, QuillController> quillControllers = {};
+
+  int get currentPage => currentPageNotifier.value.round();
 
   StoryDbModel? story;
   StoryContentDbModel? currentContent;
   TextSelection? currentTextSelection;
-
-  @override
-  void dispose() {
-    pageController.dispose();
-    currentPageNotifier.dispose();
-    super.dispose();
-  }
 
   Future<void> load(int? id) async {
     if (id != null) story = await StoryDbModel.db.find(id);
@@ -91,4 +73,21 @@ class ShowStoryViewModel extends BaseViewModel {
       await load(result.id);
     }
   }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    currentPageNotifier.dispose();
+    super.dispose();
+  }
+}
+
+Document _buildDocument(List<dynamic>? document) {
+  if (document != null && document.isNotEmpty) return Document.fromJson(document);
+  return Document();
+}
+
+List<Document> _buildDocuments(List<List<dynamic>>? pages) {
+  if (pages == null || pages.isEmpty == true) return [];
+  return pages.map((page) => _buildDocument(page)).toList();
 }

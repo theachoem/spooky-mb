@@ -38,7 +38,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
     );
   }
 
-  Container buildPageIndicator() {
+  Widget buildPageIndicator() {
     return Container(
       height: 48.0,
       alignment: Alignment.center,

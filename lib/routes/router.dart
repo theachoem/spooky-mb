@@ -19,7 +19,7 @@ final GoRouter $router = GoRouter(
       path: '/stories/:id',
       pageBuilder: (context, state) {
         return ShowStoryView(
-          id: int.tryParse(state.pathParameters['id']!),
+          id: int.parse(state.pathParameters['id']!),
         ).getRoute(context: context, state: state);
       },
     ),

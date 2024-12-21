@@ -15,6 +15,14 @@ class HomeViewModel extends BaseViewModel {
     load();
   }
 
+  Future<void> load() async {
+    stories = await StoryDbModel.db.where(filters: {
+      'year': year,
+      'type': PathType.docs.name,
+    });
+    notifyListeners();
+  }
+
   late final scrollInfo = _HomeScrollInfo(viewModel: () => this);
 
   int year = DateTime.now().year;
@@ -24,14 +32,6 @@ class HomeViewModel extends BaseViewModel {
     List<int> months = stories?.items.map((e) => e.month).toSet().toList() ?? [];
     if (months.isEmpty) months.add(DateTime.now().month);
     return months;
-  }
-
-  Future<void> load() async {
-    stories = await StoryDbModel.db.where(filters: {
-      'year': year,
-      'type': PathType.docs.name,
-    });
-    notifyListeners();
   }
 
   void changeYear(int newYear) async {

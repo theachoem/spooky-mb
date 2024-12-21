@@ -10,21 +10,8 @@ import 'package:spooky/core/services/story_writers/objects/shared_writer_object.
 import 'package:spooky/core/types/editing_flow_type.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 
-Document _buildDocument(List<dynamic>? document) {
-  if (document != null && document.isNotEmpty) return Document.fromJson(document);
-  return Document();
-}
-
-List<Document> _buildDocuments(List<List<dynamic>>? pages) {
-  if (pages == null || pages.isEmpty == true) return [];
-  return pages.map((page) => _buildDocument(page)).toList();
-}
-
 class EditStoryViewModel extends BaseViewModel {
   final EditStoryView params;
-
-  late final PageController pageController = PageController(initialPage: params.initialPageIndex);
-  final Map<int, QuillController> quillControllers = {};
 
   EditStoryViewModel({
     required this.params,
@@ -32,34 +19,24 @@ class EditStoryViewModel extends BaseViewModel {
     load();
   }
 
-  @override
-  void dispose() {
-    pageController.dispose();
-    quillControllers.forEach((e, k) => k.dispose());
-    super.dispose();
-  }
+  late final PageController pageController = PageController(initialPage: params.initialPageIndex);
+  final Map<int, QuillController> quillControllers = {};
+  final DateTime openedOn = DateTime.now();
 
   EditingFlowType? flowType;
   StoryDbModel? story;
   StoryContentDbModel? currentContent;
 
-  final DateTime openOn = DateTime.now();
-
   bool topToolbar = true;
   bool get showToolbarOnTop => quillControllers.isNotEmpty && topToolbar;
   bool get showToolbarOnBottom => quillControllers.isNotEmpty && !topToolbar;
-
-  void toggleToolbarPosition() {
-    topToolbar = !topToolbar;
-    notifyListeners();
-  }
 
   Future<void> load() async {
     if (params.storyId != null) story = await StoryDbModel.db.find(params.storyId!);
     flowType = story == null ? EditingFlowType.create : EditingFlowType.update;
 
-    story ??= StoryDbModel.fromDate(openOn);
-    currentContent = story!.changes.isNotEmpty ? story!.changes.last : StoryContentDbModel.create(createdAt: openOn);
+    story ??= StoryDbModel.fromDate(openedOn);
+    currentContent = story!.changes.isNotEmpty ? story!.changes.last : StoryContentDbModel.create(createdAt: openedOn);
 
     bool alreadyHasPage = currentContent?.pages?.isNotEmpty == true;
     if (!alreadyHasPage) currentContent = currentContent!..addPage();
@@ -84,6 +61,11 @@ class EditStoryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  void toggleToolbarPosition() {
+    topToolbar = !topToolbar;
+    notifyListeners();
+  }
+
   Future<void> save(BuildContext context) async {
     story = await DefaultStoryWriter(context).save(DefaultStoryObject(
       info: SharedWriterObject(
@@ -100,4 +82,21 @@ class EditStoryViewModel extends BaseViewModel {
     // ignore: use_build_context_synchronously
     Navigator.of(context).maybePop(story);
   }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    quillControllers.forEach((e, k) => k.dispose());
+    super.dispose();
+  }
+}
+
+Document _buildDocument(List<dynamic>? document) {
+  if (document != null && document.isNotEmpty) return Document.fromJson(document);
+  return Document();
+}
+
+List<Document> _buildDocuments(List<List<dynamic>>? pages) {
+  if (pages == null || pages.isEmpty == true) return [];
+  return pages.map((page) => _buildDocument(page)).toList();
 }
