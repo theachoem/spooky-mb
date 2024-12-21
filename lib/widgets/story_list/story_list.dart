@@ -12,11 +12,13 @@ class StoryList extends StatefulWidget {
     this.year,
     this.tagId,
     this.type,
+    this.query,
   });
 
   final int? year;
   final int? tagId;
   final PathType? type;
+  final String? query;
 
   @override
   State<StoryList> createState() => _StoryListState();
@@ -30,6 +32,7 @@ class _StoryListState extends State<StoryList> {
       'year': widget.year,
       'tag': widget.tagId,
       'type': widget.type?.name,
+      'query': widget.query,
     });
 
     setState(() {});

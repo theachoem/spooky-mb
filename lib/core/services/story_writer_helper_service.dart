@@ -18,8 +18,8 @@ class StoryWriteHelper {
   }) async {
     final pages = pagesData(currentContent, quillControllers).values.toList();
     final metadata = [
-      title,
-      quillControllers.entries.map((e) => plainText(e)).join("\n"),
+      if (title != null) title,
+      quillControllers.values.map((controller) => controller.document.toPlainText()).join("\n"),
     ].join("\n");
 
     final root = getElementAtIndex(quillControllers.values, 0)?.document.root;

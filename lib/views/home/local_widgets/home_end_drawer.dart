@@ -35,7 +35,7 @@ class _EndDrawer extends StatelessWidget {
           leading: const Icon(Icons.search),
           title: const Text('Search'),
           onTap: () {
-            popDrawer();
+            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const SearchView());
           },
         ),
         ListTile(

@@ -65,6 +65,7 @@ class ShowStoryViewModel extends BaseViewModel {
       quillControllers[i] = QuillController(
         document: documents[i],
         selection: const TextSelection.collapsed(offset: 0),
+        readOnly: true,
       );
     }
 

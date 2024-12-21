@@ -41,37 +41,51 @@ class StoryTile extends StatelessWidget {
                 Expanded(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     if (hasTitle)
-                      Text(
-                        content!.title!,
-                        style: TextTheme.of(context).titleMedium,
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
+                      Container(
+                        margin: const EdgeInsets.only(right: 16.0),
+                        child: Text(
+                          content!.title!,
+                          style: TextTheme.of(context).titleMedium,
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    if (hasBody) buildMarkdownBody(displayBody, context)
+                    if (hasBody)
+                      Container(
+                        margin: hasTitle ? null : const EdgeInsets.only(right: 24.0),
+                        child: buildMarkdownBody(
+                          displayBody,
+                          context,
+                        ),
+                      )
                   ]),
                 )
               ],
             ),
-            Positioned(
-              right: 0,
-              child: Container(
-                transform: Matrix4.identity()..translate(-16.0 * 2 + 48.0, 16.0 * 2 - 48.0),
-                child: IconButton(
-                  isSelected: story.starred,
-                  iconSize: 16.0,
-                  onPressed: onToggleStarred,
-                  selectedIcon: Icon(
-                    Icons.favorite,
-                    color: ColorScheme.of(context).error,
-                  ),
-                  icon: Icon(
-                    Icons.favorite_outline,
-                    color: ColorScheme.of(context).onSurface,
-                  ),
-                ),
-              ),
-            )
+            buildStarredButton(context)
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildStarredButton(BuildContext context) {
+    return Positioned(
+      right: 0,
+      child: Container(
+        transform: Matrix4.identity()..translate(-16.0 * 2 + 48.0, 16.0 * 2 - 48.0),
+        child: IconButton(
+          isSelected: story.starred,
+          iconSize: 16.0,
+          onPressed: onToggleStarred,
+          selectedIcon: Icon(
+            Icons.favorite,
+            color: ColorScheme.of(context).error,
+          ),
+          icon: Icon(
+            Icons.favorite_outline,
+            color: ColorScheme.of(context).onSurface,
+          ),
         ),
       ),
     );

@@ -23,7 +23,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
 
   @override
   QueryBuilder<StoryObjectBox>? buildQuery({Map<String, dynamic>? filters}) {
-    String? keyword = filters?["query"];
+    String? query = filters?["query"];
     String? type = filters?["type"];
     int? year = filters?["year"];
     int? month = filters?["month"];
@@ -44,10 +44,10 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     if (month != null) conditions = conditions.and(StoryObjectBox_.month.equals(month));
     if (day != null) conditions = conditions.and(StoryObjectBox_.day.equals(day));
 
-    if (keyword != null) {
+    if (query != null) {
       conditions = conditions.and(
         StoryObjectBox_.metadata.contains(
-          keyword,
+          query,
           caseSensitive: false,
         ),
       );
@@ -170,7 +170,7 @@ StoryObjectBox _objectConstructor(StoryDbModel story) {
     createdAt: story.createdAt,
     updatedAt: story.updatedAt,
     movedToBinAt: story.movedToBinAt,
-    metadata: story.changes.isNotEmpty ? story.changes.last.safeMetadata : "",
+    metadata: story.changes.isNotEmpty ? story.changes.last.safeMetadata : null,
     changes: StoryDbConstructorService.storyToRawChanges(story),
   );
   return object;
