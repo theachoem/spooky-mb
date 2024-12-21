@@ -39,11 +39,6 @@ class AppTheme extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         endShape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
-      iconButtonTheme: IconButtonThemeData(
-        style: ButtonStyle(
-          shape: WidgetStatePropertyAll(RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0))),
-        ),
-      ),
       textTheme: GoogleFonts.getTextTheme(
         provider.theme.fontFamily,
         TextTheme(

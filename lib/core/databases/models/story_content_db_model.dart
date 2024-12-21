@@ -8,6 +8,7 @@ part 'story_content_db_model.g.dart';
 @CopyWith()
 @JsonSerializable()
 class StoryContentDbModel extends BaseDbModel with ComparableConcern {
+  @override
   final int id;
   final String? title;
   final String? plainText;

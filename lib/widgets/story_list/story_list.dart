@@ -48,6 +48,16 @@ class _StoryListState extends State<StoryList> {
     super.initState();
   }
 
+  Future<void> toggleStarred(StoryDbModel story) async {
+    bool starred = story.starred == true;
+
+    StoryDbModel updatedStory = story.copyWith(starred: !starred);
+    StoryDbModel.db.set(updatedStory);
+
+    stories = stories?.copyWithNewElement(updatedStory);
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     if (stories?.items == null) return const Center(child: CircularProgressIndicator.adaptive());
@@ -66,6 +76,7 @@ class _StoryListState extends State<StoryList> {
                 await context.push('/stories/${stories?.items[index].id}');
                 await load();
               },
+              onToggleStarred: () => toggleStarred(stories!.items[index]),
             );
           },
         ),

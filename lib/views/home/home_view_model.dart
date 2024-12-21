@@ -34,13 +34,23 @@ class HomeViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  Future<void> goToViewPage(BuildContext context, StoryDbModel story) async {
-    await context.push('/stories/${story.id}');
+  void changeYear(int newYear) async {
+    year = newYear;
     await load();
   }
 
-  void changeYear(int newYear) async {
-    year = newYear;
+  Future<void> toggleStarred(StoryDbModel story) async {
+    bool starred = story.starred == true;
+
+    StoryDbModel updatedStory = story.copyWith(starred: !starred);
+    StoryDbModel.db.set(updatedStory);
+
+    stories = stories?.copyWithNewElement(updatedStory);
+    notifyListeners();
+  }
+
+  Future<void> goToViewPage(BuildContext context, StoryDbModel story) async {
+    await context.push('/stories/${story.id}');
     await load();
   }
 

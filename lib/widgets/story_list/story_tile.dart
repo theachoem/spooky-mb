@@ -11,10 +11,12 @@ class StoryTile extends StatelessWidget {
     super.key,
     required this.story,
     required this.onTap,
+    required this.onToggleStarred,
   });
 
   final StoryDbModel story;
   final void Function() onTap;
+  final void Function() onToggleStarred;
 
   @override
   Widget build(BuildContext context) {
@@ -28,22 +30,46 @@ class StoryTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 16.0,
+        child: Stack(
+          clipBehavior: Clip.none,
           children: [
-            buildMonogram(context),
-            Expanded(
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                if (hasTitle)
-                  Text(
-                    content!.title!,
-                    style: TextTheme.of(context).titleMedium,
-                    maxLines: 3,
-                    overflow: TextOverflow.ellipsis,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              spacing: 16.0,
+              children: [
+                buildMonogram(context),
+                Expanded(
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    if (hasTitle)
+                      Text(
+                        content!.title!,
+                        style: TextTheme.of(context).titleMedium,
+                        maxLines: 3,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    if (hasBody) buildMarkdownBody(displayBody, context)
+                  ]),
+                )
+              ],
+            ),
+            Positioned(
+              right: 0,
+              child: Container(
+                transform: Matrix4.identity()..translate(-16.0 * 2 + 48.0, 16.0 * 2 - 48.0),
+                child: IconButton(
+                  isSelected: story.starred,
+                  iconSize: 16.0,
+                  onPressed: onToggleStarred,
+                  selectedIcon: Icon(
+                    Icons.favorite,
+                    color: ColorScheme.of(context).error,
                   ),
-                if (hasBody) buildMarkdownBody(displayBody, context)
-              ]),
+                  icon: Icon(
+                    Icons.favorite_outline,
+                    color: ColorScheme.of(context).onSurface,
+                  ),
+                ),
+              ),
             )
           ],
         ),

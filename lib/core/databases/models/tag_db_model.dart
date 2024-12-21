@@ -10,6 +10,7 @@ part 'tag_db_model.g.dart';
 class TagDbModel extends BaseDbModel {
   static final TagBox db = TagBox();
 
+  @override
   final int id;
   final int index;
   final int version;

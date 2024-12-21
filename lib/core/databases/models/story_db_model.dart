@@ -14,9 +14,11 @@ part 'story_db_model.g.dart';
 class StoryDbModel extends BaseDbModel {
   static final StoryBox db = StoryBox();
 
+  @override
+  final int id;
+
   final int version;
   final PathType type;
-  final int id;
 
   final int year;
   final int month;

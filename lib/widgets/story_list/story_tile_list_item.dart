@@ -12,11 +12,13 @@ class StoryTileListItem extends StatelessWidget {
     required this.stories,
     required this.index,
     required this.onTap,
+    required this.onToggleStarred,
   });
 
   final int index;
   final CollectionDbModel<StoryDbModel> stories;
   final void Function() onTap;
+  final void Function() onToggleStarred;
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +30,11 @@ class StoryTileListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _StoryMonthHeader(index: index, context: context, story: story),
-          StoryTile(story: story, onTap: onTap),
+          StoryTile(story: story, onTap: onTap, onToggleStarred: onToggleStarred),
         ],
       );
     } else {
-      return StoryTile(story: story, onTap: onTap);
+      return StoryTile(story: story, onTap: onTap, onToggleStarred: onToggleStarred);
     }
   }
 }

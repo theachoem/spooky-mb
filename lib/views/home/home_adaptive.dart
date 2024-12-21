@@ -35,6 +35,7 @@ class _HomeAdaptive extends StatelessWidget {
             index: index,
             stories: viewModel.stories!,
             onTap: () => viewModel.goToViewPage(context, viewModel.stories!.items[index]),
+            onToggleStarred: () => viewModel.toggleStarred(viewModel.stories!.items[index]),
           );
         },
       ),
