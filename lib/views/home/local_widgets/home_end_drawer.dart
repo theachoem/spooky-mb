@@ -1,13 +1,15 @@
 part of '../home_view.dart';
 
 class _HomeEndDrawer extends StatelessWidget {
-  const _HomeEndDrawer();
+  const _HomeEndDrawer(this.viewModel);
+
+  final HomeViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: SpNestedNavigation(
-        initialScreen: _Drawer(
+        initialScreen: _EndDrawer(
           popDrawer: () => Navigator.of(context).pop(),
         ),
       ),
@@ -15,8 +17,8 @@ class _HomeEndDrawer extends StatelessWidget {
   }
 }
 
-class _Drawer extends StatelessWidget {
-  const _Drawer({
+class _EndDrawer extends StatelessWidget {
+  const _EndDrawer({
     required this.popDrawer,
   });
 
@@ -26,7 +28,7 @@ class _Drawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        buildHeader(context),
+        const _HomeEndDrawerHeader(),
         const Divider(height: 1),
         const SizedBox(height: 8.0),
         ListTile(
@@ -85,28 +87,41 @@ class _Drawer extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget buildHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "2024",
-            style: TextTheme.of(context).displayMedium,
-          ),
-          SpTapEffect(
-            onTap: () {},
-            child: Padding(
+class _HomeEndDrawerHeader extends StatelessWidget {
+  const _HomeEndDrawerHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () => SpNestedNavigation.maybeOf(context)?.pushShareAxis(const HomeYearsView()),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "2024",
+              style: TextTheme.of(context).displayMedium?.copyWith(color: ColorScheme.of(context).primary),
+            ),
+            Padding(
               padding: const EdgeInsets.only(top: 4.0, right: 8.0, bottom: 8.0),
-              child: Text(
-                "Switch",
-                style: TextTheme.of(context).labelLarge?.copyWith(color: ColorScheme.of(context).primary),
+              child: RichText(
+                text: TextSpan(
+                  text: "Switch",
+                  style: TextTheme.of(context).labelLarge,
+                  children: const [
+                    WidgetSpan(
+                      child: Icon(Icons.keyboard_arrow_down_outlined, size: 16.0),
+                      alignment: PlaceholderAlignment.middle,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

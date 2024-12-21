@@ -17,8 +17,9 @@ class HomeViewModel extends BaseViewModel {
 
   late final scrollInfo = _HomeScrollInfo(viewModel: () => this);
 
-  int year = 2024;
+  int year = DateTime.now().year;
   CollectionDbModel<StoryDbModel>? stories;
+
   List<int> get months {
     List<int> months = stories?.items.map((e) => e.month).toSet().toList() ?? [];
     if (months.isEmpty) months.add(DateTime.now().month);
@@ -26,12 +27,17 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> load() async {
-    stories = await StoryDbModel.db.where();
+    stories = await StoryDbModel.db.where(filters: {'year': year});
     notifyListeners();
   }
 
   Future<void> goToViewPage(BuildContext context, StoryDbModel story) async {
     await context.push('/stories/${story.id}');
+    await load();
+  }
+
+  void changeYear(int newYear) async {
+    year = newYear;
     await load();
   }
 

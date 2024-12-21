@@ -14,7 +14,7 @@ class _HomeAdaptive extends StatelessWidget {
       length: viewModel.months.length,
       child: _HomeScaffold(
         viewModel: viewModel,
-        endDrawer: const _HomeEndDrawer(),
+        endDrawer: _HomeEndDrawer(viewModel),
         appBar: HomeAppBar(viewModel: viewModel),
         body: buildBody(context),
         floatingActionButton: FloatingActionButton(

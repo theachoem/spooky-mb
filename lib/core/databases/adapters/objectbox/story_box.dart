@@ -10,6 +10,17 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   @override
   String get tableName => "stories";
 
+  Future<Map<int, int>> getStoryCountsByYear() async {
+    List<StoryObjectBox> stories = await box.getAllAsync();
+
+    Map<int, int> storyCountsByYear = stories.fold<Map<int, int>>({}, (counts, story) {
+      counts[story.year] = (counts[story.year] ?? 0) + 1;
+      return counts;
+    });
+
+    return storyCountsByYear;
+  }
+
   @override
   QueryBuilder<StoryObjectBox>? buildQuery({Map<String, dynamic>? filters}) {
     String? keyword = filters?["query"];
