@@ -8,6 +8,12 @@ class _StoryDetailsAdaptive extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      endDrawer: viewModel.story != null
+          ? TagsEndDrawer(
+              onUpdated: (tags) => viewModel.setTags(tags),
+              initialTags: viewModel.story?.tags ?? [],
+            )
+          : null,
       appBar: AppBar(
         clipBehavior: Clip.none,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -17,10 +23,12 @@ class _StoryDetailsAdaptive extends StatelessWidget {
           if (viewModel.draftContent?.pages?.length != null && viewModel.draftContent!.pages!.length > 1)
             buildPageIndicator(),
           const SizedBox(width: 12.0),
-          IconButton(
-            icon: const Icon(Icons.sell_outlined),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
+          Builder(builder: (context) {
+            return IconButton(
+              icon: const Icon(Icons.sell_outlined),
+              onPressed: () => Scaffold.of(context).openEndDrawer(),
+            );
+          }),
           SpFeelingButton(
             feeling: viewModel.story?.feeling,
             onPicked: (feeling) => viewModel.setFeeling(feeling),

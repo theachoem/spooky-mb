@@ -8,8 +8,6 @@ import 'tags_view_model.dart';
 part 'tags_adaptive.dart';
 
 class TagsRoute extends BaseRoute {
-  TagsRoute();
-
   @override
   Widget buildPage(BuildContext context) => TagsView(params: this);
 

@@ -75,6 +75,16 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
     notifyListeners();
   }
 
+  Future<bool> setTags(List<int> tags) async {
+    story = story!.copyWith(updatedAt: DateTime.now(), tags: tags.toSet().toList());
+    notifyListeners();
+
+    await StoryDbModel.db.set(story!);
+    lastSavedAtNotifier.value = story?.updatedAt;
+
+    return true;
+  }
+
   Future<void> setFeeling(String? feeling) async {
     story = story!.copyWith(updatedAt: DateTime.now(), feeling: feeling);
     notifyListeners();

@@ -51,6 +51,14 @@ class ShowStoryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  Future<bool> setTags(List<int> tags) async {
+    story = story!.copyWith(updatedAt: DateTime.now(), tags: tags.toSet().toList());
+    await StoryDbModel.db.set(story!);
+    notifyListeners();
+
+    return true;
+  }
+
   Future<void> setFeeling(String? feeling) async {
     story = story!.copyWith(
       updatedAt: DateTime.now(),
