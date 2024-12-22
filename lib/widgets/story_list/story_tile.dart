@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/color_from_day_service.dart';
+import 'package:spooky/core/services/date_format_service.dart';
 import 'package:spooky/widgets/sp_markdown_body.dart';
 
 class StoryTile extends StatelessWidget {
-  static const double monogramSize = 36;
+  static const double monogramSize = 32;
 
   const StoryTile({
     super.key,
@@ -88,18 +89,33 @@ class StoryTile extends StatelessWidget {
   }
 
   Widget buildMonogram(BuildContext context) {
-    return Container(
-      width: monogramSize,
-      height: monogramSize,
-      decoration: BoxDecoration(
-        color: ColorFromDayService(context: context).get(story.displayPathDate.weekday),
-        shape: BoxShape.circle,
-      ),
-      alignment: Alignment.center,
-      child: Text(
-        story.displayPathDate.day.toString(),
-        style: TextTheme.of(context).bodyLarge?.copyWith(color: ColorScheme.of(context).onPrimary),
-      ),
+    return Column(
+      spacing: 4.0,
+      children: [
+        Container(
+          constraints: const BoxConstraints(maxWidth: 20 * 2),
+          child: Text(
+            DateFormatService.E(story.displayPathDate),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            style: TextTheme.of(context).labelMedium,
+          ),
+        ),
+        Container(
+          width: monogramSize,
+          height: monogramSize,
+          decoration: BoxDecoration(
+            color: ColorFromDayService(context: context).get(story.displayPathDate.weekday),
+            shape: BoxShape.circle,
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            story.displayPathDate.day.toString(),
+            style: TextTheme.of(context).bodyMedium?.copyWith(color: ColorScheme.of(context).onPrimary),
+          ),
+        ),
+      ],
     );
   }
 }

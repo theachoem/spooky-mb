@@ -3,6 +3,10 @@
 import 'package:intl/intl.dart';
 
 class DateFormatService {
+  static String E(DateTime date) {
+    return DateFormat.E().format(date);
+  }
+
   static String MMM(DateTime date) {
     return DateFormat.MMM().format(date);
   }
