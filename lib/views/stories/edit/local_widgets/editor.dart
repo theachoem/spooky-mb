@@ -18,7 +18,7 @@ class _Editor extends StatelessWidget {
     return Column(
       children: [
         buildTopToolbar(context),
-        Expanded(child: buildPagesEditor()),
+        Expanded(child: buildPagesEditor(context)),
         buildBottomToolbar(context),
       ],
     );
@@ -51,11 +51,13 @@ class _Editor extends StatelessWidget {
     );
   }
 
-  Widget buildPagesEditor() {
+  Widget buildPagesEditor(BuildContext context) {
     return QuillEditor.basic(
       controller: controller,
-      configurations: const QuillEditorConfigurations(
-        padding: EdgeInsets.all(16.0),
+      configurations: QuillEditorConfigurations(
+        padding: const EdgeInsets.all(16.0).copyWith(
+          bottom: 88 + MediaQuery.of(context).viewPadding.bottom,
+        ),
         autoFocus: true,
         enableScribble: true,
       ),
@@ -76,62 +78,9 @@ class _Editor extends StatelessWidget {
         IntrinsicHeight(
           child: Row(children: [
             Expanded(
-              child: QuillSimpleToolbar(
-                controller: controller,
-                configurations: QuillSimpleToolbarConfigurations(
-                  buttonOptions: QuillSimpleToolbarButtonOptions(
-                    color: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
-                      return SpQuillToolbarColorButton(
-                        controller: extraOptions.controller,
-                        isBackground: false,
-                        positionedOnUpper: showToolbarOnTop,
-                      );
-                    }),
-                    backgroundColor: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
-                      return SpQuillToolbarColorButton(
-                        controller: extraOptions.controller,
-                        isBackground: true,
-                        positionedOnUpper: showToolbarOnTop,
-                      );
-                    }),
-                  ),
-                  multiRowsDisplay: false,
-                  showDividers: true,
-                  showFontFamily: false,
-                  showFontSize: false,
-                  showBoldButton: true,
-                  showItalicButton: true,
-                  showSmallButton: true,
-                  showUnderLineButton: true,
-                  showLineHeightButton: false,
-                  showStrikeThrough: true,
-                  showInlineCode: true,
-                  showColorButton: true,
-                  showBackgroundColorButton: true,
-                  showClearFormat: true,
-                  showAlignmentButtons: true,
-                  showLeftAlignment: true,
-                  showCenterAlignment: true,
-                  showRightAlignment: true,
-                  showJustifyAlignment: true,
-                  showHeaderStyle: false,
-                  showListNumbers: true,
-                  showListBullets: true,
-                  showListCheck: true,
-                  showCodeBlock: false,
-                  showQuote: true,
-                  showIndent: true,
-                  showLink: true,
-                  showUndo: true,
-                  showRedo: true,
-                  showDirection: false,
-                  showSearchButton: true,
-                  showSubscript: false,
-                  showSuperscript: false,
-                  showClipboardCut: false,
-                  showClipboardCopy: false,
-                  showClipboardPaste: false,
-                ),
+              child: SizedBox(
+                height: double.infinity,
+                child: buildActualToolbar(),
               ),
             ),
             const VerticalDivider(width: 1),
@@ -143,6 +92,66 @@ class _Editor extends StatelessWidget {
         ),
         if (showToolbarOnTop) const Divider(height: 1),
       ]),
+    );
+  }
+
+  Widget buildActualToolbar() {
+    return QuillSimpleToolbar(
+      controller: controller,
+      configurations: QuillSimpleToolbarConfigurations(
+        buttonOptions: QuillSimpleToolbarButtonOptions(
+          color: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
+            return SpQuillToolbarColorButton(
+              controller: extraOptions.controller,
+              isBackground: false,
+              positionedOnUpper: showToolbarOnTop,
+            );
+          }),
+          backgroundColor: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
+            return SpQuillToolbarColorButton(
+              controller: extraOptions.controller,
+              isBackground: true,
+              positionedOnUpper: showToolbarOnTop,
+            );
+          }),
+        ),
+        multiRowsDisplay: false,
+        showDividers: true,
+        showFontFamily: false,
+        showFontSize: false,
+        showBoldButton: true,
+        showItalicButton: true,
+        showSmallButton: true,
+        showUnderLineButton: true,
+        showLineHeightButton: false,
+        showStrikeThrough: true,
+        showInlineCode: true,
+        showColorButton: true,
+        showBackgroundColorButton: true,
+        showClearFormat: true,
+        showAlignmentButtons: true,
+        showLeftAlignment: true,
+        showCenterAlignment: true,
+        showRightAlignment: true,
+        showJustifyAlignment: true,
+        showHeaderStyle: false,
+        showListNumbers: true,
+        showListBullets: true,
+        showListCheck: true,
+        showCodeBlock: false,
+        showQuote: true,
+        showIndent: true,
+        showLink: true,
+        showUndo: true,
+        showRedo: true,
+        showDirection: false,
+        showSearchButton: true,
+        showSubscript: false,
+        showSuperscript: false,
+        showClipboardCut: false,
+        showClipboardCopy: false,
+        showClipboardPaste: false,
+      ),
     );
   }
 }

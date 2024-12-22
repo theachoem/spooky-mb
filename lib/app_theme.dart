@@ -3,6 +3,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/extensions/color_scheme_extensions.dart';
 import 'package:spooky/providers/theme_provider.dart';
 
 class AppTheme extends StatelessWidget {
@@ -33,8 +34,12 @@ class AppTheme extends StatelessWidget {
     }
 
     return theme.copyWith(
+      scaffoldBackgroundColor: colorScheme?.surface,
       colorScheme: colorScheme,
-      appBarTheme: const AppBarTheme(centerTitle: false),
+      appBarTheme: AppBarTheme(
+        centerTitle: false,
+        backgroundColor: colorScheme?.readOnly.surface1,
+      ),
       drawerTheme: const DrawerThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         endShape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -71,6 +76,8 @@ class AppTheme extends StatelessWidget {
   }) {
     if (provider.theme.colorSeed == Colors.black || provider.theme.colorSeed == Colors.white) {
       final darkScheme = ColorScheme.dark(
+        outline: Colors.white10,
+        outlineVariant: Colors.white24,
         primary: Colors.white,
         onPrimary: Colors.black,
         secondary: Colors.white,
@@ -85,6 +92,8 @@ class AppTheme extends StatelessWidget {
       );
 
       final lightScheme = ColorScheme.light(
+        outline: Colors.black12,
+        outlineVariant: Colors.black26,
         primary: Colors.black87,
         onPrimary: Colors.white,
         secondary: Colors.black,

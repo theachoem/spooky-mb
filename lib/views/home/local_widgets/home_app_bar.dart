@@ -18,8 +18,6 @@ class HomeAppBar extends StatelessWidget {
       elevation: 0.0,
       scrolledUnderElevation: 0.0,
       forceElevated: false,
-      surfaceTintColor: Theme.of(context).colorScheme.surface,
-      backgroundColor: Theme.of(context).colorScheme.surface,
       expandedHeight: viewModel.scrollInfo.getExpandedHeight(context),
       flexibleSpace: buildFlexibleSpaceBar(context),
       bottom: buildTabBar(context),
