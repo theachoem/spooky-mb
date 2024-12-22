@@ -57,7 +57,7 @@ class _StoryListState extends State<StoryList> {
     StoryDbModel updatedStory = story.copyWith(starred: !starred);
     StoryDbModel.db.set(updatedStory);
 
-    stories = stories?.copyWithNewElement(updatedStory);
+    stories = stories?.replaceElement(updatedStory);
     setState(() {});
   }
 

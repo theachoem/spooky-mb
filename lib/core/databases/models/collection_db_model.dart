@@ -7,7 +7,7 @@ class CollectionDbModel<T extends BaseDbModel> {
     required this.items,
   });
 
-  CollectionDbModel<T> copyWithNewElement(T item) {
+  CollectionDbModel<T> replaceElement(T item) {
     List<T> newItems = items.toList();
     int index = newItems.indexWhere((e) => e.id == item.id);
     newItems[index] = item;

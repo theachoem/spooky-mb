@@ -25,6 +25,14 @@ class _HomeAdaptive extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context) {
+    if (viewModel.stories == null) {
+      return const SliverFillRemaining(
+        child: Center(
+          child: CircularProgressIndicator.adaptive(),
+        ),
+      );
+    }
+
     return SliverPadding(
       padding: const EdgeInsets.symmetric(vertical: 16.0)
           .copyWith(left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right),
