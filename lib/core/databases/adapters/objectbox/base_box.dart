@@ -18,11 +18,11 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
     return _box!;
   }
 
-  Future<B> objectConstructor(T object, [Map<String, dynamic>? params]);
-  Future<T> objectTransformer(B object, [Map<String, dynamic>? params]);
+  Future<B> objectConstructor(T object, [Map<String, dynamic>? options]);
+  Future<T> objectTransformer(B object, [Map<String, dynamic>? options]);
   Future<List<T>> itemsTransformer(
     List<B> objects, [
-    Map<String, dynamic>? params,
+    Map<String, dynamic>? options,
   ]);
 
   Future<void> initilize() async {

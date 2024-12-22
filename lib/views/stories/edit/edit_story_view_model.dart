@@ -38,7 +38,7 @@ class EditStoryViewModel extends BaseViewModel {
   }
 
   Future<void> load() async {
-    if (params.storyId != null) story = await StoryDbModel.db.find(params.storyId!);
+    if (params.id != null) story = await StoryDbModel.db.find(params.id!);
     flowType = story == null ? EditingFlowType.create : EditingFlowType.update;
 
     lastSavedAtNotifier.value = story?.updatedAt;

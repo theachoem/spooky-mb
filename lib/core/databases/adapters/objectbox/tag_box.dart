@@ -34,28 +34,28 @@ class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
   }
 
   @override
-  Future<List<TagDbModel>> itemsTransformer(List<TagObjectBox> objects, [Map<String, dynamic>? params]) {
-    return compute(_itemsTransformer, {'objects': objects, 'params': params});
+  Future<List<TagDbModel>> itemsTransformer(List<TagObjectBox> objects, [Map<String, dynamic>? options]) {
+    return compute(_itemsTransformer, {'objects': objects, 'options': options});
   }
 
   @override
-  Future<TagObjectBox> objectConstructor(TagDbModel object, [Map<String, dynamic>? params]) {
-    return compute(_objectConstructor, {'object': object, 'params': params});
+  Future<TagObjectBox> objectConstructor(TagDbModel object, [Map<String, dynamic>? options]) {
+    return compute(_objectConstructor, {'object': object, 'options': options});
   }
 
   @override
-  Future<TagDbModel> objectTransformer(TagObjectBox object, [Map<String, dynamic>? params]) {
-    return compute(_objectTransformer, {'object': object, 'params': params});
+  Future<TagDbModel> objectTransformer(TagObjectBox object, [Map<String, dynamic>? options]) {
+    return compute(_objectTransformer, {'object': object, 'options': options});
   }
 }
 
-List<TagDbModel> _itemsTransformer(Map<String, dynamic> message) {
-  List<TagObjectBox> objects = message['objects'];
+List<TagDbModel> _itemsTransformer(Map<String, dynamic> options) {
+  List<TagObjectBox> objects = options['objects'];
   return objects.map((object) => _objectTransformer({'object': object})).toList();
 }
 
-TagObjectBox _objectConstructor(Map<String, dynamic> message) {
-  TagDbModel object = message['object'];
+TagObjectBox _objectConstructor(Map<String, dynamic> options) {
+  TagDbModel object = options['object'];
 
   return TagObjectBox(
     id: object.id,
@@ -69,8 +69,8 @@ TagObjectBox _objectConstructor(Map<String, dynamic> message) {
   );
 }
 
-TagDbModel _objectTransformer(Map<String, dynamic> message) {
-  TagObjectBox object = message['object'];
+TagDbModel _objectTransformer(Map<String, dynamic> options) {
+  TagObjectBox object = options['object'];
 
   return TagDbModel(
     id: object.id,

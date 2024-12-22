@@ -92,7 +92,7 @@ class ShowStoryViewModel extends BaseViewModel {
       AnimatedPageRoute.sharedAxis(
         type: SharedAxisTransitionType.vertical,
         builder: (context) => EditStoryView(
-          storyId: story!.id,
+          id: story!.id,
           initialPageIndex: currentPage,
           quillControllers: quillControllers,
         ),

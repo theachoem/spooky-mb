@@ -93,7 +93,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   @override
   Future<List<StoryDbModel>> itemsTransformer(
     List<StoryObjectBox> objects, [
-    Map<String, dynamic>? params,
+    Map<String, dynamic>? options,
   ]) {
     return compute(_itemsTransformer, {'objects': objects});
   }
@@ -101,7 +101,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   @override
   Future<StoryObjectBox> objectConstructor(
     StoryDbModel object, [
-    Map<String, dynamic>? params,
+    Map<String, dynamic>? options,
   ]) {
     return compute(_objectConstructor, object);
   }
@@ -109,7 +109,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   @override
   Future<StoryDbModel> objectTransformer(
     StoryObjectBox object, [
-    Map<String, dynamic>? params,
+    Map<String, dynamic>? options,
   ]) {
     return compute(_objectTransformer, {'object': object});
   }

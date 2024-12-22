@@ -13,13 +13,13 @@ part 'local_widgets/editor.dart';
 class EditStoryView extends StatelessWidget {
   const EditStoryView({
     super.key,
-    this.storyId,
+    this.id,
     this.initialYear,
     this.initialPageIndex = 0,
     this.quillControllers,
-  }) : assert(initialYear == null || storyId == null);
+  }) : assert(initialYear == null || id == null);
 
-  final int? storyId;
+  final int? id;
   final int? initialYear;
   final int initialPageIndex;
   final Map<int, QuillController>? quillControllers;
