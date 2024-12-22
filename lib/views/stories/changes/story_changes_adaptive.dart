@@ -1,9 +1,9 @@
-part of 'changes_story_view.dart';
+part of 'story_changes_view.dart';
 
-class _ChangesStoryAdaptive extends StatelessWidget {
-  const _ChangesStoryAdaptive(this.viewModel);
+class _StoryChangesAdaptive extends StatelessWidget {
+  const _StoryChangesAdaptive(this.viewModel);
 
-  final ChangesStoryViewModel viewModel;
+  final StoryChangesViewModel viewModel;
 
   @override
   Widget build(BuildContext context) {

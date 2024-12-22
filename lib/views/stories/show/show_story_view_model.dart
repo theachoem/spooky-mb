@@ -5,7 +5,7 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/story_helper.dart';
-import 'package:spooky/views/stories/changes/changes_story_view.dart';
+import 'package:spooky/views/stories/changes/story_changes_view.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
 
@@ -102,7 +102,7 @@ class ShowStoryViewModel extends BaseViewModel {
   }
 
   Future<void> goToChangesPage(BuildContext context) async {
-    ChangesStoryRoute(id: story!.id).push(context);
+    StoryChangesRoute(id: story!.id).push(context);
     await load(story!.id);
   }
 

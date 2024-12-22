@@ -6,12 +6,12 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/messenger_service.dart';
-import 'package:spooky/views/stories/changes/changes_story_view.dart';
+import 'package:spooky/views/stories/changes/story_changes_view.dart';
 
-class ChangesStoryViewModel extends BaseViewModel {
-  final ChangesStoryRoute params;
+class StoryChangesViewModel extends BaseViewModel {
+  final StoryChangesRoute params;
 
-  ChangesStoryViewModel({
+  StoryChangesViewModel({
     required this.params,
   }) {
     load();

@@ -8,35 +8,35 @@ import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_markdown_body.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 
-import 'changes_story_view_model.dart';
+import 'story_changes_view_model.dart';
 
-part 'changes_story_adaptive.dart';
+part 'story_changes_adaptive.dart';
 
-class ChangesStoryRoute extends BaseRoute {
+class StoryChangesRoute extends BaseRoute {
   final int id;
 
-  ChangesStoryRoute({
+  StoryChangesRoute({
     required this.id,
   });
 
   @override
-  Widget buildPage(BuildContext context) => ChangesStoryView(params: this);
+  Widget buildPage(BuildContext context) => StoryChangesView(params: this);
 }
 
-class ChangesStoryView extends StatelessWidget {
-  const ChangesStoryView({
+class StoryChangesView extends StatelessWidget {
+  const StoryChangesView({
     super.key,
     required this.params,
   });
 
-  final ChangesStoryRoute params;
+  final StoryChangesRoute params;
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelProvider<ChangesStoryViewModel>(
-      create: (context) => ChangesStoryViewModel(params: params),
+    return ViewModelProvider<StoryChangesViewModel>(
+      create: (context) => StoryChangesViewModel(params: params),
       builder: (context, viewModel, child) {
-        return _ChangesStoryAdaptive(viewModel);
+        return _StoryChangesAdaptive(viewModel);
       },
     );
   }
