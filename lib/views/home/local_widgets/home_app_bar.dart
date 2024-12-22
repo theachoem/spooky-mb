@@ -37,7 +37,7 @@ class HomeAppBar extends StatelessWidget {
           indicatorAnimation: TabIndicatorAnimation.linear,
           labelColor: Theme.of(context).colorScheme.onPrimary,
           unselectedLabelColor: Theme.of(context).colorScheme.primary,
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
           indicator: RoundedIndicator.simple(
             height: _indicatorHeight,
             color: Theme.of(context).colorScheme.primary,

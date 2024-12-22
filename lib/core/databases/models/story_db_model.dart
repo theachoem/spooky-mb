@@ -96,6 +96,11 @@ class StoryDbModel extends BaseDbModel {
     return null;
   }
 
+  bool sameDayAs(StoryDbModel story) {
+    return [displayPathDate.year, displayPathDate.month, displayPathDate.day].join("-") ==
+        [story.displayPathDate.year, story.displayPathDate.month, story.displayPathDate.day].join("-");
+  }
+
   factory StoryDbModel.fromNow() {
     final now = DateTime.now();
     return StoryDbModel.fromDate(now);

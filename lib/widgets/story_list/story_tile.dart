@@ -13,11 +13,13 @@ class StoryTile extends StatelessWidget {
     required this.story,
     required this.onTap,
     required this.onToggleStarred,
+    required this.showMonogram,
   });
 
   final StoryDbModel story;
   final void Function() onTap;
   final void Function() onToggleStarred;
+  final bool showMonogram;
 
   @override
   Widget build(BuildContext context) {
@@ -89,11 +91,28 @@ class StoryTile extends StatelessWidget {
   }
 
   Widget buildMonogram(BuildContext context) {
+    if (!showMonogram) {
+      return Container(
+        width: monogramSize,
+        margin: const EdgeInsets.only(top: 9.0, left: 0.5),
+        alignment: Alignment.center,
+        child: Container(
+          width: 3,
+          height: 3,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: ColorScheme.of(context).onSurface,
+          ),
+        ),
+      );
+    }
+
     return Column(
       spacing: 4.0,
       children: [
         Container(
-          constraints: const BoxConstraints(maxWidth: 20 * 2),
+          width: monogramSize,
+          color: ColorScheme.of(context).surface.withValues(),
           child: Text(
             DateFormatService.E(story.displayPathDate),
             maxLines: 1,

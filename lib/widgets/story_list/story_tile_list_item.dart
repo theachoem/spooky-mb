@@ -27,16 +27,28 @@ class StoryTileListItem extends StatelessWidget {
     StoryDbModel? previousStory = index - 1 >= 0 ? stories.items[index - 1] : null;
     StoryDbModel story = stories.items[index];
 
+    bool showMonogram = previousStory == null || !previousStory.sameDayAs(story);
+
     if (previousStory?.month != story.month) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _StoryMonthHeader(index: index, context: context, story: story, showYear: showYear),
-          StoryTile(story: story, onTap: onTap, onToggleStarred: onToggleStarred),
+          StoryTile(
+            story: story,
+            onTap: onTap,
+            onToggleStarred: onToggleStarred,
+            showMonogram: showMonogram,
+          ),
         ],
       );
     } else {
-      return StoryTile(story: story, onTap: onTap, onToggleStarred: onToggleStarred);
+      return StoryTile(
+        story: story,
+        onTap: onTap,
+        onToggleStarred: onToggleStarred,
+        showMonogram: showMonogram,
+      );
     }
   }
 }
