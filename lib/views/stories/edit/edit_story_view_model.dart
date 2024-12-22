@@ -2,13 +2,14 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/base/base_view_model.dart';
+import 'package:spooky/core/concerns/schedule_concern.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/story_helper.dart';
 import 'package:spooky/core/types/editing_flow_type.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 
-class EditStoryViewModel extends BaseViewModel {
+class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
   final EditStoryView params;
 
   EditStoryViewModel({
@@ -97,11 +98,23 @@ class EditStoryViewModel extends BaseViewModel {
     }
   }
 
-  Future<void> silentlySave() async {
-    story = await StoryDbModel.fromDetailPage(this);
-    await StoryDbModel.db.set(story!);
+  void silentlySave() {
+    scheduleAction(() async {
+      if (await getHasChange()) {
+        story = await StoryDbModel.fromDetailPage(this);
+        await StoryDbModel.db.set(story!);
 
-    lastSavedAtNotifier.value = story?.updatedAt;
+        lastSavedAtNotifier.value = story?.updatedAt;
+      }
+    });
+  }
+
+  Future<bool> getHasChange() async {
+    StoryContentDbModel content = await StoryHelper.buildContent(
+      draftContent!,
+      quillControllers,
+    );
+    return content.hasChanges(story!.latestChange!);
   }
 
   @override

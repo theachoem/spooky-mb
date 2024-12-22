@@ -16,19 +16,13 @@ class _EditStoryAdaptive extends StatelessWidget {
                 child: Text(viewModel.draftContent?.title ?? 'Title...'),
               ),
         actions: [
-          ValueListenableBuilder(
-            valueListenable: viewModel.lastSavedAtNotifier,
-            builder: (context, lastSavedAt, child) {
-              if (lastSavedAt == null) return const SizedBox.shrink();
-              return Container(
-                margin: const EdgeInsets.only(right: 16.0),
-                child: Text(
-                  lastSavedAt.toString(),
-                  style: TextTheme.of(context).bodyMedium,
-                ),
-              );
-            },
-          )
+          buildSavedMessage(),
+          const SizedBox(width: 8.0),
+          IconButton(
+            icon: const Icon(Icons.save),
+            onPressed: () => context.pop(),
+          ),
+          const SizedBox(width: 4.0),
         ],
       ),
       body: buildBody(),
@@ -54,5 +48,33 @@ class _EditStoryAdaptive extends StatelessWidget {
         },
       );
     }
+  }
+
+  Widget buildSavedMessage() {
+    return ValueListenableBuilder(
+      valueListenable: viewModel.lastSavedAtNotifier,
+      builder: (context, lastSavedAt, child) {
+        if (lastSavedAt == null) return const SizedBox.shrink();
+
+        return Tooltip(
+          message: "This story is auto saved at ${DateFormatService.jms(lastSavedAt)}",
+          child: RichText(
+            text: TextSpan(
+              style: TextTheme.of(context).bodyMedium,
+              text: DateFormatService.jms(lastSavedAt),
+              children: const [
+                WidgetSpan(
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 4.0),
+                    child: Icon(Icons.check_circle_outline, size: 16.0),
+                  ),
+                  alignment: PlaceholderAlignment.middle,
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

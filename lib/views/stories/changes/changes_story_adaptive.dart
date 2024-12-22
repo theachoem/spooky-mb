@@ -70,7 +70,7 @@ class _ChangesStoryAdaptive extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                DateFormat.yMEd().addPattern("- ${DateFormat.jms().pattern!}").format(change.createdAt),
+                DateFormatService.yMEd_jms(change.createdAt),
                 style: TextTheme.of(context).labelMedium?.copyWith(color: ColorScheme.of(context).primary),
               ),
               const SizedBox(height: 4.0),
