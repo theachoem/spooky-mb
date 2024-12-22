@@ -25,6 +25,11 @@ class _StoryDetailsAdaptive extends StatelessWidget {
                 leadingIconData: Icons.edit,
                 onPressed: () => viewModel.renameTitle(context),
               ),
+              SpPopMenuItem(
+                title: 'Changes History',
+                leadingIconData: Icons.history,
+                onPressed: () => viewModel.goToChangesPage(context),
+              ),
             ];
           },
         ),

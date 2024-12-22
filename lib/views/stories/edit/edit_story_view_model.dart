@@ -18,7 +18,7 @@ class EditStoryViewModel extends BaseViewModel {
   }
 
   late final PageController pageController = PageController(initialPage: params.initialPageIndex);
-  final Map<int, QuillController> quillControllers = {};
+  Map<int, QuillController> quillControllers = {};
   final DateTime openedOn = DateTime.now();
 
   int get currentPageIndex => pageController.page!.round().toInt();
@@ -59,13 +59,14 @@ class EditStoryViewModel extends BaseViewModel {
         )..addListener(() => silentlySave());
       }
     } else {
-      List<Document> documents = await StoryHelper.buildDocuments(draftContent?.pages);
-      for (int i = 0; i < documents.length; i++) {
-        quillControllers[i] = QuillController(
-          document: documents[i],
-          selection: const TextSelection.collapsed(offset: 0),
-        )..addListener(() => silentlySave());
-      }
+      quillControllers = await StoryHelper.buildQuillControllers(
+        draftContent!,
+        readOnly: false,
+      );
+
+      quillControllers.forEach((_, controller) {
+        controller.addListener(() => silentlySave());
+      });
     }
 
     notifyListeners();

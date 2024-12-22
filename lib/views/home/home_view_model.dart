@@ -69,7 +69,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> goToNewPage(BuildContext context) async {
-    await context.push('/stories/new?initial_year=$year');
+    await context.push('/stories/new?initialYear=$year');
     await load();
   }
 

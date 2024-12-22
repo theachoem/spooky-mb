@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/services/quill_service.dart';
@@ -57,6 +58,23 @@ class StoryHelper {
       pages: updatedPages,
       metadata: metadata,
     );
+  }
+
+  static Future<Map<int, QuillController>> buildQuillControllers(
+    StoryContentDbModel content, {
+    required bool readOnly,
+  }) async {
+    final Map<int, QuillController> quillControllers = {};
+    List<Document> documents = await StoryHelper.buildDocuments(content.pages);
+    for (int i = 0; i < documents.length; i++) {
+      quillControllers[i] = QuillController(
+        document: documents[i],
+        selection: const TextSelection.collapsed(offset: 0),
+        readOnly: readOnly,
+      );
+    }
+
+    return quillControllers;
   }
 
   static Future<Document> buildDocument(List<dynamic>? document) async {

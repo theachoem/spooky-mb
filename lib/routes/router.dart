@@ -3,6 +3,7 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:go_router/go_router.dart';
 import 'package:spooky/routes/utils/animated_page_route.dart';
 import 'package:spooky/views/home/home_view.dart';
+import 'package:spooky/views/stories/changes/changes_story_view.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
 
@@ -19,8 +20,8 @@ final GoRouter $router = GoRouter(
       path: '/stories/new',
       pageBuilder: (context, state) {
         return EditStoryView(
-          storyId: null,
-          initialYear: int.tryParse(state.uri.queryParameters['initial_year'] ?? ''),
+          id: null,
+          initialYear: int.tryParse(state.uri.queryParameters['initialYear'] ?? ''),
         ).getRoute(context: context, state: state);
       },
     ),
@@ -35,9 +36,15 @@ final GoRouter $router = GoRouter(
     GoRoute(
       path: '/stories/:id/edit',
       pageBuilder: (context, state) => EditStoryView(
-        storyId: int.tryParse(state.pathParameters['id']!)!,
+        id: int.tryParse(state.pathParameters['id']!)!,
         initialPageIndex: int.tryParse(state.uri.queryParameters['initialPageIndex'] ?? '') ?? 0,
         quillControllers: state.extra is Map<int, QuillController> ? state.extra as Map<int, QuillController> : null,
+      ).getRoute(context: context, state: state),
+    ),
+    GoRoute(
+      path: '/stories/:id/changes',
+      pageBuilder: (context, state) => ChangesStoryView(
+        id: int.tryParse(state.pathParameters['id']!)!,
       ).getRoute(context: context, state: state),
     ),
   ],

@@ -1,12 +1,11 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:go_router/go_router.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/story_helper.dart';
-import 'package:spooky/routes/utils/animated_page_route.dart';
-import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
 
 class ShowStoryViewModel extends BaseViewModel {
@@ -26,7 +25,7 @@ class ShowStoryViewModel extends BaseViewModel {
 
   late final PageController pageController;
   final ValueNotifier<double> currentPageNotifier = ValueNotifier(0);
-  final Map<int, QuillController> quillControllers = {};
+  Map<int, QuillController> quillControllers = {};
 
   int get currentPage => currentPageNotifier.value.round();
 
@@ -44,15 +43,7 @@ class ShowStoryViewModel extends BaseViewModel {
     bool alreadyHasPage = draftContent?.pages?.isNotEmpty == true;
     if (!alreadyHasPage) draftContent = draftContent!..addPage();
 
-    List<Document> documents = await StoryHelper.buildDocuments(draftContent?.pages);
-    for (int i = 0; i < documents.length; i++) {
-      quillControllers[i] = QuillController(
-        document: documents[i],
-        selection: const TextSelection.collapsed(offset: 0),
-        readOnly: true,
-      );
-    }
-
+    quillControllers = await StoryHelper.buildQuillControllers(draftContent!, readOnly: true);
     notifyListeners();
   }
 
@@ -86,19 +77,12 @@ class ShowStoryViewModel extends BaseViewModel {
 
   Future<void> goToEditPage(BuildContext context) async {
     if (draftContent == null || draftContent?.pages == null || pageController.page == null) return;
-    int currentPage = this.currentPage;
+    await context.push('/stories/${story!.id}/edit?initialPageIndex=$currentPage', extra: quillControllers);
+    await load(story?.id);
+  }
 
-    await Navigator.of(context).push(
-      AnimatedPageRoute.sharedAxis(
-        type: SharedAxisTransitionType.vertical,
-        builder: (context) => EditStoryView(
-          id: story!.id,
-          initialPageIndex: currentPage,
-          quillControllers: quillControllers,
-        ),
-      ),
-    );
-
+  Future<void> goToChangesPage(BuildContext context) async {
+    await context.push('/stories/${story!.id}/changes');
     await load(story?.id);
   }
 
@@ -106,6 +90,7 @@ class ShowStoryViewModel extends BaseViewModel {
   void dispose() {
     pageController.dispose();
     currentPageNotifier.dispose();
+    quillControllers.forEach((e, k) => k.dispose());
     super.dispose();
   }
 }

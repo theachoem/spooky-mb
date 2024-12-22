@@ -7,12 +7,17 @@ import 'package:spooky/core/databases/models/story_db_model.dart';
 
 class StoryDbConstructorService {
   static List<String> changesToRawChanges(StoryDbModel story) {
-    List<String> rawChanges = story.rawChanges ?? [];
+    List<String> existingRawChanges = story.rawChanges ?? [];
 
-    return [
-      ...rawChanges,
-      changesToStrs([story.latestChange!]).first,
-    ];
+    // when all changes are loaded, use loaded all changes instead.
+    if (story.allChanges != null) {
+      return changesToStrs(story.allChanges!);
+    } else {
+      return [
+        ...existingRawChanges,
+        changesToStrs([story.latestChange!]).first,
+      ];
+    }
   }
 
   static List<StoryContentDbModel> rawChangesToChanges(List<String> changes) {

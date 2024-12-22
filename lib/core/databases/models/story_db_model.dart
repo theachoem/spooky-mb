@@ -39,7 +39,7 @@ class StoryDbModel extends BaseDbModel {
   final List<int>? tags;
   final StoryContentDbModel? latestChange;
 
-  // load this manually
+  /// load this manually when needed with [loadAllChanges]
   final List<StoryContentDbModel>? allChanges;
 
   final List<String>? rawChanges;
