@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_quill/quill_delta.dart';
 import 'package:provider/provider.dart';
-import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
@@ -51,19 +49,7 @@ class HomeYearsViewState extends State<HomeYearsView> {
     if (result is List<String> && result.isNotEmpty && context.mounted) {
       int year = int.parse(result.first);
 
-      StoryDbModel initialStory = StoryDbModel.fromDate(DateTime(year, 1, 1));
-      String body =
-          "This is your personal space for $year. Add your stories, thoughts, dreams, or memories and make it uniquely yours.\n";
-      Delta delta = Delta()..insert(body);
-
-      initialStory = initialStory.copyWith(changes: [
-        initialStory.changes.first.copyWith(
-          title: "Let's Begin: $year ✨",
-          pages: [delta.toJson()],
-          plainText: body,
-        ),
-      ]);
-
+      StoryDbModel initialStory = StoryDbModel.startYearStory(year);
       await StoryDbModel.db.set(initialStory);
       await load();
       await viewModel.changeYear(year);

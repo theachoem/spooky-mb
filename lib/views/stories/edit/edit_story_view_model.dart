@@ -5,9 +5,6 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
-import 'package:spooky/core/services/story_writers/default_story_writer.dart';
-import 'package:spooky/core/services/story_writers/objects/default_story_object.dart';
-import 'package:spooky/core/services/story_writers/objects/shared_writer_object.dart';
 import 'package:spooky/core/types/editing_flow_type.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 
@@ -23,6 +20,8 @@ class EditStoryViewModel extends BaseViewModel {
   late final PageController pageController = PageController(initialPage: params.initialPageIndex);
   final Map<int, QuillController> quillControllers = {};
   final DateTime openedOn = DateTime.now();
+
+  int get currentPageIndex => pageController.page!.round().toInt();
 
   EditingFlowType? flowType;
   StoryDbModel? story;
@@ -68,17 +67,8 @@ class EditStoryViewModel extends BaseViewModel {
   }
 
   Future<void> save(BuildContext context) async {
-    story = await DefaultStoryWriter(context).save(DefaultStoryObject(
-      info: SharedWriterObject(
-        hasChange: true,
-        currentContent: currentContent!,
-        title: currentContent!.title,
-        quillControllers: quillControllers,
-        flowType: flowType!,
-        currentStory: story!,
-        currentPageIndex: params.initialPageIndex,
-      ),
-    ));
+    story = await StoryDbModel.fromDetailPage(this);
+    await StoryDbModel.db.set(story!);
 
     if (context.mounted) Navigator.of(context).maybePop(story);
   }

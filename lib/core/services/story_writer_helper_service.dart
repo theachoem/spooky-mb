@@ -12,24 +12,11 @@ class StoryWriteHelper {
   static Future<StoryContentDbModel> buildContent(
     StoryContentDbModel currentContent,
     Map<int, QuillController> quillControllers,
-    String? title, {
-    required int currentPageIndex,
-    bool draft = false,
-  }) async {
+  ) async {
     final pages = pagesData(currentContent, quillControllers).values.toList();
-    final metadata = [
-      if (title != null) title,
-      quillControllers.values.map((controller) => controller.document.toPlainText()).join("\n"),
-    ].join("\n");
-
-    final root = getElementAtIndex(quillControllers.values, 0)?.document.root;
     return await compute(_buildContent, {
-      'title': title,
       'current_content': currentContent,
-      'pages': pages,
-      'root': root,
-      'draft': draft,
-      'metadata': metadata,
+      'updated_pages': pages,
     });
   }
 
@@ -55,24 +42,24 @@ class StoryWriteHelper {
     }
     return documents;
   }
-}
 
-StoryContentDbModel _buildContent(Map<String, dynamic> params) {
-  String? title = params['title'];
-  StoryContentDbModel currentContent = params['current_content'];
-  List<List<dynamic>> pages = params['pages'];
-  bool draft = params['draft'];
-  String metadata = params['metadata'];
-  Root root = params['root'] ?? Document.fromJson(pages.first);
-  DateTime createdAt = DateTime.now();
+  static StoryContentDbModel _buildContent(Map<String, dynamic> params) {
+    StoryContentDbModel currentContent = params['current_content'];
+    List<List<dynamic>> updatedPages = params['updated_pages'];
 
-  return currentContent.copyWith(
-    id: createdAt.millisecondsSinceEpoch,
-    title: title,
-    plainText: QuillService.toPlainText(root),
-    pages: pages,
-    createdAt: createdAt,
-    draft: draft,
-    metadata: metadata,
-  );
+    DateTime createdAt = DateTime.now();
+
+    final metadata = [
+      currentContent.title,
+      ...updatedPages.map((e) => Document.fromJson(e).toPlainText()),
+    ].join("\n");
+
+    return currentContent.copyWith(
+      id: createdAt.millisecondsSinceEpoch,
+      plainText: QuillService.toPlainText(Document.fromJson(updatedPages.first).root),
+      pages: updatedPages,
+      createdAt: createdAt,
+      metadata: metadata,
+    );
+  }
 }

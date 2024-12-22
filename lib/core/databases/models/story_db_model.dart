@@ -1,11 +1,15 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'package:flutter_quill/quill_delta.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:spooky/core/databases/adapters/objectbox/story_box.dart';
 import 'package:spooky/core/databases/models/base_db_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
+import 'package:spooky/core/services/story_writer_helper_service.dart';
+import 'package:spooky/core/types/editing_flow_type.dart';
 import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/views/stories/edit/edit_story_view_model.dart';
 
 part 'story_db_model.g.dart';
 
@@ -138,6 +142,37 @@ class StoryDbModel extends BaseDbModel {
       type: PathType.bins,
       movedToBinAt: DateTime.now(),
     ));
+  }
+
+  static Future<StoryDbModel> fromDetailPage(EditStoryViewModel viewModel) async {
+    StoryContentDbModel content = await StoryWriteHelper.buildContent(
+      viewModel.currentContent!,
+      viewModel.quillControllers,
+    );
+
+    switch (viewModel.flowType!) {
+      case EditingFlowType.update:
+        return viewModel.story!.copyWithNewChange(content);
+      case EditingFlowType.create:
+        return viewModel.story!.copyWith(changes: [content]);
+    }
+  }
+
+  factory StoryDbModel.startYearStory(int year) {
+    StoryDbModel initialStory = StoryDbModel.fromDate(DateTime(year, 1, 1));
+    String body =
+        "This is your personal space for $year. Add your stories, thoughts, dreams, or memories and make it uniquely yours.\n";
+    Delta delta = Delta()..insert(body);
+
+    initialStory = initialStory.copyWith(changes: [
+      initialStory.changes.first.copyWith(
+        title: "Let's Begin: $year ✨",
+        pages: [delta.toJson()],
+        plainText: body,
+      ),
+    ]);
+
+    return initialStory;
   }
 
   factory StoryDbModel.fromJson(Map<String, dynamic> json) => _$StoryDbModelFromJson(json);
