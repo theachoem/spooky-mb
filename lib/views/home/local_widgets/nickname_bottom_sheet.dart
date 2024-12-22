@@ -1,7 +1,10 @@
-part of '../home_view_model.dart';
+import 'package:flutter/material.dart';
+import 'package:spooky/core/objects/user_object.dart';
+import 'package:spooky/widgets/sp_default_text_controller.dart';
 
-class _NicknameBottomSheet extends StatelessWidget {
-  const _NicknameBottomSheet({
+class NicknameBottomSheet extends StatelessWidget {
+  const NicknameBottomSheet({
+    super.key,
     required this.user,
   });
 
@@ -66,6 +69,11 @@ class _NicknameBottomSheet extends StatelessWidget {
                     );
                   },
                 ),
+              ),
+              AnimatedContainer(
+                curve: Curves.fastEaseInToSlowEaseOut,
+                duration: Durations.long2,
+                height: MediaQuery.of(context).padding.bottom + MediaQuery.of(context).viewInsets.bottom,
               )
             ],
           ),

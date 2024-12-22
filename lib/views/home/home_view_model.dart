@@ -6,12 +6,11 @@ import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/objects/user_object.dart';
 import 'package:spooky/core/storages/user_storage.dart';
 import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/views/home/local_widgets/nickname_bottom_sheet.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
-import 'package:spooky/widgets/sp_default_text_controller.dart';
 
 part './local_widgets/home_scroll_info.dart';
-part './local_widgets/nickname_bottom_sheet.dart';
 
 class HomeViewModel extends BaseViewModel {
   HomeViewModel(BuildContext context) {
@@ -80,15 +79,16 @@ class HomeViewModel extends BaseViewModel {
     super.dispose();
   }
 
+  PersistentBottomSheetController? bottomSheet;
+
   void changeName(BuildContext context) async {
     dynamic result = await showModalBottomSheet(
       context: context,
       showDragHandle: true,
       sheetAnimationStyle: AnimationStyle(curve: Curves.fastEaseInToSlowEaseOut, duration: Durations.long4),
-      elevation: Theme.of(context).bottomSheetTheme.elevation,
-      useSafeArea: true,
+      isScrollControlled: true,
       builder: (context) {
-        return _NicknameBottomSheet(user: user);
+        return NicknameBottomSheet(user: user);
       },
     );
 
