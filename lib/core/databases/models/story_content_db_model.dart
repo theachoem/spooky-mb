@@ -46,6 +46,33 @@ class StoryContentDbModel extends BaseDbModel with ComparableConcern {
     }
   }
 
+  String? get displayShortBody {
+    String trimBody(String body) {
+      body = body.trim();
+      int length = body.length;
+      int end = body.length;
+
+      List<String> endWiths = ["- [", "- [x", "- [ ]", "- [x]", "-"];
+      for (String ew in endWiths) {
+        if (body.endsWith(ew)) {
+          end = length - ew.length;
+        }
+      }
+
+      return length > end ? body.substring(0, end) : body;
+    }
+
+    String? getDisplayBodyFor(StoryContentDbModel content) {
+      if (content.plainText == null) return null;
+
+      String body = content.plainText!.trim();
+      String extract = body.length > 200 ? body.substring(0, 200) : body;
+      return body.length > 200 ? "${trimBody(extract)}..." : extract;
+    }
+
+    return getDisplayBodyFor(this);
+  }
+
   factory StoryContentDbModel.dublicate(StoryContentDbModel oldContent) {
     DateTime now = DateTime.now();
     return oldContent.copyWith(

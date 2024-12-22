@@ -9,6 +9,7 @@ class _EditStoryAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        clipBehavior: Clip.none,
         title: viewModel.story == null
             ? const SizedBox.shrink()
             : SpTapEffect(

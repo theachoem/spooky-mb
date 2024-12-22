@@ -1,6 +1,7 @@
 import 'package:animated_clipper/animated_clipper.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/extensions/color_scheme_extensions.dart';
 import 'package:spooky/core/objects/feeling_object.dart';
 import 'package:spooky/core/services/color_from_day_service.dart';
 import 'package:spooky/widgets/sp_feeling_picker/sp_feeling_picker.dart';
@@ -107,11 +108,21 @@ class _SpFeelingButtonState extends State<SpFeelingButton> {
         );
       },
       builder: (callback) {
-        return IconButton(
-          icon: FeelingObject.feelingsMap[widget.feeling]?.image64.image(width: 24) ??
-              const Icon(Icons.add_reaction_sharp),
-          color: Theme.of(context).disabledColor,
-          onPressed: callback,
+        return Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: Material(
+            type: MaterialType.circle,
+            color: ColorScheme.of(context).readOnly.surface1,
+            child: InkWell(
+              borderRadius: BorderRadius.circular(48.0),
+              onTap: callback,
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: FeelingObject.feelingsMap[widget.feeling]?.image64.image(width: 24) ??
+                    const Icon(Icons.add_reaction_sharp),
+              ),
+            ),
+          ),
         );
       },
     );

@@ -74,11 +74,7 @@ class _ChangesStoryAdaptive extends StatelessWidget {
                 style: TextTheme.of(context).labelMedium?.copyWith(color: ColorScheme.of(context).primary),
               ),
               const SizedBox(height: 4.0),
-              Text(
-                change.plainText ?? 'N/A',
-                maxLines: 3,
-                overflow: TextOverflow.ellipsis,
-              ),
+              SpMarkdownBody(body: change.displayShortBody!)
             ],
           ),
         );
