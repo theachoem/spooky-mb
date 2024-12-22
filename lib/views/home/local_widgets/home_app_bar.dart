@@ -27,27 +27,30 @@ class HomeAppBar extends StatelessWidget {
   PreferredSize buildTabBar(BuildContext context) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(_indicatorHeight + 8.0 * 2),
-      child: TabBar(
-        enableFeedback: true,
-        tabAlignment: TabAlignment.start,
-        isScrollable: true,
-        indicatorAnimation: TabIndicatorAnimation.linear,
-        labelColor: Theme.of(context).colorScheme.onPrimary,
-        unselectedLabelColor: Theme.of(context).colorScheme.primary,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        indicator: RoundedIndicator.simple(
-          height: _indicatorHeight,
-          color: Theme.of(context).colorScheme.primary,
+      child: Container(
+        color: Theme.of(context).appBarTheme.backgroundColor,
+        child: TabBar(
+          enableFeedback: true,
+          tabAlignment: TabAlignment.start,
+          isScrollable: true,
+          indicatorAnimation: TabIndicatorAnimation.linear,
+          labelColor: Theme.of(context).colorScheme.onPrimary,
+          unselectedLabelColor: Theme.of(context).colorScheme.primary,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          indicator: RoundedIndicator.simple(
+            height: _indicatorHeight,
+            color: Theme.of(context).colorScheme.primary,
+          ),
+          onTap: (index) => viewModel.scrollInfo.moveToMonthIndex(index),
+          splashBorderRadius: BorderRadius.circular(_indicatorHeight / 2),
+          tabs: viewModel.months.map((month) {
+            return Container(
+              height: _indicatorHeight - 2,
+              alignment: Alignment.center,
+              child: Text(DateFormatService.MMM(DateTime(2000, month))),
+            );
+          }).toList(),
         ),
-        onTap: (index) => viewModel.scrollInfo.moveToMonthIndex(index),
-        splashBorderRadius: BorderRadius.circular(_indicatorHeight / 2),
-        tabs: viewModel.months.map((month) {
-          return Container(
-            height: _indicatorHeight - 2,
-            alignment: Alignment.center,
-            child: Text(DateFormatService.MMM(DateTime(2000, month))),
-          );
-        }).toList(),
       ),
     );
   }

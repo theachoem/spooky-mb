@@ -46,6 +46,7 @@ class AppTheme extends StatelessWidget {
       pageTransitionsTheme: const PageTransitionsTheme(builders: pageTransitionBuilder),
       appBarTheme: AppBarTheme(
         centerTitle: false,
+        titleSpacing: NavigationToolbar.kMiddleSpacing,
         backgroundColor: colorScheme?.readOnly.surface1,
       ),
       drawerTheme: const DrawerThemeData(

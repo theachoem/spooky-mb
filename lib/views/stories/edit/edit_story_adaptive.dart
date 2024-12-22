@@ -10,11 +10,18 @@ class _EditStoryAdaptive extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         clipBehavior: Clip.none,
+        titleSpacing: 0.0,
         title: viewModel.story == null
             ? const SizedBox.shrink()
-            : SpTapEffect(
+            : InkWell(
                 onTap: () => viewModel.changeTitle(context),
-                child: Text(viewModel.draftContent?.title ?? 'Title...'),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: AppBarTheme.of(context).titleSpacing!),
+                  width: double.infinity,
+                  height: kToolbarHeight,
+                  alignment: Alignment.centerLeft,
+                  child: Text(viewModel.draftContent?.title ?? 'Title...'),
+                ),
               ),
         actions: [
           buildSavedMessage(),
@@ -29,6 +36,7 @@ class _EditStoryAdaptive extends StatelessWidget {
           ),
           const SizedBox(width: 4.0),
         ],
+        bottom: const PreferredSize(preferredSize: Size.fromHeight(1), child: Divider(height: 1)),
       ),
       body: buildBody(),
     );
