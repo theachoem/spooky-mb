@@ -4,7 +4,7 @@ import 'package:spooky/core/services/story_helper.dart';
 import 'package:spooky/views/stories/changes/show/show_change_view.dart';
 
 class ShowChangeViewModel extends BaseViewModel {
-  final ShowChangeView params;
+  final ShowChangeRoute params;
 
   ShowChangeViewModel({
     required this.params,

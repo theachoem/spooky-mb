@@ -1,5 +1,6 @@
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/routes/base_route.dart';
 import 'package:spooky/views/theme/local_widgets/color_seed_tile.dart';
 import 'package:spooky/views/theme/local_widgets/font_family_tile.dart';
 import 'package:spooky/views/theme/local_widgets/font_weight_tile.dart';
@@ -9,13 +10,28 @@ import 'theme_view_model.dart';
 
 part 'theme_adaptive.dart';
 
+class ThemeRoute extends BaseRoute {
+  ThemeRoute();
+
+  @override
+  Widget buildPage(BuildContext context) => ThemeView(params: this);
+
+  @override
+  bool get nestedRoute => true;
+}
+
 class ThemeView extends StatelessWidget {
-  const ThemeView({super.key});
+  const ThemeView({
+    super.key,
+    required this.params,
+  });
+
+  final ThemeRoute params;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<ThemeViewModel>(
-      create: (context) => ThemeViewModel(),
+      create: (context) => ThemeViewModel(params: params),
       builder: (context, viewModel, child) {
         return _ThemeAdaptive(viewModel);
       },

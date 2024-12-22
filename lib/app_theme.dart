@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/extensions/color_scheme_extensions.dart';
 import 'package:spooky/providers/theme_provider.dart';
+import 'package:spooky/routes/utils/animated_page_route.dart';
 
 class AppTheme extends StatelessWidget {
   const AppTheme({
@@ -33,9 +34,16 @@ class AppTheme extends StatelessWidget {
       return textStyle.copyWith(fontWeight: calculateFontWeight(defaultFontWeight, provider.theme.fontWeight));
     }
 
+    const Map<TargetPlatform, PageTransitionsBuilder> pageTransitionBuilder = <TargetPlatform, PageTransitionsBuilder>{
+      TargetPlatform.android: SharedAxisPageTransitionsBuilder(transitionType: SharedAxisTransitionType.vertical),
+      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+      TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+    };
+
     return theme.copyWith(
       scaffoldBackgroundColor: colorScheme?.surface,
       colorScheme: colorScheme,
+      pageTransitionsTheme: const PageTransitionsTheme(builders: pageTransitionBuilder),
       appBarTheme: AppBarTheme(
         centerTitle: false,
         backgroundColor: colorScheme?.readOnly.surface1,

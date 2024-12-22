@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/concerns/schedule_concern.dart';
+import 'search_view.dart';
 
 class SearchViewModel extends BaseViewModel with ScheduleConcern {
+  final SearchRoute params;
+
+  SearchViewModel({
+    required this.params,
+  });
+
   ValueNotifier<String> queryNotifier = ValueNotifier('');
 
   void search(String query) {

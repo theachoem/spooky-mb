@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
@@ -7,6 +6,8 @@ import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/objects/user_object.dart';
 import 'package:spooky/core/storages/user_storage.dart';
 import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/views/stories/edit/edit_story_view.dart';
+import 'package:spooky/views/stories/show/show_story_view.dart';
 import 'package:spooky/widgets/sp_default_text_controller.dart';
 
 part './local_widgets/home_scroll_info.dart';
@@ -64,12 +65,12 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> goToViewPage(BuildContext context, StoryDbModel story) async {
-    await context.push('/stories/${story.id}');
+    await ShowStoryRoute(id: story.id, story: story).push(context);
     await load();
   }
 
   Future<void> goToNewPage(BuildContext context) async {
-    await context.push('/stories/new?initialYear=$year');
+    await EditStoryRoute(id: null, initialYear: year).push(context);
     await load();
   }
 

@@ -2,7 +2,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/views/fonts/fonts_view.dart';
-import 'package:spooky/widgets/sp_nested_navigation.dart';
 
 class FontFamilyTile extends StatelessWidget {
   const FontFamilyTile({
@@ -17,7 +16,7 @@ class FontFamilyTile extends StatelessWidget {
       title: const Text("Font Family"),
       subtitle: Text(provider.theme.fontFamily),
       onTap: () {
-        SpNestedNavigation.maybeOf(context)?.pushShareAxis(const FontsView());
+        FontsRoute().push(context);
       },
     );
   }

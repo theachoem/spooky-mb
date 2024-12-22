@@ -9,94 +9,83 @@ class _HomeEndDrawer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       child: SpNestedNavigation(
-        initialScreen: _EndDrawer(
-          popDrawer: () => Navigator.of(context).pop(),
-        ),
+        initialScreen: Builder(builder: (childContext) {
+          return buildDrawer(
+            context: childContext,
+            closeDrawer: () => Navigator.of(context).pop(),
+          );
+        }),
       ),
     );
   }
-}
 
-class _EndDrawer extends StatelessWidget {
-  const _EndDrawer({
-    required this.popDrawer,
-  });
-
-  final void Function() popDrawer;
-
-  @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        const _HomeEndDrawerHeader(),
-        const Divider(height: 1),
-        const SizedBox(height: 8.0),
-        ListTile(
-          leading: const Icon(Icons.search),
-          title: const Text('Search'),
-          onTap: () {
-            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const SearchView());
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.sell_outlined),
-          title: const Text('Tags'),
-          onTap: () {
-            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const TagsView());
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.archive_outlined),
-          title: const Text('Archives / Bin'),
-          onTap: () {
-            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const ArchivesView());
-          },
-        ),
-        const Divider(),
-        ListTile(
-          leading: const Icon(Icons.backup_outlined),
-          title: const Text('Backups'),
-          subtitle: const Text('Last back up 2 days ago'),
-          onTap: () {
-            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const BackupsView());
-          },
-        ),
-        const Divider(),
-        ListTile(
-          leading: const Icon(Icons.color_lens_outlined),
-          title: const Text('Theme'),
-          onTap: () {
-            SpNestedNavigation.maybeOf(context)?.pushShareAxis(const ThemeView());
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.language),
-          title: const Text("Language"),
-          subtitle: const Text("Khmer"),
-          onTap: () {},
-        ),
-        Consumer<LocalAuthProvider>(
-          builder: (context, provider, child) {
-            return Visibility(
-              visible: provider.canCheckBiometrics,
-              child: SwitchListTile.adaptive(
-                secondary: const Icon(Icons.lock),
-                title: const Text('Biometrics Lock'),
-                value: provider.localAuthEnabled,
-                onChanged: (value) => provider.setEnable(value),
-              ),
-            );
-          },
-        ),
-        const Divider(),
-        ListTile(
-          leading: const Icon(Icons.rate_review_outlined),
-          title: const Text('Rate'),
-          onTap: () {
-            popDrawer();
-          },
-        ),
-      ],
+  Widget buildDrawer({
+    required BuildContext context,
+    required void Function() closeDrawer,
+  }) {
+    return Scaffold(
+      body: ListView(
+        children: [
+          const _HomeEndDrawerHeader(),
+          const Divider(height: 1),
+          const SizedBox(height: 8.0),
+          ListTile(
+            leading: const Icon(Icons.search),
+            title: const Text('Search'),
+            onTap: () {
+              SearchRoute().push(context);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.sell_outlined),
+            title: const Text('Tags'),
+            onTap: () => TagsRoute().push(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.archive_outlined),
+            title: const Text('Archives / Bin'),
+            onTap: () => ArchivesRoute().push(context),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.backup_outlined),
+            title: const Text('Backups'),
+            subtitle: const Text('Last back up 2 days ago'),
+            onTap: () => BackupsRoute().push(context),
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.color_lens_outlined),
+            title: const Text('Theme'),
+            onTap: () => ThemeRoute().push(context),
+          ),
+          ListTile(
+            leading: const Icon(Icons.language),
+            title: const Text("Language"),
+            subtitle: const Text("Khmer"),
+            onTap: () {},
+          ),
+          Consumer<LocalAuthProvider>(
+            builder: (context, provider, child) {
+              return Visibility(
+                visible: provider.canCheckBiometrics,
+                child: SwitchListTile.adaptive(
+                  secondary: const Icon(Icons.lock),
+                  title: const Text('Biometrics Lock'),
+                  value: provider.localAuthEnabled,
+                  onChanged: (value) => provider.setEnable(value),
+                ),
+              );
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.rate_review_outlined),
+            title: const Text('Rate'),
+            onTap: () {},
+          ),
+        ],
+      ),
     );
   }
 }
@@ -107,8 +96,9 @@ class _HomeEndDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<HomeViewModel>(context);
+
     return InkWell(
-      onTap: () => SpNestedNavigation.maybeOf(context)?.pushShareAxis(const HomeYearsView()),
+      onTap: () => SpNestedNavigation.maybeOf(context)?.push(const HomeYearsView()),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

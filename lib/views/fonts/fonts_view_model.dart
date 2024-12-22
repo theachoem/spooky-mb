@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/constants/theme_constant.dart';
 import 'package:spooky/core/storages/recently_selected_fonts_storage.dart';
+import 'fonts_view.dart';
 
 class FontGroup {
   final String label;
@@ -16,9 +17,11 @@ class FontGroup {
 }
 
 class FontsViewModel extends BaseViewModel {
+  final FontsRoute params;
   final BuildContext context;
 
   FontsViewModel({
+    required this.params,
     required this.context,
   }) {
     load();

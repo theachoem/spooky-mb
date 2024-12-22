@@ -7,9 +7,14 @@ import 'package:spooky/core/databases/models/tag_db_model.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
 import 'package:spooky/widgets/sp_text_inputs_page.dart';
 import 'package:spooky/widgets/story_list/story_list.dart';
+import 'tags_view.dart';
 
 class TagsViewModel extends BaseViewModel {
-  TagsViewModel() {
+  final TagsRoute params;
+
+  TagsViewModel({
+    required this.params,
+  }) {
     load();
   }
 
@@ -31,7 +36,7 @@ class TagsViewModel extends BaseViewModel {
   }
 
   void viewTag(BuildContext context, TagDbModel tag) async {
-    SpNestedNavigation.maybeOf(context)?.pushShareAxis(Scaffold(
+    SpNestedNavigation.maybeOf(context)?.push(Scaffold(
       appBar: AppBar(title: Text(tag.title)),
       body: StoryList(tagId: tag.id),
     ));
@@ -51,7 +56,7 @@ class TagsViewModel extends BaseViewModel {
   }
 
   Future<void> editTag(BuildContext context, TagDbModel tag) async {
-    dynamic result = await SpNestedNavigation.maybeOf(context)?.pushShareAxis(buildTagForm(initialTag: tag));
+    dynamic result = await SpNestedNavigation.maybeOf(context)?.push(buildTagForm(initialTag: tag));
 
     if (result is List<String> && result.isNotEmpty) {
       TagDbModel newTag = tag.copyWith(title: result.first);
@@ -61,7 +66,7 @@ class TagsViewModel extends BaseViewModel {
   }
 
   Future<void> addTag(BuildContext context) async {
-    dynamic result = await SpNestedNavigation.maybeOf(context)?.pushShareAxis(buildTagForm());
+    dynamic result = await SpNestedNavigation.maybeOf(context)?.push(buildTagForm());
 
     if (result is List<String> && result.isNotEmpty) {
       TagDbModel newTag = TagDbModel.fromNow().copyWith(title: result.first);

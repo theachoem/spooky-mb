@@ -7,10 +7,6 @@ class _BackupsAdaptive extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Backups"),
-      ),
-    );
+    return const Placeholder();
   }
 }

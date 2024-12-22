@@ -10,12 +10,12 @@ import 'package:spooky/core/types/editing_flow_type.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 
 class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
-  final EditStoryView params;
+  final EditStoryRoute params;
 
   EditStoryViewModel({
     required this.params,
   }) {
-    load();
+    load(initialStory: params.story);
   }
 
   late final PageController pageController = PageController(initialPage: params.initialPageIndex);
@@ -38,8 +38,10 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
     notifyListeners();
   }
 
-  Future<void> load() async {
-    if (params.id != null) story = await StoryDbModel.db.find(params.id!);
+  Future<void> load({
+    StoryDbModel? initialStory,
+  }) async {
+    if (params.id != null) story = initialStory ?? await StoryDbModel.db.find(params.id!);
     flowType = story == null ? EditingFlowType.create : EditingFlowType.update;
 
     lastSavedAtNotifier.value = story?.updatedAt;

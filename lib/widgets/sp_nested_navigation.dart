@@ -25,9 +25,10 @@ class SpNestedNavigation extends StatefulWidget {
 class SpNestedNavigationState extends State<SpNestedNavigation> {
   final GlobalKey<NavigatorState> navigationKey = GlobalKey();
 
-  Future<T?> pushShareAxis<T>(Widget screen) {
+  Future<T?> push<T>(Widget screen) {
     return navigationKey.currentState!.push<T>(
       AnimatedPageRoute.sharedAxis(
+        type: SharedAxisTransitionType.horizontal,
         builder: (context) => screen,
       ),
     );
@@ -44,8 +45,11 @@ class SpNestedNavigationState extends State<SpNestedNavigation> {
       child: Navigator(
         key: navigationKey,
         onGenerateRoute: (setting) {
-          return MaterialPageRoute(
-            builder: (context) => widget.initialScreen,
+          return AnimatedPageRoute.sharedAxis(
+            type: SharedAxisTransitionType.horizontal,
+            builder: (context) {
+              return widget.initialScreen;
+            },
           );
         },
       ),

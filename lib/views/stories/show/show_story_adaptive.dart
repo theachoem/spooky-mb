@@ -46,11 +46,12 @@ class _StoryDetailsAdaptive extends StatelessWidget {
             onPressed: () => viewModel.goToEditPage(context),
             icon: const Icon(Icons.edit_outlined),
           ),
+          const SizedBox(width: 4.0),
         ],
       ),
       body: PageView.builder(
         controller: viewModel.pageController,
-        itemCount: viewModel.draftContent?.pages?.length ?? 0,
+        itemCount: viewModel.quillControllers.length,
         itemBuilder: (context, index) {
           return QuillEditor.basic(
             controller: viewModel.quillControllers[index],

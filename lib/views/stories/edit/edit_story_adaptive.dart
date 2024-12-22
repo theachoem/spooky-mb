@@ -25,7 +25,7 @@ class _EditStoryAdaptive extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.save),
-            onPressed: () => context.pop(),
+            onPressed: () => Navigator.of(context).pop(),
           ),
           const SizedBox(width: 4.0),
         ],

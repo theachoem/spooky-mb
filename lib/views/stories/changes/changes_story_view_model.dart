@@ -9,7 +9,7 @@ import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/views/stories/changes/changes_story_view.dart';
 
 class ChangesStoryViewModel extends BaseViewModel {
-  final ChangesStoryView params;
+  final ChangesStoryRoute params;
 
   ChangesStoryViewModel({
     required this.params,

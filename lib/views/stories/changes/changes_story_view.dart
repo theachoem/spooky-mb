@@ -2,7 +2,7 @@ import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/services/date_format_service.dart';
-import 'package:spooky/routes/utils/animated_page_route.dart';
+import 'package:spooky/routes/base_route.dart';
 import 'package:spooky/views/stories/changes/show/show_change_view.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
 import 'package:spooky/widgets/sp_markdown_body.dart';
@@ -12,18 +12,29 @@ import 'changes_story_view_model.dart';
 
 part 'changes_story_adaptive.dart';
 
-class ChangesStoryView extends StatelessWidget {
-  const ChangesStoryView({
-    super.key,
+class ChangesStoryRoute extends BaseRoute {
+  final int id;
+
+  ChangesStoryRoute({
     required this.id,
   });
 
-  final int id;
+  @override
+  Widget buildPage(BuildContext context) => ChangesStoryView(params: this);
+}
+
+class ChangesStoryView extends StatelessWidget {
+  const ChangesStoryView({
+    super.key,
+    required this.params,
+  });
+
+  final ChangesStoryRoute params;
 
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<ChangesStoryViewModel>(
-      create: (context) => ChangesStoryViewModel(params: this),
+      create: (context) => ChangesStoryViewModel(params: params),
       builder: (context, viewModel, child) {
         return _ChangesStoryAdaptive(viewModel);
       },

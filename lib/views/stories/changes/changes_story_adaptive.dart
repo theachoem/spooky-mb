@@ -44,10 +44,7 @@ class _ChangesStoryAdaptive extends StatelessWidget {
             title: "View",
             leadingIconData: Icons.book,
             onPressed: () {
-              Navigator.of(context).push(AnimatedPageRoute.sharedAxis(
-                type: SharedAxisTransitionType.vertical,
-                builder: (context) => ShowChangeView(content: change),
-              ));
+              ShowChangeRoute(content: change).push(context);
             },
           ),
           if (!isLatestChange)

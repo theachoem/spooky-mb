@@ -27,7 +27,7 @@ class HomeYearsViewState extends State<HomeYearsView> {
   }
 
   Future<void> addYear(BuildContext context, HomeViewModel viewModel) async {
-    dynamic result = await SpNestedNavigation.maybeOf(context)?.pushShareAxis(SpTextInputsPage(
+    dynamic result = await SpNestedNavigation.maybeOf(context)?.push(SpTextInputsPage(
       appBar: AppBar(title: const Text("Add Year")),
       fields: [
         SpTextInputField(

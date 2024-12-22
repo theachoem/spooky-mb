@@ -15,7 +15,7 @@ class _NicknameBottomSheet extends StatelessWidget {
       builder: (context, controller) {
         Future<void> save() async {
           if (Form.of(context).validate()) {
-            context.pop(controller.text.trim());
+            Navigator.maybePop(context, controller.text.trim());
           }
         }
 

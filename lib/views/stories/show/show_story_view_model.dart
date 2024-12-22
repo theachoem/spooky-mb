@@ -1,15 +1,16 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:go_router/go_router.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/story_helper.dart';
+import 'package:spooky/views/stories/changes/changes_story_view.dart';
+import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
 
 class ShowStoryViewModel extends BaseViewModel {
-  final ShowStoryView params;
+  final ShowStoryRoute params;
 
   ShowStoryViewModel({
     required this.params,
@@ -20,7 +21,7 @@ class ShowStoryViewModel extends BaseViewModel {
       currentPageNotifier.value = pageController.page!;
     });
 
-    load(params.id);
+    load(params.id, initialStory: params.story);
   }
 
   late final PageController pageController;
@@ -33,8 +34,11 @@ class ShowStoryViewModel extends BaseViewModel {
   StoryContentDbModel? draftContent;
   TextSelection? currentTextSelection;
 
-  Future<void> load(int? id) async {
-    if (id != null) story = await StoryDbModel.db.find(id);
+  Future<void> load(
+    int id, {
+    StoryDbModel? initialStory,
+  }) async {
+    story = initialStory ?? await StoryDbModel.db.find(id);
 
     draftContent = story?.latestChange != null
         ? StoryContentDbModel.dublicate(story!.latestChange!)
@@ -86,13 +90,20 @@ class ShowStoryViewModel extends BaseViewModel {
 
   Future<void> goToEditPage(BuildContext context) async {
     if (draftContent == null || draftContent?.pages == null || pageController.page == null) return;
-    await context.push('/stories/${story!.id}/edit?initialPageIndex=$currentPage', extra: quillControllers);
-    await load(story?.id);
+
+    await EditStoryRoute(
+      id: story!.id,
+      initialPageIndex: currentPage,
+      quillControllers: quillControllers,
+      story: story,
+    ).push(context);
+
+    await load(story!.id);
   }
 
   Future<void> goToChangesPage(BuildContext context) async {
-    await context.push('/stories/${story!.id}/changes');
-    await load(story?.id);
+    ChangesStoryRoute(id: story!.id).push(context);
+    await load(story!.id);
   }
 
   @override
