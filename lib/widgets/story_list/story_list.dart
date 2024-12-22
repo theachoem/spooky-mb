@@ -73,6 +73,7 @@ class _StoryListState extends State<StoryList> {
           itemCount: stories?.items.length ?? 0,
           itemBuilder: (context, index) {
             return StoryTileListItem(
+              showYear: true,
               stories: stories!,
               index: index,
               onTap: () async {

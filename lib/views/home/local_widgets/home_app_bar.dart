@@ -27,9 +27,10 @@ class HomeAppBar extends StatelessWidget {
   PreferredSize buildTabBar(BuildContext context) {
     return PreferredSize(
       preferredSize: const Size.fromHeight(_indicatorHeight + 8.0 * 2),
-      child: Container(
+      child: Material(
         color: Theme.of(context).appBarTheme.backgroundColor,
         child: TabBar(
+          indicatorSize: TabBarIndicatorSize.tab,
           enableFeedback: true,
           tabAlignment: TabAlignment.start,
           isScrollable: true,

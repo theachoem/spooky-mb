@@ -32,6 +32,7 @@ class _HomeAdaptive extends StatelessWidget {
         itemCount: viewModel.stories?.items.length ?? 0,
         itemBuilder: (context, index) {
           return StoryTileListItem(
+            showYear: false,
             index: index,
             stories: viewModel.stories!,
             onTap: () => viewModel.goToViewPage(context, viewModel.stories!.items[index]),

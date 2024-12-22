@@ -29,7 +29,7 @@ class StoryTile extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
         child: Stack(
           clipBehavior: Clip.none,
           children: [
@@ -56,7 +56,7 @@ class StoryTile extends StatelessWidget {
                         child: SpMarkdownBody(body: content!.displayShortBody!),
                       )
                   ]),
-                )
+                ),
               ],
             ),
             buildStarredButton(context)
