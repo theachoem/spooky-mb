@@ -89,8 +89,7 @@ class MessengerService {
   Widget _loadingBuilder<T>(BuildContext context, Completer<T?> future) {
     return FutureBuilder<T?>(
       future: future.future.then((value) {
-        // ignore: use_build_context_synchronously
-        Navigator.of(context).pop(value);
+        if (context.mounted) Navigator.of(context).pop(value);
         return value;
       }),
       builder: (context, snapshot) {

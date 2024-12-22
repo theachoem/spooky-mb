@@ -268,9 +268,9 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
 
 Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'version': instance.version,
       'type': _$PathTypeEnumMap[instance.type]!,
-      'id': instance.id,
       'year': instance.year,
       'month': instance.month,
       'day': instance.day,

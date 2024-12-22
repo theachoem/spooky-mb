@@ -5,10 +5,12 @@ class SpDefaultTextController extends StatefulWidget {
     super.key,
     required this.builder,
     required this.initialText,
+    this.withForm = false,
   });
 
   final String? initialText;
   final Widget Function(BuildContext context, TextEditingController controller) builder;
+  final bool withForm;
 
   @override
   State<SpDefaultTextController> createState() => _SpDefaultTextControllerState();
@@ -25,6 +27,11 @@ class _SpDefaultTextControllerState extends State<SpDefaultTextController> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.withForm) {
+      return Form(child: Builder(builder: (context) {
+        return widget.builder(context, controller);
+      }));
+    }
     return widget.builder(context, controller);
   }
 }

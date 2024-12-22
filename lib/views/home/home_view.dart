@@ -1,3 +1,4 @@
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
@@ -22,6 +23,7 @@ part 'home_adaptive.dart';
 part 'local_widgets/home_end_drawer.dart';
 part 'local_widgets/home_scaffold.dart';
 part 'local_widgets/home_app_bar.dart';
+part 'local_widgets/home_app_bar_nickname.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
@@ -29,7 +31,7 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ViewModelProvider<HomeViewModel>(
-      create: (context) => HomeViewModel(),
+      create: (context) => HomeViewModel(context),
       builder: (context, viewModel, child) {
         return _HomeAdaptive(viewModel);
       },

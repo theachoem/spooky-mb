@@ -39,6 +39,9 @@ class AppTheme extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         endShape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
+      ),
       textTheme: GoogleFonts.getTextTheme(
         provider.theme.fontFamily,
         TextTheme(

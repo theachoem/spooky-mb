@@ -68,23 +68,21 @@ class HomeAppBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           spacing: 16.0,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Hello Sothea",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextTheme.of(context).titleLarge?.copyWith(color: ColorScheme.of(context).primary),
-                ),
-                Text(
-                  "What did you have in mind?",
-                  overflow: TextOverflow.ellipsis,
-                  style: TextTheme.of(context).bodyLarge,
-                  maxLines: 2,
-                ),
-              ],
+            SpTapEffect(
+              onTap: () => viewModel.changeName(context),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _HomeAppBarNickname(nickname: viewModel.user?.nickname),
+                  Text(
+                    "What did you have in mind?",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextTheme.of(context).bodyLarge,
+                    maxLines: 2,
+                  ),
+                ],
+              ),
             ),
             FittedBox(
               child: SpTapEffect(

@@ -80,8 +80,7 @@ class EditStoryViewModel extends BaseViewModel {
       ),
     ));
 
-    // ignore: use_build_context_synchronously
-    Navigator.of(context).maybePop(story);
+    if (context.mounted) Navigator.of(context).maybePop(story);
   }
 
   void changeTitle(BuildContext context) async {

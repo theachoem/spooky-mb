@@ -31,6 +31,7 @@ dependencies:
   flutter_slidable: ^3.1.2
   local_auth: ^2.3.0
   flutter_markdown: ^0.7.4+3
+  lottie: ^3.3.0
 
 dev_dependencies:
   flutter_test:
@@ -42,3 +43,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/lotties/
