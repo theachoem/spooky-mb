@@ -4,6 +4,7 @@ import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
 import 'package:spooky/widgets/story_list/story_list_timeline_verticle_divider.dart';
+import 'package:spooky/widgets/story_list/story_listener_builder.dart';
 import 'package:spooky/widgets/story_list/story_tile_list_item.dart';
 
 class StoryList extends StatefulWidget {
@@ -72,15 +73,27 @@ class _StoryListState extends State<StoryList> {
               .copyWith(left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right),
           itemCount: stories?.items.length ?? 0,
           itemBuilder: (context, index) {
-            return StoryTileListItem(
-              showYear: true,
-              stories: stories!,
-              index: index,
-              onTap: () async {
-                ShowStoryRoute(id: stories!.items[index].id, story: stories!.items[index]).push(context);
-                await load();
+            StoryDbModel story = stories!.items[index];
+
+            return StoryListenerBuilder(
+              story: story,
+              onChanged: (updatedStory) {
+                // content already rendered from builder to UI, no need to refresh UI with [notifyListeners];
+                stories = stories?.replaceElement(updatedStory);
               },
-              onToggleStarred: () => toggleStarred(stories!.items[index]),
+              onDeleted: () async {
+                stories = stories?.removeElement(story);
+                setState(() {});
+              },
+              builder: (context, snapshot) {
+                return StoryTileListItem(
+                  showYear: true,
+                  stories: stories!,
+                  index: index,
+                  onTap: () => ShowStoryRoute(id: stories!.items[index].id, story: stories!.items[index]).push(context),
+                  onToggleStarred: () => toggleStarred(stories!.items[index]),
+                );
+              },
             );
           },
         ),

@@ -88,6 +88,7 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
   Future<T?> set(T record) async {
     B constructed = await objectConstructor(record);
     await box.putAsync(constructed, mode: PutMode.put);
+    afterCommit(record.id);
     return record;
   }
 
@@ -95,6 +96,7 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
   Future<T?> update(T record) async {
     B constructed = await objectConstructor(record);
     await box.putAsync(constructed, mode: PutMode.update);
+    afterCommit(record.id);
     return record;
   }
 
@@ -102,12 +104,14 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
   Future<T?> create(T record) async {
     B constructed = await objectConstructor(record);
     await box.putAsync(constructed, mode: PutMode.insert);
+    afterCommit(record.id);
     return record;
   }
 
   @override
   Future<T?> delete(int id) async {
     await box.removeAsync(id);
+    afterCommit(id);
     return null;
   }
 }

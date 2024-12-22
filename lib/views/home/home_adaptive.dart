@@ -39,12 +39,27 @@ class _HomeAdaptive extends StatelessWidget {
       sliver: SliverList.builder(
         itemCount: viewModel.stories?.items.length ?? 0,
         itemBuilder: (context, index) {
-          return StoryTileListItem(
-            showYear: false,
-            index: index,
-            stories: viewModel.stories!,
-            onTap: () => viewModel.goToViewPage(context, viewModel.stories!.items[index]),
-            onToggleStarred: () => viewModel.toggleStarred(viewModel.stories!.items[index]),
+          StoryDbModel story = viewModel.stories!.items[index];
+
+          return StoryListenerBuilder(
+            story: story,
+            onChanged: (updatedStory) {
+              // content already rendered from builder to UI, no need to refresh UI with [notifyListeners];
+              viewModel.stories = viewModel.stories?.replaceElement(updatedStory);
+            },
+            onDeleted: () async {
+              viewModel.stories = viewModel.stories?.removeElement(story);
+              viewModel.notifyListeners();
+            },
+            builder: (context, story) {
+              return StoryTileListItem(
+                showYear: false,
+                index: index,
+                stories: viewModel.stories!,
+                onTap: () => viewModel.goToViewPage(context, story),
+                onToggleStarred: () => viewModel.toggleStarred(story),
+              );
+            },
           );
         },
       ),

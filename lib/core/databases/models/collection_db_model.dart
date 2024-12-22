@@ -16,4 +16,9 @@ class CollectionDbModel<T extends BaseDbModel> {
       items: newItems,
     );
   }
+
+  CollectionDbModel<T>? removeElement(T item) {
+    List<T> newItems = items.toList()..removeWhere((e) => e.id == item.id);
+    return CollectionDbModel(items: newItems);
+  }
 }

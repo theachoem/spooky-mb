@@ -65,12 +65,6 @@ class HomeViewModel extends BaseViewModel {
 
   Future<void> goToViewPage(BuildContext context, StoryDbModel story) async {
     await ShowStoryRoute(id: story.id, story: story).push(context);
-    StoryDbModel? updatedStory = await StoryDbModel.db.find(story.id);
-
-    if (updatedStory != null) {
-      stories = stories?.replaceElement(updatedStory);
-      notifyListeners();
-    }
   }
 
   Future<void> goToNewPage(BuildContext context) async {
