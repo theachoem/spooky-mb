@@ -28,7 +28,7 @@ class EditStoryViewModel extends BaseViewModel {
   StoryDbModel? story;
   StoryContentDbModel? currentContent;
 
-  bool topToolbar = true;
+  bool topToolbar = false;
   bool get showToolbarOnTop => quillControllers.isNotEmpty && topToolbar;
   bool get showToolbarOnBottom => quillControllers.isNotEmpty && !topToolbar;
 

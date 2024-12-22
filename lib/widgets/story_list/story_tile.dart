@@ -5,7 +5,7 @@ import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/color_from_day_service.dart';
 
 class StoryTile extends StatelessWidget {
-  static const double monogramSize = 32;
+  static const double monogramSize = 36;
 
   const StoryTile({
     super.key,
@@ -102,7 +102,7 @@ class StoryTile extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         story.displayPathDate.day.toString(),
-        style: Theme.of(context).textTheme.labelMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),
+        style: TextTheme.of(context).bodyLarge?.copyWith(color: ColorScheme.of(context).onPrimary),
       ),
     );
   }

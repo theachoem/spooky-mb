@@ -31,7 +31,6 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton> with Sing
 
   Size? actualFloatingSize;
   OverlayEntry? floating;
-  Size get screenSize => MediaQuery.of(context).size;
 
   Future<void> toggle(BuildContext context) async {
     if (animationController.isAnimating) return;
@@ -72,62 +71,65 @@ class _SpFloatingPopUpButtonState extends State<SpFloatingPopUpButton> with Sing
     Offset offset = renderBox.localToGlobal(Offset.zero);
 
     double childWidth = actualFloatingSize?.width ?? widget.estimatedFloatingWidth - 36;
-    double? left = offset.dx - childWidth / 2;
-    double? right = screenSize.width - left - childWidth;
-
-    double? top = widget.dyGetter != null ? widget.dyGetter!(offset.dy) : offset.dy;
-    double bottom = 0;
-
-    // make sure it 8 pixel inside view.
-    left = max(left, 8);
-    right = max(right, 8);
-
-    if (offset.dx >= screenSize.width / 2) {
-      left = null;
-    } else {
-      right = null;
-    }
 
     return OverlayEntry(builder: (context) {
-      return GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => toggle(context),
-        child: Stack(
-          children: [
-            Positioned(
-              left: left,
-              right: right,
-              top: top,
-              bottom: bottom,
-              child: SpMeasureSize(
-                onChange: (Size size) => actualFloatingSize = size,
-                child: AnimatedBuilder(
-                  animation: animationController,
-                  builder: (context, child) {
-                    return Transform.translate(
-                      offset: Offset(
-                        0.0,
-                        (1 - animationController.value) * (widget.bottomToTop ? 8 : -8),
-                      ),
-                      child: Opacity(
-                        opacity: animationController.value,
-                        child: child,
-                      ),
-                    );
-                  },
-                  child: AnimatedClipReveal(
-                    revealFirstChild: true,
-                    duration: Durations.medium1,
-                    curve: Curves.linear,
-                    pathBuilder: widget.pathBuilder,
-                    child: widget.floatingBuilder(() => toggle(context)),
+      return LayoutBuilder(builder: (context, constraints) {
+        double? left = offset.dx - childWidth / 2;
+        double? right = constraints.maxWidth - left - childWidth;
+
+        double? top = widget.dyGetter != null ? widget.dyGetter!(offset.dy) : offset.dy;
+        double bottom = 0;
+
+        // make sure it 8 pixel inside view.
+        left = max(left, 8);
+        right = max(right, 8);
+
+        if (offset.dx >= constraints.maxWidth / 2) {
+          left = null;
+        } else {
+          right = null;
+        }
+
+        return GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => toggle(context),
+          child: Stack(
+            children: [
+              Positioned(
+                left: left,
+                right: right,
+                top: top,
+                bottom: bottom,
+                child: SpMeasureSize(
+                  onChange: (Size size) => actualFloatingSize = size,
+                  child: AnimatedBuilder(
+                    animation: animationController,
+                    builder: (context, child) {
+                      return Transform.translate(
+                        offset: Offset(
+                          0.0,
+                          (1 - animationController.value) * (widget.bottomToTop ? 8 : -8),
+                        ),
+                        child: Opacity(
+                          opacity: animationController.value,
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: AnimatedClipReveal(
+                      revealFirstChild: true,
+                      duration: Durations.medium1,
+                      curve: Curves.linear,
+                      pathBuilder: widget.pathBuilder,
+                      child: widget.floatingBuilder(() => toggle(context)),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      );
+            ],
+          ),
+        );
+      });
     });
   }
 }

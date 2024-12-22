@@ -112,24 +112,22 @@ class _HomeEndDrawerHeader extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 4.0,
           children: [
             Text(
               "2024",
               style: TextTheme.of(context).displayMedium?.copyWith(color: ColorScheme.of(context).primary),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0, right: 8.0, bottom: 8.0),
-              child: RichText(
-                text: TextSpan(
-                  text: "Switch",
-                  style: TextTheme.of(context).labelLarge,
-                  children: const [
-                    WidgetSpan(
-                      child: Icon(Icons.keyboard_arrow_down_outlined, size: 16.0),
-                      alignment: PlaceholderAlignment.middle,
-                    ),
-                  ],
-                ),
+            RichText(
+              text: TextSpan(
+                text: "Switch",
+                style: TextTheme.of(context).labelLarge,
+                children: const [
+                  WidgetSpan(
+                    child: Icon(Icons.keyboard_arrow_down_outlined, size: 16.0),
+                    alignment: PlaceholderAlignment.middle,
+                  ),
+                ],
               ),
             ),
           ],

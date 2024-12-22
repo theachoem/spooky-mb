@@ -60,7 +60,7 @@ class HomeAppBar extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16.0).add(EdgeInsets.only(
           left: MediaQuery.of(context).padding.left,
           right: MediaQuery.of(context).padding.left,
-          top: MediaQuery.of(context).padding.top,
+          top: MediaQuery.of(context).padding.top + 16.0,
           bottom: _indicatorHeight + 8 * 2,
         )),
         child: Row(

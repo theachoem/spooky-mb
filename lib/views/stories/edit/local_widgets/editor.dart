@@ -108,7 +108,7 @@ class _Editor extends StatelessWidget {
                   showInlineCode: true,
                   showColorButton: true,
                   showBackgroundColorButton: true,
-                  showClearFormat: false,
+                  showClearFormat: true,
                   showAlignmentButtons: true,
                   showLeftAlignment: true,
                   showCenterAlignment: true,

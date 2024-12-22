@@ -14,7 +14,7 @@ class _StoryMonthHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 48.0,
+      width: StoryTile.monogramSize + 16,
       margin: EdgeInsets.only(
         left: 8.0,
         top: index == 0 ? 8.0 : 0,
