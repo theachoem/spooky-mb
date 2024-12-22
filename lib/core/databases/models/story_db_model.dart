@@ -6,8 +6,8 @@ import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:spooky/core/databases/adapters/objectbox/story_box.dart';
 import 'package:spooky/core/databases/models/base_db_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
-import 'package:spooky/core/services/story_writer_helper_service.dart';
-import 'package:spooky/core/types/editing_flow_type.dart';
+import 'package:spooky/core/services/story_db_constructor_service.dart';
+import 'package:spooky/core/services/story_helper.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/views/stories/edit/edit_story_view_model.dart';
 
@@ -37,12 +37,12 @@ class StoryDbModel extends BaseDbModel {
   // tags are mistaken stores in DB in string.
   // we use integer here, buts its actuals value is still in <string>.
   final List<int>? tags;
+  final StoryContentDbModel? latestChange;
 
-  final List<StoryContentDbModel> changes;
+  // load this manually
+  final List<StoryContentDbModel>? allChanges;
 
-  @JsonKey(includeFromJson: true, includeToJson: true)
   final List<String>? rawChanges;
-  bool get useRawChanges => rawChanges?.isNotEmpty == true;
 
   DateTime get displayPathDate {
     return DateTime(
@@ -70,7 +70,8 @@ class StoryDbModel extends BaseDbModel {
     required this.hour,
     required this.minute,
     required this.second,
-    required this.changes,
+    required this.latestChange,
+    required this.allChanges,
     required this.updatedAt,
     required this.createdAt,
     required this.tags,
@@ -95,15 +96,6 @@ class StoryDbModel extends BaseDbModel {
     return null;
   }
 
-  StoryDbModel copyWithNewChange(StoryContentDbModel newChange) {
-    return copyWith(
-      changes: [
-        ...changes,
-        newChange,
-      ],
-    );
-  }
-
   factory StoryDbModel.fromNow() {
     final now = DateTime.now();
     return StoryDbModel.fromDate(now);
@@ -126,9 +118,8 @@ class StoryDbModel extends BaseDbModel {
       id: now.millisecondsSinceEpoch,
       starred: false,
       feeling: null,
-      changes: [
-        StoryContentDbModel.create(),
-      ],
+      latestChange: StoryContentDbModel.create(),
+      allChanges: null,
       updatedAt: now,
       createdAt: now,
       tags: [],
@@ -140,22 +131,21 @@ class StoryDbModel extends BaseDbModel {
   Future<void> moveToBin() async {
     await db.set(copyWith(
       type: PathType.bins,
+      updatedAt: DateTime.now(),
       movedToBinAt: DateTime.now(),
     ));
   }
 
   static Future<StoryDbModel> fromDetailPage(EditStoryViewModel viewModel) async {
-    StoryContentDbModel content = await StoryWriteHelper.buildContent(
-      viewModel.currentContent!,
+    StoryContentDbModel content = await StoryHelper.buildContent(
+      viewModel.draftContent!,
       viewModel.quillControllers,
     );
 
-    switch (viewModel.flowType!) {
-      case EditingFlowType.update:
-        return viewModel.story!.copyWithNewChange(content);
-      case EditingFlowType.create:
-        return viewModel.story!.copyWith(changes: [content]);
-    }
+    return viewModel.story!.copyWith(
+      updatedAt: DateTime.now(),
+      latestChange: content,
+    );
   }
 
   factory StoryDbModel.startYearStory(int year) {
@@ -164,24 +154,23 @@ class StoryDbModel extends BaseDbModel {
         "This is your personal space for $year. Add your stories, thoughts, dreams, or memories and make it uniquely yours.\n";
     Delta delta = Delta()..insert(body);
 
-    initialStory = initialStory.copyWith(changes: [
-      initialStory.changes.first.copyWith(
+    initialStory = initialStory.copyWith(
+      latestChange: initialStory.latestChange!.copyWith(
         title: "Let's Begin: $year ✨",
         pages: [delta.toJson()],
         plainText: body,
       ),
-    ]);
+    );
 
     return initialStory;
+  }
+
+  Future<StoryDbModel> loadAllChanges() async {
+    return StoryDbConstructorService.loadAllChanges(this);
   }
 
   factory StoryDbModel.fromJson(Map<String, dynamic> json) => _$StoryDbModelFromJson(json);
 
   @override
-  Map<String, dynamic> toJson() {
-    // remove dublicate
-    Map<int, StoryContentDbModel> changes = {};
-    for (final e in this.changes) changes[e.id] ??= e;
-    return _$StoryDbModelToJson(copyWith(changes: changes.values.toList()));
-  }
+  Map<String, dynamic> toJson() => _$StoryDbModelToJson(this);
 }

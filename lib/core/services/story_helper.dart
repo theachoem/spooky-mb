@@ -3,19 +3,19 @@ import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/services/quill_service.dart';
 
-class StoryWriteHelper {
+class StoryHelper {
   static T? getElementAtIndex<T>(Iterable<T> list, int index) {
     if (index >= 0 && list.length > index) return list.toList()[index];
     return null;
   }
 
   static Future<StoryContentDbModel> buildContent(
-    StoryContentDbModel currentContent,
+    StoryContentDbModel draftContent,
     Map<int, QuillController> quillControllers,
   ) async {
-    final pages = pagesData(currentContent, quillControllers).values.toList();
+    final pages = pagesData(draftContent, quillControllers).values.toList();
     return await compute(_buildContent, {
-      'current_content': currentContent,
+      'draft_content': draftContent,
       'updated_pages': pages,
     });
   }
@@ -29,37 +29,51 @@ class StoryWriteHelper {
   }
 
   static Map<int, List<dynamic>> pagesData(
-    StoryContentDbModel currentContent,
+    StoryContentDbModel draftContent,
     Map<int, QuillController> quillControllers,
   ) {
     Map<int, List<dynamic>> documents = {};
-    if (currentContent.pages != null) {
-      for (int pageIndex = 0; pageIndex < currentContent.pages!.length; pageIndex++) {
+    if (draftContent.pages != null) {
+      for (int pageIndex = 0; pageIndex < draftContent.pages!.length; pageIndex++) {
         List<dynamic>? quillDocument =
             quillControllers.containsKey(pageIndex) ? quillControllers[pageIndex]!.document.toDelta().toJson() : null;
-        documents[pageIndex] = quillDocument ?? currentContent.pages![pageIndex];
+        documents[pageIndex] = quillDocument ?? draftContent.pages![pageIndex];
       }
     }
     return documents;
   }
 
   static StoryContentDbModel _buildContent(Map<String, dynamic> params) {
-    StoryContentDbModel currentContent = params['current_content'];
+    StoryContentDbModel draftContent = params['draft_content'];
     List<List<dynamic>> updatedPages = params['updated_pages'];
 
-    DateTime createdAt = DateTime.now();
-
     final metadata = [
-      currentContent.title,
+      draftContent.title,
       ...updatedPages.map((e) => Document.fromJson(e).toPlainText()),
     ].join("\n");
 
-    return currentContent.copyWith(
-      id: createdAt.millisecondsSinceEpoch,
+    return draftContent.copyWith(
       plainText: QuillService.toPlainText(Document.fromJson(updatedPages.first).root),
       pages: updatedPages,
-      createdAt: createdAt,
       metadata: metadata,
     );
+  }
+
+  static Future<Document> buildDocument(List<dynamic>? document) async {
+    return compute(_buildDocument, document);
+  }
+
+  static Future<List<Document>> buildDocuments(List<List<dynamic>>? pages) {
+    return compute(_buildDocuments, pages);
+  }
+
+  static Document _buildDocument(List<dynamic>? document) {
+    if (document != null && document.isNotEmpty) return Document.fromJson(document);
+    return Document();
+  }
+
+  static List<Document> _buildDocuments(List<List<dynamic>>? pages) {
+    if (pages == null || pages.isEmpty == true) return [];
+    return pages.map((page) => _buildDocument(page)).toList();
   }
 }

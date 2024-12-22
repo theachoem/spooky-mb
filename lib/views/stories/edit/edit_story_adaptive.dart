@@ -13,13 +13,22 @@ class _EditStoryAdaptive extends StatelessWidget {
             ? const SizedBox.shrink()
             : SpTapEffect(
                 onTap: () => viewModel.changeTitle(context),
-                child: Text(viewModel.currentContent?.title ?? 'Title...'),
+                child: Text(viewModel.draftContent?.title ?? 'Title...'),
               ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () => viewModel.save(context),
-          ),
+          ValueListenableBuilder(
+            valueListenable: viewModel.lastSavedAtNotifier,
+            builder: (context, lastSavedAt, child) {
+              if (lastSavedAt == null) return const SizedBox.shrink();
+              return Container(
+                margin: const EdgeInsets.only(right: 16.0),
+                child: Text(
+                  lastSavedAt.toString(),
+                  style: TextTheme.of(context).bodyMedium,
+                ),
+              );
+            },
+          )
         ],
       ),
       body: buildBody(),

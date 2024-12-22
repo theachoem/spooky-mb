@@ -1,9 +1,10 @@
-import 'package:flutter/foundation.dart';
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/services/story_helper.dart';
 import 'package:spooky/routes/utils/animated_page_route.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
@@ -30,17 +31,20 @@ class ShowStoryViewModel extends BaseViewModel {
   int get currentPage => currentPageNotifier.value.round();
 
   StoryDbModel? story;
-  StoryContentDbModel? currentContent;
+  StoryContentDbModel? draftContent;
   TextSelection? currentTextSelection;
 
   Future<void> load(int? id) async {
     if (id != null) story = await StoryDbModel.db.find(id);
-    currentContent = story?.changes.lastOrNull ?? StoryContentDbModel.create();
 
-    bool alreadyHasPage = currentContent?.pages?.isNotEmpty == true;
-    if (!alreadyHasPage) currentContent = currentContent!..addPage();
+    draftContent = story?.latestChange != null
+        ? StoryContentDbModel.dublicate(story!.latestChange!)
+        : StoryContentDbModel.create(createdAt: DateTime.now());
 
-    List<Document> documents = await compute(_buildDocuments, currentContent?.pages);
+    bool alreadyHasPage = draftContent?.pages?.isNotEmpty == true;
+    if (!alreadyHasPage) draftContent = draftContent!..addPage();
+
+    List<Document> documents = await StoryHelper.buildDocuments(draftContent?.pages);
     for (int i = 0; i < documents.length; i++) {
       quillControllers[i] = QuillController(
         document: documents[i],
@@ -52,11 +56,39 @@ class ShowStoryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
+  void renameTitle(BuildContext context) async {
+    if (story == null || draftContent == null) return;
+
+    List<String>? result = await showTextInputDialog(
+      title: "Rename",
+      context: context,
+      textFields: [
+        DialogTextField(
+          initialText: draftContent?.title,
+          maxLines: 2,
+          hintText: 'Title...',
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) return "Required";
+            return null;
+          },
+        )
+      ],
+    );
+
+    if (result != null && result.firstOrNull != null) {
+      draftContent = draftContent!.copyWith(title: result.first);
+      story = story!.copyWith(latestChange: draftContent!);
+
+      StoryDbModel.db.set(story!);
+      notifyListeners();
+    }
+  }
+
   Future<void> goToEditPage(BuildContext context) async {
-    if (currentContent == null || currentContent?.pages == null || pageController.page == null) return;
+    if (draftContent == null || draftContent?.pages == null || pageController.page == null) return;
     int currentPage = this.currentPage;
 
-    var result = await Navigator.of(context).push(
+    await Navigator.of(context).push(
       AnimatedPageRoute.sharedAxis(
         type: SharedAxisTransitionType.vertical,
         builder: (context) => EditStoryView(
@@ -67,9 +99,7 @@ class ShowStoryViewModel extends BaseViewModel {
       ),
     );
 
-    if (result is StoryDbModel) {
-      await load(result.id);
-    }
+    await load(story?.id);
   }
 
   @override
@@ -78,14 +108,4 @@ class ShowStoryViewModel extends BaseViewModel {
     currentPageNotifier.dispose();
     super.dispose();
   }
-}
-
-Document _buildDocument(List<dynamic>? document) {
-  if (document != null && document.isNotEmpty) return Document.fromJson(document);
-  return Document();
-}
-
-List<Document> _buildDocuments(List<List<dynamic>>? pages) {
-  if (pages == null || pages.isEmpty == true) return [];
-  return pages.map((page) => _buildDocument(page)).toList();
 }

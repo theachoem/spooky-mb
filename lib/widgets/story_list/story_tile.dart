@@ -20,7 +20,7 @@ class StoryTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    StoryContentDbModel? content = story.changes.lastOrNull;
+    StoryContentDbModel? content = story.latestChange;
     String? displayBody = content != null ? getDisplayBodyFor(content) : null;
 
     bool hasTitle = content?.title?.trim().isNotEmpty == true;

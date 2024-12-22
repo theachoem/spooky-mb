@@ -90,6 +90,11 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> {
       } else {
         childPosition = const Offset(0, 0);
       }
+
+      childPosition = Offset(
+        dxGetter(childPosition!.dx),
+        dyGetter(childPosition!.dy),
+      );
     } else {
       if (widget.smartDx && tapPosition != null) {
         childPosition = Offset(

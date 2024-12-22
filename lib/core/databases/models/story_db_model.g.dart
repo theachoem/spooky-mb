@@ -29,7 +29,9 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel second(int? second);
 
-  StoryDbModel changes(List<StoryContentDbModel> changes);
+  StoryDbModel latestChange(StoryContentDbModel? latestChange);
+
+  StoryDbModel allChanges(List<StoryContentDbModel>? allChanges);
 
   StoryDbModel updatedAt(DateTime updatedAt);
 
@@ -59,7 +61,8 @@ abstract class _$StoryDbModelCWProxy {
     int? hour,
     int? minute,
     int? second,
-    List<StoryContentDbModel> changes,
+    StoryContentDbModel? latestChange,
+    List<StoryContentDbModel>? allChanges,
     DateTime updatedAt,
     DateTime createdAt,
     List<int>? tags,
@@ -108,8 +111,12 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
   StoryDbModel second(int? second) => this(second: second);
 
   @override
-  StoryDbModel changes(List<StoryContentDbModel> changes) =>
-      this(changes: changes);
+  StoryDbModel latestChange(StoryContentDbModel? latestChange) =>
+      this(latestChange: latestChange);
+
+  @override
+  StoryDbModel allChanges(List<StoryContentDbModel>? allChanges) =>
+      this(allChanges: allChanges);
 
   @override
   StoryDbModel updatedAt(DateTime updatedAt) => this(updatedAt: updatedAt);
@@ -148,7 +155,8 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
     Object? hour = const $CopyWithPlaceholder(),
     Object? minute = const $CopyWithPlaceholder(),
     Object? second = const $CopyWithPlaceholder(),
-    Object? changes = const $CopyWithPlaceholder(),
+    Object? latestChange = const $CopyWithPlaceholder(),
+    Object? allChanges = const $CopyWithPlaceholder(),
     Object? updatedAt = const $CopyWithPlaceholder(),
     Object? createdAt = const $CopyWithPlaceholder(),
     Object? tags = const $CopyWithPlaceholder(),
@@ -200,10 +208,14 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.second
           // ignore: cast_nullable_to_non_nullable
           : second as int?,
-      changes: changes == const $CopyWithPlaceholder()
-          ? _value.changes
+      latestChange: latestChange == const $CopyWithPlaceholder()
+          ? _value.latestChange
           // ignore: cast_nullable_to_non_nullable
-          : changes as List<StoryContentDbModel>,
+          : latestChange as StoryContentDbModel?,
+      allChanges: allChanges == const $CopyWithPlaceholder()
+          ? _value.allChanges
+          // ignore: cast_nullable_to_non_nullable
+          : allChanges as List<StoryContentDbModel>?,
       updatedAt: updatedAt == const $CopyWithPlaceholder()
           ? _value.updatedAt
           // ignore: cast_nullable_to_non_nullable
@@ -250,8 +262,12 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
       hour: (json['hour'] as num?)?.toInt(),
       minute: (json['minute'] as num?)?.toInt(),
       second: (json['second'] as num?)?.toInt(),
-      changes: (json['changes'] as List<dynamic>)
-          .map((e) => StoryContentDbModel.fromJson(e as Map<String, dynamic>))
+      latestChange: json['latest_change'] == null
+          ? null
+          : StoryContentDbModel.fromJson(
+              json['latest_change'] as Map<String, dynamic>),
+      allChanges: (json['all_changes'] as List<dynamic>?)
+          ?.map((e) => StoryContentDbModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
@@ -280,7 +296,8 @@ Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
       'starred': instance.starred,
       'feeling': instance.feeling,
       'tags': instance.tags,
-      'changes': instance.changes.map((e) => e.toJson()).toList(),
+      'latest_change': instance.latestChange?.toJson(),
+      'all_changes': instance.allChanges?.map((e) => e.toJson()).toList(),
       'raw_changes': instance.rawChanges,
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),

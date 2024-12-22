@@ -9,12 +9,27 @@ class _StoryDetailsAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: GestureDetector(
-          onDoubleTap: () => viewModel.goToEditPage(context),
-          child: Text(viewModel.currentContent?.title ?? 'Title...'),
+        title: SpPopupMenuButton(
+          dxGetter: (dx) => dx + 96,
+          dyGetter: (dy) => dy + 48,
+          builder: (void Function() callback) {
+            return SpTapEffect(
+              onTap: callback,
+              child: Text(viewModel.draftContent?.title ?? 'Title...'),
+            );
+          },
+          items: (BuildContext context) {
+            return [
+              SpPopMenuItem(
+                title: 'Rename',
+                leadingIconData: Icons.edit,
+                onPressed: () => viewModel.renameTitle(context),
+              ),
+            ];
+          },
         ),
         actions: [
-          if (viewModel.currentContent?.pages?.length != null && viewModel.currentContent!.pages!.length > 1)
+          if (viewModel.draftContent?.pages?.length != null && viewModel.draftContent!.pages!.length > 1)
             buildPageIndicator(),
           const SizedBox(width: 12.0),
           IconButton(
@@ -25,7 +40,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
       ),
       body: PageView.builder(
         controller: viewModel.pageController,
-        itemCount: viewModel.currentContent?.pages?.length ?? 0,
+        itemCount: viewModel.draftContent?.pages?.length ?? 0,
         itemBuilder: (context, index) {
           return QuillEditor.basic(
             controller: viewModel.quillControllers[index],
@@ -48,7 +63,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
       child: ValueListenableBuilder<double>(
         valueListenable: viewModel.currentPageNotifier,
         builder: (context, currentPage, child) {
-          return Text('${viewModel.currentPage + 1} / ${viewModel.currentContent?.pages?.length}');
+          return Text('${viewModel.currentPage + 1} / ${viewModel.draftContent?.pages?.length}');
         },
       ),
     );

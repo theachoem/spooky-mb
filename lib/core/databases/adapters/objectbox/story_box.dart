@@ -22,6 +22,18 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   }
 
   @override
+  Future<StoryDbModel?> set(StoryDbModel record) async {
+    await super.set(record);
+
+    if (kDebugMode) {
+      final saved = await find(record.id);
+      print("🚧 StoryBox#set: ${saved?.rawChanges?.length}");
+    }
+
+    return record;
+  }
+
+  @override
   QueryBuilder<StoryObjectBox>? buildQuery({Map<String, dynamic>? filters}) {
     String? query = filters?["query"];
     String? type = filters?["type"];
@@ -83,10 +95,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     List<StoryObjectBox> objects, [
     Map<String, dynamic>? params,
   ]) {
-    return compute(_itemsTransformer, {
-      'objects': objects,
-      'all_changes': params?['all_changes'],
-    });
+    return compute(_itemsTransformer, {'objects': objects});
   }
 
   @override
@@ -102,76 +111,66 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     StoryObjectBox object, [
     Map<String, dynamic>? params,
   ]) {
-    return compute(_objectTransformer, {
-      'object': object,
-      'all_changes': params?['all_changes'],
-    });
-  }
-}
-
-StoryDbModel _objectTransformer(Map<String, dynamic> map) {
-  StoryObjectBox object = map['object'];
-  bool allChanges = map['all_changes'] ?? false;
-
-  Iterable<PathType> types = PathType.values.where((e) => e.name == object.type);
-  return StoryDbModel(
-    type: types.isNotEmpty ? types.first : PathType.docs,
-    id: object.id,
-    starred: object.starred,
-    feeling: object.feeling,
-    year: object.year,
-    month: object.month,
-    day: object.day,
-    hour: object.hour ?? object.createdAt.hour,
-    minute: object.minute ?? object.createdAt.minute,
-    second: object.second ?? object.createdAt.second,
-    updatedAt: object.updatedAt,
-    createdAt: object.createdAt,
-    tags: object.tags?.map((e) => int.tryParse(e)).whereType<int>().toList(),
-    rawChanges: object.changes,
-    movedToBinAt: object.movedToBinAt,
-    changes: StoryDbConstructorService.strsToChanges(
-      // set only last & load everything on story tile instead.
-      !allChanges && object.changes.isNotEmpty ? [object.changes.last] : object.changes,
-    ),
-  );
-}
-
-List<StoryDbModel> _itemsTransformer(Map<String, dynamic> map) {
-  List<StoryObjectBox> objects = map['objects'];
-  bool allChanges = map['all_changes'] ?? false;
-
-  List<StoryDbModel> docs = [];
-  for (StoryObjectBox object in objects) {
-    StoryDbModel json = _objectTransformer({
-      'object': object,
-      'all_changes': allChanges,
-    });
-    docs.add(json);
+    return compute(_objectTransformer, {'object': object});
   }
 
-  return docs;
-}
+  static StoryDbModel _objectTransformer(Map<String, dynamic> map) {
+    StoryObjectBox object = map['object'];
 
-StoryObjectBox _objectConstructor(StoryDbModel story) {
-  StoryObjectBox object = StoryObjectBox(
-    id: story.id,
-    version: story.version,
-    type: story.type.name,
-    year: story.year,
-    month: story.month,
-    day: story.day,
-    hour: story.hour ?? story.createdAt.hour,
-    minute: story.minute ?? story.createdAt.minute,
-    second: story.second ?? story.createdAt.second,
-    tags: story.tags?.map((e) => e.toString()).toList(),
-    starred: story.starred,
-    feeling: story.feeling,
-    createdAt: story.createdAt,
-    updatedAt: story.updatedAt,
-    movedToBinAt: story.movedToBinAt,
-    metadata: story.changes.isNotEmpty ? story.changes.last.safeMetadata : null,
-    changes: StoryDbConstructorService.storyToRawChanges(story),
-  );
-  return object;
+    Iterable<PathType> types = PathType.values.where((e) => e.name == object.type);
+    return StoryDbModel(
+      type: types.isNotEmpty ? types.first : PathType.docs,
+      id: object.id,
+      starred: object.starred,
+      feeling: object.feeling,
+      year: object.year,
+      month: object.month,
+      day: object.day,
+      hour: object.hour ?? object.createdAt.hour,
+      minute: object.minute ?? object.createdAt.minute,
+      second: object.second ?? object.createdAt.second,
+      updatedAt: object.updatedAt,
+      createdAt: object.createdAt,
+      tags: object.tags?.map((e) => int.tryParse(e)).whereType<int>().toList(),
+      rawChanges: object.changes,
+      movedToBinAt: object.movedToBinAt,
+      latestChange: StoryDbConstructorService.rawChangesToChanges([object.changes.last]).first,
+      allChanges: null,
+    );
+  }
+
+  static List<StoryDbModel> _itemsTransformer(Map<String, dynamic> map) {
+    List<StoryObjectBox> objects = map['objects'];
+
+    List<StoryDbModel> docs = [];
+    for (StoryObjectBox object in objects) {
+      StoryDbModel json = _objectTransformer({'object': object});
+      docs.add(json);
+    }
+
+    return docs;
+  }
+
+  static StoryObjectBox _objectConstructor(StoryDbModel story) {
+    StoryObjectBox object = StoryObjectBox(
+      id: story.id,
+      version: story.version,
+      type: story.type.name,
+      year: story.year,
+      month: story.month,
+      day: story.day,
+      hour: story.hour ?? story.createdAt.hour,
+      minute: story.minute ?? story.createdAt.minute,
+      second: story.second ?? story.createdAt.second,
+      tags: story.tags?.map((e) => e.toString()).toList(),
+      starred: story.starred,
+      feeling: story.feeling,
+      createdAt: story.createdAt,
+      updatedAt: story.updatedAt,
+      movedToBinAt: story.movedToBinAt,
+      metadata: story.latestChange?.safeMetadata,
+      changes: StoryDbConstructorService.changesToRawChanges(story),
+    );
+    return object;
+  }
 }
