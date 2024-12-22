@@ -22,6 +22,7 @@ class _ShowChangeAdaptive extends StatelessWidget {
           configurations: const QuillEditorConfigurations(
             padding: EdgeInsets.all(16.0),
             checkBoxReadOnly: true,
+            showCursor: false,
             autoFocus: false,
             expands: true,
           ),

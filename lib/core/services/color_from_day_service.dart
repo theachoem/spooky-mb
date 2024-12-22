@@ -9,7 +9,11 @@ class ColorFromDayService {
   });
 
   Color? get(int day) {
+    return colors()[day];
+  }
+
+  Map<int, Color> colors() {
     bool darkMode = Theme.of(context).brightness == Brightness.dark;
-    return darkMode ? colorsByDayDark[day] : colorsByDayLight[day];
+    return darkMode ? colorsByDayDark : colorsByDayLight;
   }
 }

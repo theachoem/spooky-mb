@@ -9,6 +9,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        clipBehavior: Clip.none,
         title: SpPopupMenuButton(
           dxGetter: (dx) => dx + 96,
           dyGetter: (dy) => dy + 48,
@@ -37,6 +38,10 @@ class _StoryDetailsAdaptive extends StatelessWidget {
           if (viewModel.draftContent?.pages?.length != null && viewModel.draftContent!.pages!.length > 1)
             buildPageIndicator(),
           const SizedBox(width: 12.0),
+          SpFeelingButton(
+            feeling: viewModel.story?.feeling,
+            onPicked: (feeling) => viewModel.setFeeling(feeling),
+          ),
           IconButton(
             onPressed: () => viewModel.goToEditPage(context),
             icon: const Icon(Icons.edit_outlined),
@@ -52,6 +57,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
             configurations: const QuillEditorConfigurations(
               padding: EdgeInsets.all(16.0),
               checkBoxReadOnly: true,
+              showCursor: false,
               autoFocus: false,
               expands: true,
             ),

@@ -73,6 +73,14 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
     notifyListeners();
   }
 
+  Future<void> setFeeling(String? feeling) async {
+    story = story!.copyWith(updatedAt: DateTime.now(), feeling: feeling);
+    notifyListeners();
+
+    await StoryDbModel.db.set(story!);
+    lastSavedAtNotifier.value = story?.updatedAt;
+  }
+
   void changeTitle(BuildContext context) async {
     List<String>? result = await showTextInputDialog(
       title: "Rename",

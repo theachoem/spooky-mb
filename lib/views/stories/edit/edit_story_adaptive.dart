@@ -17,7 +17,11 @@ class _EditStoryAdaptive extends StatelessWidget {
               ),
         actions: [
           buildSavedMessage(),
-          const SizedBox(width: 8.0),
+          const SizedBox(width: 12.0),
+          SpFeelingButton(
+            feeling: viewModel.story?.feeling,
+            onPicked: (feeling) => viewModel.setFeeling(feeling),
+          ),
           IconButton(
             icon: const Icon(Icons.save),
             onPressed: () => context.pop(),

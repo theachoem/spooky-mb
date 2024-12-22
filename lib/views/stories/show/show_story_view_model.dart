@@ -47,7 +47,16 @@ class ShowStoryViewModel extends BaseViewModel {
     notifyListeners();
   }
 
-  void renameTitle(BuildContext context) async {
+  Future<void> setFeeling(String? feeling) async {
+    story = story!.copyWith(
+      updatedAt: DateTime.now(),
+      feeling: feeling,
+    );
+    StoryDbModel.db.set(story!);
+    notifyListeners();
+  }
+
+  Future<void> renameTitle(BuildContext context) async {
     if (story == null || draftContent == null) return;
 
     List<String>? result = await showTextInputDialog(
