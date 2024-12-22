@@ -106,10 +106,13 @@ class StoryDbModel extends BaseDbModel {
   }
 
   // use date for only path
-  factory StoryDbModel.fromDate(DateTime date) {
+  factory StoryDbModel.fromDate(
+    DateTime date, {
+    int? initialYear,
+  }) {
     final now = DateTime.now();
     return StoryDbModel(
-      year: date.year,
+      year: initialYear ?? date.year,
       month: date.month,
       day: date.day,
       hour: date.hour,

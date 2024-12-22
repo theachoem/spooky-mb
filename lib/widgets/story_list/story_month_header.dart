@@ -17,7 +17,7 @@ class _StoryMonthHeader extends StatelessWidget {
       width: StoryTile.monogramSize + 16,
       margin: EdgeInsets.only(
         left: 8.0,
-        top: index == 0 ? 8.0 : 0,
+        top: index == 0 ? 8.0 : 16,
       ),
       child: Container(
         color: Theme.of(context).colorScheme.surface,

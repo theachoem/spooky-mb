@@ -36,7 +36,7 @@ class EditStoryViewModel extends BaseViewModel {
     if (params.storyId != null) story = await StoryDbModel.db.find(params.storyId!);
     flowType = story == null ? EditingFlowType.create : EditingFlowType.update;
 
-    story ??= StoryDbModel.fromDate(openedOn);
+    story ??= StoryDbModel.fromDate(openedOn, initialYear: params.initialYear);
     currentContent = story!.changes.isNotEmpty ? story!.changes.last : StoryContentDbModel.create(createdAt: openedOn);
 
     bool alreadyHasPage = currentContent?.pages?.isNotEmpty == true;

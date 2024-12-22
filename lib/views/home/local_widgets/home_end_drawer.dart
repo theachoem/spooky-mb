@@ -106,6 +106,7 @@ class _HomeEndDrawerHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<HomeViewModel>(context);
     return InkWell(
       onTap: () => SpNestedNavigation.maybeOf(context)?.pushShareAxis(const HomeYearsView()),
       child: Padding(
@@ -115,7 +116,7 @@ class _HomeEndDrawerHeader extends StatelessWidget {
           spacing: 4.0,
           children: [
             Text(
-              "2024",
+              provider.year.toString(),
               style: TextTheme.of(context).displayMedium?.copyWith(color: ColorScheme.of(context).primary),
             ),
             RichText(

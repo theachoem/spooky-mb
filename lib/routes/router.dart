@@ -16,6 +16,15 @@ final GoRouter $router = GoRouter(
       },
     ),
     GoRoute(
+      path: '/stories/new',
+      pageBuilder: (context, state) {
+        return EditStoryView(
+          storyId: null,
+          initialYear: int.tryParse(state.uri.queryParameters['initial_year'] ?? ''),
+        ).getRoute(context: context, state: state);
+      },
+    ),
+    GoRoute(
       path: '/stories/:id',
       pageBuilder: (context, state) {
         return ShowStoryView(
@@ -30,12 +39,6 @@ final GoRouter $router = GoRouter(
         initialPageIndex: int.tryParse(state.uri.queryParameters['initialPageIndex'] ?? '') ?? 0,
         quillControllers: state.extra is Map<int, QuillController> ? state.extra as Map<int, QuillController> : null,
       ).getRoute(context: context, state: state),
-    ),
-    GoRoute(
-      path: '/stories/new',
-      pageBuilder: (context, state) {
-        return const EditStoryView(storyId: null).getRoute(context: context, state: state);
-      },
     ),
   ],
 );

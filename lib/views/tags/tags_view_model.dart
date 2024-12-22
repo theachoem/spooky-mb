@@ -4,11 +4,9 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/databases/models/tag_db_model.dart';
-import 'package:spooky/widgets/sp_default_text_controller.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
+import 'package:spooky/widgets/sp_text_inputs_page.dart';
 import 'package:spooky/widgets/story_list/story_list.dart';
-
-part 'local_widgets/tag_form.dart';
 
 class TagsViewModel extends BaseViewModel {
   TagsViewModel() {
@@ -53,20 +51,47 @@ class TagsViewModel extends BaseViewModel {
   }
 
   Future<void> editTag(BuildContext context, TagDbModel tag) async {
-    dynamic result = await SpNestedNavigation.maybeOf(context)?.pushShareAxis(_TagForm(tags: tags, initialTag: tag));
-    if (result is String) {
-      TagDbModel newTag = tag.copyWith(title: result);
+    dynamic result = await SpNestedNavigation.maybeOf(context)?.pushShareAxis(buildTagForm(initialTag: tag));
+
+    if (result is List<String> && result.isNotEmpty) {
+      TagDbModel newTag = tag.copyWith(title: result.first);
       await TagDbModel.db.set(newTag);
       await load();
     }
   }
 
   Future<void> addTag(BuildContext context) async {
-    dynamic result = await SpNestedNavigation.maybeOf(context)?.pushShareAxis(_TagForm(tags: tags));
-    if (result is String) {
-      TagDbModel newTag = TagDbModel.fromNow().copyWith(title: result);
+    dynamic result = await SpNestedNavigation.maybeOf(context)?.pushShareAxis(buildTagForm());
+
+    if (result is List<String> && result.isNotEmpty) {
+      TagDbModel newTag = TagDbModel.fromNow().copyWith(title: result.first);
       await TagDbModel.db.set(newTag);
       await load();
     }
+  }
+
+  Widget buildTagForm({
+    TagDbModel? initialTag,
+  }) {
+    List<String> tagTitles = tags?.items.map((e) => e.title).toList() ?? [];
+
+    bool isTagExist(String title) {
+      return tagTitles.map((e) => e.toLowerCase()).contains(title.trim().toLowerCase());
+    }
+
+    return SpTextInputsPage(
+      appBar: AppBar(title: initialTag != null ? const Text("Edit Tag") : const Text("Add Tag")),
+      fields: [
+        SpTextInputField(
+          initialText: initialTag?.title,
+          hintText: 'eg. Personal',
+          validator: (value) {
+            if (value == null || value.trim().isEmpty == true) return "Required";
+            if (isTagExist(value) == true) return 'Tag already Exist';
+            return null;
+          },
+        ),
+      ],
+    );
   }
 }

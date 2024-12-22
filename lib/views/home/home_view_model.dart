@@ -7,8 +7,6 @@ import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/objects/user_object.dart';
 import 'package:spooky/core/storages/user_storage.dart';
 import 'package:spooky/core/types/path_type.dart';
-import 'package:spooky/routes/utils/animated_page_route.dart';
-import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/widgets/sp_default_text_controller.dart';
 
 part './local_widgets/home_scroll_info.dart';
@@ -23,7 +21,7 @@ class HomeViewModel extends BaseViewModel {
   // make sure to load initial data on initializer
   Future<void> loadUser(BuildContext context) async {
     user = UserStorage.instance.initialData;
-    if (user?.nickname != null) {
+    if (user?.nickname == null) {
       await Future.delayed(Durations.long3);
       if (context.mounted) changeName(context);
     }
@@ -50,7 +48,7 @@ class HomeViewModel extends BaseViewModel {
     return months;
   }
 
-  void changeYear(int newYear) async {
+  Future<void> changeYear(int newYear) async {
     year = newYear;
     await load();
   }
@@ -71,13 +69,7 @@ class HomeViewModel extends BaseViewModel {
   }
 
   Future<void> goToNewPage(BuildContext context) async {
-    await Navigator.of(context).push(
-      AnimatedPageRoute.sharedAxis(
-        builder: (context) => const EditStoryView(),
-        type: SharedAxisTransitionType.vertical,
-      ),
-    );
-
+    await context.push('/stories/new?initial_year=$year');
     await load();
   }
 

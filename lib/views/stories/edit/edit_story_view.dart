@@ -14,11 +14,13 @@ class EditStoryView extends StatelessWidget {
   const EditStoryView({
     super.key,
     this.storyId,
+    this.initialYear,
     this.initialPageIndex = 0,
     this.quillControllers,
-  });
+  }) : assert(initialYear == null || storyId == null);
 
   final int? storyId;
+  final int? initialYear;
   final int initialPageIndex;
   final Map<int, QuillController>? quillControllers;
 

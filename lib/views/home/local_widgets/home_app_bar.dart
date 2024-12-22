@@ -91,7 +91,7 @@ class HomeAppBar extends StatelessWidget {
                   Scaffold.maybeOf(context)?.openEndDrawer();
                 },
                 child: Text(
-                  "2024",
+                  viewModel.year.toString(),
                   overflow: TextOverflow.ellipsis,
                   style: TextTheme.of(context).displayLarge?.copyWith(color: Theme.of(context).disabledColor),
                   textAlign: TextAlign.end,
