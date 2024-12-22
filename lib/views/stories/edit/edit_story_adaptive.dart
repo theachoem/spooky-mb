@@ -13,17 +13,13 @@ class _EditStoryAdaptive extends StatelessWidget {
         titleSpacing: 0.0,
         title: viewModel.story == null
             ? const SizedBox.shrink()
-            : InkWell(
-                onTap: () => viewModel.changeTitle(context),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: AppBarTheme.of(context).titleSpacing!),
-                  width: double.infinity,
-                  height: kToolbarHeight,
-                  alignment: Alignment.centerLeft,
-                  child: Text(viewModel.draftContent?.title ?? 'Title...'),
-                ),
+            : StoryTitle(
+                content: viewModel.draftContent,
+                changeTitle: () => viewModel.changeTitle(context),
+                backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
               ),
         actions: [
+          const SizedBox(width: 4.0),
           buildSavedMessage(),
           const SizedBox(width: 12.0),
           IconButton(

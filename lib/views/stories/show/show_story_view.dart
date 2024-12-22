@@ -3,6 +3,7 @@ import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/routes/base_route.dart';
+import 'package:spooky/views/stories/local_widgets/story_title.dart';
 import 'package:spooky/widgets/sp_feeling_picker/sp_feeling_button.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
 

@@ -12,40 +12,15 @@ class _StoryDetailsAdaptive extends StatelessWidget {
         clipBehavior: Clip.none,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         titleSpacing: 0.0,
-        title: SpPopupMenuButton(
-          dxGetter: (dx) => dx + 96,
-          dyGetter: (dy) => dy + 48,
-          builder: (void Function() callback) {
-            return InkWell(
-              onTap: callback,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: AppBarTheme.of(context).titleSpacing!),
-                width: double.infinity,
-                height: kToolbarHeight,
-                alignment: Alignment.centerLeft,
-                child: Text(viewModel.draftContent?.title ?? 'Title...'),
-              ),
-            );
-          },
-          items: (BuildContext context) {
-            return [
-              SpPopMenuItem(
-                title: 'Rename',
-                leadingIconData: Icons.edit,
-                onPressed: () => viewModel.renameTitle(context),
-              ),
-              SpPopMenuItem(
-                title: 'Changes History',
-                leadingIconData: Icons.history,
-                onPressed: () => viewModel.goToChangesPage(context),
-              ),
-            ];
-          },
-        ),
+        title: buildAppBarTitle(context),
         actions: [
           if (viewModel.draftContent?.pages?.length != null && viewModel.draftContent!.pages!.length > 1)
             buildPageIndicator(),
           const SizedBox(width: 12.0),
+          IconButton(
+            icon: const Icon(Icons.sell_outlined),
+            onPressed: () => Navigator.of(context).pop(),
+          ),
           SpFeelingButton(
             feeling: viewModel.story?.feeling,
             onPicked: (feeling) => viewModel.setFeeling(feeling),
@@ -74,6 +49,34 @@ class _StoryDetailsAdaptive extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  Widget buildAppBarTitle(BuildContext context) {
+    return SpPopupMenuButton(
+      dxGetter: (dx) => dx + 96,
+      dyGetter: (dy) => dy + 48,
+      builder: (void Function() callback) {
+        return StoryTitle(
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          content: viewModel.draftContent,
+          changeTitle: () => callback(),
+        );
+      },
+      items: (BuildContext context) {
+        return [
+          SpPopMenuItem(
+            title: 'Rename',
+            leadingIconData: Icons.edit,
+            onPressed: () => viewModel.renameTitle(context),
+          ),
+          SpPopMenuItem(
+            title: 'Changes History',
+            leadingIconData: Icons.history,
+            onPressed: () => viewModel.goToChangesPage(context),
+          ),
+        ];
+      },
     );
   }
 
