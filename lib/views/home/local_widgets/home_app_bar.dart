@@ -91,10 +91,10 @@ class _HomeFlexibleSpaceBar extends StatelessWidget {
 
   Widget buildContents(BuildContext context) {
     return Positioned(
-      left: 0,
       top: 0,
       bottom: 0,
-      right: viewModel.scrollInfo.appBar(context).getYearSize().width + 8.0,
+      left: AppTheme.getDirectionValue(context, viewModel.scrollInfo.appBar(context).getYearSize().width + 8.0, 0.0),
+      right: AppTheme.getDirectionValue(context, 0.0, viewModel.scrollInfo.appBar(context).getYearSize().width + 8.0),
       child: SpTapEffect(
         onTap: () => viewModel.changeName(context),
         child: Container(
@@ -146,9 +146,10 @@ class _HomeFlexibleSpaceBar extends StatelessWidget {
 
   Widget buildYear(BuildContext context) {
     return Positioned(
-      right: 0,
       top: MediaQuery.of(context).padding.top + viewModel.scrollInfo.appBar(context).contentsMarginTop,
       bottom: 0,
+      left: AppTheme.getDirectionValue(context, 0.0, null),
+      right: AppTheme.getDirectionValue(context, null, 0.0),
       child: Container(
         alignment: Alignment.topRight,
         width: viewModel.scrollInfo.appBar(context).getYearSize().width,

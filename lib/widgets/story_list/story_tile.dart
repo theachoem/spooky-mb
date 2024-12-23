@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spooky/app_theme.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/color_from_day_service.dart';
@@ -69,10 +70,19 @@ class StoryTile extends StatelessWidget {
   }
 
   Widget buildStarredButton(BuildContext context) {
+    double x = -16.0 * 2 + 48.0;
+    double y = 16.0 * 2 - 48.0;
+
+    if (AppTheme.rtl(context)) {
+      x = -16.0 * 2 + 16.0;
+      y = 16.0 * 2 - 48.0;
+    }
+
     return Positioned(
-      right: 0,
+      left: AppTheme.getDirectionValue(context, 0.0, null),
+      right: AppTheme.getDirectionValue(context, null, 0.0),
       child: Container(
-        transform: Matrix4.identity()..translate(-16.0 * 2 + 48.0, 16.0 * 2 - 48.0),
+        transform: Matrix4.identity()..translate(x, y),
         child: IconButton(
           isSelected: story.starred,
           iconSize: 18.0,

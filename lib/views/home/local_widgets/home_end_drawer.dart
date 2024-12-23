@@ -63,7 +63,7 @@ class _HomeEndDrawer extends StatelessWidget {
             leading: const Icon(Icons.language),
             title: const Text("Language"),
             subtitle: const Text("Khmer"),
-            onTap: () {},
+            onTap: () => const _LanguagesRoute().push(context),
           ),
           Consumer<LocalAuthProvider>(
             builder: (context, provider, child) {
@@ -124,6 +124,43 @@ class _HomeEndDrawerHeader extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _LanguagesRoute extends StatelessWidget {
+  const _LanguagesRoute();
+
+  Future<T?> push<T extends Object?>(BuildContext context) {
+    return SpNestedNavigation.maybeOf(context)!.push(this);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+    Iterable<Locale> supportedLocales = context.findAncestorWidgetOfExactType<MaterialApp>()?.supportedLocales ?? [];
+
+    return Scaffold(
+      appBar: AppBar(),
+      body: ListView.builder(
+        itemCount: supportedLocales.length,
+        itemBuilder: (context, index) {
+          bool selected = themeProvider.currentLocale?.languageCode == supportedLocales.elementAt(index).languageCode;
+
+          return ListTile(
+            title: Text(supportedLocales.elementAt(index).languageCode.toUpperCase()),
+            trailing: Visibility(
+              visible: selected,
+              child: SpFadeIn.fromBottom(
+                child: const Icon(Icons.check),
+              ),
+            ),
+            onTap: () {
+              context.read<ThemeProvider>().setCurrentLocale(supportedLocales.elementAt(index));
+            },
+          );
+        },
       ),
     );
   }

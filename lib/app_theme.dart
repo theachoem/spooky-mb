@@ -16,6 +16,18 @@ class AppTheme extends StatelessWidget {
 
   final Widget Function(ThemeData theme, ThemeData darkTheme, ThemeMode themeMode) builder;
 
+  // default text direction
+  static bool ltr(BuildContext context) => Directionality.of(context) == TextDirection.ltr;
+  static bool rtl(BuildContext context) => Directionality.of(context) == TextDirection.rtl;
+
+  static T? getDirectionValue<T extends Object>(BuildContext context, T? rtlValue, T? ltrValue) {
+    if (Directionality.of(context) == TextDirection.rtl) {
+      return rtlValue;
+    } else {
+      return ltrValue;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer<ThemeProvider>(builder: (context, provider, child) {

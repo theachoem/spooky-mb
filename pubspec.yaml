@@ -9,6 +9,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: any
   json_annotation: ^4.9.0
   json_serializable: ^6.9.0
   copy_with_extension: ^6.0.0
