@@ -80,6 +80,7 @@ class _EditStoryAdaptive extends StatelessWidget {
         return Tooltip(
           message: "This story is auto saved at ${DateFormatService.jms(lastSavedAt)}",
           child: RichText(
+            textScaler: MediaQuery.textScalerOf(context),
             text: TextSpan(
               style: TextTheme.of(context).bodyMedium,
               text: DateFormatService.jms(lastSavedAt),

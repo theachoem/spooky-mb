@@ -1,7 +1,5 @@
 part of 'home_view.dart';
 
-const double _indicatorHeight = 40;
-
 class _HomeAdaptive extends StatelessWidget {
   const _HomeAdaptive(this.viewModel);
 

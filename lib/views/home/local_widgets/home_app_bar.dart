@@ -18,15 +18,15 @@ class HomeAppBar extends StatelessWidget {
       elevation: 0.0,
       scrolledUnderElevation: 0.0,
       forceElevated: false,
-      expandedHeight: viewModel.scrollInfo.getExpandedHeight(context),
-      flexibleSpace: buildFlexibleSpaceBar(context),
+      expandedHeight: viewModel.scrollInfo.appBar(context).getExpandedHeight(),
+      flexibleSpace: _HomeFlexibleSpaceBar(viewModel: viewModel),
       bottom: buildTabBar(context),
     );
   }
 
   PreferredSize buildTabBar(BuildContext context) {
     return PreferredSize(
-      preferredSize: const Size.fromHeight(_indicatorHeight + 8.0 * 2),
+      preferredSize: Size.fromHeight(viewModel.scrollInfo.appBar(context).getTabBarPreferredHeight()),
       child: Material(
         color: Theme.of(context).appBarTheme.backgroundColor,
         child: TabBar(
@@ -37,16 +37,21 @@ class HomeAppBar extends StatelessWidget {
           indicatorAnimation: TabIndicatorAnimation.linear,
           labelColor: Theme.of(context).colorScheme.onPrimary,
           unselectedLabelColor: Theme.of(context).colorScheme.primary,
-          padding: const EdgeInsets.symmetric(horizontal: 14.0, vertical: 8.0),
+          padding: EdgeInsets.only(
+            left: 14.0,
+            right: 14.0,
+            top: viewModel.scrollInfo.appBar(context).indicatorPaddingTop,
+            bottom: viewModel.scrollInfo.appBar(context).indicatorPaddingBottom,
+          ),
           indicator: RoundedIndicator.simple(
-            height: _indicatorHeight,
+            height: viewModel.scrollInfo.appBar(context).indicatorHeight,
             color: Theme.of(context).colorScheme.primary,
           ),
           onTap: (index) => viewModel.scrollInfo.moveToMonthIndex(index),
-          splashBorderRadius: BorderRadius.circular(_indicatorHeight / 2),
+          splashBorderRadius: BorderRadius.circular(viewModel.scrollInfo.appBar(context).indicatorHeight / 2),
           tabs: viewModel.months.map((month) {
             return Container(
-              height: _indicatorHeight - 2,
+              height: viewModel.scrollInfo.appBar(context).indicatorHeight - 2,
               alignment: Alignment.center,
               child: Text(DateFormatService.MMM(DateTime(2000, month))),
             );
@@ -55,52 +60,112 @@ class HomeAppBar extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget buildFlexibleSpaceBar(BuildContext context) {
+class _HomeFlexibleSpaceBar extends StatelessWidget {
+  const _HomeFlexibleSpaceBar({
+    required this.viewModel,
+  });
+
+  final HomeViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
     return FlexibleSpaceBar(
       background: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0).add(EdgeInsets.only(
-          left: MediaQuery.of(context).padding.left,
-          right: MediaQuery.of(context).padding.left,
-          top: MediaQuery.of(context).padding.top + 16.0,
-          bottom: _indicatorHeight + 8 * 2,
-        )),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          spacing: 16.0,
+        alignment: Alignment.bottomCenter,
+        margin: EdgeInsets.only(
+          left: 16.0 + MediaQuery.of(context).padding.left,
+          right: 16.0 + MediaQuery.of(context).padding.left,
+          bottom: viewModel.scrollInfo.appBar(context).getTabBarPreferredHeight(),
+        ),
+        child: Stack(
           children: [
-            SpTapEffect(
-              onTap: () => viewModel.changeName(context),
-              child: Column(
+            buildContents(context),
+            buildYear(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildContents(BuildContext context) {
+    return Positioned(
+      left: 0,
+      top: 0,
+      bottom: 0,
+      right: viewModel.scrollInfo.appBar(context).getYearSize().width + 8.0,
+      child: SpTapEffect(
+        onTap: () => viewModel.changeName(context),
+        child: Container(
+          alignment: Alignment.bottomLeft,
+          child: SpMeasureSize(
+            onPerformLayout: (p0) {
+              double actualHeight = p0.height;
+              double caculatedHeight = viewModel.scrollInfo.appBar(context).getContentsHeight();
+
+              // for adaptive text to font scaling, we precaculate the contents heights.
+              // sometime when font is bigger, this question text render 2 line of text instead of 1.
+              // our caculation is wrong because we only caculate for 1 line.
+              //
+              // because our render align all element to bottom, so it still responsive but just all text is getting near status bar or below it.
+              // our solution is to just check how much we caculate wrong, add expanded height it a bit more.
+              if (actualHeight > caculatedHeight && actualHeight - caculatedHeight > 1) {
+                Future.microtask(() {
+                  viewModel.scrollInfo.setExtraExpandedHeight(actualHeight - caculatedHeight);
+                });
+              } else {
+                Future.microtask(() {
+                  viewModel.scrollInfo.setExtraExpandedHeight(0);
+                });
+              }
+            },
+            child: Wrap(children: [
+              Column(
+                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _HomeAppBarNickname(nickname: viewModel.user?.nickname),
-                  Text(
-                    "What did you have in mind?",
-                    overflow: TextOverflow.ellipsis,
-                    style: TextTheme.of(context).bodyLarge,
-                    maxLines: 2,
+                  SizedBox(
+                    child: Text(
+                      "What did you have in mind?",
+                      overflow: TextOverflow.ellipsis,
+                      style: TextTheme.of(context).bodyLarge,
+                      maxLines: 2,
+                    ),
                   ),
                 ],
               ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildYear(BuildContext context) {
+    return Positioned(
+      right: 0,
+      top: MediaQuery.of(context).padding.top + viewModel.scrollInfo.appBar(context).contentsMarginTop,
+      bottom: 0,
+      child: Container(
+        alignment: Alignment.topRight,
+        width: viewModel.scrollInfo.appBar(context).getYearSize().width,
+        height: viewModel.scrollInfo.appBar(context).getYearSize().height,
+        margin: viewModel.scrollInfo.extraExpandedHeight > 0 ? const EdgeInsets.only(bottom: 8.0) : null,
+        child: SpTapEffect(
+          effects: const [SpTapEffectType.touchableOpacity],
+          onTap: () => Scaffold.maybeOf(context)?.openEndDrawer(),
+          child: FittedBox(
+            child: Text(
+              viewModel.year.toString(),
+              overflow: TextOverflow.ellipsis,
+              style: TextTheme.of(context).displayLarge?.copyWith(color: Theme.of(context).disabledColor, height: 1.0),
+              textAlign: TextAlign.end,
+              maxLines: 1,
             ),
-            FittedBox(
-              child: SpTapEffect(
-                effects: const [SpTapEffectType.touchableOpacity],
-                onTap: () {
-                  Scaffold.maybeOf(context)?.openEndDrawer();
-                },
-                child: Text(
-                  viewModel.year.toString(),
-                  overflow: TextOverflow.ellipsis,
-                  style: TextTheme.of(context).displayLarge?.copyWith(color: Theme.of(context).disabledColor),
-                  textAlign: TextAlign.end,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

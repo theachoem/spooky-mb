@@ -3,6 +3,7 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/core/constants/theme_constant.dart';
 import 'package:spooky/core/extensions/color_scheme_extensions.dart';
 import 'package:spooky/providers/theme_provider.dart';
 import 'package:spooky/routes/utils/animated_page_route.dart';
@@ -20,7 +21,7 @@ class AppTheme extends StatelessWidget {
     return Consumer<ThemeProvider>(builder: (context, provider, child) {
       return buildColorScheme(
         provider: provider,
-        builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        builder: (ColorScheme lightDynamic, ColorScheme darkDynamic) {
           final theme = getTheme(ThemeData.light(), lightDynamic, provider);
           final darkTheme = getTheme(ThemeData.dark(), darkDynamic, provider);
           return builder(theme, darkTheme, provider.themeMode);
@@ -29,7 +30,7 @@ class AppTheme extends StatelessWidget {
     });
   }
 
-  ThemeData getTheme(ThemeData theme, ColorScheme? colorScheme, ThemeProvider provider) {
+  ThemeData getTheme(ThemeData theme, ColorScheme colorScheme, ThemeProvider provider) {
     TextStyle calculateTextStyle(TextStyle textStyle, FontWeight defaultFontWeight) {
       return textStyle.copyWith(fontWeight: calculateFontWeight(defaultFontWeight, provider.theme.fontWeight));
     }
@@ -41,13 +42,13 @@ class AppTheme extends StatelessWidget {
     };
 
     return theme.copyWith(
-      scaffoldBackgroundColor: colorScheme?.surface,
+      scaffoldBackgroundColor: colorScheme.surface,
       colorScheme: colorScheme,
       pageTransitionsTheme: const PageTransitionsTheme(builders: pageTransitionBuilder),
       appBarTheme: AppBarTheme(
         centerTitle: false,
         titleSpacing: NavigationToolbar.kMiddleSpacing,
-        backgroundColor: colorScheme?.readOnly.surface1,
+        backgroundColor: colorScheme.readOnly.surface1,
       ),
       drawerTheme: const DrawerThemeData(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
@@ -81,7 +82,7 @@ class AppTheme extends StatelessWidget {
 
   Widget buildColorScheme({
     required ThemeProvider provider,
-    required Widget Function(ColorScheme? lightDynamic, ColorScheme? darkDynamic) builder,
+    required Widget Function(ColorScheme lightDynamic, ColorScheme darkDynamic) builder,
   }) {
     if (provider.theme.colorSeed == Colors.black || provider.theme.colorSeed == Colors.white) {
       final darkScheme = ColorScheme.dark(
@@ -123,6 +124,9 @@ class AppTheme extends StatelessWidget {
       return builder(lightScheme, darkScheme);
     } else {
       return DynamicColorBuilder(builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
+        lightDynamic ??= ColorScheme.fromSeed(seedColor: ThemeConstant.defaultSeed, brightness: Brightness.light);
+        darkDynamic ??= ColorScheme.fromSeed(seedColor: ThemeConstant.defaultSeed, brightness: Brightness.light);
+
         return builder(lightDynamic, darkDynamic);
       });
     }

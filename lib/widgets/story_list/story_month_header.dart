@@ -22,7 +22,7 @@ class _StoryMonthHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(width: 16.0),
-          buildMonthChip(context),
+          _MonthChip(story: story),
           if (showYear) ...[
             const SizedBox(width: 4.0),
             Container(
@@ -45,28 +45,78 @@ class _StoryMonthHeader extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget buildMonthChip(BuildContext context) {
+class _MonthChip extends StatelessWidget {
+  const _MonthChip({
+    required this.story,
+  });
+
+  final StoryDbModel story;
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       width: StoryTile.monogramSize,
       alignment: Alignment.center,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            width: 1,
-            color: Theme.of(context).dividerColor,
-          ),
+      child: CustomPaint(
+        painter: _MonthChipBoxPainter(
+          fillColor: Theme.of(context).colorScheme.surface,
+          borderRadius: 8.0,
+          borderWidth: 1,
+          borderColor: Theme.of(context).dividerColor,
         ),
-        child: FittedBox(
-          child: Text(
-            DateFormatService.MMM(DateTime(2000, story.month)),
-            style: TextTheme.of(context).labelSmall,
-          ),
+        child: Text(
+          DateFormatService.MMM(DateTime(2000, story.month)),
+          style: TextTheme.of(context).labelSmall,
         ),
       ),
     );
+  }
+}
+
+class _MonthChipBoxPainter extends CustomPainter {
+  final Color fillColor;
+  final Color borderColor;
+  final double borderWidth;
+  final double borderRadius;
+
+  _MonthChipBoxPainter({
+    required this.fillColor,
+    required this.borderColor,
+    required this.borderWidth,
+    required this.borderRadius,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Paint fillPaint = Paint()
+      ..color = fillColor
+      ..style = PaintingStyle.fill;
+
+    final Paint borderPaint = Paint()
+      ..color = borderColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = borderWidth;
+
+    double extraPadding = 4;
+
+    final RRect rrect = RRect.fromRectAndRadius(
+      Rect.fromLTWH(
+        -extraPadding,
+        0,
+        size.width + extraPadding * 2,
+        size.height,
+      ),
+      Radius.circular(borderRadius),
+    );
+
+    canvas.drawRRect(rrect, fillPaint);
+    canvas.drawRRect(rrect, borderPaint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }

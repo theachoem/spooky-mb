@@ -27,7 +27,7 @@ class _HomeScaffold extends StatelessWidget {
             controller: viewModel.scrollInfo.observerScrollController,
             onObserve: (result) => viewModel.scrollInfo.onObserve(result, context),
             child: RefreshIndicator.adaptive(
-              edgeOffset: viewModel.scrollInfo.getExpandedHeight(context),
+              edgeOffset: viewModel.scrollInfo.appBar(context).getExpandedHeight(),
               onRefresh: () => viewModel.load(),
               child: CustomScrollView(
                 controller: viewModel.scrollInfo.scrollController,

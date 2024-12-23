@@ -75,7 +75,7 @@ class StoryTile extends StatelessWidget {
         transform: Matrix4.identity()..translate(-16.0 * 2 + 48.0, 16.0 * 2 - 48.0),
         child: IconButton(
           isSelected: story.starred,
-          iconSize: 20.0,
+          iconSize: 18.0,
           onPressed: onToggleStarred,
           selectedIcon: Icon(
             Icons.favorite,
@@ -83,7 +83,8 @@ class StoryTile extends StatelessWidget {
           ),
           icon: Icon(
             Icons.favorite_outline,
-            color: ColorScheme.of(context).onSurface,
+            color: Theme.of(context).dividerColor,
+            applyTextScaling: true,
           ),
         ),
       ),

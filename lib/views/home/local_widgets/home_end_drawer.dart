@@ -110,6 +110,7 @@ class _HomeEndDrawerHeader extends StatelessWidget {
               style: TextTheme.of(context).displayMedium?.copyWith(color: ColorScheme.of(context).primary),
             ),
             RichText(
+              textScaler: MediaQuery.textScalerOf(context),
               text: TextSpan(
                 text: "Switch",
                 style: TextTheme.of(context).labelLarge,

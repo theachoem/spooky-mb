@@ -27,6 +27,7 @@ class _ArchivesAdaptive extends StatelessWidget {
             return SpTapEffect(
               onTap: open,
               child: RichText(
+                textScaler: MediaQuery.textScalerOf(context),
                 text: TextSpan(
                   style: TextTheme.of(context).titleLarge,
                   text: viewModel.type.localized,
