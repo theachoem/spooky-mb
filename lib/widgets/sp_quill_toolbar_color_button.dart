@@ -155,10 +155,14 @@ class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
       floatingBuilder: (close) {
         return SpColorPicker(
           position: widget.positionedOnUpper ? SpColorPickerPosition.top : SpColorPickerPosition.bottom,
-          currentColor: fillColorBackground,
+          currentColor: widget.isBackground ? iconColorBackground : iconColor,
           level: SpColorPickerLevel.two,
           onPickedColor: (color) {
-            _changeColor(context, color);
+            if (widget.isBackground) {
+              _changeColor(context, color == iconColorBackground ? null : color);
+            } else {
+              _changeColor(context, color == iconColor ? null : color);
+            }
             close();
           },
         );
