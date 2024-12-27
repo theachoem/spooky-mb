@@ -82,7 +82,9 @@ class StoryDbModel extends BaseDbModel {
 
   bool get viewOnly => unarchivable || inBins;
 
-  bool get inBins => type == PathType.bins;
+  bool get inBins => type == PathType.bins && movedToBinAt != null;
+  bool get inArchives => type == PathType.archives;
+
   bool get editable => type == PathType.docs;
   bool get putBackAble => inBins || unarchivable;
 
@@ -131,6 +133,10 @@ class StoryDbModel extends BaseDbModel {
       type: PathType.archives,
       updatedAt: DateTime.now(),
     ));
+  }
+
+  Future<void> delete() async {
+    await db.delete(id);
   }
 
   Future<StoryDbModel?> changePathDate(DateTime date) async {

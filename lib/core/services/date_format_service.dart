@@ -18,4 +18,8 @@ class DateFormatService {
   static jms(DateTime date) {
     return DateFormat.jms().format(date);
   }
+
+  static yMd(DateTime date) {
+    return DateFormat.yMd().format(date);
+  }
 }

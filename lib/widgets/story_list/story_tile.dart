@@ -1,3 +1,4 @@
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/app_theme.dart';
@@ -5,6 +6,7 @@ import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/color_from_day_service.dart';
 import 'package:spooky/core/services/date_format_service.dart';
+import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/widgets/sp_markdown_body.dart';
 import 'package:spooky/widgets/sp_pop_up_menu_button.dart';
@@ -114,6 +116,37 @@ class StoryTile extends StatelessWidget {
           titleStyle: TextStyle(color: ColorScheme.of(context).error),
           onPressed: () => story.moveToBin(),
         ),
+      if (story.inBins)
+        SpPopMenuItem(
+          title: 'Delete',
+          leadingIconData: Icons.delete,
+          titleStyle: TextStyle(color: ColorScheme.of(context).error),
+          onPressed: () async {
+            OkCancelResult result = await showOkCancelAlertDialog(
+              context: context,
+              isDestructiveAction: true,
+              title: "Are you sure to delete this story?",
+              message: "You can't undo this action",
+              okLabel: "Delete",
+            );
+
+            if (result == OkCancelResult.ok) {
+              await story.delete();
+              if (!context.mounted) return;
+              MessengerService.of(context).showSnackBar(
+                'Deleted successfully',
+                showAction: true,
+                action: (foreground) {
+                  return SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () => StoryDbModel.db.set(story),
+                    textColor: foreground,
+                  );
+                },
+              );
+            }
+          },
+        ),
       SpPopMenuItem(
         title: 'Info',
         leadingIconData: Icons.info,
@@ -139,6 +172,41 @@ class StoryTile extends StatelessWidget {
           Container(
             margin: hasTitle ? null : const EdgeInsets.only(right: 24.0),
             child: SpMarkdownBody(body: content!.displayShortBody!),
+          ),
+        if (story.inArchives)
+          Container(
+            margin: const EdgeInsets.only(top: 8.0),
+            child: RichText(
+              text: TextSpan(
+                style: TextTheme.of(context).labelMedium,
+                children: const [
+                  WidgetSpan(child: Icon(Icons.archive_outlined, size: 16.0), alignment: PlaceholderAlignment.middle),
+                  TextSpan(text: ' Archived'),
+                ],
+              ),
+            ),
+          ),
+        if (story.inBins)
+          Container(
+            margin: const EdgeInsets.only(top: 8.0),
+            child: RichText(
+              text: TextSpan(
+                style: TextTheme.of(context).labelMedium?.copyWith(color: ColorScheme.of(context).error),
+                children: [
+                  WidgetSpan(
+                    alignment: PlaceholderAlignment.middle,
+                    child: Icon(
+                      Icons.info,
+                      size: 12.0,
+                      color: ColorScheme.of(context).error,
+                    ),
+                  ),
+                  TextSpan(
+                    text: ' Auto delete on ${DateFormatService.yMd(story.movedToBinAt!.add(const Duration(days: 30)))}',
+                  ),
+                ],
+              ),
+            ),
           )
       ]),
     );
