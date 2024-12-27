@@ -10,6 +10,7 @@ import 'package:spooky/core/services/story_db_constructor_service.dart';
 import 'package:spooky/core/services/story_helper.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/views/stories/edit/edit_story_view_model.dart';
+import 'package:spooky/views/stories/show/show_story_view_model.dart';
 
 part 'story_db_model.g.dart';
 
@@ -139,6 +140,18 @@ class StoryDbModel extends BaseDbModel {
       updatedAt: DateTime.now(),
       movedToBinAt: DateTime.now(),
     ));
+  }
+
+  static Future<StoryDbModel> fromShowPage(ShowStoryViewModel viewModel) async {
+    StoryContentDbModel content = await StoryHelper.buildContent(
+      viewModel.draftContent!,
+      viewModel.quillControllers,
+    );
+
+    return viewModel.story!.copyWith(
+      updatedAt: DateTime.now(),
+      latestChange: content,
+    );
   }
 
   static Future<StoryDbModel> fromDetailPage(EditStoryViewModel viewModel) async {

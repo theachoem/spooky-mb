@@ -19,6 +19,8 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
   }
 
   late final PageController pageController = PageController(initialPage: params.initialPageIndex);
+  final ValueNotifier<DateTime?> lastSavedAtNotifier = ValueNotifier(null);
+
   Map<int, QuillController> quillControllers = {};
   final DateTime openedOn = DateTime.now();
 
@@ -27,24 +29,16 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
   EditingFlowType? flowType;
   StoryDbModel? story;
   StoryContentDbModel? draftContent;
-  ValueNotifier<DateTime?> lastSavedAtNotifier = ValueNotifier(null);
 
   bool topToolbar = false;
   bool get showToolbarOnTop => quillControllers.isNotEmpty && topToolbar;
   bool get showToolbarOnBottom => quillControllers.isNotEmpty && !topToolbar;
-
-  void toggleToolbarPosition() {
-    topToolbar = !topToolbar;
-    notifyListeners();
-  }
 
   Future<void> load({
     StoryDbModel? initialStory,
   }) async {
     if (params.id != null) story = initialStory ?? await StoryDbModel.db.find(params.id!);
     flowType = story == null ? EditingFlowType.create : EditingFlowType.update;
-
-    lastSavedAtNotifier.value = story?.updatedAt;
 
     story ??= StoryDbModel.fromDate(openedOn, initialYear: params.initialYear);
     draftContent = story?.latestChange != null
@@ -59,7 +53,7 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
         quillControllers[i] = QuillController(
           document: params.quillControllers![i]!.document,
           selection: params.quillControllers![i]!.selection,
-        )..addListener(() => silentlySave());
+        )..addListener(() => _silentlySave());
       }
     } else {
       quillControllers = await StoryHelper.buildQuillControllers(
@@ -68,10 +62,15 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
       );
 
       quillControllers.forEach((_, controller) {
-        controller.addListener(() => silentlySave());
+        controller.addListener(() => _silentlySave());
       });
     }
 
+    notifyListeners();
+  }
+
+  void toggleToolbarPosition() {
+    topToolbar = !topToolbar;
     notifyListeners();
   }
 
@@ -114,13 +113,13 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
       draftContent = draftContent!.copyWith(title: result.firstOrNull);
       notifyListeners();
 
-      if (context.mounted) silentlySave();
+      if (context.mounted) _silentlySave();
     }
   }
 
-  void silentlySave() {
+  void _silentlySave() {
     scheduleAction(() async {
-      if (await getHasChange()) {
+      if (await _getHasChange()) {
         story = await StoryDbModel.fromDetailPage(this);
         await StoryDbModel.db.set(story!);
 
@@ -129,18 +128,20 @@ class EditStoryViewModel extends BaseViewModel with ScheduleConcern {
     });
   }
 
-  Future<bool> getHasChange() async {
-    StoryContentDbModel content = await StoryHelper.buildContent(
-      draftContent!,
-      quillControllers,
+  Future<bool> _getHasChange() async {
+    return StoryHelper.hasChanges(
+      draftContent: draftContent!,
+      quillControllers: quillControllers,
+      latestChange: story!.latestChange!,
+      ignoredEmpty: flowType == EditingFlowType.update,
     );
-    return content.hasChanges(story!.latestChange!);
   }
 
   @override
   void dispose() {
     pageController.dispose();
     quillControllers.forEach((e, k) => k.dispose());
+    lastSavedAtNotifier.dispose();
     super.dispose();
   }
 }

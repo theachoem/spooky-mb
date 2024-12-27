@@ -13,10 +13,14 @@ class SpFeelingButton extends StatefulWidget {
     super.key,
     required this.onPicked,
     required this.feeling,
+    this.backgroundColor,
+    this.foregroundColor,
   });
 
   final String? feeling;
   final void Function(String? feeling) onPicked;
+  final Color? backgroundColor;
+  final Color? foregroundColor;
 
   @override
   State<SpFeelingButton> createState() => _SpFeelingButtonState();
@@ -112,14 +116,14 @@ class _SpFeelingButtonState extends State<SpFeelingButton> {
           padding: const EdgeInsets.all(4.0),
           child: Material(
             type: MaterialType.circle,
-            color: ColorScheme.of(context).readOnly.surface1,
+            color: widget.backgroundColor ?? ColorScheme.of(context).readOnly.surface1,
             child: InkWell(
               borderRadius: BorderRadius.circular(48.0),
               onTap: callback,
               child: Padding(
                 padding: const EdgeInsets.all(8),
                 child: FeelingObject.feelingsMap[widget.feeling]?.image64.image(width: 24) ??
-                    const Icon(Icons.add_reaction_sharp),
+                    Icon(Icons.add_reaction_sharp, color: widget.foregroundColor),
               ),
             ),
           ),

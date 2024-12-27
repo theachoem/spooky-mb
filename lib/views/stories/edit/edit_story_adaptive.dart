@@ -17,33 +17,17 @@ class _EditStoryAdaptive extends StatelessWidget {
       appBar: AppBar(
         clipBehavior: Clip.none,
         titleSpacing: 0.0,
+        backgroundColor: ColorScheme.of(context).primary,
+        foregroundColor: ColorScheme.of(context).onPrimary,
         title: viewModel.story == null
             ? const SizedBox.shrink()
             : StoryTitle(
                 content: viewModel.draftContent,
                 changeTitle: () => viewModel.changeTitle(context),
-                backgroundColor: Theme.of(context).appBarTheme.backgroundColor!,
+                backgroundColor: ColorScheme.of(context).primary,
+                scrollable: false,
               ),
-        actions: [
-          const SizedBox(width: 4.0),
-          buildSavedMessage(),
-          const SizedBox(width: 12.0),
-          Builder(builder: (context) {
-            return IconButton(
-              icon: const Icon(Icons.sell_outlined),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-            );
-          }),
-          SpFeelingButton(
-            feeling: viewModel.story?.feeling,
-            onPicked: (feeling) => viewModel.setFeeling(feeling),
-          ),
-          IconButton(
-            icon: const Icon(Icons.save),
-            onPressed: () => Navigator.of(context).pop(),
-          ),
-          const SizedBox(width: 4.0),
-        ],
+        actions: buildAppBarActions(context),
         bottom: const PreferredSize(preferredSize: Size.fromHeight(1), child: Divider(height: 1)),
       ),
       body: buildBody(),
@@ -71,30 +55,57 @@ class _EditStoryAdaptive extends StatelessWidget {
     }
   }
 
-  Widget buildSavedMessage() {
-    return ValueListenableBuilder(
-      valueListenable: viewModel.lastSavedAtNotifier,
-      builder: (context, lastSavedAt, child) {
-        if (lastSavedAt == null) return const SizedBox.shrink();
+  List<Widget> buildAppBarActions(BuildContext context) {
+    return [
+      const SizedBox(width: 4.0),
+      Builder(builder: (context) {
+        return IconButton(
+          icon: const Icon(Icons.sell_outlined),
+          onPressed: () => Scaffold.of(context).openEndDrawer(),
+        );
+      }),
+      buildSwapeableToRecentlySavedIcon(
+        child: SpFeelingButton(
+          feeling: viewModel.story?.feeling,
+          onPicked: (feeling) => viewModel.setFeeling(feeling),
+          backgroundColor: ColorScheme.of(context).onPrimary.withValues(alpha: 0.15),
+          foregroundColor: ColorScheme.of(context).onPrimary,
+        ),
+      ),
+      const SizedBox(width: 4.0),
+    ];
+  }
 
-        return Tooltip(
-          message: "This story is auto saved at ${DateFormatService.jms(lastSavedAt)}",
-          child: RichText(
-            textScaler: MediaQuery.textScalerOf(context),
-            text: TextSpan(
-              style: TextTheme.of(context).bodyMedium,
-              text: DateFormatService.jms(lastSavedAt),
-              children: const [
-                WidgetSpan(
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 4.0),
-                    child: Icon(Icons.check_circle_outline, size: 16.0),
+  Widget buildSwapeableToRecentlySavedIcon({
+    required Widget child,
+  }) {
+    return ValueListenableBuilder<DateTime?>(
+      valueListenable: viewModel.lastSavedAtNotifier,
+      child: child,
+      builder: (context, lastSavedAt, child) {
+        DateTime defaultExpiredEndTime = DateTime.now().subtract(const Duration(days: 1));
+        return SpCountDown(
+          endTime: lastSavedAt?.add(const Duration(seconds: 2)) ?? defaultExpiredEndTime,
+          endWidget: child!,
+          builder: (ended, context) {
+            return SpAnimatedIcons(
+              duration: Durations.long1,
+              showFirst: ended,
+              firstChild: child,
+              secondChild: Builder(builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(48.0),
+                    onTap: () => Navigator.maybePop(context),
+                    child: const CircleAvatar(
+                      child: Icon(Icons.check),
+                    ),
                   ),
-                  alignment: PlaceholderAlignment.middle,
-                )
-              ],
-            ),
-          ),
+                );
+              }),
+            );
+          },
         );
       },
     );

@@ -42,6 +42,7 @@ class _Editor extends StatelessWidget {
         child: AnimatedContainer(
           duration: Durations.medium1,
           curve: Curves.ease,
+          color: getToolbarBackgroundColor(context),
           padding: EdgeInsets.only(
             bottom: MediaQuery.of(context).padding.bottom + MediaQuery.of(context).viewInsets.bottom,
           ),
@@ -80,7 +81,7 @@ class _Editor extends StatelessWidget {
             Expanded(
               child: SizedBox(
                 height: double.infinity,
-                child: buildActualToolbar(),
+                child: buildActualToolbar(context),
               ),
             ),
             const VerticalDivider(width: 1),
@@ -95,10 +96,13 @@ class _Editor extends StatelessWidget {
     );
   }
 
-  Widget buildActualToolbar() {
+  Color? getToolbarBackgroundColor(BuildContext context) => ColorScheme.of(context).readOnly.surface1;
+
+  Widget buildActualToolbar(BuildContext context) {
     return QuillSimpleToolbar(
       controller: controller,
       configurations: QuillSimpleToolbarConfigurations(
+        color: getToolbarBackgroundColor(context),
         buttonOptions: QuillSimpleToolbarButtonOptions(
           color: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
             return SpQuillToolbarColorButton(

@@ -2,6 +2,7 @@ import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/base/base_view_model.dart';
+import 'package:spooky/core/concerns/schedule_concern.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/services/story_helper.dart';
@@ -9,7 +10,7 @@ import 'package:spooky/views/stories/changes/story_changes_view.dart';
 import 'package:spooky/views/stories/edit/edit_story_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
 
-class ShowStoryViewModel extends BaseViewModel {
+class ShowStoryViewModel extends BaseViewModel with ScheduleConcern {
   final ShowStoryRoute params;
 
   ShowStoryViewModel({
@@ -26,6 +27,7 @@ class ShowStoryViewModel extends BaseViewModel {
 
   late final PageController pageController;
   final ValueNotifier<double> currentPageNotifier = ValueNotifier(0);
+  final ValueNotifier<DateTime?> lastSavedAtNotifier = ValueNotifier(null);
   Map<int, QuillController> quillControllers = {};
 
   int get currentPage => currentPageNotifier.value.round();
@@ -48,6 +50,10 @@ class ShowStoryViewModel extends BaseViewModel {
     if (!alreadyHasPage) draftContent = draftContent!..addPage();
 
     quillControllers = await StoryHelper.buildQuillControllers(draftContent!, readOnly: true);
+    quillControllers.forEach((_, controller) {
+      controller.addListener(() => _silentlySave());
+    });
+
     notifyListeners();
   }
 
@@ -114,11 +120,30 @@ class ShowStoryViewModel extends BaseViewModel {
     await load(story!.id);
   }
 
+  void _silentlySave() {
+    scheduleAction(() async {
+      if (await _getHasChange()) {
+        story = await StoryDbModel.fromShowPage(this);
+        await StoryDbModel.db.set(story!);
+        lastSavedAtNotifier.value = story?.updatedAt;
+      }
+    });
+  }
+
+  Future<bool> _getHasChange() async {
+    return StoryHelper.hasChanges(
+      draftContent: draftContent!,
+      quillControllers: quillControllers,
+      latestChange: story!.latestChange!,
+    );
+  }
+
   @override
   void dispose() {
     pageController.dispose();
     currentPageNotifier.dispose();
     quillControllers.forEach((e, k) => k.dispose());
+    lastSavedAtNotifier.dispose();
     super.dispose();
   }
 }

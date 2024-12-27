@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 mixin ScheduleConcern {
-  final Map<Key, Timer?> _timers = {};
+  final Map<String, Timer?> _timers = {};
   Timer? _singleTimer;
 
-  Timer? _timer(Key? key) {
+  Timer? _timer(String? key) {
     if (_timers.containsKey(key)) return _timers[key];
     return _singleTimer;
   }
@@ -13,7 +13,7 @@ mixin ScheduleConcern {
   void scheduleAction(
     VoidCallback callback, {
     Duration duration = const Duration(milliseconds: 300),
-    Key? key,
+    String? key,
   }) {
     cancelTimer(key);
     _singleTimer = Timer(duration, () async {
@@ -24,7 +24,7 @@ mixin ScheduleConcern {
     }
   }
 
-  void cancelTimer(Key? key) {
+  void cancelTimer(String? key) {
     if (_timer(key) != null && _timer(key)!.isActive) {
       _timer(key)?.cancel();
     }

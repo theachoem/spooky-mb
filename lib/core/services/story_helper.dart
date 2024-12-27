@@ -10,6 +10,29 @@ class StoryHelper {
     return null;
   }
 
+  static bool hasDataWritten(StoryContentDbModel content) {
+    List<List<dynamic>> pagesClone = content.pages ?? [];
+    List<List<dynamic>> pages = [...pagesClone];
+
+    pages.removeWhere((items) {
+      bool empty = items.isEmpty;
+      if (items.length == 1) {
+        dynamic first = items.first;
+        if (first is Map) {
+          dynamic insert = items.first['insert'];
+          if (insert is String) return insert.trim().isEmpty;
+        }
+      }
+      return empty;
+    });
+
+    bool emptyPages = pages.isEmpty;
+    String title = content.title ?? "";
+
+    bool hasNoDataWritten = emptyPages && title.trim().isEmpty;
+    return !hasNoDataWritten;
+  }
+
   static Future<StoryContentDbModel> buildContent(
     StoryContentDbModel draftContent,
     Map<int, QuillController> quillControllers,
@@ -93,5 +116,16 @@ class StoryHelper {
   static List<Document> _buildDocuments(List<List<dynamic>>? pages) {
     if (pages == null || pages.isEmpty == true) return [];
     return pages.map((page) => _buildDocument(page)).toList();
+  }
+
+  static Future<bool> hasChanges({
+    required StoryContentDbModel draftContent,
+    required Map<int, QuillController> quillControllers,
+    required StoryContentDbModel latestChange,
+    bool ignoredEmpty = true,
+  }) async {
+    final content = await StoryHelper.buildContent(draftContent, quillControllers);
+    if (!ignoredEmpty && !hasDataWritten(content)) return false;
+    return content.hasChanges(latestChange);
   }
 }

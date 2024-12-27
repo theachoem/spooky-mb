@@ -19,26 +19,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         titleSpacing: 0.0,
         title: buildAppBarTitle(context),
-        actions: [
-          if (viewModel.draftContent?.pages?.length != null && viewModel.draftContent!.pages!.length > 1)
-            buildPageIndicator(),
-          const SizedBox(width: 12.0),
-          Builder(builder: (context) {
-            return IconButton(
-              icon: const Icon(Icons.sell_outlined),
-              onPressed: () => Scaffold.of(context).openEndDrawer(),
-            );
-          }),
-          SpFeelingButton(
-            feeling: viewModel.story?.feeling,
-            onPicked: (feeling) => viewModel.setFeeling(feeling),
-          ),
-          IconButton(
-            onPressed: () => viewModel.goToEditPage(context),
-            icon: const Icon(Icons.edit_outlined),
-          ),
-          const SizedBox(width: 4.0),
-        ],
+        actions: buildAppBarActions(context),
         bottom: const PreferredSize(preferredSize: Size.fromHeight(1), child: Divider(height: 1)),
       ),
       body: PageView.builder(
@@ -49,7 +30,7 @@ class _StoryDetailsAdaptive extends StatelessWidget {
             controller: viewModel.quillControllers[index],
             configurations: const QuillEditorConfigurations(
               padding: EdgeInsets.all(16.0),
-              checkBoxReadOnly: true,
+              checkBoxReadOnly: false,
               showCursor: false,
               autoFocus: false,
               expands: true,
@@ -84,6 +65,66 @@ class _StoryDetailsAdaptive extends StatelessWidget {
             onPressed: () => viewModel.goToChangesPage(context),
           ),
         ];
+      },
+    );
+  }
+
+  List<Widget> buildAppBarActions(BuildContext context) {
+    return [
+      if (viewModel.draftContent?.pages?.length != null && viewModel.draftContent!.pages!.length > 1)
+        buildPageIndicator(),
+      const SizedBox(width: 12.0),
+      Builder(builder: (context) {
+        return IconButton(
+          icon: const Icon(Icons.sell_outlined),
+          onPressed: () => Scaffold.of(context).openEndDrawer(),
+        );
+      }),
+      buildSwapeableToRecentlySavedIcon(
+        child: SpFeelingButton(
+          feeling: viewModel.story?.feeling,
+          onPicked: (feeling) => viewModel.setFeeling(feeling),
+        ),
+      ),
+      IconButton(
+        onPressed: () => viewModel.goToEditPage(context),
+        icon: const Icon(Icons.edit_outlined),
+      ),
+      const SizedBox(width: 4.0),
+    ];
+  }
+
+  Widget buildSwapeableToRecentlySavedIcon({
+    required Widget child,
+  }) {
+    return ValueListenableBuilder<DateTime?>(
+      valueListenable: viewModel.lastSavedAtNotifier,
+      child: child,
+      builder: (context, lastSavedAt, child) {
+        DateTime defaultExpiredEndTime = DateTime.now().subtract(const Duration(days: 1));
+        return SpCountDown(
+          endTime: lastSavedAt?.add(const Duration(seconds: 2)) ?? defaultExpiredEndTime,
+          endWidget: child!,
+          builder: (ended, context) {
+            return SpAnimatedIcons(
+              duration: Durations.long1,
+              showFirst: ended,
+              firstChild: child,
+              secondChild: Builder(builder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(48.0),
+                    onTap: () => Navigator.maybePop(context),
+                    child: const CircleAvatar(
+                      child: Icon(Icons.check),
+                    ),
+                  ),
+                );
+              }),
+            );
+          },
+        );
       },
     );
   }
