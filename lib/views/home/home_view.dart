@@ -31,6 +31,7 @@ part 'local_widgets/home_end_drawer.dart';
 part 'local_widgets/home_scaffold.dart';
 part 'local_widgets/home_app_bar.dart';
 part 'local_widgets/home_app_bar_nickname.dart';
+part 'local_widgets/home_empty.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});

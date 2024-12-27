@@ -31,6 +31,12 @@ class _HomeAdaptive extends StatelessWidget {
       );
     }
 
+    if (viewModel.stories!.items.isEmpty) {
+      return SliverFillRemaining(
+        child: _HomeEmpty(viewModel: viewModel),
+      );
+    }
+
     return SliverPadding(
       padding: const EdgeInsets.symmetric(vertical: 16.0)
           .copyWith(left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right),
