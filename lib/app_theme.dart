@@ -47,16 +47,19 @@ class AppTheme extends StatelessWidget {
       return textStyle.copyWith(fontWeight: calculateFontWeight(defaultFontWeight, provider.theme.fontWeight));
     }
 
-    const Map<TargetPlatform, PageTransitionsBuilder> pageTransitionBuilder = <TargetPlatform, PageTransitionsBuilder>{
-      TargetPlatform.android: SharedAxisPageTransitionsBuilder(transitionType: SharedAxisTransitionType.vertical),
-      TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-      TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+    Map<TargetPlatform, PageTransitionsBuilder> pageTransitionBuilder = <TargetPlatform, PageTransitionsBuilder>{
+      TargetPlatform.iOS: const CupertinoPageTransitionsBuilder(),
+      TargetPlatform.macOS: const CupertinoPageTransitionsBuilder(),
+      TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+        transitionType: SharedAxisTransitionType.vertical,
+        fillColor: colorScheme.surface,
+      ),
     };
 
     return theme.copyWith(
       scaffoldBackgroundColor: colorScheme.surface,
       colorScheme: colorScheme,
-      pageTransitionsTheme: const PageTransitionsTheme(builders: pageTransitionBuilder),
+      pageTransitionsTheme: PageTransitionsTheme(builders: pageTransitionBuilder),
       appBarTheme: AppBarTheme(
         centerTitle: false,
         titleSpacing: NavigationToolbar.kMiddleSpacing,

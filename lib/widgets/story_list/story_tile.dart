@@ -207,7 +207,14 @@ class StoryTile extends StatelessWidget {
           ),
         if (hasBody)
           Container(
-            margin: hasTitle ? null : const EdgeInsets.only(right: 24.0),
+            width: double.infinity,
+            margin: hasTitle
+                ? null
+                : AppTheme.getDirectionValue(
+                    context,
+                    const EdgeInsets.only(left: 24.0),
+                    const EdgeInsets.only(right: 24.0),
+                  ),
             child: SpMarkdownBody(body: content!.displayShortBody!),
           ),
         if (story.inArchives)

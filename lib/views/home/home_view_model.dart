@@ -64,14 +64,6 @@ class HomeViewModel extends BaseViewModel {
     await load();
   }
 
-  @override
-  void dispose() {
-    scrollInfo.dispose();
-    super.dispose();
-  }
-
-  PersistentBottomSheetController? bottomSheet;
-
   void changeName(BuildContext context) async {
     dynamic result = await showModalBottomSheet(
       context: context,
@@ -88,5 +80,11 @@ class HomeViewModel extends BaseViewModel {
       user = await UserStorage.instance.readObject();
       notifyListeners();
     }
+  }
+
+  @override
+  void dispose() {
+    scrollInfo.dispose();
+    super.dispose();
   }
 }

@@ -12,9 +12,10 @@ class _AppBarInfo {
     scaler = MediaQuery.textScalerOf(context);
   }
 
-  final double contentsMarginTop = 12;
+  final double contentsMarginTop = 20;
   final double helloTextBaseHeight = 28;
   final double questionTextBaseHeight = 24;
+  final double contentsMarginBottom = 4;
 
   final double indicatorPaddingTop = 12;
   final double indicatorHeight = 40;
@@ -22,7 +23,7 @@ class _AppBarInfo {
 
   double getTabBarPreferredHeight() => indicatorPaddingTop + indicatorHeight + indicatorPaddingBottom;
   double getExpandedHeight() =>
-      contentsMarginTop + getContentsHeight() + getTabBarPreferredHeight() + extraExpandedHeight;
+      contentsMarginTop + getContentsHeight() + contentsMarginBottom + getTabBarPreferredHeight() + extraExpandedHeight;
 
   Size getYearSize() {
     double aspectRatio = 24 / 10;

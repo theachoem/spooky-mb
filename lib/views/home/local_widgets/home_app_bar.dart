@@ -27,36 +27,33 @@ class HomeAppBar extends StatelessWidget {
   PreferredSize buildTabBar(BuildContext context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(viewModel.scrollInfo.appBar(context).getTabBarPreferredHeight()),
-      child: Material(
-        color: Theme.of(context).appBarTheme.backgroundColor,
-        child: TabBar(
-          indicatorSize: TabBarIndicatorSize.tab,
-          enableFeedback: true,
-          tabAlignment: TabAlignment.start,
-          isScrollable: true,
-          indicatorAnimation: TabIndicatorAnimation.linear,
-          labelColor: Theme.of(context).colorScheme.onPrimary,
-          unselectedLabelColor: Theme.of(context).colorScheme.primary,
-          padding: EdgeInsets.only(
-            left: 14.0,
-            right: 14.0,
-            top: viewModel.scrollInfo.appBar(context).indicatorPaddingTop,
-            bottom: viewModel.scrollInfo.appBar(context).indicatorPaddingBottom,
-          ),
-          indicator: RoundedIndicator.simple(
-            height: viewModel.scrollInfo.appBar(context).indicatorHeight,
-            color: Theme.of(context).colorScheme.primary,
-          ),
-          onTap: (index) => viewModel.scrollInfo.moveToMonthIndex(index),
-          splashBorderRadius: BorderRadius.circular(viewModel.scrollInfo.appBar(context).indicatorHeight / 2),
-          tabs: viewModel.months.map((month) {
-            return Container(
-              height: viewModel.scrollInfo.appBar(context).indicatorHeight - 2,
-              alignment: Alignment.center,
-              child: Text(DateFormatService.MMM(DateTime(2000, month))),
-            );
-          }).toList(),
+      child: TabBar(
+        indicatorSize: TabBarIndicatorSize.tab,
+        enableFeedback: true,
+        tabAlignment: TabAlignment.start,
+        isScrollable: true,
+        indicatorAnimation: TabIndicatorAnimation.linear,
+        labelColor: Theme.of(context).colorScheme.onPrimary,
+        unselectedLabelColor: Theme.of(context).colorScheme.primary,
+        padding: EdgeInsets.only(
+          left: 14.0,
+          right: 14.0,
+          top: viewModel.scrollInfo.appBar(context).indicatorPaddingTop,
+          bottom: viewModel.scrollInfo.appBar(context).indicatorPaddingBottom,
         ),
+        indicator: RoundedIndicator.simple(
+          height: viewModel.scrollInfo.appBar(context).indicatorHeight,
+          color: Theme.of(context).colorScheme.primary,
+        ),
+        onTap: (index) => viewModel.scrollInfo.moveToMonthIndex(index),
+        splashBorderRadius: BorderRadius.circular(viewModel.scrollInfo.appBar(context).indicatorHeight / 2),
+        tabs: viewModel.months.map((month) {
+          return Container(
+            height: viewModel.scrollInfo.appBar(context).indicatorHeight - 2,
+            alignment: Alignment.center,
+            child: Text(DateFormatService.MMM(DateTime(2000, month))),
+          );
+        }).toList(),
       ),
     );
   }
@@ -98,7 +95,7 @@ class _HomeFlexibleSpaceBar extends StatelessWidget {
       child: SpTapEffect(
         onTap: () => viewModel.changeName(context),
         child: Container(
-          alignment: Alignment.bottomLeft,
+          alignment: AppTheme.getDirectionValue(context, Alignment.bottomRight, Alignment.bottomLeft),
           child: SpMeasureSize(
             onPerformLayout: (p0) {
               double actualHeight = p0.height;
@@ -151,7 +148,7 @@ class _HomeFlexibleSpaceBar extends StatelessWidget {
       left: AppTheme.getDirectionValue(context, 0.0, null),
       right: AppTheme.getDirectionValue(context, null, 0.0),
       child: Container(
-        alignment: Alignment.topRight,
+        alignment: AppTheme.getDirectionValue(context, Alignment.topLeft, Alignment.topRight),
         width: viewModel.scrollInfo.appBar(context).getYearSize().width,
         height: viewModel.scrollInfo.appBar(context).getYearSize().height,
         margin: viewModel.scrollInfo.extraExpandedHeight > 0 ? const EdgeInsets.only(bottom: 8.0) : null,

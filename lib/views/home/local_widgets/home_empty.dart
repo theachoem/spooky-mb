@@ -19,7 +19,7 @@ class _HomeEmpty extends StatelessWidget {
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(
-              style: TextTheme.of(context).bodyMedium,
+              style: TextTheme.of(context).bodyLarge,
               children: [
                 const TextSpan(text: 'Please click on'),
                 const WidgetSpan(

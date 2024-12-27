@@ -28,7 +28,7 @@ class _StoryChangesAdaptive extends StatelessWidget {
 
     return Column(
       children: [
-        buildWarningBanner(context, allChanges),
+        if (allChanges?.length != null && allChanges!.length > 20) buildWarningBanner(context, allChanges),
         Expanded(
           child: ListView.separated(
             itemCount: allChanges?.length ?? 0,

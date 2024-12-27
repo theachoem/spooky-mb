@@ -22,7 +22,12 @@ class StoryTitle extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         height: kToolbarHeight,
-        child: scrollable ? buildScrollableTitle(context) : buildTitle(context),
+        child: scrollable
+            ? buildScrollableTitle(context)
+            : Padding(
+                padding: EdgeInsets.symmetric(horizontal: AppBarTheme.of(context).titleSpacing!),
+                child: buildTitle(context),
+              ),
       ),
     );
   }
