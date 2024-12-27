@@ -1,5 +1,6 @@
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/routes/base_route.dart';
 import 'package:spooky/widgets/story_list/story_list.dart';
 

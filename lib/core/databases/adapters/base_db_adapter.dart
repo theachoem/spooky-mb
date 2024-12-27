@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:spooky/core/databases/models/base_db_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 

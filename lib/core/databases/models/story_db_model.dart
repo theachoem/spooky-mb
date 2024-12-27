@@ -88,6 +88,7 @@ class StoryDbModel extends BaseDbModel {
 
   bool get archivable => type == PathType.docs;
   bool get unarchivable => type == PathType.archives;
+  bool get canMoveToBin => !inBins;
 
   int? get willBeRemovedInDays {
     if (movedToBinAt != null) {
@@ -100,6 +101,36 @@ class StoryDbModel extends BaseDbModel {
   bool sameDayAs(StoryDbModel story) {
     return [displayPathDate.year, displayPathDate.month, displayPathDate.day].join("-") ==
         [story.displayPathDate.year, story.displayPathDate.month, story.displayPathDate.day].join("-");
+  }
+
+  Future<StoryDbModel?> putBack() async {
+    return db.set(copyWith(
+      type: PathType.docs,
+      updatedAt: DateTime.now(),
+      movedToBinAt: null,
+    ));
+  }
+
+  Future<StoryDbModel?> moveToBin() async {
+    return db.set(copyWith(
+      type: PathType.bins,
+      updatedAt: DateTime.now(),
+      movedToBinAt: DateTime.now(),
+    ));
+  }
+
+  Future<StoryDbModel?> toggleStarred() async {
+    return db.set(copyWith(
+      starred: !(starred == true),
+      updatedAt: DateTime.now(),
+    ));
+  }
+
+  Future<StoryDbModel?> archive() {
+    return db.set(copyWith(
+      type: PathType.archives,
+      updatedAt: DateTime.now(),
+    ));
   }
 
   factory StoryDbModel.fromNow() {
@@ -132,14 +163,6 @@ class StoryDbModel extends BaseDbModel {
       movedToBinAt: null,
       rawChanges: null,
     );
-  }
-
-  Future<void> moveToBin() async {
-    await db.set(copyWith(
-      type: PathType.bins,
-      updatedAt: DateTime.now(),
-      movedToBinAt: DateTime.now(),
-    ));
   }
 
   static Future<StoryDbModel> fromShowPage(ShowStoryViewModel viewModel) async {

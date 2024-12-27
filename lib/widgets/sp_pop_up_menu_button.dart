@@ -98,7 +98,7 @@ class _SpPopupMenuButtonState extends State<SpPopupMenuButton> {
     } else {
       if (widget.smartDx && tapPosition != null) {
         childPosition = Offset(
-          tapPosition!.dx > screenSize.width / 2 ? screenSize.width : 0.0,
+          dxGetter(tapPosition!.dx > screenSize.width / 2 ? screenSize.width : 0.0),
           dyGetter(childPosition!.dy),
         );
       } else {

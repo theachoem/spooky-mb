@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/databases/models/tag_db_model.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/views/tags/tags_view.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
 
@@ -32,7 +33,13 @@ class _TagsEndDrawerState extends State<TagsEndDrawer> {
 
     if (tags != null) {
       for (TagDbModel tag in tags?.items ?? []) {
-        storiesCountByTagId[tag.id] = await StoryDbModel.db.count(filters: {'tag': tag.id});
+        storiesCountByTagId[tag.id] = await StoryDbModel.db.count(filters: {
+          'tag': tag.id,
+          'types': [
+            PathType.archives.name,
+            PathType.docs.name,
+          ]
+        });
       }
     }
 

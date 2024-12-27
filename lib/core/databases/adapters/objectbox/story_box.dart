@@ -36,7 +36,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   @override
   QueryBuilder<StoryObjectBox>? buildQuery({Map<String, dynamic>? filters}) {
     String? query = filters?["query"];
-    String? type = filters?["type"];
+    List<String>? types = filters?["types"];
     int? year = filters?["year"];
     int? month = filters?["month"];
     int? day = filters?["day"];
@@ -51,7 +51,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
 
     if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.containsElement(tag.toString()));
     if (starred == true) conditions = conditions.and(StoryObjectBox_.starred.equals(true));
-    if (type != null) conditions = conditions.and(StoryObjectBox_.type.equals(type));
+    if (types != null) conditions = conditions.and(StoryObjectBox_.type.oneOf(types));
     if (year != null) conditions = conditions.and(StoryObjectBox_.year.equals(year));
     if (month != null) conditions = conditions.and(StoryObjectBox_.month.equals(month));
     if (day != null) conditions = conditions.and(StoryObjectBox_.day.equals(day));

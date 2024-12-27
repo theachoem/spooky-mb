@@ -13,7 +13,7 @@ class StoryListenerBuilder extends StatefulWidget {
   final StoryDbModel story;
   final void Function(StoryDbModel updatedStory) onChanged;
   final void Function() onDeleted;
-  final Widget Function(BuildContext context, StoryDbModel story) builder;
+  final Widget Function(BuildContext context) builder;
 
   @override
   State<StoryListenerBuilder> createState() => _StoryListenerBuilderState();
@@ -48,6 +48,6 @@ class _StoryListenerBuilderState extends State<StoryListenerBuilder> {
 
   @override
   Widget build(BuildContext context) {
-    return widget.builder(context, story);
+    return widget.builder(context);
   }
 }

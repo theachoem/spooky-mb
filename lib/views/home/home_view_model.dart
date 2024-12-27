@@ -32,7 +32,7 @@ class HomeViewModel extends BaseViewModel {
   Future<void> load() async {
     stories = await StoryDbModel.db.where(filters: {
       'year': year,
-      'type': PathType.docs.name,
+      'types': [PathType.docs.name],
     });
 
     notifyListeners();
@@ -53,16 +53,6 @@ class HomeViewModel extends BaseViewModel {
   Future<void> changeYear(int newYear) async {
     year = newYear;
     await load();
-  }
-
-  Future<void> toggleStarred(StoryDbModel story) async {
-    bool starred = story.starred == true;
-
-    StoryDbModel updatedStory = story.copyWith(starred: !starred);
-    StoryDbModel.db.set(updatedStory);
-
-    stories = stories?.replaceElement(updatedStory);
-    notifyListeners();
   }
 
   Future<void> goToViewPage(BuildContext context, StoryDbModel story) async {

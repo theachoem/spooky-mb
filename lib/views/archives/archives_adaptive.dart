@@ -41,7 +41,10 @@ class _ArchivesAdaptive extends StatelessWidget {
         ),
       ),
       body: StoryList(
-        type: viewModel.type,
+        viewOnly: true,
+        types: [
+          viewModel.type,
+        ],
       ),
     );
   }

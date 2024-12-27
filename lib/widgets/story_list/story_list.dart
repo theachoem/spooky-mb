@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/types/path_type.dart';
+import 'package:spooky/views/home/home_view_model.dart';
+import 'package:spooky/views/stories/changes/show/show_change_view.dart';
 import 'package:spooky/views/stories/show/show_story_view.dart';
 import 'package:spooky/widgets/story_list/story_list_timeline_verticle_divider.dart';
 import 'package:spooky/widgets/story_list/story_listener_builder.dart';
@@ -12,14 +15,14 @@ class StoryList extends StatefulWidget {
     super.key,
     this.year,
     this.tagId,
-    this.type,
+    this.types,
     this.query,
     this.viewOnly = false,
   });
 
   final int? year;
   final int? tagId;
-  final PathType? type;
+  final List<PathType>? types;
   final String? query;
   final bool viewOnly;
 
@@ -34,7 +37,7 @@ class _StoryListState extends State<StoryList> {
     stories = await StoryDbModel.db.where(filters: {
       'year': widget.year,
       'tag': widget.tagId,
-      'type': widget.type?.name,
+      'types': widget.types?.map((t) => t.name).toList(),
       'query': widget.query,
     });
 
@@ -54,14 +57,9 @@ class _StoryListState extends State<StoryList> {
     super.initState();
   }
 
-  Future<void> toggleStarred(StoryDbModel story) async {
-    bool starred = story.starred == true;
-
-    StoryDbModel updatedStory = story.copyWith(starred: !starred);
-    StoryDbModel.db.set(updatedStory);
-
-    stories = stories?.replaceElement(updatedStory);
-    setState(() {});
+  Future<void> putBack(StoryDbModel story, BuildContext context) async {
+    await story.putBack();
+    if (context.mounted) context.read<HomeViewModel>().load();
   }
 
   @override
@@ -75,27 +73,33 @@ class _StoryListState extends State<StoryList> {
               .copyWith(left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right),
           itemCount: stories?.items.length ?? 0,
           itemBuilder: (context, index) {
-            StoryDbModel story = stories!.items[index];
-
+            final story = stories!.items[index];
             return StoryListenerBuilder(
               story: story,
-              onChanged: (updatedStory) {
-                // content already rendered from builder to UI, no need to refresh UI with [notifyListeners];
-                stories = stories?.replaceElement(updatedStory);
-              },
-              onDeleted: () async {
-                stories = stories?.removeElement(story);
+              key: ValueKey(story.id),
+              onChanged: (StoryDbModel updatedStory) {
+                if (widget.types?.contains(updatedStory.type) == true) {
+                  stories = stories?.replaceElement(updatedStory);
+                } else {
+                  stories = stories?.removeElement(updatedStory);
+                }
                 setState(() {});
               },
-              builder: (context, snapshot) {
+              // onDeleted only happen when reloaded story is null which not frequently happen. We just reload in this case.
+              onDeleted: () => load(),
+              builder: (context) {
                 return StoryTileListItem(
                   showYear: true,
                   stories: stories!,
                   index: index,
-                  onTap: widget.viewOnly
-                      ? null
-                      : () => ShowStoryRoute(id: stories!.items[index].id, story: stories!.items[index]).push(context),
-                  onToggleStarred: widget.viewOnly ? null : () => toggleStarred(stories!.items[index]),
+                  viewOnly: widget.viewOnly,
+                  onTap: () {
+                    if (widget.viewOnly) {
+                      ShowChangeRoute(content: story.latestChange!).push(context);
+                    } else {
+                      ShowStoryRoute(id: story.id, story: story).push(context);
+                    }
+                  },
                 );
               },
             );

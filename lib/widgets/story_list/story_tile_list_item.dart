@@ -11,16 +11,16 @@ class StoryTileListItem extends StatelessWidget {
     super.key,
     required this.stories,
     required this.index,
-    required this.onTap,
-    required this.onToggleStarred,
     required this.showYear,
+    required this.onTap,
+    this.viewOnly = false,
   });
 
   final int index;
   final CollectionDbModel<StoryDbModel> stories;
-  final void Function()? onTap;
-  final void Function()? onToggleStarred;
   final bool showYear;
+  final void Function() onTap;
+  final bool viewOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +36,18 @@ class StoryTileListItem extends StatelessWidget {
           _StoryMonthHeader(index: index, context: context, story: story, showYear: showYear),
           StoryTile(
             story: story,
-            onTap: onTap,
-            onToggleStarred: onToggleStarred,
             showMonogram: showMonogram,
+            viewOnly: viewOnly,
+            onTap: onTap,
           ),
         ],
       );
     } else {
       return StoryTile(
         story: story,
-        onTap: onTap,
-        onToggleStarred: onToggleStarred,
         showMonogram: showMonogram,
+        viewOnly: viewOnly,
+        onTap: onTap,
       );
     }
   }

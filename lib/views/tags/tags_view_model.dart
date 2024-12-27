@@ -4,6 +4,7 @@ import 'package:spooky/core/base/base_view_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/databases/models/tag_db_model.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
 import 'package:spooky/widgets/sp_text_inputs_page.dart';
 import 'package:spooky/widgets/story_list/story_list.dart';
@@ -28,7 +29,13 @@ class TagsViewModel extends BaseViewModel {
 
     if (tags != null) {
       for (TagDbModel tag in tags?.items ?? []) {
-        storiesCountByTagId[tag.id] = await StoryDbModel.db.count(filters: {'tag': tag.id});
+        storiesCountByTagId[tag.id] = await StoryDbModel.db.count(filters: {
+          'tag': tag.id,
+          'types': [
+            PathType.archives.name,
+            PathType.docs.name,
+          ]
+        });
       }
     }
 
@@ -38,7 +45,14 @@ class TagsViewModel extends BaseViewModel {
   void viewTag(BuildContext context, TagDbModel tag) async {
     SpNestedNavigation.maybeOf(context)?.push(Scaffold(
       appBar: AppBar(title: Text(tag.title)),
-      body: StoryList(tagId: tag.id, viewOnly: params.storyViewOnly),
+      body: StoryList(
+        tagId: tag.id,
+        viewOnly: params.storyViewOnly,
+        types: const [
+          PathType.archives,
+          PathType.docs,
+        ],
+      ),
     ));
   }
 

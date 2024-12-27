@@ -37,26 +37,26 @@ class _HomeAdaptive extends StatelessWidget {
       sliver: SliverList.builder(
         itemCount: viewModel.stories?.items.length ?? 0,
         itemBuilder: (context, index) {
-          StoryDbModel story = viewModel.stories!.items[index];
-
+          final story = viewModel.stories!.items[index];
           return StoryListenerBuilder(
             key: ValueKey(story.id),
             story: story,
-            onChanged: (updatedStory) {
-              // content already rendered from builder to UI, no need to refresh UI with [notifyListeners];
-              viewModel.stories = viewModel.stories?.replaceElement(updatedStory);
-            },
-            onDeleted: () async {
-              viewModel.stories = viewModel.stories?.removeElement(story);
+            onChanged: (StoryDbModel updatedStory) {
+              if (updatedStory.type != PathType.docs) {
+                viewModel.stories = viewModel.stories?.removeElement(updatedStory);
+              } else {
+                viewModel.stories = viewModel.stories?.replaceElement(updatedStory);
+              }
               viewModel.notifyListeners();
             },
-            builder: (context, story) {
+            // onDeleted only happen when reloaded story is null which not frequently happen. We just reload in this case.
+            onDeleted: () => viewModel.load(),
+            builder: (context) {
               return StoryTileListItem(
                 showYear: false,
                 index: index,
                 stories: viewModel.stories!,
                 onTap: () => viewModel.goToViewPage(context, story),
-                onToggleStarred: () => viewModel.toggleStarred(story),
               );
             },
           );
