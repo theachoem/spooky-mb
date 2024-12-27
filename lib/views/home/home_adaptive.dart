@@ -40,6 +40,7 @@ class _HomeAdaptive extends StatelessWidget {
           StoryDbModel story = viewModel.stories!.items[index];
 
           return StoryListenerBuilder(
+            key: ValueKey(story.id),
             story: story,
             onChanged: (updatedStory) {
               // content already rendered from builder to UI, no need to refresh UI with [notifyListeners];

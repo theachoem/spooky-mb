@@ -18,8 +18,8 @@ class StoryTileListItem extends StatelessWidget {
 
   final int index;
   final CollectionDbModel<StoryDbModel> stories;
-  final void Function() onTap;
-  final void Function() onToggleStarred;
+  final void Function()? onTap;
+  final void Function()? onToggleStarred;
   final bool showYear;
 
   @override

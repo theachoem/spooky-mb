@@ -8,6 +8,12 @@ import 'tags_view_model.dart';
 part 'tags_adaptive.dart';
 
 class TagsRoute extends BaseRoute {
+  final bool storyViewOnly;
+
+  TagsRoute({
+    this.storyViewOnly = false,
+  });
+
   @override
   Widget buildPage(BuildContext context) => TagsView(params: this);
 

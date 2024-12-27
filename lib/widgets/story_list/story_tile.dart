@@ -18,8 +18,8 @@ class StoryTile extends StatelessWidget {
   });
 
   final StoryDbModel story;
-  final void Function() onTap;
-  final void Function() onToggleStarred;
+  final void Function()? onTap;
+  final void Function()? onToggleStarred;
   final bool showMonogram;
 
   @override
@@ -89,11 +89,11 @@ class StoryTile extends StatelessWidget {
           onPressed: onToggleStarred,
           selectedIcon: Icon(
             Icons.favorite,
-            color: ColorScheme.of(context).error,
+            color: onToggleStarred == null ? Theme.of(context).disabledColor : ColorScheme.of(context).error,
           ),
           icon: Icon(
             Icons.favorite_outline,
-            color: Theme.of(context).dividerColor,
+            color: onToggleStarred == null ? Theme.of(context).disabledColor : Theme.of(context).dividerColor,
             applyTextScaling: true,
           ),
         ),

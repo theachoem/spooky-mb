@@ -74,7 +74,7 @@ class _TagsEndDrawerState extends State<TagsEndDrawer> {
             return IconButton(
               icon: const Icon(Icons.edit),
               onPressed: () async {
-                await TagsRoute().push(context);
+                await TagsRoute(storyViewOnly: true).push(context);
                 load();
               },
             );

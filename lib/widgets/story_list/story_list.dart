@@ -14,12 +14,14 @@ class StoryList extends StatefulWidget {
     this.tagId,
     this.type,
     this.query,
+    this.viewOnly = false,
   });
 
   final int? year;
   final int? tagId;
   final PathType? type;
   final String? query;
+  final bool viewOnly;
 
   @override
   State<StoryList> createState() => _StoryListState();
@@ -90,8 +92,10 @@ class _StoryListState extends State<StoryList> {
                   showYear: true,
                   stories: stories!,
                   index: index,
-                  onTap: () => ShowStoryRoute(id: stories!.items[index].id, story: stories!.items[index]).push(context),
-                  onToggleStarred: () => toggleStarred(stories!.items[index]),
+                  onTap: widget.viewOnly
+                      ? null
+                      : () => ShowStoryRoute(id: stories!.items[index].id, story: stories!.items[index]).push(context),
+                  onToggleStarred: widget.viewOnly ? null : () => toggleStarred(stories!.items[index]),
                 );
               },
             );
