@@ -11,8 +11,6 @@ import 'archives_view_model.dart';
 part 'archives_adaptive.dart';
 
 class ArchivesRoute extends BaseRoute {
-  ArchivesRoute();
-
   @override
   Widget buildPage(BuildContext context) => ArchivesView(params: this);
 

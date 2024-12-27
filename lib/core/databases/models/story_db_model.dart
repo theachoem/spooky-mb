@@ -133,6 +133,16 @@ class StoryDbModel extends BaseDbModel {
     ));
   }
 
+  Future<StoryDbModel?> changePathDate(DateTime date) async {
+    return db.set(copyWith(
+      year: date.year,
+      month: date.month,
+      day: date.day,
+      hour: displayPathDate.hour,
+      minute: displayPathDate.minute,
+    ));
+  }
+
   factory StoryDbModel.fromNow() {
     final now = DateTime.now();
     return StoryDbModel.fromDate(now);

@@ -67,6 +67,28 @@ class StoryTile extends StatelessWidget {
 
   List<SpPopMenuItem> buildPopUpMenus(BuildContext context) {
     return [
+      if (story.editable)
+        SpPopMenuItem(
+          title: 'Change Date',
+          leadingIconData: Icons.calendar_month,
+          onPressed: () async {
+            DateTime? date = await showDatePicker(
+              context: context,
+              firstDate: DateTime(1900),
+              lastDate: DateTime.now().add(const Duration(days: 100 * 365)),
+              currentDate: story.displayPathDate,
+            );
+
+            if (date != null) {
+              await story.changePathDate(date);
+
+              if (date.year != story.year) {
+                // story has moved to another year which move out of home view as well -> need to reload.
+                if (context.mounted) context.read<HomeViewModel>().load();
+              }
+            }
+          },
+        ),
       if (story.putBackAble)
         SpPopMenuItem(
           title: 'Put back',
@@ -91,7 +113,12 @@ class StoryTile extends StatelessWidget {
           leadingIconData: Icons.delete,
           titleStyle: TextStyle(color: ColorScheme.of(context).error),
           onPressed: () => story.moveToBin(),
-        )
+        ),
+      SpPopMenuItem(
+        title: 'Info',
+        leadingIconData: Icons.info,
+        onPressed: () {},
+      )
     ];
   }
 

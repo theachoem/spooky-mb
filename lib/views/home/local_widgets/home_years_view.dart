@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
+import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/views/home/home_view_model.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
 import 'package:spooky/widgets/sp_text_inputs_page.dart';
@@ -22,7 +23,13 @@ class HomeYearsViewState extends State<HomeYearsView> {
   }
 
   Future<void> load() async {
-    years = await StoryDbModel.db.getStoryCountsByYear();
+    years = await StoryDbModel.db.getStoryCountsByYear(filters: {
+      'types': [
+        PathType.docs.name,
+        PathType.archives.name,
+      ]
+    });
+
     setState(() {});
   }
 
