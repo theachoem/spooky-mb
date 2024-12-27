@@ -150,7 +150,44 @@ class StoryTile extends StatelessWidget {
       SpPopMenuItem(
         title: 'Info',
         leadingIconData: Icons.info,
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+            context: context,
+            showDragHandle: true,
+            useRootNavigator: true,
+            builder: (context) {
+              return Padding(
+                padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + 16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      leading: const Icon(Icons.edit),
+                      title: const Text('Story Date'),
+                      subtitle: Text(DateFormatService.yMEd(story.displayPathDate)),
+                    ),
+                    if (story.movedToBinAt != null)
+                      ListTile(
+                        leading: const Icon(Icons.delete),
+                        title: const Text('Moved to bin'),
+                        subtitle: Text(DateFormatService.yMEd_jms(story.movedToBinAt!)),
+                      ),
+                    ListTile(
+                      leading: const Icon(Icons.update),
+                      title: const Text('Updated'),
+                      subtitle: Text(DateFormatService.yMEd_jms(story.updatedAt)),
+                    ),
+                    ListTile(
+                      leading: const Icon(Icons.date_range),
+                      title: const Text('Created'),
+                      subtitle: Text(DateFormatService.yMEd_jms(story.createdAt)),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        },
       )
     ];
   }
