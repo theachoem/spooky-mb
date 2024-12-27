@@ -7,30 +7,58 @@ class _StoryChangesAdaptive extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: viewModel.originalStory?.allChanges?.length != null
-            ? Text("Changes (${viewModel.originalStory?.allChanges?.length})")
-            : const Text("Changes"),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) => viewModel.onPopInvokedWithResult(didPop, result, context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: viewModel.originalStory?.allChanges?.length != null
+              ? Text("Changes (${viewModel.originalStory?.allChanges?.length})")
+              : const Text("Changes"),
+        ),
+        body: buildBody(context),
+        bottomNavigationBar: buildBottomNavigationBar(context),
       ),
-      body: buildBody(),
-      bottomNavigationBar: buildBottomNavigationBar(context),
     );
   }
 
-  Widget buildBody() {
+  Widget buildBody(BuildContext context) {
     if (viewModel.draftStory == null) return const Center(child: CircularProgressIndicator.adaptive());
     List<StoryContentDbModel>? allChanges = viewModel.draftStory?.allChanges?.reversed.toList();
 
-    return ListView.separated(
-      itemCount: allChanges?.length ?? 0,
-      separatorBuilder: (context, index) => const Divider(height: 1),
-      itemBuilder: (context, index) {
-        final change = allChanges![index];
-        bool isLatestChange = viewModel.draftStory?.latestChange?.id == change.id;
+    return Column(
+      children: [
+        buildWarningBanner(context, allChanges),
+        Expanded(
+          child: ListView.separated(
+            itemCount: allChanges?.length ?? 0,
+            separatorBuilder: (context, index) => const Divider(height: 1),
+            padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+            itemBuilder: (context, index) {
+              StoryContentDbModel change = allChanges![index];
+              bool isLatestChange = viewModel.draftStory?.latestChange?.id == change.id;
+              return buildChangeTile(change, isLatestChange, context);
+            },
+          ),
+        ),
+      ],
+    );
+  }
 
-        return buildChangeTile(change, isLatestChange, context);
-      },
+  Widget buildWarningBanner(BuildContext context, List<StoryContentDbModel>? allChanges) {
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      color: ColorScheme.of(context).secondary,
+      width: double.infinity,
+      child: RichText(
+        text: TextSpan(children: [
+          WidgetSpan(child: Icon(Icons.info, size: 16.0, color: ColorScheme.of(context).onSecondary)),
+          TextSpan(
+            text: " You have ${allChanges?.length} changes stored, using a lot of space. You should remove some.",
+            style: TextTheme.of(context).bodyMedium?.copyWith(color: ColorScheme.of(context).onSecondary),
+          )
+        ]),
+      ),
     );
   }
 
@@ -60,6 +88,9 @@ class _StoryChangesAdaptive extends StatelessWidget {
           onTap: open,
           isThreeLine: true,
           title: Text(change.title ?? 'N/A'),
+          contentPadding: isLatestChange
+              ? const EdgeInsets.symmetric(horizontal: 16.0)
+              : const EdgeInsets.only(left: 16.0, right: 4.0),
           trailing: isLatestChange
               ? const Icon(Icons.lock)
               : IconButton(icon: const Icon(Icons.delete), onPressed: () => viewModel.draftRemove(change)),
@@ -88,7 +119,8 @@ class _StoryChangesAdaptive extends StatelessWidget {
           children: [
             const Divider(height: 1),
             Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0)
+                  .add(EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom)),
               child: Row(
                 spacing: 8.0,
                 children: [

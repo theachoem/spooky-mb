@@ -72,4 +72,17 @@ class StoryChangesViewModel extends BaseViewModel {
       await load();
     }
   }
+
+  Future<void> onPopInvokedWithResult(bool didPop, dynamic result, BuildContext context) async {
+    if (didPop) return;
+
+    bool shouldPop = true;
+
+    if (toBeRemovedCount > 0) {
+      OkCancelResult result = await showOkCancelAlertDialog(context: context, title: "Are you to discard changes?");
+      shouldPop = result == OkCancelResult.ok;
+    }
+
+    if (shouldPop && context.mounted) Navigator.of(context).pop(result);
+  }
 }
