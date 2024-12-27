@@ -27,8 +27,8 @@ class _StoryDetailsAdaptive extends StatelessWidget {
         itemCount: viewModel.quillControllers.length,
         itemBuilder: (context, index) {
           return QuillEditor.basic(
-            controller: viewModel.quillControllers[index],
-            configurations: const QuillEditorConfigurations(
+            controller: viewModel.quillControllers[index]!,
+            config: const QuillEditorConfig(
               padding: EdgeInsets.all(16.0),
               checkBoxReadOnly: false,
               showCursor: false,

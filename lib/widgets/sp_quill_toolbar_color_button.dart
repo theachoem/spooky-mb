@@ -1,12 +1,14 @@
-// ignore_for_file: implementation_imports
+// ignore_for_file: implementation_imports, invalid_use_of_internal_member
 
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
-import 'package:flutter_quill/src/toolbar/base_button/base_value_button.dart';
-import 'package:flutter_quill/src/common/utils/color.dart';
-import 'package:flutter_quill/translations.dart';
+import 'package:flutter_quill/internal.dart';
 import 'package:spooky/widgets/sp_color_picker.dart';
 import 'package:spooky/widgets/sp_floating_pop_up_button.dart';
+
+import 'package:flutter_quill/src/toolbar/base_button/base_value_button.dart';
+import 'package:flutter_quill/src/common/utils/color.dart';
+import 'package:flutter_quill/src/editor_toolbar_shared/color.dart';
 
 typedef QuillToolbarColorBaseButton
     = QuillToolbarBaseButton<QuillToolbarColorButtonOptions, QuillToolbarColorButtonExtraOptions>;
@@ -32,10 +34,10 @@ class SpQuillToolbarColorButton extends QuillToolbarColorBaseButton {
   final bool positionedOnUpper;
 
   @override
-  QuillToolbarColorButtonState createState() => QuillToolbarColorButtonState();
+  SpQuillToolbarColorButtonState createState() => SpQuillToolbarColorButtonState();
 }
 
-class QuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
+class SpQuillToolbarColorButtonState extends QuillToolbarColorBaseButtonState {
   late bool _isToggledColor;
   late bool _isToggledBackground;
 

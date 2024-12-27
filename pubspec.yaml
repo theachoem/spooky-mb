@@ -21,7 +21,7 @@ dependencies:
   path: ^1.9.0
   path_provider: ^2.1.5
   html_character_entities: ^1.0.0+1
-  flutter_quill: ^10.8.5
+  flutter_quill: ^11.0.0-dev.17
   animations: ^2.0.11
   scrollview_observer: ^1.24.0
   dynamic_color: ^1.7.0

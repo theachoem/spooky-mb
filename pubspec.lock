@@ -476,10 +476,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_quill
-      sha256: "6274834823e61291c0cedee9dd7f73fc7836ea07a12596de8f5fa08598b5eb74"
+      sha256: eccdd58b650b055d7b42d69a43d93d0044b87e97b5a74ae37ea0abf8b256e0b8
       url: "https://pub.dev"
     source: hosted
-    version: "10.8.5"
+    version: "11.0.0-dev.17"
   flutter_quill_delta_from_html:
     dependency: transitive
     description:
@@ -982,10 +982,10 @@ packages:
     dependency: transitive
     description:
       name: quill_native_bridge
-      sha256: "0b3200c57bb4f1f12d6c764648d42482891f20f12024c75fe3479cafc1e132c9"
+      sha256: bda0f0ad9bc160dcdd4bd2b378a7ae8bdb55c3d4b7301bf739d5e3b065ee5e82
       url: "https://pub.dev"
     source: hosted
-    version: "10.7.11"
+    version: "11.0.0"
   quill_native_bridge_android:
     dependency: transitive
     description:

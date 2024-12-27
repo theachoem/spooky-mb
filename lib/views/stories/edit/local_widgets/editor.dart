@@ -55,7 +55,7 @@ class _Editor extends StatelessWidget {
   Widget buildPagesEditor(BuildContext context) {
     return QuillEditor.basic(
       controller: controller,
-      configurations: QuillEditorConfigurations(
+      config: QuillEditorConfig(
         padding: const EdgeInsets.all(16.0).copyWith(
           bottom: 88 + MediaQuery.of(context).viewPadding.bottom,
         ),
@@ -101,17 +101,19 @@ class _Editor extends StatelessWidget {
   Widget buildActualToolbar(BuildContext context) {
     return QuillSimpleToolbar(
       controller: controller,
-      configurations: QuillSimpleToolbarConfigurations(
+      config: QuillSimpleToolbarConfig(
         color: getToolbarBackgroundColor(context),
         buttonOptions: QuillSimpleToolbarButtonOptions(
-          color: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
+          color: QuillToolbarColorButtonOptions(childBuilder: (dynamic options, dynamic extraOptions) {
+            extraOptions as QuillToolbarColorButtonExtraOptions;
             return SpQuillToolbarColorButton(
               controller: extraOptions.controller,
               isBackground: false,
               positionedOnUpper: showToolbarOnTop,
             );
           }),
-          backgroundColor: QuillToolbarColorButtonOptions(childBuilder: (options, extraOptions) {
+          backgroundColor: QuillToolbarColorButtonOptions(childBuilder: (dynamic options, dynamic extraOptions) {
+            extraOptions as QuillToolbarColorButtonExtraOptions;
             return SpQuillToolbarColorButton(
               controller: extraOptions.controller,
               isBackground: true,
