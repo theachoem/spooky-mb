@@ -19,12 +19,17 @@ class _ShowChangeAdaptive extends StatelessWidget {
       itemBuilder: (context, index) {
         return QuillEditor.basic(
           controller: viewModel.quillControllers!.values.elementAt(index),
-          config: const QuillEditorConfig(
-            padding: EdgeInsets.all(16.0),
+          config: QuillEditorConfig(
+            padding: const EdgeInsets.all(16.0),
             checkBoxReadOnly: true,
             showCursor: false,
             autoFocus: false,
             expands: true,
+            embedBuilders: [
+              ImageBlockEmbed(),
+              DateBlockEmbed(),
+            ],
+            unknownEmbedBuilder: UnknownEmbedBuilder(),
           ),
         );
       },

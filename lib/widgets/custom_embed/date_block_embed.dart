@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:spooky/core/services/date_format_service.dart';
-import 'package:spooky/widgets/sp_animated_icon.dart';
 
 class DateBlockEmbed extends EmbedBuilder {
   @override
@@ -10,7 +9,7 @@ class DateBlockEmbed extends EmbedBuilder {
 
   @override
   Widget build(BuildContext context, EmbedContext embedContext) {
-    bool readOnly = embedContext.readOnly;
+    // bool readOnly = embedContext.readOnly;
     DateTime? date = getDate(embedContext);
 
     if (date == null) return const Text("Unknown");
@@ -36,12 +35,12 @@ class DateBlockEmbed extends EmbedBuilder {
                 ),
               ],
             ),
-            const SizedBox(height: 4.0),
-            SpAnimatedIcons(
-              showFirst: !readOnly,
-              secondChild: const SizedBox.shrink(),
-              firstChild: const Icon(Icons.arrow_drop_down),
-            ),
+            // const SizedBox(height: 4.0),
+            // SpAnimatedIcons(
+            //   showFirst: !readOnly,
+            //   secondChild: const SizedBox.shrink(),
+            //   firstChild: const Icon(Icons.arrow_drop_down),
+            // ),
           ],
         ),
       ],

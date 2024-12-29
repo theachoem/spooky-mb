@@ -30,6 +30,7 @@ class _BackupTableViewerState extends State<BackupTableViewer> {
   List<BaseDbModel>? loadedModels;
 
   bool loaded = false;
+  String? error;
 
   @override
   void initState() {
@@ -40,16 +41,22 @@ class _BackupTableViewerState extends State<BackupTableViewer> {
   }
 
   Future<void> load() async {
-    if (database is StoryBox) {
-      loadedModels = widget.tableContents.map(database.modelFromJson).toList();
+    try {
+      if (database is StoryBox) {
+        loadedModels = widget.tableContents.map(database.modelFromJson).toList();
+        loaded = true;
+        setState(() {});
+      } else if (database is TagBox) {
+        loadedModels = widget.tableContents.map(database.modelFromJson).toList();
+        loaded = true;
+        setState(() {});
+      } else {
+        loaded = true;
+      }
+    } catch (e) {
+      error = e.toString();
       loaded = true;
-      setState(() {});
-    } else if (database is TagBox) {
-      loadedModels = widget.tableContents.map(database.modelFromJson).toList();
-      loaded = true;
-      setState(() {});
-    } else {
-      loaded = true;
+      Future.microtask(() => setState(() {}));
     }
   }
 
@@ -65,6 +72,14 @@ class _BackupTableViewerState extends State<BackupTableViewer> {
 
   Widget buildBody() {
     if (!loaded) return const Center(child: CircularProgressIndicator.adaptive());
+    if (error != null) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(error!),
+        ),
+      );
+    }
 
     if (loadedModels?.firstOrNull is StoryDbModel) {
       return StoryList(

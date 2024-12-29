@@ -15,7 +15,7 @@ class _AppBarInfo {
   final double contentsMarginTop = 20;
   final double helloTextBaseHeight = 28;
   final double questionTextBaseHeight = 24;
-  final double contentsMarginBottom = 4;
+  final double contentsMarginBottom = 8;
 
   final double indicatorPaddingTop = 12;
   final double indicatorHeight = 40;

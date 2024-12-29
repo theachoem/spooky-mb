@@ -58,7 +58,7 @@ class ShowStoryViewModel extends BaseViewModel with ScheduleConcern {
   }
 
   Future<bool> setTags(List<int> tags) async {
-    story = story!.copyWith(updatedAt: DateTime.now(), tags: tags.toSet().toList());
+    story = story!.copyWith(updatedAt: DateTime.now(), tags: tags.toSet().map((e) => e.toString()).toList());
     await StoryDbModel.db.set(story!);
     notifyListeners();
 
@@ -110,7 +110,7 @@ class ShowStoryViewModel extends BaseViewModel with ScheduleConcern {
       initialPageIndex: currentPage,
       quillControllers: quillControllers,
       story: story,
-    ).push(context);
+    ).push(context, rootNavigator: true);
 
     await load(story!.id);
   }

@@ -61,6 +61,11 @@ class _Editor extends StatelessWidget {
         ),
         autoFocus: true,
         enableScribble: true,
+        embedBuilders: [
+          ImageBlockEmbed(),
+          DateBlockEmbed(),
+        ],
+        unknownEmbedBuilder: UnknownEmbedBuilder(),
       ),
     );
   }

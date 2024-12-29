@@ -160,7 +160,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
       second: object.second ?? object.createdAt.second,
       updatedAt: object.updatedAt,
       createdAt: object.createdAt,
-      tags: object.tags?.map((e) => int.tryParse(e)).whereType<int>().toList(),
+      tags: object.tags,
       rawChanges: object.changes,
       movedToBinAt: object.movedToBinAt,
       latestChange: StoryDbConstructorService.rawChangesToChanges([object.changes.last]).first,

@@ -5,6 +5,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_quill/flutter_quill.dart' as quill;
+import 'package:spooky/core/extensions/color_scheme_extensions.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/core/services/url_opener_service.dart';
 import 'package:spooky/widgets/custom_embed/unsupported.dart';
@@ -106,6 +107,19 @@ class _QuillImageRenderer extends StatelessWidget {
       imageUrl: imageUrl,
       width: width,
       height: null,
+      fit: BoxFit.fitWidth,
+      placeholder: (context, url) {
+        return Container(
+          width: width,
+          height: 100,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(4.0),
+            color: ColorScheme.of(context).readOnly.surface3,
+          ),
+          child: const CircularProgressIndicator.adaptive(),
+        );
+      },
       errorWidget: (context, url, error) {
         bool driveImage = url.startsWith('https://drive.google.com/uc?export=download&id=');
 

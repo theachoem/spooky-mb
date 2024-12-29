@@ -33,7 +33,7 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel createdAt(DateTime createdAt);
 
-  StoryDbModel tags(List<int>? tags);
+  StoryDbModel tags(List<String>? tags);
 
   StoryDbModel movedToBinAt(DateTime? movedToBinAt);
 
@@ -63,7 +63,7 @@ abstract class _$StoryDbModelCWProxy {
     int? second,
     DateTime updatedAt,
     DateTime createdAt,
-    List<int>? tags,
+    List<String>? tags,
     DateTime? movedToBinAt,
     List<StoryContentDbModel>? allChanges,
     List<String>? rawChanges,
@@ -117,7 +117,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
   StoryDbModel createdAt(DateTime createdAt) => this(createdAt: createdAt);
 
   @override
-  StoryDbModel tags(List<int>? tags) => this(tags: tags);
+  StoryDbModel tags(List<String>? tags) => this(tags: tags);
 
   @override
   StoryDbModel movedToBinAt(DateTime? movedToBinAt) =>
@@ -219,7 +219,7 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
       tags: tags == const $CopyWithPlaceholder()
           ? _value.tags
           // ignore: cast_nullable_to_non_nullable
-          : tags as List<int>?,
+          : tags as List<String>?,
       movedToBinAt: movedToBinAt == const $CopyWithPlaceholder()
           ? _value.movedToBinAt
           // ignore: cast_nullable_to_non_nullable
@@ -264,9 +264,7 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
       second: (json['second'] as num?)?.toInt(),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
-      tags: (json['tags'] as List<dynamic>?)
-          ?.map((e) => (e as num).toInt())
-          .toList(),
+      tags: tagsFromJson(json['tags']),
       movedToBinAt: json['moved_to_bin_at'] == null
           ? null
           : DateTime.parse(json['moved_to_bin_at'] as String),
@@ -288,11 +286,11 @@ Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
       'second': instance.second,
       'starred': instance.starred,
       'feeling': instance.feeling,
+      'tags': instance.tags,
       'changes': instance.allChanges?.map((e) => e.toJson()).toList(),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'moved_to_bin_at': instance.movedToBinAt?.toIso8601String(),
-      'tags': instance.tags,
     };
 
 const _$PathTypeEnumMap = {

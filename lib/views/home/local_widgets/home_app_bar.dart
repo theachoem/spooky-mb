@@ -74,7 +74,8 @@ class _HomeFlexibleSpaceBar extends StatelessWidget {
         margin: EdgeInsets.only(
           left: 16.0 + MediaQuery.of(context).padding.left,
           right: 16.0 + MediaQuery.of(context).padding.left,
-          bottom: viewModel.scrollInfo.appBar(context).getTabBarPreferredHeight(),
+          bottom: viewModel.scrollInfo.appBar(context).getTabBarPreferredHeight() +
+              viewModel.scrollInfo.appBar(context).contentsMarginBottom,
         ),
         child: Stack(
           children: [
@@ -124,13 +125,11 @@ class _HomeFlexibleSpaceBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   _HomeAppBarNickname(nickname: viewModel.user?.nickname),
-                  SizedBox(
-                    child: Text(
-                      "What did you have in mind?",
-                      overflow: TextOverflow.ellipsis,
-                      style: TextTheme.of(context).bodyLarge,
-                      maxLines: 2,
-                    ),
+                  Text(
+                    "What did you have in mind?",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextTheme.of(context).bodyLarge,
+                    maxLines: 2,
                   ),
                 ],
               ),

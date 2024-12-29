@@ -6,11 +6,14 @@ abstract class BaseRoute {
 
   Widget buildPage(BuildContext context);
 
-  Future<T?> push<T extends Object?>(BuildContext context) {
+  Future<T?> push<T extends Object?>(
+    BuildContext context, {
+    bool rootNavigator = false,
+  }) {
     if (nestedRoute) {
       return SpNestedNavigation.maybeOf(context)!.push(buildPage(context));
     } else {
-      return Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return Navigator.of(context, rootNavigator: rootNavigator).push(MaterialPageRoute(builder: (context) {
         return buildPage(context);
       }));
     }

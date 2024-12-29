@@ -14,6 +14,13 @@ import 'package:spooky/views/stories/show/show_story_view_model.dart';
 
 part 'story_db_model.g.dart';
 
+List<String>? tagsFromJson(dynamic tags) {
+  if (tags == null) return null;
+  if (tags is List<int>) return tags.map((e) => e.toString()).toList();
+  if (tags is List<String>) return tags;
+  return null;
+}
+
 @CopyWith()
 @JsonSerializable()
 class StoryDbModel extends BaseDbModel {
@@ -35,8 +42,8 @@ class StoryDbModel extends BaseDbModel {
   final bool? starred;
   final String? feeling;
 
-  @JsonKey(name: 'tags')
-  final List<String>? _tags;
+  @JsonKey(fromJson: tagsFromJson)
+  final List<String>? tags;
 
   /// load this manually when needed with [loadAllChanges]
   @JsonKey(name: 'changes')
@@ -64,7 +71,7 @@ class StoryDbModel extends BaseDbModel {
 
   // tags are mistaken stores in DB in string.
   // we use integer here, buts its actuals value is still in <string>.
-  List<int>? get tags => _tags?.map((e) => int.tryParse(e)).whereType<int>().toList();
+  List<int>? get validTags => tags?.map((e) => int.tryParse(e)).whereType<int>().toList();
 
   StoryDbModel({
     this.version = 1,
@@ -80,12 +87,12 @@ class StoryDbModel extends BaseDbModel {
     required this.second,
     required this.updatedAt,
     required this.createdAt,
-    List<int>? tags,
+    required this.tags,
     required this.movedToBinAt,
     required this.allChanges,
     this.rawChanges,
     this.latestChange,
-  }) : _tags = tags?.map((e) => e.toString()).toList() {
+  }) {
     // By default, `allChanges` is null when fetched from the database for speed.
     // For backups, only `allChanges` is included, while `latestChange` and `rawChanges` are excluded.
     // This means that when converting a cloud backup JSON to a model,

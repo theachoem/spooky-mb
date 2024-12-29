@@ -11,7 +11,7 @@ class _ShowStoryAdaptive extends StatelessWidget {
       endDrawer: viewModel.story != null
           ? TagsEndDrawer(
               onUpdated: (tags) => viewModel.setTags(tags),
-              initialTags: viewModel.story?.tags ?? [],
+              initialTags: viewModel.story?.validTags ?? [],
             )
           : null,
       appBar: AppBar(
