@@ -5,6 +5,9 @@ import 'package:spooky/core/databases/models/collection_db_model.dart';
 // This is just for example.
 class BaseSqliteDbAdapter extends BaseDbAdapter {
   @override
+  String get tableName => throw UnimplementedError();
+
+  @override
   Future<BaseDbModel?> create(BaseDbModel record) {
     throw UnimplementedError();
   }

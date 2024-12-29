@@ -6,6 +6,7 @@ import 'package:spooky/core/services/file_service.dart';
 import 'package:spooky/objectbox.g.dart';
 
 abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> {
+  @override
   String get tableName;
 
   static Store? _store;
@@ -18,7 +19,7 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
     return _box!;
   }
 
-  Future<B> objectConstructor(T object, [Map<String, dynamic>? options]);
+  Future<B> objectConstructor(T model, [Map<String, dynamic>? options]);
   Future<T> objectTransformer(B object, [Map<String, dynamic>? options]);
   Future<List<T>> itemsTransformer(
     List<B> objects, [

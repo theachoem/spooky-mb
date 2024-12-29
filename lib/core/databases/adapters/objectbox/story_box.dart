@@ -97,15 +97,21 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     List<StoryObjectBox> objects, [
     Map<String, dynamic>? options,
   ]) {
-    return compute(_itemsTransformer, {'objects': objects});
+    return compute(_itemsTransformer, {
+      'objects': objects,
+      'options': options,
+    });
   }
 
   @override
   Future<StoryObjectBox> objectConstructor(
-    StoryDbModel object, [
+    StoryDbModel model, [
     Map<String, dynamic>? options,
   ]) {
-    return compute(_objectConstructor, object);
+    return compute(_objectConstructor, {
+      'model': model,
+      'options': options,
+    });
   }
 
   @override
@@ -113,7 +119,10 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     StoryObjectBox object, [
     Map<String, dynamic>? options,
   ]) {
-    return compute(_objectTransformer, {'object': object});
+    return compute(_objectTransformer, {
+      'object': object,
+      'options': options,
+    });
   }
 
   static StoryDbModel _objectTransformer(Map<String, dynamic> map) {
@@ -143,18 +152,25 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
 
   static List<StoryDbModel> _itemsTransformer(Map<String, dynamic> map) {
     List<StoryObjectBox> objects = map['objects'];
+    Map<String, dynamic>? options = map['options'];
 
     List<StoryDbModel> docs = [];
     for (StoryObjectBox object in objects) {
-      StoryDbModel json = _objectTransformer({'object': object});
+      StoryDbModel json = _objectTransformer({
+        'object': object,
+        'options': options,
+      });
+
       docs.add(json);
     }
 
     return docs;
   }
 
-  static StoryObjectBox _objectConstructor(StoryDbModel story) {
-    StoryObjectBox object = StoryObjectBox(
+  static StoryObjectBox _objectConstructor(Map<String, dynamic> map) {
+    StoryDbModel story = map['model'];
+
+    return StoryObjectBox(
       id: story.id,
       version: story.version,
       type: story.type.name,
@@ -173,6 +189,5 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
       metadata: story.latestChange?.safeMetadata,
       changes: StoryDbConstructorService.changesToRawChanges(story),
     );
-    return object;
   }
 }

@@ -11,7 +11,12 @@ class DateFormatService {
     return DateFormat.MMM().format(date);
   }
 
-  static yMEd_jms(DateTime date) {
+  static String yMEd_jms(DateTime date) {
+    return DateFormat.yMEd().addPattern("- ${DateFormat.jms().pattern!}").format(date);
+  }
+
+  static String? yMEd_jmsNullable(DateTime? date) {
+    if (date == null) return null;
     return DateFormat.yMEd().addPattern("- ${DateFormat.jms().pattern!}").format(date);
   }
 

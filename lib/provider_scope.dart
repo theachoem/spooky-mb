@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/providers/backup_sources_provider.dart';
 import 'package:spooky/providers/local_auth_provider.dart';
 import 'package:spooky/providers/theme_provider.dart';
 
@@ -21,6 +22,9 @@ class ProviderScope extends StatelessWidget {
         ),
         ListenableProvider<ThemeProvider>(
           create: (context) => ThemeProvider(),
+        ),
+        ListenableProvider<BackupSourcesProvider>(
+          create: (context) => BackupSourcesProvider(),
         ),
       ],
       child: child,

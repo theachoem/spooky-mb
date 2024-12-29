@@ -39,8 +39,8 @@ class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
   }
 
   @override
-  Future<TagObjectBox> objectConstructor(TagDbModel object, [Map<String, dynamic>? options]) {
-    return compute(_objectConstructor, {'object': object, 'options': options});
+  Future<TagObjectBox> objectConstructor(TagDbModel model, [Map<String, dynamic>? options]) {
+    return compute(_objectConstructor, {'model': model, 'options': options});
   }
 
   @override
@@ -55,17 +55,17 @@ List<TagDbModel> _itemsTransformer(Map<String, dynamic> options) {
 }
 
 TagObjectBox _objectConstructor(Map<String, dynamic> options) {
-  TagDbModel object = options['object'];
+  TagDbModel model = options['model'];
 
   return TagObjectBox(
-    id: object.id,
-    title: object.title,
-    index: object.index,
-    version: object.version,
-    starred: object.starred,
-    emoji: object.emoji,
-    createdAt: object.createdAt,
-    updatedAt: object.updatedAt,
+    id: model.id,
+    title: model.title,
+    index: model.index,
+    version: model.version,
+    starred: model.starred,
+    emoji: model.emoji,
+    createdAt: model.createdAt,
+    updatedAt: model.updatedAt,
   );
 }
 

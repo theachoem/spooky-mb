@@ -51,7 +51,7 @@ class _HomeEndDrawer extends StatelessWidget {
             leading: const Icon(Icons.backup_outlined),
             title: const Text('Backups'),
             subtitle: const Text('Last back up 2 days ago'),
-            onTap: () => BackupsRoute().push(context),
+            onTap: () => BackupSourcesRoute().push(context),
           ),
           const Divider(),
           ListTile(
