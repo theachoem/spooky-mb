@@ -24,6 +24,7 @@ class ProviderScope extends StatelessWidget {
           create: (context) => ThemeProvider(),
         ),
         ListenableProvider<BackupSourcesProvider>(
+          lazy: false,
           create: (context) => BackupSourcesProvider(),
         ),
       ],

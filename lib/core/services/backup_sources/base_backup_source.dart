@@ -14,42 +14,67 @@ import 'package:spooky/core/objects/cloud_file_object.dart';
 import 'package:spooky/core/objects/device_info_object.dart';
 import 'package:spooky/core/types/file_path_type.dart';
 
-part 'back_backup_helper.dart';
+part 'base_backup_helper.dart';
 
 abstract class BaseBackupSource {
   String get cloudId;
 
-  final List<BaseDbAdapter> databases = [
+  static final List<BaseDbAdapter> databases = [
     StoryDbModel.db,
     TagDbModel.db,
   ];
 
   bool? isSignedIn;
-  bool? synced;
+  CloudFileObject? syncedFile;
+
+  DateTime? get lastSyncedAt {
+    return syncedFile?.getFileInfo()?.createdAt;
+  }
 
   Future<bool> checkIsSignedIn();
   Future<bool> reauthenticate();
   Future<bool> signIn();
   Future<bool> signOut();
   Future<bool> uploadFile(String fileName, io.File file);
+  Future<CloudFileObject?> getFileByFileName(String fileName);
   Future<void> deleteCloudFile(CloudFileObject file);
 
-  Future<void> load() async {
+  Future<void> load({
+    required DateTime? lastDbUpdatedAt,
+  }) async {
     isSignedIn = await checkIsSignedIn();
 
     if (isSignedIn == true) {
       await reauthenticate();
     }
+
+    await loadSyncedFile(lastDbUpdatedAt);
   }
 
   Future<CloudFileListObject?> fetchAllCloudFiles({
     String? nextToken,
   });
 
-  Future<void> backup() async {
-    BackupObject backup = await _BaseBackupHelper().constructBackup(databases);
+  Future<void> backup({
+    required DateTime lastUpdatedAt,
+  }) async {
+    BackupObject backup = await _BaseBackupHelper().constructBackup(databases: databases, lastUpdatedAt: lastUpdatedAt);
     final io.File file = await _BaseBackupHelper().constructFile(cloudId, backup);
 
     await uploadFile(backup.fileInfo.fileNameWithExtention, file);
+    await loadSyncedFile(lastUpdatedAt);
+  }
+
+  Future<void> loadSyncedFile(DateTime? lastDbUpdatedAt) async {
+    if (lastDbUpdatedAt != null) {
+      String fileName = BackupFileObject(
+        createdAt: lastDbUpdatedAt,
+        device: await DeviceInfoObject.get(),
+      ).fileNameWithExtention;
+
+      syncedFile = await getFileByFileName(fileName);
+    } else {
+      syncedFile = null;
+    }
   }
 }

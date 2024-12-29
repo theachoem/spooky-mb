@@ -7,9 +7,13 @@ class _ShowBackupSourceAdaptive extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: buildBody(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) => viewModel.onPopInvokedWithResult(didPop, result, context),
+      child: Scaffold(
+        appBar: AppBar(),
+        body: buildBody(),
+      ),
     );
   }
 
@@ -30,7 +34,7 @@ class _ShowBackupSourceAdaptive extends StatelessWidget {
       itemCount: viewModel.cloudFiles?.files.length ?? 0,
       itemBuilder: (context, index) {
         CloudFileObject cloudFile = viewModel.cloudFiles!.files[index];
-        var fileInfo = cloudFile.getFileInfo();
+        BackupFileObject? fileInfo = cloudFile.getFileInfo();
 
         return ListTile(
           title: Text(fileInfo?.device.model ?? 'N/A'),
@@ -38,7 +42,7 @@ class _ShowBackupSourceAdaptive extends StatelessWidget {
           trailing: IconButton.outlined(
             color: ColorScheme.of(context).error,
             icon: const Icon(Icons.delete),
-            onPressed: viewModel.disabledActions ? null : () => viewModel.delete(cloudFile),
+            onPressed: viewModel.disabledActions ? null : () => viewModel.delete(cloudFile, context),
           ),
         );
       },

@@ -34,7 +34,6 @@ class HomeViewModel extends BaseViewModel {
       'year': year,
       'types': [PathType.docs.name],
     });
-
     notifyListeners();
   }
 

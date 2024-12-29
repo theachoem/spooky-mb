@@ -10,6 +10,15 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   @override
   String get tableName => "stories";
 
+  @override
+  Future<DateTime?> getLastUpdatedAt() async {
+    Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
+    Query<StoryObjectBox> query =
+        box.query(conditions).order(StoryObjectBox_.updatedAt, flags: Order.descending).build();
+    StoryObjectBox? object = await query.findFirstAsync();
+    return object?.updatedAt;
+  }
+
   Future<Map<int, int>> getStoryCountsByYear({
     Map<String, dynamic>? filters,
   }) async {
@@ -93,39 +102,39 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   }
 
   @override
-  Future<List<StoryDbModel>> itemsTransformer(
+  Future<List<StoryDbModel>> objectsToModels(
     List<StoryObjectBox> objects, [
     Map<String, dynamic>? options,
   ]) {
-    return compute(_itemsTransformer, {
+    return compute(_objectsToModels, {
       'objects': objects,
       'options': options,
     });
   }
 
   @override
-  Future<StoryObjectBox> objectConstructor(
+  Future<StoryObjectBox> modelToObject(
     StoryDbModel model, [
     Map<String, dynamic>? options,
   ]) {
-    return compute(_objectConstructor, {
+    return compute(_modelToObject, {
       'model': model,
       'options': options,
     });
   }
 
   @override
-  Future<StoryDbModel> objectTransformer(
+  Future<StoryDbModel> objectToModel(
     StoryObjectBox object, [
     Map<String, dynamic>? options,
   ]) {
-    return compute(_objectTransformer, {
+    return compute(_objectToModel, {
       'object': object,
       'options': options,
     });
   }
 
-  static StoryDbModel _objectTransformer(Map<String, dynamic> map) {
+  static StoryDbModel _objectToModel(Map<String, dynamic> map) {
     StoryObjectBox object = map['object'];
 
     Iterable<PathType> types = PathType.values.where((e) => e.name == object.type);
@@ -150,13 +159,13 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     );
   }
 
-  static List<StoryDbModel> _itemsTransformer(Map<String, dynamic> map) {
+  static List<StoryDbModel> _objectsToModels(Map<String, dynamic> map) {
     List<StoryObjectBox> objects = map['objects'];
     Map<String, dynamic>? options = map['options'];
 
     List<StoryDbModel> docs = [];
     for (StoryObjectBox object in objects) {
-      StoryDbModel json = _objectTransformer({
+      StoryDbModel json = _objectToModel({
         'object': object,
         'options': options,
       });
@@ -167,7 +176,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     return docs;
   }
 
-  static StoryObjectBox _objectConstructor(Map<String, dynamic> map) {
+  static StoryObjectBox _modelToObject(Map<String, dynamic> map) {
     StoryDbModel story = map['model'];
 
     return StoryObjectBox(

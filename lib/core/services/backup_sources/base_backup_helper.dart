@@ -1,16 +1,19 @@
 part of 'base_backup_source.dart';
 
 class _BaseBackupHelper {
-  Future<BackupObject> constructBackup(List<BaseDbAdapter<BaseDbModel>> databases) async {
+  Future<BackupObject> constructBackup({
+    required List<BaseDbAdapter<BaseDbModel>> databases,
+    required DateTime lastUpdatedAt,
+  }) async {
     debugPrint('_BaseBackupHelper#constructBackup');
     Map<String, dynamic> tables = await _constructTables(databases);
     DeviceInfoObject device = await DeviceInfoObject.get();
-    debugPrint('_BaseBackupHelper#constructBackup${tables.keys}');
+    debugPrint('_BaseBackupHelper#constructBackup ${tables.keys}');
 
     return BackupObject(
       tables: tables,
       fileInfo: BackupFileObject(
-        createdAt: DateTime.now(),
+        createdAt: lastUpdatedAt,
         device: device,
       ),
     );

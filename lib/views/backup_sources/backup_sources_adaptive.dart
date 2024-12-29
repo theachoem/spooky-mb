@@ -9,9 +9,13 @@ class _BackupSourcesAdaptive extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<BackupSourcesProvider>(context);
 
-    return Scaffold(
-      appBar: AppBar(title: const Text("Backups")),
-      body: buildBody(provider),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) => viewModel.onPopInvokedWithResult(didPop, result, context),
+      child: Scaffold(
+        appBar: AppBar(title: const Text("Backups")),
+        body: buildBody(provider),
+      ),
     );
   }
 
@@ -27,12 +31,12 @@ class _BackupSourcesAdaptive extends StatelessWidget {
       separatorBuilder: (context, index) => const Divider(),
       itemBuilder: (context, index) {
         final source = provider.backupSources[index];
-        return buildSourceTile(context, source);
+        return buildSourceTile(context, source, provider);
       },
     );
   }
 
-  Widget buildSourceTile(BuildContext context, BaseBackupSource source) {
+  Widget buildSourceTile(BuildContext context, BaseBackupSource source, BackupSourcesProvider provider) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 16.0),
       child: Row(
@@ -54,75 +58,67 @@ class _BackupSourcesAdaptive extends StatelessWidget {
                   "Google Drive",
                   style: TextTheme.of(context).titleMedium,
                 ),
-                RichText(
-                  text: TextSpan(
-                    style: TextTheme.of(context).bodyMedium,
-                    children: [
-                      const TextSpan(text: "Learn more how it store "),
-                      WidgetSpan(
-                        child: Icon(Icons.info, size: 16.0, color: Theme.of(context).colorScheme.primary),
-                        alignment: PlaceholderAlignment.middle,
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 8.0),
-                Wrap(
-                  spacing: 4.0,
-                  children: [
-                    if (source.isSignedIn == true)
-                      Container(
-                        transform: Matrix4.identity()..translate(-4.0, 0.0),
-                        child: FilledButton(
-                          onPressed: () => source.backup(),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Backup",
-                                style: TextTheme.of(context)
-                                    .labelMedium
-                                    ?.copyWith(color: ColorScheme.of(context).onPrimary),
-                              ),
-                              if (source.synced == true)
-                                Text(
-                                  "4/12/24 12:32PM",
-                                  style: TextTheme.of(context)
-                                      .bodySmall
-                                      ?.copyWith(color: ColorScheme.of(context).onPrimary),
-                                ),
-                            ],
+                if (source.lastSyncedAt != null) ...[
+                  RichText(
+                    text: TextSpan(
+                      style: TextTheme.of(context).bodyMedium,
+                      text: DateFormatService.yMEd_jms(source.lastSyncedAt!),
+                      children: [
+                        WidgetSpan(
+                          alignment: PlaceholderAlignment.middle,
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 4.0),
+                            child: Icon(
+                              Icons.check,
+                              color: ColorScheme.of(context).primary,
+                              size: 16.0,
+                            ),
                           ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+                const SizedBox(height: 8.0),
+                Container(
+                  transform: Matrix4.identity()..translate(-4.0, 0.0),
+                  child: Wrap(
+                    spacing: 4.0,
+                    children: [
+                      if (source.isSignedIn == true)
+                        FilledButton(
+                          onPressed: viewModel.disabledActions
+                              ? null
+                              : provider.canBackup(source)
+                                  ? () => viewModel.call(() => provider.backup(source))
+                                  : null,
+                          child: const Text("Backup"),
                         ),
-                      ),
-                    if (source.isSignedIn == true)
-                      Container(
-                        transform: Matrix4.identity()..translate(-4.0, 0.0),
-                        child: OutlinedButton(
+                      if (source.isSignedIn == true)
+                        OutlinedButton(
+                          style: OutlinedButton.styleFrom(foregroundColor: ColorScheme.of(context).error),
+                          onPressed:
+                              viewModel.disabledActions ? null : () => viewModel.call(() => provider.signOut(source)),
                           child: const Text("Sign out"),
-                          onPressed: () => source.signOut(),
                         ),
-                      ),
-                    if (source.isSignedIn == false)
-                      Container(
-                        transform: Matrix4.identity()..translate(-4.0, 0.0),
-                        child: OutlinedButton(
+                      if (source.isSignedIn == false)
+                        OutlinedButton(
+                          onPressed:
+                              viewModel.disabledActions ? null : () => viewModel.call(() => provider.signIn(source)),
                           child: const Text("Sign In"),
-                          onPressed: () => source.signIn(),
                         ),
-                      ),
-                    if (source.isSignedIn == true)
-                      Container(
-                        transform: Matrix4.identity()..translate(-4.0, 0.0),
-                        child: OutlinedButton.icon(
+                      if (source.isSignedIn == true)
+                        OutlinedButton.icon(
                           label: const Text("View Backups"),
                           icon: const Icon(Icons.cloud),
-                          onPressed: () {
-                            ShowBackupSourceRoute(source: source).push(context);
-                          },
+                          onPressed: viewModel.disabledActions
+                              ? null
+                              : () {
+                                  ShowBackupSourceRoute(source: source).push(context);
+                                },
                         ),
-                      ),
-                  ],
+                    ],
+                  ),
                 )
               ],
             ),

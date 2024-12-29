@@ -19,9 +19,9 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
     return _box!;
   }
 
-  Future<B> objectConstructor(T model, [Map<String, dynamic>? options]);
-  Future<T> objectTransformer(B object, [Map<String, dynamic>? options]);
-  Future<List<T>> itemsTransformer(
+  Future<B> modelToObject(T model, [Map<String, dynamic>? options]);
+  Future<T> objectToModel(B object, [Map<String, dynamic>? options]);
+  Future<List<T>> objectsToModels(
     List<B> objects, [
     Map<String, dynamic>? options,
   ]);
@@ -43,7 +43,7 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
     B? object = box.get(id);
 
     if (object != null) {
-      return objectTransformer(object);
+      return objectToModel(object);
     } else {
       return null;
     }
@@ -81,13 +81,13 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
       objects = await box.getAllAsync();
     }
 
-    List<T> docs = await itemsTransformer(objects);
+    List<T> docs = await objectsToModels(objects);
     return CollectionDbModel<T>(items: docs);
   }
 
   @override
   Future<T?> set(T record) async {
-    B constructed = await objectConstructor(record);
+    B constructed = await modelToObject(record);
     await box.putAsync(constructed, mode: PutMode.put);
     afterCommit(record.id);
     return record;
@@ -95,7 +95,7 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
 
   @override
   Future<T?> update(T record) async {
-    B constructed = await objectConstructor(record);
+    B constructed = await modelToObject(record);
     await box.putAsync(constructed, mode: PutMode.update);
     afterCommit(record.id);
     return record;
@@ -103,7 +103,7 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
 
   @override
   Future<T?> create(T record) async {
-    B constructed = await objectConstructor(record);
+    B constructed = await modelToObject(record);
     await box.putAsync(constructed, mode: PutMode.insert);
     afterCommit(record.id);
     return record;

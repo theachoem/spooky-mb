@@ -41,4 +41,9 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   Future<BaseDbModel?> set(BaseDbModel record) {
     throw UnimplementedError();
   }
+
+  @override
+  Future<DateTime?> getLastUpdatedAt() {
+    throw UnimplementedError();
+  }
 }

@@ -19,6 +19,7 @@ class GoogleDriveService {
   );
 
   Future<drive.DriveApi?> get googleDriveClient async {
+    if (googleSignIn.currentUser == null) return null;
     final _GoogleAuthClient client = _GoogleAuthClient(await googleSignIn.currentUser!.authHeaders);
     return drive.DriveApi(client);
   }

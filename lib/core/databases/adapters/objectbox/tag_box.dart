@@ -1,13 +1,21 @@
 import 'package:flutter/foundation.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:spooky/core/databases/adapters/objectbox/base_box.dart';
 import 'package:spooky/core/databases/adapters/objectbox/entities.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/tag_db_model.dart';
+import 'package:spooky/objectbox.g.dart';
 
 class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
   @override
   String get tableName => "tags";
+
+  @override
+  Future<DateTime?> getLastUpdatedAt() async {
+    Condition<TagObjectBox>? conditions = TagObjectBox_.id.notNull();
+    Query<TagObjectBox> query = box.query(conditions).order(TagObjectBox_.updatedAt, flags: Order.descending).build();
+    TagObjectBox? object = await query.findFirstAsync();
+    return object?.updatedAt;
+  }
 
   @override
   Future<CollectionDbModel<TagDbModel>?> where({Map<String, dynamic>? filters}) async {
@@ -34,27 +42,27 @@ class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
   }
 
   @override
-  Future<List<TagDbModel>> itemsTransformer(List<TagObjectBox> objects, [Map<String, dynamic>? options]) {
-    return compute(_itemsTransformer, {'objects': objects, 'options': options});
+  Future<List<TagDbModel>> objectsToModels(List<TagObjectBox> objects, [Map<String, dynamic>? options]) {
+    return compute(_objectsToModels, {'objects': objects, 'options': options});
   }
 
   @override
-  Future<TagObjectBox> objectConstructor(TagDbModel model, [Map<String, dynamic>? options]) {
-    return compute(_objectConstructor, {'model': model, 'options': options});
+  Future<TagObjectBox> modelToObject(TagDbModel model, [Map<String, dynamic>? options]) {
+    return compute(_modelToObject, {'model': model, 'options': options});
   }
 
   @override
-  Future<TagDbModel> objectTransformer(TagObjectBox object, [Map<String, dynamic>? options]) {
-    return compute(_objectTransformer, {'object': object, 'options': options});
+  Future<TagDbModel> objectToModel(TagObjectBox object, [Map<String, dynamic>? options]) {
+    return compute(_objectToModel, {'object': object, 'options': options});
   }
 }
 
-List<TagDbModel> _itemsTransformer(Map<String, dynamic> options) {
+List<TagDbModel> _objectsToModels(Map<String, dynamic> options) {
   List<TagObjectBox> objects = options['objects'];
-  return objects.map((object) => _objectTransformer({'object': object})).toList();
+  return objects.map((object) => _objectToModel({'object': object})).toList();
 }
 
-TagObjectBox _objectConstructor(Map<String, dynamic> options) {
+TagObjectBox _modelToObject(Map<String, dynamic> options) {
   TagDbModel model = options['model'];
 
   return TagObjectBox(
@@ -69,7 +77,7 @@ TagObjectBox _objectConstructor(Map<String, dynamic> options) {
   );
 }
 
-TagDbModel _objectTransformer(Map<String, dynamic> options) {
+TagDbModel _objectToModel(Map<String, dynamic> options) {
   TagObjectBox object = options['object'];
 
   return TagDbModel(

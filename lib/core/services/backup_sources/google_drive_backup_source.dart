@@ -10,19 +10,11 @@ class GoogleDriveBackupSource extends BaseBackupSource {
 
   final GoogleDriveService _service = GoogleDriveService();
 
-  final void Function() onIsSignedInChanged;
-
-  GoogleDriveBackupSource({
-    required this.onIsSignedInChanged,
-  });
-
   @override
   Future<bool> checkIsSignedIn() => _service.googleSignIn.isSignedIn();
 
   Future<bool> _recheckIsSignedIn() async {
     isSignedIn = await checkIsSignedIn();
-    onIsSignedInChanged();
-
     return isSignedIn!;
   }
 
@@ -55,6 +47,11 @@ class GoogleDriveBackupSource extends BaseBackupSource {
   Future<bool> uploadFile(String fileName, File file) async {
     CloudFileObject? result = await _service.uploadFile(fileName, file);
     return result != null;
+  }
+
+  @override
+  Future<CloudFileObject?> getFileByFileName(String fileName) {
+    return _service.findFileByName(fileName);
   }
 
   @override

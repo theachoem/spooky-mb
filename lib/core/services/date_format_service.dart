@@ -20,15 +20,15 @@ class DateFormatService {
     return DateFormat.yMEd().addPattern("- ${DateFormat.jms().pattern!}").format(date);
   }
 
-  static yMEd(DateTime date) {
+  static String yMEd(DateTime date) {
     return DateFormat.yMEd().format(date);
   }
 
-  static jms(DateTime date) {
+  static String jms(DateTime date) {
     return DateFormat.jms().format(date);
   }
 
-  static yMd(DateTime date) {
+  static String yMd(DateTime date) {
     return DateFormat.yMd().format(date);
   }
 }
