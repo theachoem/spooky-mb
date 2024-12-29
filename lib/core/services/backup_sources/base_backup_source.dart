@@ -37,6 +37,7 @@ abstract class BaseBackupSource {
   Future<bool> signOut();
   Future<bool> uploadFile(String fileName, io.File file);
   Future<CloudFileObject?> getFileByFileName(String fileName);
+  Future<String?> getFileContent(CloudFileObject cloudFile);
   Future<void> deleteCloudFile(CloudFileObject file);
 
   Future<void> load({
@@ -54,6 +55,21 @@ abstract class BaseBackupSource {
   Future<CloudFileListObject?> fetchAllCloudFiles({
     String? nextToken,
   });
+
+  Future<BackupObject?> getBackup(CloudFileObject cloudFile) async {
+    String? contents = await getFileContent(cloudFile);
+
+    try {
+      if (contents != null) {
+        dynamic decodedContents = jsonDecode(contents);
+        return BackupObject.fromContents(decodedContents);
+      }
+    } catch (e) {
+      debugPrint("$runtimeType#getBackup $e");
+    }
+
+    return null;
+  }
 
   Future<void> backup({
     required DateTime lastUpdatedAt,

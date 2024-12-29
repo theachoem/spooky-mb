@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:spooky/core/objects/backup_object.dart';
 import 'package:spooky/core/services/backup_sources/base_backup_source.dart';
 import 'package:spooky/core/services/backup_sources/google_drive_backup_source.dart';
+import 'package:spooky/core/services/messenger_service.dart';
+import 'package:spooky/core/services/restore_backup_service.dart';
+import 'package:spooky/views/home/home_view_model.dart';
 
 class BackupSourcesProvider extends ChangeNotifier {
   late final List<BaseBackupSource> backupSources = [
@@ -54,6 +59,14 @@ class BackupSourcesProvider extends ChangeNotifier {
   Future<void> signOut(BaseBackupSource source) async {
     await source.signOut();
     notifyListeners();
+  }
+
+  Future<void> restore(BackupObject backup, BuildContext context) async {
+    MessengerService.of(context).showLoading(
+      debugSource: '$runtimeType#restore',
+      future: () => RestoreBackupService().restore(backup: backup),
+    );
+    await context.read<HomeViewModel>().load();
   }
 
   Future<DateTime?> getLastUpdatedAt() async {

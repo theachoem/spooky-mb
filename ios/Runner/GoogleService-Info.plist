@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-    <dict>
-        <key>CLIENT_ID</key>
-        <string>892248434003-34uc2e5inp4l3fmcvd0bh12ao1sq4pv2.apps.googleusercontent.com</string>
-        <key>REVERSED_CLIENT_ID</key>
-        <string>com.googleusercontent.apps.892248434003-34uc2e5inp4l3fmcvd0bh12ao1sq4pv2</string>
-        <key>API_KEY</key>
-        <string>AIzaSyAU8Q8SrWFufbf5uC7TPDVC9aDw4_aqvRw</string>
-        <key>GCM_SENDER_ID</key>
-        <string>892248434003</string>
-        <key>PLIST_VERSION</key>
-        <string>1</string>
-        <key>BUNDLE_ID</key>
-        <string>com.juniorise.spooky</string>
-        <key>PROJECT_ID</key>
-        <string>juniorise-spooky-community</string>
-        <key>STORAGE_BUCKET</key>
-        <string>juniorise-spooky-community.firebasestorage.app</string>
-        <key>IS_ADS_ENABLED</key>
-        <false></false>
-        <key>IS_ANALYTICS_ENABLED</key>
-        <false></false>
-        <key>IS_APPINVITE_ENABLED</key>
-        <true></true>
-        <key>IS_GCM_ENABLED</key>
-        <true></true>
-        <key>IS_SIGNIN_ENABLED</key>
-        <true></true>
-        <key>GOOGLE_APP_ID</key>
-        <string>1:892248434003:ios:c1c7f010daf9631363eda6</string>
-    </dict>
+<dict>
+	<key>CLIENT_ID</key>
+	<string>892248434003-34uc2e5inp4l3fmcvd0bh12ao1sq4pv2.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.892248434003-34uc2e5inp4l3fmcvd0bh12ao1sq4pv2</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAU8Q8SrWFufbf5uC7TPDVC9aDw4_aqvRw</string>
+	<key>GCM_SENDER_ID</key>
+	<string>892248434003</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.juniorise.spooky</string>
+	<key>PROJECT_ID</key>
+	<string>juniorise-spooky-community</string>
+	<key>STORAGE_BUCKET</key>
+	<string>juniorise-spooky-community.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:892248434003:ios:c1c7f010daf9631363eda6</string>
+</dict>
 </plist>

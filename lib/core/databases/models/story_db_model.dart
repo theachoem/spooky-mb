@@ -35,15 +35,22 @@ class StoryDbModel extends BaseDbModel {
   final bool? starred;
   final String? feeling;
 
-  // tags are mistaken stores in DB in string.
-  // we use integer here, buts its actuals value is still in <string>.
-  final List<int>? tags;
-  final StoryContentDbModel? latestChange;
+  @JsonKey(name: 'tags')
+  final List<String>? _tags;
 
   /// load this manually when needed with [loadAllChanges]
+  @JsonKey(name: 'changes')
   final List<StoryContentDbModel>? allChanges;
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  late StoryContentDbModel? latestChange;
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
   final List<String>? rawChanges;
+
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final DateTime? movedToBinAt;
 
   DateTime get displayPathDate {
     return DateTime(
@@ -55,9 +62,9 @@ class StoryDbModel extends BaseDbModel {
     );
   }
 
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  final DateTime? movedToBinAt;
+  // tags are mistaken stores in DB in string.
+  // we use integer here, buts its actuals value is still in <string>.
+  List<int>? get tags => _tags?.map((e) => int.tryParse(e)).whereType<int>().toList();
 
   StoryDbModel({
     this.version = 1,
@@ -71,14 +78,20 @@ class StoryDbModel extends BaseDbModel {
     required this.hour,
     required this.minute,
     required this.second,
-    required this.latestChange,
-    required this.allChanges,
     required this.updatedAt,
     required this.createdAt,
-    required this.tags,
+    List<int>? tags,
     required this.movedToBinAt,
-    required this.rawChanges,
-  });
+    required this.allChanges,
+    this.rawChanges,
+    this.latestChange,
+  }) : _tags = tags?.map((e) => e.toString()).toList() {
+    // By default, `allChanges` is null when fetched from the database for speed.
+    // For backups, only `allChanges` is included, while `latestChange` and `rawChanges` are excluded.
+    // This means that when converting a cloud backup JSON to a model,
+    // `latestChange` and `rawChanges` should derive their values from `allChanges` instead.
+    latestChange ??= allChanges?.last;
+  }
 
   bool get viewOnly => unarchivable || inBins;
 

@@ -55,6 +55,11 @@ class GoogleDriveBackupSource extends BaseBackupSource {
   }
 
   @override
+  Future<String?> getFileContent(CloudFileObject cloudFile) {
+    return _service.getFileContent(cloudFile);
+  }
+
+  @override
   Future<void> deleteCloudFile(CloudFileObject file) {
     return _service.delete(file.id);
   }

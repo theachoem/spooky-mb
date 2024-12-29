@@ -34,14 +34,9 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
 
   @override
   Future<StoryDbModel?> set(StoryDbModel record) async {
-    await super.set(record);
-
-    if (kDebugMode) {
-      final saved = await find(record.id);
-      print("🚧 StoryBox#set: ${saved?.rawChanges?.length}");
-    }
-
-    return record;
+    StoryDbModel? saved = await super.set(record);
+    debugPrint("🚧 StoryBox#set: ${saved?.rawChanges?.length}");
+    return saved;
   }
 
   @override
@@ -102,12 +97,25 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
   }
 
   @override
+  StoryDbModel modelFromJson(Map<String, dynamic> json) {
+    return StoryDbModel.fromJson(json);
+  }
+
+  @override
   Future<List<StoryDbModel>> objectsToModels(
     List<StoryObjectBox> objects, [
     Map<String, dynamic>? options,
   ]) {
     return compute(_objectsToModels, {
       'objects': objects,
+      'options': options,
+    });
+  }
+
+  @override
+  Future<List<StoryObjectBox>> modelsToObjects(List<StoryDbModel> models, [Map<String, dynamic>? options]) {
+    return compute(_modelsToObjects, {
+      'models': models,
       'options': options,
     });
   }
@@ -136,6 +144,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
 
   static StoryDbModel _objectToModel(Map<String, dynamic> map) {
     StoryObjectBox object = map['object'];
+    Map<String, dynamic>? options = map['options'];
 
     Iterable<PathType> types = PathType.values.where((e) => e.name == object.type);
     return StoryDbModel(
@@ -155,7 +164,8 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
       rawChanges: object.changes,
       movedToBinAt: object.movedToBinAt,
       latestChange: StoryDbConstructorService.rawChangesToChanges([object.changes.last]).first,
-      allChanges: null,
+      allChanges:
+          options?['all_changes'] == true ? StoryDbConstructorService.rawChangesToChanges(object.changes) : null,
     );
   }
 
@@ -167,6 +177,23 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     for (StoryObjectBox object in objects) {
       StoryDbModel json = _objectToModel({
         'object': object,
+        'options': options,
+      });
+
+      docs.add(json);
+    }
+
+    return docs;
+  }
+
+  static List<StoryObjectBox> _modelsToObjects(Map<String, dynamic> map) {
+    List<StoryDbModel> models = map['models'];
+    Map<String, dynamic>? options = map['options'];
+
+    List<StoryObjectBox> docs = [];
+    for (StoryDbModel model in models) {
+      StoryObjectBox json = _modelToObject({
+        'model': model,
         'options': options,
       });
 

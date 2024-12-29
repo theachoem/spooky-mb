@@ -29,10 +29,6 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel second(int? second);
 
-  StoryDbModel latestChange(StoryContentDbModel? latestChange);
-
-  StoryDbModel allChanges(List<StoryContentDbModel>? allChanges);
-
   StoryDbModel updatedAt(DateTime updatedAt);
 
   StoryDbModel createdAt(DateTime createdAt);
@@ -41,7 +37,11 @@ abstract class _$StoryDbModelCWProxy {
 
   StoryDbModel movedToBinAt(DateTime? movedToBinAt);
 
+  StoryDbModel allChanges(List<StoryContentDbModel>? allChanges);
+
   StoryDbModel rawChanges(List<String>? rawChanges);
+
+  StoryDbModel latestChange(StoryContentDbModel? latestChange);
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `StoryDbModel(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -61,13 +61,13 @@ abstract class _$StoryDbModelCWProxy {
     int? hour,
     int? minute,
     int? second,
-    StoryContentDbModel? latestChange,
-    List<StoryContentDbModel>? allChanges,
     DateTime updatedAt,
     DateTime createdAt,
     List<int>? tags,
     DateTime? movedToBinAt,
+    List<StoryContentDbModel>? allChanges,
     List<String>? rawChanges,
+    StoryContentDbModel? latestChange,
   });
 }
 
@@ -111,14 +111,6 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
   StoryDbModel second(int? second) => this(second: second);
 
   @override
-  StoryDbModel latestChange(StoryContentDbModel? latestChange) =>
-      this(latestChange: latestChange);
-
-  @override
-  StoryDbModel allChanges(List<StoryContentDbModel>? allChanges) =>
-      this(allChanges: allChanges);
-
-  @override
   StoryDbModel updatedAt(DateTime updatedAt) => this(updatedAt: updatedAt);
 
   @override
@@ -132,8 +124,16 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
       this(movedToBinAt: movedToBinAt);
 
   @override
+  StoryDbModel allChanges(List<StoryContentDbModel>? allChanges) =>
+      this(allChanges: allChanges);
+
+  @override
   StoryDbModel rawChanges(List<String>? rawChanges) =>
       this(rawChanges: rawChanges);
+
+  @override
+  StoryDbModel latestChange(StoryContentDbModel? latestChange) =>
+      this(latestChange: latestChange);
 
   @override
 
@@ -155,13 +155,13 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
     Object? hour = const $CopyWithPlaceholder(),
     Object? minute = const $CopyWithPlaceholder(),
     Object? second = const $CopyWithPlaceholder(),
-    Object? latestChange = const $CopyWithPlaceholder(),
-    Object? allChanges = const $CopyWithPlaceholder(),
     Object? updatedAt = const $CopyWithPlaceholder(),
     Object? createdAt = const $CopyWithPlaceholder(),
     Object? tags = const $CopyWithPlaceholder(),
     Object? movedToBinAt = const $CopyWithPlaceholder(),
+    Object? allChanges = const $CopyWithPlaceholder(),
     Object? rawChanges = const $CopyWithPlaceholder(),
+    Object? latestChange = const $CopyWithPlaceholder(),
   }) {
     return StoryDbModel(
       version: version == const $CopyWithPlaceholder()
@@ -208,14 +208,6 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.second
           // ignore: cast_nullable_to_non_nullable
           : second as int?,
-      latestChange: latestChange == const $CopyWithPlaceholder()
-          ? _value.latestChange
-          // ignore: cast_nullable_to_non_nullable
-          : latestChange as StoryContentDbModel?,
-      allChanges: allChanges == const $CopyWithPlaceholder()
-          ? _value.allChanges
-          // ignore: cast_nullable_to_non_nullable
-          : allChanges as List<StoryContentDbModel>?,
       updatedAt: updatedAt == const $CopyWithPlaceholder()
           ? _value.updatedAt
           // ignore: cast_nullable_to_non_nullable
@@ -232,10 +224,18 @@ class _$StoryDbModelCWProxyImpl implements _$StoryDbModelCWProxy {
           ? _value.movedToBinAt
           // ignore: cast_nullable_to_non_nullable
           : movedToBinAt as DateTime?,
+      allChanges: allChanges == const $CopyWithPlaceholder()
+          ? _value.allChanges
+          // ignore: cast_nullable_to_non_nullable
+          : allChanges as List<StoryContentDbModel>?,
       rawChanges: rawChanges == const $CopyWithPlaceholder()
           ? _value.rawChanges
           // ignore: cast_nullable_to_non_nullable
           : rawChanges as List<String>?,
+      latestChange: latestChange == const $CopyWithPlaceholder()
+          ? _value.latestChange
+          // ignore: cast_nullable_to_non_nullable
+          : latestChange as StoryContentDbModel?,
     );
   }
 }
@@ -262,13 +262,6 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
       hour: (json['hour'] as num?)?.toInt(),
       minute: (json['minute'] as num?)?.toInt(),
       second: (json['second'] as num?)?.toInt(),
-      latestChange: json['latest_change'] == null
-          ? null
-          : StoryContentDbModel.fromJson(
-              json['latest_change'] as Map<String, dynamic>),
-      allChanges: (json['all_changes'] as List<dynamic>?)
-          ?.map((e) => StoryContentDbModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
       updatedAt: DateTime.parse(json['updated_at'] as String),
       createdAt: DateTime.parse(json['created_at'] as String),
       tags: (json['tags'] as List<dynamic>?)
@@ -277,8 +270,8 @@ StoryDbModel _$StoryDbModelFromJson(Map<String, dynamic> json) => StoryDbModel(
       movedToBinAt: json['moved_to_bin_at'] == null
           ? null
           : DateTime.parse(json['moved_to_bin_at'] as String),
-      rawChanges: (json['raw_changes'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      allChanges: (json['changes'] as List<dynamic>?)
+          ?.map((e) => StoryContentDbModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -295,13 +288,11 @@ Map<String, dynamic> _$StoryDbModelToJson(StoryDbModel instance) =>
       'second': instance.second,
       'starred': instance.starred,
       'feeling': instance.feeling,
-      'tags': instance.tags,
-      'latest_change': instance.latestChange?.toJson(),
-      'all_changes': instance.allChanges?.map((e) => e.toJson()).toList(),
-      'raw_changes': instance.rawChanges,
+      'changes': instance.allChanges?.map((e) => e.toJson()).toList(),
       'created_at': instance.createdAt.toIso8601String(),
       'updated_at': instance.updatedAt.toIso8601String(),
       'moved_to_bin_at': instance.movedToBinAt?.toIso8601String(),
+      'tags': instance.tags,
     };
 
 const _$PathTypeEnumMap = {

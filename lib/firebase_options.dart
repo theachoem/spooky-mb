@@ -66,4 +66,5 @@ class DefaultFirebaseOptions {
     iosClientId: '892248434003-34uc2e5inp4l3fmcvd0bh12ao1sq4pv2.apps.googleusercontent.com',
     iosBundleId: 'com.juniorise.spooky',
   );
+
 }

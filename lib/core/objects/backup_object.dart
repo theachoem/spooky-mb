@@ -1,4 +1,5 @@
 import 'package:spooky/core/objects/backup_file_object.dart';
+import 'package:spooky/core/objects/device_info_object.dart';
 
 class BackupObject {
   final Map<String, dynamic> tables;
@@ -8,6 +9,19 @@ class BackupObject {
     required this.tables,
     required this.fileInfo,
   });
+
+  static BackupObject fromContents(Map<String, dynamic> contents) {
+    return BackupObject(
+      tables: contents['tables'],
+      fileInfo: BackupFileObject(
+        createdAt: DateTime.parse(contents['meta_data']['created_at']),
+        device: DeviceInfoObject(
+          contents['meta_data']['device_model'],
+          contents['meta_data']['device_id'],
+        ),
+      ),
+    );
+  }
 
   Map<String, Map<String, dynamic>> toContents() {
     return {
@@ -19,6 +33,4 @@ class BackupObject {
       }
     };
   }
-
-  get() {}
 }

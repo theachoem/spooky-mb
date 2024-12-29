@@ -15,12 +15,17 @@ abstract class BaseDbAdapter<T extends BaseDbModel> {
   Future<int> count({Map<String, dynamic>? filters});
   Future<CollectionDbModel<T>?> where({
     Map<String, dynamic>? filters,
+    Map<String, dynamic>? options,
   });
 
   Future<T?> set(T record);
+  Future<void> setAll(List<T> records);
+
   Future<T?> update(T record);
   Future<T?> create(T record);
   Future<T?> delete(int id);
+
+  T modelFromJson(Map<String, dynamic> json);
 
   Future<void> afterCommit(int id) async {
     debugPrint("BaseDbAdapter#afterCommit $id");

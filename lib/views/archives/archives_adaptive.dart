@@ -40,7 +40,7 @@ class _ArchivesAdaptive extends StatelessWidget {
           },
         ),
       ),
-      body: StoryList(
+      body: StoryList.withQuery(
         viewOnly: true,
         types: [
           viewModel.type,

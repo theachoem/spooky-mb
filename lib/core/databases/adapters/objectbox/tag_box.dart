@@ -18,7 +18,10 @@ class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
   }
 
   @override
-  Future<CollectionDbModel<TagDbModel>?> where({Map<String, dynamic>? filters}) async {
+  Future<CollectionDbModel<TagDbModel>?> where({
+    Map<String, dynamic>? filters,
+    Map<String, dynamic>? options,
+  }) async {
     CollectionDbModel<TagDbModel>? result = await super.where(filters: filters);
     List<TagDbModel> items = [...result?.items ?? []]..sort((a, b) => a.index.compareTo(b.index));
 
@@ -42,8 +45,18 @@ class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
   }
 
   @override
+  TagDbModel modelFromJson(Map<String, dynamic> json) {
+    return TagDbModel.fromJson(json);
+  }
+
+  @override
   Future<List<TagDbModel>> objectsToModels(List<TagObjectBox> objects, [Map<String, dynamic>? options]) {
     return compute(_objectsToModels, {'objects': objects, 'options': options});
+  }
+
+  @override
+  Future<List<TagObjectBox>> modelsToObjects(List<TagDbModel> models, [Map<String, dynamic>? options]) {
+    return compute(_modelsToObjects, {'models': models, 'options': options});
   }
 
   @override
@@ -60,6 +73,11 @@ class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
 List<TagDbModel> _objectsToModels(Map<String, dynamic> options) {
   List<TagObjectBox> objects = options['objects'];
   return objects.map((object) => _objectToModel({'object': object})).toList();
+}
+
+List<TagObjectBox> _modelsToObjects(Map<String, dynamic> options) {
+  List<TagObjectBox> models = options['models'];
+  return models.map((model) => _modelToObject({'model': model})).toList();
 }
 
 TagObjectBox _modelToObject(Map<String, dynamic> options) {

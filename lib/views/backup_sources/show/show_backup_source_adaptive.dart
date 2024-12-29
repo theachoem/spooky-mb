@@ -37,9 +37,11 @@ class _ShowBackupSourceAdaptive extends StatelessWidget {
         BackupFileObject? fileInfo = cloudFile.getFileInfo();
 
         return ListTile(
+          onTap: () => viewModel.openBackup(context, cloudFile),
           title: Text(fileInfo?.device.model ?? 'N/A'),
           subtitle: Text(DateFormatService.yMEd_jmsNullable(fileInfo?.createdAt) ?? 'N/A'),
-          trailing: IconButton.outlined(
+          contentPadding: const EdgeInsets.only(left: 16.0, right: 8.0),
+          trailing: IconButton(
             color: ColorScheme.of(context).error,
             icon: const Icon(Icons.delete),
             onPressed: viewModel.disabledActions ? null : () => viewModel.delete(cloudFile, context),

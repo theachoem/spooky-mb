@@ -45,7 +45,7 @@ class TagsViewModel extends BaseViewModel {
   void viewTag(BuildContext context, TagDbModel tag) async {
     SpNestedNavigation.maybeOf(context)?.push(Scaffold(
       appBar: AppBar(title: Text(tag.title)),
-      body: StoryList(
+      body: StoryList.withQuery(
         tagId: tag.id,
         viewOnly: params.storyViewOnly,
         types: const [

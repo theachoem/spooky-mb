@@ -93,14 +93,8 @@ class MessengerService {
         return value;
       }),
       builder: (context, snapshot) {
-        return const AlertDialog(
-          content: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
-            alignment: WrapAlignment.center,
-            children: [
-              CircularProgressIndicator.adaptive(),
-            ],
-          ),
+        return const Center(
+          child: CircularProgressIndicator.adaptive(),
         );
       },
     );

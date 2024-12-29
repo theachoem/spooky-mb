@@ -43,7 +43,10 @@ class _BaseBackupHelper {
     Map<String, CollectionDbModel<BaseDbModel>> tables = {};
 
     for (BaseDbAdapter db in databases) {
-      CollectionDbModel<BaseDbModel>? items = await db.where();
+      CollectionDbModel<BaseDbModel>? items = await db.where(options: {
+        'all_changes': true,
+      });
+
       tables[db.tableName] = items ?? CollectionDbModel(items: []);
     }
 

@@ -33,7 +33,10 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }
 
   @override
-  Future<CollectionDbModel<BaseDbModel>?> where({Map<String, dynamic>? filters}) {
+  Future<CollectionDbModel<BaseDbModel>?> where({
+    Map<String, dynamic>? filters,
+    Map<String, dynamic>? options,
+  }) {
     throw UnimplementedError();
   }
 
@@ -44,6 +47,16 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
 
   @override
   Future<DateTime?> getLastUpdatedAt() {
+    throw UnimplementedError();
+  }
+
+  @override
+  BaseDbModel modelFromJson(Map<String, dynamic> json) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> setAll(List<BaseDbModel> records) {
     throw UnimplementedError();
   }
 }

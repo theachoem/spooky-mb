@@ -20,6 +20,8 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
   }
 
   Future<B> modelToObject(T model, [Map<String, dynamic>? options]);
+  Future<List<B>> modelsToObjects(List<T> models, [Map<String, dynamic>? options]);
+
   Future<T> objectToModel(B object, [Map<String, dynamic>? options]);
   Future<List<T>> objectsToModels(
     List<B> objects, [
@@ -70,6 +72,7 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
   @override
   Future<CollectionDbModel<T>?> where({
     Map<String, dynamic>? filters,
+    Map<String, dynamic>? options,
   }) async {
     List<B> objects;
     QueryBuilder<B>? queryBuilder = buildQuery(filters: filters);
@@ -81,7 +84,7 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
       objects = await box.getAllAsync();
     }
 
-    List<T> docs = await objectsToModels(objects);
+    List<T> docs = await objectsToModels(objects, options);
     return CollectionDbModel<T>(items: docs);
   }
 
@@ -91,6 +94,12 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
     await box.putAsync(constructed, mode: PutMode.put);
     afterCommit(record.id);
     return record;
+  }
+
+  @override
+  Future<void> setAll(List<T> records) async {
+    List<B> objects = await modelsToObjects(records.whereType<T>().toList());
+    await box.putManyAsync(objects, mode: PutMode.put);
   }
 
   @override

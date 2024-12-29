@@ -24,7 +24,7 @@ class _SearchAdaptive extends StatelessWidget {
       body: ValueListenableBuilder<String>(
         valueListenable: viewModel.queryNotifier,
         builder: (context, query, child) {
-          return StoryList(query: query, types: const [
+          return StoryList.withQuery(query: query, types: const [
             PathType.docs,
             PathType.archives,
           ]);
