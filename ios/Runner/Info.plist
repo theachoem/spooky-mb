@@ -2,10 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
+        <key>CADisableMinimumFrameDurationOnPhone</key>
+        <true />
         <key>CFBundleDevelopmentRegion</key>
         <string>$(DEVELOPMENT_LANGUAGE)</string>
         <key>CFBundleDisplayName</key>
-        <string>Spooky Mb</string>
+        <string>${APP_NAME}</string>
         <key>CFBundleExecutable</key>
         <string>$(EXECUTABLE_NAME)</string>
         <key>CFBundleIdentifier</key>
@@ -13,17 +15,13 @@
         <key>CFBundleInfoDictionaryVersion</key>
         <string>6.0</string>
         <key>CFBundleName</key>
-        <string>spooky</string>
+        <string>${APP_NAME}</string>
         <key>CFBundlePackageType</key>
         <string>APPL</string>
         <key>CFBundleShortVersionString</key>
         <string>$(FLUTTER_BUILD_NAME)</string>
         <key>CFBundleSignature</key>
         <string>????</string>
-        <key>CFBundleVersion</key>
-        <string>$(FLUTTER_BUILD_NUMBER)</string>
-        <key>GIDClientID</key>
-        <string>892248434003-34uc2e5inp4l3fmcvd0bh12ao1sq4pv2.apps.googleusercontent.com</string>
         <key>CFBundleURLTypes</key>
         <array>
             <dict>
@@ -31,14 +29,20 @@
                 <string>Editor</string>
                 <key>CFBundleURLSchemes</key>
                 <array>
-                    <string>com.googleusercontent.apps.892248434003-34uc2e5inp4l3fmcvd0bh12ao1sq4pv2</string>
+                    <string>$(GOOGLE_REVERSED_CLIENT_ID)</string>
                 </array>
             </dict>
         </array>
+        <key>CFBundleVersion</key>
+        <string>$(FLUTTER_BUILD_NUMBER)</string>
+        <key>GIDClientID</key>
+        <string>$(GOOGLE_CLIENT_ID)</string>
         <key>LSRequiresIPhoneOS</key>
         <true />
         <key>NSFaceIDUsageDescription</key>
         <string>This app uses FaceID to access your stories</string>
+        <key>UIApplicationSupportsIndirectInputEvents</key>
+        <true />
         <key>UILaunchStoryboardName</key>
         <string>LaunchScreen</string>
         <key>UIMainStoryboardFile</key>
@@ -56,9 +60,5 @@
             <string>UIInterfaceOrientationLandscapeLeft</string>
             <string>UIInterfaceOrientationLandscapeRight</string>
         </array>
-        <key>CADisableMinimumFrameDurationOnPhone</key>
-        <true />
-        <key>UIApplicationSupportsIndirectInputEvents</key>
-        <true />
     </dict>
 </plist>

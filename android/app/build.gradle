@@ -14,8 +14,19 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 
+// remove this when flutter fix following issue:
+// https://github.com/flutter/flutter/issues/139289
+def dartDefines = [];
+if (project.hasProperty('dart-defines')) {
+    dartDefines = project.property('dart-defines')
+        .split(',')
+        .collectEntries { entry ->
+            def pair = new String(entry.decodeBase64(), 'UTF-8').split('=')
+            [(pair.first()): pair.last()]
+        }
+}
+
 android {
-    namespace = "com.juniorise.spooky"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -29,13 +40,36 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.juniorise.spooky"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        // --dart-define-from-file=configs/example.json
+        resValue "string", "app_name", dartDefines.containsKey('APP_NAME') ? dartDefines.APP_NAME : 'Spooky'
+    }
+
+    flavorDimensions "app"
+    productFlavors {
+        storypad {
+            dimension "app"
+            applicationId "com.tc.writestory"
+            namespace "com.tc.writestory"
+        }
+
+        community {
+            dimension "app"
+            applicationId "com.juniorise.spooky.community"
+            namespace "com.juniorise.spooky"
+        }
+
+        spooky {
+            dimension "app"
+            applicationId "com.juniorise.spooky"
+            namespace "com.juniorise.spooky"
+        }
     }
 
     signingConfigs {

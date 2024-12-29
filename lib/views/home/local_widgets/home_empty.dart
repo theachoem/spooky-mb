@@ -15,7 +15,7 @@ class _HomeEmpty extends StatelessWidget {
       children: [
         Container(
           constraints: const BoxConstraints(maxWidth: 200),
-          margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+          margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + kToolbarHeight),
           child: RichText(
             textAlign: TextAlign.center,
             text: TextSpan(

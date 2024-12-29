@@ -1,0 +1,11 @@
+import 'firebase_options/#{FLAVOR}.dart' deferred as #{FLAVOR};
+import 'main.dart' deferred as source;
+
+Future<void> main() async {
+  await #{FLAVOR}.loadLibrary();
+  await source.loadLibrary();
+
+  return source.main(
+    firebaseOptions: #{FLAVOR}.DefaultFirebaseOptions.currentPlatform,
+  );
+}
