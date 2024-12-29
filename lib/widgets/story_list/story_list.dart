@@ -136,6 +136,7 @@ class _StoryListWithQueryState extends State<StoryListWithQuery> {
   @override
   Widget build(BuildContext context) {
     return StoryList(
+      stories: stories,
       viewOnly: widget.viewOnly,
       onDeleted: () => load(),
       onChanged: (updatedStory) {

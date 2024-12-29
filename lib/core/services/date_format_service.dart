@@ -31,4 +31,8 @@ class DateFormatService {
   static String yMd(DateTime date) {
     return DateFormat.yMd().format(date);
   }
+
+  static String yM(DateTime date) {
+    return DateFormat.yM().format(date);
+  }
 }

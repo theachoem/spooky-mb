@@ -1,7 +1,7 @@
 part of 'show_story_view.dart';
 
-class _StoryDetailsAdaptive extends StatelessWidget {
-  const _StoryDetailsAdaptive(this.viewModel);
+class _ShowStoryAdaptive extends StatelessWidget {
+  const _ShowStoryAdaptive(this.viewModel);
 
   final ShowStoryViewModel viewModel;
 
@@ -28,12 +28,17 @@ class _StoryDetailsAdaptive extends StatelessWidget {
         itemBuilder: (context, index) {
           return QuillEditor.basic(
             controller: viewModel.quillControllers[index]!,
-            config: const QuillEditorConfig(
-              padding: EdgeInsets.all(16.0),
+            config: QuillEditorConfig(
+              padding: const EdgeInsets.all(16.0),
               checkBoxReadOnly: false,
               showCursor: false,
               autoFocus: false,
               expands: true,
+              embedBuilders: [
+                ImageBlockEmbed(),
+                DateBlockEmbed(),
+              ],
+              unknownEmbedBuilder: UnknownEmbedBuilder(),
             ),
           );
         },
@@ -141,4 +146,14 @@ class _StoryDetailsAdaptive extends StatelessWidget {
       ),
     );
   }
+}
+
+class UnknownEmbedBuilder extends EmbedBuilder {
+  @override
+  Widget build(BuildContext context, EmbedContext embedContext) {
+    return const Text("Unknown");
+  }
+
+  @override
+  String get key => "unknown";
 }

@@ -8,7 +8,7 @@ import 'package:spooky/views/stories/local_widgets/story_title.dart';
 import 'package:spooky/views/stories/local_widgets/tags_end_drawer.dart';
 import 'package:spooky/widgets/sp_animated_icon.dart';
 import 'package:spooky/widgets/sp_count_down.dart';
-import 'package:spooky/widgets/sp_feeling_picker/sp_feeling_button.dart';
+import 'package:spooky/widgets/feeling_picker/sp_feeling_button.dart';
 import 'package:spooky/widgets/sp_quill_toolbar_color_button.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
 

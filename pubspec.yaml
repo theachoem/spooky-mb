@@ -39,6 +39,10 @@ dependencies:
   firebase_core: ^3.9.0
   googleapis: ^13.2.0
   device_info_plus: ^11.2.0
+  cached_network_image: ^3.4.1
+  flutter_custom_tabs: ^2.1.0
+  photo_view: ^0.15.0
+  dismissible_page: ^1.0.2
 
 dev_dependencies:
   flutter_test:
