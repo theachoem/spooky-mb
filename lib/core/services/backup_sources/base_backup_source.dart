@@ -24,6 +24,7 @@ abstract class BaseBackupSource {
     TagDbModel.db,
   ];
 
+  String? get email;
   bool? isSignedIn;
   CloudFileObject? syncedFile;
 
@@ -49,7 +50,7 @@ abstract class BaseBackupSource {
       await reauthenticate();
     }
 
-    await loadSyncedFile(lastDbUpdatedAt);
+    await loadSyncedFile(lastDbUpdatedAt: lastDbUpdatedAt);
   }
 
   Future<CloudFileListObject?> fetchAllCloudFiles({
@@ -72,16 +73,26 @@ abstract class BaseBackupSource {
   }
 
   Future<void> backup({
-    required DateTime lastUpdatedAt,
+    required DateTime lastDbUpdatedAt,
   }) async {
-    BackupObject backup = await _BaseBackupHelper().constructBackup(databases: databases, lastUpdatedAt: lastUpdatedAt);
-    final io.File file = await _BaseBackupHelper().constructFile(cloudId, backup);
+    BackupObject backup = await _BaseBackupHelper().constructBackup(
+      databases: databases,
+      lastUpdatedAt: lastDbUpdatedAt,
+    );
 
+    final io.File file = await _BaseBackupHelper().constructFile(cloudId, backup);
     await uploadFile(backup.fileInfo.fileNameWithExtention, file);
-    await loadSyncedFile(lastUpdatedAt);
   }
 
-  Future<void> loadSyncedFile(DateTime? lastDbUpdatedAt) async {
+  Future<void> loadSyncedFile({
+    required DateTime? lastDbUpdatedAt,
+  }) async {
+    if (isSignedIn == null) return;
+    if (isSignedIn == false) {
+      syncedFile = null;
+      return;
+    }
+
     if (lastDbUpdatedAt != null) {
       String fileName = BackupFileObject(
         createdAt: lastDbUpdatedAt,

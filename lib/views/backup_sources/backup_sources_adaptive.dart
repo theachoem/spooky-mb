@@ -79,6 +79,7 @@ class _BackupSourcesAdaptive extends StatelessWidget {
                     ),
                   )
                 ],
+                if (source.email != null) Text(source.email!),
                 const SizedBox(height: 8.0),
                 Container(
                   transform: Matrix4.identity()..translate(-4.0, 0.0),

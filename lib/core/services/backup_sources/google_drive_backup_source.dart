@@ -11,6 +11,9 @@ class GoogleDriveBackupSource extends BaseBackupSource {
   final GoogleDriveService _service = GoogleDriveService();
 
   @override
+  String? get email => _service.googleSignIn.currentUser?.email;
+
+  @override
   Future<bool> checkIsSignedIn() => _service.googleSignIn.isSignedIn();
 
   Future<bool> _recheckIsSignedIn() async {

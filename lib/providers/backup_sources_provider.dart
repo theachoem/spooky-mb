@@ -47,17 +47,20 @@ class BackupSourcesProvider extends ChangeNotifier {
   }
 
   Future<void> backup(BaseBackupSource source) async {
-    await source.backup(lastUpdatedAt: lastDbUpdatedAt!);
+    await source.backup(lastDbUpdatedAt: lastDbUpdatedAt!);
+    await source.loadSyncedFile(lastDbUpdatedAt: lastDbUpdatedAt!);
     notifyListeners();
   }
 
   Future<void> signIn(BaseBackupSource source) async {
     await source.signIn();
+    await source.loadSyncedFile(lastDbUpdatedAt: lastDbUpdatedAt!);
     notifyListeners();
   }
 
   Future<void> signOut(BaseBackupSource source) async {
     await source.signOut();
+    await source.loadSyncedFile(lastDbUpdatedAt: lastDbUpdatedAt!);
     notifyListeners();
   }
 
@@ -97,7 +100,7 @@ class BackupSourcesProvider extends ChangeNotifier {
   }
 
   void reloadSyncedFile(BaseBackupSource source) async {
-    await source.loadSyncedFile(lastDbUpdatedAt);
+    await source.loadSyncedFile(lastDbUpdatedAt: lastDbUpdatedAt);
     notifyListeners();
   }
 }
