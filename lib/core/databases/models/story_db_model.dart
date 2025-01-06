@@ -16,8 +16,7 @@ part 'story_db_model.g.dart';
 
 List<String>? tagsFromJson(dynamic tags) {
   if (tags == null) return null;
-  if (tags is List<int>) return tags.map((e) => e.toString()).toList();
-  if (tags is List<String>) return tags;
+  if (tags is List) return tags.map((e) => e.toString()).toList();
   return null;
 }
 
