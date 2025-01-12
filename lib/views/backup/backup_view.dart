@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:provider/provider.dart';
+import 'package:spooky/app_theme.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:spooky/core/objects/cloud_file_object.dart';

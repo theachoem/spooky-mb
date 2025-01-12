@@ -19,10 +19,8 @@ class UserProfileCollapsibleTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    bool tablet = screenSize.width > screenSize.height;
-
     return LayoutBuilder(builder: (context, constraint) {
+      bool tablet = constraint.maxWidth > constraint.maxHeight;
       final width = constraint.maxWidth;
 
       return SpDefaultScrollController.listenToOffet(

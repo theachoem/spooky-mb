@@ -70,8 +70,9 @@ class BackupProvider extends ChangeNotifier with ScheduleConcern {
 
     try {
       await _syncBackupAcrossDevices();
-      // ignore: empty_catches
-    } catch (e) {}
+    } catch (e) {
+      debugPrint("🐛 $runtimeType#_syncBackupAcrossDevices error: $e");
+    }
 
     setSyncing(false);
   }

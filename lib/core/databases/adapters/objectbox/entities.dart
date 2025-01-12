@@ -111,7 +111,7 @@ class TagObjectBox extends BaseObjectBox {
   @override
   void toPermanentlyDeleted() {
     updatedAt = DateTime.now();
-    permanentlyDeletedAt = null;
+    permanentlyDeletedAt = DateTime.now();
   }
 }
 
@@ -144,6 +144,6 @@ class PreferenceObjectBox extends BaseObjectBox {
   @override
   void toPermanentlyDeleted() {
     updatedAt = DateTime.now();
-    permanentlyDeletedAt = null;
+    permanentlyDeletedAt = DateTime.now();
   }
 }

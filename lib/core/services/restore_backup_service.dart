@@ -33,11 +33,11 @@ class RestoreBackupService {
             if (existingRecord.updatedAt != null && newRecord.updatedAt != null) {
               bool newContent = existingRecord.updatedAt!.isBefore(newRecord.updatedAt!);
               if (newContent) {
-                db.set(newRecord);
+                await db.set(newRecord);
               }
             }
           } else {
-            db.set(newRecord);
+            await db.set(newRecord);
           }
         }
       }

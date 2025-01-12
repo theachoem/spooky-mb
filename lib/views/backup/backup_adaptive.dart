@@ -17,7 +17,7 @@ class _BackupAdaptive extends StatelessWidget {
           title: const Text("Backup Histories"),
         ),
         body: Stack(children: [
-          if (viewModel.hasData) buildTimelineDivider(),
+          if (viewModel.hasData) buildTimelineDivider(context),
           RefreshIndicator.adaptive(
             onRefresh: () => viewModel.load(context),
             child: CustomScrollView(
@@ -117,7 +117,10 @@ class _BackupAdaptive extends StatelessWidget {
         return InkWell(
           onTap: callback,
           child: Container(
-            padding: EdgeInsets.only(left: (avatarSize + 12) / 2 - 32 / 2),
+            padding: EdgeInsets.only(
+              right: AppTheme.getDirectionValue(context, (avatarSize + 12) / 2 - 32 / 2.0, 0.0)!,
+              left: AppTheme.getDirectionValue(context, 0.0, (avatarSize + 12) / 2 - 32 / 2.0)!,
+            ),
             child: Row(
               spacing: 16.0,
               children: [
@@ -137,11 +140,12 @@ class _BackupAdaptive extends StatelessWidget {
     );
   }
 
-  Widget buildTimelineDivider() {
+  Widget buildTimelineDivider(BuildContext context) {
     return Positioned(
       top: 0,
       bottom: 0,
-      left: (avatarSize + 12) / 2,
+      left: AppTheme.getDirectionValue(context, null, (avatarSize + 12) / 2),
+      right: AppTheme.getDirectionValue(context, (avatarSize + 12) / 2, null),
       child: const VerticalDivider(
         width: 1,
         indent: 0.0,
