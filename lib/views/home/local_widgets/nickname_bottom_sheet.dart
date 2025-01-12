@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:spooky/core/objects/user_object.dart';
 import 'package:spooky/widgets/sp_default_text_controller.dart';
 
 class NicknameBottomSheet extends StatelessWidget {
   const NicknameBottomSheet({
     super.key,
-    required this.user,
+    required this.nickname,
   });
 
-  final UserObject? user;
+  final String? nickname;
 
   @override
   Widget build(BuildContext context) {
     return SpDefaultTextController(
-      initialText: user?.nickname,
+      initialText: nickname,
       withForm: true,
       builder: (context, controller) {
         Future<void> save() async {
@@ -62,10 +61,10 @@ class NicknameBottomSheet extends StatelessWidget {
                 child: ValueListenableBuilder(
                   valueListenable: controller,
                   builder: (context, value, child) {
-                    bool unchanged = value.text.trim().isEmpty || value.text.trim() == user?.nickname;
+                    bool unchanged = value.text.trim().isEmpty || value.text.trim() == nickname;
                     return FilledButton(
                       onPressed: unchanged ? null : () => save(),
-                      child: user?.nickname == null ? const Text("Save") : const Text("Update"),
+                      child: nickname == null ? const Text("Save") : const Text("Update"),
                     );
                   },
                 ),

@@ -25,6 +25,9 @@ class StoryContentDbModel extends BaseDbModel with ComparableConcern {
     return metadata ?? [title ?? "", plainText ?? ""].join("\n");
   }
 
+  @override
+  DateTime get updatedAt => createdAt;
+
   // List: Returns JSON-serializable version of quill delta.
   List<List<dynamic>>? pages;
 

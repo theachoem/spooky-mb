@@ -28,17 +28,46 @@ class _HomeScaffold extends StatelessWidget {
             onObserve: (result) => viewModel.scrollInfo.onObserve(result, context),
             child: RefreshIndicator.adaptive(
               edgeOffset: viewModel.scrollInfo.appBar(context).getExpandedHeight() + MediaQuery.of(context).padding.top,
-              onRefresh: () => viewModel.load(),
+              onRefresh: () async {
+                await viewModel.load();
+                if (context.mounted) await context.read<BackupProvider>().syncBackupAcrossDevices();
+              },
               child: CustomScrollView(
                 controller: viewModel.scrollInfo.scrollController,
+                physics: const AlwaysScrollableScrollPhysics(),
                 slivers: [
                   appBar,
+                  buildSyncingStatus(context),
                   body,
                 ],
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  SliverToBoxAdapter buildSyncingStatus(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: Consumer<BackupProvider>(
+        child: Container(
+          width: double.infinity,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+          decoration: BoxDecoration(color: ColorScheme.of(context).readOnly.surface5),
+          child: Text(
+            "Syncing to Google Drive...",
+            style: TextTheme.of(context).bodySmall?.copyWith(color: ColorScheme.of(context).onSurface),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        builder: (context, provider, child) {
+          return SpCrossFade(
+            showFirst: provider.syncing,
+            firstChild: child!,
+            secondChild: const SizedBox(width: double.infinity),
+          );
+        },
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:spooky/core/services/story_db_constructor_service.dart';
 import 'package:spooky/core/types/path_type.dart';
 import 'package:spooky/objectbox.g.dart';
 
-class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
+class StoryBox extends BaseBox<StoryObjectBox, StoryDbModel> {
   @override
   String get tableName => "stories";
 
@@ -53,7 +53,8 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
     List<int>? selectedYears = filters?["selected_years"];
     List<int>? yearsRange = filters?["years_range"];
 
-    Condition<StoryObjectBox>? conditions = StoryObjectBox_.id.notNull();
+    Condition<StoryObjectBox>? conditions =
+        StoryObjectBox_.id.notNull().and(StoryObjectBox_.permanentlyDeletedAt.isNull());
 
     if (tag != null) conditions = conditions.and(StoryObjectBox_.tags.containsElement(tag.toString()));
     if (starred == true) conditions = conditions.and(StoryObjectBox_.starred.equals(true));
@@ -163,7 +164,8 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
       tags: object.tags,
       rawChanges: object.changes,
       movedToBinAt: object.movedToBinAt,
-      latestChange: StoryDbConstructorService.rawChangesToChanges([object.changes.last]).first,
+      latestChange:
+          object.changes.isNotEmpty ? StoryDbConstructorService.rawChangesToChanges([object.changes.last]).first : null,
       allChanges:
           options?['all_changes'] == true ? StoryDbConstructorService.rawChangesToChanges(object.changes) : null,
     );
@@ -224,6 +226,7 @@ class StoryBox extends BaseObjectBox<StoryObjectBox, StoryDbModel> {
       movedToBinAt: story.movedToBinAt,
       metadata: story.latestChange?.safeMetadata,
       changes: StoryDbConstructorService.changesToRawChanges(story),
+      permanentlyDeletedAt: null,
     );
   }
 }

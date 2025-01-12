@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:spooky/core/databases/adapters/base_db_adapter.dart';
+import 'package:spooky/core/databases/adapters/objectbox/preference_box.dart';
 import 'package:spooky/core/databases/adapters/objectbox/story_box.dart';
 import 'package:spooky/core/databases/adapters/objectbox/tag_box.dart';
 import 'package:spooky/core/databases/models/base_db_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
+import 'package:spooky/core/databases/models/preference_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/databases/models/tag_db_model.dart';
 import 'package:spooky/core/extensions/string_extension.dart';
@@ -47,6 +49,10 @@ class _BackupTableViewerState extends State<BackupTableViewer> {
         loaded = true;
         setState(() {});
       } else if (database is TagBox) {
+        loadedModels = widget.tableContents.map(database.modelFromJson).toList();
+        loaded = true;
+        setState(() {});
+      } else if (database is PreferenceBox) {
         loadedModels = widget.tableContents.map(database.modelFromJson).toList();
         loaded = true;
         setState(() {});
@@ -101,6 +107,18 @@ class _BackupTableViewerState extends State<BackupTableViewer> {
           );
         },
       );
+    } else if (loadedModels?.firstOrNull is PreferenceDbModel) {
+      final preferences = loadedModels?.whereType<PreferenceDbModel>().toList() ?? [];
+      return ListView.builder(
+        itemCount: preferences.length,
+        itemBuilder: (context, index) {
+          final preference = preferences[index];
+          return ListTile(
+            title: Text(preference.key),
+            subtitle: Text(preference.value),
+          );
+        },
+      );
     }
 
     return ListView.builder(
@@ -108,9 +126,7 @@ class _BackupTableViewerState extends State<BackupTableViewer> {
       itemBuilder: (context, index) {
         Map<dynamic, dynamic> content = widget.tableContents[index];
         return ListTile(
-          title: Text(
-            content['title'].toString(),
-          ),
+          title: Text(content['id'].toString()),
         );
       },
     );

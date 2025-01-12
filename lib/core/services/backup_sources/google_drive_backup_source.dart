@@ -14,6 +14,22 @@ class GoogleDriveBackupSource extends BaseBackupSource {
   String? get email => _service.googleSignIn.currentUser?.email;
 
   @override
+  String? get displayName => _service.googleSignIn.currentUser?.displayName;
+
+  @override
+  String? get smallImageUrl => _service.googleSignIn.currentUser?.photoUrl;
+
+  @override
+  String? get bigImageUrl => _maximizeImage(_service.googleSignIn.currentUser?.photoUrl);
+
+  String? _maximizeImage(String? imageUrl) {
+    if (imageUrl == null) return null;
+    String lowQuality = "s96-c";
+    String highQuality = "s0";
+    return imageUrl.replaceAll(lowQuality, highQuality);
+  }
+
+  @override
   Future<bool> checkIsSignedIn() => _service.googleSignIn.isSignedIn();
 
   Future<bool> _recheckIsSignedIn() async {
@@ -53,6 +69,11 @@ class GoogleDriveBackupSource extends BaseBackupSource {
   }
 
   @override
+  Future<CloudFileObject?> getLastestBackupFile() {
+    return _service.fetchLatestFile();
+  }
+
+  @override
   Future<CloudFileObject?> getFileByFileName(String fileName) {
     return _service.findFileByName(fileName);
   }
@@ -63,7 +84,7 @@ class GoogleDriveBackupSource extends BaseBackupSource {
   }
 
   @override
-  Future<void> deleteCloudFile(CloudFileObject file) {
-    return _service.delete(file.id);
+  Future<void> deleteCloudFile(String id) {
+    return _service.delete(id);
   }
 }

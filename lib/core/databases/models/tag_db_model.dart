@@ -18,6 +18,8 @@ class TagDbModel extends BaseDbModel {
   final bool? starred;
   final String? emoji;
   final DateTime createdAt;
+
+  @override
   final DateTime updatedAt;
 
   TagDbModel({

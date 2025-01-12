@@ -41,7 +41,7 @@ class _TagsAdaptive extends StatelessWidget {
           child: Slidable(
             closeOnScroll: true,
             key: ValueKey(tag.id),
-            startActionPane: ActionPane(
+            endActionPane: ActionPane(
               motion: const DrawerMotion(),
               children: [
                 SlidableAction(
@@ -51,16 +51,11 @@ class _TagsAdaptive extends StatelessWidget {
                   icon: Icons.delete,
                   label: 'Delete',
                 ),
-              ],
-            ),
-            endActionPane: ActionPane(
-              motion: const DrawerMotion(),
-              children: [
                 SlidableAction(
                   onPressed: (context) => viewModel.editTag(context, tag),
                   backgroundColor: ColorScheme.of(context).secondary,
                   foregroundColor: ColorScheme.of(context).onSecondary,
-                  icon: Icons.delete,
+                  icon: Icons.edit,
                   label: 'Edit',
                 ),
               ],

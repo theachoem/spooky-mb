@@ -124,7 +124,7 @@ class _HomeFlexibleSpaceBar extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  _HomeAppBarNickname(nickname: viewModel.user?.nickname),
+                  _HomeAppBarNickname(nickname: viewModel.nickname),
                   Text(
                     "What did you have in mind?",
                     overflow: TextOverflow.ellipsis,

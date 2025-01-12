@@ -5,7 +5,7 @@
   "entities": [
     {
       "id": "1:2962579780537594759",
-      "lastPropertyId": "20:4113637293536721721",
+      "lastPropertyId": "21:5147940647382545592",
       "name": "StoryObjectBox",
       "properties": [
         {
@@ -93,13 +93,18 @@
           "id": "20:4113637293536721721",
           "name": "second",
           "type": 6
+        },
+        {
+          "id": "21:5147940647382545592",
+          "name": "permanentlyDeletedAt",
+          "type": 10
         }
       ],
       "relations": []
     },
     {
       "id": "2:5548558812249966101",
-      "lastPropertyId": "8:6011272584059291333",
+      "lastPropertyId": "9:4397546260987904187",
       "name": "TagObjectBox",
       "properties": [
         {
@@ -142,23 +147,71 @@
           "id": "8:6011272584059291333",
           "name": "index",
           "type": 6
+        },
+        {
+          "id": "9:4397546260987904187",
+          "name": "permanentlyDeletedAt",
+          "type": 10
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "4:8652388247732271380",
+      "lastPropertyId": "6:7741946128893402175",
+      "name": "PreferenceObjectBox",
+      "properties": [
+        {
+          "id": "1:5845189424486968777",
+          "name": "id",
+          "type": 6,
+          "flags": 129
+        },
+        {
+          "id": "2:7879389423381012812",
+          "name": "key",
+          "type": 9
+        },
+        {
+          "id": "3:6346675735678687120",
+          "name": "value",
+          "type": 9
+        },
+        {
+          "id": "4:5487565668895572636",
+          "name": "createdAt",
+          "type": 10
+        },
+        {
+          "id": "5:6079525654333709276",
+          "name": "updatedAt",
+          "type": 10
+        },
+        {
+          "id": "6:7741946128893402175",
+          "name": "permanentlyDeletedAt",
+          "type": 10
         }
       ],
       "relations": []
     }
   ],
-  "lastEntityId": "2:5548558812249966101",
+  "lastEntityId": "4:8652388247732271380",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    114680069077451626
+  ],
   "retiredIndexUids": [],
   "retiredPropertyUids": [
     7351525936100002271,
     3655265263412929559,
-    4968158570417504072
+    4968158570417504072,
+    957469211671557087,
+    8481003567609178682
   ],
   "retiredRelationUids": [],
   "version": 1

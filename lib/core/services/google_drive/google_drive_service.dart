@@ -35,6 +35,22 @@ class GoogleDriveService {
     return cloudContent.hashCode == localContent.hashCode;
   }
 
+  Future<CloudFileObject?> fetchLatestFile() async {
+    return _execHandler(() async {
+      drive.DriveApi? client = await googleDriveClient;
+      if (client == null) return null;
+
+      drive.FileList fileList = await client.files.list(
+        spaces: "appDataFolder",
+        orderBy: "createdTime desc",
+        pageSize: 1,
+      );
+
+      if (fileList.files?.firstOrNull == null) return null;
+      return CloudFileObject.fromGoogleDrive(fileList.files!.first);
+    });
+  }
+
   Future<CloudFileListObject?> fetchAll(String? nextToken) async {
     return _execHandler(() async {
       drive.DriveApi? client = await googleDriveClient;
@@ -56,7 +72,7 @@ class GoogleDriveService {
 
       Object file = await client.files.get(fileId);
       if (file is drive.File) {
-        return CloudFileObject.fromGooglDrive(file);
+        return CloudFileObject.fromGoogleDrive(file);
       }
 
       return null;
@@ -78,7 +94,7 @@ class GoogleDriveService {
         drive.File? lastFile = files.lastOrNull;
 
         if (lastFile != null && lastFile.id != null) {
-          return CloudFileObject.fromGooglDrive(lastFile);
+          return CloudFileObject.fromGoogleDrive(lastFile);
         }
       }
 
@@ -117,7 +133,7 @@ class GoogleDriveService {
 
       if (recieved.id != null) {
         debugPrint('GoogleDriveService#uploadFile uploaded: ${recieved.id}');
-        return CloudFileObject.fromGooglDrive(recieved);
+        return CloudFileObject.fromGoogleDrive(recieved);
       }
 
       debugPrint('GoogleDriveService#uploadFile uploading failed!');

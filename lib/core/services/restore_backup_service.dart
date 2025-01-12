@@ -4,7 +4,33 @@ import 'package:spooky/core/objects/backup_object.dart';
 import 'package:spooky/core/services/backup_sources/base_backup_source.dart';
 
 class RestoreBackupService {
-  Future<void> restore({
+  Future<void> restoreOnlyNewData({
+    required BackupObject backup,
+  }) async {
+    Map<String, dynamic> tables = backup.tables;
+    Map<String, List<BaseDbModel>> datas = decodeTables(tables);
+
+    for (BaseDbAdapter db in BaseBackupSource.databases) {
+      List<BaseDbModel>? items = datas[db.tableName];
+      if (items != null) {
+        for (BaseDbModel newRecord in items) {
+          BaseDbModel? existingRecord = await db.find(newRecord.id, returnDeleted: true);
+          if (existingRecord != null) {
+            if (existingRecord.updatedAt != null && newRecord.updatedAt != null) {
+              bool newContent = existingRecord.updatedAt!.isBefore(newRecord.updatedAt!);
+              if (newContent) {
+                db.set(newRecord);
+              }
+            }
+          } else {
+            db.set(newRecord);
+          }
+        }
+      }
+    }
+  }
+
+  Future<void> forceRestore({
     required BackupObject backup,
   }) async {
     Map<String, dynamic> tables = backup.tables;

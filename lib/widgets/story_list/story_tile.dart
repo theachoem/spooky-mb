@@ -1,5 +1,6 @@
 import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:spooky/app_theme.dart';
 import 'package:spooky/core/databases/models/story_content_db_model.dart';
@@ -37,33 +38,68 @@ class StoryTile extends StatelessWidget {
 
     List<SpPopMenuItem> menus = buildPopUpMenus(context);
 
-    return SpPopupMenuButton(
-      smartDx: true,
-      dyGetter: (double dy) => dy + kToolbarHeight,
-      items: (BuildContext context) => menus,
-      builder: (openPopUpMenu) {
-        return InkWell(
-          onTap: onTap,
-          onLongPress: menus.isNotEmpty ? openPopUpMenu : null,
-          child: Container(
-            padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 16.0,
+    return Theme(
+      // Remove theme wrapper here when this is fixed:
+      // https://github.com/letsar/flutter_slidable/issues/512
+      data: Theme.of(context).copyWith(
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(iconColor: WidgetStatePropertyAll(ColorScheme.of(context).onPrimary)),
+        ),
+      ),
+      child: Slidable(
+        closeOnScroll: true,
+        key: ValueKey(story.id),
+        endActionPane: ActionPane(
+            motion: const DrawerMotion(),
+            children: List.generate(menus.length, (index) {
+              final menu = menus[index];
+              return SlidableAction(
+                icon: menu.leadingIconData,
+                backgroundColor: menu.titleStyle?.color ?? ColorFromDayService(context: context).get(index + 1)!,
+                foregroundColor: ColorScheme.of(context).onPrimary,
+                onPressed: (context) => menu.onPressed?.call(),
+              );
+            })
+
+            // [
+            //   SlidableAction(
+            //     onPressed: (context) {},
+            //     backgroundColor: ColorScheme.of(context).error,
+            //     foregroundColor: ColorScheme.of(context).onError,
+            //     icon: Icons.delete,
+            //     label: 'Delete',
+            //   ),
+            // ],
+            ),
+        child: SpPopupMenuButton(
+          smartDx: true,
+          dyGetter: (double dy) => dy + kToolbarHeight,
+          items: (BuildContext context) => menus,
+          builder: (openPopUpMenu) {
+            return InkWell(
+              onTap: onTap,
+              onLongPress: menus.isNotEmpty ? openPopUpMenu : null,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+                child: Stack(
+                  clipBehavior: Clip.none,
                   children: [
-                    buildMonogram(context),
-                    buildContents(hasTitle, content, context, hasBody),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      spacing: 16.0,
+                      children: [
+                        buildMonogram(context),
+                        buildContents(hasTitle, content, context, hasBody),
+                      ],
+                    ),
+                    buildStarredButton(context)
                   ],
                 ),
-                buildStarredButton(context)
-              ],
-            ),
-          ),
-        );
-      },
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -114,7 +150,13 @@ class StoryTile extends StatelessWidget {
           title: 'Move to bin',
           leadingIconData: Icons.delete,
           titleStyle: TextStyle(color: ColorScheme.of(context).error),
-          onPressed: () => story.moveToBin(),
+          onPressed: () async {
+            await story.moveToBin();
+
+            if (context.mounted) {
+              MessengerService.of(context).showSnackBar("Moved to bin", showAction: true);
+            }
+          },
         ),
       if (story.inBins)
         SpPopMenuItem(
@@ -133,6 +175,7 @@ class StoryTile extends StatelessWidget {
             if (result == OkCancelResult.ok) {
               await story.delete();
               if (!context.mounted) return;
+
               MessengerService.of(context).showSnackBar(
                 'Deleted successfully',
                 showAction: true,
@@ -230,28 +273,29 @@ class StoryTile extends StatelessWidget {
               ),
             ),
           ),
-        if (story.inBins)
-          Container(
-            margin: const EdgeInsets.only(top: 8.0),
-            child: RichText(
-              text: TextSpan(
-                style: TextTheme.of(context).labelMedium?.copyWith(color: ColorScheme.of(context).error),
-                children: [
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Icon(
-                      Icons.info,
-                      size: 12.0,
-                      color: ColorScheme.of(context).error,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' Auto delete on ${DateFormatService.yMd(story.movedToBinAt!.add(const Duration(days: 30)))}',
-                  ),
-                ],
-              ),
-            ),
-          )
+        // if (story.inBins)
+        //   Container(
+        //     margin: const EdgeInsets.only(top: 8.0),
+        //     child: RichText(
+        //       text: TextSpan(
+        //         style: TextTheme.of(context).labelMedium?.copyWith(color: ColorScheme.of(context).error),
+        //         children: [
+        //           WidgetSpan(
+        //             alignment: PlaceholderAlignment.middle,
+        //             child: Icon(
+        //               Icons.info,
+        //               size: 12.0,
+        //               color: ColorScheme.of(context).error,
+        //             ),
+        //           ),
+        //           TextSpan(
+        //             text:
+        //                 ' Auto delete on ${DateFormatService.yMd((story.movedToBinAt ?? story.updatedAt).add(const Duration(days: 30)))}',
+        //           ),
+        //         ],
+        //       ),
+        //     ),
+        //   )
       ]),
     );
   }

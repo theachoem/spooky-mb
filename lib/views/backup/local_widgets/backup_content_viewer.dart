@@ -3,8 +3,8 @@ import 'package:provider/provider.dart';
 import 'package:spooky/core/extensions/string_extension.dart';
 import 'package:spooky/core/objects/backup_object.dart';
 import 'package:spooky/core/services/date_format_service.dart';
-import 'package:spooky/providers/backup_sources_provider.dart';
-import 'package:spooky/views/backup_sources/show/local_widgets/backup_table_viewer.dart';
+import 'package:spooky/providers/backup_provider.dart';
+import 'package:spooky/views/backup/local_widgets/backup_table_viewer.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
 
 class BackupContentViewer extends StatelessWidget {
@@ -16,7 +16,7 @@ class BackupContentViewer extends StatelessWidget {
   final BackupObject backup;
 
   void restore(BuildContext context) {
-    context.read<BackupSourcesProvider>().restore(backup, context);
+    context.read<BackupProvider>().forceRestore(backup, context);
   }
 
   @override

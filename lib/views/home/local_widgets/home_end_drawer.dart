@@ -47,11 +47,7 @@ class _HomeEndDrawer extends StatelessWidget {
             onTap: () => ArchivesRoute().push(context),
           ),
           const Divider(),
-          ListTile(
-            leading: const Icon(Icons.backup_outlined),
-            title: const Text('Backups'),
-            onTap: () => BackupSourcesRoute().push(context),
-          ),
+          const BackupTile(),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.color_lens_outlined),

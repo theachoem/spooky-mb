@@ -43,6 +43,7 @@ dependencies:
   flutter_custom_tabs: ^2.1.0
   photo_view: ^0.15.0
   dismissible_page: ^1.0.2
+  material_design_icons_flutter: ^7.0.7296
 
 dev_dependencies:
   flutter_test:

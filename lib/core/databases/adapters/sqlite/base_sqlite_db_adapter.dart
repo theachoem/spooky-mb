@@ -18,7 +18,12 @@ class BaseSqliteDbAdapter extends BaseDbAdapter {
   }
 
   @override
-  Future<BaseDbModel?> find(int id) {
+  Future<BaseDbModel?> find(int id, {bool returnDeleted = false}) {
+    throw UnimplementedError();
+  }
+
+  @override
+  bool hasDeleted(int id) {
     throw UnimplementedError();
   }
 

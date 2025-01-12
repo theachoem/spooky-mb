@@ -15,7 +15,7 @@ class CloudFileListObject {
 
     for (drive.File file in fileList.files!) {
       if (file.id == null) continue;
-      list.add(CloudFileObject.fromGooglDrive(file));
+      list.add(CloudFileObject.fromGoogleDrive(file));
     }
 
     return CloudFileListObject(

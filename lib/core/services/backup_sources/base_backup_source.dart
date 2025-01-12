@@ -5,6 +5,7 @@ import 'package:path_provider/path_provider.dart' show getApplicationSupportDire
 import 'package:spooky/core/databases/adapters/base_db_adapter.dart';
 import 'package:spooky/core/databases/models/base_db_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
+import 'package:spooky/core/databases/models/preference_db_model.dart';
 import 'package:spooky/core/databases/models/story_db_model.dart';
 import 'package:spooky/core/databases/models/tag_db_model.dart';
 import 'package:spooky/core/objects/backup_file_object.dart';
@@ -20,14 +21,18 @@ abstract class BaseBackupSource {
   String get cloudId;
 
   static final List<BaseDbAdapter> databases = [
+    PreferenceDbModel.db,
     StoryDbModel.db,
     TagDbModel.db,
   ];
 
   String? get email;
+  String? get displayName;
+  String? get smallImageUrl;
+  String? get bigImageUrl;
+
   bool? isSignedIn;
   CloudFileObject? syncedFile;
-
   DateTime? get lastSyncedAt {
     return syncedFile?.getFileInfo()?.createdAt;
   }
@@ -37,20 +42,14 @@ abstract class BaseBackupSource {
   Future<bool> signIn();
   Future<bool> signOut();
   Future<bool> uploadFile(String fileName, io.File file);
+  Future<CloudFileObject?> getLastestBackupFile();
   Future<CloudFileObject?> getFileByFileName(String fileName);
   Future<String?> getFileContent(CloudFileObject cloudFile);
-  Future<void> deleteCloudFile(CloudFileObject file);
+  Future<void> deleteCloudFile(String id);
 
-  Future<void> load({
-    required DateTime? lastDbUpdatedAt,
-  }) async {
+  Future<void> authenticate() async {
     isSignedIn = await checkIsSignedIn();
-
-    if (isSignedIn == true) {
-      await reauthenticate();
-    }
-
-    await loadSyncedFile(lastDbUpdatedAt: lastDbUpdatedAt);
+    if (isSignedIn == true) await reauthenticate();
   }
 
   Future<CloudFileListObject?> fetchAllCloudFiles({
@@ -84,24 +83,13 @@ abstract class BaseBackupSource {
     await uploadFile(backup.fileInfo.fileNameWithExtention, file);
   }
 
-  Future<void> loadSyncedFile({
-    required DateTime? lastDbUpdatedAt,
-  }) async {
+  Future<void> loadLatestBackup() async {
     if (isSignedIn == null) return;
     if (isSignedIn == false) {
       syncedFile = null;
       return;
     }
 
-    if (lastDbUpdatedAt != null) {
-      String fileName = BackupFileObject(
-        createdAt: lastDbUpdatedAt,
-        device: await DeviceInfoObject.get(),
-      ).fileNameWithExtention;
-
-      syncedFile = await getFileByFileName(fileName);
-    } else {
-      syncedFile = null;
-    }
+    syncedFile = await getLastestBackupFile();
   }
 }

@@ -5,7 +5,7 @@ import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/databases/models/tag_db_model.dart';
 import 'package:spooky/objectbox.g.dart';
 
-class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
+class TagBox extends BaseBox<TagObjectBox, TagDbModel> {
   @override
   String get tableName => "tags";
 
@@ -38,10 +38,11 @@ class TagBox extends BaseObjectBox<TagObjectBox, TagDbModel> {
   }
 
   @override
-  QueryBuilder<TagObjectBox>? buildQuery({
+  QueryBuilder<TagObjectBox> buildQuery({
     Map<String, dynamic>? filters,
   }) {
-    return null;
+    Condition<TagObjectBox> conditions = TagObjectBox_.id.notNull().and(TagObjectBox_.permanentlyDeletedAt.isNull());
+    return box.query(conditions);
   }
 
   @override

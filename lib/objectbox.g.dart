@@ -22,7 +22,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(1, 2962579780537594759),
       name: 'StoryObjectBox',
-      lastPropertyId: const obx_int.IdUid(20, 4113637293536721721),
+      lastPropertyId: const obx_int.IdUid(21, 5147940647382545592),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -109,6 +109,11 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(20, 4113637293536721721),
             name: 'second',
             type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(21, 5147940647382545592),
+            name: 'permanentlyDeletedAt',
+            type: 10,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -116,7 +121,7 @@ final _entities = <obx_int.ModelEntity>[
   obx_int.ModelEntity(
       id: const obx_int.IdUid(2, 5548558812249966101),
       name: 'TagObjectBox',
-      lastPropertyId: const obx_int.IdUid(8, 6011272584059291333),
+      lastPropertyId: const obx_int.IdUid(9, 4397546260987904187),
       flags: 0,
       properties: <obx_int.ModelProperty>[
         obx_int.ModelProperty(
@@ -158,6 +163,50 @@ final _entities = <obx_int.ModelEntity>[
             id: const obx_int.IdUid(8, 6011272584059291333),
             name: 'index',
             type: 6,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(9, 4397546260987904187),
+            name: 'permanentlyDeletedAt',
+            type: 10,
+            flags: 0)
+      ],
+      relations: <obx_int.ModelRelation>[],
+      backlinks: <obx_int.ModelBacklink>[]),
+  obx_int.ModelEntity(
+      id: const obx_int.IdUid(4, 8652388247732271380),
+      name: 'PreferenceObjectBox',
+      lastPropertyId: const obx_int.IdUid(6, 7741946128893402175),
+      flags: 0,
+      properties: <obx_int.ModelProperty>[
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(1, 5845189424486968777),
+            name: 'id',
+            type: 6,
+            flags: 129),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(2, 7879389423381012812),
+            name: 'key',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(3, 6346675735678687120),
+            name: 'value',
+            type: 9,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(4, 5487565668895572636),
+            name: 'createdAt',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(5, 6079525654333709276),
+            name: 'updatedAt',
+            type: 10,
+            flags: 0),
+        obx_int.ModelProperty(
+            id: const obx_int.IdUid(6, 7741946128893402175),
+            name: 'permanentlyDeletedAt',
+            type: 10,
             flags: 0)
       ],
       relations: <obx_int.ModelRelation>[],
@@ -199,16 +248,18 @@ Future<obx.Store> openStore(
 obx_int.ModelDefinition getObjectBoxModel() {
   final model = obx_int.ModelInfo(
       entities: _entities,
-      lastEntityId: const obx_int.IdUid(2, 5548558812249966101),
+      lastEntityId: const obx_int.IdUid(4, 8652388247732271380),
       lastIndexId: const obx_int.IdUid(0, 0),
       lastRelationId: const obx_int.IdUid(0, 0),
       lastSequenceId: const obx_int.IdUid(0, 0),
-      retiredEntityUids: const [],
+      retiredEntityUids: const [114680069077451626],
       retiredIndexUids: const [],
       retiredPropertyUids: const [
         7351525936100002271,
         3655265263412929559,
-        4968158570417504072
+        4968158570417504072,
+        957469211671557087,
+        8481003567609178682
       ],
       retiredRelationUids: const [],
       modelVersion: 5,
@@ -237,7 +288,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final metadataOffset = object.metadata == null
               ? null
               : fbb.writeString(object.metadata!);
-          fbb.startTable(21);
+          fbb.startTable(22);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.version);
           fbb.addOffset(2, typeOffset);
@@ -255,6 +306,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(17, object.hour);
           fbb.addInt64(18, object.minute);
           fbb.addInt64(19, object.second);
+          fbb.addInt64(20, object.permanentlyDeletedAt?.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -263,6 +315,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final rootOffset = buffer.derefObject(0);
           final movedToBinAtValue =
               const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 24);
+          final permanentlyDeletedAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 44);
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final versionParam =
@@ -302,6 +356,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
               .vTableGetNullable(buffer, rootOffset, 28);
           final metadataParam = const fb.StringReader(asciiOptimization: true)
               .vTableGetNullable(buffer, rootOffset, 36);
+          final permanentlyDeletedAtParam = permanentlyDeletedAtValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(permanentlyDeletedAtValue);
           final object = StoryObjectBox(
               id: idParam,
               version: versionParam,
@@ -319,7 +376,8 @@ obx_int.ModelDefinition getObjectBoxModel() {
               movedToBinAt: movedToBinAtParam,
               changes: changesParam,
               tags: tagsParam,
-              metadata: metadataParam);
+              metadata: metadataParam,
+              permanentlyDeletedAt: permanentlyDeletedAtParam);
 
           return object;
         }),
@@ -335,7 +393,7 @@ obx_int.ModelDefinition getObjectBoxModel() {
           final titleOffset = fbb.writeString(object.title);
           final emojiOffset =
               object.emoji == null ? null : fbb.writeString(object.emoji!);
-          fbb.startTable(9);
+          fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, titleOffset);
           fbb.addInt64(2, object.version);
@@ -344,12 +402,15 @@ obx_int.ModelDefinition getObjectBoxModel() {
           fbb.addInt64(5, object.createdAt.millisecondsSinceEpoch);
           fbb.addInt64(6, object.updatedAt.millisecondsSinceEpoch);
           fbb.addInt64(7, object.index);
+          fbb.addInt64(8, object.permanentlyDeletedAt?.millisecondsSinceEpoch);
           fbb.finish(fbb.endTable());
           return object.id;
         },
         objectFromFB: (obx.Store store, ByteData fbData) {
           final buffer = fb.BufferContext(fbData);
           final rootOffset = buffer.derefObject(0);
+          final permanentlyDeletedAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 20);
           final idParam =
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
           final titleParam = const fb.StringReader(asciiOptimization: true)
@@ -366,6 +427,9 @@ obx_int.ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 14, 0));
           final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 16, 0));
+          final permanentlyDeletedAtParam = permanentlyDeletedAtValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(permanentlyDeletedAtValue);
           final object = TagObjectBox(
               id: idParam,
               title: titleParam,
@@ -374,7 +438,57 @@ obx_int.ModelDefinition getObjectBoxModel() {
               starred: starredParam,
               emoji: emojiParam,
               createdAt: createdAtParam,
-              updatedAt: updatedAtParam);
+              updatedAt: updatedAtParam,
+              permanentlyDeletedAt: permanentlyDeletedAtParam);
+
+          return object;
+        }),
+    PreferenceObjectBox: obx_int.EntityDefinition<PreferenceObjectBox>(
+        model: _entities[2],
+        toOneRelations: (PreferenceObjectBox object) => [],
+        toManyRelations: (PreferenceObjectBox object) => {},
+        getId: (PreferenceObjectBox object) => object.id,
+        setId: (PreferenceObjectBox object, int id) {
+          object.id = id;
+        },
+        objectToFB: (PreferenceObjectBox object, fb.Builder fbb) {
+          final keyOffset = fbb.writeString(object.key);
+          final valueOffset = fbb.writeString(object.value);
+          fbb.startTable(7);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, keyOffset);
+          fbb.addOffset(2, valueOffset);
+          fbb.addInt64(3, object.createdAt.millisecondsSinceEpoch);
+          fbb.addInt64(4, object.updatedAt.millisecondsSinceEpoch);
+          fbb.addInt64(5, object.permanentlyDeletedAt?.millisecondsSinceEpoch);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (obx.Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+          final permanentlyDeletedAtValue =
+              const fb.Int64Reader().vTableGetNullable(buffer, rootOffset, 14);
+          final idParam =
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0);
+          final keyParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 6, '');
+          final valueParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 8, '');
+          final createdAtParam = DateTime.fromMillisecondsSinceEpoch(
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0));
+          final updatedAtParam = DateTime.fromMillisecondsSinceEpoch(
+              const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
+          final permanentlyDeletedAtParam = permanentlyDeletedAtValue == null
+              ? null
+              : DateTime.fromMillisecondsSinceEpoch(permanentlyDeletedAtValue);
+          final object = PreferenceObjectBox(
+              id: idParam,
+              key: keyParam,
+              value: valueParam,
+              createdAt: createdAtParam,
+              updatedAt: updatedAtParam,
+              permanentlyDeletedAt: permanentlyDeletedAtParam);
 
           return object;
         })
@@ -452,6 +566,10 @@ class StoryObjectBox_ {
   /// See [StoryObjectBox.second].
   static final second =
       obx.QueryIntegerProperty<StoryObjectBox>(_entities[0].properties[16]);
+
+  /// See [StoryObjectBox.permanentlyDeletedAt].
+  static final permanentlyDeletedAt =
+      obx.QueryDateProperty<StoryObjectBox>(_entities[0].properties[17]);
 }
 
 /// [TagObjectBox] entity fields to define ObjectBox queries.
@@ -487,4 +605,35 @@ class TagObjectBox_ {
   /// See [TagObjectBox.index].
   static final index =
       obx.QueryIntegerProperty<TagObjectBox>(_entities[1].properties[7]);
+
+  /// See [TagObjectBox.permanentlyDeletedAt].
+  static final permanentlyDeletedAt =
+      obx.QueryDateProperty<TagObjectBox>(_entities[1].properties[8]);
+}
+
+/// [PreferenceObjectBox] entity fields to define ObjectBox queries.
+class PreferenceObjectBox_ {
+  /// See [PreferenceObjectBox.id].
+  static final id =
+      obx.QueryIntegerProperty<PreferenceObjectBox>(_entities[2].properties[0]);
+
+  /// See [PreferenceObjectBox.key].
+  static final key =
+      obx.QueryStringProperty<PreferenceObjectBox>(_entities[2].properties[1]);
+
+  /// See [PreferenceObjectBox.value].
+  static final value =
+      obx.QueryStringProperty<PreferenceObjectBox>(_entities[2].properties[2]);
+
+  /// See [PreferenceObjectBox.createdAt].
+  static final createdAt =
+      obx.QueryDateProperty<PreferenceObjectBox>(_entities[2].properties[3]);
+
+  /// See [PreferenceObjectBox.updatedAt].
+  static final updatedAt =
+      obx.QueryDateProperty<PreferenceObjectBox>(_entities[2].properties[4]);
+
+  /// See [PreferenceObjectBox.permanentlyDeletedAt].
+  static final permanentlyDeletedAt =
+      obx.QueryDateProperty<PreferenceObjectBox>(_entities[2].properties[5]);
 }

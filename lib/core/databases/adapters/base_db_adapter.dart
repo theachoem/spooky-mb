@@ -10,7 +10,7 @@ abstract class BaseDbAdapter<T extends BaseDbModel> {
   String get tableName;
 
   Future<DateTime?> getLastUpdatedAt();
-  Future<T?> find(int id);
+  Future<T?> find(int id, {bool returnDeleted = false});
 
   Future<int> count({Map<String, dynamic>? filters});
   Future<CollectionDbModel<T>?> where({
@@ -24,6 +24,8 @@ abstract class BaseDbAdapter<T extends BaseDbModel> {
   Future<T?> update(T record);
   Future<T?> create(T record);
   Future<T?> delete(int id);
+
+  bool hasDeleted(int id);
 
   T modelFromJson(Map<String, dynamic> json);
 

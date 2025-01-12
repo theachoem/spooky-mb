@@ -1,11 +1,12 @@
 import 'dart:io';
 import 'package:spooky/core/databases/adapters/base_db_adapter.dart';
+import 'package:spooky/core/databases/adapters/objectbox/entities.dart';
 import 'package:spooky/core/databases/models/base_db_model.dart';
 import 'package:spooky/core/databases/models/collection_db_model.dart';
 import 'package:spooky/core/services/file_service.dart';
 import 'package:spooky/objectbox.g.dart';
 
-abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> {
+abstract class BaseBox<B extends BaseObjectBox, T extends BaseDbModel> extends BaseDbAdapter<T> {
   @override
   String get tableName;
 
@@ -41,8 +42,9 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
   }
 
   @override
-  Future<T?> find(int id) async {
+  Future<T?> find(int id, {bool returnDeleted = false}) async {
     B? object = box.get(id);
+    if (object?.permanentlyDeletedAt != null && !returnDeleted) return null;
 
     if (object != null) {
       return objectToModel(object);
@@ -51,7 +53,12 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
     }
   }
 
-  QueryBuilder<B>? buildQuery({
+  @override
+  bool hasDeleted(int id) {
+    return box.get(id)?.permanentlyDeletedAt != null;
+  }
+
+  QueryBuilder<B> buildQuery({
     Map<String, dynamic>? filters,
   });
 
@@ -60,13 +67,8 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
     Map<String, dynamic>? filters,
   }) async {
     QueryBuilder<B>? queryBuilder = buildQuery(filters: filters);
-
-    if (queryBuilder != null) {
-      Query<B>? query = queryBuilder.build();
-      return query.count();
-    } else {
-      return box.count();
-    }
+    Query<B>? query = queryBuilder.build();
+    return query.count();
   }
 
   @override
@@ -77,12 +79,8 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
     List<B> objects;
     QueryBuilder<B>? queryBuilder = buildQuery(filters: filters);
 
-    if (queryBuilder != null) {
-      Query<B>? query = queryBuilder.build();
-      objects = await query.findAsync();
-    } else {
-      objects = await box.getAllAsync();
-    }
+    Query<B>? query = queryBuilder.build();
+    objects = await query.findAsync();
 
     List<T> docs = await objectsToModels(objects, options);
     return CollectionDbModel<T>(items: docs);
@@ -120,7 +118,13 @@ abstract class BaseObjectBox<B, T extends BaseDbModel> extends BaseDbAdapter<T> 
 
   @override
   Future<T?> delete(int id) async {
-    await box.removeAsync(id);
+    B? object = box.get(id);
+
+    if (object != null) {
+      object.toPermanentlyDeleted();
+      await box.putAsync(object);
+    }
+
     afterCommit(id);
     return null;
   }

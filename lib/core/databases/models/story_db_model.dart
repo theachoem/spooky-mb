@@ -55,7 +55,10 @@ class StoryDbModel extends BaseDbModel {
   final List<String>? rawChanges;
 
   final DateTime createdAt;
+
+  @override
   final DateTime updatedAt;
+
   final DateTime? movedToBinAt;
 
   DateTime get displayPathDate {
@@ -101,7 +104,7 @@ class StoryDbModel extends BaseDbModel {
 
   bool get viewOnly => unarchivable || inBins;
 
-  bool get inBins => type == PathType.bins && movedToBinAt != null;
+  bool get inBins => type == PathType.bins;
   bool get inArchives => type == PathType.archives;
 
   bool get editable => type == PathType.docs;

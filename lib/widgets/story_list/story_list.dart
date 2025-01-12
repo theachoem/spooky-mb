@@ -52,6 +52,7 @@ class StoryList extends StatelessWidget {
       children: [
         const StoryListTimelineVerticleDivider(),
         ListView.builder(
+          physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.symmetric(vertical: 16.0)
               .copyWith(left: MediaQuery.of(context).padding.left, right: MediaQuery.of(context).padding.right),
           itemCount: stories?.items.length ?? 0,

@@ -12,7 +12,7 @@ class CloudFileObject {
     required this.description,
   });
 
-  factory CloudFileObject.fromGooglDrive(drive.File file) {
+  factory CloudFileObject.fromGoogleDrive(drive.File file) {
     return CloudFileObject(
       fileName: file.name,
       id: file.id!,
