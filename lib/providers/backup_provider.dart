@@ -67,7 +67,6 @@ class BackupProvider extends ChangeNotifier with ScheduleConcern {
   //
   Future<void> syncBackupAcrossDevices() async {
     if (syncing) return;
-    if (canBackup()) setSyncing(true);
 
     try {
       await _syncBackupAcrossDevices();
@@ -87,7 +86,7 @@ class BackupProvider extends ChangeNotifier with ScheduleConcern {
       BackupObject? backup = await source.getBackup(source.syncedFile!);
       if (backup != null) {
         debugPrint('🚧 BackupProvider#syncBackupAcrossDevices -> restoreOnlyNewData');
-        await RestoreBackupService().restoreOnlyNewData(backup: backup);
+        await RestoreBackupService.instance.restoreOnlyNewData(backup: backup);
       }
     }
 
@@ -144,7 +143,7 @@ class BackupProvider extends ChangeNotifier with ScheduleConcern {
   Future<void> forceRestore(BackupObject backup, BuildContext context) async {
     MessengerService.of(context).showLoading(
       debugSource: '$runtimeType#restore',
-      future: () => RestoreBackupService().forceRestore(backup: backup),
+      future: () => RestoreBackupService.instance.forceRestore(backup: backup),
     );
     await context.read<HomeViewModel>().load();
   }

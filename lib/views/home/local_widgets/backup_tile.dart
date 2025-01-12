@@ -86,7 +86,12 @@ class BackupTile extends StatelessWidget {
             transform: Matrix4.identity()..translate(0.0, -4.0),
             child: OutlinedButton.icon(
               label: const Text("Sync"),
-              onPressed: provider.syncing ? null : () => provider.syncBackupAcrossDevices(),
+              onPressed: provider.syncing
+                  ? null
+                  : () {
+                      provider.setSyncing(true);
+                      provider.syncBackupAcrossDevices();
+                    },
             ),
           )
       ],

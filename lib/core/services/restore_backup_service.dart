@@ -1,9 +1,23 @@
+import 'dart:async';
+
 import 'package:spooky/core/databases/adapters/base_db_adapter.dart';
 import 'package:spooky/core/databases/models/base_db_model.dart';
 import 'package:spooky/core/objects/backup_object.dart';
 import 'package:spooky/core/services/backup_sources/base_backup_source.dart';
 
 class RestoreBackupService {
+  RestoreBackupService._();
+
+  final List<FutureOr<void> Function()> _listeners = [];
+
+  static final RestoreBackupService instance = RestoreBackupService._();
+
+  void addListener(
+    void Function() callback,
+  ) {
+    _listeners.add(callback);
+  }
+
   Future<void> restoreOnlyNewData({
     required BackupObject backup,
   }) async {
@@ -28,6 +42,8 @@ class RestoreBackupService {
         }
       }
     }
+
+    await triggerCallback();
   }
 
   Future<void> forceRestore({
@@ -43,6 +59,14 @@ class RestoreBackupService {
           await db.set(item);
         }
       }
+    }
+
+    await triggerCallback();
+  }
+
+  Future<void> triggerCallback() async {
+    for (FutureOr<void> Function() callback in _listeners) {
+      await callback();
     }
   }
 
