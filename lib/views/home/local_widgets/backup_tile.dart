@@ -8,23 +8,94 @@ import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/providers/backup_provider.dart';
 import 'package:spooky/views/backup/backup_view.dart';
 
-class BackupTile extends StatelessWidget {
+class BackupTile extends StatefulWidget {
   const BackupTile({
     super.key,
   });
+
+  @override
+  State<BackupTile> createState() => _BackupTileState();
+}
+
+class _BackupTileState extends State<BackupTile> {
+  bool focusing = true;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<BackupProvider>(context);
 
     if (provider.source.isSignedIn == true) {
-      return buildSignedInTile(context, provider);
+      return _SignedInTile(provider: provider);
     } else {
-      return buildUnsignInTile(context, provider);
+      return _UnsignInTile(provider: provider);
     }
   }
+}
 
-  Widget buildSignedInTile(BuildContext context, BackupProvider provider) {
+class _UnsignInTile extends StatelessWidget {
+  const _UnsignInTile({
+    required this.provider,
+  });
+
+  final BackupProvider provider;
+
+  Future<void> signIn(BuildContext context, BackupProvider provider) {
+    return MessengerService.of(context).showLoading(
+      debugSource: '$runtimeType#signIn',
+      future: () => provider.signIn(),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 0.0,
+      children: [
+        const ListTile(
+          leading: Icon(Icons.backup_outlined),
+          title: Text('Backup'),
+          subtitle: Text("Sign in to Google Drive"),
+          contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
+        ),
+        Container(
+          margin: const EdgeInsets.only(left: 52.0),
+          transform: Matrix4.identity()..translate(0.0, -8.0),
+          child: FilledButton.icon(
+            icon: Icon(MdiIcons.googleDrive),
+            label: const Text("Sign In"),
+            onPressed: () => signIn(context, provider),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _SignedInTile extends StatelessWidget {
+  const _SignedInTile({
+    required this.provider,
+  });
+
+  final BackupProvider provider;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildTile(context),
+        if (!provider.syncing && !provider.synced) buildSyncButton(),
+      ],
+    );
+  }
+
+  Widget buildTile(BuildContext context) {
     Widget leading;
     Widget? subtitle;
 
@@ -55,77 +126,56 @@ class BackupTile extends StatelessWidget {
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          leading: leading,
-          title: RichText(
-            text: TextSpan(
-              text: 'Backups ',
-              style: TextTheme.of(context).bodyLarge,
-              children: [
-                if (provider.synced)
-                  WidgetSpan(
-                    alignment: PlaceholderAlignment.middle,
-                    child: Icon(
-                      Icons.cloud_done,
-                      color: ColorScheme.of(context).bootstrap.success.color,
-                      size: 16.0,
-                    ),
-                  ),
-              ],
+    return FutureBuilder(
+      future: Future.delayed(Durations.long4).then((value) => 1),
+      builder: (context, snapshot) {
+        bool focusDisabled = provider.synced || snapshot.data == 1;
+
+        return AnimatedContainer(
+          duration: const Duration(seconds: 1),
+          curve: Curves.ease,
+          color: focusDisabled
+              ? Theme.of(context).scaffoldBackgroundColor
+              : ColorScheme.of(context).primary.withValues(alpha: 0.1),
+          child: Material(
+            color: Colors.transparent,
+            child: ListTile(
+              leading: leading,
+              onTap: () => BackupRoute().push(context),
+              subtitle: subtitle,
+              title: RichText(
+                textScaler: MediaQuery.textScalerOf(context),
+                text: TextSpan(
+                  text: 'Backups ',
+                  style: TextTheme.of(context).bodyLarge,
+                  children: [
+                    if (provider.synced)
+                      WidgetSpan(
+                        alignment: PlaceholderAlignment.middle,
+                        child: Icon(
+                          Icons.cloud_done,
+                          color: ColorScheme.of(context).bootstrap.success.color,
+                          size: 16.0,
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             ),
           ),
-          subtitle: subtitle,
-          onTap: () => BackupRoute().push(context),
-        ),
-        if (!provider.syncing && !provider.synced)
-          Container(
-            margin: const EdgeInsets.only(left: 52.0),
-            transform: Matrix4.identity()..translate(0.0, -4.0),
-            child: OutlinedButton.icon(
-              label: const Text("Sync"),
-              onPressed: provider.syncing
-                  ? null
-                  : () {
-                      provider.setSyncing(true);
-                      provider.syncBackupAcrossDevices();
-                    },
-            ),
-          )
-      ],
+        );
+      },
     );
   }
 
-  Widget buildUnsignInTile(BuildContext context, BackupProvider provider) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      spacing: 0.0,
-      children: [
-        const ListTile(
-          leading: Icon(Icons.backup_outlined),
-          title: Text('Backup'),
-          subtitle: Text("Sign in to Google Drive"),
-          contentPadding: EdgeInsets.symmetric(horizontal: 16.0),
-        ),
-        Container(
-          margin: const EdgeInsets.only(left: 52.0),
-          transform: Matrix4.identity()..translate(0.0, -8.0),
-          child: FilledButton.icon(
-            icon: Icon(MdiIcons.googleDrive),
-            label: const Text("Sign In"),
-            onPressed: () => signIn(context, provider),
-          ),
-        )
-      ],
-    );
-  }
-
-  Future<void> signIn(BuildContext context, BackupProvider provider) {
-    return MessengerService.of(context).showLoading(
-      debugSource: '$runtimeType#signIn',
-      future: () => provider.signIn(),
+  Widget buildSyncButton() {
+    return Container(
+      margin: const EdgeInsets.only(left: 52.0),
+      transform: Matrix4.identity()..translate(0.0, -8.0),
+      child: OutlinedButton.icon(
+        label: const Text("Sync"),
+        onPressed: provider.syncing ? null : () => provider.syncBackupAcrossDevices(),
+      ),
     );
   }
 }

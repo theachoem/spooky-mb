@@ -19,7 +19,6 @@ import 'package:spooky/views/archives/archives_view.dart';
 import 'package:spooky/views/search/search_view.dart';
 import 'package:spooky/views/tags/tags_view.dart';
 import 'package:spooky/views/theme/theme_view.dart';
-import 'package:spooky/widgets/sp_count_down.dart';
 import 'package:spooky/widgets/sp_cross_fade.dart';
 import 'package:spooky/widgets/sp_end_drawer_theme.dart';
 import 'package:spooky/widgets/sp_fade_in.dart';
@@ -37,6 +36,7 @@ part 'local_widgets/home_end_drawer.dart';
 part 'local_widgets/home_scaffold.dart';
 part 'local_widgets/home_app_bar.dart';
 part 'local_widgets/home_app_bar_nickname.dart';
+part 'local_widgets/home_app_bar_message.dart';
 part 'local_widgets/home_empty.dart';
 
 class HomeView extends StatelessWidget {

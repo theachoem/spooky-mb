@@ -64,7 +64,7 @@ class _BackupAdaptive extends StatelessWidget {
       padding: EdgeInsets.all(16.0),
       sliver: SliverToBoxAdapter(
         child: Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator.adaptive(),
         ),
       ),
     );

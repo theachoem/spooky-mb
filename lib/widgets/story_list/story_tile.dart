@@ -258,6 +258,7 @@ class StoryTile extends StatelessWidget {
           Container(
             margin: const EdgeInsets.only(top: 8.0),
             child: RichText(
+              textScaler: MediaQuery.textScalerOf(context),
               text: TextSpan(
                 style: TextTheme.of(context).labelMedium,
                 children: const [

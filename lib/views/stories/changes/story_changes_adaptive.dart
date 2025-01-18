@@ -51,6 +51,7 @@ class _StoryChangesAdaptive extends StatelessWidget {
       color: ColorScheme.of(context).secondary,
       width: double.infinity,
       child: RichText(
+        textScaler: MediaQuery.textScalerOf(context),
         text: TextSpan(children: [
           WidgetSpan(child: Icon(Icons.info, size: 16.0, color: ColorScheme.of(context).onSecondary)),
           TextSpan(

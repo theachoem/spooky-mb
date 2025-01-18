@@ -18,6 +18,7 @@ class _HomeEmpty extends StatelessWidget {
           margin: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom + kToolbarHeight),
           child: RichText(
             textAlign: TextAlign.center,
+            textScaler: MediaQuery.textScalerOf(context),
             text: TextSpan(
               style: TextTheme.of(context).bodyLarge,
               children: [

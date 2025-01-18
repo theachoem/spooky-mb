@@ -43,6 +43,8 @@ class AppTheme extends StatelessWidget {
   }
 
   ThemeData getTheme(ThemeData theme, ColorScheme colorScheme, ThemeProvider provider) {
+    bool blackout = colorScheme.surface == Colors.black;
+
     TextStyle calculateTextStyle(TextStyle textStyle, FontWeight defaultFontWeight) {
       return textStyle.copyWith(fontWeight: calculateFontWeight(defaultFontWeight, provider.theme.fontWeight));
     }
@@ -75,6 +77,7 @@ class AppTheme extends StatelessWidget {
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
+      bottomSheetTheme: BottomSheetThemeData(backgroundColor: blackout ? colorScheme.readOnly.surface2 : null),
       textTheme: GoogleFonts.getTextTheme(
         provider.theme.fontFamily,
         TextTheme(
