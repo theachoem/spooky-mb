@@ -54,18 +54,38 @@ class _HomeScaffold extends StatelessWidget {
         child: Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
-          decoration: BoxDecoration(color: ColorScheme.of(context).readOnly.surface5),
-          child: Text(
-            "Syncing to Google Drive...",
-            style: TextTheme.of(context).bodySmall?.copyWith(color: ColorScheme.of(context).onSurface),
+          decoration: BoxDecoration(color: ColorScheme.of(context).bootstrap.success.color),
+          child: RichText(
             textAlign: TextAlign.center,
+            text: TextSpan(
+              text: "Synced to Google Drive ",
+              style:
+                  TextTheme.of(context).bodySmall?.copyWith(color: ColorScheme.of(context).bootstrap.success.onColor),
+              children: [
+                WidgetSpan(
+                  child: Icon(
+                    Icons.cloud_done,
+                    size: 16.0,
+                    color: ColorScheme.of(context).bootstrap.success.onColor,
+                  ),
+                  alignment: PlaceholderAlignment.middle,
+                ),
+              ],
+            ),
           ),
         ),
         builder: (context, provider, child) {
-          return SpCrossFade(
-            showFirst: provider.syncing,
-            firstChild: child!,
-            secondChild: const SizedBox(width: double.infinity),
+          return SpCountDown(
+            endTime: provider.lastSyncExecutionAt?.add(const Duration(seconds: 3)) ??
+                DateTime.now().subtract(const Duration(days: 1)),
+            endWidget: child!,
+            builder: (ended, endWidget) {
+              return SpCrossFade(
+                showFirst: !ended,
+                firstChild: endWidget,
+                secondChild: const SizedBox(width: double.infinity),
+              );
+            },
           );
         },
       ),

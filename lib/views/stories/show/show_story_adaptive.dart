@@ -79,6 +79,10 @@ class _ShowStoryAdaptive extends StatelessWidget {
       if (viewModel.draftContent?.pages?.length != null && viewModel.draftContent!.pages!.length > 1)
         buildPageIndicator(),
       const SizedBox(width: 12.0),
+      IconButton(
+        onPressed: () => viewModel.goToEditPage(context),
+        icon: const Icon(Icons.edit_outlined),
+      ),
       Builder(builder: (context) {
         return IconButton(
           icon: const Icon(Icons.sell_outlined),
@@ -90,10 +94,6 @@ class _ShowStoryAdaptive extends StatelessWidget {
           feeling: viewModel.story?.feeling,
           onPicked: (feeling) => viewModel.setFeeling(feeling),
         ),
-      ),
-      IconButton(
-        onPressed: () => viewModel.goToEditPage(context),
-        icon: const Icon(Icons.edit_outlined),
       ),
       const SizedBox(width: 4.0),
     ];

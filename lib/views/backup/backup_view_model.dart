@@ -42,6 +42,8 @@ class BackupViewModel extends BaseViewModel {
 
     Map<String, List<CloudFileObject>> backupsGroupByDevice = SplayTreeMap();
     for (CloudFileObject file in files ?? []) {
+      if (file.getFileInfo() == null) return;
+
       backupsGroupByDevice[file.getFileInfo()?.device.id ?? 'N/A'] ??= [];
       backupsGroupByDevice[file.getFileInfo()?.device.id ?? 'N/A']?.add(file);
       backupsGroupByDevice[file.getFileInfo()?.device.id ?? 'N/A']

@@ -98,7 +98,7 @@ class M3CustomColor {
   static _Scheme _schemeFrom(Color color, Brightness brightness) {
     ColorScheme scheme = ColorScheme.fromSeed(seedColor: color, brightness: brightness);
     return _Scheme(
-      color,
+      scheme.primary,
       scheme.onPrimary,
       scheme.primaryContainer,
       scheme.onPrimaryContainer,

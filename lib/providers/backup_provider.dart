@@ -18,6 +18,11 @@ class BackupProvider extends ChangeNotifier with ScheduleConcern {
   DateTime? get lastDbUpdatedAt => _lastDbUpdatedAt;
   DateTime? get lastSyncedAt => source.lastSyncedAt;
 
+  /// The time when the last sync process finished.
+  /// Differs from `lastSyncedAt`, which reflects the database update time.
+  DateTime? _lastSyncExecutionAt;
+  DateTime? get lastSyncExecutionAt => _lastSyncExecutionAt;
+
   bool _syncing = false;
   bool get syncing => _syncing;
   bool get synced => lastSyncedAt == lastDbUpdatedAt;
@@ -74,6 +79,7 @@ class BackupProvider extends ChangeNotifier with ScheduleConcern {
       debugPrint("🐛 $runtimeType#_syncBackupAcrossDevices error: $e");
     }
 
+    if (synced) _lastSyncExecutionAt = DateTime.now();
     setSyncing(false);
   }
 

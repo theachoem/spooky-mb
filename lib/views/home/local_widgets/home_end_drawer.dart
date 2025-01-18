@@ -8,13 +8,15 @@ class _HomeEndDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: SpNestedNavigation(
-        initialScreen: Builder(builder: (childContext) {
-          return buildDrawer(
-            context: childContext,
-            closeDrawer: () => Navigator.of(context).pop(),
-          );
-        }),
+      child: SpEndDrawerTheme(
+        child: SpNestedNavigation(
+          initialScreen: Builder(builder: (childContext) {
+            return buildDrawer(
+              context: childContext,
+              closeDrawer: () => Navigator.of(context).pop(),
+            );
+          }),
+        ),
       ),
     );
   }
