@@ -23,29 +23,27 @@ class _HomeScaffold extends StatelessWidget {
       body: Stack(
         children: [
           const StoryListTimelineVerticleDivider(),
-          ListViewObserver(
-            controller: viewModel.scrollInfo.observerScrollController,
-            onObserve: (result) => viewModel.scrollInfo.onObserve(result, context),
-            child: RefreshIndicator.adaptive(
-              edgeOffset: viewModel.scrollInfo.appBar(context).getExpandedHeight() + MediaQuery.of(context).padding.top,
-              onRefresh: () async {
-                await viewModel.load();
-                if (context.mounted) await context.read<BackupProvider>().syncBackupAcrossDevices();
-              },
-              child: CustomScrollView(
-                controller: viewModel.scrollInfo.scrollController,
-                physics: const AlwaysScrollableScrollPhysics(),
-                slivers: [
-                  appBar,
-                  buildSyncingStatus(context),
-                  body,
-                ],
-              ),
+          RefreshIndicator.adaptive(
+            edgeOffset: viewModel.scrollInfo.appBar(context).getExpandedHeight() + MediaQuery.of(context).padding.top,
+            onRefresh: () => refresh(context),
+            child: CustomScrollView(
+              controller: viewModel.scrollInfo.scrollController,
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                appBar,
+                buildSyncingStatus(context),
+                body,
+              ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  Future<void> refresh(BuildContext context) async {
+    await viewModel.load(debugSource: '$runtimeType#refresh');
+    if (context.mounted) await context.read<BackupProvider>().syncBackupAcrossDevices();
   }
 
   SliverToBoxAdapter buildSyncingStatus(BuildContext context) {

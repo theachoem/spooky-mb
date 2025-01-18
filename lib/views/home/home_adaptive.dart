@@ -42,26 +42,19 @@ class _HomeAdaptive extends StatelessWidget {
         top: 16.0,
         left: MediaQuery.of(context).padding.left,
         right: MediaQuery.of(context).padding.right,
-        bottom: kToolbarHeight + MediaQuery.of(context).padding.bottom,
+        bottom: kToolbarHeight + 200 + MediaQuery.of(context).padding.bottom,
       ),
       sliver: SliverList.builder(
         itemCount: viewModel.stories?.items.length ?? 0,
         itemBuilder: (context, index) {
-          final story = viewModel.stories!.items[index];
+          StoryDbModel story = viewModel.stories!.items[index];
 
           return StoryListenerBuilder(
-            key: ValueKey(story.id),
+            key: viewModel.scrollInfo.storyKeys[index],
             story: story,
-            onChanged: (StoryDbModel updatedStory) {
-              if (updatedStory.type != PathType.docs) {
-                viewModel.stories = viewModel.stories?.removeElement(updatedStory);
-              } else {
-                viewModel.stories = viewModel.stories?.replaceElement(updatedStory);
-              }
-              viewModel.notifyListeners();
-            },
+            onChanged: (StoryDbModel updatedStory) => onChanged(updatedStory),
             // onDeleted only happen when reloaded story is null which not frequently happen. We just reload in this case.
-            onDeleted: () => viewModel.load(),
+            onDeleted: () => viewModel.load(debugSource: '$runtimeType#onDeleted ${story.id}'),
             builder: (context) {
               return StoryTileListItem(
                 showYear: false,
@@ -74,5 +67,18 @@ class _HomeAdaptive extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void onChanged(StoryDbModel updatedStory) {
+    if (updatedStory.type != PathType.docs) {
+      viewModel.stories = viewModel.stories?.removeElement(updatedStory);
+      debugPrint('🚧 Removed ${updatedStory.id}:${updatedStory.type.name} by $runtimeType#onChanged');
+    } else {
+      viewModel.stories = viewModel.stories?.replaceElement(updatedStory);
+      debugPrint('🚧 Updated ${updatedStory.id}:${updatedStory.type.name} contents by $runtimeType#onChanged');
+    }
+
+    viewModel.scrollInfo.setupStoryKeys(viewModel.stories?.items ?? []);
+    viewModel.notifyListeners();
   }
 }

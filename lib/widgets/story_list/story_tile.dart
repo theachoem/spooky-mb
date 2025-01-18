@@ -99,35 +99,13 @@ class StoryTile extends StatelessWidget {
         SpPopMenuItem(
           title: 'Change Date',
           leadingIconData: Icons.calendar_month,
-          onPressed: () async {
-            DateTime? date = await showDatePicker(
-              context: context,
-              firstDate: DateTime(1900),
-              lastDate: DateTime.now().add(const Duration(days: 100 * 365)),
-              currentDate: story.displayPathDate,
-            );
-
-            if (date != null) {
-              await story.changePathDate(date);
-
-              if (date.year != story.year) {
-                // story has moved to another year which move out of home view as well -> need to reload.
-                if (context.mounted) context.read<HomeViewModel>().load();
-              }
-            }
-          },
+          onPressed: () => changeDate(context),
         ),
       if (story.putBackAble)
         SpPopMenuItem(
           title: 'Put back',
           leadingIconData: Icons.restore_from_trash,
-          onPressed: () async {
-            await story.putBack();
-
-            // put back most likely inside archives page (not home)
-            // reload home as the put back data could go there.
-            if (context.mounted) context.read<HomeViewModel>().load();
-          },
+          onPressed: () => putBack(context),
         ),
       if (story.archivable)
         SpPopMenuItem(
@@ -223,6 +201,32 @@ class StoryTile extends StatelessWidget {
         },
       )
     ];
+  }
+
+  Future<void> putBack(BuildContext context) async {
+    await story.putBack();
+
+    // put back most likely inside archives page (not home)
+    // reload home as the put back data could go there.
+    if (context.mounted) context.read<HomeViewModel>().load(debugSource: '$runtimeType#putBack');
+  }
+
+  Future<void> changeDate(BuildContext context) async {
+    DateTime? date = await showDatePicker(
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now().add(const Duration(days: 100 * 365)),
+      currentDate: story.displayPathDate,
+    );
+
+    if (date != null) {
+      await story.changePathDate(date);
+
+      if (date.year != story.year) {
+        // story has moved to another year which move out of home view as well -> need to reload.
+        if (context.mounted) context.read<HomeViewModel>().load(debugSource: '$runtimeType#putBack');
+      }
+    }
   }
 
   Widget buildContents(bool hasTitle, StoryContentDbModel? content, BuildContext context, bool hasBody) {

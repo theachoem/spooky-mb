@@ -42,7 +42,7 @@ class StoryList extends StatelessWidget {
 
   Future<void> putBack(StoryDbModel story, BuildContext context) async {
     await story.putBack();
-    if (context.mounted) context.read<HomeViewModel>().load();
+    if (context.mounted) context.read<HomeViewModel>().load(debugSource: '$runtimeType#putBack');
   }
 
   @override

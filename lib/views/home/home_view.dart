@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
-import 'package:scrollview_observer/scrollview_observer.dart';
 import 'package:spooky/app_theme.dart';
 import 'package:spooky/core/base/view_model_provider.dart';
 import 'package:flutter/material.dart';

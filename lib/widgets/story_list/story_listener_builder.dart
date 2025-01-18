@@ -33,7 +33,7 @@ class _StoryListenerBuilderState extends State<StoryListenerBuilder> {
 
     if (reloadedStory != null) {
       story = reloadedStory;
-      setState(() {});
+      if (mounted) setState(() {});
       widget.onChanged(reloadedStory);
     } else {
       widget.onDeleted();

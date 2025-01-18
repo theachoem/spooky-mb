@@ -45,7 +45,13 @@ class HomeAppBar extends StatelessWidget {
           height: viewModel.scrollInfo.appBar(context).indicatorHeight,
           color: Theme.of(context).colorScheme.primary,
         ),
-        onTap: (index) => viewModel.scrollInfo.moveToMonthIndex(index),
+        onTap: (index) {
+          viewModel.scrollInfo.moveToMonthIndex(
+            months: viewModel.months,
+            targetMonthIndex: index,
+            context: context,
+          );
+        },
         splashBorderRadius: BorderRadius.circular(viewModel.scrollInfo.appBar(context).indicatorHeight / 2),
         tabs: viewModel.months.map((month) {
           return Container(
