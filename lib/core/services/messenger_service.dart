@@ -65,7 +65,7 @@ class MessengerService {
     required String? debugSource,
   }) async {
     if (debugSource != null) {
-      if (kDebugMode) print("LOADING $debugSource");
+      debugPrint("LOADING $debugSource");
     }
 
     Completer<T?> completer = Completer();

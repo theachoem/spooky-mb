@@ -7,7 +7,7 @@ import 'package:spooky/core/objects/backup_object.dart';
 import 'package:spooky/core/objects/cloud_file_object.dart';
 import 'package:spooky/core/services/messenger_service.dart';
 import 'package:spooky/providers/backup_provider.dart';
-import 'package:spooky/views/backup/local_widgets/backup_content_viewer.dart';
+import 'package:spooky/views/backup/local_widgets/backup_object_viewer.dart';
 import 'package:spooky/widgets/sp_nested_navigation.dart';
 import 'backup_view.dart';
 
@@ -70,18 +70,18 @@ class BackupViewModel extends BaseViewModel {
     BackupObject? backup = loadedBackups[cloudFile.id] ??
         await MessengerService.of(context).showLoading(
           future: () => context.read<BackupProvider>().source.getBackup(cloudFile),
-          debugSource: '$runtimeType#openBackup',
+          debugSource: '$runtimeType#openCloudFile',
         );
 
     if (backup != null && context.mounted) {
       loadedBackups[cloudFile.id] = backup;
-      SpNestedNavigation.maybeOf(context)?.push(BackupContentViewer(backup: backup));
+      SpNestedNavigation.maybeOf(context)?.push(BackupObjectViewer(backup: backup));
     }
   }
 
   Future<void> deleteCloudFile(BuildContext context, CloudFileObject file) async {
     await MessengerService.of(context).showLoading(
-      debugSource: 'BackupViewModel#delete',
+      debugSource: '$runtimeType#deleteCloudFile',
       future: () async {
         await context.read<BackupProvider>().deleteCloudFile(file.id);
         files?.removeWhere((e) => e.id == file.id);
