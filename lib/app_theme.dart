@@ -60,6 +60,9 @@ class AppTheme extends StatelessWidget {
       scaffoldBackgroundColor: colorScheme.surface,
       colorScheme: colorScheme,
       pageTransitionsTheme: PageTransitionsTheme(builders: pageTransitionBuilder),
+      popupMenuTheme: PopupMenuThemeData(
+        color: colorScheme.readOnly.surface5,
+      ),
       appBarTheme: AppBarTheme(
         centerTitle: false,
         titleSpacing: NavigationToolbar.kMiddleSpacing,

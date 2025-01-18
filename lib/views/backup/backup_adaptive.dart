@@ -76,67 +76,99 @@ class _BackupAdaptive extends StatelessWidget {
       sliver: SliverList.builder(
         itemCount: viewModel.files?.length ?? 0,
         itemBuilder: (context, index) {
-          return buildBackupGroup(context, viewModel.files![index]);
+          return buildBackupGroup(context, index);
         },
       ),
     );
   }
 
-  Widget buildBackupGroup(BuildContext context, CloudFileObject file) {
+  Widget buildBackupGroup(BuildContext context, int index) {
+    final previousFile = index - 1 >= 0 ? viewModel.files![index - 1] : null;
+    final file = viewModel.files![index];
+
+    final previousFileInfo = previousFile?.getFileInfo();
     final fileInfo = file.getFileInfo();
 
-    return SpPopupMenuButton(
-      smartDx: true,
-      dyGetter: (dy) => dy + 36,
-      items: (BuildContext context) {
-        return [
-          SpPopMenuItem(
-            title: 'View',
-            onPressed: () => viewModel.openCloudFile(context, file),
-          ),
-          SpPopMenuItem(
-            title: 'Delete',
-            titleStyle: TextStyle(color: ColorScheme.of(context).error),
-            onPressed: () async {
-              OkCancelResult userResponse = await showOkCancelAlertDialog(
-                context: context,
-                title: "Are you sure to delete this backup?",
-                message: "You can't undo this action.",
-                isDestructiveAction: true,
-                okLabel: "Delete",
-              );
+    final menus = [
+      SpPopMenuItem(
+        title: 'View',
+        leadingIconData: Icons.info,
+        onPressed: () => viewModel.openCloudFile(context, file),
+      ),
+      SpPopMenuItem(
+        title: 'Delete',
+        leadingIconData: Icons.delete,
+        titleStyle: TextStyle(color: ColorScheme.of(context).error),
+        onPressed: () async {
+          OkCancelResult userResponse = await showOkCancelAlertDialog(
+            context: context,
+            title: "Are you sure to delete this backup?",
+            message: "You can't undo this action.",
+            isDestructiveAction: true,
+            okLabel: "Delete",
+          );
 
-              if (userResponse == OkCancelResult.ok && context.mounted) {
-                await viewModel.deleteCloudFile(context, file);
-              }
-            },
-          ),
-        ];
-      },
-      builder: (callback) {
-        return InkWell(
-          onTap: callback,
-          child: Container(
-            padding: EdgeInsets.only(
-              right: AppTheme.getDirectionValue(context, (avatarSize + 12) / 2 - 32 / 2.0, 0.0)!,
-              left: AppTheme.getDirectionValue(context, 0.0, (avatarSize + 12) / 2 - 32 / 2.0)!,
-            ),
-            child: Row(
-              spacing: 16.0,
-              children: [
-                if (fileInfo != null) buildMonogram(context, fileInfo.createdAt),
-                Expanded(
-                  child: ListTile(
-                    contentPadding: EdgeInsets.zero.copyWith(right: 16.0),
-                    title: Text(fileInfo?.device.model ?? 'Unknown'),
-                    subtitle: Text(DateFormatService.yMEd_jmsNullable(fileInfo?.createdAt) ?? 'N/A'),
-                  ),
+          if (userResponse == OkCancelResult.ok && context.mounted) {
+            await viewModel.deleteCloudFile(context, file);
+          }
+        },
+      ),
+    ];
+
+    return Theme(
+      // Remove theme wrapper here when this is fixed:
+      // https://github.com/letsar/flutter_slidable/issues/512
+      data: Theme.of(context).copyWith(
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(iconColor: WidgetStatePropertyAll(ColorScheme.of(context).onPrimary)),
+        ),
+      ),
+      child: Slidable(
+        closeOnScroll: true,
+        key: ValueKey(file.id),
+        endActionPane: ActionPane(
+          motion: const DrawerMotion(),
+          children: List.generate(menus.length, (index) {
+            final menu = menus[index];
+            return SlidableAction(
+              icon: menu.leadingIconData,
+              backgroundColor: menu.titleStyle?.color ?? ColorFromDayService(context: context).get(index + 1)!,
+              foregroundColor: ColorScheme.of(context).onPrimary,
+              onPressed: (context) => menu.onPressed?.call(),
+            );
+          }),
+        ),
+        child: SpPopupMenuButton(
+          smartDx: true,
+          dyGetter: (dy) => dy + 36,
+          items: (BuildContext context) => menus,
+          builder: (callback) {
+            return InkWell(
+              onTap: callback,
+              onLongPress: callback,
+              child: Container(
+                padding: EdgeInsets.only(
+                  right: AppTheme.getDirectionValue(context, (avatarSize + 12) / 2 - 32 / 2.0, 0.0)!,
+                  left: AppTheme.getDirectionValue(context, 0.0, (avatarSize + 12) / 2 - 32 / 2.0)!,
                 ),
-              ],
-            ),
-          ),
-        );
-      },
+                child: Row(
+                  spacing: 16.0,
+                  children: [
+                    buildMonogram(context, fileInfo, previousFileInfo),
+                    Expanded(
+                      child: ListTile(
+                        contentPadding: EdgeInsets.zero.copyWith(right: 16.0),
+                        title: Text(fileInfo?.device.model ?? 'Unknown'),
+                        subtitle: Text(DateFormatService.yMEd_jmsNullable(fileInfo?.createdAt) ?? 'N/A'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -153,8 +185,33 @@ class _BackupAdaptive extends StatelessWidget {
     );
   }
 
-  Widget buildMonogram(BuildContext context, DateTime date) {
+  Widget buildMonogram(BuildContext context, BackupFileObject? fileInfo, BackupFileObject? previousFileInfo) {
     double monogramSize = 32;
+
+    bool showMonogram = true;
+    if (fileInfo == null) {
+      showMonogram = false;
+    } else if (previousFileInfo != null) {
+      showMonogram = !previousFileInfo.sameDayAs(fileInfo);
+    }
+
+    if (!showMonogram) {
+      return Container(
+        width: monogramSize,
+        margin: const EdgeInsets.only(top: 9.0, left: 0.5),
+        alignment: Alignment.center,
+        child: Container(
+          width: 3,
+          height: 3,
+          decoration: BoxDecoration(
+            shape: BoxShape.rectangle,
+            color: ColorScheme.of(context).onSurface,
+          ),
+        ),
+      );
+    }
+
+    final date = fileInfo!.createdAt;
 
     return Column(
       spacing: 4.0,

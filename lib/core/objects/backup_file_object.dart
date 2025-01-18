@@ -9,6 +9,11 @@ class BackupFileObject {
   final String version;
   final DeviceInfoObject device;
 
+  bool sameDayAs(BackupFileObject fileInfo) {
+    return [createdAt.year, createdAt.month, createdAt.day].join("-") ==
+        [fileInfo.createdAt.year, fileInfo.createdAt.month, fileInfo.createdAt.day].join("-");
+  }
+
   BackupFileObject({
     required this.createdAt,
     required this.device,

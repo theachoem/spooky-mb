@@ -50,27 +50,17 @@ class StoryTile extends StatelessWidget {
         closeOnScroll: true,
         key: ValueKey(story.id),
         endActionPane: ActionPane(
-            motion: const DrawerMotion(),
-            children: List.generate(menus.length, (index) {
-              final menu = menus[index];
-              return SlidableAction(
-                icon: menu.leadingIconData,
-                backgroundColor: menu.titleStyle?.color ?? ColorFromDayService(context: context).get(index + 1)!,
-                foregroundColor: ColorScheme.of(context).onPrimary,
-                onPressed: (context) => menu.onPressed?.call(),
-              );
-            })
-
-            // [
-            //   SlidableAction(
-            //     onPressed: (context) {},
-            //     backgroundColor: ColorScheme.of(context).error,
-            //     foregroundColor: ColorScheme.of(context).onError,
-            //     icon: Icons.delete,
-            //     label: 'Delete',
-            //   ),
-            // ],
-            ),
+          motion: const DrawerMotion(),
+          children: List.generate(menus.length, (index) {
+            final menu = menus[index];
+            return SlidableAction(
+              icon: menu.leadingIconData,
+              backgroundColor: menu.titleStyle?.color ?? ColorFromDayService(context: context).get(index + 1)!,
+              foregroundColor: ColorScheme.of(context).onPrimary,
+              onPressed: (context) => menu.onPressed?.call(),
+            );
+          }),
+        ),
         child: SpPopupMenuButton(
           smartDx: true,
           dyGetter: (double dy) => dy + kToolbarHeight,
