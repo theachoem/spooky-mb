@@ -14,6 +14,12 @@ import 'package:spooky/core/objects/cloud_file_object.dart';
 part 'google_auth_client.dart';
 
 class GoogleDriveService {
+  GoogleDriveService._();
+
+  int requestCount = 0;
+
+  static final instance = GoogleDriveService._();
+
   final GoogleSignIn googleSignIn = GoogleSignIn.standard(
     scopes: [drive.DriveApi.driveAppdataScope, drive.DriveApi.driveFileScope],
   );
@@ -169,12 +175,16 @@ class GoogleDriveService {
   }
 
   Future<T?> _execHandler<T>(Future<T?> Function() request) async {
+    requestCount++;
+
     return request().onError((e, stackTrace) async {
       debugPrintStack(stackTrace: stackTrace);
 
       if (e is drive.DetailedApiRequestError) {
         if (e.status == 401) {
           await googleSignIn.signInSilently(reAuthenticate: true);
+
+          requestCount++;
           return request();
         }
       }

@@ -53,7 +53,7 @@ class _HomeScaffold extends StatelessWidget {
       child: Consumer<BackupProvider>(
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 4.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
           decoration: BoxDecoration(color: ColorScheme.of(context).bootstrap.success.color),
           child: RichText(
             textAlign: TextAlign.center,

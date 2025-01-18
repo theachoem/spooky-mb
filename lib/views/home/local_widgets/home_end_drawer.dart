@@ -28,6 +28,7 @@ class _HomeEndDrawer extends StatelessWidget {
     return Scaffold(
       body: ListView(
         children: [
+          if (kDebugMode) buildGoogleDriveRequestsCount(context),
           const _HomeEndDrawerHeader(),
           const Divider(height: 1),
           const SizedBox(height: 8.0),
@@ -82,6 +83,19 @@ class _HomeEndDrawer extends StatelessWidget {
             onTap: () {},
           ),
         ],
+      ),
+    );
+  }
+
+  Container buildGoogleDriveRequestsCount(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+      decoration: BoxDecoration(color: ColorScheme.of(context).bootstrap.info.color),
+      child: Text(
+        '${GoogleDriveService.instance.requestCount} Google Drive requests',
+        textAlign: TextAlign.center,
+        style: TextTheme.of(context).bodySmall?.copyWith(color: ColorScheme.of(context).bootstrap.info.onColor),
       ),
     );
   }
