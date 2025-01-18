@@ -74,7 +74,7 @@ class BackupProvider extends ChangeNotifier with ScheduleConcern {
     if (syncing) return;
 
     try {
-      await _syncBackupAcrossDevices();
+      await _syncBackupAcrossDevices().timeout(const Duration(seconds: 60));
     } catch (e) {
       debugPrint("🐛 $runtimeType#_syncBackupAcrossDevices error: $e");
     }
